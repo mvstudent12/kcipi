@@ -7,8 +7,7 @@
     "devStart": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "build": "npm install",
-    "postinstall": "npm rebuild bcrypt --build-from-source --unsafe-perm"
+    "build": "npm install"
   },
   "engines": {
     "node": "20.11.1"
@@ -16,7 +15,7 @@
   "author": "michelle voorhees",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.3",
     "connect-mongo": "^5.1.0",
     "cookie-parser": "^1.4.7",
@@ -35,8 +34,5 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mvstudent12/kcipi.git"
-  },
-  "devDependencies": {
-    "node-pre-gyp": "^0.17.0"
   }
 }
