@@ -29,13 +29,13 @@ const sendReviewEmail = async (
       <p style="color: blue; font-size: 14px; font-weight: bold;">${notes}</p>
       <h4>Sent from: ${sender}<h4>
      <p>
-      <a href="http://localhost:5888/notification/review/${department}/${resident.residentID}/${sender}"
+      <a href="http://kcipi.onrender.com/notification/review/${department}/${resident.residentID}/${sender}"
          style="display: inline-block; background-color: #4CAF50; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-size: 16px; text-align: center; font-weight: bold;">
         Review ${department} Clearance
       </a>
      </p>
      <p>If you are unable to click the button, please copy and paste the following link into your browser:</p>
-    <p><a href="http://localhost:5888/notification/review/${department}/${resident.residentID}/${sender}">${department} Review Link</a></p>
+    <p><a href="http://kcipi.onrender.com/notification/review/${department}/${resident.residentID}/${sender}">${department} Review Link</a></p>
  
     `,
   };
