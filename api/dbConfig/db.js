@@ -7,8 +7,6 @@ const dbURI =
 // "mongodb://localhost/kcipi"; //use for development
 mongoose
   .connect(dbURI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
     ssl: true, // Ensure SSL is enabled
   })
   .then(() => console.log("Connected to MongoDB Atlas"))
