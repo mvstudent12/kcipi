@@ -8,8 +8,8 @@ const dbURI =
 mongoose
   .connect(dbURI, {
     ssl: true, // Ensure SSL is enabled
-    tls: true, // Force TLS connection
-    tlsInsecure: false, // Optionally, enforce secure connection (recommended)
+    // tls: true, // Force TLS connection
+    // tlsInsecure: false, // Optionally, enforce secure connection (recommended)
   })
   .then(() => console.log("Connected to MongoDB Atlas"))
   .catch((err) => console.error("Error connecting to MongoDB Atlas:", err));
