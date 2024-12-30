@@ -2,8 +2,9 @@ const mongoose = require("mongoose");
 
 const dbURI =
   //"mongodb+srv://kta-practice-portal:Employ-emotion3@kta-practice-portal.gieut4i.mongodb.net/kta-practice-portal?retryWrites=true&w=majority";
+  "mongodb+srv://kcicodingdev:WWsgMyk4wiBt3Vze@kcipi.vkftg.mongodb.net/";
 
-  "mongodb://localhost/kcipi"; //use for development
+// "mongodb://localhost/kcipi"; //use for development
 mongoose.connect(dbURI);
 
 mongoose.connection.on("connected", () => {
