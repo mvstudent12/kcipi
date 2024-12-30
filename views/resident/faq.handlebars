@@ -1,0 +1,359 @@
+<!-- ======= Header ======= -->
+<header id="header" class="header fixed-top d-flex align-items-center">
+
+    <div class="d-flex align-items-center justify-content-between">
+        <a href="/resident/dashboard" class="logo d-flex align-items-center">
+            <img src="/assets/img/favicon.png" alt="">
+            <span class="d-none d-lg-block">KCI Private Industry</span>
+        </a>
+        <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->
+
+    <nav class="header-nav ms-auto">
+        <ul class="d-flex align-items-center">
+
+            <li class="nav-item dropdown pe-3">
+                <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+                    <img src="/assets/img/avatar.png" alt="Profile" class="rounded-circle">
+                    <span class="d-none d-md-block dropdown-toggle ps-2 text-capitalize">{{user.firstName}}
+                        {{user.lastName}}</span>
+                </a><!-- End Profile Image Icon -->
+
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                    <li class="dropdown-header">
+                        <h6 class="text-capitalize">{{user.firstName}} {{user.lastName}}</h6>
+                        <span>Resident</span>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="/resident/profile">
+                            <i class="bi bi-person"></i>
+                            <span>My Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="/resident/dashboard">
+                            <i class="bi bi-question-circle"></i>
+                            <span>Need Help?</span>
+                        </a>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="/residentLogOut">
+                            <i class="bi bi-box-arrow-right"></i>
+                            <span>Sign Out</span>
+                        </a>
+                    </li>
+                </ul><!-- End Profile Dropdown Items -->
+            </li><!-- End Profile Nav -->
+        </ul>
+    </nav><!-- End Icons Navigation -->
+</header><!-- End Header -->
+
+<!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="/resident/dashboard">
+                <i class="bi bi-grid"></i>
+                <span>Dashboard</span>
+            </a>
+        </li><!-- End Dashboard Nav -->
+
+        <li class="nav-heading">Links</li>
+        <li class="nav-item">
+            <a class="nav-link " href="/resident/profile">
+                <i class="bi bi-person"></i>
+                <span>My Resume</span>
+            </a>
+        </li><!-- End Profile Page Nav -->
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="/resident/applications">
+                <i class="bi bi-card-list"></i>
+                <span>My Applications</span>
+            </a>
+        </li><!-- End My Applications Nav -->
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="/resident/faq">
+                <i class="bi bi-question-circle"></i>
+                <span>F.A.Q</span>
+            </a>
+        </li><!-- End F.A.Q Page Nav -->
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="/residentLogOut">
+                <i class="bi bi-box-arrow-in-right"></i>
+                <span>Sign Out</span>
+            </a>
+        </li><!-- End Login Page Nav -->
+    </ul>
+</aside><!-- End Sidebar-->
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Frequently Asked Questions</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/resident/dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item active">Frequently Asked Questions</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section faq">
+        <div class="row">
+            <div class="col-lg-6">
+
+                <div class="card basic">
+                    <div class="card-body">
+                        <h5 class="card-title">Kansas Correctional Industries</h5>
+
+                        <div>
+                            <h6>1. What is Kansas Correctional Industries &rpar;KCI&lpar;?</h6>
+                            <p>Kansas Correctional Industries was created in 1957 by the "Prison Made Goods Act." It
+                                provides incarcerated individuals with job opportunities and skills training. Currently,
+                                KCI employs over 1,100 residents, which is over 13% of the inmate workforce, in a
+                                combination of traditional and private sector jobs. These jobs consist of both high and
+                                low-skilled opportunities, offering a large number of residents highly marketable job
+                                skills upon release from prison.</p>
+                        </div>
+
+                        <div class="pt-2">
+                            <h6>2. Who is eligible to apply for jobs through KCI??</h6>
+                            <p>Eligibility for jobs through KCI depends on several factors, including your
+                                classification status, behavior, and specific job requirements. Typically, residents
+                                with a good conduct record and appropriate qualifications for the job can apply.</p>
+                        </div>
+
+                        <div class="pt-2">
+                            <h6>3. Can I use the skills I learn through KCI after my release?</h6>
+                            <p>Absolutely. The skills and experience you gain through KCI can enhance your employability
+                                after release. Many private
+                                employers value the training and work experience residents acquire through this program.
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- F.A.Q Group 1 -->
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Resume Questions</h5>
+
+                        <div class="accordion accordion-flush" id="faq-group-1">
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" data-bs-target="#faqsOne-1" type="button"
+                                        data-bs-toggle="collapse">
+                                        How do I create a resume on this website?
+                                    </button>
+                                </h2>
+                                <div id="faqsOne-1" class="accordion-collapse collapse" data-bs-parent="#faq-group-1">
+                                    <div class="accordion-body">
+                                        To create a resume, you can use our online resume builder. Simply follow the
+                                        prompts to
+                                        fill in your personal information, work experience, education, and skills. Once
+                                        completed, you can save your resume for job applications. It is important to
+                                        note that
+                                        you can only submit your finished resume one time, so make sure you take your
+                                        time when
+                                        you do it.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" data-bs-target="#faqsOne-2" type="button"
+                                        data-bs-toggle="collapse">
+                                        How can I update my resume or application information?
+                                    </button>
+                                </h2>
+                                <div id="faqsOne-2" class="accordion-collapse collapse" data-bs-parent="#faq-group-1">
+                                    <div class="accordion-body">
+                                        You cannot update your resume after it has been submitted. Make sure
+                                        to provide all of the necessary information before submission to increase your
+                                        chances of securing a job.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" data-bs-target="#faqsOne-3" type="button"
+                                        data-bs-toggle="collapse">
+                                        Who will be able to review my resume?
+                                    </button>
+                                </h2>
+                                <div id="faqsOne-3" class="accordion-collapse collapse" data-bs-parent="#faq-group-1">
+                                    <div class="accordion-body">
+                                        Your resume will be approved by your Unit Team. Once it is approved, it will be
+                                        included with any application you send to an employer who is partnered with KCI.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" data-bs-target="#faqsOne-4" type="button"
+                                        data-bs-toggle="collapse">
+                                        What if the default information on my resume is inaccurate?
+                                    </button>
+                                </h2>
+                                <div id="faqsOne-4" class="accordion-collapse collapse" data-bs-parent="#faq-group-1">
+                                    <div class="accordion-body">
+                                        Resident accounts are updated regularly with current resident information such
+                                        as facility location and custody. If your account is showing information that
+                                        has yet to be updated, such as custody level, please wait at least two weeks for
+                                        this information to be updated in the system.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div><!-- End F.A.Q Group 1 -->
+
+            </div>
+
+            <div class="col-lg-6">
+
+                <!-- F.A.Q Group 2 -->
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Job Eligibility</h5>
+
+                        <div class="accordion accordion-flush" id="faq-group-2">
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" data-bs-target="#faqsTwo-1" type="button"
+                                        data-bs-toggle="collapse">
+                                        How is my job eligibility determined?
+                                    </button>
+                                </h2>
+                                <div id="faqsTwo-1" class="accordion-collapse collapse" data-bs-parent="#faq-group-2">
+                                    <div class="accordion-body">
+                                        Residents are eligible for jobs based on the job pool they qualify for depending
+                                        on their custody level, mental health level, EAI clearance, and sex offender
+                                        status.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" data-bs-target="#faqsTwo-2" type="button"
+                                        data-bs-toggle="collapse">
+                                        Am I able to apply to jobs that I do not qualify for?
+                                    </button>
+                                </h2>
+                                <div id="faqsTwo-2" class="accordion-collapse collapse" data-bs-parent="#faq-group-2">
+                                    <div class="accordion-body">
+                                        Your personal dashboard will only render KCI jobs that you are eligible for
+                                        based on your custody level. However, your mental health level, EAI clearance,
+                                        or sex offender status may affect your eligibility once you apply. If you have
+                                        questions about how this is done or how this affects you personally, your Unit
+                                        Team will be able to answer them.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" data-bs-target="#faqsTwo-3" type="button"
+                                        data-bs-toggle="collapse">
+                                        Can I apply for multiple jobs at once?
+                                    </button>
+                                </h2>
+                                <div id="faqsTwo-3" class="accordion-collapse collapse" data-bs-parent="#faq-group-2">
+                                    <div class="accordion-body">
+                                        Your application will first be reviewed by your Unit Team and KCI to ensure you
+                                        meet the eligibility criteria for the position. If you
+                                        qualify, your application will then be forwarded to the partnering private
+                                        company for further review.
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div><!-- End F.A.Q Group 2 -->
+
+                <!-- F.A.Q Group 3 -->
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">General Questions</h5>
+
+                        <div class="accordion accordion-flush" id="faq-group-3">
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" data-bs-target="#faqsThree-1"
+                                        type="button" data-bs-toggle="collapse">
+                                        Is the income I earn through KCI jobs credited to my account?
+                                    </button>
+                                </h2>
+                                <div id="faqsThree-1" class="accordion-collapse collapse" data-bs-parent="#faq-group-3">
+                                    <div class="accordion-body">
+                                        Yes, the income you earn from KCI jobs is credited to your account. A portion of
+                                        your earnings may be used for
+                                        restitution, fines, or other obligations as determined by the Department of
+                                        Corrections.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" data-bs-target="#faqsThree-2"
+                                        type="button" data-bs-toggle="collapse">
+                                        What support is available if I need help with the application process?
+                                    </button>
+                                </h2>
+                                <div id="faqsThree-2" class="accordion-collapse collapse" data-bs-parent="#faq-group-3">
+                                    <div class="accordion-body">
+                                        If you need assistance with creating your resume or applying for jobs, Unit Team
+                                        staff are available to help.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- End F.A.Q Group 3 -->
+
+            </div>
+
+        </div>
+    </section>
+
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+<footer id="footer" class="footer">
+    <div class="copyright">
+        &copy; Copyright <strong><span>Kansas Correctional Industries</span></strong>. All Rights Reserved
+    </div>
+    <div class="credits">
+        Created by <a href="#">KCI Software Solutions</a>
+    </div>
+</footer><!-- End Footer -->
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+        class="bi bi-arrow-up-short"></i></a>

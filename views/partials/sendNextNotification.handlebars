@@ -1,0 +1,46 @@
+{{!-- sends notification from email chain notifications --}}
+
+<div class="tab-pane fade {{#if (eq activeTab 'notify')}}show active{{/if}} profile-overview pt-3"
+    id="medical-notification">
+    <form method="POST" action="/notification/medical/sendNextNotification/{{resident.residentID}}/{{email}}">
+        <h5 class="card-title">Please send notification to the correct recipient.</h5>
+        <hr>
+        <div class="row mb-3 col-md-8 col-lg-9">
+            <label for="category" class="form-label text-muted">Recipient
+                Category</label>
+            <div class="input-group mb-3">
+                <select required name="category" class="form-select" aria-label="Recipient Category" id="category">
+                    <option value="">Select Category</option>
+                    <option value="Unit Team">Unit Team</option>
+                    <option value="EAI">EAI</option>
+                    <option value="Classifications">Classifications</option>
+                    <option value="Warden">Warden</option>
+                </select>
+            </div>
+        </div>
+        {{!-- recipients email --}}
+        <div class="row mb-3 col-md-8 col-lg-9">
+            <label for="recipientEmail" class="form-label text-muted">Recipient
+                Email</label>
+            <div class="input-group mb-3">
+                <input required type="email" class="form-control" id="recipientEmail" name="recipientEmail">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="row mb-3">
+                <label for="comments" class="form-label text-muted">Provide additional
+                    comments or directions:</label>
+                <div class="col-sm-10 input-group">
+                    <textarea class="form-control" name="comments" id="comments" placeholder="Comments or directions"
+                        style="height: 100px;"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-lg-4 col-md-6 d-grid gap-2 mt-3">
+                <button type="submit" class="btn btn-primary mb-2">Send</button>
+            </div>
+        </div>
+    </form>
+    <hr>
+</div>

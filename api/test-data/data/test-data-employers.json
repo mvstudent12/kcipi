@@ -1,0 +1,82 @@
+[
+  {
+    "firstName": "lucas",
+    "lastName": "harris",
+    "email": "lucas.harris@ks.gov",
+    "password": "asd",
+    "role": "employer",
+    "company": "impact design"
+  },
+  {
+    "firstName": "emily",
+    "lastName": "davis",
+    "email": "emily.davis@ks.gov",
+    "password": "asd",
+    "role": "employer",
+    "company": "pioneer ballons"
+  },
+  {
+    "firstName": "sophia",
+    "lastName": "martin",
+    "email": "sophia.martin@ks.gov",
+    "password": "asd",
+    "role": "employer",
+    "company": "great plains"
+  },
+  {
+    "firstName": "james",
+    "lastName": "wilson",
+    "email": "james.wilson@ks.gov",
+    "password": "asd",
+    "role": "employer",
+    "company": "moly manufacturing"
+  },
+  {
+    "firstName": "oliver",
+    "lastName": "brown",
+    "email": "oliver.brown@ks.gov",
+    "password": "asd",
+    "role": "employer",
+    "company": "pkm steel"
+  },
+  {
+    "firstName": "ella",
+    "lastName": "rodriguez",
+    "email": "ella.rodriguez@ks.gov",
+    "password": "asd",
+    "role": "employer",
+    "company": "maico industries inc."
+  },
+  {
+    "firstName": "jackson",
+    "lastName": "lee",
+    "email": "jackson.lee@ks.gov",
+    "password": "asd",
+    "role": "employer",
+    "company": "bac"
+  },
+  {
+    "firstName": "mason",
+    "lastName": "gonzalez",
+    "email": "mason.gonzalez@ks.gov",
+    "password": "asd",
+    "role": "employer",
+    "company": "heatron"
+  },
+  {
+    "firstName": "chloe",
+    "lastName": "miller",
+    "email": "chloe.miller@ks.gov",
+    "password": "asd",
+    "role": "employer",
+    "company": "lpf high performance"
+  },
+  {
+    "firstName": "liam",
+    "lastName": "anderson",
+    "email": "liam.anderson@ks.gov",
+    "password": "asd",
+    "role": "employer",
+    "company": "zephyr"
+  }
+]

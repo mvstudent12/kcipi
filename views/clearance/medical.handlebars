@@ -1,0 +1,142 @@
+<!-- ======= Header ======= -->
+<header id="header" class="header fixed-top d-flex align-items-center">
+    <div class="d-flex align-items-center justify-content-between">
+        <a href="#" class="logo d-flex align-items-center">
+            <img src="/assets/img/favicon.png" alt="">
+            <span class="d-none d-lg-block">KCI Private Industry</span>
+        </a>
+    </div><!-- End Logo -->
+    <nav class="header-nav ms-auto">
+        <ul class="d-flex align-items-center">
+            <li class="nav-item p-5">
+                <span class="d-md-block ps-2 text-capitalize">{{email}}</span>
+            </li>
+        </ul>
+    </nav>
+</header><!-- End Header -->
+
+
+
+<main id="mainApproval" class="main">
+    <div class="pagetitle">
+        <h1>Medical Clearance</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active">Resident Information</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section profile">
+
+        {{!-- Resident info card --}}
+        <div class="row">
+            <div class="col-xl-4">
+                <div class="card">
+                    <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+                        <img src="/assets/img/avatar.png" alt="Profile" class="rounded-circle">
+                        <h2 class="text-capitalize">{{resident.firstName}} {{resident.lastName}}</h2>
+                        <h2 class="text-capitalize mb-3">#{{resident.residentID}}</h2>
+                        <h3>KDOC Resident</h3>
+                    </div>
+                </div>
+            </div>
+
+            {{!-- Bordered Tab Section --}}
+            <div class="col-xl-8">
+                <div class="card">
+                    <div class="card-body pt-3">
+                        <!--========= Bordered Tab Labels =======-->
+                        <ul class="nav nav-tabs nav-tabs-bordered">
+                            <li class="nav-item">
+                                <button class="nav-link {{#if (eq activeTab 'status')}}active{{/if}}"
+                                    data-bs-toggle="tab" data-bs-target="#medical-status">Status</button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-link {{#if (eq activeTab 'notes')}}active{{/if}}"
+                                    data-bs-toggle="tab" data-bs-target="#medical-notes">Additional
+                                    Notes</button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-link {{#if (eq activeTab 'notify')}}active{{/if}}"
+                                    data-bs-toggle="tab" data-bs-target="#medical-notification">Notify</button>
+                            </li>
+                        </ul>
+                        {{!--===== BORDERED TABS =====--}}
+                        <div class="tab-content pt-2">
+                            {{!--===== Resident Clearance Tab =====--}}
+                            <div class="tab-pane fade {{#if (eq activeTab 'status')}}show active{{/if}} profile-overview"
+                                id="medical-status">
+                                <h5 class="card-title">Provide review and verify resident's medical status.</h5>
+
+                                <hr>
+
+                                {{#if resident.medicalClearance}}
+                                <h5 class="card-title text-success">Resident has been medically cleared.</h5>
+                                <div class="col-lg-4 col-md-6 d-grid gap-2 mt-3">
+                                    <a href="/notification/medical/removeClearance/{{resident.residentID}}/{{email}}">
+                                        <button type="submit" class="btn btn-danger">Add Restriction</button>
+                                    </a>
+                                </div>
+                                {{else}}
+                                {{#if resident.medicalRestriction}}
+                                <h5 class="card-title text-danger">Resident has medical restrictions.</h5>
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-6 d-grid gap-2 mt-3">
+                                        <a href="/notification/medical/approve/{{resident.residentID}}/{{email}}">
+                                            <button type="submit" class="btn btn-primary">Remove Restrictions</button>
+                                        </a>
+                                    </div>
+                                </div>
+                                {{else}}
+                                {{#unless resident.medicalClearance}}
+                                <h5 class="card-title">Resident has not been medically cleared.</h5>
+                                <div class="row">
+                                    <div class="container">
+                                        <div class="d-flex flex-column">
+
+                                            <a href="/notification/medical/approve/{{resident.residentID}}/{{email}}">
+                                                <button type="submit" style="width: 50%;"
+                                                    class="btn btn-primary btn-block mb-2">Approve
+                                                    Clearance</button>
+                                            </a>
+                                            <a href="/notification/medical/deny/{{resident.residentID}}/{{email}}">
+                                                <button type="submit" style="width: 50%;"
+                                                    class="btn btn-danger btn-block mb-2">Add
+                                                    Restriction</button>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                {{/unless}}
+                                {{/if}}
+                                {{/if}}
+                                <hr>
+                                <div class="d-flex justify-content-between">
+                                    <a class="ms-auto"
+                                        href="/notification/medical/next_notes/{{resident.residentID}}/{{email}}">
+                                        <button type="button" class="btn btn-info btn-block mb-2">Next
+                                            Step</button>
+                                    </a>
+                                </div>
+
+                            </div>
+                            {{!-- ====== Additional Notes Tab ========= --}}
+                            {{> additionalNotesTab items=resident.medicalNotes}}
+                            {{!-- ====== Notify ========= --}}
+                            {{> sendNextNotification}}
+                        </div>
+                    </div><!-- End Bordered Tabs -->
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+{{> footer}}
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+        class="bi bi-arrow-up-short"></i></a>

@@ -1,0 +1,647 @@
+<!-- ======= Header ======= -->
+<header id="header" class="header fixed-top d-flex align-items-center">
+
+    <div class="d-flex align-items-center justify-content-between">
+        <a href="/admin/dashboard" class="logo d-flex align-items-center">
+            <img src="/assets/img/favicon.png" alt="">
+            <span class="d-none d-lg-block">KCI Private Industry</span>
+        </a>
+        <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->
+
+
+    <nav class="header-nav ms-auto">
+        <ul class="d-flex align-items-center">
+            <li class="nav-item dropdown pe-3">
+
+                <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+                    <img src="/assets/img/avatar.png" alt="Profile" class="rounded-circle">
+                    <span class="d-none d-md-block dropdown-toggle ps-2 text-capitalize">{{user.firstName}}
+                        {{user.lastName}}</span>
+                </a><!-- End Profile Image Icon -->
+
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                    <li class="dropdown-header">
+                        <h6 class="text-capitalize">{{user.firstName}} {{user.lastName}}</h6>
+                        <span id="userEmail">{{user.email}}</span>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="#">
+                            <i class="bi bi-person"></i>
+                            <span>My Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="#">
+                            <i class="bi bi-gear"></i>
+                            <span>Account Settings</span>
+                        </a>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="#">
+                            <i class="bi bi-question-circle"></i>
+                            <span>Need Help?</span>
+                        </a>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="/logOut">
+                            <i class="bi bi-box-arrow-right"></i>
+                            <span>Sign Out</span>
+                        </a>
+                    </li>
+
+                </ul><!-- End Profile Dropdown Items -->
+            </li><!-- End Profile Nav -->
+        </ul>
+    </nav><!-- End Icons Navigation -->
+
+</header><!-- End Header -->
+
+<!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+        <li class="nav-item">
+            <a class="nav-link " href="/admin/dashboard">
+                <i class="bi bi-grid"></i>
+                <span>Dashboard</span>
+            </a>
+        </li><!-- End Dashboard Nav -->
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-menu-button-wide"></i><span>Components</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="components-alerts.html">
+                        <i class="bi bi-circle"></i><span>Alerts</span>
+                    </a>
+                </li>
+            </ul>
+        </li><!-- End Components Nav -->
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-journal-text"></i><span>Forms</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="forms-elements.html">
+                        <i class="bi bi-circle"></i><span>Form Elements</span>
+                    </a>
+                </li>
+            </ul>
+        </li><!-- End Forms Nav -->
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-layout-text-window-reverse"></i><span>Tables</span><i
+                    class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="tables-general.html">
+                        <i class="bi bi-circle"></i><span>General Tables</span>
+                    </a>
+                </li>
+            </ul>
+        </li><!-- End Tables Nav -->
+
+        <li class="nav-heading">Links</li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#">
+                <i class="bi bi-question-circle"></i>
+                <span>F.A.Q</span>
+            </a>
+        </li><!-- End F.A.Q Page Nav -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#">
+                <i class="bi bi-envelope"></i>
+                <span>Contact</span>
+            </a>
+        </li><!-- End Contact Page Nav -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="/logOut">
+                <i class="bi bi-box-arrow-in-right"></i>
+                <span>Sign Out</span>
+            </a>
+        </li><!-- End Sign Out Page Nav -->
+    </ul>
+
+</aside><!-- End Sidebar-->
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Resident Profile</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item active">Resident Profile</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section profile">
+        <div class="row">
+            <div class="col-xl-4">
+                <div class="card">
+                    <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+                        <img src="/assets/img/avatar.png" alt="Profile" class="rounded-circle">
+                        <h2 class="text-capitalize">{{resident.firstName}} {{resident.lastName}}</h2>
+                        <h2 class="text-capitalize mb-3">#{{resident.residentID}}</h2>
+                        <h3>KDOC Resident</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-8">
+
+                <div class="card">
+                    <div class="card-body pt-3">
+                        <!--========= Bordered Tabs =======-->
+                        <ul class="nav nav-tabs nav-tabs-bordered">
+                            <li class="nav-item">
+                                <button class="nav-link active" data-bs-toggle="tab"
+                                    data-bs-target="#profile-overview">Overview</button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-link" data-bs-toggle="tab"
+                                    data-bs-target="#profile-edit">Resume</button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-link" data-bs-toggle="tab"
+                                    data-bs-target="#profile-clearance">Clearance</button>
+                            </li>
+                        </ul>
+                        {{!--===== BORDERED TABS =====--}}
+                        <div class="tab-content pt-2">
+                            {{!--===== Resident OverView Tab =====--}}
+                            <div class="tab-pane fade show active profile-overview" id="profile-overview">
+                                {{!-- Confirmation Msg to user when saving Resume --}}
+                                {{#if saveMsg}}
+                                <span class="fst-italic text-warning">{{saveMsg}}</span>
+                                {{/if}}
+
+                                <h5 class="card-title">Resident Info</h5>
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 label ">Full Name</div>
+                                    <div class="col-lg-9 col-md-8 text-capitalize">{{resident.firstName}}
+                                        {{resident.lastName}}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 label">Resident ID</div>
+                                    <div class="col-lg-9 col-md-8">{{resident.residentID}}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 label">Facility</div>
+                                    <div class="col-lg-9 col-md-8 text-capitalize">{{resident.facility}}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 label">Custody Level</div>
+                                    <div class="col-lg-9 col-md-8 text-capitalize">{{resident.custodyLevel}}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 label">Resume Complete</div>
+                                    <div class="col-lg-9 col-md-8 text-capitalize">{{resident.resumeIsComplete}}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 label">Resume Approved</div>
+                                    <div class="col-lg-9 col-md-8 text-capitalize">{{resident.resumeIsApproved}}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 label">Medically Cleared</div>
+                                    <div class="col-lg-9 col-md-8 text-capitalize">{{resident.medicalClearance}}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 label">EAI Cleared</div>
+                                    <div class="col-lg-9 col-md-8 text-capitalize">{{resident.eaiClearance}}</div>
+                                </div>
+                            </div>
+
+                            {{!--======== RESUME TAB ========--}}
+                            <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
+                                <!--======== Resume  Form ========== -->
+
+                                {{#if resident.resumeIsComplete}}
+                                {{!-- if resident has completed their resume --}}
+
+                                <form method="POST" action="/approveResume/{{resident.residentID}}/{{user.email}}">
+                                    {{!-- Resident First Name --}}
+                                    <div class="row mb-3">
+                                        <label for="firstName" class="col-md-4 col-lg-3 col-form-label">First
+                                            Name</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="firstName" type="text" class="form-control text-capitalize"
+                                                id="firstName" value="{{resident.firstName}}" readonly>
+                                        </div>
+                                    </div>
+                                    {{!-- Resident Last Name --}}
+                                    <div class="row mb-3">
+                                        <label for="lastName" class="col-md-4 col-lg-3 col-form-label">Last
+                                            Name</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="lastName" type="text" class="form-control text-capitalize"
+                                                id="lastName" value="{{resident.lastName}}" readonly>
+                                        </div>
+                                    </div>
+                                    {{!-- Resident ID --}}
+                                    <div class="row mb-3">
+                                        <label for="residentID" class="col-md-4 col-lg-3 col-form-label">Resident
+                                            ID</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="residentID" type="text" class="form-control text-capitalize"
+                                                id="residentID" value="{{resident.residentID}}" readonly>
+                                        </div>
+                                    </div>
+                                    {{!-- Resident Custody Level --}}
+                                    <div class="row mb-3">
+                                        <label for="custodyLevel" class="col-md-4 col-lg-3 col-form-label">Custody
+                                            Level</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="custodyLevel" type="text" class="form-control text-capitalize"
+                                                id="custodyLevel" value="{{resident.custodyLevel}}" readonly>
+                                        </div>
+                                    </div>
+                                    {{!-- Resident Facility --}}
+                                    <div class="row mb-3">
+                                        <label for="facility" class="col-md-4 col-lg-3 col-form-label">Facility</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="facility" type="text" class="form-control text-capitalize"
+                                                id="facility" value="{{resident.facility}}" readonly>
+                                        </div>
+                                    </div>
+                                    {{!-- Unit Team Assigned --}}
+                                    <div class="row mb-3">
+                                        <label for="unitTeam" class="col-md-4 col-lg-3 col-form-label">Unit Team</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="unitTeam" type="text" class="form-control text-capitalize"
+                                                id="unitTeam" value="{{user.firstName}} {{user.lastName}}" readonly>
+                                        </div>
+                                    </div>
+                                    {{!-- work history input --}}
+                                    <div class="row mb-3">
+                                        <label for="workHistory" class="col-md-4 col-lg-3 col-form-label">Work
+                                            History</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <textarea name="workHistory" class="form-control" id="workHistory"
+                                                style="height: 100px"
+                                                readonly>{{resident.resume.workHistory}}</textarea>
+                                        </div>
+                                    </div>
+                                    {{!-- Certifications & Licenses input --}}
+                                    <div class="row mb-3">
+                                        <label for="certifications"
+                                            class="col-md-4 col-lg-3 col-form-label">Certifications &amp;
+                                            Licenses</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <textarea name="certifications" class="form-control" id="certifications"
+                                                style="height: 100px"
+                                                readonly>{{resident.resume.certifications}}</textarea>
+                                        </div>
+                                    </div>
+                                    {{!-- Higher Education --}}
+                                    <div class="row mb-3">
+                                        <label for="education" class="col-md-4 col-lg-3 col-form-label">Higher
+                                            Education</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <textarea name="education" class="form-control" id="education"
+                                                style="height: 100px" readonly>{{resident.resume.education}}</textarea>
+                                        </div>
+                                    </div>
+                                    {{!-- Completed programs --}}
+                                    <div class="row mb-3">
+                                        <label for="programs" class="col-md-4 col-lg-3 col-form-label">Completed
+                                            Programs</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <textarea name="programs" class="form-control" id="programs"
+                                                style="height: 100px" readonly>{{resident.resume.programs}}</textarea>
+                                        </div>
+                                    </div>
+                                    {{!-- US Citizen options --}}
+                                    <div class="row mb-3">
+                                        <label for="legalCitizen" class="col-md-4 col-lg-3 col-form-label">U.S.
+                                            Citizen</label>
+                                        <div class="col-sm-10">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="legalCitizen"
+                                                    id="legalCitizen1" value="true" {{#if resident.resume.legalCitizen}}
+                                                    checked{{/if}} readonly>
+                                                <label class="form-check-label" for="legalCitizen1">
+                                                    Yes
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="legalCitizen"
+                                                    id="legalCitizen2" value="false" {{#if (eq
+                                                    resident.resume.legalCitizen false)}}checked{{/if}} readonly>
+                                                <label class="form-check-label" for="legalCitizen2">
+                                                    No
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{!-- GED or diploma option --}}
+                                    <div class="row mb-3">
+                                        <label for="hsGraduate" class=" col-form-label">GED or High
+                                            School Diploma</label>
+                                        <div class="col-sm-10">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="hsGraduate"
+                                                    id="hsGraduate1" value="true" {{#if resident.resume.hsGraduate}}
+                                                    checked{{/if}} readonly>
+                                                <label class="form-check-label" for="hsGraduate1">
+                                                    Yes
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="hsGraduate"
+                                                    id="hsGraduate2" value="false" {{#if (eq resident.resume.hsGraduate
+                                                    false)}}checked{{/if}} readonly>
+                                                <label class="form-check-label" for="hsGraduate2">
+                                                    No
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{!-- Social Security card radio option --}}
+                                    <div class="row mb-3">
+                                        <label for="sscard" class=" col-form-label">Social Security Card on
+                                            file?</label>
+                                        <div class="col-sm-10">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="sscard" id="sscard1"
+                                                    value="true" {{#if resident.resume.sscard}} checked{{/if}} readonly>
+                                                <label class="form-check-label" for="sscard1">
+                                                    Yes
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="sscard" id="sscard2"
+                                                    value="false" {{#if (eq resident.resume.sscard
+                                                    false)}}checked{{/if}} readonly>
+                                                <label class="form-check-label" for="sscard2">
+                                                    No
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{!-- birth certificate radio option --}}
+                                    <div class="row mb-3">
+                                        <label for="birthCertificate" class=" col-form-label">Birth Certificate on
+                                            file?</label>
+                                        <div class="col-sm-10">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="birthCertificate"
+                                                    id="birthCertificate1" value="true" {{#if
+                                                    resident.resume.birthCertificate}} checked{{/if}} readonly>
+                                                <label class="form-check-label" for="birthCertificate1">
+                                                    Yes
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="birthCertificate"
+                                                    id="birthCertificate2" value="false" {{#if (eq
+                                                    resident.resume.birthCertificate false)}}checked{{/if}} readonly>
+                                                <label class="form-check-label" for="birthCertificate2">
+                                                    No
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {{!-- Resume Submit Button --}}
+                                    {{#if resident.resumeIsApproved}}
+                                    {{!-- if resume has already been approved, allow for rejection --}}
+                                    <div class="row mb-3">
+                                        <label for="jobPool" class="col-md-4 col-lg-3 col-form-label">Job Pool</label>
+                                        <div class="col-md-8 col-lg-9"><input name="jobPool" type="text"
+                                                class="form-control text-capitalize" value="{{resident.jobPool}}"
+                                                readonly>
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <p class="text-success">This resume has been approved by unit team.</p>
+                                        <button type="button" class="btn btn-danger mx-2" data-bs-toggle="modal"
+                                            data-bs-target="#basicModal">Reject Approval</button>
+                                    </div>
+                                    {{else}}
+
+                                    {{!-- if resident needs to be approved, show job pool selection --}}
+                                    {{!-- Job Pool--}}
+                                    <div class="row mb-3">
+                                        <label for="jobPool" class="col-md-4 col-lg-3 col-form-label text-warning">Job
+                                            Pool</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <select required name="jobPool" class="form-select" aria-label="Job Pool">
+                                                <option value="">Select Job Pool</option>
+                                                <option value="pool1">Male Minimum 1 &lpar;Off-Site&rpar;</option>
+                                                <option value="pool2">Male Minimum 2 &lpar;On-Site&rpar;</option>
+                                                <option value="pool3">Male Medium/Maximum</option>
+                                                <option value="pool1F">Female Minimum 1 &lpar;Off-Site&rpar;</option>
+                                                <option value="pool2F">Female Minimum 2 &lpar;On-Site&rpar;</option>
+                                                <option value="pool3F">Female Medium/Maximum</option>
+                                                <option value="pool4">Not Eligible: Medical Lay-In / Disciplinary Lay-In
+                                                </option>
+                                                <option value="poolC">PIE Employed</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-primary mx-2">Approve</button>
+                                        <button type="button" class="btn btn-danger mx-2" data-bs-toggle="modal"
+                                            data-bs-target="#basicModal">Reject</button>
+                                    </div>
+
+                                    {{/if}}
+                                </form>
+                                {{else}}
+                                {{#if resident.resumeRejectionReason}}
+                                {{!-- if resume has been rejected, show the reason --}}
+                                <div class="text-center">
+                                    <p class="text-danger">This resume has been rejected and sent back to the resident
+                                        by unit team for being {{resident.resumeRejectionReason}}.</p>
+                                </div>
+                                {{else}}
+                                {{!-- if resident has not completed their resume --}}
+                                <h5 class="text-center text-warning">This resident has not yet completed their resume.
+                                    </h3>
+                                    {{/if}}
+                                    {{/if}}
+
+                                    <!--============================= End Resume Form=================================== -->
+                            </div>
+
+                            {{!-- ====== Clearance Tab ========= --}}
+                            <div class="tab-pane fade profile-overview pt-3" id="profile-clearance">
+                                {{!-- Confirmation Msg to user when saving Resume --}}
+                                {{#if saveMsg}}
+                                <span class="fst-italic text-warning">{{saveMsg}}</span>
+                                {{/if}}
+
+                                <h5 class="card-title">Clearance Status</h5>
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 label ">Medical Clearance</div>
+                                    <div class="col-lg-3 col-md-3 text-capitalize">{{resident.medicalClearance}}</div>
+                                    <div class="col-lg-2 col-md-2">
+                                        <button type="submit" class="btn btn-info" data-bs-toggle="modal"
+                                            data-bs-target="#medicalModal">Request</button>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4">
+                                        <button id="" type="submit" class="btn btn-danger">Edit</button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 label">EAI Clearance</div>
+                                    <div class="col-lg-3 col-md-3 text-capitalize">{{resident.eaiClearance}}</div>
+                                    <div class="col-lg-2 col-md-2">
+                                        <button id="" type="submit" class="btn btn-info">Request</button>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4">
+                                        <button id="" type="submit" class="btn btn-danger">Edit</button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 label">Sex Offender</div>
+                                    <div class="col-lg-3 col-md-3 text-capitalize">{{resident.sexOffender}}</div>
+                                    <div class="col-lg-2 col-md-2">
+                                        <button id="" type="submit" class="btn btn-info">Request</button>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4">
+                                        <button id="" type="submit" class="btn btn-danger">Edit</button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 label">Classification</div>
+                                    <div class="col-lg-3 col-md-3 text-capitalize">{{resident.custodyLevel}}</div>
+                                    <div class="col-lg-2 col-md-2">
+                                        <button id="" type="submit" class="btn btn-info">Request</button>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4">
+                                        <button id="" type="submit" class="btn btn-danger">Edit</button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 label">Facility Clearance</div>
+                                    <div class="col-lg-3 col-md-3 text-capitalize">{{resident.resume.status}}</div>
+                                    <div class="col-lg-2 col-md-2">
+                                        <button id="" type="submit" class="btn btn-info">Request</button>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4">
+                                        <button id="" type="submit" class="btn btn-danger">Edit</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div><!-- End Bordered Tabs -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+<footer id="footer" class="footer">
+    <div class="copyright">
+        &copy; Copyright <strong><span>Kansas Correctional Industries</span></strong>. All Rights Reserved
+    </div>
+    <div class="credits">
+        Designed by <a href="#">KCI Software Solutions</a>
+    </div>
+</footer><!-- End Footer -->
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+        class="bi bi-arrow-up-short"></i></a>
+
+
+{{!-- MODAL FOR REJECT RESUME --}}
+<div class="modal fade" id="basicModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" action="/rejectResume/{{resident.residentID}}/{{user.email}}">
+                <div class="modal-header">
+                    <h5 class="modal-title">Reject Resume</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-sm-10">
+                            <select name="rejectReason" id="rejectReason" class="form-select"
+                                aria-label="Rejection reason">
+                                <option selected>Select reason for rejection:
+                                </option>
+                                <option value="inappropriate">Inappropriate content
+                                </option>
+                                <option value="inaccurate">Inaccurate content</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button id="" type="submit" class="btn btn-danger">Reject</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div><!-- End Basic Modal-->
+
+
+{{!-- MODAL FOR Medical Clearance --}}
+<div class="modal fade" id="medicalModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" action="/notification/request/Medical/{{resident.residentID}}/{{email}}">
+                <div class="modal-header">
+                    <h5 class="modal-title">Request Medical Clearance</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-sm-10">
+
+
+                            {{!-- recipients email --}}
+                            <div class="row mb-3 col-md-8 col-lg-9">
+                                <label for="recipient" class="form-label text-muted">Recipient
+                                    Email</label>
+                                <div class="input-group mb-3">
+                                    <input required type="email" class="form-control" id="recipient" name="recipient">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-10">
+                            <textarea name="comments" class="form-control" placeholder="Additional notes or comments"
+                                style="height: 100px;"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Cancel</button>
+                    <button id="" type="submit" class="btn btn-info">Request</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div><!-- End Basic Modal-->

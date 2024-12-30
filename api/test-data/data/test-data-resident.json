@@ -1,0 +1,162 @@
+[
+  {
+    "firstName": "Jessica",
+    "lastName": "Morrison",
+    "residentID": "7384920",
+    "custodyLevel": "maximum",
+    "unitTeam": "",
+    "facility": "Topeka"
+  },
+  {
+    "firstName": "Aaron",
+    "lastName": "Henderson",
+    "residentID": "8253749",
+    "custodyLevel": "medium",
+    "unitTeam": "",
+    "facility": "Lansing"
+  },
+  {
+    "firstName": "Emily",
+    "lastName": "Rodriguez",
+    "residentID": "2639581",
+    "custodyLevel": "minimum 1",
+    "unitTeam": "",
+    "facility": "Topeka"
+  },
+  {
+    "firstName": "Michael",
+    "lastName": "Davies",
+    "residentID": "9572163",
+    "custodyLevel": "minimum 2",
+    "unitTeam": "",
+    "facility": "Lansing"
+  },
+  {
+    "firstName": "Sophia",
+    "lastName": "Clark",
+    "residentID": "4782635",
+    "custodyLevel": "maximum",
+    "unitTeam": "",
+    "facility": "Topeka"
+  },
+  {
+    "firstName": "Oliver",
+    "lastName": "Brown",
+    "residentID": "3416789",
+    "custodyLevel": "minimum 1",
+    "unitTeam": "",
+    "facility": "Lansing"
+  },
+  {
+    "firstName": "Mia",
+    "lastName": "Johnson",
+    "residentID": "9127345",
+    "custodyLevel": "medium",
+    "unitTeam": "",
+    "facility": "Lansing"
+  },
+  {
+    "firstName": "James",
+    "lastName": "Lee",
+    "residentID": "2845736",
+    "custodyLevel": "minimum 2",
+    "unitTeam": "",
+    "facility": "Lansing"
+  },
+  {
+    "firstName": "Isabella",
+    "lastName": "Martinez",
+    "residentID": "1738492",
+    "custodyLevel": "maximum",
+    "unitTeam": "",
+    "facility": "Topeka"
+  },
+  {
+    "firstName": "Ethan",
+    "lastName": "Anderson",
+    "residentID": "7392845",
+    "custodyLevel": "medium",
+    "unitTeam": "",
+    "facility": "Lansing"
+  },
+  {
+    "firstName": "Lily",
+    "lastName": "Garcia",
+    "residentID": "1029384",
+    "custodyLevel": "minimum 1",
+    "unitTeam": "",
+    "facility": "Topeka"
+  },
+  {
+    "firstName": "Benjamin",
+    "lastName": "White",
+    "residentID": "5847291",
+    "custodyLevel": "minimum 2",
+    "unitTeam": "",
+    "facility": "Topeka"
+  },
+  {
+    "firstName": "Ava",
+    "lastName": "Harris",
+    "residentID": "7492031",
+    "custodyLevel": "maximum",
+    "unitTeam": "",
+    "facility": "Topeka"
+  },
+  {
+    "firstName": "Henry",
+    "lastName": "Young",
+    "residentID": "3849201",
+    "custodyLevel": "medium",
+    "unitTeam": "",
+    "facility": "Lansing"
+  },
+  {
+    "firstName": "Chloe",
+    "lastName": "Walker",
+    "residentID": "5983742",
+    "custodyLevel": "minimum 1",
+    "unitTeam": "",
+    "facility": "Topeka"
+  },
+  {
+    "firstName": "Alexander",
+    "lastName": "Scott",
+    "residentID": "6392847",
+    "custodyLevel": "minimum 2",
+    "unitTeam": "",
+    "facility": "Lansing"
+  },
+  {
+    "firstName": "Charlotte",
+    "lastName": "Adams",
+    "residentID": "4872930",
+    "custodyLevel": "maximum",
+    "unitTeam": "",
+    "facility": "Topeka"
+  },
+  {
+    "firstName": "William",
+    "lastName": "Green",
+    "residentID": "1298476",
+    "custodyLevel": "minimum 1",
+    "unitTeam": "",
+    "facility": "Topeka"
+  },
+  {
+    "firstName": "Emily",
+    "lastName": "Baker",
+    "residentID": "4982731",
+    "custodyLevel": "medium",
+    "unitTeam": "",
+    "facility": "Topeka"
+  },
+  {
+    "firstName": "Matthew",
+    "lastName": "Nelson",
+    "residentID": "7309482",
+    "custodyLevel": "minimum 2",
+    "unitTeam": "",
+    "facility": "Lansing"
+  }
+]

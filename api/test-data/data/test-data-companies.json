@@ -1,0 +1,138 @@
+[
+  {
+    "companyName": "Impact Design",
+    "facility": "El Dorado"
+  },
+  {
+    "companyName": "Pioneer Ballons",
+    "facility": "El Dorado"
+  },
+  {
+    "companyName": "Great Plains",
+    "facility": "Ellsworth"
+  },
+  {
+    "companyName": "Moly Manufacturing",
+    "facility": "Ellsworth"
+  },
+  {
+    "companyName": "PKM Steel",
+    "facility": "Ellsworth"
+  },
+  {
+    "companyName": "MaiCo Industries Inc.",
+    "facility": "Ellsworth"
+  },
+  {
+    "companyName": "BAC",
+    "facility": "Lansing"
+  },
+  {
+    "companyName": "Heatron",
+    "facility": "Lansing"
+  },
+  {
+    "companyName": "LPF High Performance",
+    "facility": "Lansing"
+  },
+  {
+    "companyName": "Zephyr",
+    "facility": "Lansing"
+  },
+  {
+    "companyName": "Wilkens",
+    "facility": "Norton"
+  },
+  {
+    "companyName": "Osborne Industries",
+    "facility": "Norton"
+  },
+  {
+    "companyName": "Hess",
+    "facility": "Norton"
+  },
+  {
+    "companyName": "Creekstone Farms",
+    "facility": "Winfield"
+  },
+  {
+    "companyName": "Skyline Homes",
+    "facility": "Winfield"
+  },
+  {
+    "companyName": "Barkman Honey",
+    "facility": "Hutchinson"
+  },
+  {
+    "companyName": "Cal-Maine",
+    "facility": "Hutchinson"
+  },
+  {
+    "companyName": "Electrex (On Site)",
+    "facility": "Hutchinson"
+  },
+  {
+    "companyName": "Hubco (On Site)",
+    "facility": "Hutchinson"
+  },
+  {
+    "companyName": "Koch-Glitsch",
+    "facility": "Hutchinson"
+  },
+  {
+    "companyName": "Martin Machinery",
+    "facility": "Hutchinson"
+  },
+  {
+    "companyName": "Mill Creek",
+    "facility": "Hutchinson"
+  },
+  {
+    "companyName": "Seat King (On Site)",
+    "facility": "Hutchinson"
+  },
+  {
+    "companyName": "Wifco",
+    "facility": "Hutchinson"
+  },
+  {
+    "companyName": "KMW Loaders",
+    "facility": "Hutchinson"
+  },
+  {
+    "companyName": "ADM Grain",
+    "facility": "Hutchinson"
+  },
+  {
+    "companyName": "Kansas Protein Foods",
+    "facility": "Hutchinson"
+  },
+  {
+    "companyName": "Deb’s Cattle",
+    "facility": "Larned"
+  },
+  {
+    "companyName": "KBK Industries",
+    "facility": "Larned"
+  },
+  {
+    "companyName": "Kirby Enterprise",
+    "facility": "Larned"
+  },
+  {
+    "companyName": "Redbarn Pet",
+    "facility": "Larned"
+  },
+  {
+    "companyName": "Redbarn Pet (OnSite)",
+    "facility": "Larned"
+  },
+  {
+    "companyName": "Topeka",
+    "facility": "Koch"
+  },
+  {
+    "companyName": "Topeka",
+    "facility": "Polo"
+  }
+]

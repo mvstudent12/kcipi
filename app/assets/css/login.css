@@ -1,0 +1,27 @@
+.divider:after,
+.divider:before {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #efefef;
+}
+
+.logInBtn {
+  width: 100%;
+}
+*/ .password-container {
+  position: relative;
+}
+.password-container input[type="password"],
+.password-container input[type="text"] {
+  width: 100%;
+  padding: 12px 36px 12px 12px;
+  box-sizing: border-box;
+}
+.fa-eye {
+  position: absolute;
+  top: 28%;
+  right: 4%;
+  cursor: pointer;
+  color: lightgray;
+}

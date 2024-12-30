@@ -1,0 +1,30 @@
+[
+  {
+    "firstName": "Alice",
+    "lastName": "Johnson",
+    "email": "alice.johnson@ks.gov",
+    "password": "asd",
+    "role": "admin"
+  },
+  {
+    "firstName": "Bob",
+    "lastName": "Smith",
+    "email": "bob.smith@ks.gov",
+    "password": "asd",
+    "role": "admin"
+  },
+  {
+    "firstName": "Charlie",
+    "lastName": "Davis",
+    "email": "charlie.davis@ks.gov",
+    "password": "asd",
+    "role": "admin"
+  },
+  {
+    "firstName": "Dana",
+    "lastName": "Taylor",
+    "email": "dana.taylor@ks.gov",
+    "password": "asd",
+    "role": "admin"
+  }
+]
