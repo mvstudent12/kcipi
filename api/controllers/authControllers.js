@@ -19,6 +19,7 @@ module.exports = {
       if (err) {
         return res.status(500).send("Failed to logout");
       }
+      res.clearCookie("connect.sid"); // Remove session cookie if using express-session
       res.render("auth/residentLogin");
     });
   },
@@ -47,6 +48,7 @@ module.exports = {
         return res.status(500).send("Failed to logout");
       }
     });
+    res.clearCookie("connect.sid"); // Remove session cookie if using express-session
     res.redirect("/auth/residentLogin");
   },
 
@@ -60,6 +62,7 @@ module.exports = {
       if (err) {
         return res.status(500).send("Failed to logout");
       }
+      res.clearCookie("connect.sid"); // Remove session cookie if using express-session
       res.render("auth/login");
     });
   },
@@ -126,6 +129,7 @@ module.exports = {
       if (err) {
         return res.status(500).send("Failed to logout");
       }
+      res.clearCookie("connect.sid"); // Remove session cookie if using express-session
       res.render("auth/login");
     });
   },
