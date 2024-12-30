@@ -5,7 +5,14 @@ const dbURI =
   "mongodb+srv://kcicodingdev:WWsgMyk4wiBt3Vze@kcipi.vkftg.mongodb.net/?retryWrites=true&w=majority&appName=kcipi";
 
 // "mongodb://localhost/kcipi"; //use for development
-mongoose.connect(dbURI);
+mongoose
+  .connect(dbURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    ssl: true, // Ensure SSL is enabled
+  })
+  .then(() => console.log("Connected to MongoDB Atlas"))
+  .catch((err) => console.error("Error connecting to MongoDB Atlas:", err));
 
 mongoose.connection.on("connected", () => {
   console.log(`Mongoose connected to ${dbURI}`);
