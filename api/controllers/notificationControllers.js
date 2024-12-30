@@ -38,14 +38,17 @@ module.exports = {
             medicalClearance: true,
             medicalClearanceDate: new Date(),
             medicallyClearedBy: email,
+            medicallyReviewed: true,
           },
         }
       );
     } catch (err) {
       console.log(err);
     }
+    activeTab = "status";
     const resident = await Resident.findOne({ residentID }).lean();
-    res.render("clearance/medical", { resident, email });
+    console.log(resident);
+    res.render("clearance/medical", { resident, email, activeTab });
   },
   async removeClearance(req, res) {
     const residentID = req.params.residentID;
@@ -58,14 +61,38 @@ module.exports = {
             medicalClearance: false,
             medicalClearanceRemovedDate: new Date(),
             medicalClearanceRemovedBy: email,
+            medicallyReviewed: false,
+            medicalRestriction: false,
           },
         }
       );
     } catch (err) {
       console.log(err);
     }
+    activeTab = "status";
     const resident = await Resident.findOne({ residentID }).lean();
-    res.render("clearance/medical", { resident, email });
+    res.render("clearance/medical", { resident, email, activeTab });
+  },
+  async removeRestriction(req, res) {
+    const residentID = req.params.residentID;
+    const email = req.params.email;
+    try {
+      await Resident.updateOne(
+        { residentID: residentID },
+        {
+          $set: {
+            medicalClearance: false,
+            medicallyReviewed: false,
+            medicalRestriction: false,
+          },
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+    activeTab = "status";
+    const resident = await Resident.findOne({ residentID }).lean();
+    res.render("clearance/medical", { resident, email, activeTab });
   },
 
   async denyMedical(req, res) {
@@ -80,14 +107,16 @@ module.exports = {
             medicalRestrictionDate: new Date(),
             medicallyRestrictedBy: email,
             medicalRestriction: true,
+            medicallyReviewed: true,
           },
         }
       );
     } catch (err) {
       console.log(err);
     }
+    activeTab = "status";
     const resident = await Resident.findOne({ residentID }).lean();
-    res.render("clearance/medical", { resident, email });
+    res.render("clearance/medical", { resident, email, activeTab });
   },
   async saveNotes(req, res) {
     const residentID = req.params.residentID;

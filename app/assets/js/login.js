@@ -33,7 +33,7 @@ form.addEventListener("submit", async (e) => {
       }
     }
     if (data.user) {
-      console.log(data);
+
       location.assign("/user/dashboard/" + data.user);
       emailErr.classList.remove("d-block");
       emailErr.classList.add("d-none");

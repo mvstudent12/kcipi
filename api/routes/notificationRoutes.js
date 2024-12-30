@@ -23,7 +23,7 @@ notificationRoutes.get(
 
 notificationRoutes.get(
   "/medical/removeRestriction/:residentID/:email",
-  controller.removeClearance
+  controller.removeRestriction
 );
 
 notificationRoutes.get(

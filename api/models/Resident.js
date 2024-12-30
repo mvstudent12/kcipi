@@ -78,6 +78,7 @@ const residentSchema = new Schema({
   resumeIsApproved: { type: Boolean, default: false },
   resumeRejectionReason: { type: String, lowercase: true, default: "" },
   medicalNotes: [{ type: String, lowercase: true, default: "" }],
+  medicallyReviewed: { type: Boolean, default: false },
   medicalClearance: { type: Boolean, default: false },
   medicalClearanceDate: { type: Date },
   medicallyClearedBy: { type: String, lowercase: true, default: "" },

@@ -1,15 +1,14 @@
 const mongoose = require("mongoose");
 
 const dbURI =
-  //"mongodb+srv://kta-practice-portal:Employ-emotion3@kta-practice-portal.gieut4i.mongodb.net/kta-practice-portal?retryWrites=true&w=majority";
-  "mongodb+srv://kcicodingdev:WWsgMyk4wiBt3Vze@kcipi.vkftg.mongodb.net/?retryWrites=true&w=majority&appName=kcipi";
+  "mongodb+srv://kcicodingdev:WWsgMyk4wiBt3Vze@kcipi.vkftg.mongodb.net/?retryWrites=true&w=majority&appName=kcipi"; //use for dev-production
 
-// "mongodb://localhost/kcipi"; //use for development
+//"mongodb://localhost/kcipi"; //use for development
 mongoose
   .connect(dbURI, {
-    ssl: true, // Ensure SSL is enabled
-    // tls: true, // Force TLS connection
-    // tlsInsecure: false, // Optionally, enforce secure connection (recommended)
+    ssl: true, // Ensure SSL is enabled -comment out in development/localhost all three lines
+    tls: true, // Force TLS connection
+    tlsInsecure: false, // Optionally, enforce secure connection (recommended)
   })
   .then(() => console.log("Connected to MongoDB Atlas"))
   .catch((err) => console.error("Error connecting to MongoDB Atlas:", err));
