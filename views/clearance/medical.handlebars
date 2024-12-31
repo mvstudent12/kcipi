@@ -67,7 +67,8 @@
                                 {{!-- Resident is medically cleared/ --}}
                                 <h5 class="card-title text-success">Resident has been medically cleared.</h5>
                                 <div class="col-lg-4 col-md-6 d-grid gap-2 mt-3">
-                                    <a href="/notification/medical/removeClearance/{{resident.residentID}}/{{email}}">
+                                    <a
+                                        href="/notification/medical/removeMedicalClearance/{{resident.residentID}}/{{email}}">
                                         <button type="submit" class="btn btn-danger">Remove Clearance</button>
                                     </a>
                                 </div>
@@ -79,7 +80,7 @@
                                 <div class="row">
                                     <div class="col-lg-4 col-md-6 d-grid gap-2 mt-3">
                                         <a
-                                            href="/notification/medical/removeRestriction/{{resident.residentID}}/{{email}}">
+                                            href="/notification/medical/removeMedicalRestriction/{{resident.residentID}}/{{email}}">
                                             <button type="submit" class="btn btn-primary">Remove Restrictions</button>
                                         </a>
                                     </div>
@@ -112,7 +113,7 @@
                                 <hr>
                                 <div class="d-flex justify-content-between">
                                     <a class="ms-auto"
-                                        href="/notification/medical/next_notes/{{resident.residentID}}/{{email}}">
+                                        href="/notification/next_notes/{{resident.residentID}}/{{email}}/medical">
                                         <button type="button" class="btn btn-info btn-block mb-2">Next
                                             Step</button>
                                     </a>

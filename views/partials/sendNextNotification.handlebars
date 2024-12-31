@@ -2,7 +2,7 @@
 
 <div class="tab-pane fade {{#if (eq activeTab 'notify')}}show active{{/if}} profile-overview pt-3"
     id="medical-notification">
-    <form method="POST" action="/notification/medical/sendNextNotification/{{resident.residentID}}/{{email}}">
+    <form method="POST" action="/notification/sendNextNotification/{{resident.residentID}}/{{email}}">
         <h5 class="card-title">Please send notification to the correct recipient.</h5>
         <hr>
         <div class="row mb-3 col-md-8 col-lg-9">

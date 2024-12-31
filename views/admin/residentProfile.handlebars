@@ -490,57 +490,81 @@
                                 {{/if}}
 
                                 <h5 class="card-title">Clearance Status</h5>
+
+                                {{!-- MEDICAL --}}
                                 <div class="row">
                                     <div class="col-lg-3 col-md-3 label ">Medical Clearance</div>
                                     <div class="col-lg-3 col-md-3 text-capitalize">{{resident.medicalClearance}}</div>
                                     <div class="col-lg-2 col-md-2">
-                                        <button type="submit" class="btn btn-info" data-bs-toggle="modal"
-                                            data-bs-target="#medicalModal">Request</button>
+                                        <button type="submit" class="btn btn-info"
+                                            data-route="/notification/request/Medical/{{resident.residentID}}"
+                                            data-category="Medical" data-bs-toggle="modal"
+                                            data-bs-target="#clearanceModal">
+                                            Request</button>
                                     </div>
                                     <div class="col-lg-4 col-md-4">
                                         <button type="submit" class="btn btn-danger">Edit</button>
                                     </div>
                                 </div>
+                                {{!-- EAI --}}
                                 <div class="row">
                                     <div class="col-lg-3 col-md-3 label">EAI Clearance</div>
                                     <div class="col-lg-3 col-md-3 text-capitalize">{{resident.eaiClearance}}</div>
                                     <div class="col-lg-2 col-md-2">
-                                        <button id="" type="submit" class="btn btn-info">Request</button>
+                                        <button type="submit" class="btn btn-info"
+                                            data-route="/notification/request/EAI/{{resident.residentID}}"
+                                            data-category="EAI" data-bs-toggle="modal" data-bs-target="#clearanceModal">
+                                            Request</button>
                                     </div>
                                     <div class="col-lg-4 col-md-4">
                                         <button id="" type="submit" class="btn btn-danger">Edit</button>
                                     </div>
                                 </div>
+                                {{!-- SEX OFFENDER --}}
                                 <div class="row">
                                     <div class="col-lg-3 col-md-3 label">Sex Offender</div>
                                     <div class="col-lg-3 col-md-3 text-capitalize">{{resident.sexOffender}}</div>
                                     <div class="col-lg-2 col-md-2">
-                                        <button id="" type="submit" class="btn btn-info">Request</button>
+                                        <button type="submit" class="btn btn-info"
+                                            data-route="/notification/request/sexOffender/{{resident.residentID}}"
+                                            data-category="Sex Offender" data-bs-toggle="modal"
+                                            data-bs-target="#clearanceModal">
+                                            Request</button>
                                     </div>
                                     <div class="col-lg-4 col-md-4">
                                         <button id="" type="submit" class="btn btn-danger">Edit</button>
                                     </div>
                                 </div>
+                                {{!-- CLASSIFICATION --}}
                                 <div class="row">
                                     <div class="col-lg-3 col-md-3 label">Classification</div>
                                     <div class="col-lg-3 col-md-3 text-capitalize">{{resident.custodyLevel}}</div>
                                     <div class="col-lg-2 col-md-2">
-                                        <button id="" type="submit" class="btn btn-info">Request</button>
+                                        <button type="submit" class="btn btn-info"
+                                            data-route="/notification/request/Classification/{{resident.residentID}}"
+                                            data-category="Classification" data-bs-toggle="modal"
+                                            data-bs-target="#clearanceModal">
+                                            Request</button>
                                     </div>
                                     <div class="col-lg-4 col-md-4">
                                         <button id="" type="submit" class="btn btn-danger">Edit</button>
                                     </div>
                                 </div>
-                                <div class="row">
+                                {{!-- WARDEN --}}
+                                {{!-- <div class="row">
                                     <div class="col-lg-3 col-md-3 label">Warden</div>
                                     <div class="col-lg-3 col-md-3 text-capitalize">{{resident.resume.status}}</div>
                                     <div class="col-lg-2 col-md-2">
-                                        <button id="" type="submit" class="btn btn-info">Request</button>
+                                        <button type="submit" class="btn btn-info"
+                                            data-route="/notification/request/Warden/{{resident.residentID}}"
+                                            data-category="Warden" data-bs-toggle="modal"
+                                            data-bs-target="#clearanceModal">
+                                            Request</button>
                                     </div>
                                     <div class="col-lg-4 col-md-4">
                                         <button id="" type="submit" class="btn btn-danger">Edit</button>
                                     </div>
-                                </div>
+                                </div> --}}
 
                             </div>
                         </div><!-- End Bordered Tabs -->
@@ -588,13 +612,13 @@
 </div><!-- End Basic Modal-->
 
 
-{{!-- MODAL FOR Medical Clearance --}}
-<div class="modal fade" id="medicalModal" tabindex="-1">
+{{!-- Clearance Modal --}}
+<div class="modal fade" id="clearanceModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method="post" action="/notification/request/Medical/{{resident.residentID}}/{{email}}">
+            <form id="modal-form" method="post" action="">
                 <div class="modal-header">
-                    <h5 class="modal-title">Request Medical Clearance</h5>
+                    <h5 class="modal-title">Request <span id="data-category"></span> Clearance</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -627,3 +651,5 @@
         </div>
     </div>
 </div><!-- End clearance modal-->
+
+<script type="text/javascript" src="/../assets/js/residentApprovalForm.js"></script>

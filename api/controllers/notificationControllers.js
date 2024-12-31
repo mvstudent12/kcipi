@@ -7,6 +7,7 @@ const Resident = require("../models/Resident");
 const { sendReviewEmail } = require("../utils/sendEmailUtils");
 
 module.exports = {
+  //MEDICAL CLEARANCE ROUTES
   async requestMedical(req, res) {
     const recipient = req.body.recipient;
     const notes = req.body.comments;
@@ -50,7 +51,7 @@ module.exports = {
     console.log(resident);
     res.render("clearance/medical", { resident, email, activeTab });
   },
-  async removeClearance(req, res) {
+  async removeMedicalClearance(req, res) {
     const residentID = req.params.residentID;
     const email = req.params.email;
     try {
@@ -73,7 +74,7 @@ module.exports = {
     const resident = await Resident.findOne({ residentID }).lean();
     res.render("clearance/medical", { resident, email, activeTab });
   },
-  async removeRestriction(req, res) {
+  async removeMedicalRestriction(req, res) {
     const residentID = req.params.residentID;
     const email = req.params.email;
     try {
@@ -95,7 +96,7 @@ module.exports = {
     res.render("clearance/medical", { resident, email, activeTab });
   },
 
-  async denyMedical(req, res) {
+  async denyMedicalClearance(req, res) {
     const residentID = req.params.residentID;
     const email = req.params.email;
     try {
@@ -118,7 +119,7 @@ module.exports = {
     const resident = await Resident.findOne({ residentID }).lean();
     res.render("clearance/medical", { resident, email, activeTab });
   },
-  async saveNotes(req, res) {
+  async saveMedicalNotes(req, res) {
     const residentID = req.params.residentID;
     const email = req.params.email;
     const notes = req.body.notes;
@@ -139,6 +140,23 @@ module.exports = {
     res.render("clearance/medical", { resident, email, activeTab });
   },
 
+  async next_notes(req, res) {
+    const residentID = req.params.residentID;
+    const email = req.params.email;
+    const category = req.params.category;
+    const resident = await Resident.findOne({ residentID }).lean();
+    const activeTab = "notes";
+    res.render(`clearance/${category}`, { resident, email, activeTab });
+  },
+  async next_notify(req, res) {
+    const residentID = req.params.residentID;
+    const email = req.params.email;
+    const category = req.params.category;
+    const resident = await Resident.findOne({ residentID }).lean();
+    const activeTab = "notify";
+    res.render(`clearance/${category}`, { resident, email, activeTab });
+  },
+
   async sendNextNotification(req, res) {
     const residentID = req.params.residentID;
     const email = req.params.email;
@@ -149,19 +167,5 @@ module.exports = {
 
     sendReviewEmail(resident, department, recipient, email, notes);
     res.render("clearance/thankYou", { resident, email });
-  },
-  async next_notes(req, res) {
-    const residentID = req.params.residentID;
-    const email = req.params.email;
-    const resident = await Resident.findOne({ residentID }).lean();
-    const activeTab = "notes";
-    res.render("clearance/medical", { resident, email, activeTab });
-  },
-  async next_notify(req, res) {
-    const residentID = req.params.residentID;
-    const email = req.params.email;
-    const resident = await Resident.findOne({ residentID }).lean();
-    const activeTab = "notify";
-    res.render("clearance/medical", { resident, email, activeTab });
   },
 };

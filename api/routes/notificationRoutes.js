@@ -2,6 +2,9 @@ const express = require("express");
 const notificationRoutes = express.Router();
 const controller = require("../controllers/notificationControllers");
 
+//==================================
+//    Medical Notifications
+//==================================
 notificationRoutes.post(
   "/request/medical/:residentID",
   controller.requestMedical
@@ -17,36 +20,40 @@ notificationRoutes.get(
   controller.approveMedical
 );
 notificationRoutes.get(
-  "/medical/removeClearance/:residentID/:email",
-  controller.removeClearance
+  "/medical/removeMedicalClearance/:residentID/:email",
+  controller.removeMedicalClearance
 );
 
 notificationRoutes.get(
-  "/medical/removeRestriction/:residentID/:email",
-  controller.removeRestriction
+  "/medical/removeMedicalRestriction/:residentID/:email",
+  controller.removeMedicalRestriction
 );
 
 notificationRoutes.get(
   "/medical/deny/:residentID/:email",
-  controller.denyMedical
+  controller.denyMedicalClearance
 );
 
 notificationRoutes.post(
-  "/medical/saveNotes/:residentID/:email",
-  controller.saveNotes
+  "/medical/saveMedicalNotes/:residentID/:email",
+  controller.saveMedicalNotes
 );
 
-notificationRoutes.post(
-  "/medical/sendNextNotification/:residentID/:email",
-  controller.sendNextNotification
-);
+//=============================
+//    All Notifications
+//=============================
+
 notificationRoutes.get(
-  "/medical/next_notes/:residentID/:email",
+  "/next_notes/:residentID/:email/:category",
   controller.next_notes
 );
 notificationRoutes.get(
-  "/medical/next_notify/:residentID/:email",
+  "/next_notify/:residentID/:email/:category",
   controller.next_notify
+);
+notificationRoutes.post(
+  "/sendNextNotification/:residentID/:email",
+  controller.sendNextNotification
 );
 
 module.exports = notificationRoutes;

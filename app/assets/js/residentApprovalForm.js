@@ -1,40 +1,23 @@
-document.addEventListener('DOMContentLoaded', function() {
-// Get all the edit buttons
-const editButtons = document.querySelectorAll('.edit-btn');
+// Get all buttons that trigger the modal
+const modalButtons = document.querySelectorAll(
+  '[data-bs-toggle="modal"][data-bs-target="#clearanceModal"]'
+);
 
-// Get the modal elements
-const modal = new bootstrap.Modal(document.getElementById('editModal'));
-const saveButton = document.getElementById('saveChanges');
-const textArea = document.getElementById('editText');
+// Add event listener to each button
+modalButtons.forEach((button) => {
+  button.addEventListener("click", function () {
+    // Get the dynamic data from the button's data-attributes
+    const route = button.getAttribute("data-route");
+    const category = button.getAttribute("data-category");
 
-// Handle click on edit button
-editButtons.forEach(button => {
-button.addEventListener('click', function() {
-// Get the id of the div to be edited
-const targetId = this.getAttribute('data-id');
-const targetDiv = document.getElementById(targetId);
+    console.log(category);
 
-// Set the current text of the div into the textarea
-textArea.value = targetDiv.textContent;
+    // Update the modal title
+    const dataCategory = document.getElementById("data-category");
+    dataCategory.textContent = category;
 
-// Store the target div id on the save button for later use
-saveButton.setAttribute('data-target-id', targetId);
-
-// Show the modal
-modal.show();
-});
-});
-
-// Handle save changes
-saveButton.addEventListener('click', function() {
-const targetId = this.getAttribute('data-target-id');
-const targetDiv = document.getElementById(targetId);
-const newText = textArea.value;
-
-// Update the text content of the target div
-targetDiv.textContent = newText;
-
-// Hide the modal
-modal.hide();
-});
+    // Update the form action URL dynamically
+    const modalForm = document.getElementById("modal-form");
+    modalForm.action = route;
+  });
 });
