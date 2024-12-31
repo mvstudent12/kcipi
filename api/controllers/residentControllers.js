@@ -4,7 +4,6 @@ const Resident = require("../models/Resident");
 module.exports = {
   async dashboard(req, res) {
     try {
-      console.log(req.session);
       res.render("resident/dashboard", { user: req.session.resident });
     } catch (err) {
       console.log(err);

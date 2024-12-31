@@ -26,5 +26,12 @@
     "email": "dana.taylor@ks.gov",
     "password": "asd",
     "role": "admin"
+  },
+  {
+    "firstName": "Mark",
+    "lastName": "Daugherty",
+    "email": "mark.daugherty@ks.gov",
+    "password": "asd",
+    "role": "admin"
   }
 ]

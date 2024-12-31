@@ -49,7 +49,7 @@ module.exports = {
       }
     });
     res.clearCookie("connect.sid"); // Remove session cookie if using express-session
-    res.redirect("/auth/residentLogin");
+    res.redirect("/resident");
   },
 
   //===============================================
@@ -130,7 +130,7 @@ module.exports = {
         return res.status(500).send("Failed to logout");
       }
       res.clearCookie("connect.sid"); // Remove session cookie if using express-session
-      res.render("auth/login");
+      res.redirect("/");
     });
   },
 };

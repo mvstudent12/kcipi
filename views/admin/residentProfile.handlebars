@@ -162,22 +162,14 @@
 
     <section class="section profile">
         <div class="row">
-            <div class="col-xl-4">
-                <div class="card">
-                    <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-                        <img src="/assets/img/avatar.png" alt="Profile" class="rounded-circle">
-                        <h2 class="text-capitalize">{{resident.firstName}} {{resident.lastName}}</h2>
-                        <h2 class="text-capitalize mb-3">#{{resident.residentID}}</h2>
-                        <h3>KDOC Resident</h3>
-                    </div>
-                </div>
-            </div>
+
+            {{> residentProfileCard}}
 
             <div class="col-xl-8">
 
                 <div class="card">
                     <div class="card-body pt-3">
-                        <!--========= Bordered Tabs =======-->
+                        <!--========= Tab Borders =======-->
                         <ul class="nav nav-tabs nav-tabs-bordered">
                             <li class="nav-item">
                                 <button class="nav-link active" data-bs-toggle="tab"
@@ -192,7 +184,7 @@
                                     data-bs-target="#profile-clearance">Clearance</button>
                             </li>
                         </ul>
-                        {{!--===== BORDERED TABS =====--}}
+                        {{!--===== TABS =====--}}
                         <div class="tab-content pt-2">
                             {{!--===== Resident OverView Tab =====--}}
                             <div class="tab-pane fade show active profile-overview" id="profile-overview">
@@ -506,7 +498,7 @@
                                             data-bs-target="#medicalModal">Request</button>
                                     </div>
                                     <div class="col-lg-4 col-md-4">
-                                        <button id="" type="submit" class="btn btn-danger">Edit</button>
+                                        <button type="submit" class="btn btn-danger">Edit</button>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -540,7 +532,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-3 col-md-3 label">Facility Clearance</div>
+                                    <div class="col-lg-3 col-md-3 label">Warden</div>
                                     <div class="col-lg-3 col-md-3 text-capitalize">{{resident.resume.status}}</div>
                                     <div class="col-lg-2 col-md-2">
                                         <button id="" type="submit" class="btn btn-info">Request</button>
@@ -560,17 +552,7 @@
 </main><!-- End #main -->
 
 <!-- ======= Footer ======= -->
-<footer id="footer" class="footer">
-    <div class="copyright">
-        &copy; Copyright <strong><span>Kansas Correctional Industries</span></strong>. All Rights Reserved
-    </div>
-    <div class="credits">
-        Designed by <a href="#">KCI Software Solutions</a>
-    </div>
-</footer><!-- End Footer -->
-
-<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
-        class="bi bi-arrow-up-short"></i></a>
+{{> footer}}
 
 
 {{!-- MODAL FOR REJECT RESUME --}}
@@ -644,4 +626,4 @@
             </form>
         </div>
     </div>
-</div><!-- End Basic Modal-->
+</div><!-- End clearance modal-->

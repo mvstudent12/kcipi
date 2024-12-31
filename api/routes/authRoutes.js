@@ -4,6 +4,7 @@ const controller = require("../controllers/authControllers");
 //authentication middleware
 const {
   requireAuth,
+  requireResidentAuth,
   checkUser,
   checkResident,
 } = require("../middleware/authMiddleware");
@@ -36,7 +37,7 @@ authRoutes.post("/residentLogin", controller.residentLogin); //checks if residen
 authRoutes.get(
   "/residentLogOut",
   checkResident,
-  requireAuth,
+  requireResidentAuth,
   controller.residentLogOut
 ); //logs resident out
 
