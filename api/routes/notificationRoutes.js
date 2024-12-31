@@ -2,9 +2,9 @@ const express = require("express");
 const notificationRoutes = express.Router();
 const controller = require("../controllers/notificationControllers");
 
-//==================================
+//============================
 //    Medical Notifications
-//==================================
+//============================
 notificationRoutes.post(
   "/request/medical/:residentID",
   controller.requestMedical
@@ -38,10 +38,44 @@ notificationRoutes.post(
   "/medical/saveMedicalNotes/:residentID/:email",
   controller.saveMedicalNotes
 );
+//============================
+//    EAI Notifications
+//============================
+notificationRoutes.post("/request/EAI/:residentID", controller.requestEAI);
+
+notificationRoutes.get("/review/EAI/:residentID/:email", controller.reviewEAI);
+
+notificationRoutes.get(
+  "/EAI/approve/:residentID/:email",
+  controller.approveEAI
+);
+notificationRoutes.get(
+  "/EAI/removeEAIClearance/:residentID/:email",
+  controller.removeEAIClearance
+);
+
+notificationRoutes.get(
+  "/EAI/removeEAIRestriction/:residentID/:email",
+  controller.removeEAIRestriction
+);
+
+notificationRoutes.get(
+  "/EAI/deny/:residentID/:email",
+  controller.denyEAIClearance
+);
+
+notificationRoutes.post(
+  "/EAI/saveEAINotes/:residentID/:email",
+  controller.saveEAINotes
+);
 
 //=============================
 //    All Notifications
 //=============================
+notificationRoutes.post(
+  "/requestClearance/:residentID/:category",
+  controller.requestClearance
+);
 
 notificationRoutes.get(
   "/next_notes/:residentID/:email/:category",

@@ -55,7 +55,3 @@ const sendReviewEmail = async (
 module.exports = {
   sendReviewEmail,
 };
-
-//  <p><strong>Skills:</strong> ${resume.skills.join(", ")}</p>
-//   <p><strong>Experience:</strong> ${resume.experience.join(", ")}</p>
-//   <p><a href="/resumes/${resume._id}">View Resume</a></p>

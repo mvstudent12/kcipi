@@ -10,8 +10,6 @@ modalButtons.forEach((button) => {
     const route = button.getAttribute("data-route");
     const category = button.getAttribute("data-category");
 
-    console.log(category);
-
     // Update the modal title
     const dataCategory = document.getElementById("data-category");
     dataCategory.textContent = category;
