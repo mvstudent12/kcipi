@@ -5,10 +5,6 @@ const controller = require("../controllers/notificationControllers");
 //============================
 //    Medical Notifications
 //============================
-notificationRoutes.post(
-  "/request/medical/:residentID",
-  controller.requestMedical
-);
 
 notificationRoutes.get(
   "/review/Medical/:residentID/:email",
@@ -41,7 +37,6 @@ notificationRoutes.post(
 //============================
 //    EAI Notifications
 //============================
-notificationRoutes.post("/request/EAI/:residentID", controller.requestEAI);
 
 notificationRoutes.get("/review/EAI/:residentID/:email", controller.reviewEAI);
 
@@ -72,9 +67,15 @@ notificationRoutes.post(
 //=============================
 //    All Notifications
 //=============================
+//request clearance from Medical, EAI, classifications, etc
 notificationRoutes.post(
   "/requestClearance/:residentID/:category",
   controller.requestClearance
+);
+
+notificationRoutes.get(
+  "/reviewClearance/:dept/:residentID/:email",
+  controller.reviewClearance
 );
 
 notificationRoutes.get(

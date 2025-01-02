@@ -139,7 +139,7 @@ app.get("*", (req, res) => {
 });
 
 //initializes server
-const PORT = process.env.PORT || 5888;
+const PORT = process.env.PORT || 5999;
 app.listen(PORT, function () {
   console.log(`*****  KCI Private Industry is Running  *****
     App listening on PORT ${PORT}`);

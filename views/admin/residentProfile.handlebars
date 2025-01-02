@@ -185,73 +185,83 @@
                         <!--========= Tab Borders =======-->
                         <ul class="nav nav-tabs nav-tabs-bordered">
                             <li class="nav-item">
-                                <button class="nav-link active" data-bs-toggle="tab"
-                                    data-bs-target="#profile-overview">Overview</button>
+                                <button class="nav-link {{#if (eq activeTab 'overview')}}active{{/if}}"
+                                    data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
                             </li>
                             <li class="nav-item">
-                                <button class="nav-link" data-bs-toggle="tab"
-                                    data-bs-target="#profile-edit">Resume</button>
+                                <button class="nav-link {{#if (eq activeTab 'resume')}}active{{/if}}"
+                                    data-bs-toggle="tab" data-bs-target="#profile-edit">Resume</button>
                             </li>
                             <li class="nav-item">
-                                <button class="nav-link" data-bs-toggle="tab"
-                                    data-bs-target="#profile-clearance">Clearance</button>
+                                <button class="nav-link {{#if (eq activeTab 'clearance')}}active{{/if}}"
+                                    data-bs-toggle="tab" data-bs-target="#profile-clearance">Clearance</button>
                             </li>
                         </ul>
                         {{!--===== TABS =====--}}
                         <div class="tab-content pt-2">
                             {{!--===== Resident Overview Tab =====--}}
-                            <div class="tab-pane fade {{#if (eq activeTab 'overview')}}active{{/if}} profile-overview"
+                            <div class="tab-pane fade {{#if (eq activeTab 'overview')}}show active{{/if}} profile-overview"
                                 id="profile-overview">
-                                {{!-- Confirmation Msg to user when saving Resume --}}
-                                {{#if saveMsg}}
-                                <span class="fst-italic text-warning">{{saveMsg}}</span>
-                                {{/if}}
+
 
                                 <h5 class="card-title">Resident Info</h5>
                                 <div class="row">
-                                    <div class="col-lg-3 col-md-4 label ">Full Name</div>
-                                    <div class="col-lg-9 col-md-8 text-capitalize">{{resident.firstName}}
+                                    <div class="col-lg-4 col-md-4 label ">Full Name</div>
+                                    <div class="col-lg-8 col-md-8 text-capitalize">{{resident.firstName}}
                                         {{resident.lastName}}</div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-3 col-md-4 label">Resident ID</div>
-                                    <div class="col-lg-9 col-md-8">{{resident.residentID}}</div>
+                                    <div class="col-lg-4 col-md-4 label">Resident ID</div>
+                                    <div class="col-lg-8 col-md-8">{{resident.residentID}}</div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-3 col-md-4 label">Facility</div>
-                                    <div class="col-lg-9 col-md-8 text-capitalize">{{resident.facility}}</div>
+                                    <div class="col-lg-4 col-md-4 label">Facility</div>
+                                    <div class="col-lg-8 col-md-8 text-capitalize">{{resident.facility}}</div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-3 col-md-4 label">Custody Level</div>
-                                    <div class="col-lg-9 col-md-8 text-capitalize">{{resident.custodyLevel}}</div>
+                                    <div class="col-lg-4 col-md-4 label">Custody Level</div>
+                                    <div class="col-lg-8 col-md-8 text-capitalize">{{resident.custodyLevel}}</div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-3 col-md-4 label">Resume Complete</div>
-                                    <div class="col-lg-9 col-md-8 text-capitalize">{{resident.resumeIsComplete}}</div>
+                                    <div class="col-lg-4 col-md-4 label">Resume Complete</div>
+                                    <div class="col-lg-8 col-md-8 text-capitalize">{{resident.resumeIsComplete}}</div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-3 col-md-4 label">Resume Approved</div>
-                                    <div class="col-lg-9 col-md-8 text-capitalize">{{resident.resumeIsApproved}}</div>
+                                    <div class="col-lg-4 col-md-4 label">Resume Approved</div>
+                                    <div class="col-lg-8 col-md-8 text-capitalize">{{resident.resumeIsApproved}}</div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-3 col-md-4 label">Medically Cleared</div>
-                                    <div class="col-lg-9 col-md-8 text-capitalize">{{resident.medicalClearance}}</div>
+                                    <div class="col-lg-4 col-md-4 label">Medically Cleared</div>
+                                    <div class="col-lg-8 col-md-8 text-capitalize">{{resident.medicalClearance}}</div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-3 col-md-4 label">EAI Cleared</div>
-                                    <div class="col-lg-9 col-md-8 text-capitalize">{{resident.eaiClearance}}</div>
+                                    <div class="col-lg-4 col-md-4 label">EAI Cleared</div>
+                                    <div class="col-lg-8 col-md-8 text-capitalize">{{resident.eaiClearance}}</div>
                                 </div>
                             </div>
 
                             {{!--======== RESUME TAB ========--}}
-                            <div class="tab-pane fade {{#if (eq activeTab 'resume')}}active{{/if}} profile-edit pt-3"
+                            <div class="tab-pane fade {{#if (eq activeTab 'resume')}}show active{{/if}} profile-edit pt-3"
                                 id="profile-edit">
-                                <!--======== Resume  Form ========== -->
+                                {{!-- Confirmation Msg to user when saving Resume --}}
+                                {{#if saveMsg}}
+                                <div class="mb-3 text-center">
+                                    <span class="fst-italic text-warning">{{saveMsg}}</span>
+                                </div>
 
+                                {{/if}}
+                                <!--======== Resume  Form ========== -->
+                                {{#if resident.resumeRejectionReason}}
+                                {{!-- if resume has been rejected, show the reason --}}
+                                <div class="text-center">
+                                    <p class="text-danger">This resume has been rejected for being
+                                        {{resident.resumeRejectionReason}}.</p>
+                                </div>
+                                {{else}}
                                 {{#if resident.resumeIsComplete}}
                                 {{!-- if resident has completed their resume --}}
 
-                                <form method="POST" action="/approveResume/{{resident.residentID}}/{{user.email}}">
+                                <form method="POST" action="/admin/approveResume/{{resident.residentID}}">
                                     {{!-- Resident First Name --}}
                                     <div class="row mb-3">
                                         <label for="firstName" class="col-md-4 col-lg-3 col-form-label">First
@@ -440,9 +450,9 @@
                                     {{!-- if resume has already been approved, allow for rejection --}}
                                     <div class="row mb-3">
                                         <label for="jobPool" class="col-md-4 col-lg-3 col-form-label">Job Pool</label>
-                                        <div class="col-md-8 col-lg-9"><input name="jobPool" type="text"
-                                                class="form-control text-capitalize" value="{{resident.jobPool}}"
-                                                readonly>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="jobPool" type="text" class="form-control text-capitalize"
+                                                value="{{resident.jobPool}}" readonly required>
                                         </div>
                                     </div>
                                     <div class="text-center">
@@ -481,13 +491,7 @@
                                     {{/if}}
                                 </form>
                                 {{else}}
-                                {{#if resident.resumeRejectionReason}}
-                                {{!-- if resume has been rejected, show the reason --}}
-                                <div class="text-center">
-                                    <p class="text-danger">This resume has been rejected and sent back to the resident
-                                        by unit team for being {{resident.resumeRejectionReason}}.</p>
-                                </div>
-                                {{else}}
+
                                 {{!-- if resident has not completed their resume --}}
                                 <h5 class="text-center text-warning">This resident has not yet completed their resume.
                                     </h3>
@@ -498,12 +502,8 @@
                             </div>
 
                             {{!-- ====== Clearance Tab ========= --}}
-                            <div class="tab-pane fade {{#if (eq activeTab 'clearance')}}active{{/if}} profile-overview pt-3"
+                            <div class="tab-pane fade {{#if (eq activeTab 'clearance')}}show active{{/if}} profile-overview pt-3"
                                 id="profile-clearance">
-                                {{!-- Confirmation Msg to user when saving Resume --}}
-                                {{#if saveMsg}}
-                                <span class="fst-italic text-warning">{{saveMsg}}</span>
-                                {{/if}}
 
                                 <h5 class="card-title">Clearance Status</h5>
 
@@ -528,7 +528,7 @@
                                     <div class="col-lg-3 col-md-3 text-capitalize">{{resident.eaiClearance}}</div>
                                     <div class="col-lg-2 col-md-2">
                                         <button type="submit" class="btn btn-info"
-                                            data-route="/notification/request/EAI/{{resident.residentID}}"
+                                            data-route="/notification/requestClearance/{{resident.residentID}}/EAI"
                                             data-category="EAI" data-bs-toggle="modal" data-bs-target="#clearanceModal">
                                             Request</button>
                                     </div>
@@ -542,7 +542,7 @@
                                     <div class="col-lg-3 col-md-3 text-capitalize">{{resident.sexOffender}}</div>
                                     <div class="col-lg-2 col-md-2">
                                         <button type="submit" class="btn btn-info"
-                                            data-route="/notification/request/sexOffender/{{resident.residentID}}"
+                                            data-route="/notification/requestClearance/{{resident.residentID}}/sexOffender"
                                             data-category="Sex Offender" data-bs-toggle="modal"
                                             data-bs-target="#clearanceModal">
                                             Request</button>
@@ -557,7 +557,7 @@
                                     <div class="col-lg-3 col-md-3 text-capitalize">{{resident.custodyLevel}}</div>
                                     <div class="col-lg-2 col-md-2">
                                         <button type="submit" class="btn btn-info"
-                                            data-route="/notification/request/Classification/{{resident.residentID}}"
+                                            data-route="/notification/requestClearance/{{resident.residentID}}/Classification"
                                             data-category="Classification" data-bs-toggle="modal"
                                             data-bs-target="#clearanceModal">
                                             Request</button>
@@ -599,7 +599,7 @@
 <div class="modal fade" id="basicModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method="post" action="/rejectResume/{{resident.residentID}}/{{user.email}}">
+            <form method="post" action="/admin/rejectResume/{{resident.residentID}}">
                 <div class="modal-header">
                     <h5 class="modal-title">Reject Resume</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

@@ -10,19 +10,7 @@ module.exports = {
   //========================
   //   Medical Clearance
   //========================
-  async requestMedical(req, res) {
-    const recipient = req.body.recipient;
-    const notes = req.body.comments;
-    const residentID = req.params.residentID;
-    const sender = req.session.user.email;
 
-    console.log(recipient);
-
-    const resident = await Resident.findOne({ residentID }).lean();
-
-    sendReviewEmail(resident, "medical", recipient, sender, notes);
-    res.redirect(`/${req.session.user.role}/residentProfile/${residentID}`);
-  },
   async reviewMedical(req, res) {
     const residentID = req.params.residentID;
     const email = req.params.email;
@@ -145,25 +133,14 @@ module.exports = {
   //========================
   //   EAI Clearance
   //========================
-  async requestEAI(req, res) {
-    const recipient = req.body.recipient;
-    const notes = req.body.comments;
-    const residentID = req.params.residentID;
-    const sender = req.session.user.email;
 
-    console.log(recipient);
-
-    const resident = await Resident.findOne({ residentID }).lean();
-
-    sendReviewEmail(resident, "EAI", recipient, sender, notes);
-    res.redirect(`/${req.session.user.role}/residentProfile/${residentID}`);
-  },
   async reviewEAI(req, res) {
+    console.log("ssssss");
     const residentID = req.params.residentID;
     const email = req.params.email;
     const resident = await Resident.findOne({ residentID }).lean();
     const activeTab = "status";
-    res.render("clearance/medical", { resident, email, activeTab });
+    res.render("clearance/EAI", { resident, email, activeTab });
   },
   async approveEAI(req, res) {
     const residentID = req.params.residentID;
@@ -279,6 +256,7 @@ module.exports = {
   //===========================
   //     All Notifications
   //===========================
+  //request clearance from medical, eai etc through email
   async requestClearance(req, res) {
     const recipient = req.body.recipient;
     const notes = req.body.comments;
@@ -286,19 +264,26 @@ module.exports = {
     const sender = req.session.user.email;
     const category = req.params.category;
 
-    console.log(residentID, sender, category);
     try {
       const resident = await Resident.findOne({ residentID }).lean();
       sendReviewEmail(resident, category, recipient, sender, notes);
       res.status(200).json({ message: "Request Sent" });
     } catch (err) {
       console.log(errors);
-      //add const errors = handleErrors(err); more elegant functionality later
+      //add more elegant error handling functionality later
+      //add const errors = handleErrors(err);
       //res.status(400).json({ errors });
       res.status(400).json({ message: "Request Failed" });
     }
   },
+  async reviewClearance(req, res) {
+    console.log(req.params);
 
+    const { residentID, email, dept } = req.params;
+    const resident = await Resident.findOne({ residentID }).lean();
+    const activeTab = "status";
+    res.render("clearance/medical", { resident, email, activeTab });
+  },
   async next_notes(req, res) {
     const residentID = req.params.residentID;
     const email = req.params.email;

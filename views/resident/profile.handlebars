@@ -386,7 +386,7 @@
                                     being {{user.resumeRejectionReason}}.</p>
                                 <p class="text-danger text-center">Please review your answers and correct them
                                     accordingly.</p>
-                                <form method="POST" action="/saveRejectResume/{{user.residentID}}">
+                                <form method="POST" action="/resident/saveResume">
                                     {{!-- Resident First Name --}}
                                     <div class="row mb-3">
                                         <label for="firstName" class="col-md-4 col-lg-3 col-form-label">First
@@ -436,8 +436,7 @@
                                         <label for="unitTeam" class="col-md-4 col-lg-3 col-form-label">Unit Team</label>
                                         <div class="col-md-8 col-lg-9">
                                             <input name="unitTeam" type="text" class="form-control text-capitalize"
-                                                id="unitTeam" value="{{unitTeam.firstName}} {{unitTeam.lastName}}"
-                                                disabled>
+                                                id="unitTeam" value="{{user.unitTeam}}" disabled>
                                         </div>
                                     </div>
                                     {{!-- work history input --}}

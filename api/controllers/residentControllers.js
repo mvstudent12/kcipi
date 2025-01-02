@@ -13,7 +13,6 @@ module.exports = {
   async profile(req, res) {
     try {
       //if resident has not completed a resume or has a resume rejected
-      console.log("profile route session: " + req.session.resident.facility);
       if (
         !req.session.resident.resumeIsComplete ||
         !req.session.resident.resumeRejectionReason
@@ -35,18 +34,33 @@ module.exports = {
     const email = req.body.unitTeam;
     const id = req.session.resident._id.toString();
     try {
-      const unitTeam = await UnitTeam.findOne({ email }).lean();
+      //if resident is completing a resume for the first time
+      if (email) {
+        const unitTeam = await UnitTeam.findOne({ email }).lean();
+        await Resident.updateOne(
+          { _id: id },
+          {
+            $set: {
+              resumeIsComplete: true,
+              resume: req.body,
+              unitTeam: unitTeam.lastName,
+            },
+          }
+        );
+      } else {
+        //if resident is correcting a rejected resume
+        await Resident.updateOne(
+          { _id: id },
+          {
+            $set: {
+              resumeIsComplete: true,
+              resume: req.body,
+              resumeRejectionReason: "",
+            },
+          }
+        );
+      }
 
-      await Resident.updateOne(
-        { _id: id },
-        {
-          $set: {
-            resumeIsComplete: true,
-            resume: req.body,
-            unitTeam: unitTeam.lastName,
-          },
-        }
-      );
       let resident = await Resident.findOne({ _id: id }).lean();
       req.session.resident = resident;
       res.render("resident/profile", { user: req.session.resident });

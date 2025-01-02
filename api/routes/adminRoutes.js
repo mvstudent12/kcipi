@@ -14,4 +14,18 @@ adminRoutes.get(
   controller.residentProfile
 );
 
+adminRoutes.post(
+  "/rejectResume/:id",
+  checkUser,
+  requireAuth,
+  controller.rejectResume
+);
+
+adminRoutes.post(
+  "/approveResume/:id",
+  checkUser,
+  requireAuth,
+  controller.approveResume
+);
+
 module.exports = adminRoutes;

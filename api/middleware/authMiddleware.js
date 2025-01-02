@@ -21,7 +21,7 @@ async function requireResidentAuth(req, res, next) {
 
 // Middleware to check user details and store it in res.session
 const checkUser = async (req, res, next) => {
-  console.log("checkUser has been called");
+  //console.log("checkUser has been called");
 
   // Check if user session exists
   const user = req.session.user;
@@ -35,7 +35,7 @@ const checkUser = async (req, res, next) => {
 
   try {
     // If the session exists, simply attach the user to the request object
-    console.log("User found in session:", user);
+    //console.log("User found in session:", user);
 
     // You could optionally add extra checks to make sure the user data is still valid
     // Example: Find the user in the database (e.g., if user session data is outdated)
@@ -43,7 +43,7 @@ const checkUser = async (req, res, next) => {
 
     if (foundUser) {
       req.session.user = foundUser; // Store the found user in session
-      console.log("User found in database:", foundUser);
+      //console.log("User found in database:", foundUser);
     } else {
       req.session.user = null; // If user not found in database, clear session
       console.log("User not found in database: session set to null");
