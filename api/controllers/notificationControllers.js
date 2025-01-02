@@ -135,10 +135,10 @@ module.exports = {
         { residentID: residentID },
         {
           $set: {
-            medicalClearance: true,
-            medicalClearanceDate: new Date(),
-            medicallyClearedBy: email,
-            medicallyReviewed: true,
+            EAIClearance: true,
+            EAIClearanceDate: new Date(),
+            EAIClearedBy: email,
+            EAIReviewed: true,
           },
         }
       );
@@ -147,8 +147,7 @@ module.exports = {
     }
     activeTab = "status";
     const resident = await Resident.findOne({ residentID }).lean();
-    console.log(resident);
-    res.render("clearance/Medical", { resident, email, activeTab });
+    res.render("clearance/EAI", { resident, email, activeTab });
   },
   async removeEAIClearance(req, res) {
     const residentID = req.params.residentID;
@@ -158,11 +157,11 @@ module.exports = {
         { residentID: residentID },
         {
           $set: {
-            medicalClearance: false,
-            medicalClearanceRemovedDate: new Date(),
-            medicalClearanceRemovedBy: email,
-            medicallyReviewed: false,
-            medicalRestriction: false,
+            EAIClearance: false,
+            EAIClearanceRemovedDate: new Date(),
+            EAIClearanceRemovedBy: email,
+            EAIReviewed: false,
+            EAIRestriction: false,
           },
         }
       );
@@ -171,7 +170,7 @@ module.exports = {
     }
     activeTab = "status";
     const resident = await Resident.findOne({ residentID }).lean();
-    res.render("clearance/Medical", { resident, email, activeTab });
+    res.render("clearance/EAI", { resident, email, activeTab });
   },
   async removeEAIRestriction(req, res) {
     const residentID = req.params.residentID;
@@ -181,9 +180,9 @@ module.exports = {
         { residentID: residentID },
         {
           $set: {
-            medicalClearance: false,
-            medicallyReviewed: false,
-            medicalRestriction: false,
+            EAIClearance: false,
+            EAIReviewed: false,
+            EAIRestriction: false,
           },
         }
       );
@@ -192,7 +191,7 @@ module.exports = {
     }
     activeTab = "status";
     const resident = await Resident.findOne({ residentID }).lean();
-    res.render("clearance/Medical", { resident, email, activeTab });
+    res.render("clearance/EAI", { resident, email, activeTab });
   },
 
   async denyEAIClearance(req, res) {
@@ -203,11 +202,11 @@ module.exports = {
         { residentID: residentID },
         {
           $set: {
-            medicalClearance: false,
-            medicalRestrictionDate: new Date(),
-            medicallyRestrictedBy: email,
-            medicalRestriction: true,
-            medicallyReviewed: true,
+            EAIClearance: false,
+            EAIRestrictionDate: new Date(),
+            EAIRestrictedBy: email,
+            EAIRestriction: true,
+            EAIReviewed: true,
           },
         }
       );
@@ -216,18 +215,19 @@ module.exports = {
     }
     activeTab = "status";
     const resident = await Resident.findOne({ residentID }).lean();
-    res.render("clearance/Medical", { resident, email, activeTab });
+    res.render("clearance/EAI", { resident, email, activeTab });
   },
   async saveEAINotes(req, res) {
     const residentID = req.params.residentID;
     const email = req.params.email;
     const notes = req.body.notes;
+
     try {
       await Resident.updateOne(
         { residentID: residentID },
         {
           $push: {
-            medicalNotes: notes,
+            EAINotes: notes,
           },
         }
       );
@@ -236,22 +236,253 @@ module.exports = {
     }
     const activeTab = "notes";
     const resident = await Resident.findOne({ residentID }).lean();
-    res.render("clearance/Medical", { resident, email, activeTab });
+    console.log(resident);
+    res.render("clearance/EAI", { resident, email, activeTab });
+  },
+  //========================
+  //   Classification Clearance
+  //========================
+
+  async approveClassification(req, res) {
+    const residentID = req.params.residentID;
+    const email = req.params.email;
+    try {
+      await Resident.updateOne(
+        { residentID: residentID },
+        {
+          $set: {
+            ClassificationClearance: true,
+            ClassificationClearanceDate: new Date(),
+            ClassificationClearedBy: email,
+            ClassificationReviewed: true,
+          },
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+    activeTab = "status";
+    const resident = await Resident.findOne({ residentID }).lean();
+    res.render("clearance/Classification", { resident, email, activeTab });
+  },
+  async removeClassificationClearance(req, res) {
+    const residentID = req.params.residentID;
+    const email = req.params.email;
+    try {
+      await Resident.updateOne(
+        { residentID: residentID },
+        {
+          $set: {
+            ClassificationClearance: false,
+            ClassificationClearanceRemovedDate: new Date(),
+            ClassificationClearanceRemovedBy: email,
+            ClassificationReviewed: false,
+            ClassificationRestriction: false,
+          },
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+    activeTab = "status";
+    const resident = await Resident.findOne({ residentID }).lean();
+    res.render("clearance/Classification", { resident, email, activeTab });
+  },
+  async removeClassificationRestriction(req, res) {
+    const residentID = req.params.residentID;
+    const email = req.params.email;
+    try {
+      await Resident.updateOne(
+        { residentID: residentID },
+        {
+          $set: {
+            ClassificationClearance: false,
+            ClassificationReviewed: false,
+            ClassificationRestriction: false,
+          },
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+    activeTab = "status";
+    const resident = await Resident.findOne({ residentID }).lean();
+    res.render("clearance/Classification", { resident, email, activeTab });
+  },
+
+  async denyClassificationClearance(req, res) {
+    const residentID = req.params.residentID;
+    const email = req.params.email;
+    try {
+      await Resident.updateOne(
+        { residentID: residentID },
+        {
+          $set: {
+            ClassificationClearance: false,
+            ClassificationRestrictionDate: new Date(),
+            ClassificationRestrictedBy: email,
+            ClassificationRestriction: true,
+            ClassificationReviewed: true,
+          },
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+    activeTab = "status";
+    const resident = await Resident.findOne({ residentID }).lean();
+    res.render("clearance/Classification", { resident, email, activeTab });
+  },
+  async saveClassificationNotes(req, res) {
+    const residentID = req.params.residentID;
+    const email = req.params.email;
+    const notes = req.body.notes;
+
+    try {
+      await Resident.updateOne(
+        { residentID: residentID },
+        {
+          $push: {
+            ClassificationNotes: notes,
+          },
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+    const activeTab = "notes";
+    const resident = await Resident.findOne({ residentID }).lean();
+    console.log(resident);
+    res.render("clearance/Classification", { resident, email, activeTab });
+  },
+  //========================
+  //   Warden Clearance
+  //========================
+
+  async approveWarden(req, res) {
+    const residentID = req.params.residentID;
+    const email = req.params.email;
+    try {
+      await Resident.updateOne(
+        { residentID: residentID },
+        {
+          $set: {
+            WardenClearance: true,
+            WardenClearanceDate: new Date(),
+            WardenClearedBy: email,
+            WardenReviewed: true,
+          },
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+    activeTab = "status";
+    const resident = await Resident.findOne({ residentID }).lean();
+    res.render("clearance/Warden", { resident, email, activeTab });
+  },
+  async removeWardenClearance(req, res) {
+    const residentID = req.params.residentID;
+    const email = req.params.email;
+    try {
+      await Resident.updateOne(
+        { residentID: residentID },
+        {
+          $set: {
+            WardenClearance: false,
+            WardenClearanceRemovedDate: new Date(),
+            WardenClearanceRemovedBy: email,
+            WardenReviewed: false,
+            WardenRestriction: false,
+          },
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+    activeTab = "status";
+    const resident = await Resident.findOne({ residentID }).lean();
+    res.render("clearance/Warden", { resident, email, activeTab });
+  },
+  async removeWardenRestriction(req, res) {
+    const residentID = req.params.residentID;
+    const email = req.params.email;
+    try {
+      await Resident.updateOne(
+        { residentID: residentID },
+        {
+          $set: {
+            WardenClearance: false,
+            WardenReviewed: false,
+            WardenRestriction: false,
+          },
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+    activeTab = "status";
+    const resident = await Resident.findOne({ residentID }).lean();
+    res.render("clearance/Warden", { resident, email, activeTab });
+  },
+
+  async denyWardenClearance(req, res) {
+    const residentID = req.params.residentID;
+    const email = req.params.email;
+    try {
+      await Resident.updateOne(
+        { residentID: residentID },
+        {
+          $set: {
+            WardenClearance: false,
+            WardenRestrictionDate: new Date(),
+            WardenRestrictedBy: email,
+            WardenRestriction: true,
+            WardenReviewed: true,
+          },
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+    activeTab = "status";
+    const resident = await Resident.findOne({ residentID }).lean();
+    res.render("clearance/Warden", { resident, email, activeTab });
+  },
+  async saveWardenNotes(req, res) {
+    const residentID = req.params.residentID;
+    const email = req.params.email;
+    const notes = req.body.notes;
+
+    try {
+      await Resident.updateOne(
+        { residentID: residentID },
+        {
+          $push: {
+            WardenNotes: notes,
+          },
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+    const activeTab = "notes";
+    const resident = await Resident.findOne({ residentID }).lean();
+    console.log(resident);
+    res.render("clearance/Warden", { resident, email, activeTab });
   },
   //===========================
   //     All Notifications
   //===========================
   //request clearance from medical, eai etc through email
   async requestClearance(req, res) {
-    const recipient = req.body.recipient;
-    const notes = req.body.comments;
-    const residentID = req.params.residentID;
+    const { recipient, comments } = req.body;
+    const { residentID, category } = req.params;
     const sender = req.session.user.email;
-    const category = req.params.category;
 
     try {
       const resident = await Resident.findOne({ residentID }).lean();
-      sendReviewEmail(resident, category, recipient, sender, notes);
+      sendReviewEmail(resident, category, recipient, sender, comments);
       res.status(200).json({ message: "Request Sent" });
     } catch (err) {
       console.log(errors);
@@ -262,25 +493,20 @@ module.exports = {
     }
   },
   async reviewClearance(req, res) {
-    console.log(req.params);
-
     const { residentID, email, dept } = req.params;
     const resident = await Resident.findOne({ residentID }).lean();
     const activeTab = "status";
     res.render(`clearance/${dept}`, { resident, email, activeTab });
   },
   async next_notes(req, res) {
-    const residentID = req.params.residentID;
-    const email = req.params.email;
-    const category = req.params.category;
+    const { residentID, email, category } = req.params;
+
     const resident = await Resident.findOne({ residentID }).lean();
     const activeTab = "notes";
     res.render(`clearance/${category}`, { resident, email, activeTab });
   },
   async next_notify(req, res) {
-    const residentID = req.params.residentID;
-    const email = req.params.email;
-    const category = req.params.category;
+    const { residentID, email, category } = req.params;
     const resident = await Resident.findOne({ residentID }).lean();
     const activeTab = "notify";
     res.render(`clearance/${category}`, { resident, email, activeTab });

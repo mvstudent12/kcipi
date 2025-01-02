@@ -56,11 +56,64 @@ notificationRoutes.post(
   "/EAI/saveEAINotes/:residentID/:email",
   controller.saveEAINotes
 );
+//============================
+//    Classification Notifications
+//============================
 
+notificationRoutes.get(
+  "/Classification/approve/:residentID/:email",
+  controller.approveClassification
+);
+notificationRoutes.get(
+  "/Classification/removeClassificationClearance/:residentID/:email",
+  controller.removeClassificationClearance
+);
+
+notificationRoutes.get(
+  "/Classification/removeClassificationRestriction/:residentID/:email",
+  controller.removeClassificationRestriction
+);
+
+notificationRoutes.get(
+  "/Classification/deny/:residentID/:email",
+  controller.denyClassificationClearance
+);
+
+notificationRoutes.post(
+  "/Classification/saveClassificationNotes/:residentID/:email",
+  controller.saveClassificationNotes
+);
+//============================
+//    Warden Notifications
+//============================
+
+notificationRoutes.get(
+  "/Warden/approve/:residentID/:email",
+  controller.approveWarden
+);
+notificationRoutes.get(
+  "/Warden/removeWardenClearance/:residentID/:email",
+  controller.removeWardenClearance
+);
+
+notificationRoutes.get(
+  "/Warden/removeWardenRestriction/:residentID/:email",
+  controller.removeWardenRestriction
+);
+
+notificationRoutes.get(
+  "/Warden/deny/:residentID/:email",
+  controller.denyWardenClearance
+);
+
+notificationRoutes.post(
+  "/Warden/saveWardenNotes/:residentID/:email",
+  controller.saveWardenNotes
+);
 //=============================
 //    All Notifications
 //=============================
-//request clearance from Medical, EAI, classifications, etc
+//request clearance from Medical, EAI, Classification, etc
 notificationRoutes.post(
   "/requestClearance/:residentID/:category",
   controller.requestClearance
