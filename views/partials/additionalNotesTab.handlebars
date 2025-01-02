@@ -1,5 +1,5 @@
 <div class="tab-pane fade {{#if (eq activeTab 'notes')}}show active{{/if}} profile-overview pt-3" id="medical-notes">
-    <form method="POST" action="/notification/medical/saveMedicalNotes/{{resident.residentID}}/{{email}}">
+    <form method="POST" action="/notification/Medical/saveMedicalNotes/{{resident.residentID}}/{{email}}">
         <h5 class="card-title">Provide additional information if needed.</h5>
         <div class="row">
             <div class="row mb-3">
@@ -34,7 +34,7 @@
     </div>
     <hr>
     <div class="d-flex justify-content-between">
-        <a class="ms-auto" href="/notification/next_notify/{{resident.residentID}}/{{email}}/medical">
+        <a class="ms-auto" href="/notification/next_notify/{{resident.residentID}}/{{email}}/Medical">
             <button type="button" class="btn btn-info btn-block mb-2">Next
                 Step</button>
         </a>

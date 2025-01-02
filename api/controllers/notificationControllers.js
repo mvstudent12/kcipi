@@ -11,13 +11,6 @@ module.exports = {
   //   Medical Clearance
   //========================
 
-  async reviewMedical(req, res) {
-    const residentID = req.params.residentID;
-    const email = req.params.email;
-    const resident = await Resident.findOne({ residentID }).lean();
-    const activeTab = "status";
-    res.render("clearance/medical", { resident, email, activeTab });
-  },
   async approveMedical(req, res) {
     const residentID = req.params.residentID;
     const email = req.params.email;
@@ -39,7 +32,7 @@ module.exports = {
     activeTab = "status";
     const resident = await Resident.findOne({ residentID }).lean();
     console.log(resident);
-    res.render("clearance/medical", { resident, email, activeTab });
+    res.render("clearance/Medical", { resident, email, activeTab });
   },
   async removeMedicalClearance(req, res) {
     const residentID = req.params.residentID;
@@ -62,7 +55,7 @@ module.exports = {
     }
     activeTab = "status";
     const resident = await Resident.findOne({ residentID }).lean();
-    res.render("clearance/medical", { resident, email, activeTab });
+    res.render("clearance/Medical", { resident, email, activeTab });
   },
   async removeMedicalRestriction(req, res) {
     const residentID = req.params.residentID;
@@ -83,7 +76,7 @@ module.exports = {
     }
     activeTab = "status";
     const resident = await Resident.findOne({ residentID }).lean();
-    res.render("clearance/medical", { resident, email, activeTab });
+    res.render("clearance/Medical", { resident, email, activeTab });
   },
 
   async denyMedicalClearance(req, res) {
@@ -107,7 +100,7 @@ module.exports = {
     }
     activeTab = "status";
     const resident = await Resident.findOne({ residentID }).lean();
-    res.render("clearance/medical", { resident, email, activeTab });
+    res.render("clearance/Medical", { resident, email, activeTab });
   },
   async saveMedicalNotes(req, res) {
     const residentID = req.params.residentID;
@@ -127,21 +120,13 @@ module.exports = {
     }
     const activeTab = "notes";
     const resident = await Resident.findOne({ residentID }).lean();
-    res.render("clearance/medical", { resident, email, activeTab });
+    res.render("clearance/Medical", { resident, email, activeTab });
   },
 
   //========================
   //   EAI Clearance
   //========================
 
-  async reviewEAI(req, res) {
-    console.log("ssssss");
-    const residentID = req.params.residentID;
-    const email = req.params.email;
-    const resident = await Resident.findOne({ residentID }).lean();
-    const activeTab = "status";
-    res.render("clearance/EAI", { resident, email, activeTab });
-  },
   async approveEAI(req, res) {
     const residentID = req.params.residentID;
     const email = req.params.email;
@@ -163,7 +148,7 @@ module.exports = {
     activeTab = "status";
     const resident = await Resident.findOne({ residentID }).lean();
     console.log(resident);
-    res.render("clearance/medical", { resident, email, activeTab });
+    res.render("clearance/Medical", { resident, email, activeTab });
   },
   async removeEAIClearance(req, res) {
     const residentID = req.params.residentID;
@@ -186,7 +171,7 @@ module.exports = {
     }
     activeTab = "status";
     const resident = await Resident.findOne({ residentID }).lean();
-    res.render("clearance/medical", { resident, email, activeTab });
+    res.render("clearance/Medical", { resident, email, activeTab });
   },
   async removeEAIRestriction(req, res) {
     const residentID = req.params.residentID;
@@ -207,7 +192,7 @@ module.exports = {
     }
     activeTab = "status";
     const resident = await Resident.findOne({ residentID }).lean();
-    res.render("clearance/medical", { resident, email, activeTab });
+    res.render("clearance/Medical", { resident, email, activeTab });
   },
 
   async denyEAIClearance(req, res) {
@@ -231,7 +216,7 @@ module.exports = {
     }
     activeTab = "status";
     const resident = await Resident.findOne({ residentID }).lean();
-    res.render("clearance/medical", { resident, email, activeTab });
+    res.render("clearance/Medical", { resident, email, activeTab });
   },
   async saveEAINotes(req, res) {
     const residentID = req.params.residentID;
@@ -251,7 +236,7 @@ module.exports = {
     }
     const activeTab = "notes";
     const resident = await Resident.findOne({ residentID }).lean();
-    res.render("clearance/medical", { resident, email, activeTab });
+    res.render("clearance/Medical", { resident, email, activeTab });
   },
   //===========================
   //     All Notifications
@@ -282,7 +267,7 @@ module.exports = {
     const { residentID, email, dept } = req.params;
     const resident = await Resident.findOne({ residentID }).lean();
     const activeTab = "status";
-    res.render("clearance/medical", { resident, email, activeTab });
+    res.render(`clearance/${dept}`, { resident, email, activeTab });
   },
   async next_notes(req, res) {
     const residentID = req.params.residentID;

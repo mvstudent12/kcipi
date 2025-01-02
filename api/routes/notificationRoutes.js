@@ -7,38 +7,31 @@ const controller = require("../controllers/notificationControllers");
 //============================
 
 notificationRoutes.get(
-  "/review/Medical/:residentID/:email",
-  controller.reviewMedical
-);
-
-notificationRoutes.get(
-  "/medical/approve/:residentID/:email",
+  "/Medical/approve/:residentID/:email",
   controller.approveMedical
 );
 notificationRoutes.get(
-  "/medical/removeMedicalClearance/:residentID/:email",
+  "/Medical/removeMedicalClearance/:residentID/:email",
   controller.removeMedicalClearance
 );
 
 notificationRoutes.get(
-  "/medical/removeMedicalRestriction/:residentID/:email",
+  "/Medical/removeMedicalRestriction/:residentID/:email",
   controller.removeMedicalRestriction
 );
 
 notificationRoutes.get(
-  "/medical/deny/:residentID/:email",
+  "/Medical/deny/:residentID/:email",
   controller.denyMedicalClearance
 );
 
 notificationRoutes.post(
-  "/medical/saveMedicalNotes/:residentID/:email",
+  "/Medical/saveMedicalNotes/:residentID/:email",
   controller.saveMedicalNotes
 );
 //============================
 //    EAI Notifications
 //============================
-
-notificationRoutes.get("/review/EAI/:residentID/:email", controller.reviewEAI);
 
 notificationRoutes.get(
   "/EAI/approve/:residentID/:email",
