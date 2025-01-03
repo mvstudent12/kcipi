@@ -79,16 +79,21 @@ module.exports = {
       if (!user) {
         user = await Admin.findOne({ email });
       }
-
+      //check if user password matches
       if (user) {
         const userID = user._id.toString();
         const auth = await bcrypt.compare(password, user.password);
 
         if (auth) {
           req.session.user = user;
-          console.log(user);
 
-          res.status(200).json({ user: userID });
+          req.session.save((err) => {
+            if (err) {
+              console.error("Session save error:", err);
+            }
+
+            res.status(200).json({ user: userID });
+          });
         } else {
           //if password does not match
           throw Error("incorrect password");
@@ -107,6 +112,7 @@ module.exports = {
   //serves non-resident user dashboard
   async userDashboard(req, res) {
     const id = req.params.id;
+
     try {
       let user = await Employer.findOne({ _id: id });
 

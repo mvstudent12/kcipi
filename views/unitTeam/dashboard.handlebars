@@ -66,14 +66,14 @@
                     <div class="col-xxl-4 col-md-4">
                         <div class="card info-card customers-card">
                             <div class="card-body">
-                                <h5 class="card-title">Residents <span>| Total</span></h5>
+                                <h5 class="card-title">Residents <span>| My Caseload</span></h5>
                                 <div class="d-flex align-items-center">
                                     <div
                                         class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                         <i class="bi bi-people"></i>
                                     </div>
                                     <div class="ps-3">
-                                        <h6>{{countItems residents}}</h6>
+                                        <h6>{{countItems caseLoad}}</h6>
                                     </div>
                                 </div>
 
@@ -172,20 +172,23 @@
                                         <tr>
                                             <th scope="col">ID #</th>
                                             <th scope="col">Facility</th>
-                                            <th scope="col">First Name</th>
-                                            <th scope="col">Last Name</th>
+                                            <th scope="col">Name</th>
                                             <th scope="col">Resume</th>
+                                            <th scope="col">Work Status</th>
+
                                         </tr>
                                     </thead>
-                                    {{!-- <tbody>
-                                        {{#each residents}}
+                                    <tbody>
+                                        {{#each caseLoad}}
                                         <tr>
                                             <th scope="row"><a
-                                                    href="/resident/profile/{{this.residentID}}/{{../user.email}}">{{this.residentID}}</a>
+                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
                                             </th>
                                             <td class="text-capitalize">{{this.facility}}</td>
-                                            <td class="text-capitalize">{{this.firstName}}</td>
-                                            <td class="text-capitalize">{{this.lastName}}</td>
+                                            <td class="text-capitalize"><a
+                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.firstName}}
+                                                    {{this.lastName}}</a></td>
+
                                             {{#if this.resumeIsApproved}}
                                             <td><span class="badge bg-success">Approved</span></td>
                                             {{else}}
@@ -200,10 +203,20 @@
                                             {{/if}}
                                             {{/if}}
 
+                                            {{#if this.isEligibleToWork}}
+                                            <td><span class="badge bg-success">Eligible</span></td>
+                                            {{else}}
+                                            {{#if this.isRestrictedFromWork}}
+                                            <td><span class="badge bg-danger">Restricted</span></td>
+                                            {{else}}
+                                            <td><span class="badge bg-secondary">None</span></td>
+                                            {{/if}}
+                                            {{/if}}
+
                                         </tr>
 
                                         {{/each}}
-                                    </tbody> --}}
+                                    </tbody>
                                 </table>
                             </div>
                         </div>

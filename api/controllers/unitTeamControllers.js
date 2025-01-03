@@ -5,8 +5,19 @@ const Resident = require("../models/Resident");
 
 module.exports = {
   async dashboard(req, res) {
+    console.log(req.session.user.email);
+    const email = req.session.user.email;
     try {
-      res.render("unitTeam/dashboard", { user: req.session.user });
+      const caseLoad = await Resident.find({
+        "resume.unitTeam": email,
+      }).lean();
+
+      console.log(caseLoad);
+
+      res.render("unitTeam/dashboard", {
+        user: req.session.user,
+        caseLoad,
+      });
     } catch (err) {
       console.log(err);
     }

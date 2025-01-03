@@ -8,10 +8,6 @@ const express = require("express"); //uses express middleware
 //initializes app with express
 const app = express();
 
-//serves static assets
-// Serve static files first, so they don't trigger session checks or redirects
-app.use(express.static("./app"));
-
 //initialize express-sessions
 const session = require("express-session");
 // This stores sessions in MongoDB
@@ -19,7 +15,7 @@ const MongoStore = require("connect-mongo");
 
 app.use(
   session({
-    secret: "your-secret-key", // Use a strong, unique secret key for session encryption
+    secret: "onehandwashestheother", // Use a strong, unique secret key for session encryption
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
@@ -30,7 +26,7 @@ app.use(
     }),
     cookie: {
       maxAge: 1000 * 60 * 60 * 24, // 1 day
-      secure: false,
+      secure: false, //set true only in production
       httpOnly: true, // Set 'secure: true' if you're using HTTPS
       sameSite: "strict", // Helps prevent CSRF
     },
@@ -43,6 +39,10 @@ app.use(
 //   console.log("Session Data:", req.session);
 //   next();
 // });
+
+//serves static assets
+// Serve static files first, so they don't trigger session checks or redirects
+app.use(express.static("./app"));
 
 //initializes cookie parser
 const cookieParser = require("cookie-parser");

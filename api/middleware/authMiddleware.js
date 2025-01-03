@@ -29,7 +29,7 @@ const checkUser = async (req, res, next) => {
   if (!user) {
     // No session found (user is not logged in)
     req.session.user = null; // Explicitly set to null (in case there's old session data)
-    console.log("No user session found: user set to null");
+    // console.log("No user session found: user set to null");
     return next(); // Proceed to next middleware or route handler
   }
 
@@ -43,6 +43,7 @@ const checkUser = async (req, res, next) => {
 
     if (foundUser) {
       req.session.user = foundUser; // Store the found user in session
+
       //console.log("User found in database:", foundUser);
     } else {
       req.session.user = null; // If user not found in database, clear session
@@ -59,15 +60,13 @@ const checkUser = async (req, res, next) => {
 };
 
 const checkResident = async (req, res, next) => {
-  console.log("checkResident has been called");
-
   // Check if user session exists
   const resident = req.session.resident;
 
   if (!resident) {
     // No session found (user is not logged in)
     req.session.resident = null; // Explicitly set to null (in case there's old session data)
-    console.log("No user session found: user set to null");
+    // console.log("No user session found: user set to null");
     return next(); // Proceed to next middleware or route handler
   }
 
