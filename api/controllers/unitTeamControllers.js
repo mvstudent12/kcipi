@@ -38,4 +38,18 @@ module.exports = {
       console.log(err);
     }
   },
+
+  async residentTables(req, res) {
+    try {
+      console.log(req.session.user);
+      const facility = req.session.user.facility;
+      const residents = await Resident.find({ facility }).lean();
+      res.render("unitTeam/residentTables", {
+        user: req.session.user,
+        residents,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  },
 };

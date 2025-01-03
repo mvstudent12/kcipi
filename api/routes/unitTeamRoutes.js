@@ -11,4 +11,11 @@ unitTeamRoutes.get("/helpDesk", checkUser, requireAuth, controller.helpDesk);
 
 unitTeamRoutes.get("/contact", checkUser, requireAuth, controller.contact);
 
+unitTeamRoutes.get(
+  "/residentTables",
+  checkUser,
+  requireAuth,
+  controller.residentTables
+);
+
 module.exports = unitTeamRoutes;
