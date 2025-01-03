@@ -1,0 +1,184 @@
+{{> adminTemplate}}
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Employers Database</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="admin/dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item active">Employers Database</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section profile">
+        <div class="row">
+            <div class="col-xl-4">
+                <div class="card">
+                    <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+                        <img src="/assets/img/employer.png" alt="Profile" class="rounded-circle">
+                        <h2 class="text-capitalize mb-3">Employers Database</h2>
+                        <h3>KCI Private Industry</h3>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-8">
+
+                <div class="card">
+                    <div class="card-body pt-3">
+                        <!-- Bordered Tabs -->
+                        <ul class="nav nav-tabs nav-tabs-bordered">
+                            <li class="nav-item">
+                                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit
+                                    Employer</button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-add-employer">Add
+                                    Employer</button>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content pt-2">
+
+
+                            {{!-- Edit Employer TAB --}}
+                            <div class="tab-pane fade show active profile-edit pt-3" id="profile-edit">
+
+                                {{!-- Employer Search Bar --}}
+                                <div class="row mb-3">
+                                    <label for="email" class="col-md-4 col-lg-3 col-form-label">Search
+                                        Email</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <div class="search-bar">
+                                            <form class="search-form d-flex align-items-center" method="POST"
+                                                action="/searchEmployerEmail/{{user.email}}">
+                                                <input type="text" name="email" placeholder="Enter Employer Email"
+                                                    title="Enter Employer email">
+                                                <button type="submit" title="Search"><i
+                                                        class="bi bi-search"></i></button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div><!-- End Search Bar -->
+                                {{#if failedSearch}}
+                                <p class="text-danger">No Employer members found.</p>
+                                <p class="text-danger">Make sure you enter the correct email address associated with
+                                    this Employer member.</p>
+
+                                {{#if employer}}
+                                <!--=============== Edit Employer Form =========================== -->
+                                <form method="POST" action="#">
+                                    {{!-- employer First Name --}}
+                                    <div class="row mb-3">
+                                        <label for="companyName" class="col-md-4 col-lg-3 col-form-label">Company
+                                            Name</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="companyName" type="text" class="form-control text-capitalize"
+                                                id="companyName" value="{{employer.companyName}}">
+                                        </div>
+                                    </div>
+
+                                    {{!-- employer email --}}
+                                    <div class="row mb-3">
+                                        <label for="email" class="col-md-4 col-lg-3 col-form-label">Employer
+                                            Email</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="email" type="text" class="form-control text-capitalize"
+                                                id="email" value="{{employer.email}}">
+                                        </div>
+                                    </div>
+                                    {{!-- employer Facility --}}
+                                    <div class="row mb-3">
+                                        <label for="facility" class="col-md-4 col-lg-3 col-form-label">Facility</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="facility" type="text" class="form-control text-capitalize"
+                                                id="facility" value="{{employer.facility}}">
+                                        </div>
+                                    </div>
+                                    {{!-- Employer Assigned --}}
+                                    <div class="row mb-3">
+                                        <label for="jobPool" class="col-md-4 col-lg-3 col-form-label">jobPool</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="jobPool" type="text" class="form-control text-capitalize"
+                                                id="jobPool" value="{{employer.jobPool}}">
+                                        </div>
+                                    </div>
+                                    {{!-- Save Button --}}
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-primary mx-2">Save Edit</button>
+                                    </div>
+                                </form>
+                                {{else}}
+                                <p class="text-primary">Search for a specific employer.</p>
+                                {{/if}}
+                                {{/if}}
+
+                                <!--=============== Edit employer Form============================ -->
+                            </div>
+                            {{!-- View all employers TAB --}}
+                            <div class="tab-pane fade profile-add-employer pt-3" id="profile-add-employer">
+                                <form method="POST" action="#">
+                                    {{!-- employer First Name --}}
+                                    <div class="row mb-3">
+                                        <label for="name" class="col-md-4 col-lg-3 col-form-label">Company
+                                            Name</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="name" type="text" class="form-control text-capitalize"
+                                                id="name">
+                                        </div>
+                                    </div>
+
+                                    {{!-- employer email --}}
+                                    <div class="row mb-3">
+                                        <label for="email" class="col-md-4 col-lg-3 col-form-label">Company
+                                            Email</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="email" type="text" class="form-control text-capitalize"
+                                                id="email">
+                                        </div>
+                                    </div>
+                                    {{!-- employer Custody Level --}}
+                                    <div class="row mb-3">
+                                        <label for="password" class="col-md-4 col-lg-3 col-form-label">Password</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="password" type="text" class="form-control text-capitalize"
+                                                id="password">
+                                        </div>
+                                    </div>
+                                    {{!-- employer Facility --}}
+                                    <div class="row mb-3">
+                                        <label for="facility" class="col-md-4 col-lg-3 col-form-label">Facility</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="facility" type="text" class="form-control text-capitalize"
+                                                id="facility">
+                                        </div>
+                                    </div>
+                                    {{!-- Employer Assigned --}}
+                                    <div class="row mb-3">
+                                        <label for="role" class="col-md-4 col-lg-3 col-form-label">Role</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="role" type="text" class="form-control text-capitalize"
+                                                id="role">
+                                        </div>
+                                    </div>
+                                    {{!-- Save Button --}}
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-primary mx-2">Add</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div><!-- End Bordered Tabs -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+{{> footer}}
+
+{{> arrowUp}}

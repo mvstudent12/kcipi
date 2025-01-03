@@ -75,4 +75,34 @@ module.exports = {
       console.log(err);
     }
   },
+
+  //==========================
+  //   DB Routes
+  //==========================
+  //serves employerDB page from admin dashboard
+  async employerDB(req, res) {
+    try {
+      res.render("admin/db/employerDB", { user: req.session.user });
+    } catch (err) {
+      console.log(err);
+    }
+  },
+
+  //serves residentDB page from admin dashboard
+  async residentDB(req, res) {
+    try {
+      res.render("admin/db/residentDB", { user: req.session.user });
+    } catch (err) {
+      console.log(err);
+    }
+  },
+
+  //serves unitTeamDB page from admin dashboard
+  async unitTeamDB(req, res) {
+    try {
+      res.render("admin/db/unitTeamDB", { user: req.session.user });
+    } catch (err) {
+      console.log(err);
+    }
+  },
 };

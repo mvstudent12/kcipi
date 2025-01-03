@@ -32,4 +32,14 @@ adminRoutes.get(
   controller.employerTables
 );
 
+//=============================
+//   DB Routes
+//=============================
+
+adminRoutes.get("/employerDB", checkUser, requireAuth, controller.employerDB);
+
+adminRoutes.get("/residentDB", checkUser, requireAuth, controller.residentDB);
+
+adminRoutes.get("/unitTeamDB", checkUser, requireAuth, controller.unitTeamDB);
+
 module.exports = adminRoutes;

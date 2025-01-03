@@ -1,0 +1,213 @@
+{{> adminTemplate}}
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Resident Database</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item active">Resident Database</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section profile">
+        <div class="row">
+            <div class="col-xl-4">
+                <div class="card">
+                    <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+                        <h2 class="text-capitalize mb-3">Update Database</h2>
+                        <h3 class="text-muted">All KDOC Residents</h3>
+                        {{!-- UPDATE ALL RESIDENTS IN DB FORM --}}
+                        <div class="row mb-3 mt-3">
+                            <form action="/updateAllResidents/{{user.email}}" method="POST"
+                                enctype="multipart/form-data">
+                                <label class="col-form-label" for="csvfile">Upload CSV File:</label>
+                                <input class="form-control mb-3" type="file" name="csvfile" id="csvfile" accept=".csv"
+                                    required>
+                                <button class="btn btn-danger" type="submit">Upload</button>
+                                {{#if dataMSG}}
+                                <p class="text-warning mt-3">{{dataMSG}}</p>
+                                {{/if}}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-8">
+
+                <div class="card">
+                    <div class="card-body pt-3">
+                        <!-- Bordered Tabs -->
+                        <ul class="nav nav-tabs nav-tabs-bordered">
+                            <li class="nav-item">
+                                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit
+                                    Resident</button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-add-resident">Add
+                                    Resident</button>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content pt-2">
+
+
+                            {{!-- Edit Resident TAB --}}
+                            <div class="tab-pane fade show active profile-edit pt-3" id="profile-edit">
+
+                                {{!-- Resident Search Bar --}}
+                                <div class="row mb-3">
+                                    <label for="firstName" class="col-md-4 col-lg-3 col-form-label">Search
+                                        ID</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <div class="search-bar">
+                                            <form class="search-form d-flex align-items-center" method="POST"
+                                                action="/searchResidentID/{{user.email}}">
+                                                <input type="text" name="residentID" placeholder="Enter Resident ID"
+                                                    title="Enter Resident ID">
+                                                <button type="submit" title="Search"><i
+                                                        class="bi bi-search"></i></button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div><!-- End Search Bar -->
+                                {{#if failedSearch}}
+                                <p class="text-danger">No residents found with this number.</p>
+                                <p class="text-danger">Make sure you enter a seven digit number.</p>
+
+                                {{#if resident}}
+                                <!--=============== Edit Resident Form =========================== -->
+                                <form method="POST" action="#">
+                                    {{!-- Resident First Name --}}
+                                    <div class="row mb-3">
+                                        <label for="firstName" class="col-md-4 col-lg-3 col-form-label">First
+                                            Name</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="firstName" type="text" class="form-control text-capitalize"
+                                                id="firstName" value="{{resident.firstName}}">
+                                        </div>
+                                    </div>
+                                    {{!-- Resident Last Name --}}
+                                    <div class="row mb-3">
+                                        <label for="lastName" class="col-md-4 col-lg-3 col-form-label">Last
+                                            Name</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="lastName" type="text" class="form-control text-capitalize"
+                                                id="lastName" value="{{resident.lastName}}">
+                                        </div>
+                                    </div>
+                                    {{!-- Resident ID --}}
+                                    <div class="row mb-3">
+                                        <label for="residentID" class="col-md-4 col-lg-3 col-form-label">Resident
+                                            ID</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="residentID" type="text" class="form-control text-capitalize"
+                                                id="residentID" value="{{resident.residentID}}">
+                                        </div>
+                                    </div>
+                                    {{!-- Resident Custody Level --}}
+                                    <div class="row mb-3">
+                                        <label for="custodyLevel" class="col-md-4 col-lg-3 col-form-label">Custody
+                                            Level</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="custodyLevel" type="text" class="form-control text-capitalize"
+                                                id="custodyLevel" value="{{resident.custodyLevel}}">
+                                        </div>
+                                    </div>
+                                    {{!-- Resident Facility --}}
+                                    <div class="row mb-3">
+                                        <label for="facility" class="col-md-4 col-lg-3 col-form-label">Facility</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="facility" type="text" class="form-control text-capitalize"
+                                                id="facility" value="{{resident.facility}}">
+                                        </div>
+                                    </div>
+                                    {{!-- Unit Team Assigned --}}
+                                    <div class="row mb-3">
+                                        <label for="unitTeam" class="col-md-4 col-lg-3 col-form-label">Unit
+                                            Team</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="unitTeam" type="text" class="form-control text-capitalize"
+                                                id="unitTeam">
+                                        </div>
+                                    </div>
+                                    {{!-- Save Button --}}
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-primary mx-2">Save Edit</button>
+                                    </div>
+                                </form>
+                                {{else}}
+                                <p class="text-primary">Search for a specific resident by entering their seven digit
+                                    resident ID number in the search box.</p>
+                                {{/if}}
+                                {{/if}}
+                                <!--=============== Edit Resident Form============================ -->
+                            </div>
+                            {{!-- View all residents TAB --}}
+                            <div class="tab-pane fade profile-add-resident pt-3" id="profile-add-resident">
+                                <form method="POST" action="#">
+                                    {{!-- Resident First Name --}}
+                                    <div class="row mb-3">
+                                        <label for="firstName" class="col-md-4 col-lg-3 col-form-label">First
+                                            Name</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="firstName" type="text" class="form-control text-capitalize"
+                                                id="firstName">
+                                        </div>
+                                    </div>
+                                    {{!-- Resident Last Name --}}
+                                    <div class="row mb-3">
+                                        <label for="lastName" class="col-md-4 col-lg-3 col-form-label">Last
+                                            Name</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="lastName" type="text" class="form-control text-capitalize"
+                                                id="lastName">
+                                        </div>
+                                    </div>
+                                    {{!-- Resident ID --}}
+                                    <div class="row mb-3">
+                                        <label for="residentID" class="col-md-4 col-lg-3 col-form-label">Resident
+                                            ID</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="residentID" type="text" class="form-control text-capitalize"
+                                                id="residentID">
+                                        </div>
+                                    </div>
+                                    {{!-- Resident Custody Level --}}
+                                    <div class="row mb-3">
+                                        <label for="custodyLevel" class="col-md-4 col-lg-3 col-form-label">Custody
+                                            Level</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="custodyLevel" type="text" class="form-control text-capitalize"
+                                                id="custodyLevel">
+                                        </div>
+                                    </div>
+                                    {{!-- Resident Facility --}}
+                                    <div class="row mb-3">
+                                        <label for="facility" class="col-md-4 col-lg-3 col-form-label">Facility</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="facility" type="text" class="form-control text-capitalize"
+                                                id="facility">
+                                        </div>
+                                    </div>
+                                    {{!-- Save Button --}}
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-primary mx-2">Add</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div><!-- End Bordered Tabs -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+{{> footer}}
+
+{{> arrowUp}}
