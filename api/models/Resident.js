@@ -73,6 +73,7 @@ const residentSchema = new Schema({
     type: String,
     lowercase: true,
   },
+  jobApplications: [], // References to job applications
   resume: resumeSchema,
   resumeIsComplete: { type: Boolean, default: false },
   resumeIsApproved: { type: Boolean, default: false },
@@ -130,8 +131,22 @@ const residentSchema = new Schema({
   WardenRestriction: { type: Boolean, default: false },
   WardenRestrictionDate: { type: Date },
   WardenRestrictedBy: { type: String, lowercase: true, default: "" },
-  sexOffender: { type: Boolean, default: false },
-  jobApplications: [], // References to job applications
+  //Sex Offender
+  isSexOffender: { type: Boolean, default: false },
+  sexOffenderReviewed: { type: Boolean, default: false },
+  sexOffenderNotes: [{ type: String, lowercase: true, default: "" }],
+  sexOffenderClearance: { type: Boolean, default: false },
+  sexOffenderClearanceDate: { type: Date },
+  sexOffenderClearedBy: { type: String, lowercase: true, default: "" },
+  sexOffenderClearanceRemovedBy: {
+    type: String,
+    lowercase: true,
+    default: "",
+  },
+  sexOffenderClearanceRemovedDate: { type: Date },
+  sexOffenderRestriction: { type: Boolean, default: false },
+  sexOffenderRestrictionDate: { type: Date },
+  sexOffenderRestrictedBy: { type: String, lowercase: true, default: "" },
 });
 
 //static method to find resident

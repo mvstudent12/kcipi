@@ -59,6 +59,7 @@ const residentRoutes = require("./api/routes/residentRoutes");
 const unitTeamRoutes = require("./api/routes/unitTeamRoutes");
 const adminRoutes = require("./api/routes/adminRoutes");
 const employerRoutes = require("./api/routes/employerRoutes");
+const clearanceRoutes = require("./api/routes/clearanceRoutes");
 const notificationRoutes = require("./api/routes/notificationRoutes");
 
 //links database api
@@ -132,6 +133,7 @@ app.use("/unitTeam", unitTeamRoutes);
 app.use("/admin", adminRoutes);
 app.use("/employer", employerRoutes);
 app.use("/notification", notificationRoutes);
+app.use("/clearance", clearanceRoutes);
 
 app.get("*", (req, res) => {
   //serves 404 error page

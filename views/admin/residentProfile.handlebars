@@ -230,14 +230,6 @@
                                     <div class="col-lg-4 col-md-4 label">Resume Approved</div>
                                     <div class="col-lg-8 col-md-8 text-capitalize">{{resident.resumeIsApproved}}</div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-lg-4 col-md-4 label">Medically Cleared</div>
-                                    <div class="col-lg-8 col-md-8 text-capitalize">{{resident.medicalClearance}}</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-4 col-md-4 label">EAI Cleared</div>
-                                    <div class="col-lg-8 col-md-8 text-capitalize">{{resident.EAIClearance}}</div>
-                                </div>
                             </div>
 
                             {{!--======== RESUME TAB ========--}}
@@ -261,7 +253,7 @@
                                 {{#if resident.resumeIsComplete}}
                                 {{!-- if resident has completed their resume --}}
 
-                                <form method="POST" action="/admin/approveResume/{{resident.residentID}}">
+                                <form method="POST" action="/clearance/approveResume/{{resident.residentID}}">
                                     {{!-- Resident First Name --}}
                                     <div class="row mb-3">
                                         <label for="firstName" class="col-md-4 col-lg-3 col-form-label">First
@@ -545,7 +537,7 @@
                                 {{!-- SEX OFFENDER --}}
                                 <div class="row">
                                     <div class="col-lg-4 col-md-4 label">Sex Offender</div>
-                                    <div class="col-lg-2 col-md-2 text-capitalize">{{resident.sexOffender}}</div>
+                                    <div class="col-lg-2 col-md-2 text-capitalize">{{resident.isSexOffender}}</div>
                                     <div class="col-lg-2 col-md-2">
                                         <button type="submit" class="btn btn-info"
                                             data-route="/notification/requestClearance/{{resident.residentID}}/sexOffender"
@@ -627,7 +619,7 @@
 <div class="modal fade" id="basicModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method="post" action="/admin/rejectResume/{{resident.residentID}}">
+            <form method="post" action="/clearance/rejectResume/{{resident.residentID}}">
                 <div class="modal-header">
                     <h5 class="modal-title">Reject Resume</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -753,11 +745,11 @@
     </div>
 </div><!-- End Edit modal-->
 
-{{!-- Approve Resident Modal --}}
+{{!-- Approve Resident Work Eligibility Modal --}}
 <div class="modal fade" id="approveResident" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method="post" action="/admin/approveEligibility/{{resident.residentID}}">
+            <form method="post" action="/clearance/approveEligibility/{{resident.residentID}}">
                 <div class="modal-header">
                     <h5 class="modal-title">Approve Work Eligibility</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -791,7 +783,18 @@
                                     Sex offender status determined?
                                 </label>
                             </div>
-
+                            <div class="form-check">
+                                <input name="jobPoolCheck" class="form-check-input" type="checkbox" id="gridCheck5">
+                                <label class="form-check-label" for="gridCheck5">
+                                    Job pool assigned?
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input name="resumeCheck" class="form-check-input" type="checkbox" id="gridCheck6">
+                                <label class="form-check-label" for="gridCheck6">
+                                    Resume approved?
+                                </label>
+                            </div>
 
                         </div>
                     </div>
@@ -809,7 +812,7 @@
 <div class="modal fade" id="rejectResident" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method="post" action="/admin/rejectEligibility/{{resident.residentID}}">
+            <form method="post" action="/clearance/rejectEligibility/{{resident.residentID}}">
                 <div class="modal-header">
                     <h5 class="modal-title">Reject Work Eligibility</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
