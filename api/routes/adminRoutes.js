@@ -11,4 +11,25 @@ adminRoutes.get("/helpDesk", checkUser, requireAuth, controller.helpDesk);
 
 adminRoutes.get("/contact", checkUser, requireAuth, controller.contact);
 
+adminRoutes.get(
+  "/residentTables",
+  checkUser,
+  requireAuth,
+  controller.residentTables
+);
+
+adminRoutes.get(
+  "/unitTeamTables",
+  checkUser,
+  requireAuth,
+  controller.unitTeamTables
+);
+
+adminRoutes.get(
+  "/employerTables",
+  checkUser,
+  requireAuth,
+  controller.employerTables
+);
+
 module.exports = adminRoutes;

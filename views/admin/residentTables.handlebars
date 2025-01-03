@@ -3,10 +3,11 @@
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Admin Dashboard</h1>
+        <h1>Resident Data</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item active">Dashboard</li>
+                <li class="breadcrumb-item active"><a href="/admin/dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item active">Resident Data</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -18,72 +19,12 @@
             <div class="col-lg-12">
                 <div class="row">
 
-                    <!-- Resumes Count Card -->
-                    <div class="col-xxl-4 col-md-4">
-                        <div class="card info-card sales-card">
 
-                            <div class="card-body">
-                                <h5 class="card-title">Resumes <span>| Pending</span></h5>
-
-                                <div class="d-flex align-items-center">
-                                    <div
-                                        class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-clipboard-check"></i>
-                                    </div>
-                                    <div class="ps-3">
-                                        <h6>{{countArrayItems resumeNeedReview}}
-                                        </h6>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div><!-- End Resumes Count Card -->
-
-                    <!-- Applications Card -->
-                    <div class="col-xxl-4 col-md-4">
-                        <div class="card info-card revenue-card">
-
-                            <div class="card-body">
-                                <h5 class="card-title">Applications <span>| Pending</span></h5>
-
-                                <div class="d-flex align-items-center">
-                                    <div
-                                        class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-card-list"></i>
-                                    </div>
-                                    <div class="ps-3">
-                                        <h6>0</h6>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div><!-- End Applications Card -->
-
-                    <!-- Residents Card -->
-                    <div class="col-xxl-4 col-md-4">
-                        <div class="card info-card customers-card">
-                            <div class="card-body">
-                                <h5 class="card-title">Residents <span>| Need Review</span></h5>
-                                <div class="d-flex align-items-center">
-                                    <div
-                                        class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-people"></i>
-                                    </div>
-                                    <div class="ps-3">
-                                        <h6>{{countItems residentsNeedReview}}</h6>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div><!-- End Residents Card -->
 
                     {{!-- Data Tables Section --}}
 
                     <!-- Resume Table -->
-                    <div class="col-12">
+                    {{!-- <div class="col-12">
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
                                 <h5 class="card-title">Resumes <span>| To Approve</span></h5>
@@ -122,10 +63,11 @@
                                 </table>
                             </div>
                         </div>
-                    </div><!-- End Resume Tabele -->
+                    </div> --}}
+                    <!-- End Resume Table -->
 
                     <!-- Applications Table -->
-                    <div class="col-12">
+                    {{!-- <div class="col-12">
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
                                 <h5 class="card-title">Applications <span>| To Review</span></h5>
@@ -157,13 +99,14 @@
                                 </table>
                             </div>
                         </div>
-                    </div><!-- End Applications Table -->
+                    </div> --}}
+                    <!-- End Applications Table -->
 
                     <!-- Residents Table -->
                     <div class="col-12">
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
-                                <h5 class="card-title">Residents <span>| To Review</span></h5>
+                                <h5 class="card-title">Residents <span>| All KDOC</span></h5>
                                 <table class="table table-borderless datatable">
                                     <thead>
                                         <tr>
@@ -171,11 +114,11 @@
                                             <th scope="col">Facility</th>
                                             <th scope="col">First Name</th>
                                             <th scope="col">Last Name</th>
-                                            <th scope="col">Resume</th>
+                                            <th scope="col">Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{#each residentsNeedReview}}
+                                        {{#each residents}}
                                         <tr>
                                             <th scope="row"><a
                                                     href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
@@ -183,17 +126,15 @@
                                             <td class="text-capitalize">{{this.facility}}</td>
                                             <td class="text-capitalize">{{this.firstName}}</td>
                                             <td class="text-capitalize">{{this.lastName}}</td>
-                                            {{#if this.resumeIsApproved}}
-                                            <td><span class="badge bg-success">Approved</span></td>
+                                            {{#if this.isEligibleToWork}}
+                                            <td><span class="badge bg-success">Eligible</span></td>
                                             {{else}}
-                                            {{#if this.resumeRejectionReason}}
-                                            <td><span class="badge bg-danger">Rejected</span></td>
+                                            {{#if this.isRestrictedFromWork}}
+                                            <td><span class="badge bg-danger">Restricted</span></td>
                                             {{else}}
-                                            {{#if this.resumeIsComplete}}
+
                                             <td><span class="badge bg-warning">Pending</span></td>
-                                            {{else}}
-                                            <td><span class="badge bg-info">None</span></td>
-                                            {{/if}}
+
                                             {{/if}}
                                             {{/if}}
 
@@ -204,7 +145,8 @@
                                 </table>
                             </div>
                         </div>
-                    </div><!-- End Residents Table -->
+                    </div>
+                    <!-- End Residents Table -->
 
                     {{!-- End of Data Tables Section --}}
 

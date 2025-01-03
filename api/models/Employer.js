@@ -26,6 +26,7 @@ const employerSchema = new Schema({
     default: "employer",
     lowercase: true,
   },
+
   company: {
     type: String,
     lowercase: true,

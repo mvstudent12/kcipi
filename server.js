@@ -69,6 +69,11 @@ require("./api/dbConfig/db");
 
 const { engine } = require("express-handlebars");
 
+const Admin = require("./api/models/Admin");
+const Employer = require("./api/models/Employer");
+const UnitTeam = require("./api/models/UnitTeam");
+const Resident = require("./api/models/Resident");
+
 app.engine(
   "handlebars",
 
