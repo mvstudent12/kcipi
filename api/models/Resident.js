@@ -18,7 +18,7 @@ const resumeSchema = new Schema({
     enum: [
       "none",
       "submitted",
-      "approved_medical",
+      "approved_Medical",
       "approved_eai",
       "approved_unitTeam",
       "approved_all",
@@ -78,18 +78,18 @@ const residentSchema = new Schema({
   resumeIsComplete: { type: Boolean, default: false },
   resumeIsApproved: { type: Boolean, default: false },
   resumeRejectionReason: { type: String, lowercase: true, default: "" },
-  //medical clearance
+  //Medical clearance
 
-  medicallyReviewed: { type: Boolean, default: false },
-  medicalNotes: [{ type: String, lowercase: true, default: "" }],
-  medicalClearance: { type: Boolean, default: false },
-  medicalClearanceDate: { type: Date },
-  medicallyClearedBy: { type: String, lowercase: true, default: "" },
-  medicalClearanceRemovedBy: { type: String, lowercase: true, default: "" },
-  medicalClearanceRemovedDate: { type: Date },
-  medicalRestriction: { type: Boolean, default: false },
-  medicalRestrictionDate: { type: Date },
-  medicallyRestrictedBy: { type: String, lowercase: true, default: "" },
+  MedicalReviewed: { type: Boolean, default: false },
+  MedicalNotes: [{ type: String, lowercase: true, default: "" }],
+  MedicalClearance: { type: Boolean, default: false },
+  MedicalClearanceDate: { type: Date },
+  MedicalClearedBy: { type: String, lowercase: true, default: "" },
+  MedicalClearanceRemovedBy: { type: String, lowercase: true, default: "" },
+  MedicalClearanceRemovedDate: { type: Date },
+  MedicalRestriction: { type: Boolean, default: false },
+  MedicalRestrictionDate: { type: Date },
+  MedicalRestrictedBy: { type: String, lowercase: true, default: "" },
   //eai clearance
   EAIReviewed: { type: Boolean, default: false },
   EAINotes: [{ type: String, lowercase: true, default: "" }],
@@ -147,6 +147,24 @@ const residentSchema = new Schema({
   sexOffenderRestriction: { type: Boolean, default: false },
   sexOffenderRestrictionDate: { type: Date },
   sexOffenderRestrictedBy: { type: String, lowercase: true, default: "" },
+  //Complete Eligibility Status
+  isEligibleToWork: { type: Boolean, default: false },
+  eligibilityApprovedBy: {
+    type: String,
+    lowercase: true,
+    default: "",
+  },
+  isRestrictedFromWork: { type: Boolean, default: false },
+  eligibilityRestrictedBy: {
+    type: String,
+    lowercase: true,
+    default: "",
+  },
+  eligibilityRestrictionReason: {
+    type: String,
+    lowercase: true,
+    default: "",
+  },
 });
 
 //static method to find resident

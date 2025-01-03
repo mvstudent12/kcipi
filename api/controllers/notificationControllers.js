@@ -19,10 +19,10 @@ module.exports = {
         { residentID: residentID },
         {
           $set: {
-            medicalClearance: true,
-            medicalClearanceDate: new Date(),
-            medicallyClearedBy: email,
-            medicallyReviewed: true,
+            MedicalClearance: true,
+            MedicalClearanceDate: new Date(),
+            MedicalClearedBy: email,
+            MedicalReviewed: true,
           },
         }
       );
@@ -42,11 +42,11 @@ module.exports = {
         { residentID: residentID },
         {
           $set: {
-            medicalClearance: false,
-            medicalClearanceRemovedDate: new Date(),
-            medicalClearanceRemovedBy: email,
-            medicallyReviewed: false,
-            medicalRestriction: false,
+            MedicalClearance: false,
+            MedicalClearanceRemovedDate: new Date(),
+            MedicalClearanceRemovedBy: email,
+            MedicalReviewed: false,
+            MedicalRestriction: false,
           },
         }
       );
@@ -65,9 +65,9 @@ module.exports = {
         { residentID: residentID },
         {
           $set: {
-            medicalClearance: false,
-            medicallyReviewed: false,
-            medicalRestriction: false,
+            MedicalClearance: false,
+            MedicalReviewed: false,
+            MedicalRestriction: false,
           },
         }
       );
@@ -87,11 +87,11 @@ module.exports = {
         { residentID: residentID },
         {
           $set: {
-            medicalClearance: false,
-            medicalRestrictionDate: new Date(),
-            medicallyRestrictedBy: email,
-            medicalRestriction: true,
-            medicallyReviewed: true,
+            MedicalClearance: false,
+            MedicalRestrictionDate: new Date(),
+            MedicalRestrictedBy: email,
+            MedicalRestriction: true,
+            MedicalReviewed: true,
           },
         }
       );
@@ -111,7 +111,7 @@ module.exports = {
         { residentID: residentID },
         {
           $push: {
-            medicalNotes: notes,
+            MedicalNotes: notes,
           },
         }
       );
@@ -474,7 +474,7 @@ module.exports = {
   //===========================
   //     All Notifications
   //===========================
-  //request clearance from medical, eai etc through email
+  //request clearance from Medical, eai etc through email
   async requestClearance(req, res) {
     const { recipient, comments } = req.body;
     const { residentID, category } = req.params;

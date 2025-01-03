@@ -63,7 +63,7 @@
 
                                 <hr>
 
-                                {{#if resident.medicalClearance}}
+                                {{#if resident.MedicalClearance}}
                                 {{!-- Resident is medically cleared/ --}}
                                 <h5 class="card-title text-success">Resident has been medically cleared.</h5>
                                 <div class="col-lg-4 col-md-6 d-grid gap-2 mt-3">
@@ -74,7 +74,7 @@
                                 </div>
 
                                 {{else}}
-                                {{#if resident.medicalRestriction}}
+                                {{#if resident.MedicalRestriction}}
                                 {{!-- Resident has medical restrictions --}}
                                 <h5 class="card-title text-danger">Resident has medical restrictions.</h5>
                                 <div class="row">
@@ -88,7 +88,7 @@
 
                                 {{else}}
                                 {{!-- Resident has neither been cleared nor restricted --}}
-                                {{#unless resident.medicallyReviewed}}
+                                {{#unless resident.MedicalReviewed}}
                                 <h5 class="card-title">Resident has not been medically reviewed.</h5>
                                 <div class="row">
                                     <div class="container">
@@ -147,8 +147,8 @@
                                 <div class="row">
                                     <div class="row mb-3">
                                         <div class="col-sm-10">
-                                            {{#if resident.medicalNotes}}
-                                            {{#each resident.medicalNotes}}
+                                            {{#if resident.MedicalNotes}}
+                                            {{#each resident.MedicalNotes}}
                                             <p>{{this}}</p>
 
                                             {{/each}}

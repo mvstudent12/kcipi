@@ -1,5 +1,5 @@
 //===================================
-//Populates the clearance modal
+//Populates the request clearance modal
 //====================================
 
 // Get all buttons that trigger the modal

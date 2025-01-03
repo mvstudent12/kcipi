@@ -1,13 +1,13 @@
-const modalForm = document.getElementById("modal-form");
+const clearanceForm = document.getElementById("clearance-form");
 
-modalForm.addEventListener("submit", async (event) => {
+clearanceForm.addEventListener("submit", async (event) => {
   event.preventDefault(); // Prevent the default form submission
 
-  const recipient = modalForm.recipient.value;
-  const comments = modalForm.comments.value;
+  const recipient = clearanceForm.recipient.value;
+  const comments = clearanceForm.comments.value;
 
   try {
-    const res = await fetch(modalForm.action, {
+    const res = await fetch(clearanceForm.action, {
       method: "POST",
       body: JSON.stringify({ recipient, comments }),
       headers: { "Content-Type": "application/json" },
