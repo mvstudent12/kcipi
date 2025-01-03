@@ -7,4 +7,8 @@ const { requireAuth, checkUser } = require("../middleware/authMiddleware");
 
 adminRoutes.get("/dashboard", checkUser, requireAuth, controller.dashboard);
 
+adminRoutes.get("/helpDesk", checkUser, requireAuth, controller.helpDesk);
+
+adminRoutes.get("/contact", checkUser, requireAuth, controller.contact);
+
 module.exports = adminRoutes;

@@ -14,4 +14,21 @@ module.exports = {
       console.log(err);
     }
   },
+  //serves help page from admin dashboard
+  async helpDesk(req, res) {
+    try {
+      res.render("admin/helpDesk", { user: req.session.user });
+    } catch (err) {
+      console.log(err);
+    }
+  },
+
+  //serves contact page from admin dashboard
+  async contact(req, res) {
+    try {
+      res.render("admin/contact", { user: req.session.user });
+    } catch (err) {
+      console.log(err);
+    }
+  },
 };

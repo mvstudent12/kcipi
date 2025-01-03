@@ -3,6 +3,14 @@ const notificationRoutes = express.Router();
 const controller = require("../controllers/notificationControllers");
 
 //============================
+//Help Desk & Contact Notifications
+//============================
+
+notificationRoutes.post("/helpDesk", controller.helpDesk);
+
+notificationRoutes.post("/contact", controller.contact);
+
+//============================
 //    Medical Notifications
 //============================
 

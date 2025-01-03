@@ -4,9 +4,48 @@ const Employer = require("../models/Employer");
 const UnitTeam = require("../models/UnitTeam");
 const Resident = require("../models/Resident");
 
-const { sendReviewEmail } = require("../utils/sendEmailUtils");
+const {
+  sendReviewEmail,
+  sendHelpDeskEmail,
+  sendContactEmail,
+} = require("../emailUtils/notificationEmail");
 
 module.exports = {
+  //========================
+  //   Help Desk
+  //========================
+  async helpDesk(req, res) {
+    const { name, email, subject, message } = req.body;
+    const recipient = "kcicodingdev@gmail.com";
+    try {
+      sendHelpDeskEmail(name, subject, email, message, recipient);
+      const sentMsg = true;
+      res.render(`${req.session.user.role}/helpDesk`, {
+        user: req.session.user,
+        sentMsg,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  //========================
+  //   Contact
+  //========================
+  async contact(req, res) {
+    const { name, email, subject, message } = req.body;
+    const recipient = "kcicodingdev@gmail.com";
+    try {
+      sendContactEmail(name, subject, email, message, recipient);
+      const sentMsg = true;
+      res.render(`${req.session.user.role}/contact`, {
+        user: req.session.user,
+        sentMsg,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  },
+
   //========================
   //   Medical Clearance
   //========================

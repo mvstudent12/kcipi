@@ -52,6 +52,53 @@ const sendReviewEmail = async (
   }
 };
 
+const sendHelpDeskEmail = async (name, subject, sender, message, recipient) => {
+  const mailOptions = {
+    from: `${sender}`,
+    to: `${recipient}`,
+    subject: `${subject} from ${name}`,
+    text: `Help Desk Ticket from ${name}.`,
+    html: ` 
+    <p>Issue:</p>
+    <hr>   
+    <p style="font-size: 16px;">${message}</p>
+    <hr>
+    <p style="font-size: 16px; color: #333; text-transform: capitalize;">From ${name} at ${sender}</p>
+`,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log(`Email sent to ${recipient}`);
+  } catch (error) {
+    console.error("Error sending email: ", error);
+  }
+};
+
+const sendContactEmail = async (name, subject, sender, message, recipient) => {
+  const mailOptions = {
+    from: `${sender}`,
+    to: `${recipient}`,
+    subject: `${subject} from ${name}`,
+    text: `Contact Request from ${name}.`,
+    html: ` 
+    <hr>   
+    <p style="font-size: 16px;">${message}</p>
+    <hr>
+    <p style="font-size: 16px; color: #333; text-transform: capitalize;">From ${name} at ${sender}</p>
+`,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log(`Email sent to ${recipient}`);
+  } catch (error) {
+    console.error("Error sending email: ", error);
+  }
+};
+
 module.exports = {
   sendReviewEmail,
+  sendHelpDeskEmail,
+  sendContactEmail,
 };
