@@ -23,85 +23,6 @@
 
                     {{!-- Data Tables Section --}}
 
-                    <!-- Resume Table -->
-                    {{!-- <div class="col-12">
-                        <div class="card recent-sales overflow-auto">
-                            <div class="card-body">
-                                <h5 class="card-title">Resumes <span>| To Approve</span></h5>
-                                <table class="table table-borderless datatable">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">ID #</th>
-                                            <th scope="col">Facility</th>
-                                            <th scope="col">Resident</th>
-                                            <th scope="col">Date</th>
-                                            <th scope="col">Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {{#each resumeNeedReview}}
-
-                                        <tr>
-                                            <th scope="row"><a
-                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
-                                            </th>
-                                            <td class="text-capitalize">{{this.facility}}</td>
-                                            <td><a href="/clearance/residentProfile/{{this.residentID}}"
-                                                    class="text-primary text-capitalize">{{this.firstName}}
-                                                    {{this.lastName}}</a></td>
-                                            <td>{{formatDate this.resume.createdAt}}</td>
-                                            {{#if this.resumeRejectionReason}}
-                                            <td><span class="badge bg-danger">Rejected</span></td>
-                                            {{else}}
-                                            <td><span class="badge bg-warning">Pending</span></td>
-                                            {{/if}}
-
-                                        </tr>
-
-                                        {{/each}}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div> --}}
-                    <!-- End Resume Table -->
-
-                    <!-- Applications Table -->
-                    {{!-- <div class="col-12">
-                        <div class="card recent-sales overflow-auto">
-                            <div class="card-body">
-                                <h5 class="card-title">Applications <span>| To Review</span></h5>
-                                <table class="table table-borderless datatable">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">ID #</th>
-                                            <th scope="col">Facility</th>
-                                            <th scope="col">Resident</th>
-                                            <th scope="col">Date</th>
-                                            <th scope="col">Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {{#each applicants}}
-                                        <tr>
-                                            <th scope="row"><a
-                                                    href="/resident/profile/{{this.residentID}}/{{../user.email}}"></a>
-                                            </th>
-                                            <td class="text-capitalize"></td>
-                                            <td><a href="/resident/profile/{{this.residentID}}/{{../user.email}}"
-                                                    class="text-primary text-capitalize"></a></td>
-                                            <td></td>
-
-                                            <td><span class="badge bg-warning">Pending</span></td>
-                                        </tr>
-                                        {{/each}}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div> --}}
-                    <!-- End Applications Table -->
-
                     <!-- Residents Table -->
                     <div class="col-12">
                         <div class="card recent-sales overflow-auto">
@@ -114,7 +35,7 @@
                                             <th scope="col">Facility</th>
                                             <th scope="col">First Name</th>
                                             <th scope="col">Last Name</th>
-                                            <th scope="col">Status</th>
+                                            <th scope="col">Work Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>

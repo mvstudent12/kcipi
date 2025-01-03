@@ -1,0 +1,151 @@
+{{> employerTemplate}}
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Manage Positions</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/dashboard/{{user.email}}">Dashboard</a></li>
+                <li class="breadcrumb-item active">Manage Positions</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section profile">
+
+        <div class="row">
+            <div class="col-xl-4">
+                <div class="card">
+                    <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+                        <img src="/assets/img/business-card.png" alt="Profile" class="mb-3">
+                        <h2 class="text-capitalize mb-3">{{user.company}}</h2>
+                        <h3 class="text-muted mb-3">{{user.email}}</h3>
+                        {{!-- <h3>KDOC Resident</h3> --}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-8">
+
+                <div class="card">
+                    <div class="card-body pt-3">
+                        <!-- Bordered Tabs -->
+                        <ul class="nav nav-tabs nav-tabs-bordered">
+                            <li class="nav-item">
+                                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-edit">All
+                                    Positions</button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-add-employer">Add
+                                    Position</button>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content pt-2">
+
+                            {{!-- Edit Employer TAB --}}
+                            <div class="tab-pane fade show active profile-edit pt-3" id="profile-edit">
+                                {{!-- Positions table --}}
+                                <div class="row mb-3">
+                                    <div class="col-12">
+                                        <div class="card recent-sales overflow-auto">
+                                            <div class="card-body">
+                                                {{#if addPositionMSG}}
+                                                <h5 class="text-warning text-sm">{{addPositionMSG}}</h4>
+                                                    {{/if}}
+                                                    <h5 class="card-title">Job Positions <span>| Current</span></h5>
+                                                    <table class="table table-borderless datatable">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">#</th>
+                                                                <th scope="col">Position</th>
+                                                                <th scope="col">Job Pool</th>
+                                                                <th scope="col">Date</th>
+                                                                <th scope="col">Applicants</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {{#each user.jobs}}
+                                                            <tr>
+                                                                <th scope="row">{{add @index 1}}</th>
+                                                                <td><a href="#"
+                                                                        class="text-primary text-capitalize">{{this.position}}</a>
+                                                                </td>
+                                                                <td class="text-capitalize">{{this.jobPool}}</td>
+                                                                <td>{{formatDate this.resume.dateCreated}}</td>
+                                                                <td><span class="badge bg-danger">None</span></td>
+                                                            </tr>
+                                                            {{/each}}
+                                                        </tbody>
+                                                    </table>
+                                            </div>
+                                        </div>
+                                    </div><!-- End Job Positions Table -->
+                                </div>
+                            </div>
+
+                            {{!-- Add Position TAB --}}
+                            <div class="tab-pane fade profile-add-employer pt-3" id="profile-add-employer">
+                                <form method="POST" action="/managePositions/addNewPosition/{{user.email}}">
+                                    {{!-- Position Title --}}
+                                    <div class="row mb-3">
+                                        <label for="position" class="col-md-4 col-lg-3 col-form-label">Position
+                                            Title</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="position" type="text" class="form-control text-capitalize"
+                                                id="position" required>
+                                        </div>
+                                    </div>
+                                    {{!-- Description --}}
+                                    <div class="row mb-3">
+                                        <label for="description"
+                                            class="col-md-4 col-lg-3 col-form-label">Description</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="description" type="text" class="form-control text-capitalize"
+                                                id="description" required>
+                                        </div>
+                                    </div>
+                                    {{!-- Hourly Pay --}}
+                                    <div class="row mb-3">
+                                        <label for="pay" class="col-md-4 col-lg-3 col-form-label">Hourly Pay</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="pay" type="text" class="form-control text-capitalize" id="pay"
+                                                required>
+                                        </div>
+                                    </div>
+
+                                    {{!-- Job Pool--}}
+                                    <div class="row mb-3">
+                                        <label for="jobPool" class="col-md-4 col-lg-3 col-form-label">Job Pool</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <select required name="jobPool" class="form-select" aria-label="Job Pool">
+                                                <option value="">Select Job Pool</option>
+                                                <option value="pool1">Male Minimum 1 &lpar;Off-Site&rpar;</option>
+                                                <option value="pool2">Male Minimum 2 &lpar;On-Site&rpar;</option>
+                                                <option value="pool3">Male Medium/Maximum</option>
+                                                <option value="pool1F">Female Minimum 1 &lpar;Off-Site&rpar;</option>
+                                                <option value="pool2F">Female Minimum 2 &lpar;On-Site&rpar;</option>
+                                                <option value="pool3F">Female Medium/Maximum</option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                    {{!-- Save Button --}}
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-primary mx-2">Add</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div><!-- End Bordered Tabs -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+{{> footer}}
+
+{{> arrowUp}}

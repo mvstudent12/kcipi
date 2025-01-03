@@ -1,0 +1,102 @@
+{{> unitTeamTemplate}}
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Contact</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/unitTeam/dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item active">Contact</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section contact">
+
+        <div class="row gy-4">
+            <div class="col-xl-6">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="info-box card">
+                            <i class="bi bi-geo-alt"></i>
+                            <h3>Address</h3>
+                            <p>P.O. Box 2,<br>Lansing, KS 66043</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="info-box card">
+                            <i class="bi bi-telephone"></i>
+                            <h3>Call Us</h3>
+                            <p>+1 913 727-3249<br>+1 913 727-2331</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="info-box card">
+                            <i class="bi bi-envelope"></i>
+                            <h3>Email Us</h3>
+                            <p>carrie.branson@ks.gov<br>mark.daugherty@ks.gov</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="info-box card">
+                            <i class="bi bi-clock"></i>
+                            <h3>Open Hours</h3>
+                            <p>Monday - Friday<br>8:00AM - 3:00PM</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-6">
+                <div class="card p-4">
+                    <form action="/notification/contact" method="post" class="">
+                        {{#if sentMsg}}
+                        <div class="row gy-4">
+                            <div class="col-md-12 p-4">
+                                <p>Thank you for contacting Kansas Correctional Industries. We have successfully
+                                    received your message and will respond to
+                                    your inquiry as soon as possible.</p>
+                                <p>Our team is committed to providing excellent support and typically responds within 48
+                                    hours.</p>
+                                <p>If your message requires immediate attention, please feel free to contact us directly
+                                    at &lpar;913&rpar; 727-2331.</p>
+                                <p>We appreciate your interest in Kansas Correctional Industries and look forward to
+                                    assisting you.</p>
+                            </div>
+                        </div>
+                        {{else}}
+                        <div class="row gy-4">
+                            <div class="col-md-6">
+                                <input type="text" name="name" value="{{user.firstName}} {{user.lastName}}"
+                                    class="form-control text-capitalize"
+                                    placeholder="{{user.firstName}} {{user.lastName}}" readonly>
+                            </div>
+                            <div class="col-md-6 ">
+                                <input type="email" class="form-control" name="email" placeholder="{{user.email}}"
+                                    value="{{user.email}}" readonly>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="subject" placeholder="Subject" required>
+                            </div>
+                            <div class="col-md-12">
+                                <textarea class="form-control" name="message" rows="6" placeholder="Message"
+                                    required></textarea>
+                            </div>
+                            <div class="col-md-12 text-center">
+                                <button class="btn btn-primary" type="submit">Send</button>
+                            </div>
+                        </div>
+                        {{/if}}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+{{> footer}}
+
+{{> arrowUp}}
