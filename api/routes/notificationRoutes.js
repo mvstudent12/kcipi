@@ -99,10 +99,6 @@ notificationRoutes.get(
   "/Warden/approve/:residentID/:email",
   controller.approveWarden
 );
-notificationRoutes.get(
-  "/Warden/removeWardenClearance/:residentID/:email",
-  controller.removeWardenClearance
-);
 
 notificationRoutes.get(
   "/Warden/removeWardenRestriction/:residentID/:email",
@@ -117,6 +113,37 @@ notificationRoutes.get(
 notificationRoutes.post(
   "/Warden/saveWardenNotes/:residentID/:email",
   controller.saveWardenNotes
+);
+notificationRoutes.get(
+  "/Warden/removeWardenClearance/:residentID/:email",
+  controller.removeWardenClearance
+);
+//============================
+//    Sex-Offender Notifications
+//============================
+
+notificationRoutes.get(
+  "/Sex-Offender/approve/:residentID/:email",
+  controller.approveSexOffender
+);
+
+notificationRoutes.get(
+  "/Sex-Offender/removeSex-OffenderRestriction/:residentID/:email",
+  controller.removeSexOffenderRestriction
+);
+
+notificationRoutes.get(
+  "/Sex-Offender/deny/:residentID/:email",
+  controller.denySexOffenderClearance
+);
+
+notificationRoutes.post(
+  "/Sex-Offender/saveSex-OffenderNotes/:residentID/:email",
+  controller.saveSexOffenderNotes
+);
+notificationRoutes.get(
+  "/Sex-Offender/removeSex-OffenderClearance/:residentID/:email",
+  controller.removeSexOffenderClearance
 );
 //=============================
 //    All Notifications

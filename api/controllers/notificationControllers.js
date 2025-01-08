@@ -510,6 +510,123 @@ module.exports = {
     console.log(resident);
     res.render("clearance/Warden", { resident, email, activeTab });
   },
+
+  //========================
+  //   Sex-Offender Clearance
+  //========================
+
+  async approveSexOffender(req, res) {
+    const residentID = req.params.residentID;
+    const email = req.params.email;
+    try {
+      await Resident.updateOne(
+        { residentID: residentID },
+        {
+          $set: {
+            sexOffenderClearance: true,
+            sexOffenderClearanceDate: new Date(),
+            sexOffenderClearedBy: email,
+            sexOffenderReviewed: true,
+          },
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+    activeTab = "status";
+    const resident = await Resident.findOne({ residentID }).lean();
+    res.render("clearance/Sex-Offender", { resident, email, activeTab });
+  },
+  async removeSexOffenderClearance(req, res) {
+    const residentID = req.params.residentID;
+    const email = req.params.email;
+    try {
+      await Resident.updateOne(
+        { residentID: residentID },
+        {
+          $set: {
+            sexOffenderClearance: false,
+            sexOffenderClearanceRemovedDate: new Date(),
+            sexOffenderClearanceRemovedBy: email,
+            sexOffenderReviewed: false,
+            sexOffenderRestriction: false,
+          },
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+    activeTab = "status";
+    const resident = await Resident.findOne({ residentID }).lean();
+    res.render("clearance/Sex-Offender", { resident, email, activeTab });
+  },
+  async removeSexOffenderRestriction(req, res) {
+    const residentID = req.params.residentID;
+    const email = req.params.email;
+    try {
+      await Resident.updateOne(
+        { residentID: residentID },
+        {
+          $set: {
+            sexOffenderClearance: false,
+            sexOffenderReviewed: false,
+            sexOffenderRestriction: false,
+          },
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+    activeTab = "status";
+    const resident = await Resident.findOne({ residentID }).lean();
+    res.render("clearance/Sex-Offender", { resident, email, activeTab });
+  },
+
+  async denySexOffenderClearance(req, res) {
+    const residentID = req.params.residentID;
+    const email = req.params.email;
+    try {
+      await Resident.updateOne(
+        { residentID: residentID },
+        {
+          $set: {
+            sexOffenderClearance: false,
+            sexOffenderRestrictionDate: new Date(),
+            sexOffenderRestrictedBy: email,
+            sexOffenderRestriction: true,
+            sexOffenderReviewed: true,
+          },
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+    activeTab = "status";
+    const resident = await Resident.findOne({ residentID }).lean();
+    res.render("clearance/Sex-Offender", { resident, email, activeTab });
+  },
+  async saveSexOffenderNotes(req, res) {
+    const residentID = req.params.residentID;
+    const email = req.params.email;
+    const notes = req.body.notes;
+
+    try {
+      await Resident.updateOne(
+        { residentID: residentID },
+        {
+          $push: {
+            sexOffenderNotes: notes,
+          },
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+    const activeTab = "notes";
+    const resident = await Resident.findOne({ residentID }).lean();
+    console.log(resident);
+    res.render("clearance/Sex-Offender", { resident, email, activeTab });
+  },
   //===========================
   //     All Notifications
   //===========================
