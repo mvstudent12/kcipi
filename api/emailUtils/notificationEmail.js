@@ -30,8 +30,8 @@ const sendReviewEmail = async (
       <h4 style="font-size: 16px; font-weight: bold; color: #333;">Sent from: ${sender}</h4>
       
       <p>
-
-        <a href="http://localhost:5999/notification/reviewClearance/${department}/${resident.residentID}/${sender}"
+      
+        <a href="http://kcipi.onrender.com/notification/reviewClearance/${department}/${resident.residentID}/${sender}"
            style="display: inline-block; background-color: #4CAF50; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-size: 16px; text-align: center; font-weight: bold;">
           Review ${department} Clearance
         </a>
@@ -39,7 +39,7 @@ const sendReviewEmail = async (
 
       <p style="font-size: 14px; color: #333;">If you are unable to click the button, please copy and paste the following link into your browser:</p>
       <p style="font-size: 14px; color: #333;">
-        <a href="http://localhost:5999/notification/reviewClearance/${department}/${resident.residentID}/${sender}" 
+        <a href="http://kcipi.onrender.com/notification/reviewClearance/${department}/${resident.residentID}/${sender}" 
            style="color: #007BFF; text-decoration: none;">${department} Review Link</a>
       </p>
     `,
