@@ -362,7 +362,7 @@
 
                                 {{!-- MEDICAL --}}
                                 <div class="row">
-                                    <div class="col-lg-4 col-md-4 label ">Medical Clearance</div>
+                                    <div class="col-lg-4 col-md-4 label ">Medical</div>
                                     <div class="col-lg-2 col-md-2 text-capitalize">{{resident.MedicalClearance}}</div>
                                     <div class="col-lg-2 col-md-2">
                                         <button type="submit" class="btn btn-info"
@@ -380,7 +380,7 @@
                                 </div>
                                 {{!-- EAI --}}
                                 <div class="row">
-                                    <div class="col-lg-4 col-md-4 label">EAI Clearance</div>
+                                    <div class="col-lg-4 col-md-4 label">EAI</div>
                                     <div class="col-lg-2 col-md-2 text-capitalize">{{resident.EAIClearance}}</div>
                                     <div class="col-lg-2 col-md-2">
                                         <button type="submit" class="btn btn-info"
@@ -448,6 +448,23 @@
                                         <button id="" type="submit" class="btn btn-warning"
                                             data-route="/clearance/editClearance/{{resident.residentID}}/Warden"
                                             data-category="Warden" data-bs-toggle="modal"
+                                            data-bs-target="#editModal">Edit</button>
+                                    </div>
+                                </div>
+                                {{!-- UTM --}}
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 label">Unit Team</div>
+                                    <div class="col-lg-2 col-md-2 text-capitalize">{{resident.UTMClearance}}</div>
+                                    <div class="col-lg-2 col-md-2">
+                                        <button type="submit" class="btn btn-info"
+                                            data-route="/notification/requestClearance/{{resident.residentID}}/UTM"
+                                            data-category="UTM" data-bs-toggle="modal" data-bs-target="#clearanceModal">
+                                            Request</button>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4">
+                                        <button id="" type="submit" class="btn btn-warning"
+                                            data-route="/clearance/editClearance/{{resident.residentID}}/UTM"
+                                            data-category="UTM" data-bs-toggle="modal"
                                             data-bs-target="#editModal">Edit</button>
                                     </div>
                                 </div>
