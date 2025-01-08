@@ -90,6 +90,17 @@ const residentSchema = new Schema({
   MedicalRestriction: { type: Boolean, default: false },
   MedicalRestrictionDate: { type: Date },
   MedicalRestrictedBy: { type: String, lowercase: true, default: "" },
+  //UTM clearance
+  UTMReviewed: { type: Boolean, default: false },
+  UTMNotes: [{ type: String, lowercase: true, default: "" }],
+  UTMClearance: { type: Boolean, default: false },
+  UTMClearanceDate: { type: Date },
+  UTMClearedBy: { type: String, lowercase: true, default: "" },
+  UTMClearanceRemovedBy: { type: String, lowercase: true, default: "" },
+  UTMClearanceRemovedDate: { type: Date },
+  UTMRestriction: { type: Boolean, default: false },
+  UTMRestrictionDate: { type: Date },
+  UTMRestrictedBy: { type: String, lowercase: true, default: "" },
   //eai clearance
   EAIReviewed: { type: Boolean, default: false },
   EAINotes: [{ type: String, lowercase: true, default: "" }],

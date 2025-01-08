@@ -63,7 +63,7 @@
 
                                 <hr>
 
-                                {{#if resident.Sex-OffenderClearance}}
+                                {{#if resident.sexOffenderClearance}}
                                 {{!-- Resident is Sex-Offender cleared/ --}}
                                 <h5 class="card-title text-success">Resident has been cleared by Sex-Offender.</h5>
                                 <div class="col-lg-4 col-md-6 d-grid gap-2 mt-3">
@@ -74,7 +74,7 @@
                                 </div>
 
                                 {{else}}
-                                {{#if resident.Sex-OffenderRestriction}}
+                                {{#if resident.sexOffenderRestriction}}
                                 {{!-- Resident has Sex-Offender restrictions --}}
                                 <h5 class="card-title text-danger">Resident has been restricted by Sex-Offender.</h5>
                                 <div class="row">
@@ -88,7 +88,7 @@
 
                                 {{else}}
                                 {{!-- Resident has neither been cleared nor restricted --}}
-                                {{#unless resident.Sex-OffenderReviewed}}
+                                {{#unless resident.sexOffenderReviewed}}
                                 <h5 class="card-title">Resident needs reviewed by Sex-Offender.</h5>
                                 <div class="row">
                                     <div class="container">
@@ -148,8 +148,8 @@
                                 <div class="row">
                                     <div class="row mb-3">
                                         <div class="col-sm-10">
-                                            {{#if resident.Sex-OffenderNotes}}
-                                            {{#each resident.Sex-OffenderNotes}}
+                                            {{#if resident.sexOffenderNotes}}
+                                            {{#each resident.sexOffenderNotes}}
                                             <p>{{this}}</p>
 
                                             {{/each}}

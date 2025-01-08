@@ -30,6 +30,7 @@ const sendReviewEmail = async (
       <h4 style="font-size: 16px; font-weight: bold; color: #333;">Sent from: ${sender}</h4>
       
       <p>
+
         <a href="http://kcipi.onrender.com/notification/reviewClearance/${department}/${resident.residentID}/${sender}"
            style="display: inline-block; background-color: #4CAF50; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-size: 16px; text-align: center; font-weight: bold;">
           Review ${department} Clearance
