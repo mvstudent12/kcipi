@@ -19,8 +19,8 @@ modalButtons.forEach((button) => {
     dataCategory.textContent = category;
 
     // Update the form action URL dynamically
-    const modalForm = document.getElementById("modal-form");
-    modalForm.action = route;
+    const clearanceModal = document.getElementById("clearance-form");
+    clearanceModal.action = route;
   });
 });
 

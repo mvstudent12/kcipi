@@ -535,7 +535,9 @@ module.exports = {
     const { residentID, email, dept } = req.params;
     const resident = await Resident.findOne({ residentID }).lean();
     const activeTab = "status";
-    res.render(`clearance/${dept}`, { resident, email, activeTab });
+    console.log("ROUTED OKAY");
+    console.log(dept);
+    // res.render(`clearance/${dept}`, { resident, email, activeTab });
   },
   async next_notes(req, res) {
     const { residentID, email, category } = req.params;
