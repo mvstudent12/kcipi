@@ -161,7 +161,121 @@ module.exports = {
     const resident = await Resident.findOne({ residentID }).lean();
     res.render("clearance/Medical", { resident, email, activeTab });
   },
+  //========================
+  //   UTM Clearance
+  //========================
 
+  async approveUTM(req, res) {
+    const residentID = req.params.residentID;
+    const email = req.params.email;
+    try {
+      await Resident.updateOne(
+        { residentID: residentID },
+        {
+          $set: {
+            UTMClearance: true,
+            UTMClearanceDate: new Date(),
+            UTMClearedBy: email,
+            UTMReviewed: true,
+          },
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+    activeTab = "status";
+    const resident = await Resident.findOne({ residentID }).lean();
+    console.log(resident);
+    res.render("clearance/UTM", { resident, email, activeTab });
+  },
+  async removeUTMClearance(req, res) {
+    const residentID = req.params.residentID;
+    const email = req.params.email;
+    try {
+      await Resident.updateOne(
+        { residentID: residentID },
+        {
+          $set: {
+            UTMClearance: false,
+            UTMClearanceRemovedDate: new Date(),
+            UTMClearanceRemovedBy: email,
+            UTMReviewed: false,
+            UTMRestriction: false,
+          },
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+    activeTab = "status";
+    const resident = await Resident.findOne({ residentID }).lean();
+    res.render("clearance/UTM", { resident, email, activeTab });
+  },
+  async removeUTMRestriction(req, res) {
+    const residentID = req.params.residentID;
+    const email = req.params.email;
+    try {
+      await Resident.updateOne(
+        { residentID: residentID },
+        {
+          $set: {
+            UTMClearance: false,
+            UTMReviewed: false,
+            UTMRestriction: false,
+          },
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+    activeTab = "status";
+    const resident = await Resident.findOne({ residentID }).lean();
+    res.render("clearance/UTM", { resident, email, activeTab });
+  },
+
+  async denyUTMClearance(req, res) {
+    const residentID = req.params.residentID;
+    const email = req.params.email;
+    try {
+      await Resident.updateOne(
+        { residentID: residentID },
+        {
+          $set: {
+            UTMClearance: false,
+            UTMRestrictionDate: new Date(),
+            UTMRestrictedBy: email,
+            UTMRestriction: true,
+            UTMReviewed: true,
+          },
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+    activeTab = "status";
+    const resident = await Resident.findOne({ residentID }).lean();
+    res.render("clearance/UTM", { resident, email, activeTab });
+  },
+  async saveUTMNotes(req, res) {
+    const residentID = req.params.residentID;
+    const email = req.params.email;
+    const notes = req.body.notes;
+    try {
+      await Resident.updateOne(
+        { residentID: residentID },
+        {
+          $push: {
+            UTMNotes: notes,
+          },
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+    const activeTab = "notes";
+    const resident = await Resident.findOne({ residentID }).lean();
+    res.render("clearance/UTM", { resident, email, activeTab });
+  },
   //========================
   //   EAI Clearance
   //========================

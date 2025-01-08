@@ -38,6 +38,33 @@ notificationRoutes.post(
   controller.saveMedicalNotes
 );
 //============================
+//    UTM Notifications
+//============================
+
+notificationRoutes.get(
+  "/UTM/approve/:residentID/:email",
+  controller.approveUTM
+);
+notificationRoutes.get(
+  "/UTM/removeUTMClearance/:residentID/:email",
+  controller.removeUTMClearance
+);
+
+notificationRoutes.get(
+  "/UTM/removeUTMRestriction/:residentID/:email",
+  controller.removeUTMRestriction
+);
+
+notificationRoutes.get(
+  "/UTM/deny/:residentID/:email",
+  controller.denyUTMClearance
+);
+
+notificationRoutes.post(
+  "/UTM/saveUTMNotes/:residentID/:email",
+  controller.saveUTMNotes
+);
+//============================
 //    EAI Notifications
 //============================
 
