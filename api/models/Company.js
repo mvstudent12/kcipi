@@ -2,11 +2,11 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const jobSchema = new Schema({
-  position: { type: String, lowercase: true },
-  description: { type: String, lowercase: true },
-  pay: { type: String, lowercase: true },
-  jobPool: { type: String, lowercase: true },
-  applicants: [],
+  position: { type: String, lowercase: true, trim: true },
+  description: { type: String, lowercase: true, trim: true },
+  pay: { type: String, lowercase: true, trim: true },
+  jobPool: { type: String, lowercase: true, trim: true },
+  applicants: [{ type: mongoose.Schema.Types.ObjectId, ref: "Resident" }],
   isAvailable: { type: Boolean, default: true },
   dateCreated: { type: Date, default: Date.now },
 });
@@ -16,17 +16,18 @@ const companySchema = new Schema({
     type: String,
     lowercase: true,
     required: true,
+    index: true,
+    trim: true,
+    unique: true,
   },
   facility: {
     type: String,
     required: true,
+    trim: true,
   },
-  jobs: [jobSchema],
-  employer: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Employer", // This establishes the relationship to the Employer model
-  },
+  jobs: { type: [jobSchema], default: [] },
+  employer: [{ type: mongoose.Schema.Types.ObjectId, ref: "Employer" }],
 });
 
-const Employer = mongoose.model("company", companySchema);
-module.exports = Employer;
+const Company = mongoose.model("company", companySchema);
+module.exports = Company;

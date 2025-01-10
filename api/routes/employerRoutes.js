@@ -14,4 +14,11 @@ employerRoutes.get(
   controller.managePositions
 );
 
+employerRoutes.get(
+  "/addNewPosition",
+  checkUser,
+  requireAuth,
+  controller.addNewPosition
+);
+
 module.exports = employerRoutes;

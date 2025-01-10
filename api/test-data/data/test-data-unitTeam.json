@@ -288,6 +288,14 @@
     "role": "unitTeam"
   },
   {
+    "firstName": "Kari",
+    "lastName": "johnson",
+    "email": "kari.johnson@ks.gov",
+    "password": "asd",
+    "facility": "Topeka",
+    "role": "unitTeam"
+  },
+  {
     "firstName": "Ashley",
     "lastName": "Clark",
     "email": "ashley.clark@ks.gov",

@@ -6,7 +6,7 @@
         <h1>Unit Team Database</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/dashboard/{{user.email}}">Home</a></li>
+                <li class="breadcrumb-item"><a href="admin/dashboard">Dashboard</a></li>
                 <li class="breadcrumb-item active">Unit Team Database</li>
             </ol>
         </nav>
@@ -17,224 +17,288 @@
             <div class="col-xl-4">
                 <div class="card">
                     <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+                        <img src="/assets/img/employer.png" alt="Profile" class="rounded-circle">
                         <h2 class="text-capitalize mb-3">Unit Team Database</h2>
-                        <h3>All KDOC Unit Team</h3>
-                        {{!-- UPDATE ALL Unit Team IN DB FORM --}}
-                        <div class="row mb-3 mt-3">
-                            <form action="/updateAllUnitTeam/{{user.email}}" method="POST"
-                                enctype="multipart/form-data">
-                                <label class="col-form-label" for="csvfile">Upload CSV File:</label>
-                                <input class="form-control mb-3" type="file" name="csvfile" id="csvfile" accept=".csv"
-                                    required>
-                                <button class="btn btn-danger" type="submit">Upload</button>
-                                {{#if dataMSG}}
-                                <p class="text-warning mt-3">{{dataMSG}}</p>
-                                {{/if}}
-                            </form>
-                        </div>
+                        <h3>KDOC Employees</h3>
+
                     </div>
                 </div>
             </div>
 
             <div class="col-xl-8">
+
                 <div class="card">
                     <div class="card-body pt-3">
                         <!-- Bordered Tabs -->
                         <ul class="nav nav-tabs nav-tabs-bordered">
                             <li class="nav-item">
-                                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit
-                                    Team Member</button>
+                                <button class="nav-link {{#if (eq activeTab 'add')}}active{{/if}}" data-bs-toggle="tab"
+                                    data-bs-target="#add-unitTeam">Add
+                                    Member</button>
                             </li>
                             <li class="nav-item">
-                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-add-member">Add
-                                    Team Member</button>
+                                <button class="nav-link {{#if (eq activeTab 'edit')}}active{{/if}}" data-bs-toggle="tab"
+                                    data-bs-target="#edit-unitTeam">Edit
+                                    Member</button>
                             </li>
                             <li class="nav-item">
-                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-all-members">All
-                                    Team Members</button>
+                                <button class="nav-link {{#if (eq activeTab 'all')}}active{{/if}}" data-bs-toggle="tab"
+                                    data-bs-target="#all-unitTeam">All
+                                    Unit Team</button>
                             </li>
+
                         </ul>
 
                         <div class="tab-content pt-2">
+                            {{!-- Add Unit Team Tab --}}
+                            <div class="tab-pane fade {{#if (eq activeTab 'add')}}show active{{/if}} add-unitTeam pt-3"
+                                id="add-unitTeam">
+                                <form method="POST" action="/admin/addUnitTeam">
 
-
-                            {{!--==== Edit Resident TAB =======--}}
-                            <div class="tab-pane fade show active profile-edit pt-3" id="profile-edit">
-
-                                {{!-- Resident Search Bar --}}
-                                <div class="row mb-3">
-                                    <label for="email" class="col-md-4 col-lg-3 col-form-label">Search
-                                        Email</label>
-                                    <div class="col-md-8 col-lg-9">
-                                        <div class="search-bar">
-                                            <form class="search-form d-flex align-items-center" method="POST"
-                                                action="/searchUnitTeamEmail/{{user.email}}">
-                                                <input type="text" name="email" placeholder="Enter Unit Team Email"
-                                                    title="Enter Unit Team email">
-                                                <button type="submit" title="Search"><i
-                                                        class="bi bi-search"></i></button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div><!-- End Search Bar -->
-                                {{#if saveMsg}}
-                                <p class="text-warning">{{saveMsg}}</p>
-                                {{/if}}
-                                {{#if failedSearch}}
-                                <p class="text-danger">No Unit Team members found.</p>
-                                <p class="text-danger">Make sure you enter the correct email address associated with
-                                    this unit team member.</p>
-                                {{else}}
-                                {{#if unitTeamMember}}
-                                <!--=============== Edit Unit Team Form =========================== -->
-                                <form method="POST" action="/saveUnitTeamEdit/{{user.email}}">
-                                    {{!-- unitTeam First Name --}}
+                                    {{!-- unitTeam first name --}}
                                     <div class="row mb-3">
-                                        <label for="firstName" class="col-md-4 col-lg-3 col-form-label">First
+                                        <label for="firstName" class="col-md-4 col-lg-4 col-form-label">First
                                             Name</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="firstName" type="text" class="form-control text-capitalize"
-                                                id="firstName" value="{{unitTeamMember.firstName}}">
+                                        <div class="col-md-8 col-lg-8">
+                                            <input required name="firstName" type="text"
+                                                class="form-control text-capitalize" id="firstName">
                                         </div>
                                     </div>
-                                    {{!-- unitTeamMember Last Name --}}
+                                    {{!-- unitTeam last name--}}
                                     <div class="row mb-3">
-                                        <label for="lastName" class="col-md-4 col-lg-3 col-form-label">Last
-                                            Name</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="lastName" type="text" class="form-control text-capitalize"
-                                                id="lastName" value="{{unitTeamMember.lastName}}">
-                                        </div>
-                                    </div>
-                                    {{!-- unitTeamMember email --}}
-                                    <div class="row mb-3">
-                                        <label for="email" class="col-md-4 col-lg-3 col-form-label">KDOC
-                                            Email</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="email" type="text" class="form-control" id="email"
-                                                value="{{unitTeamMember.email}}" readonly>
+                                        <label for="lastName" class="col-md-4 col-lg-4 col-form-label">Last Name</label>
+                                        <div class="col-md-8 col-lg-8">
+                                            <input required name="lastName" type="text"
+                                                class="form-control text-capitalize" id="lastName">
                                         </div>
                                     </div>
 
-                                    {{!-- unitTeamMember Facility --}}
-                                    <div class="row mb-3">
-                                        <label for="facility" class="col-md-4 col-lg-3 col-form-label">Facility</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="facility" type="text" class="form-control text-capitalize"
-                                                id="facility" value="{{unitTeamMember.facility}}">
-                                        </div>
-                                    </div>
-
-                                    {{!-- Save & Delete Button --}}
-                                    <div class="text-center">
-                                        <button type="submit" class="btn btn-primary mx-2">Save Edit</button>
-                                        <button type="button" class="btn btn-danger mx-2" data-bs-toggle="modal"
-                                            data-bs-target="#basicModal">Delete Member</button>
-                                    </div>
-
-                                </form>
-                                {{else}}
-                                <p class="text-primary">Search for a specific unit team member by their KDOC email
-                                    address.</p>
-                                {{/if}}
-                                {{/if}}
-                                <!--=============== Edit Resident Form============================ -->
-                            </div>
-                            {{!--==== Add Team Member TAB ==== --}}
-                            <div class="tab-pane fade profile-add-member pt-3" id="profile-add-member">
-                                <form method="POST" action="#">
-                                    {{!-- unitTeam First Name --}}
-                                    <div class="row mb-3">
-                                        <label for="firstName" class="col-md-4 col-lg-3 col-form-label">First
-                                            Name</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="firstName" type="text" class="form-control text-capitalize"
-                                                id="firstName">
-                                        </div>
-                                    </div>
-                                    {{!-- unitTeam Last Name --}}
-                                    <div class="row mb-3">
-                                        <label for="lastName" class="col-md-4 col-lg-3 col-form-label">Last
-                                            Name</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="lastName" type="text" class="form-control text-capitalize"
-                                                id="lastName">
-                                        </div>
-                                    </div>
                                     {{!-- unitTeam email --}}
                                     <div class="row mb-3">
-                                        <label for="email" class="col-md-4 col-lg-3 col-form-label">KDOC
-                                            Email</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="email" type="text" class="form-control text-capitalize"
-                                                id="email">
+                                        <label for="email" class="col-md-4 col-lg-4 col-form-label">Email</label>
+                                        <div class="col-md-8 col-lg-8">
+                                            <input required name="email" type="email" class="form-control" id="email">
                                         </div>
                                     </div>
-                                    {{!-- unitTeam Custody Level --}}
+
+                                    {{!-- unitTeam Password --}}
                                     <div class="row mb-3">
-                                        <label for="password" class="col-md-4 col-lg-3 col-form-label">Password</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="password" type="text" class="form-control text-capitalize"
+                                        <label for="password" class="col-md-4 col-lg-4 col-form-label">Password</label>
+                                        <div class="col-md-8 col-lg-8">
+                                            <input required name="password" type="text" class="form-control"
                                                 id="password">
                                         </div>
                                     </div>
                                     {{!-- unitTeam Facility --}}
                                     <div class="row mb-3">
-                                        <label for="facility" class="col-md-4 col-lg-3 col-form-label">Facility</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="facility" type="text" class="form-control text-capitalize"
-                                                id="facility">
+                                        <label for="facility" class="col-md-4 col-lg-4 col-form-label">Facility</label>
+                                        <div class="col-md-8 col-lg-8">
+                                            <select required name="facility" id="facility" class="form-select"
+                                                aria-label="Facility Options">
+                                                <option selected value="">Select Facility:
+                                                </option>
+                                                <option value="El Dorado">El Dorado</option>
+                                                <option value="Ellsworth">Ellsworth</option>
+                                                <option value="Hutchinson">Hutchinson</option>
+                                                <option value="Lansing">Lansing</option>
+                                                <option value="Larned">Larned</option>
+                                                <option value="Norton">Norton</option>
+                                                <option value="Topeka">Topeka</option>
+                                                <option value="Winfield">Winfield</option>
+                                                <option value="Wichita">Wichita</option>
+
+                                            </select>
                                         </div>
                                     </div>
-                                    {{!-- Unit Team Assigned --}}
-                                    <div class="row mb-3">
-                                        <label for="role" class="col-md-4 col-lg-3 col-form-label">Role</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="role" type="text" class="form-control text-capitalize"
-                                                id="role">
-                                        </div>
-                                    </div>
+
                                     {{!-- Save Button --}}
+                                    <hr>
                                     <div class="text-center">
                                         <button type="submit" class="btn btn-primary mx-2">Add</button>
                                     </div>
                                 </form>
+                                {{#if addMsg}}
+                                <hr>
+                                <p class="text-success text-center fst-italic mt-3">New member added successfully.</p>
+                                {{/if}}
                             </div>
-                            {{!--=== All Team Members ===--}}
-                            <div class="tab-pane fade profile-all-members pt-3" id="profile-all-members">
-                                <!-- Residents Table -->
+
+                            {{!-- Edit Existing Unit Team Tab --}}
+                            <div class="tab-pane fade {{#if (eq activeTab 'edit')}}show active{{/if}} edit-unitTeam pt-3"
+                                id="edit-unitTeam">
+
+                                {{!-- Unit Team Search Bar --}}
+                                <div class="row mb-3">
+                                    <label for="unitTeamList" class="col-md-4 col-lg-4 col-form-label">Unit Team
+                                        Name</label>
+                                    <div class="col-md-8 col-lg-8">
+                                        <div class="search-bar">
+                                            <form class="search-form d-flex align-items-center" method="POST"
+                                                action="/admin/searchUnitTeamName">
+
+                                                <div class="input-group">
+                                                    <select required name="unitTeamID" id="unitTeamList"
+                                                        class="form-select text-capitalize"
+                                                        aria-label="Select Unit Team">
+                                                        <option selected value="">Select Unit Team:
+                                                        </option>
+                                                        {{#each unitTeam}}
+                                                        <option class="text-capitalize" value="{{this._id}}">
+                                                            {{this.firstName}} {{this.lastName}} - {{this.facility}}
+                                                        </option>
+                                                        {{/each}}
+                                                    </select>
+                                                    <!-- Search Button -->
+                                                    <button class="btn btn-primary" type="submit" id="searchButton"
+                                                        title="Search">
+                                                        <i class="bi bi-search"></i> <!-- Bootstrap Search Icon -->
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div><!-- End Search Bar -->
+
+
+                                {{#if unitTeamFound}}
+                                <!--=============== Edit Unit Team Form =========================== -->
+                                <hr>
+                                <form method="POST" action="/admin/saveUnitTeamEdit">
+                                    <input type="hidden" name="id" value="{{unitTeamFound._id}}">
+                                    {{!-- unitTeam firstName --}}
+                                    <div class="row mb-3">
+                                        <label for="firstName" class="col-md-4 col-lg-4 col-form-label">First
+                                            Name</label>
+                                        <div class="col-md-8 col-lg-8">
+                                            <input name="firstName" type="text" class="form-control text-capitalize"
+                                                id="editfirstName" value="{{unitTeamFound.firstName}}">
+                                        </div>
+                                    </div>
+                                    {{!-- unitTeam lastName --}}
+                                    <div class="row mb-3">
+                                        <label for="lastName" class="col-md-4 col-lg-4 col-form-label">Last
+                                            Name</label>
+                                        <div class="col-md-8 col-lg-8">
+                                            <input name="lastName" type="text" class="form-control text-capitalize"
+                                                id="editLastName" value="{{unitTeamFound.lastName}}">
+                                        </div>
+                                    </div>
+                                    {{!-- !!!!!Create a password change functionality later!!!!! --}}
+                                    {{!-- unitTeam password --}}
+                                    {{!-- <div class="row mb-3">
+                                        <label for="password" class="col-md-4 col-lg-4 col-form-label">Password</label>
+                                        <div class="col-md-8 col-lg-8">
+                                            <input name="password" type="text" class="form-control text-capitalize"
+                                                id="editPassword">
+                                        </div>
+                                    </div> --}}
+
+                                    {{!-- unitTeam email --}}
+                                    <div class="row mb-3">
+                                        <label for="email" class="col-md-4 col-lg-4 col-form-label">
+                                            Email</label>
+                                        <div class="col-md-8 col-lg-8">
+                                            <input name="email" type="text" class="form-control" id="email"
+                                                value="{{unitTeamFound.email}}">
+                                        </div>
+                                    </div>
+                                    {{!-- unitTeam Facility --}}
+                                    <div class="row mb-3">
+                                        <label for="facility" class="col-md-4 col-lg-4 col-form-label">Facility</label>
+                                        <div class="col-md-8 col-lg-8">
+
+                                            <select required name="facility" id="facilityEdit" class="form-select"
+                                                aria-label="Facility Options">
+                                                <option {{#if (eq unitTeamFound.facility "El Dorado" ) }}selected{{/if}}
+                                                    value="El Dorado">El Dorado</option>
+                                                <option {{#if (eq unitTeamFound.facility "Ellsworth" ) }}selected{{/if}}
+                                                    value="Ellsworth">Ellsworth</option>
+                                                <option {{#if (eq unitTeamFound.facility "Hutchinson" )
+                                                    }}selected{{/if}} value="Hutchinson">Hutchinson</option>
+                                                <option {{#if (eq unitTeamFound.facility "Lansing" ) }}selected{{/if}}
+                                                    value="Lansing">Lansing</option>
+                                                <option {{#if (eq unitTeamFound.facility "Larned" ) }}selected{{/if}}
+                                                    value="Larned">Larned</option>
+                                                <option {{#if (eq unitTeamFound.facility "Norton" ) }}selected{{/if}}
+                                                    value="Norton">Norton</option>
+                                                <option {{#if (eq unitTeamFound.facility "Topeka" ) }}selected{{/if}}
+                                                    value="Topeka">Topeka</option>
+                                                <option {{#if (eq unitTeamFound.facility "Winfield" ) }}selected{{/if}}
+                                                    value="Winfield">Winfield</option>
+                                                <option {{#if (eq unitTeamFound.facility "Wichita" ) }}selected{{/if}}
+                                                    value="Wichita">Wichita</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    {{!-- Save Button --}}
+                                    <hr>
+                                    <div class="d-flex justify-content-between mt-3">
+                                        <!-- Save Button (Left) -->
+                                        {{!-- !!!!!!!!!!!ADD THIS FUNCTIONALITY LATER!!!!!!!!! --}}
+                                        <button type="button" class="btn btn-danger mx-2">Delete Member</button>
+
+                                        <!-- Edit Button (Right) -->
+                                        <button type="submit" class="btn btn-primary mx-2">Save Edit</button>
+                                    </div>
+                                </form>
+
+                                {{/if}}
+                                {{#if saveMsg}}
+                                <hr>
+                                <p class="text-success text-center fst-italic mt-3">Your edits have been saved
+                                    successfully.
+                                </p>
+                                {{/if}}
+
+
+                                <!--=============== Edit unitTeam Form============================ -->
+                            </div>
+
+                            {{!-- All Unit Team tab --}}
+                            <div class="tab-pane fade {{#if (eq activeTab 'all')}}show active{{/if}} all-unitTeam pt-3"
+                                id="all-unitTeam">
+                                <!-- Unit Team Table -->
                                 <div class="col-12">
                                     <div class="card recent-sales overflow-auto">
                                         <div class="card-body">
-                                            <h5 class="card-title">Unit Team <span>| All Members</span></h5>
+                                            <h5 class="card-title">Unit Team <span>| All KDOC</span></h5>
                                             <table class="table table-borderless datatable">
                                                 <thead>
                                                     <tr>
                                                         <th scope="col">#</th>
                                                         <th scope="col">Facility</th>
-                                                        <th scope="col">First Name</th>
-                                                        <th scope="col">Last Name</th>
+                                                        <th scope="col">Name</th>
                                                         <th scope="col">Email</th>
+                                                        <th scope="col">Status</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     {{#each unitTeam}}
                                                     <tr>
-                                                        <th scope="row">{{add @index 1}}</th>
+                                                        <th scope="row"><a
+                                                                href="/admin/unitTeamProfile/{{this._id}}">{{add
+                                                                @index 1}}</a>
+                                                        </th>
                                                         <td class="text-capitalize">{{this.facility}}</td>
-                                                        <td class="text-capitalize">{{this.firstName}}</td>
-                                                        <td class="text-capitalize">{{this.lastName}}</td>
-                                                        <td>{{this.email}}</td>
-
+                                                        <td class="text-capitalize"><a
+                                                                href="/admin/unitTeamProfile/{{this._id}}">
+                                                                {{this.firstName}} {{this.lastName}}</a>
+                                                        </td>
+                                                        <td><a
+                                                                href="/admin/unitTeamProfile/{{this._id}}">{{this.email}}</a>
+                                                        </td>
+                                                        <td><span class="badge bg-success">Active</span></td>
                                                     </tr>
-
                                                     {{/each}}
                                                 </tbody>
                                             </table>
                                         </div>
                                     </div>
-                                </div><!-- End Residents Table -->
+                                </div>
+
                             </div>
+
                         </div><!-- End Bordered Tabs -->
                     </div>
                 </div>
@@ -247,30 +311,3 @@
 {{> footer}}
 
 {{> arrowUp}}
-
-
-{{!-- MODAL FOR Delete Unit Team Member --}}
-<div class="modal fade" id="basicModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form method="get" action="/deleteUnitTeamMember/{{user.email}}/{{unitTeamMember.email}}">
-                <div class="modal-header">
-                    <h5 class="modal-title">Delete Team Member</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row mb-3">
-                        <div class="col-sm-10">
-                            <p>Are you sure you want to delete this member?</p>
-                            <p class="text-danger">This action is permanent.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button id="" type="submit" class="btn btn-danger">Delete</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div><!-- End Basic Modal-->

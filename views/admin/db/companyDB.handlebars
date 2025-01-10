@@ -1,0 +1,212 @@
+{{> adminTemplate}}
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Company Database</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="admin/dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item active">Company Database</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section profile">
+        <div class="row">
+            <div class="col-xl-4">
+                <div class="card">
+                    <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+                        <img src="/assets/img/employer.png" alt="company database" class="rounded-circle">
+                        <h2 class="text-capitalize mb-3">Company Database</h2>
+                        <h3>KCI Private Industry</h3>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-8">
+
+                <div class="card">
+                    <div class="card-body pt-3">
+                        <!-- Bordered Tabs -->
+                        <ul class="nav nav-tabs nav-tabs-bordered">
+                            <li class="nav-item">
+                                <button class="nav-link {{#if (eq activeTab 'add')}}active{{/if}}" data-bs-toggle="tab"
+                                    data-bs-target="#add-company">Add
+                                    Company</button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-link {{#if (eq activeTab 'edit')}}active{{/if}}" data-bs-toggle="tab"
+                                    data-bs-target="#edit-company">Edit
+                                    Company</button>
+                            </li>
+
+                        </ul>
+
+                        <div class="tab-content pt-2">
+
+                            {{!-- Add Company Tab --}}
+                            <div class="tab-pane fade {{#if (eq activeTab 'add')}}show active{{/if}} add-company pt-3"
+                                id="add-company">
+                                <form method="POST" action="/admin/addCompany">
+                                    {{!-- employer First Name --}}
+                                    <div class="row mb-3">
+                                        <label for="companyName" class="col-md-4 col-lg-3 col-form-label">Company
+                                            Name</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="companyName" type="text" class="form-control text-capitalize"
+                                                id="companyName">
+                                        </div>
+                                    </div>
+
+                                    {{!-- employer Facility --}}
+                                    <div class="row mb-3">
+                                        <label for="facility" class="col-md-4 col-lg-3 col-form-label">Facility</label>
+                                        <div class="col-md-8 col-lg-9">
+
+                                            <select required name="facility" id="facility" class="form-select"
+                                                aria-label="Facility Options">
+                                                <option selected value="">Select Facility:
+                                                </option>
+                                                <option value="El Dorado">El Dorado</option>
+                                                <option value="Ellsworth">Ellsworth</option>
+                                                <option value="Hutchinson">Hutchinson</option>
+                                                <option value="Lansing">Lansing</option>
+                                                <option value="Larned">Larned</option>
+                                                <option value="Norton">Norton</option>
+                                                <option value="Topeka">Topeka</option>
+                                                <option value="Winfield">Winfield</option>
+                                                <option value="Wichita">Wichita</option>
+
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                    {{!-- Save Button --}}
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-primary mx-2">Add</button>
+                                    </div>
+                                </form>
+                                {{#if addMsg}}
+                                <hr>
+                                <p class="text-success text-center fst-italic mt-3">Company successfully added.
+                                </p>
+                                {{/if}}
+                            </div>
+
+                            {{!-- Edit Existing Company Tab --}}
+                            <div class="tab-pane fade {{#if (eq activeTab 'edit')}}show active{{/if}} edit-company
+                                pt-3" id="edit-company">
+
+                                {{!-- Company Search Bar --}}
+                                <div class="row mb-3">
+                                    <label for="searchCompanyName" class="col-md-4 col-lg-4 col-form-label">Search
+                                        Company</label>
+                                    <div class="col-md-8 col-lg-8">
+                                        <div class="search-bar">
+                                            <form class="search-form d-flex align-items-center" method="POST"
+                                                action="/admin/searchCompanyName">
+
+                                                <div class="input-group">
+                                                    <select required name="companyID" id="companyList"
+                                                        class="form-select text-capitalize" aria-label="Select Company">
+                                                        <option selected value="">Select Company:
+                                                        </option>
+                                                        {{#each companies}}
+                                                        <option class="text-capitalize" value="{{this._id}}">
+                                                            {{this.companyName}}</option>
+                                                        {{/each}}
+                                                    </select>
+                                                    <!-- Search Button -->
+                                                    <button class="btn btn-primary" type="submit" id="searchButton"
+                                                        title="Search">
+                                                        <i class="bi bi-search"></i> <!-- Bootstrap Search Icon -->
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div><!-- End Search Bar -->
+                                {{#if saveMsg}}
+                                <hr>
+                                <p class="text-success text-center fst-italic mt-3">Your edits have been saved
+                                    successfully.
+                                </p>
+                                {{/if}}
+
+
+                                {{#if companyFound}}
+                                <!--=============== Edit Company Form =========================== -->
+                                <hr>
+                                <p class="text-mutes text-center fst-italic mt-3 mb-3">Company information to edit:</p>
+                                <form method="POST" action="/admin/saveCompanyEdit">
+                                    {{!-- Company First Name --}}
+                                    <div class="row mb-3">
+                                        <label for="companyName" class="col-md-4 col-lg-3 col-form-label">Company
+                                            Name</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="companyName" type="text" class="form-control text-capitalize"
+                                                id="companyName" value="{{companyFound.companyName}}">
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="id" value="{{companyFound._id}}">
+
+                                    {{!-- Company Facility --}}
+                                    <div class="row mb-3">
+
+                                        <label for="facility" class="col-md-4 col-lg-3 col-form-label">Facility</label>
+                                        <div class="col-md-8 col-lg-9">
+
+                                            <select required name="facility" id="facilityEdit" class="form-select"
+                                                aria-label="Facility Options">
+                                                <option {{#if (eq companyFound.facility "El Dorado" ) }}selected{{/if}}
+                                                    value="El Dorado">El Dorado</option>
+                                                <option {{#if (eq companyFound.facility "Ellsworth" ) }}selected{{/if}}
+                                                    value="Ellsworth">Ellsworth</option>
+                                                <option {{#if (eq companyFound.facility "Hutchinson" ) }}selected{{/if}}
+                                                    value="Hutchinson">Hutchinson</option>
+                                                <option {{#if (eq companyFound.facility "Lansing" ) }}selected{{/if}}
+                                                    value="Lansing">Lansing</option>
+                                                <option {{#if (eq companyFound.facility "Larned" ) }}selected{{/if}}
+                                                    value="Larned">Larned</option>
+                                                <option {{#if (eq companyFound.facility "Norton" ) }}selected{{/if}}
+                                                    value="Norton">Norton</option>
+                                                <option {{#if (eq companyFound.facility "Topeka" ) }}selected{{/if}}
+                                                    value="Topeka">Topeka</option>
+                                                <option {{#if (eq companyFound.facility "Winfield" ) }}selected{{/if}}
+                                                    value="Winfield">Winfield</option>
+                                                <option {{#if (eq companyFound.facility "Wichita" ) }}selected{{/if}}
+                                                    value="Wichita">Wichita</option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="d-flex justify-content-between mt-3">
+                                        <!-- Save Button (Left) -->
+                                        <button type="button" class="btn btn-danger mx-2">Delete Company</button>
+
+                                        <!-- Edit Button (Right) -->
+                                        <button type="submit" class="btn btn-primary mx-2">Save Edit</button>
+                                    </div>
+
+                                </form>
+                                {{/if}}
+
+
+                                <!--=============== Edit employer Form============================ -->
+                            </div>
+
+                        </div><!-- End Bordered Tabs -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+{{> footer}}
+
+{{> arrowUp}}

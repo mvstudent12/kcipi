@@ -21,4 +21,13 @@ module.exports = {
       console.log(err);
     }
   },
+
+  //adds new position to company db
+  async addNewPosition(req, res) {
+    try {
+      res.render("employer/managePositions", { user: req.session.user });
+    } catch (err) {
+      console.log(err);
+    }
+  },
 };

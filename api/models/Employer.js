@@ -6,10 +6,12 @@ const employerSchema = new Schema({
   firstName: {
     type: String,
     lowercase: true,
+    trim: true,
   },
   lastName: {
     type: String,
     lowercase: true,
+    trim: true,
   },
   email: {
     type: String,
@@ -26,10 +28,18 @@ const employerSchema = new Schema({
     default: "employer",
     lowercase: true,
   },
+  facility: {
+    type: String,
+    lowercase: true,
+    trim: true,
+    required: true,
+  },
 
   company: {
     type: String,
     lowercase: true,
+    trim: true,
+    required: true,
   }, // reference to the Company model
 });
 

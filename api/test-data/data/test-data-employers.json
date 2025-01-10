@@ -5,7 +5,8 @@
     "email": "lucas.harris@ks.gov",
     "password": "asd",
     "role": "employer",
-    "company": "impact design"
+    "company": "impact design",
+    "facility": "El Dorado"
   },
   {
     "firstName": "emily",
@@ -13,7 +14,8 @@
     "email": "emily.davis@ks.gov",
     "password": "asd",
     "role": "employer",
-    "company": "pioneer ballons"
+    "company": "pioneer ballons",
+    "facility": "El Dorado"
   },
   {
     "firstName": "sophia",
@@ -21,7 +23,8 @@
     "email": "sophia.martin@ks.gov",
     "password": "asd",
     "role": "employer",
-    "company": "great plains"
+    "company": "great plains",
+    "facility": "Ellsworth"
   },
   {
     "firstName": "james",
@@ -29,7 +32,8 @@
     "email": "james.wilson@ks.gov",
     "password": "asd",
     "role": "employer",
-    "company": "moly manufacturing"
+    "company": "moly manufacturing",
+    "facility": "Ellsworth"
   },
   {
     "firstName": "oliver",
@@ -37,7 +41,8 @@
     "email": "oliver.brown@ks.gov",
     "password": "asd",
     "role": "employer",
-    "company": "pkm steel"
+    "company": "pkm steel",
+    "facility": "Ellsworth"
   },
   {
     "firstName": "ella",
@@ -45,7 +50,8 @@
     "email": "ella.rodriguez@ks.gov",
     "password": "asd",
     "role": "employer",
-    "company": "maico industries inc."
+    "company": "maico industries inc.",
+    "facility": "Ellsworth"
   },
   {
     "firstName": "jackson",
@@ -53,7 +59,8 @@
     "email": "jackson.lee@ks.gov",
     "password": "asd",
     "role": "employer",
-    "company": "bac"
+    "company": "bac",
+    "facility": "Lansing"
   },
   {
     "firstName": "mason",
@@ -61,7 +68,8 @@
     "email": "mason.gonzalez@ks.gov",
     "password": "asd",
     "role": "employer",
-    "company": "heatron"
+    "company": "heatron",
+    "facility": "Lansing"
   },
   {
     "firstName": "chloe",
@@ -69,7 +77,8 @@
     "email": "chloe.miller@ks.gov",
     "password": "asd",
     "role": "employer",
-    "company": "lpf high performance"
+    "company": "lpf high performance",
+    "facility": "Lansing"
   },
   {
     "firstName": "liam",
@@ -77,6 +86,7 @@
     "email": "liam.anderson@ks.gov",
     "password": "asd",
     "role": "employer",
-    "company": "zephyr"
+    "company": "zephyr",
+    "facility": "Lansing"
   }
 ]

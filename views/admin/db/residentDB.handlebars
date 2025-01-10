@@ -21,12 +21,11 @@
                         <h3 class="text-muted">All KDOC Residents</h3>
                         {{!-- UPDATE ALL RESIDENTS IN DB FORM --}}
                         <div class="row mb-3 mt-3">
-                            <form action="/updateAllResidents/{{user.email}}" method="POST"
-                                enctype="multipart/form-data">
-                                <label class="col-form-label" for="csvfile">Upload CSV File:</label>
+                            <form action="/admin/updateAllResidentsDB" method="POST" enctype="multipart/form-data">
+                                <label class="col-form-label" for="csvfile">Import CSV File:</label>
                                 <input class="form-control mb-3" type="file" name="csvfile" id="csvfile" accept=".csv"
                                     required>
-                                <button class="btn btn-danger" type="submit">Upload</button>
+                                <button class="btn btn-danger" type="submit">Update</button>
                                 {{#if dataMSG}}
                                 <p class="text-warning mt-3">{{dataMSG}}</p>
                                 {{/if}}
@@ -43,51 +42,165 @@
                         <!-- Bordered Tabs -->
                         <ul class="nav nav-tabs nav-tabs-bordered">
                             <li class="nav-item">
-                                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit
+                                <button class="nav-link {{#if (eq activeTab 'add')}}active{{/if}}" data-bs-toggle="tab"
+                                    data-bs-target="#add-resident">Add resident</button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-link {{#if (eq activeTab 'edit')}}active{{/if}}" data-bs-toggle="tab"
+                                    data-bs-target="#edit-resident">Edit
                                     Resident</button>
                             </li>
                             <li class="nav-item">
-                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-add-resident">Add
-                                    Resident</button>
+                                <button class="nav-link {{#if (eq activeTab 'all')}}active{{/if}}" data-bs-toggle="tab"
+                                    data-bs-target="#all-resident">All
+                                    Residents</button>
                             </li>
                         </ul>
 
                         <div class="tab-content pt-2">
+                            {{!-- Add resident tab --}}
+                            <div class="tab-pane fade {{#if (eq activeTab 'add')}}show active{{/if}} add-resident pt-3"
+                                id="add-resident">
+                                <form method="POST" action="/admin/addResident">
+                                    {{!-- Resident First Name --}}
+                                    <div class="row mb-3">
+                                        <label for="firstName" class="col-md-4 col-lg-3 col-form-label">First
+                                            Name</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input required name="firstName" type="text"
+                                                class="form-control text-capitalize" id="firstName">
+                                        </div>
+                                    </div>
+                                    {{!-- Resident Last Name --}}
+                                    <div class="row mb-3">
+                                        <label for="lastName" class="col-md-4 col-lg-3 col-form-label">Last
+                                            Name</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input required name="lastName" type="text"
+                                                class="form-control text-capitalize" id="lastName">
+                                        </div>
+                                    </div>
+                                    {{!-- Resident ID --}}
+                                    <div class="row mb-3">
+                                        <label for="residentID" class="col-md-4 col-lg-3 col-form-label">Resident
+                                            ID</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input required name="residentID" type="text"
+                                                class="form-control text-capitalize" pattern="\d{7}"
+                                                title="Enter 7 digit Resident ID" id="residentID">
+                                        </div>
+                                    </div>
+                                    {{!-- Resident Custody Level --}}
+                                    <div class="row mb-3">
+                                        <label for="custodyLevel" class="col-md-4 col-lg-3 col-form-label">Custody
+                                            Level</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <select required name="custodyLevel" class="form-select" id="custodyLevel">
+                                                <option selected value="">Select custody level:
+                                                </option>
+                                                <option value="Minimum 1">Minimum 1</option>
+                                                <option value="Minimum 2">Minimum 2</option>
+                                                <option value="Medium">Medium</option>
+                                                <option value="Maximum">Maximum</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    {{!-- Resident Facility --}}
 
+                                    <div class="row mb-3">
+                                        <label for="facility" class="col-md-4 col-lg-3 col-form-label">Facility</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <select required name="facility" id="facility" class="form-select"
+                                                aria-label="Facility Options">
+                                                <option selected value="">Select Facility:
+                                                </option>
+                                                <option value="El Dorado">El Dorado</option>
+                                                <option value="Ellsworth">Ellsworth</option>
+                                                <option value="Hutchinson">Hutchinson</option>
+                                                <option value="Lansing">Lansing</option>
+                                                <option value="Larned">Larned</option>
+                                                <option value="Norton">Norton</option>
+                                                <option value="Topeka">Topeka</option>
+                                                <option value="Winfield">Winfield</option>
+                                                <option value="Wichita">Wichita</option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                    {{!-- Save Button --}}
+                                    <hr>
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-primary mx-2">Add</button>
+                                    </div>
+                                </form>
+                                {{#if addMsg}}
+                                <hr>
+                                <p class="text-success text-center fst-italic mt-3">New resident added successfully.</p>
+                                {{/if}}
+
+                            </div>
 
                             {{!-- Edit Resident TAB --}}
-                            <div class="tab-pane fade show active profile-edit pt-3" id="profile-edit">
+                            <div class="tab-pane fade {{#if (eq activeTab 'edit')}}show active{{/if}} edit-resident pt-3"
+                                id="edit-resident">
 
                                 {{!-- Resident Search Bar --}}
                                 <div class="row mb-3">
                                     <label for="firstName" class="col-md-4 col-lg-3 col-form-label">Search
                                         ID</label>
-                                    <div class="col-md-8 col-lg-9">
+                                    {{!-- <div class="col-md-8 col-lg-9">
                                         <div class="search-bar">
                                             <form class="search-form d-flex align-items-center" method="POST"
-                                                action="/searchResidentID/{{user.email}}">
+                                                action="/admin/searchResidentID">
                                                 <input type="text" name="residentID" placeholder="Enter Resident ID"
                                                     title="Enter Resident ID">
                                                 <button type="submit" title="Search"><i
                                                         class="bi bi-search"></i></button>
                                             </form>
                                         </div>
+                                    </div> --}}
+
+
+                                    <div class="col-md-8 col-lg-9">
+                                        <div class="search-bar">
+                                            <form class="search-form d-flex align-items-center" method="POST"
+                                                action="/admin/searchResidentID">
+
+                                                <div class="input-group">
+                                                    <input required type="text" name="residentID"
+                                                        placeholder="Enter Resident ID"
+                                                        title="Enter 7 digit Resident ID" class="form-control"
+                                                        aria-label="Search" aria-describedby="search-button"
+                                                        pattern="\d{7}">
+                                                    <!-- Search Button -->
+                                                    <button class="btn btn-primary" type="submit" id="searchButton"
+                                                        title="Search">
+                                                        <i class="bi bi-search"></i> <!-- Bootstrap Search Icon -->
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
                                     </div>
+
+
+
                                 </div><!-- End Search Bar -->
                                 {{#if failedSearch}}
                                 <p class="text-danger">No residents found with this number.</p>
                                 <p class="text-danger">Make sure you enter a seven digit number.</p>
+                                {{/if}}
 
-                                {{#if resident}}
-                                <!--=============== Edit Resident Form =========================== -->
-                                <form method="POST" action="#">
+                                {{#if residentFound}}
+                                <!--=============== Edit Existing Resident Form =========================== -->
+                                <hr>
+                                <form method="POST" action="/admin/editExistingResident">
                                     {{!-- Resident First Name --}}
                                     <div class="row mb-3">
                                         <label for="firstName" class="col-md-4 col-lg-3 col-form-label">First
                                             Name</label>
                                         <div class="col-md-8 col-lg-9">
                                             <input name="firstName" type="text" class="form-control text-capitalize"
-                                                id="firstName" value="{{resident.firstName}}">
+                                                id="firstName" value="{{residentFound.firstName}}">
                                         </div>
                                     </div>
                                     {{!-- Resident Last Name --}}
@@ -96,7 +209,7 @@
                                             Name</label>
                                         <div class="col-md-8 col-lg-9">
                                             <input name="lastName" type="text" class="form-control text-capitalize"
-                                                id="lastName" value="{{resident.lastName}}">
+                                                id="lastName" value="{{residentFound.lastName}}">
                                         </div>
                                     </div>
                                     {{!-- Resident ID --}}
@@ -105,24 +218,57 @@
                                             ID</label>
                                         <div class="col-md-8 col-lg-9">
                                             <input name="residentID" type="text" class="form-control text-capitalize"
-                                                id="residentID" value="{{resident.residentID}}">
+                                                id="residentID" value="{{residentFound.residentID}}">
                                         </div>
                                     </div>
+
+
                                     {{!-- Resident Custody Level --}}
                                     <div class="row mb-3">
                                         <label for="custodyLevel" class="col-md-4 col-lg-3 col-form-label">Custody
                                             Level</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="custodyLevel" type="text" class="form-control text-capitalize"
-                                                id="custodyLevel" value="{{resident.custodyLevel}}">
+                                            <select required name="custodyLevel" class="form-select" id="custodyLevel">
+
+                                                <option value="Minimum 1" {{#if (eq
+                                                    residentFound.custodyLevel "minimum 1" ) }}selected{{/if}}>Minimum 1
+                                                </option>
+                                                <option value="Minimum 2" {{#if (eq
+                                                    residentFound.custodyLevel "minimum 2" ) }}selected{{/if}}>Minimum 2
+                                                </option>
+                                                <option value="Medium" {{#if (eq residentFound.custodyLevel "medium" )
+                                                    }}selected{{/if}}>Medium</option>
+                                                <option value="Maximum" {{#if (eq residentFound.custodyLevel "maximum" )
+                                                    }}selected{{/if}}>Maximum</option>
+                                            </select>
                                         </div>
                                     </div>
+
                                     {{!-- Resident Facility --}}
                                     <div class="row mb-3">
                                         <label for="facility" class="col-md-4 col-lg-3 col-form-label">Facility</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="facility" type="text" class="form-control text-capitalize"
-                                                id="facility" value="{{resident.facility}}">
+                                            <select required name="facility" id="facilityEdit" class="form-select"
+                                                aria-label="Facility Options">
+                                                <option {{#if (eq residentFound.facility "El Dorado" ) }}selected{{/if}}
+                                                    value="El Dorado">El Dorado</option>
+                                                <option {{#if (eq residentFound.facility "Ellsworth" ) }}selected{{/if}}
+                                                    value="Ellsworth">Ellsworth</option>
+                                                <option {{#if (eq residentFound.facility "Hutchinson" )
+                                                    }}selected{{/if}} value="Hutchinson">Hutchinson</option>
+                                                <option {{#if (eq residentFound.facility "Lansing" ) }}selected{{/if}}
+                                                    value="Lansing">Lansing</option>
+                                                <option {{#if (eq residentFound.facility "Larned" ) }}selected{{/if}}
+                                                    value="Larned">Larned</option>
+                                                <option {{#if (eq residentFound.facility "Norton" ) }}selected{{/if}}
+                                                    value="Norton">Norton</option>
+                                                <option {{#if (eq residentFound.facility "Topeka" ) }}selected{{/if}}
+                                                    value="Topeka">Topeka</option>
+                                                <option {{#if (eq residentFound.facility "Winfield" ) }}selected{{/if}}
+                                                    value="Winfield">Winfield</option>
+                                                <option {{#if (eq residentFound.facility "Wichita" ) }}selected{{/if}}
+                                                    value="Wichita">Wichita</option>
+                                            </select>
                                         </div>
                                     </div>
                                     {{!-- Unit Team Assigned --}}
@@ -130,8 +276,17 @@
                                         <label for="unitTeam" class="col-md-4 col-lg-3 col-form-label">Unit
                                             Team</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="unitTeam" type="text" class="form-control text-capitalize"
-                                                id="unitTeam">
+                                            <select required name="unitTeamID" id="unitTeamList"
+                                                class="form-select text-capitalize" aria-label="Select Unit Team">
+                                                <option selected value="">Select Unit Team:
+                                                </option>
+                                                {{#each unitTeam}}
+                                                <option class="text-capitalize" value="{{this._id}}">
+                                                    {{this.firstName}} {{this.lastName}} - {{this.facility}}
+                                                </option>
+                                                {{/each}}
+
+                                            </select>
                                         </div>
                                     </div>
                                     {{!-- Save Button --}}
@@ -143,62 +298,72 @@
                                 <p class="text-primary">Search for a specific resident by entering their seven digit
                                     resident ID number in the search box.</p>
                                 {{/if}}
+                                {{#if saveMsg}}
+                                <hr>
+                                <p class="text-success text-center fst-italic mt-3">Your edits have been saved
+                                    successfully.
+                                </p>
                                 {{/if}}
+
                                 <!--=============== Edit Resident Form============================ -->
                             </div>
-                            {{!-- View all residents TAB --}}
-                            <div class="tab-pane fade profile-add-resident pt-3" id="profile-add-resident">
-                                <form method="POST" action="#">
-                                    {{!-- Resident First Name --}}
-                                    <div class="row mb-3">
-                                        <label for="firstName" class="col-md-4 col-lg-3 col-form-label">First
-                                            Name</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="firstName" type="text" class="form-control text-capitalize"
-                                                id="firstName">
+
+                            {{!-- All Residents tab --}}
+                            <div class="tab-pane fade {{#if (eq activeTab 'all')}}show active{{/if}} all-resident pt-3"
+                                id="all-resident">
+                                <!-- Residents Table -->
+                                <div class="col-12">
+                                    <div class="card recent-sales overflow-auto">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Residents <span>| All KDOC</span></h5>
+                                            <table class="table table-borderless datatable">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">ID #</th>
+                                                        <th scope="col">Facility</th>
+                                                        <th scope="col">Name</th>
+                                                        <th scope="col">Unit Team</th>
+                                                        <th scope="col">Work Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {{#each residents}}
+                                                    <tr>
+                                                        <th scope="row"><a
+                                                                href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
+                                                        </th>
+                                                        <td class="text-capitalize">{{this.facility}}</td>
+                                                        <td class="text-capitalize"><a
+                                                                href="/clearance/residentProfile/{{this.residentID}}">{{this.firstName}}
+                                                                {{this.lastName}}</a></td>
+                                                        {{#if this.resume.unitTeam}}
+                                                        <td class="text-capitalize">{{this.resume.unitTeam}}</td>
+                                                        {{else}}
+                                                        <td class="text-capitalize">Not Assigned</td>
+                                                        {{/if}}
+                                                        {{#if this.isEligibleToWork}}
+                                                        <td><span class="badge bg-success">Eligible</span></td>
+                                                        {{else}}
+                                                        {{#if this.isRestrictedFromWork}}
+                                                        <td><span class="badge bg-danger">Restricted</span></td>
+                                                        {{else}}
+
+                                                        <td><span class="badge bg-warning">Pending</span></td>
+
+                                                        {{/if}}
+                                                        {{/if}}
+
+                                                    </tr>
+
+                                                    {{/each}}
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
-                                    {{!-- Resident Last Name --}}
-                                    <div class="row mb-3">
-                                        <label for="lastName" class="col-md-4 col-lg-3 col-form-label">Last
-                                            Name</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="lastName" type="text" class="form-control text-capitalize"
-                                                id="lastName">
-                                        </div>
-                                    </div>
-                                    {{!-- Resident ID --}}
-                                    <div class="row mb-3">
-                                        <label for="residentID" class="col-md-4 col-lg-3 col-form-label">Resident
-                                            ID</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="residentID" type="text" class="form-control text-capitalize"
-                                                id="residentID">
-                                        </div>
-                                    </div>
-                                    {{!-- Resident Custody Level --}}
-                                    <div class="row mb-3">
-                                        <label for="custodyLevel" class="col-md-4 col-lg-3 col-form-label">Custody
-                                            Level</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="custodyLevel" type="text" class="form-control text-capitalize"
-                                                id="custodyLevel">
-                                        </div>
-                                    </div>
-                                    {{!-- Resident Facility --}}
-                                    <div class="row mb-3">
-                                        <label for="facility" class="col-md-4 col-lg-3 col-form-label">Facility</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="facility" type="text" class="form-control text-capitalize"
-                                                id="facility">
-                                        </div>
-                                    </div>
-                                    {{!-- Save Button --}}
-                                    <div class="text-center">
-                                        <button type="submit" class="btn btn-primary mx-2">Add</button>
-                                    </div>
-                                </form>
+                                </div>
+
                             </div>
+
                         </div><!-- End Bordered Tabs -->
                     </div>
                 </div>
