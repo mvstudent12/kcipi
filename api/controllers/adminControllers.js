@@ -81,6 +81,16 @@ module.exports = {
       console.log(err);
     }
   },
+
+  //serves companyTables page from admin dashboard
+  async companyTables(req, res) {
+    try {
+      const companies = await Company.find().sort({ firstName: 1 }).lean();
+      res.render("admin/companyTables", { user: req.session.user, companies });
+    } catch (err) {
+      console.log(err);
+    }
+  },
   //=============================
   //   Profile Routes
   //=============================
@@ -110,6 +120,49 @@ module.exports = {
       res.render("admin/unitTeamProfile", {
         user: req.session.user,
         unitTeam,
+        activeTab,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  async companyProfile(req, res) {
+    try {
+      const id = req.params.id;
+      const company = await Company.findById(id).lean();
+      const activeTab = "overview";
+      res.render("admin/companyProfile", {
+        user: req.session.user,
+        company,
+        activeTab,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  async addNewPosition(req, res) {
+    try {
+      const { id, position, description, pay, jobPool } = req.body;
+      const newPosition = await Company.updateOne(
+        { _id: id },
+        {
+          $push: {
+            jobs: {
+              position: position,
+              description: description,
+              pay: pay,
+              jobPool: jobPool,
+            },
+          },
+        }
+      );
+      console.log(newPosition);
+      const company = await Company.findById(id).lean();
+      console.log(company);
+      const activeTab = "positions";
+      res.render("admin/companyProfile", {
+        user: req.session.user,
+        company,
         activeTab,
       });
     } catch (err) {

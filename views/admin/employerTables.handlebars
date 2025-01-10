@@ -3,11 +3,11 @@
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Employers Data</h1>
+        <h1>Employer Contacts Roster</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item active"><a href="/admin/dashboard">Dashboard</a></li>
-                <li class="breadcrumb-item active">Employers Data</li>
+                <li class="breadcrumb-item active">Employer Contacts Roster</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -24,7 +24,7 @@
                     <div class="col-12">
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
-                                <h5 class="card-title">Employers <span>| All KDOC</span></h5>
+                                <h5 class="card-title">Employer Contacts <span>| All PI Partners</span></h5>
                                 <table class="table table-borderless datatable">
                                     <thead>
                                         <tr>
@@ -32,7 +32,7 @@
                                             <th scope="col">Company</th>
                                             <th scope="col">Name</th>
                                             <th scope="col">Email</th>
-                                            <th scope="col">Role</th>
+                                            <th scope="col">Faclity</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -46,7 +46,7 @@
                                                     {{this.firstName}} {{this.lastName}}</a></td>
 
                                             <td><a href="/admin/employerProfile/{{this._id}}">{{this.email}}</a></td>
-                                            <td class="text-capitalize">{{this.role}}</td>
+                                            <td class="text-capitalize">{{this.facility}}</td>
                                         </tr>
                                         {{/each}}
                                     </tbody>

@@ -3,11 +3,11 @@
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Unit Team Roster</h1>
+        <h1>PI Partners Roster</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item active"><a href="/admin/dashboard">Dashboard</a></li>
-                <li class="breadcrumb-item active">Unit Team Roster</li>
+                <li class="breadcrumb-item active">PI Partners Roster</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -20,32 +20,33 @@
                 <div class="row">
 
                     {{!-- Data Tables Section --}}
-                    <!-- Unit Team Table -->
+                    <!-- PI Partners Table -->
                     <div class="col-12">
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
-                                <h5 class="card-title">Unit Team Members<span>| All KDOC</span></h5>
+                                <h5 class="card-title">PI Partners<span>| All Companies</span></h5>
                                 <table class="table table-borderless datatable">
                                     <thead>
                                         <tr>
                                             <th scope="col">#</th>
                                             <th scope="col">Facility</th>
-                                            <th scope="col">Name</th>
-                                            <th scope="col">Email</th>
+                                            <th scope="col">Company</th>
+                                            <th scope="col">Date</th>
                                             <th scope="col">Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{#each unitTeam}}
+                                        {{#each companies}}
                                         <tr>
-                                            <th scope="row"><a href="/admin/unitTeamProfile/{{this._id}}">{{add
+                                            <th scope="row"><a href="/admin/companyProfile/{{this._id}}">{{add
                                                     @index 1}}</a>
                                             </th>
                                             <td class="text-capitalize">{{this.facility}}</td>
-                                            <td class="text-capitalize"><a href="/admin/unitTeamProfile/{{this._id}}">
-                                                    {{this.firstName}} {{this.lastName}}</a>
+                                            <td class="text-capitalize"><a href="/admin/companyProfile/{{this._id}}">
+                                                    {{this.companyName}}</a>
                                             </td>
-                                            <td><a href="/admin/unitTeamProfile/{{this._id}}">{{this.email}}</a>
+                                            {{!-- !!!!!!!!MAKE THIS REAL!!!!!! --}}
+                                            <td>12/31/24
                                             </td>
                                             <td><span class="badge bg-success">Active</span></td>
                                         </tr>
@@ -55,7 +56,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- End Unit Team Table -->
                     {{!-- End of Data Tables Section --}}
                 </div>
             </div><!-- End Dashboard Cone -->

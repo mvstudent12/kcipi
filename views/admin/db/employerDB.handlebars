@@ -3,11 +3,11 @@
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Employers Database</h1>
+        <h1>Employer Contacts Database</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="admin/dashboard">Dashboard</a></li>
-                <li class="breadcrumb-item active">Employers Database</li>
+                <li class="breadcrumb-item active">Employer Contacts Database</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -18,7 +18,7 @@
                 <div class="card">
                     <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
                         <img src="/assets/img/employer.png" alt="Profile" class="rounded-circle">
-                        <h2 class="text-capitalize mb-3">Employers Database</h2>
+                        <h2 class="text-capitalize mb-3">PI Contacts Database</h2>
                         <h3>KCI Private Industry</h3>
 
                     </div>
@@ -34,12 +34,18 @@
                             <li class="nav-item">
                                 <button class="nav-link {{#if (eq activeTab 'add')}}active{{/if}}" data-bs-toggle="tab"
                                     data-bs-target="#add-employer">Add
-                                    Employer</button>
+                                    PI Contact</button>
                             </li>
                             <li class="nav-item">
                                 <button class="nav-link {{#if (eq activeTab 'edit')}}active{{/if}}" data-bs-toggle="tab"
                                     data-bs-target="#edit-employer">Edit
-                                    Employer</button>
+                                    PI Contact</button>
+                            </li>
+
+                            <li class="nav-item">
+                                <button class="nav-link {{#if (eq activeTab 'all')}}active{{/if}}" data-bs-toggle="tab"
+                                    data-bs-target="#all-employer">All
+                                    PI Contact</button>
                             </li>
 
                         </ul>
@@ -271,6 +277,50 @@
 
 
                                 <!--=============== Edit employer Form============================ -->
+                            </div>
+
+                            {{!-- All Employers tab --}}
+                            <div class="tab-pane fade {{#if (eq activeTab 'all')}}show active{{/if}} all-employer pt-3"
+                                id="all-employer">
+                                <!-- Employers Table -->
+                                <div class="col-12">
+                                    <div class="card recent-sales overflow-auto">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Employer Contacts <span>| All PI Contacts</span></h5>
+                                            <table class="table table-borderless datatable">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">#</th>
+                                                        <th scope="col">Facility</th>
+                                                        <th scope="col">Name</th>
+                                                        <th scope="col">Email</th>
+                                                        <th scope="col">Company</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {{#each employers}}
+                                                    <tr>
+                                                        <th scope="row"><a
+                                                                href="/admin/employerProfile/{{this._id}}">{{add
+                                                                @index 1}}</a>
+                                                        </th>
+                                                        <td class="text-capitalize">{{this.facility}}</td>
+                                                        <td class="text-capitalize"><a
+                                                                href="/admin/employerProfile/{{this._id}}">
+                                                                {{this.firstName}} {{this.lastName}}</a>
+                                                        </td>
+                                                        <td><a
+                                                                href="/admin/employerProfile/{{this._id}}">{{this.email}}</a>
+                                                        </td>
+                                                        <td class="text-capitalize">{{this.company}}</td>
+                                                    </tr>
+                                                    {{/each}}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
 
                         </div><!-- End Bordered Tabs -->

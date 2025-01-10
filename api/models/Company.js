@@ -26,7 +26,6 @@ const companySchema = new Schema({
     trim: true,
   },
   jobs: { type: [jobSchema], default: [] },
-  employer: [{ type: mongoose.Schema.Types.ObjectId, ref: "Employer" }],
 });
 
 const Company = mongoose.model("company", companySchema);

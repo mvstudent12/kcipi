@@ -39,6 +39,13 @@ adminRoutes.get(
   requireAuth,
   controller.employerTables
 );
+
+adminRoutes.get(
+  "/companyTables",
+  checkUser,
+  requireAuth,
+  controller.companyTables
+);
 //=============================
 //   Profile Routes
 //=============================
@@ -111,6 +118,13 @@ adminRoutes.post(
 );
 
 //companiesDB ==================
+adminRoutes.get(
+  "/companyProfile/:id",
+  checkUser,
+  requireAuth,
+  controller.companyProfile
+);
+
 adminRoutes.get("/companyDB", checkUser, requireAuth, controller.companyDB);
 
 adminRoutes.post("/addCompany", requireAuth, controller.addCompany);
@@ -122,6 +136,8 @@ adminRoutes.post(
 );
 
 adminRoutes.post("/saveCompanyEdit", requireAuth, controller.saveCompanyEdit);
+
+adminRoutes.post("/addNewPosition", requireAuth, controller.addNewPosition);
 
 //unitTeamDB ===================
 adminRoutes.get("/unitTeamDB", checkUser, requireAuth, controller.unitTeamDB);
