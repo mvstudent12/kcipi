@@ -1,0 +1,199 @@
+{{> employerTemplate}}
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1 class="text-capitalize">{{company.companyName}} Position</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="employer/dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item active text-capitalize">{{position.position}}</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section profile">
+        <div class="row">
+            <div class="col-xl-4">
+                <div class="card">
+                    <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+                        <img src="/assets/img/employer.png" alt="{{position.position}}" class="rounded-circle">
+                        <h2 class="text-capitalize mb-3">{{position.position}}</h2>
+                        <h3 class="text-capitalize mb-3">{{company.companyName}}</h3>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-8">
+
+                <div class="card">
+                    <div class="card-body pt-3">
+                        <!-- Bordered Tabs -->
+                        <ul class="nav nav-tabs nav-tabs-bordered">
+                            <li class="nav-item">
+                                <button class="nav-link {{#if (eq activeTab 'overview')}}active{{/if}}"
+                                    data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-link {{#if (eq activeTab 'edit')}}active{{/if}}" data-bs-toggle="tab"
+                                    data-bs-target="#edit-position">Edit Position</button>
+                            </li>
+
+
+                        </ul>
+
+                        <div class="tab-content pt-2">
+                            {{!-- Overview Tab --}}
+                            <div class="tab-pane fade {{#if (eq activeTab 'overview')}}show active{{/if}} profile-overview pt-3"
+                                id="profile-overview">
+                                <h5 class="card-title">Position Info</h5>
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 label">Position Title:</div>
+                                    <div class="col-lg-8 col-md-8 text-capitalize">{{position.position}}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 label">Description:</div>
+                                    <div class="col-lg-8 col-md-8 text-capitalize">{{position.description}}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 label">Pay:</div>
+                                    <div class="col-lg-8 col-md-8 text-capitalize">${{position.pay}} /hour</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 label">Available:</div>
+                                    <div class="col-lg-8 col-md-8 text-capitalize">{{position.isAvailable}}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 label">Available Positions:</div>
+                                    <div class="col-lg-8 col-md-8 text-capitalize">{{position.availablePositions}}</div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 label">Job Pool:</div>
+                                    <div class="col-lg-8 col-md-8 text-capitalize">{{position.jobPool}}</div>
+                                </div>
+
+                            </div>
+
+                            {{!-- Positions tab --}}
+                            <div class="tab-pane fade {{#if (eq activeTab 'edit')}}show active{{/if}} edit-position pt-3"
+                                id="edit-position">
+
+
+                                <form method="POST" action="/employer/editPosition/{{position._id}}">
+                                    <input type="hidden" name="id" value="{{position._id}}">
+
+                                    {{!-- Position Title --}}
+                                    <div class="row mb-3">
+                                        <label for="editPosition" class="col-md-4 col-lg-3 col-form-label">Position
+                                            Title</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="editPosition" type="text" class="form-control text-capitalize"
+                                                id="editPosition" required value="{{position.position}}">
+                                        </div>
+                                    </div>
+                                    {{!-- Description --}}
+                                    <div class="row mb-3">
+                                        <label for="description"
+                                            class="col-md-4 col-lg-3 col-form-label">Description</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="description" type="text" class="form-control text-capitalize"
+                                                id="description" required value="{{position.description}}">
+                                        </div>
+                                    </div>
+                                    {{!-- Hourly Pay --}}
+                                    <div class="row mb-3">
+                                        <label for="pay" class="col-md-4 col-lg-3 col-form-label">Hourly Pay</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="pay" type="number" class="form-control" id="pay" required
+                                                value="{{position.pay}}">
+                                        </div>
+                                    </div>
+                                    {{!-- Positions Available --}}
+                                    <div class="row mb-3">
+                                        <label for="availablePositions"
+                                            class="col-md-4 col-lg-3 col-form-label">Positions Available</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="availablePositions" type="number" class="form-control"
+                                                id="availablePositions" required
+                                                value="{{position.availablePositions}}">
+                                        </div>
+                                    </div>
+
+                                    {{!-- Job Available --}}
+                                    <div class="row mb-3">
+                                        <label for="availablePositions"
+                                            class="col-md-4 col-lg-3 col-form-label">Available</label>
+                                        <div class="col-md-8 col-lg-9">
+
+                                            <select required name="isAvailable" class="form-select"
+                                                aria-label="Available">
+                                                <option {{#if (eq position.isAvailable "true" ) }}selected{{/if}}
+                                                    value="true">Position is Available
+                                                </option>
+                                                <option {{#if (eq position.isAvailable "false" ) }}selected{{/if}}
+                                                    value="false">Position is Not Available
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    {{!-- Job Pool--}}
+                                    <div class="row mb-3">
+                                        <label for="jobPool" class="col-md-4 col-lg-3 col-form-label">Job
+                                            Pool</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <select required name="jobPool" class="form-select" aria-label="Job Pool">
+                                                <option {{#if (eq position.jobPool "pool1" ) }}selected{{/if}}
+                                                    value="pool1">Male Minimum 1 &lpar;Off-Site&rpar;
+                                                </option>
+                                                <option {{#if (eq position.jobPool "pool2" ) }}selected{{/if}}
+                                                    value="pool2">Male Minimum 2 &lpar;On-Site&rpar;
+                                                </option>
+                                                <option {{#if (eq position.jobPool "pool3" ) }}selected{{/if}}
+                                                    value="pool3">Male Medium/Maximum</option>
+                                                <option {{#if (eq position.jobPool "pool1F" ) }}selected{{/if}}
+                                                    value="pool1F">Female Minimum 1 &lpar;Off-Site&rpar;
+                                                </option>
+                                                <option {{#if (eq position.jobPool "pool2F" ) }}selected{{/if}}
+                                                    value="pool2F">Female Minimum 2 &lpar;On-Site&rpar;
+                                                </option>
+                                                <option {{#if (eq position.jobPool "pool3F" ) }}selected{{/if}}
+                                                    value="pool3F">Female Medium/Maximum</option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                    {{!-- Save Button --}}
+                                    <hr>
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-primary mx-2">Save Edit</button>
+                                    </div>
+                                </form>
+
+                                {{!-- save msg --}}
+                                {{#if saveMsg}}
+                                <hr>
+                                <p class="text-success text-center fst-italic mt-3">Position successfully updated.
+                                </p>
+                                {{/if}}
+
+
+                            </div>
+
+                            <!--=============== Edit position Form============================ -->
+                        </div>
+
+                    </div><!-- End Bordered Tabs -->
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+{{> footer}}
+
+{{> arrowUp}}

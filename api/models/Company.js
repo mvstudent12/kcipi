@@ -3,6 +3,12 @@ const Schema = mongoose.Schema;
 
 const jobSchema = new Schema({
   position: { type: String, lowercase: true, trim: true },
+  availablePositions: {
+    type: String,
+    lowercase: true,
+    trim: true,
+    default: "0",
+  },
   description: { type: String, lowercase: true, trim: true },
   pay: { type: String, lowercase: true, trim: true },
   jobPool: { type: String, lowercase: true, trim: true },

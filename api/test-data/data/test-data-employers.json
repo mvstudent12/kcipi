@@ -88,5 +88,23 @@
     "role": "employer",
     "company": "zephyr",
     "facility": "Lansing"
+  },
+  {
+    "firstName": "shawn",
+    "lastName": "williams",
+    "email": "shawn.williams@ks.gov",
+    "password": "asd",
+    "role": "employer",
+    "company": "russell stovers",
+    "facility": "Topeka"
+  },
+  {
+    "firstName": "Amy",
+    "lastName": "Cook",
+    "email": "amy.cook@ks.gov",
+    "password": "asd",
+    "role": "employer",
+    "company": "polo",
+    "facility": "Topeka"
   }
 ]

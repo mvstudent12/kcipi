@@ -142,7 +142,8 @@ module.exports = {
   },
   async addNewPosition(req, res) {
     try {
-      const { id, position, description, pay, jobPool } = req.body;
+      const { id, position, description, pay, jobPool, availablePositions } =
+        req.body;
       const newPosition = await Company.updateOne(
         { _id: id },
         {
@@ -152,11 +153,12 @@ module.exports = {
               description: description,
               pay: pay,
               jobPool: jobPool,
+              availablePositions: availablePositions,
+              isAvailable: true,
             },
           },
         }
       );
-      console.log(newPosition);
       const company = await Company.findById(id).lean();
       console.log(company);
       const activeTab = "positions";

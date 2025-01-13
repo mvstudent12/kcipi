@@ -117,7 +117,11 @@ app.engine(
       countItems: (array) => {
         return Array.isArray(array) ? array.length : 0; // Check if it's an array
       },
-      eq: (a, b) => a.toLowerCase() === b.toLowerCase(),
+      eq: (a, b) => {
+        if (typeof a === "string" && typeof b === "string") {
+          return a.toLowerCase() === b.toLowerCase();
+        } else return a == b;
+      },
       formatDate: (date) => {
         return moment(date).format("MM/D/YY");
       },
