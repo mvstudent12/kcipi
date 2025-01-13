@@ -27,7 +27,7 @@
                                         <i class="bi bi-briefcase-fill"></i>
                                     </div>
                                     <div class="ps-3">
-                                        <h6>{{countArrayItems employers}}</h6>
+                                        <h6>{{countArrayItems jobs}}</h6>
                                     </div>
                                 </div>
                             </div>
@@ -45,7 +45,7 @@
                                         <i class="bi bi-card-checklist"></i>
                                     </div>
                                     <div class="ps-3">
-                                        <h6>{{countArrayItems applications}}</h6>
+                                        <h6>{{applicationCount}}</h6>
                                     </div>
                                 </div>
                             </div>
@@ -96,24 +96,26 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">#</th>
-                                            <th scope="col">Employer</th>
+                                            <th scope="col">Company</th>
                                             <th scope="col">Position</th>
                                             <th scope="col">Date</th>
                                             <th scope="col">Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{#each employers}}
+                                        {{#each jobs}}
                                         <tr>
-                                            <th scope="row"><a
-                                                    href="/jobInfo/{{../user.residentID}}/{{this.jobs._id}}">{{add
+                                            <th scope="row"><a href="/resident/jobInfo/{{this.jobs._id}}">{{add
                                                     @index 1}}</a></th>
                                             <td class="text-capitalize">{{this.companyName}}</td>
-                                            <td class="text-capitalize"><a
-                                                    href="/jobInfo/{{../user.residentID}}/{{this.jobs._id}}"
-                                                    class="text-primary">{{this.jobs.position}}</a></td>
-                                            <td class="text-capitalize">{{formatDate this.resume.dateCreated}}</td>
-                                            <td><span class="badge bg-success">Eligible</span></td>
+                                            <td class="text-capitalize"><a href="/resident/jobInfo/{{this.job._id}}"
+                                                    class="text-primary">{{this.job.position}}</a></td>
+                                            <td class="text-capitalize">{{formatDate this.job.dateCreated}}</td>
+                                            {{#if this.residentInApplicants}}
+                                            <td><span class="badge bg-warning">Applied</span></td>
+                                            {{else}}
+                                            <td><span class="badge bg-success">Available</span></td>
+                                            {{/if}}
                                         </tr>
                                         {{/each}}
                                     </tbody>

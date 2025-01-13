@@ -20,14 +20,27 @@ module.exports = {
         resumeIsApproved: true,
       }).lean();
 
+      //finds residents who need resumes approved
       const resumeNeedReview = await Resident.find({
         resumeIsComplete: true,
         resumeIsApproved: false,
       }).lean();
+      //find all residents in KDOC
+      const caseLoad = await Resident.find().lean();
+
+      // Access all job applications across all residents
+      const allJobApplications = caseLoad.flatMap(
+        (resident) => resident.jobApplications
+      );
+      console.log(allJobApplications);
+
+      console.log(caseLoad);
 
       res.render("admin/dashboard", {
         residentsNeedReview,
         resumeNeedReview,
+        caseLoad,
+        allJobApplications,
         user: req.session.user,
       });
     } catch (err) {

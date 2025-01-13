@@ -53,7 +53,7 @@
                                         <i class="bi bi-card-list"></i>
                                     </div>
                                     <div class="ps-3">
-                                        <h6>0</h6>
+                                        <h6>{{countItems allJobApplications}}</h6>
 
                                     </div>
                                 </div>
@@ -187,7 +187,7 @@
                                 </table>
                             </div>
                         </div>
-                    </div><!-- End Resume Tabele -->
+                    </div><!-- End Resume Table -->
 
                     <!-- Applications Table -->
                     <div class="col-12">
@@ -198,21 +198,25 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">ID #</th>
-                                            <th scope="col">Facility</th>
+                                            <th scope="col">Company</th>
                                             <th scope="col">Resident</th>
-                                            <th scope="col">Date</th>
+                                            <th scope="col">Custody</th>
                                             <th scope="col">Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{#each applicants}}
+                                        {{#each allJobApplications}}
                                         <tr>
-                                            <th scope="row"><a href="/unitTeam/residentProfile/{{this.residentID}}"></a>
+                                            <th scope="row"><a
+                                                    href="/unitTeam/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
                                             </th>
-                                            <td class="text-capitalize"></td>
+                                            <td class="text-capitalize">{{this.companyName}}</td>
+
                                             <td><a href="/unitTeam/residentProfile/{{this.residentID}}"
-                                                    class="text-primary text-capitalize"></a></td>
-                                            <td></td>
+                                                    class="text-primary text-capitalize">{{this.firstName}}
+                                                    {{this.lastName}}</a></td>
+
+                                            <td class="text-capitalize">{{this.custodyLevel}}</td>
 
                                             <td><span class="badge bg-warning">Pending</span></td>
                                         </tr>

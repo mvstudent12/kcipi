@@ -13,18 +13,6 @@ const resumeSchema = new Schema({
   certifications: { type: String },
   education: { type: String },
   programs: { type: String },
-  status: {
-    type: String,
-    enum: [
-      "none",
-      "submitted",
-      "approved_Medical",
-      "approved_eai",
-      "approved_unitTeam",
-      "approved_all",
-    ],
-    default: "none",
-  },
   approvalHistory: [
     {
       department: String,
@@ -32,6 +20,7 @@ const resumeSchema = new Schema({
       approvedBy: String,
     },
   ],
+  companyName: { type: String },
 });
 
 const residentSchema = new Schema({

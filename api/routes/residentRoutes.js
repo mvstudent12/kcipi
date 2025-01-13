@@ -26,6 +26,12 @@ residentRoutes.get(
 
 residentRoutes.get("/faq", requireResidentAuth, controller.faq);
 
-residentRoutes.get("/jobInfo", requireResidentAuth, controller.jobInfo);
+residentRoutes.get("/jobInfo/:id", requireResidentAuth, controller.jobInfo);
+
+residentRoutes.post(
+  "/saveApplication/:id",
+  requireResidentAuth,
+  controller.saveApplication
+);
 
 module.exports = residentRoutes;

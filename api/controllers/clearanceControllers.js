@@ -64,8 +64,7 @@ module.exports = {
   async approveResume(req, res) {
     const residentID = req.params.id;
     const jobPool = req.body.jobPool;
-    console.log(req.body);
-    console.log("this is the approved resume route");
+
     try {
       await Resident.updateOne(
         { residentID: residentID },
@@ -92,8 +91,6 @@ module.exports = {
     }
   },
   async editClearance(req, res) {
-    console.log(req.params);
-    console.log(req.body);
     let { residentID, dept } = req.params;
     const { clearance, comments } = req.body;
     if (dept == "Sex-Offender") {
@@ -149,7 +146,7 @@ module.exports = {
   },
   async approveEligibility(req, res) {
     const { residentID } = req.params;
-    console.log(residentID);
+
     try {
       await Resident.updateOne(
         { residentID: residentID },
@@ -192,7 +189,7 @@ module.exports = {
       );
 
       const resident = await Resident.findOne({ residentID }).lean();
-      console.log(resident);
+
       const activeTab = "clearance";
 
       res.render(`${req.session.user.role}/residentProfile`, {

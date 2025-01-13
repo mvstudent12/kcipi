@@ -2,11 +2,11 @@
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Job Information</h1>
+        <h1>Position Info</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/resident/dashboard">Dashboard</a></li>
-                <li class="breadcrumb-item active">Job Information</li>
+                <li class="breadcrumb-item active">Position Info</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -18,9 +18,9 @@
                     <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
                         <img src="/assets/img/employer.png" alt="Profile" class="rounded-circle">
                         <h2 class="text-capitalize">{{
-                            employer.companyName}}</h2>
+                            position.companyName}}</h2>
                         <h3 class="text-capitalize mt-3">{{
-                            employer.jobs.position}}</h3>
+                            position.job.position}}</h3>
                     </div>
                 </div>
             </div>
@@ -49,23 +49,23 @@
                                 <h5 class="card-title">Position Info</h5>
                                 <div class="row">
                                     <div class="col-lg-3 col-md-4 label ">Company</div>
-                                    <div class="col-lg-9 col-md-8 text-capitalize">{{employer.companyName}}</div>
+                                    <div class="col-lg-9 col-md-8 text-capitalize">{{position.companyName}}</div>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-3 col-md-4 label">Facility</div>
-                                    <div class="col-lg-9 col-md-8 text-capitalize">{{employer.facility}}</div>
+                                    <div class="col-lg-9 col-md-8 text-capitalize">{{position.facility}}</div>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-3 col-md-4 label">Position</div>
-                                    <div class="col-lg-9 col-md-8 text-capitalize">{{employer.jobs.position}}</div>
+                                    <div class="col-lg-9 col-md-8 text-capitalize">{{position.job.position}}</div>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-3 col-md-4 label">Hourly Pay</div>
-                                    <div class="col-lg-9 col-md-8 text-capitalize">{{employer.jobs.pay}}</div>
+                                    <div class="col-lg-9 col-md-8 text-capitalize">${{position.job.pay}} /Hour</div>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-3 col-md-4 label">Description</div>
-                                    <div class="col-lg-9 col-md-8 text-capitalize">{{employer.jobs.description}}</div>
+                                    <div class="col-lg-9 col-md-8 text-capitalize">{{position.job.description}}</div>
                                 </div>
                             </div>
 
@@ -74,110 +74,22 @@
                             <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
                                 <p class="small fst-italic text-success text-center">You have already applied for this
                                     position.</p>
-                                <!-- Profile Edit Form -->
-                                <form method="POST" action="/saveApplication/{{user.residentID}}/{{employer.jobs._id}}">
-                                    {{!-- Resident First Name --}}
-                                    <div class="row mb-3">
-                                        <label for="firstName" class="col-md-4 col-lg-3 col-form-label">First
-                                            Name</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="firstName" type="text" class="form-control text-capitalize"
-                                                id="firstName" value="{{user.firstName}}" disabled>
-                                        </div>
-                                    </div>
-                                    {{!-- Resident Last Name --}}
-                                    <div class="row mb-3">
-                                        <label for="lastName" class="col-md-4 col-lg-3 col-form-label">Last
-                                            Name</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="lastName" type="text" class="form-control text-capitalize"
-                                                id="lastName" value="{{user.lastName}}" disabled>
-                                        </div>
-                                    </div>
-                                    {{!-- Resident ID --}}
-                                    <div class="row mb-3">
-                                        <label for="residentID" class="col-md-4 col-lg-3 col-form-label">Resident
-                                            ID</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="residentID" type="text" class="form-control text-capitalize"
-                                                id="residentID" value="{{user.residentID}}" disabled>
-                                        </div>
-                                    </div>
-                                    {{!-- Resident Custody Level --}}
-                                    <div class="row mb-3">
-                                        <label for="custodyLevel" class="col-md-4 col-lg-3 col-form-label">Custody
-                                            Level</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="custodyLevel" type="text" class="form-control text-capitalize"
-                                                id="custodyLevel" value="{{user.custodyLevel}}" disabled>
-                                        </div>
-                                    </div>
-                                    {{!-- facility --}}
-                                    <div class="row mb-3">
-                                        <label for="facility" class="col-md-4 col-lg-3 col-form-label">Facility</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="facility" type="text" class="form-control text-capitalize"
-                                                id="facility" value="{{user.facility}}" disabled>
-                                        </div>
-                                    </div>
-                                    {{!-- work history input --}}
-                                    <div class="row mb-3">
-                                        <label for="workHistory" class="col-md-4 col-lg-3 col-form-label">Relevant
-                                            Experience</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <textarea name="workHistory" class="form-control" id="workHistory"
-                                                style="height: 100px"
-                                                disabled>{{residentHasApplied.workHistory}}</textarea>
-                                        </div>
-                                    </div>
-                                    {{!-- Certifications & Licenses input --}}
-                                    <div class="row mb-3">
-                                        <label for="certifications"
-                                            class="col-md-4 col-lg-3 col-form-label">Certifications
-                                            &amp;
-                                            Licenses</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <textarea name="certifications" class="form-control" id="certifications"
-                                                style="height: 100px"
-                                                disabled>{{residentHasApplied.certifications}}</textarea>
-                                        </div>
-                                    </div>
-                                    {{!-- GED or diploma option --}}
-                                    <div class="row mb-3">
-                                        <label for="hsGraduate" class=" col-form-label">GED or High
-                                            School Diploma</label>
-                                        <div class="col-sm-10">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="hsGraduate"
-                                                    id="hsGraduate1" value="true" checked>
-                                                <label class="form-check-label" for="hsGraduate1">
-                                                    Yes
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="hsGraduate"
-                                                    id="hsGraduate2" value="false">
-                                                <label class="form-check-label" for="hsGraduate2">
-                                                    No
-                                                </label>
-                                            </div>
-                                        </div>
-
-                                        <label for="hsGraduate" class="col-md-4 col-lg-3 col-form-label">GED or High
-                                            School Diploma</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="facility" type="text" class="form-control text-capitalize"
-                                                id="facility" value="{{user.facility}}" disabled>
-                                        </div>
-                                    </div>
-                                </form><!-- End application Form -->
                             </div>
                             {{else}}
                             <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
                                 <p class="small fst-italic text-info text-center">You may only submit this
                                     application one time. You cannot save your progress if it is left unsubmitted.</p>
                                 <!-- Profile Edit Form -->
-                                <form method="POST" action="/saveApplication/{{user.residentID}}/{{employer.jobs._id}}">
+                                <form method="POST" action="/resident/saveApplication/{{position.job._id}}">
+                                    {{!-- Company Name --}}
+                                    <div class="row mb-3">
+                                        <label for="companyName"
+                                            class="col-md-4 col-lg-3 col-form-label">Company</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="companyName" type="text" class="form-control text-capitalize"
+                                                id="companyName" value="{{position.companyName}}" readonly>
+                                        </div>
+                                    </div>
                                     {{!-- Resident First Name --}}
                                     <div class="row mb-3">
                                         <label for="firstName" class="col-md-4 col-lg-3 col-form-label">First
@@ -227,7 +139,7 @@
                                         <label for="workHistory" class="col-md-4 col-lg-3 col-form-label">Relevant
                                             Experience</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <textarea name="workHistory" class="form-control" id="workHistory"
+                                            <textarea required name="workHistory" class="form-control" id="workHistory"
                                                 style="height: 100px"></textarea>
                                         </div>
                                     </div>
@@ -238,8 +150,8 @@
                                             &amp;
                                             Licenses</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <textarea name="certifications" class="form-control" id="certifications"
-                                                style="height: 100px"></textarea>
+                                            <textarea required name="certifications" class="form-control"
+                                                id="certifications" style="height: 100px"></textarea>
                                         </div>
                                     </div>
 

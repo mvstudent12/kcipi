@@ -5,18 +5,21 @@ const Resident = require("../models/Resident");
 
 module.exports = {
   async dashboard(req, res) {
-    console.log(req.session.user.email);
-    const email = req.session.user.email;
     try {
+      const email = req.session.user.email;
       const caseLoad = await Resident.find({
         "resume.unitTeam": email,
       }).lean();
-
       console.log(caseLoad);
-
+      // Access all job applications across all residents
+      const allJobApplications = caseLoad.flatMap(
+        (resident) => resident.jobApplications
+      );
+      console.log(allJobApplications);
       res.render("unitTeam/dashboard", {
         user: req.session.user,
         caseLoad,
+        allJobApplications,
       });
     } catch (err) {
       console.log(err);
@@ -42,7 +45,6 @@ module.exports = {
     try {
       const residentID = req.params.id;
       const resident = await Resident.findOne({ residentID }).lean();
-      console.log(resident);
       const activeTab = "overview";
       res.render("unitTeam/residentProfile", {
         user: req.session.user,
@@ -56,7 +58,6 @@ module.exports = {
 
   async residentTables(req, res) {
     try {
-      console.log(req.session.user);
       const facility = req.session.user.facility;
       const residents = await Resident.find({ facility }).lean();
       res.render("unitTeam/residentTables", {
