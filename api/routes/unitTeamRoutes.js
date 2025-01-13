@@ -12,6 +12,13 @@ unitTeamRoutes.get("/helpDesk", checkUser, requireAuth, controller.helpDesk);
 unitTeamRoutes.get("/contact", checkUser, requireAuth, controller.contact);
 
 unitTeamRoutes.get(
+  "/residentProfile/:id",
+  checkUser,
+  requireAuth,
+  controller.residentProfile
+);
+
+unitTeamRoutes.get(
   "/residentTables",
   checkUser,
   requireAuth,

@@ -38,6 +38,21 @@ module.exports = {
       console.log(err);
     }
   },
+  async residentProfile(req, res) {
+    try {
+      const residentID = req.params.id;
+      const resident = await Resident.findOne({ residentID }).lean();
+      console.log(resident);
+      const activeTab = "overview";
+      res.render("unitTeam/residentProfile", {
+        user: req.session.user,
+        resident,
+        activeTab,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  },
 
   async residentTables(req, res) {
     try {

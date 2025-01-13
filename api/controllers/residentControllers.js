@@ -20,7 +20,6 @@ module.exports = {
         const unitTeam = await UnitTeam.find({
           facility: req.session.resident.facility,
         }).lean();
-        console.log(unitTeam);
         res.render("resident/profile", {
           unitTeam,
           user: req.session.resident,

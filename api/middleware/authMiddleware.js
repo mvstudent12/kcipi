@@ -72,7 +72,7 @@ const checkResident = async (req, res, next) => {
 
   try {
     // If the session exists, simply attach the user to the request object
-    console.log("User found in session:", resident);
+    // console.log("User found in session:", resident);
 
     // You could optionally add extra checks to make sure the user data is still valid
     // Example: Find the user in the database (e.g., if user session data is outdated)
@@ -80,7 +80,7 @@ const checkResident = async (req, res, next) => {
 
     if (foundResident) {
       req.session.resident = foundResident; // Store the found Resident in session
-      console.log("Resident found in database:", foundResident);
+      // console.log("Resident found in database:", foundResident);
     } else {
       req.session.resident = null; // If user not found in database, clear session
       console.log("Resident not found in database: session set to null");

@@ -94,8 +94,11 @@ module.exports = {
   async editClearance(req, res) {
     console.log(req.params);
     console.log(req.body);
-    const { residentID, dept } = req.params;
+    let { residentID, dept } = req.params;
     const { clearance, comments } = req.body;
+    if (dept == "Sex-Offender") {
+      dept = "sexOffender";
+    }
     try {
       if (clearance === "true") {
         await Resident.updateOne(
