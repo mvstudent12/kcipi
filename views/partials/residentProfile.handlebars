@@ -460,10 +460,13 @@
                                 </div>
                             </div>
                             <hr>
+
                             <div class="row d-flex justify-content-between">
                                 <div class="col-auto">
+                                    {{#unless resident.isEligibleToWork}}
                                     <button type="button" class="btn btn-success" data-bs-toggle="modal"
                                         data-bs-target="#approveResident">Approve Resident</button>
+                                    {{/unless}}
                                 </div>
                                 <div class="col-auto">
                                     <button type="button" class="btn btn-danger" data-bs-toggle="modal"
