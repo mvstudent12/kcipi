@@ -2,6 +2,7 @@ const Admin = require("../models/Admin");
 const Employer = require("../models/Employer");
 const UnitTeam = require("../models/UnitTeam");
 const Resident = require("../models/Resident");
+const Jobs = require("../models/Jobs");
 
 // Middleware to require authentication for non-residents
 async function requireAuth(req, res, next) {

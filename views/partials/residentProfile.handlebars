@@ -68,6 +68,10 @@
                                 <div class="col-lg-8 col-md-8 text-capitalize">{{resident.custodyLevel}}</div>
                             </div>
                             <div class="row">
+                                <div class="col-lg-4 col-md-4 label">Out Date</div>
+                                <div class="col-lg-8 col-md-8 text-capitalize">{{formatDate resident.outDate}}</div>
+                            </div>
+                            <div class="row">
                                 <div class="col-lg-4 col-md-4 label">Resume Complete</div>
                                 <div class="col-lg-8 col-md-8 text-capitalize">{{resident.resumeIsComplete}}</div>
                             </div>
@@ -142,12 +146,20 @@
                                             id="facility" value="{{resident.facility}}" readonly>
                                     </div>
                                 </div>
+                                {{!-- Resident Out Date --}}
+                                <div class="row mb-3">
+                                    <label for="outDate" class="col-md-4 col-lg-3 col-form-label">Out Date</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <input name="outDate" type="text" class="form-control text-capitalize"
+                                            id="outDate" value="{{formatDate resident.outDate}}" readonly>
+                                    </div>
+                                </div>
                                 {{!-- Unit Team Assigned --}}
                                 <div class="row mb-3">
                                     <label for="unitTeam" class="col-md-4 col-lg-3 col-form-label">Unit Team</label>
                                     <div class="col-md-8 col-lg-9">
                                         <input name="unitTeam" type="text" class="form-control text-capitalize"
-                                            id="unitTeam" value="{{user.firstName}} {{user.lastName}}" readonly>
+                                            id="unitTeam" value="{{resident.unitTeam}}" readonly>
                                     </div>
                                 </div>
                                 {{!-- work history input --}}
@@ -304,35 +316,42 @@
                                     <div class="col-md-8 col-lg-9">
                                         <select required name="jobPool" class="form-select" aria-label="Job Pool">
                                             <option value="">Select Job Pool</option>
-                                            <option value="pool1">Male Minimum 1 &lpar;Off-Site&rpar;</option>
-                                            <option value="pool2">Male Minimum 2 &lpar;On-Site&rpar;</option>
-                                            <option value="pool3">Male Medium/Maximum</option>
-                                            <option value="pool1F">Female Minimum 1 &lpar;Off-Site&rpar;</option>
-                                            <option value="pool2F">Female Minimum 2 &lpar;On-Site&rpar;</option>
-                                            <option value="pool3F">Female Medium/Maximum</option>
-                                            <option value="pool4">Not Eligible: Medical Lay-In / Disciplinary Lay-In
+                                            <option value="Male Minimum 1 (Off-Site)">Male Minimum 1
+                                                &lpar;Off-Site&rpar;</option>
+                                            <option value="Male Minimum 2 (On-Site)">Male Minimum 2 &lpar;On-Site&rpar;
                                             </option>
-                                            <option value="poolC">PIE Employed</option>
+                                            <option value="Male Medium/Maximum">Male Medium/Maximum</option>
+                                            <option value="Female Minimum 1 (Off-Site)">Female Minimum 1
+                                                &lpar;Off-Site&rpar;</option>
+                                            <option value="Female Minimum 2 (On-Site)">Female Minimum 2
+                                                &lpar;On-Site&rpar;</option>
+                                            <option value="Female Medium/Maximum">Female Medium/Maximum</option>
+                                            <option value="Not Eligible: Medical Lay-In / Disciplinary Lay-In">Not
+                                                Eligible: Medical Lay-In / Disciplinary Lay-In
+                                            </option>
+                                            <option value="PIE Employed">PIE Employed</option>
                                         </select>
                                     </div>
                                 </div>
-                                <div class="text-center">
-                                    <button type="submit" class="btn btn-primary mx-2">Approve</button>
-                                    <button type="button" class="btn btn-danger mx-2" data-bs-toggle="modal"
-                                        data-bs-target="#basicModal">Reject</button>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-12 d-flex justify-content-between">
+                                        <button type="submit" class="btn btn-primary mx-2">Approve</button>
+                                        <button type="button" class="btn btn-danger mx-2" data-bs-toggle="modal"
+                                            data-bs-target="#basicModal">Reject</button>
+                                    </div>
                                 </div>
-
                                 {{/if}}
                             </form>
                             {{else}}
 
                             {{!-- if resident has not completed their resume --}}
-                            <h5 class="text-center text-warning">This resident has not yet completed their resume.
-                                </h3>
-                                {{/if}}
-                                {{/if}}
+                            <h5 class="text-center text-warning">This resident has not completed their resume.
+                            </h5>
+                            {{/if}}
+                            {{/if}}
 
-                                <!--============================= End Resume Form=================================== -->
+                            <!--============================= End Resume Form=================================== -->
                         </div>
 
                         {{!-- ====== Clearance Tab ========= --}}
@@ -350,13 +369,15 @@
                                     to work due to {{resident.eligibilityRestrictionReason}} restrictions.</span>
                             </div>
                             {{/if}}
+                            {{#if resident.jobPool}}
 
                             <h5 class="card-title">Clearance Status</h5>
 
                             {{!-- MEDICAL --}}
                             <div class="row">
                                 <div class="col-lg-4 col-md-4 label ">Medical</div>
-                                <div class="col-lg-2 col-md-2 text-capitalize">{{resident.MedicalClearance}}</div>
+                                <div class="clearanceCheck col-lg-2 col-md-2 text-capitalize">
+                                    {{resident.MedicalClearance}}</div>
                                 <div class="col-lg-2 col-md-2">
                                     <button type="submit" class="btn btn-info"
                                         data-route="/notification/requestClearance/{{resident.residentID}}/Medical"
@@ -373,7 +394,8 @@
                             {{!-- EAI --}}
                             <div class="row">
                                 <div class="col-lg-4 col-md-4 label">EAI</div>
-                                <div class="col-lg-2 col-md-2 text-capitalize">{{resident.EAIClearance}}</div>
+                                <div class="clearanceCheck col-lg-2 col-md-2 text-capitalize">{{resident.EAIClearance}}
+                                </div>
                                 <div class="col-lg-2 col-md-2">
                                     <button type="submit" class="btn btn-info"
                                         data-route="/notification/requestClearance/{{resident.residentID}}/EAI"
@@ -390,7 +412,8 @@
                             {{!-- SEX OFFENDER --}}
                             <div class="row">
                                 <div class="col-lg-4 col-md-4 label">Sex Offender</div>
-                                <div class="col-lg-2 col-md-2 text-capitalize">{{resident.sexOffenderClearance}}
+                                <div class="clearanceCheck col-lg-2 col-md-2 text-capitalize">
+                                    {{resident.sexOffenderClearance}}
                                 </div>
                                 <div class="col-lg-2 col-md-2">
                                     <button type="submit" class="btn btn-info"
@@ -409,7 +432,8 @@
                             {{!-- CLASSIFICATION --}}
                             <div class="row">
                                 <div class="col-lg-4 col-md-4 label">Classification</div>
-                                <div class="col-lg-2 col-md-2 text-capitalize">{{resident.ClassificationClearance}}
+                                <div class="clearanceCheck col-lg-2 col-md-2 text-capitalize">
+                                    {{resident.ClassificationClearance}}
                                 </div>
                                 <div class="col-lg-2 col-md-2">
                                     <button type="submit" class="btn btn-info"
@@ -428,7 +452,8 @@
                             {{!-- WARDEN --}}
                             <div class="row">
                                 <div class="col-lg-4 col-md-4 label">Warden</div>
-                                <div class="col-lg-2 col-md-2 text-capitalize">{{resident.WardenClearance}}</div>
+                                <div class="clearanceCheck col-lg-2 col-md-2 text-capitalize">
+                                    {{resident.WardenClearance}}</div>
                                 <div class="col-lg-2 col-md-2">
                                     <button type="submit" class="btn btn-info"
                                         data-route="/notification/requestClearance/{{resident.residentID}}/Warden"
@@ -445,7 +470,8 @@
                             {{!-- UTM --}}
                             <div class="row">
                                 <div class="col-lg-4 col-md-4 label">Unit Team</div>
-                                <div class="col-lg-2 col-md-2 text-capitalize">{{resident.UTMClearance}}</div>
+                                <div class="clearanceCheck col-lg-2 col-md-2 text-capitalize">{{resident.UTMClearance}}
+                                </div>
                                 <div class="col-lg-2 col-md-2">
                                     <button type="submit" class="btn btn-info"
                                         data-route="/notification/requestClearance/{{resident.residentID}}/UTM"
@@ -464,17 +490,23 @@
                             <div class="row d-flex justify-content-between">
                                 <div class="col-auto">
                                     {{#unless resident.isEligibleToWork}}
-                                    <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                                        data-bs-target="#approveResident">Approve Resident</button>
+                                    <button id="approveClearance" type="button" class="btn btn-success"
+                                        data-bs-toggle="modal" data-bs-target="#approveResident">Approve
+                                        Resident</button>
                                     {{/unless}}
                                 </div>
                                 <div class="col-auto">
                                     <button type="button" class="btn btn-danger" data-bs-toggle="modal"
                                         data-bs-target="#rejectResident">Restrict Resident</button>
                                 </div>
-
                             </div>
-
+                            {{else}}
+                            <div class="text-center">
+                                {{!-- If UTM has not approved resume --}}
+                                <h5 class="text-center text-warning">This resident does not have an approved resume.
+                                </h5>
+                            </div>
+                            {{/if}}
                         </div>
                     </div><!-- End Bordered Tabs -->
                 </div>

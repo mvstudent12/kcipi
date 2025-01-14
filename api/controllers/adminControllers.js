@@ -3,6 +3,7 @@ const Employer = require("../models/Employer");
 const Company = require("../models/Company");
 const UnitTeam = require("../models/UnitTeam");
 const Resident = require("../models/Resident");
+const Jobs = require("../models/Jobs");
 
 //csv file upload requirements
 const path = require("path");
@@ -32,9 +33,6 @@ module.exports = {
       const allJobApplications = caseLoad.flatMap(
         (resident) => resident.jobApplications
       );
-      console.log(allJobApplications);
-
-      console.log(caseLoad);
 
       res.render("admin/dashboard", {
         residentsNeedReview,
@@ -69,7 +67,10 @@ module.exports = {
   async residentTables(req, res) {
     try {
       const residents = await Resident.find().lean();
-      res.render("admin/residentTables", { user: req.session.user, residents });
+      res.render("admin/tables/residentTables", {
+        user: req.session.user,
+        residents,
+      });
     } catch (err) {
       console.log(err);
     }
@@ -79,7 +80,10 @@ module.exports = {
   async unitTeamTables(req, res) {
     try {
       const unitTeam = await UnitTeam.find().lean();
-      res.render("admin/unitTeamTables", { user: req.session.user, unitTeam });
+      res.render("admin/tables/unitTeamTables", {
+        user: req.session.user,
+        unitTeam,
+      });
     } catch (err) {
       console.log(err);
     }
@@ -89,7 +93,10 @@ module.exports = {
   async employerTables(req, res) {
     try {
       const employers = await Employer.find().sort({ firstName: 1 }).lean();
-      res.render("admin/employerTables", { user: req.session.user, employers });
+      res.render("admin/tables/employerTables", {
+        user: req.session.user,
+        employers,
+      });
     } catch (err) {
       console.log(err);
     }
@@ -99,7 +106,10 @@ module.exports = {
   async companyTables(req, res) {
     try {
       const companies = await Company.find().sort({ firstName: 1 }).lean();
-      res.render("admin/companyTables", { user: req.session.user, companies });
+      res.render("admin/tables/companyTables", {
+        user: req.session.user,
+        companies,
+      });
     } catch (err) {
       console.log(err);
     }
@@ -110,11 +120,9 @@ module.exports = {
   async employerProfile(req, res) {
     try {
       const id = req.params.id;
-      console.log(id);
       const employer = await Employer.findById(id).lean();
-      console.log(employer);
       const activeTab = "overview";
-      res.render("admin/employerProfile", {
+      res.render("admin/profiles/employerProfile", {
         user: req.session.user,
         employer,
         activeTab,
@@ -126,11 +134,9 @@ module.exports = {
   async unitTeamProfile(req, res) {
     try {
       const id = req.params.id;
-      console.log(id);
       const unitTeam = await UnitTeam.findById(id).lean();
-      console.log(unitTeam);
       const activeTab = "overview";
-      res.render("admin/unitTeamProfile", {
+      res.render("admin/profiles/unitTeamProfile", {
         user: req.session.user,
         unitTeam,
         activeTab,
@@ -144,7 +150,7 @@ module.exports = {
       const id = req.params.id;
       const company = await Company.findById(id).lean();
       const activeTab = "overview";
-      res.render("admin/companyProfile", {
+      res.render("admin/profiles/companyProfile", {
         user: req.session.user,
         company,
         activeTab,
@@ -173,9 +179,8 @@ module.exports = {
         }
       );
       const company = await Company.findById(id).lean();
-      console.log(company);
       const activeTab = "positions";
-      res.render("admin/companyProfile", {
+      res.render("admin/profiles/companyProfile", {
         user: req.session.user,
         company,
         activeTab,
@@ -211,7 +216,7 @@ module.exports = {
       const newCompany = req.body;
       const company = new Company(newCompany);
       const savedCompany = await company.save();
-      console.log("company added: ", savedCompany);
+
       const companies = await Company.find().sort({ companyName: 1 }).lean();
 
       const activeTab = "add";
@@ -247,10 +252,7 @@ module.exports = {
   //save edits made to company
   async saveCompanyEdit(req, res) {
     try {
-      console.log(req.body);
       const { companyName, facility, id } = req.body;
-      console.log(companyName, facility, id);
-
       await Company.updateOne(
         { _id: id },
         {
@@ -316,12 +318,10 @@ module.exports = {
   },
   async searchEmployerName(req, res) {
     try {
-      console.log(req.body);
       const { employerID } = req.body;
       const employerFound = await Employer.findById({
         _id: employerID,
       }).lean();
-      console.log(employerFound);
       const companies = await Company.find().sort({ companyName: 1 }).lean();
       const employers = await Employer.find().sort({ firstName: 1 }).lean();
       const activeTab = "edit";
@@ -340,8 +340,8 @@ module.exports = {
   //save edits made to employer
   async saveEmployerEdit(req, res) {
     try {
-      console.log(req.body);
-      const { id, company, firstName, lastName, email, facility } = req.body;
+      const { id, companyName, firstName, lastName, email, facility } =
+        req.body;
 
       await Employer.updateOne(
         { _id: id },
@@ -350,7 +350,7 @@ module.exports = {
             firstName: firstName,
             lastName: lastName,
             email: email,
-            company: company,
+            companyName: companyName,
             facility: facility,
           },
         }
@@ -510,27 +510,32 @@ module.exports = {
   },
 
   async editExistingResident(req, res) {
-    console.log(req.body);
-    const edit = req.body;
+    const {
+      residentID,
+      firstName,
+      lastName,
+      facility,
+      custodyLevel,
+      unitTeam,
+    } = req.body;
 
     try {
       await Resident.findOneAndUpdate(
         {
-          residentID: edit.residentID,
+          residentID,
         },
         {
           $set: {
-            firstName: edit.firstName,
-            lastName: edit.lastName,
-            residentID: edit.residentID,
-            custodyLevel: edit.custodyLevel,
-            unitTeam: edit.unitTeam,
+            firstName,
+            lastName,
+            residentID,
+            custodyLevel,
+            unitTeam,
           },
         }
       );
-      const resident = await Resident.findOne({
-        residentID: edit.residentID,
-      }).lean();
+      const resident = await Resident.findOne({ residentID }).lean();
+
       const activeTab = "edit";
       const saveMsg = true;
       const residents = await Resident.find().lean();
@@ -564,12 +569,11 @@ module.exports = {
   },
   async searchUnitTeamName(req, res) {
     try {
-      console.log(req.body);
       const { unitTeamID } = req.body;
       const unitTeamFound = await UnitTeam.findById({
         _id: unitTeamID,
       }).lean();
-      console.log(unitTeamFound);
+
       const unitTeam = await UnitTeam.find().sort({ firstName: 1 }).lean();
       const activeTab = "edit";
       res.render("admin/db/unitTeamDB", {
@@ -582,13 +586,13 @@ module.exports = {
       console.log("Error found when search unitTeam name: ", err);
     }
   },
-  //adds new memeber to unit team DB
+  //adds new member to unit team DB
   async addUnitTeam(req, res) {
     try {
       const newUnitTeam = req.body;
       const newMember = new UnitTeam(newUnitTeam);
       const savedUnitTeam = await newMember.save();
-      console.log("unitTeam added: ", savedUnitTeam);
+
       const unitTeam = await UnitTeam.find().sort({ unitTeamName: 1 }).lean();
 
       const activeTab = "add";
@@ -606,7 +610,6 @@ module.exports = {
   //save edits made to unitTeam
   async saveUnitTeamEdit(req, res) {
     try {
-      console.log(req.body);
       const { firstName, lastName, email, facility, id } = req.body;
 
       await UnitTeam.updateOne(

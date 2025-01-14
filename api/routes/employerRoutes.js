@@ -22,17 +22,33 @@ employerRoutes.post(
 );
 
 employerRoutes.get(
-  "/jobProfile/:id",
+  "/jobProfile/:jobID",
   checkUser,
   requireAuth,
   controller.jobProfile
 );
 
 employerRoutes.post(
-  "/editPosition/:id",
+  "/editPosition/:jobID",
   checkUser,
   requireAuth,
   controller.editPosition
+);
+
+employerRoutes.get(
+  "/applicants",
+  checkUser,
+  requireAuth,
+  controller.applicants
+);
+
+employerRoutes.get("/employees", checkUser, requireAuth, controller.employees);
+
+employerRoutes.get(
+  "/residentProfile/:residentID",
+  checkUser,
+  requireAuth,
+  controller.residentProfile
 );
 
 employerRoutes.get("/contact", checkUser, requireAuth, controller.contact);

@@ -3,7 +3,6 @@ const Schema = mongoose.Schema;
 
 const resumeSchema = new Schema({
   createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now },
   unitTeam: { type: String },
   legalCitizen: { type: Boolean, required: true },
   hsGraduate: { type: Boolean, required: true },
@@ -13,14 +12,6 @@ const resumeSchema = new Schema({
   certifications: { type: String },
   education: { type: String },
   programs: { type: String },
-  approvalHistory: [
-    {
-      department: String,
-      approvedAt: Date,
-      approvedBy: String,
-    },
-  ],
-  companyName: { type: String },
 });
 
 const residentSchema = new Schema({
@@ -49,6 +40,10 @@ const residentSchema = new Schema({
     lowercase: true,
     required: [true, "Please enter resident's facility"],
   },
+  outDate: {
+    type: Date,
+    required: true,
+  },
   custodyLevel: {
     type: String,
     lowercase: true,
@@ -62,13 +57,13 @@ const residentSchema = new Schema({
     type: String,
     lowercase: true,
   },
-  jobApplications: [], // References to job applications
+  jobApplications: [], // References to job application
   resume: resumeSchema,
   resumeIsComplete: { type: Boolean, default: false },
   resumeIsApproved: { type: Boolean, default: false },
   resumeRejectionReason: { type: String, lowercase: true, default: "" },
-  //Medical clearance
 
+  //Medical clearance
   MedicalReviewed: { type: Boolean, default: false },
   MedicalNotes: [{ type: String, lowercase: true, default: "" }],
   MedicalClearance: { type: Boolean, default: false },
@@ -79,6 +74,7 @@ const residentSchema = new Schema({
   MedicalRestriction: { type: Boolean, default: false },
   MedicalRestrictionDate: { type: Date },
   MedicalRestrictedBy: { type: String, lowercase: true, default: "" },
+
   //UTM clearance
   UTMReviewed: { type: Boolean, default: false },
   UTMNotes: [{ type: String, lowercase: true, default: "" }],
@@ -90,7 +86,8 @@ const residentSchema = new Schema({
   UTMRestriction: { type: Boolean, default: false },
   UTMRestrictionDate: { type: Date },
   UTMRestrictedBy: { type: String, lowercase: true, default: "" },
-  //eai clearance
+
+  //EAI clearance
   EAIReviewed: { type: Boolean, default: false },
   EAINotes: [{ type: String, lowercase: true, default: "" }],
   EAIClearance: { type: Boolean, default: false },
@@ -101,6 +98,7 @@ const residentSchema = new Schema({
   EAIRestriction: { type: Boolean, default: false },
   EAIRestrictionDate: { type: Date },
   EAIRestrictedBy: { type: String, lowercase: true, default: "" },
+
   //Classification clearance
   ClassificationReviewed: { type: Boolean, default: false },
   ClassificationNotes: [{ type: String, lowercase: true, default: "" }],
@@ -116,6 +114,7 @@ const residentSchema = new Schema({
   ClassificationRestriction: { type: Boolean, default: false },
   ClassificationRestrictionDate: { type: Date },
   ClassificationRestrictedBy: { type: String, lowercase: true, default: "" },
+
   //Warden clearance
   WardenReviewed: { type: Boolean, default: false },
   WardenNotes: [{ type: String, lowercase: true, default: "" }],
@@ -131,6 +130,7 @@ const residentSchema = new Schema({
   WardenRestriction: { type: Boolean, default: false },
   WardenRestrictionDate: { type: Date },
   WardenRestrictedBy: { type: String, lowercase: true, default: "" },
+
   //Sex Offender
   isSexOffender: { type: Boolean, default: false },
   sexOffenderReviewed: { type: Boolean, default: false },
@@ -147,6 +147,7 @@ const residentSchema = new Schema({
   sexOffenderRestriction: { type: Boolean, default: false },
   sexOffenderRestrictionDate: { type: Date },
   sexOffenderRestrictedBy: { type: String, lowercase: true, default: "" },
+
   //Complete Eligibility Status
   isEligibleToWork: { type: Boolean, default: false },
   isHired: { type: Boolean, default: false },

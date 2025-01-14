@@ -38,10 +38,10 @@ editButtons.forEach((button) => {
     // Get the dynamic data from the button's data-attributes
     const route = button.getAttribute("data-route");
     const category = button.getAttribute("data-category");
-    console.log(category);
+
     // Update the modal title
     const dataCategory = document.getElementById("edit-data-category");
-    console.log(dataCategory);
+
     dataCategory.textContent = category;
 
     // Update the form action URL dynamically

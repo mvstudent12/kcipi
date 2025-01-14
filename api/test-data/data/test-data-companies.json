@@ -7,7 +7,7 @@
         "position": "Driver",
         "description": "Drives Truck",
         "pay": "2",
-        "jobPool": "pool1",
+        "jobPool": "Male Minimum 1 (Off-Site)",
         "isAvailable": true,
         "availablePositions": "3"
       },
@@ -15,7 +15,7 @@
         "position": "Painter",
         "description": "Paints Things",
         "pay": "2",
-        "jobPool": "pool1",
+        "jobPool": "Male Minimum 1 (Off-Site)",
         "isAvailable": true,
         "availablePositions": "3"
       }
@@ -157,14 +157,14 @@
         "position": "Machine Operator",
         "description": "Operates Machines",
         "pay": "2",
-        "jobPool": "pool2F",
+        "jobPool": "Female Minimum 2 (On-Site)",
         "isAvailable": true
       },
       {
         "position": "Maintenance",
         "description": "Maintain Machines",
         "pay": "2",
-        "jobPool": "pool2F",
+        "jobPool": "Female Minimum 2 (On-Site)",
         "isAvailable": true
       }
     ]
@@ -177,7 +177,7 @@
         "position": "Machine Operator",
         "description": "Operates Machines",
         "pay": "14",
-        "jobPool": "pool1F",
+        "jobPool": "Female Minimum 1 (Off-Site)",
         "isAvailable": true,
         "availablePositions": "3"
       },
@@ -185,7 +185,7 @@
         "position": "Quality Assurance Tech",
         "description": "Assures quality of product.",
         "pay": "14",
-        "jobPool": "pool1F",
+        "jobPool": "Female Minimum 1 (Off-Site)",
         "isAvailable": true,
         "availablePositions": "6"
       }

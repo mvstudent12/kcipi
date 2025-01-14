@@ -3,7 +3,7 @@
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Manage Positions</h1>
+        <h1 class="text-capitalize">Manage Positions - {{user.companyName}}</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/dashboard/{{user.email}}">Dashboard</a></li>
@@ -15,18 +15,7 @@
     <section class="section profile">
 
         <div class="row">
-            <div class="col-xl-4">
-                <div class="card">
-                    <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-                        <img src="/assets/img/employer.png" alt="Profile" class="mb-3">
-                        <h2 class="text-capitalize mb-3">{{user.company}}</h2>
-                        <h3 class="text-muted mb-3">{{user.email}}</h3>
-                        {{!-- <h3>KDOC Resident</h3> --}}
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xl-8">
+            <div class="col-xl-12">
 
                 <div class="card">
                     <div class="card-body pt-3">
@@ -51,34 +40,35 @@
                                     <div class="col-12">
                                         <div class="card recent-sales overflow-auto">
                                             <div class="card-body">
+                                                <h5 class="card-title">Job Positions <span>| Current</span></h5>
+                                                <table class="table table-borderless datatable">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">#</th>
+                                                            <th scope="col">Position</th>
+                                                            <th scope="col">Job Pool</th>
+                                                            <th scope="col">Date</th>
+                                                            <th scope="col">Applicants</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {{#each jobs}}
+                                                        <tr>
+                                                            <th scope="row">{{this.availablePositions}}</th>
+                                                            <td><a href="/employer/jobProfile/{{this._id}}"
+                                                                    class="text-primary text-capitalize">{{this.position}}</a>
+                                                            </td>
+                                                            <td class="text-capitalize">{{this.jobPool}}</td>
+                                                            <td>{{formatDate this.dateCreated}}</td>
+                                                            <td><span class="badge bg-danger">None</span></td>
+                                                        </tr>
+                                                        {{/each}}
+                                                    </tbody>
+                                                </table>
+                                                <hr>
                                                 {{#if addPositionMSG}}
-                                                <h5 class="text-warning text-sm">{{addPositionMSG}}</h4>
-                                                    {{/if}}
-                                                    <h5 class="card-title">Job Positions <span>| Current</span></h5>
-                                                    <table class="table table-borderless datatable">
-                                                        <thead>
-                                                            <tr>
-                                                                <th scope="col">#</th>
-                                                                <th scope="col">Position</th>
-                                                                <th scope="col">Job Pool</th>
-                                                                <th scope="col">Date</th>
-                                                                <th scope="col">Applicants</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            {{#each company.jobs}}
-                                                            <tr>
-                                                                <th scope="row">{{add @index 1}}</th>
-                                                                <td><a href="/employer/jobProfile/{{this._id}}"
-                                                                        class="text-primary text-capitalize">{{this.position}}</a>
-                                                                </td>
-                                                                <td class="text-capitalize">{{this.jobPool}}</td>
-                                                                <td>{{formatDate this.dateCreated}}</td>
-                                                                <td><span class="badge bg-danger">None</span></td>
-                                                            </tr>
-                                                            {{/each}}
-                                                        </tbody>
-                                                    </table>
+                                                <h5 class="text-warning text-sm">New job position added.</h5>
+                                                {{/if}}
                                             </div>
                                         </div>
                                     </div><!-- End Job Positions Table -->
@@ -91,9 +81,9 @@
 
                                     {{!-- Position Title --}}
                                     <div class="row mb-3">
-                                        <label for="position" class="col-md-4 col-lg-3 col-form-label">Position
+                                        <label for="position" class="col-md-4 col-lg-4 col-form-label">Position
                                             Title</label>
-                                        <div class="col-md-8 col-lg-9">
+                                        <div class="col-md-8 col-lg-8">
                                             <input name="position" type="text" class="form-control text-capitalize"
                                                 id="position" required>
                                         </div>
@@ -101,16 +91,16 @@
                                     {{!-- Description --}}
                                     <div class="row mb-3">
                                         <label for="description"
-                                            class="col-md-4 col-lg-3 col-form-label">Description</label>
-                                        <div class="col-md-8 col-lg-9">
+                                            class="col-md-4 col-lg-4 col-form-label">Description</label>
+                                        <div class="col-md-8 col-lg-8">
                                             <input name="description" type="text" class="form-control text-capitalize"
                                                 id="description" required>
                                         </div>
                                     </div>
                                     {{!-- Hourly Pay --}}
                                     <div class="row mb-3">
-                                        <label for="pay" class="col-md-4 col-lg-3 col-form-label">Hourly Pay</label>
-                                        <div class="col-md-8 col-lg-9">
+                                        <label for="pay" class="col-md-4 col-lg-4 col-form-label">Hourly Pay</label>
+                                        <div class="col-md-8 col-lg-8">
                                             <input name="pay" type="text" class="form-control text-capitalize" id="pay"
                                                 required>
                                         </div>
@@ -118,33 +108,59 @@
                                     {{!-- Positions Available --}}
                                     <div class="row mb-3">
                                         <label for="availablePositions"
-                                            class="col-md-4 col-lg-3 col-form-label">Positions Available</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="availablePositions" type="number" class="form-control"
+                                            class="col-md-4 col-lg-4 col-form-label">Positions Available</label>
+                                        <div class="col-md-8 col-lg-8">
+                                            <input name="availablePositions" type="number" min="0" class="form-control"
                                                 id="availablePositions" required>
+                                        </div>
+                                    </div>
+                                    {{!-- Position Facility --}}
+                                    <div class="row mb-3">
+                                        <label for="facility" class="col-md-4 col-lg-4 col-form-label">Facility</label>
+                                        <div class="col-md-8 col-lg-8">
+                                            <select required name="facility" id="facility" class="form-select"
+                                                aria-label="Facility Options">
+                                                <option selected value="">Select Facility:
+                                                </option>
+                                                <option value="El Dorado">El Dorado</option>
+                                                <option value="Ellsworth">Ellsworth</option>
+                                                <option value="Hutchinson">Hutchinson</option>
+                                                <option value="Lansing">Lansing</option>
+                                                <option value="Larned">Larned</option>
+                                                <option value="Norton">Norton</option>
+                                                <option value="Topeka">Topeka</option>
+                                                <option value="Winfield">Winfield</option>
+                                                <option value="Wichita">Wichita</option>
+                                            </select>
                                         </div>
                                     </div>
 
                                     {{!-- Job Pool--}}
                                     <div class="row mb-3">
-                                        <label for="jobPool" class="col-md-4 col-lg-3 col-form-label">Job Pool</label>
-                                        <div class="col-md-8 col-lg-9">
+                                        <label for="jobPool" class="col-md-4 col-lg-4 col-form-label">Job Pool</label>
+                                        <div class="col-md-8 col-lg-8">
                                             <select required name="jobPool" class="form-select" aria-label="Job Pool">
                                                 <option value="">Select Job Pool</option>
-                                                <option value="pool1">Male Minimum 1 &lpar;Off-Site&rpar;</option>
-                                                <option value="pool2">Male Minimum 2 &lpar;On-Site&rpar;</option>
-                                                <option value="pool3">Male Medium/Maximum</option>
-                                                <option value="pool1F">Female Minimum 1 &lpar;Off-Site&rpar;</option>
-                                                <option value="pool2F">Female Minimum 2 &lpar;On-Site&rpar;</option>
-                                                <option value="pool3F">Female Medium/Maximum</option>
+                                                <option value="Male Minimum 1 (Off-Site)">Male Minimum 1
+                                                    &lpar;Off-Site&rpar;</option>
+                                                <option value="Male Minimum 2 (On-Site)">Male Minimum 2
+                                                    &lpar;On-Site&rpar;</option>
+                                                <option value="Male Medium/Maximum">Male Medium/Maximum</option>
+                                                <option value="Female Minimum 1 (Off-Site)">Female Minimum 1
+                                                    &lpar;Off-Site&rpar;</option>
+                                                <option value="Female Minimum 2 (On-Site)">Female Minimum 2
+                                                    &lpar;On-Site&rpar;</option>
+                                                <option value="Female Medium/Maximum">Female Medium/Maximum</option>
                                             </select>
 
                                         </div>
                                     </div>
-                                    <input type="hidden" name="company" value="">
+                                    <input type="hidden" name="companyID" value="{{company._id}}">
+                                    <input type="hidden" name="companyName" value="{{company.companyName}}">
                                     {{!-- Save Button --}}
-                                    <div class="text-center">
-                                        <button type="submit" class="btn btn-primary mx-2">Add</button>
+                                    <hr>
+                                    <div class="text-center mt-3">
+                                        <button type="submit" class="btn btn-primary mx-2">Add Position</button>
                                     </div>
                                 </form>
                             </div>

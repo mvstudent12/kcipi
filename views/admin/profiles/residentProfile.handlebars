@@ -1,4 +1,5 @@
-{{> unitTeamTemplate}}
+{{> adminTemplate}}
+
 
 <main id="main" class="main">
 
@@ -6,7 +7,7 @@
         <h1>Resident Profile</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/unitTeam/dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
                 <li class="breadcrumb-item active">Resident Profile</li>
             </ol>
         </nav>
@@ -15,10 +16,10 @@
     {{> residentProfile}}
 </main><!-- End #main -->
 
+
 <!-- ======= Footer ======= -->
 {{> footer}}
 {{> arrowUp}}
-
 
 {{!-- MODAL FOR REJECT RESUME --}}
 <div class="modal fade" id="basicModal" tabindex="-1">
@@ -163,7 +164,20 @@
                     <div class="row mb-3">
                         <legend class="col-form-label ">Eligibility Requirements:</legend>
                         <div class="">
-
+                            <div class="form-check">
+                                <input required name="resumeCheck" class="form-check-input" type="checkbox"
+                                    id="gridCheck6">
+                                <label class="form-check-label" for="gridCheck6">
+                                    Resume approved?
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input required name="jobPIE Employedheck" class="form-check-input" type="checkbox"
+                                    id="gridCheck5">
+                                <label class="form-check-label" for="gridCheck5">
+                                    Job pool assigned?
+                                </label>
+                            </div>
                             <div class="form-check">
                                 <input required name="medCheck" class="form-check-input" type="checkbox"
                                     id="gridCheck1">
@@ -192,20 +206,8 @@
                                     Sex offender status determined?
                                 </label>
                             </div>
-                            <div class="form-check">
-                                <input required name="jobPoolCheck" class="form-check-input" type="checkbox"
-                                    id="gridCheck5">
-                                <label class="form-check-label" for="gridCheck5">
-                                    Job pool assigned?
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input required name="resumeCheck" class="form-check-input" type="checkbox"
-                                    id="gridCheck6">
-                                <label class="form-check-label" for="gridCheck6">
-                                    Resume approved?
-                                </label>
-                            </div>
+
+
 
                         </div>
                     </div>
@@ -260,3 +262,34 @@
 <script type="text/javascript" src="/../assets/js/residentApprovalForm.js"></script>
 
 <script type="text/javascript" src="/../assets/js/requestClearance.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const clearanceValues = document.querySelectorAll('.clearanceCheck')
+
+
+        // Function to check if all clearances are "true"
+        function checkClearances() {
+            let allApproved = true;
+
+            clearanceValues.forEach((element) => {
+                const value = element.textContent.trim(); // Get the text value of the element
+                if (value !== "true") {
+                    allApproved = false; // If any value is not "true", set allApproved to false
+                }
+            });
+
+            // Show or hide the button based on the clearance check
+            const approveClearance = document.getElementById("approveClearance");
+            if (allApproved) {
+                approveClearance.style.display = "block"; // Show the button
+            } else {
+                approveClearance.style.display = "none"; // Hide the button
+            }
+        }
+
+        // Run the check initially
+        checkClearances();
+    });
+</script>

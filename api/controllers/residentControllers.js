@@ -2,6 +2,7 @@ const UnitTeam = require("../models/UnitTeam");
 const Resident = require("../models/Resident");
 const Employer = require("../models/Employer");
 const Company = require("../models/Company");
+const Jobs = require("../models/Jobs");
 
 const mongoose = require("mongoose");
 
@@ -10,31 +11,34 @@ module.exports = {
     try {
       const jobPool = req.session.resident.jobPool;
       const residentID = req.session.resident._id;
+
       if (jobPool) {
-        const jobs = await Company.aggregate([
-          {
-            $unwind: "$jobs", // Unwind the jobs array
-          },
+        //const jobs = await Jobs.find({ jobPool }).lean();
+
+        const jobs = await Jobs.aggregate([
           {
             $match: {
-              "jobs.jobPool": jobPool, // Filter jobs by the specific jobPool
+              jobPool: jobPool, // Match jobs with the same jobPool as the resident
             },
           },
           {
-            $project: {
-              _id: 0, // Optionally exclude the company _id from the result
-              companyName: "$companyName", // Assuming you have a company name field
-              job: "$jobs", // Include the filtered job
+            $addFields: {
               residentInApplicants: {
-                $in: [
-                  new mongoose.Types.ObjectId(residentID),
-                  { $ifNull: ["$jobs.applicants", []] }, // Default to an empty array if applicants is missing
-                ], // Check if residentId is in applicants array
+                $cond: {
+                  if: {
+                    $in: [
+                      new mongoose.Types.ObjectId(residentID),
+                      "$applicants",
+                    ],
+                  },
+                  then: true,
+                  else: false,
+                },
               },
             },
           },
         ]);
-
+        console.log(jobs);
         const applicationCount = jobs.filter(
           (job) => job.residentInApplicants
         ).length;
@@ -82,13 +86,15 @@ module.exports = {
       //if resident is completing a resume for the first time
       if (email) {
         const unitTeam = await UnitTeam.findOne({ email }).lean();
+
+        const unitTeamName = `${unitTeam.firstName} ${unitTeam.lastName}`;
         await Resident.updateOne(
           { _id: id },
           {
             $set: {
               resumeIsComplete: true,
               resume: req.body,
-              unitTeam: unitTeam.lastName,
+              unitTeam: unitTeamName,
             },
           }
         );
@@ -145,46 +151,34 @@ module.exports = {
       console.log(err);
     }
   },
-  async faq(req, res) {
-    try {
-      res.render("resident/faq", { user: req.session.resident });
-    } catch (err) {
-      console.log(err);
-    }
-  },
+
   async jobInfo(req, res) {
     try {
-      //jobID
-      const jobId = req.params.id;
+      const { jobID } = req.params;
       const residentID = req.session.resident._id;
 
-      let position = await Company.aggregate([
-        {
-          $unwind: "$jobs", // Unwind the jobs array
-        },
+      let position = await Jobs.aggregate([
         {
           $match: {
-            "jobs._id": new mongoose.Types.ObjectId(jobId),
+            _id: new mongoose.Types.ObjectId(jobID),
           },
         },
         {
-          $project: {
-            _id: 0, // Optionally exclude the company _id from the result
-            companyName: "$companyName", // Assuming you have a company name field
-            job: "$jobs", // Include the filtered job
-            facility: "$facility",
+          $addFields: {
             residentInApplicants: {
-              $in: [
-                new mongoose.Types.ObjectId(residentID),
-                { $ifNull: ["$jobs.applicants", []] }, // Default to an empty array if applicants is missing
-              ], // Check if residentId is in applicants array
+              $cond: {
+                if: {
+                  $in: [new mongoose.Types.ObjectId(residentID), "$applicants"],
+                },
+                then: true,
+                else: false,
+              },
             },
           },
         },
       ]);
-
       position = position[0];
-
+      console.log(position);
       if (position.residentInApplicants) {
         const residentHasApplied = true;
         res.render("resident/jobInfo", {
@@ -204,13 +198,14 @@ module.exports = {
   },
   async saveApplication(req, res) {
     try {
-      const jobId = req.params.id;
+      const { jobID } = req.params;
       const {
         firstName,
         lastName,
         residentID,
         custodyLevel,
         facility,
+        outDate,
         workHistory,
         certifications,
         hsGraduate,
@@ -229,44 +224,40 @@ module.exports = {
               residentID,
               custodyLevel,
               facility,
+              outDate,
               workHistory,
               certifications,
               hsGraduate,
               companyName,
-              position: jobId,
+              position: jobID,
             },
           },
         }
       );
 
-      //update company schema
-      const company = await Company.findOne({
-        "jobs._id": jobId, // Find the company where the job with the given jobId exists
-      });
-      const jobIndex = company.jobs.findIndex(
-        (job) => job._id.toString() === jobId
+      await Jobs.findByIdAndUpdate(
+        jobID,
+        { $addToSet: { applicants: id } }, // Adds only if not present
+        { new: true } // Returns the updated document
       );
-      // Push the residentId into the applicants array for the found job
-      company.jobs[jobIndex].applicants.push(id);
 
-      // Save the updated company document
-      await company.save();
-
-      let position = await Company.aggregate([
-        {
-          $unwind: "$jobs", // Unwind the jobs array
-        },
+      let position = await Jobs.aggregate([
         {
           $match: {
-            "jobs._id": new mongoose.Types.ObjectId(jobId),
+            _id: new mongoose.Types.ObjectId(jobID),
           },
         },
         {
-          $project: {
-            _id: 0, // Optionally exclude the company _id from the result
-            companyName: "$companyName", // Assuming you have a company name field
-            job: "$jobs", // Include the filtered job
-            facility: "$facility",
+          $addFields: {
+            residentInApplicants: {
+              $cond: {
+                if: {
+                  $in: [new mongoose.Types.ObjectId(id), "$applicants"],
+                },
+                then: true,
+                else: false,
+              },
+            },
           },
         },
       ]);
@@ -278,6 +269,13 @@ module.exports = {
         position,
         residentHasApplied,
       });
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  async faq(req, res) {
+    try {
+      res.render("resident/faq", { user: req.session.resident });
     } catch (err) {
       console.log(err);
     }

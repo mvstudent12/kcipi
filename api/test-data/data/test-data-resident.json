@@ -5,7 +5,8 @@
     "residentID": "7384920",
     "custodyLevel": "maximum",
     "unitTeam": "",
-    "facility": "Topeka"
+    "facility": "Topeka",
+    "outDate": "2029-07-15"
   },
   {
     "firstName": "Aaron",
@@ -13,7 +14,8 @@
     "residentID": "8253749",
     "custodyLevel": "medium",
     "unitTeam": "",
-    "facility": "Lansing"
+    "facility": "Lansing",
+    "outDate": "2032-03-22"
   },
   {
     "firstName": "Emily",
@@ -21,7 +23,8 @@
     "residentID": "2639581",
     "custodyLevel": "minimum 1",
     "unitTeam": "",
-    "facility": "Topeka"
+    "facility": "Topeka",
+    "outDate": "2033-11-05"
   },
   {
     "firstName": "Michael",
@@ -29,7 +32,8 @@
     "residentID": "9572163",
     "custodyLevel": "minimum 2",
     "unitTeam": "",
-    "facility": "Lansing"
+    "facility": "Lansing",
+    "outDate": "2027-09-13"
   },
   {
     "firstName": "Sophia",
@@ -37,7 +41,8 @@
     "residentID": "4782635",
     "custodyLevel": "maximum",
     "unitTeam": "",
-    "facility": "Topeka"
+    "facility": "Topeka",
+    "outDate": "2041-04-11"
   },
   {
     "firstName": "Oliver",
@@ -45,7 +50,8 @@
     "residentID": "3416789",
     "custodyLevel": "minimum 1",
     "unitTeam": "",
-    "facility": "Lansing"
+    "facility": "Lansing",
+    "outDate": "2038-02-19"
   },
   {
     "firstName": "Mia",
@@ -53,7 +59,8 @@
     "residentID": "9127345",
     "custodyLevel": "medium",
     "unitTeam": "",
-    "facility": "Lansing"
+    "facility": "Lansing",
+    "outDate": "2034-10-10"
   },
   {
     "firstName": "James",
@@ -61,7 +68,8 @@
     "residentID": "2845736",
     "custodyLevel": "minimum 2",
     "unitTeam": "",
-    "facility": "Lansing"
+    "facility": "Lansing",
+    "outDate": "2025-06-04"
   },
   {
     "firstName": "Isabella",
@@ -69,7 +77,8 @@
     "residentID": "1738492",
     "custodyLevel": "maximum",
     "unitTeam": "",
-    "facility": "Topeka"
+    "facility": "Topeka",
+    "outDate": "2039-12-28"
   },
   {
     "firstName": "Ethan",
@@ -77,7 +86,8 @@
     "residentID": "7392845",
     "custodyLevel": "medium",
     "unitTeam": "",
-    "facility": "Lansing"
+    "facility": "Lansing",
+    "outDate": "2040-08-17"
   },
   {
     "firstName": "Lily",
@@ -85,7 +95,8 @@
     "residentID": "1029384",
     "custodyLevel": "minimum 1",
     "unitTeam": "",
-    "facility": "Topeka"
+    "facility": "Topeka",
+    "outDate": "2026-01-25"
   },
   {
     "firstName": "Benjamin",
@@ -93,7 +104,8 @@
     "residentID": "5847291",
     "custodyLevel": "minimum 2",
     "unitTeam": "",
-    "facility": "Topeka"
+    "facility": "Topeka",
+    "outDate": "2031-03-02"
   },
   {
     "firstName": "Ava",
@@ -101,7 +113,8 @@
     "residentID": "7492031",
     "custodyLevel": "maximum",
     "unitTeam": "",
-    "facility": "Topeka"
+    "facility": "Topeka",
+    "outDate": "2043-11-18"
   },
   {
     "firstName": "Henry",
@@ -109,7 +122,8 @@
     "residentID": "3849201",
     "custodyLevel": "medium",
     "unitTeam": "",
-    "facility": "Lansing"
+    "facility": "Lansing",
+    "outDate": "2029-12-07"
   },
   {
     "firstName": "Chloe",
@@ -117,7 +131,8 @@
     "residentID": "5983742",
     "custodyLevel": "minimum 1",
     "unitTeam": "",
-    "facility": "Topeka"
+    "facility": "Topeka",
+    "outDate": "2027-02-13"
   },
   {
     "firstName": "Alexander",
@@ -125,7 +140,8 @@
     "residentID": "6392847",
     "custodyLevel": "minimum 2",
     "unitTeam": "",
-    "facility": "Lansing"
+    "facility": "Lansing",
+    "outDate": "2030-05-21"
   },
   {
     "firstName": "Charlotte",
@@ -133,7 +149,8 @@
     "residentID": "4872930",
     "custodyLevel": "maximum",
     "unitTeam": "",
-    "facility": "Topeka"
+    "facility": "Topeka",
+    "outDate": "2040-10-04"
   },
   {
     "firstName": "William",
@@ -141,7 +158,8 @@
     "residentID": "1298476",
     "custodyLevel": "minimum 1",
     "unitTeam": "",
-    "facility": "Topeka"
+    "facility": "Topeka",
+    "outDate": "2025-11-29"
   },
   {
     "firstName": "Emily",
@@ -149,7 +167,8 @@
     "residentID": "4982731",
     "custodyLevel": "medium",
     "unitTeam": "",
-    "facility": "Topeka"
+    "facility": "Topeka",
+    "outDate": "2036-06-16"
   },
   {
     "firstName": "Matthew",
@@ -157,6 +176,7 @@
     "residentID": "7309482",
     "custodyLevel": "minimum 2",
     "unitTeam": "",
-    "facility": "Lansing"
+    "facility": "Lansing",
+    "outDate": "2039-01-02"
   }
 ]

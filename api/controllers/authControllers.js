@@ -4,6 +4,7 @@ const Admin = require("../models/Admin");
 const Employer = require("../models/Employer");
 const UnitTeam = require("../models/UnitTeam");
 const Resident = require("../models/Resident");
+const Jobs = require("../models/Jobs");
 
 //error handling
 const { handleErrors } = require("../middleware/errorHandling");

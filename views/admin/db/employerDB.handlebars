@@ -61,7 +61,7 @@
                                             Name</label>
                                         <div class="col-md-8 col-lg-8">
 
-                                            <select required name="company" id="companyName"
+                                            <select required name="companyName" id="companyName"
                                                 class="form-select text-capitalize" aria-label="Select Company">
                                                 <option selected value="">Select Company:
                                                 </option>
@@ -161,7 +161,7 @@
                                                         </option>
                                                         {{#each employers}}
                                                         <option class="text-capitalize" value="{{this._id}}">
-                                                            {{this.firstName}} {{this.lastName}} - {{this.company}}
+                                                            {{this.firstName}} {{this.lastName}} - {{this.companyName}}
                                                         </option>
                                                         {{/each}}
                                                     </select>
@@ -184,11 +184,11 @@
                                     <input type="hidden" name="id" value="{{employerFound._id}}">
                                     {{!-- employer First Name --}}
                                     <div class="row mb-3">
-                                        <label for="company" class="col-md-4 col-lg-4 col-form-label">Company
+                                        <label for="companyName" class="col-md-4 col-lg-4 col-form-label">Company
                                             Name</label>
                                         <div class="col-md-8 col-lg-8">
-                                            <input name="company" type="text" class="form-control text-capitalize"
-                                                id="employerEditCompany" value="{{employerFound.company}}">
+                                            <input name="companyName" type="text" class="form-control text-capitalize"
+                                                id="employerEditCompany" value="{{employerFound.companyName}}">
                                         </div>
                                     </div>
                                     {{!-- employer firstName --}}
@@ -312,7 +312,7 @@
                                                         <td><a
                                                                 href="/admin/employerProfile/{{this._id}}">{{this.email}}</a>
                                                         </td>
-                                                        <td class="text-capitalize">{{this.company}}</td>
+                                                        <td class="text-capitalize">{{this.companyName}}</td>
                                                     </tr>
                                                     {{/each}}
                                                 </tbody>

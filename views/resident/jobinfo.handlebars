@@ -20,7 +20,7 @@
                         <h2 class="text-capitalize">{{
                             position.companyName}}</h2>
                         <h3 class="text-capitalize mt-3">{{
-                            position.job.position}}</h3>
+                            position.position}}</h3>
                     </div>
                 </div>
             </div>
@@ -57,15 +57,15 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-3 col-md-4 label">Position</div>
-                                    <div class="col-lg-9 col-md-8 text-capitalize">{{position.job.position}}</div>
+                                    <div class="col-lg-9 col-md-8 text-capitalize">{{position.position}}</div>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-3 col-md-4 label">Hourly Pay</div>
-                                    <div class="col-lg-9 col-md-8 text-capitalize">${{position.job.pay}} /Hour</div>
+                                    <div class="col-lg-9 col-md-8 text-capitalize">${{position.pay}} /Hour</div>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-3 col-md-4 label">Description</div>
-                                    <div class="col-lg-9 col-md-8 text-capitalize">{{position.job.description}}</div>
+                                    <div class="col-lg-9 col-md-8 text-capitalize">{{position.description}}</div>
                                 </div>
                             </div>
 
@@ -79,8 +79,8 @@
                             <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
                                 <p class="small fst-italic text-info text-center">You may only submit this
                                     application one time. You cannot save your progress if it is left unsubmitted.</p>
-                                <!-- Profile Edit Form -->
-                                <form method="POST" action="/resident/saveApplication/{{position.job._id}}">
+                                <!-- Application Form -->
+                                <form method="POST" action="/resident/saveApplication/{{position._id}}">
                                     {{!-- Company Name --}}
                                     <div class="row mb-3">
                                         <label for="companyName"
@@ -134,6 +134,14 @@
                                                 id="facility" value="{{user.facility}}" readonly>
                                         </div>
                                     </div>
+                                    {{!-- Out Date --}}
+                                    <div class="row mb-3">
+                                        <label for="outDate" class="col-md-4 col-lg-3 col-form-label">Out Date</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="outDate" type="text" class="form-control text-capitalize"
+                                                id="outDate" value="{{formatDate user.outDate}}" readonly>
+                                        </div>
+                                    </div>
                                     {{!-- work history input --}}
                                     <div class="row mb-3">
                                         <label for="workHistory" class="col-md-4 col-lg-3 col-form-label">Relevant
@@ -177,11 +185,12 @@
                                         </div>
                                     </div>
 
-                                    {{!-- Resume Submit Button --}}
+                                    {{!-- Application Submit Button --}}
+                                    <hr>
                                     <div class="text-center">
-                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                        <button type="submit" class="btn btn-primary">Submit Application</button>
                                     </div>
-                                </form><!-- End Profile Edit Form -->
+                                </form><!--  Application Form -->
                             </div>
                             {{/if}}
                         </div><!-- End Bordered Tabs -->

@@ -18,6 +18,7 @@ const employerSchema = new Schema({
     unique: true,
     required: [true, "Please enter email"],
     lowercase: true,
+    index: true,
   },
   password: {
     type: String,
@@ -33,14 +34,16 @@ const employerSchema = new Schema({
     lowercase: true,
     trim: true,
     required: true,
+    index: true,
   },
 
-  company: {
+  companyName: {
     type: String,
     lowercase: true,
     trim: true,
     required: true,
-  }, // reference to the Company model
+    index: true,
+  },
 });
 
 // Hash the password before saving

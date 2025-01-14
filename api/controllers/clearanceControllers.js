@@ -2,6 +2,7 @@ const Admin = require("../models/Admin");
 const Employer = require("../models/Employer");
 const UnitTeam = require("../models/UnitTeam");
 const Resident = require("../models/Resident");
+const Jobs = require("../models/Jobs");
 
 module.exports = {
   //serves non-resident dashboard from login portal portal
@@ -24,8 +25,9 @@ module.exports = {
       const resident = await Resident.findOne({
         residentID: residentID,
       }).lean();
+      console.log(resident);
       const activeTab = "overview";
-      res.render(`${req.session.user.role}/residentProfile`, {
+      res.render(`${req.session.user.role}/profiles/residentProfile`, {
         resident,
         user: req.session.user,
         activeTab,
@@ -52,7 +54,7 @@ module.exports = {
       const resident = await Resident.findOne({ residentID }).lean();
       const activeTab = "resume";
 
-      res.render(`${req.session.user.role}/residentProfile`, {
+      res.render(`${req.session.user.role}/profiles/residentProfile`, {
         resident,
         activeTab,
         user: req.session.user,
@@ -80,7 +82,7 @@ module.exports = {
       const resident = await Resident.findOne({ residentID }).lean();
       const activeTab = "resume";
 
-      res.render(`${req.session.user.role}/residentProfile`, {
+      res.render(`${req.session.user.role}/profiles/residentProfile`, {
         resident,
         activeTab,
         user: req.session.user,
@@ -135,7 +137,7 @@ module.exports = {
       const resident = await Resident.findOne({ residentID }).lean();
       const activeTab = "clearance";
 
-      res.render(`${req.session.user.role}/residentProfile`, {
+      res.render(`${req.session.user.role}/profiles/residentProfile`, {
         resident,
         activeTab,
         user: req.session.user,
@@ -146,6 +148,7 @@ module.exports = {
   },
   async approveEligibility(req, res) {
     const { residentID } = req.params;
+    const user = req.session.user._id;
 
     try {
       await Resident.updateOne(
@@ -162,7 +165,7 @@ module.exports = {
       const resident = await Resident.findOne({ residentID }).lean();
       const activeTab = "clearance";
 
-      res.render(`${req.session.user.role}/residentProfile`, {
+      res.render(`${req.session.user.role}/profiles/residentProfile`, {
         resident,
         activeTab,
         user: req.session.user,
@@ -192,7 +195,7 @@ module.exports = {
 
       const activeTab = "clearance";
 
-      res.render(`${req.session.user.role}/residentProfile`, {
+      res.render(`${req.session.user.role}/profiles/residentProfile`, {
         resident,
         activeTab,
         user: req.session.user,

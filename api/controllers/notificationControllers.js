@@ -3,6 +3,7 @@ const Admin = require("../models/Admin");
 const Employer = require("../models/Employer");
 const UnitTeam = require("../models/UnitTeam");
 const Resident = require("../models/Resident");
+const Jobs = require("../models/Jobs");
 
 const {
   sendReviewEmail,
@@ -70,7 +71,7 @@ module.exports = {
     }
     activeTab = "status";
     const resident = await Resident.findOne({ residentID }).lean();
-    console.log(resident);
+
     res.render("clearance/Medical", { resident, email, activeTab });
   },
   async removeMedicalClearance(req, res) {
@@ -185,7 +186,7 @@ module.exports = {
     }
     activeTab = "status";
     const resident = await Resident.findOne({ residentID }).lean();
-    console.log(resident);
+
     res.render("clearance/UTM", { resident, email, activeTab });
   },
   async removeUTMClearance(req, res) {
@@ -389,7 +390,7 @@ module.exports = {
     }
     const activeTab = "notes";
     const resident = await Resident.findOne({ residentID }).lean();
-    console.log(resident);
+
     res.render("clearance/EAI", { resident, email, activeTab });
   },
   //========================
@@ -505,7 +506,7 @@ module.exports = {
     }
     const activeTab = "notes";
     const resident = await Resident.findOne({ residentID }).lean();
-    console.log(resident);
+
     res.render("clearance/Classification", { resident, email, activeTab });
   },
   //========================
@@ -621,7 +622,7 @@ module.exports = {
     }
     const activeTab = "notes";
     const resident = await Resident.findOne({ residentID }).lean();
-    console.log(resident);
+
     res.render("clearance/Warden", { resident, email, activeTab });
   },
 
@@ -738,7 +739,7 @@ module.exports = {
     }
     const activeTab = "notes";
     const resident = await Resident.findOne({ residentID }).lean();
-    console.log(resident);
+
     res.render("clearance/Sex-Offender", { resident, email, activeTab });
   },
   //===========================
@@ -767,8 +768,7 @@ module.exports = {
     try {
       const resident = await Resident.findOne({ residentID }).lean();
       const activeTab = "status";
-      console.log("ROUTED OKAY");
-      console.log(dept);
+
       res.render(`clearance/${dept}`, { resident, email, activeTab });
     } catch (err) {
       console.error(err);

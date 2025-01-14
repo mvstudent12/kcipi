@@ -1,0 +1,255 @@
+{{> employerTemplate}}
+
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Resident Profile</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/employer/dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item active">Resident Profile</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section profile">
+        <div class="row">
+
+            <div class="col-xl-4">
+                <div class="card">
+                    <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+                        <img src="/assets/img/avatar.png" alt="Profile" class="rounded-circle">
+                        <h2 class="text-capitalize">{{resident.firstName}} {{resident.lastName}}</h2>
+                        <h2 class="text-capitalize mb-3 text-secondary">#{{resident.residentID}}</h2>
+                        <h3>KDOC Resident</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-8">
+
+                <div class="card">
+                    <div class="card-body pt-3">
+                        <!--========= Tab Borders =======-->
+                        <ul class="nav nav-tabs nav-tabs-bordered">
+                            <li class="nav-item">
+                                <button class="nav-link {{#if (eq activeTab 'overview')}}active{{/if}}"
+                                    data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-link {{#if (eq activeTab 'application')}}active{{/if}}"
+                                    data-bs-toggle="tab" data-bs-target="#profile-application">Applications</button>
+                            </li>
+                        </ul>
+                        {{!--===== TABS =====--}}
+                        <div class="tab-content pt-2">
+                            {{!--===== Resident Overview Tab =====--}}
+                            <div class="tab-pane fade {{#if (eq activeTab 'overview')}}show active{{/if}} profile-overview pt-3"
+                                id="profile-overview">
+
+                                <h5 class="card-title">Resident Info</h5>
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 label ">Name</div>
+                                    <div class="col-lg-8 col-md-8 text-capitalize">{{resident.firstName}}
+                                        {{resident.lastName}}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 label">Resident ID</div>
+                                    <div class="col-lg-8 col-md-8">{{resident.residentID}}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 label">Facility</div>
+                                    <div class="col-lg-8 col-md-8 text-capitalize">{{resident.facility}}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 label">Custody Level</div>
+                                    <div class="col-lg-8 col-md-8 text-capitalize">{{resident.custodyLevel}}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 label">Job Pool</div>
+                                    <div class="col-lg-8 col-md-8 text-capitalize">{{resident.jobPool}}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 label">Out Date</div>
+                                    <div class="col-lg-8 col-md-8 text-capitalize">01/13/2025</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 label">Unit Team</div>
+                                    <div class="col-lg-8 col-md-8 text-capitalize">{{resident.unitTeam}}</div>
+                                </div>
+                            </div>
+
+                            {{!--======== Applications TAB ========--}}
+                            <div class="tab-pane fade {{#if (eq activeTab 'application')}}show active{{/if}} profile-application pt-3"
+                                id="profile-application">
+                                <div class="card">
+                                    <div class="card-body pt-3">
+                                        {{#if applications}}
+                                        <div class="row mt-3 mb-3">
+                                            <div class="col-lg-4 col-md-4 label text-capitalize text-muted">
+                                                Company</div>
+                                            <div class="col-lg-8 col-md-8 text-capitalize text-muted">
+                                                Position</div>
+                                        </div>
+                                        {{#each applications}}
+                                        <div class="row mt-3">
+                                            <div class="col-lg-4 col-md-4 label text-capitalize">
+                                                {{this.companyName}}
+                                            </div>
+                                            <div class="col-lg-5 col-md-5 text-capitalize">
+                                                {{this.positionDetails.position}}</div>
+                                            <button class="col-lg-3 col-md-3 text-capitalize btn btn-info" type="submit"
+                                                data-bs-toggle="modal" data-bs-target="#{{this.position}}">
+                                                View</button>
+                                        </div>
+                                        <hr>
+                                        {{/each}}
+                                        {{else}}
+                                        <span class="text-warning">Resident has completed no applications.
+                                        </span>
+                                        {{/if}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- End Bordered Tabs -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main><!-- End #main -->
+
+
+<!-- ======= Footer ======= -->
+{{> footer}}
+{{> arrowUp}}
+
+
+{{#each applications}}
+
+{{!-- View Application Modal --}}
+<div class="modal fade" id="{{this.position}}" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="clearance-form" method="post" action="">
+                <div class="modal-header">
+                    <h3 id="request-title" class="modal-title text-center text-capitalize">{{this.firstName}}
+                        {{this.lastName}}</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="#">
+
+                        {{!-- Resident First Name --}}
+                        <div class="row mb-3">
+                            <label for="firstName" class="col-md-4 col-lg-4 col-form-label">First
+                                Name</label>
+                            <div class="col-md-8 col-lg-8">
+                                <input name="firstName" type="text" class="form-control text-capitalize" id="firstName"
+                                    value="{{this.firstName}}" readonly>
+                            </div>
+                        </div>
+                        {{!-- Resident Last Name --}}
+                        <div class="row mb-3">
+                            <label for="lastName" class="col-md-4 col-lg-4 col-form-label">Last
+                                Name</label>
+                            <div class="col-md-8 col-lg-8">
+                                <input name="lastName" type="text" class="form-control text-capitalize" id="lastName"
+                                    value="{{this.lastName}}" readonly>
+                            </div>
+                        </div>
+                        {{!-- Resident ID --}}
+                        <div class="row mb-3">
+                            <label for="residentID" class="col-md-4 col-lg-4 col-form-label">Resident
+                                ID</label>
+                            <div class="col-md-8 col-lg-8">
+                                <input name="residentID" type="text" class="form-control text-capitalize"
+                                    id="residentID" value="{{this.residentID}}" readonly>
+                            </div>
+                        </div>
+                        {{!-- Resident Custody Level --}}
+                        <div class="row mb-3">
+                            <label for="custodyLevel" class="col-md-4 col-lg-4 col-form-label">Custody
+                                Level</label>
+                            <div class="col-md-8 col-lg-8">
+                                <input name="custodyLevel" type="text" class="form-control text-capitalize"
+                                    id="custodyLevel" value="{{this.custodyLevel}}" readonly>
+                            </div>
+                        </div>
+                        {{!-- facility --}}
+                        <div class="row mb-3">
+                            <label for="facility" class="col-md-4 col-lg-4 col-form-label">Facility</label>
+                            <div class="col-md-8 col-lg-8">
+                                <input name="facility" type="text" class="form-control text-capitalize" id="facility"
+                                    value="{{this.facility}}" readonly>
+                            </div>
+                        </div>
+                        {{!-- Out Date --}}
+                        <div class="row mb-3">
+                            <label for="outDate" class="col-md-4 col-lg-4 col-form-label">Out Date</label>
+                            <div class="col-md-8 col-lg-8">
+                                <input name="outDate" type="text" class="form-control text-capitalize" id="outDate"
+                                    value="{{this.outDate}}" readonly>
+                            </div>
+                        </div>
+                        {{!-- work history input --}}
+                        <div class="row mb-3">
+                            <label for="workHistory" class="col-md-4 col-lg-4 col-form-label">Relevant
+                                Experience</label>
+                            <div class="col-md-8 col-lg-8">
+                                <textarea required name="workHistory" class="form-control" id="workHistory"
+                                    style="height: 100px" readonly>{{this.workHistory}}</textarea>
+                            </div>
+                        </div>
+                        {{!-- Certifications & Licenses input --}}
+                        <div class="row mb-3">
+                            <label for="certifications" class="col-md-4 col-lg-4 col-form-label">Certifications
+                                &amp;
+                                Licenses</label>
+                            <div class="col-md-8 col-lg-8">
+                                <textarea required name="certifications" class="form-control" id="certifications"
+                                    style="height: 100px">{{this.certifications}}</textarea>
+                            </div>
+                        </div>
+
+                        {{!-- GED or diploma option --}}
+                        <div class="row mb-3">
+                            <label for="hsGraduate" class="col-md-4 col-lg-4 col-form-label">High School Diploma</label>
+                            <div class="col-md-8 col-lg-8">
+                                <input name="hsGraduate" type="text" class="form-control text-capitalize"
+                                    id="hsGraduate" value="{{this.hsGraduate}}" readonly>
+                            </div>
+                        </div>
+
+                        {{!-- Application Submit Button --}}
+                        {{!--
+                        <hr>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Submit Application</button>
+                        </div> --}}
+                    </form><!-- End Profile Edit Form -->
+
+                </div>
+                <div class="modal-footer">
+                    <div id="request-btns" class="d-block">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button id="" type="submit" class="btn btn-info">Request</button>
+                    </div>
+                    <div id="done-btn" class="d-none">
+                        <button type="button" class="btn btn-info" data-bs-dismiss="modal">Close</button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div><!-- End clearance modal-->
+
+{{/each}}
+
+
+{{!--
+<script type="text/javascript" src="/../assets/js/residentApprovalForm.js"></script>
+
+<script type="text/javascript" src="/../assets/js/requestClearance.js"></script> --}}

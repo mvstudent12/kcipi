@@ -39,14 +39,13 @@
                                 <button class="nav-link {{#if (eq activeTab 'edit')}}active{{/if}}" data-bs-toggle="tab"
                                     data-bs-target="#edit-position">Edit Position</button>
                             </li>
-
-
                         </ul>
 
                         <div class="tab-content pt-2">
                             {{!-- Overview Tab --}}
                             <div class="tab-pane fade {{#if (eq activeTab 'overview')}}show active{{/if}} profile-overview pt-3"
                                 id="profile-overview">
+
                                 <h5 class="card-title">Position Info</h5>
                                 <div class="row">
                                     <div class="col-lg-4 col-md-4 label">Position Title:</div>
@@ -68,12 +67,21 @@
                                     <div class="col-lg-4 col-md-4 label">Available Positions:</div>
                                     <div class="col-lg-8 col-md-8 text-capitalize">{{position.availablePositions}}</div>
                                 </div>
-
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 label">Facility:</div>
+                                    <div class="col-lg-8 col-md-8 text-capitalize">{{position.facility}}</div>
+                                </div>
                                 <div class="row">
                                     <div class="col-lg-4 col-md-4 label">Job Pool:</div>
                                     <div class="col-lg-8 col-md-8 text-capitalize">{{position.jobPool}}</div>
                                 </div>
+                                {{!-- save msg from edit position --}}
+                                {{#if saveMsg}}
+                                <hr>
+                                <p class="text-success text-center fst-italic mt-3">Position successfully updated.
+                                </p>
 
+                                {{/if}}
                             </div>
 
                             {{!-- Positions tab --}}
@@ -86,9 +94,9 @@
 
                                     {{!-- Position Title --}}
                                     <div class="row mb-3">
-                                        <label for="editPosition" class="col-md-4 col-lg-3 col-form-label">Position
+                                        <label for="editPosition" class="col-md-4 col-lg-4 col-form-label">Position
                                             Title</label>
-                                        <div class="col-md-8 col-lg-9">
+                                        <div class="col-md-8 col-lg-8">
                                             <input name="editPosition" type="text" class="form-control text-capitalize"
                                                 id="editPosition" required value="{{position.position}}">
                                         </div>
@@ -96,16 +104,16 @@
                                     {{!-- Description --}}
                                     <div class="row mb-3">
                                         <label for="description"
-                                            class="col-md-4 col-lg-3 col-form-label">Description</label>
-                                        <div class="col-md-8 col-lg-9">
+                                            class="col-md-4 col-lg-4 col-form-label">Description</label>
+                                        <div class="col-md-8 col-lg-8">
                                             <input name="description" type="text" class="form-control text-capitalize"
                                                 id="description" required value="{{position.description}}">
                                         </div>
                                     </div>
                                     {{!-- Hourly Pay --}}
                                     <div class="row mb-3">
-                                        <label for="pay" class="col-md-4 col-lg-3 col-form-label">Hourly Pay</label>
-                                        <div class="col-md-8 col-lg-9">
+                                        <label for="pay" class="col-md-4 col-lg-4 col-form-label">Hourly Pay</label>
+                                        <div class="col-md-8 col-lg-8">
                                             <input name="pay" type="number" class="form-control" id="pay" required
                                                 value="{{position.pay}}">
                                         </div>
@@ -113,8 +121,8 @@
                                     {{!-- Positions Available --}}
                                     <div class="row mb-3">
                                         <label for="availablePositions"
-                                            class="col-md-4 col-lg-3 col-form-label">Positions Available</label>
-                                        <div class="col-md-8 col-lg-9">
+                                            class="col-md-4 col-lg-4 col-form-label">Positions Available</label>
+                                        <div class="col-md-8 col-lg-8">
                                             <input name="availablePositions" type="number" class="form-control"
                                                 id="availablePositions" required
                                                 value="{{position.availablePositions}}">
@@ -124,8 +132,8 @@
                                     {{!-- Job Available --}}
                                     <div class="row mb-3">
                                         <label for="availablePositions"
-                                            class="col-md-4 col-lg-3 col-form-label">Available</label>
-                                        <div class="col-md-8 col-lg-9">
+                                            class="col-md-4 col-lg-4 col-form-label">Available</label>
+                                        <div class="col-md-8 col-lg-8">
 
                                             <select required name="isAvailable" class="form-select"
                                                 aria-label="Available">
@@ -138,29 +146,66 @@
                                             </select>
                                         </div>
                                     </div>
+                                    {{!-- Postion Facility --}}
+                                    <div class="row mb-3">
+                                        <label for="facility" class="col-md-4 col-lg-4 col-form-label">Facility</label>
+                                        <div class="col-md-8 col-lg-8">
+                                            <select required name="facility" id="facilityEdit" class="form-select"
+                                                aria-label="Facility Options">
+                                                <option {{#if (eq position.facility "El Dorado" ) }}selected{{/if}}
+                                                    value="El Dorado">El Dorado</option>
+                                                <option {{#if (eq position.facility "Ellsworth" ) }}selected{{/if}}
+                                                    value="Ellsworth">Ellsworth</option>
+                                                <option {{#if (eq position.facility "Hutchinson" ) }}selected{{/if}}
+                                                    value="Hutchinson">Hutchinson
+                                                </option>
+                                                <option {{#if (eq position.facility "Lansing" ) }}selected{{/if}}
+                                                    value="Lansing">Lansing</option>
+                                                <option {{#if (eq position.facility "Larned" ) }}selected{{/if}}
+                                                    value="Larned">Larned</option>
+                                                <option {{#if (eq position.facility "Norton" ) }}selected{{/if}}
+                                                    value="Norton">Norton</option>
+                                                <option {{#if (eq position.facility "Topeka" ) }}selected{{/if}}
+                                                    value="Topeka">Topeka</option>
+                                                <option {{#if (eq position.facility "Winfield" ) }}selected{{/if}}
+                                                    value="Winfield">Winfield</option>
+                                                <option {{#if (eq position.facility "Wichita" ) }}selected{{/if}}
+                                                    value="Wichita">Wichita</option>
+                                            </select>
+                                        </div>
+                                    </div>
 
                                     {{!-- Job Pool--}}
                                     <div class="row mb-3">
-                                        <label for="jobPool" class="col-md-4 col-lg-3 col-form-label">Job
+                                        <label for="jobPool" class="col-md-4 col-lg-4 col-form-label">Job
                                             Pool</label>
-                                        <div class="col-md-8 col-lg-9">
+                                        <div class="col-md-8 col-lg-8">
                                             <select required name="jobPool" class="form-select" aria-label="Job Pool">
-                                                <option {{#if (eq position.jobPool "pool1" ) }}selected{{/if}}
-                                                    value="pool1">Male Minimum 1 &lpar;Off-Site&rpar;
+                                                <option {{#if (eq position.jobPool "Male Minimum 1 (Off-Site)" )
+                                                    }}selected{{/if}} value="Male Minimum 1 (Off-Site)">Male Minimum 1
+                                                    &lpar;Off-Site&rpar;
                                                 </option>
-                                                <option {{#if (eq position.jobPool "pool2" ) }}selected{{/if}}
-                                                    value="pool2">Male Minimum 2 &lpar;On-Site&rpar;
+                                                <option {{#if (eq position.jobPool "Male Minimum 2 (On-Site)" )
+                                                    }}selected{{/if}} value="Male Minimum 2 (On-Site)">Male Minimum 2
+                                                    &lpar;On-Site&rpar;
                                                 </option>
-                                                <option {{#if (eq position.jobPool "pool3" ) }}selected{{/if}}
-                                                    value="pool3">Male Medium/Maximum</option>
-                                                <option {{#if (eq position.jobPool "pool1F" ) }}selected{{/if}}
-                                                    value="pool1F">Female Minimum 1 &lpar;Off-Site&rpar;
+                                                <option {{#if (eq position.jobPool "Male Medium/Maximum" )
+                                                    }}selected{{/if}} value="Male Medium/Maximum">Male Medium/Maximum
                                                 </option>
-                                                <option {{#if (eq position.jobPool "pool2F" ) }}selected{{/if}}
-                                                    value="pool2F">Female Minimum 2 &lpar;On-Site&rpar;
+                                                <option {{#if (eq position.jobPool "Female Minimum 1 (Off-Site)" )
+                                                    }}selected{{/if}} value="Female Minimum 1 (Off-Site)">Female Minimum
+                                                    1
+                                                    &lpar;Off-Site&rpar;
                                                 </option>
-                                                <option {{#if (eq position.jobPool "pool3F" ) }}selected{{/if}}
-                                                    value="pool3F">Female Medium/Maximum</option>
+                                                <option {{#if (eq position.jobPool "Female Minimum 2 (On-Site)" )
+                                                    }}selected{{/if}} value="Female Minimum 2 (On-Site)">Female Minimum
+                                                    2
+                                                    &lpar;On-Site&rpar;
+                                                </option>
+                                                <option {{#if (eq position.jobPool "Female Medium/Maximum" )
+                                                    }}selected{{/if}} value="Female Medium/Maximum">Female
+                                                    Medium/Maximum
+                                                </option>
                                             </select>
 
                                         </div>
@@ -171,15 +216,6 @@
                                         <button type="submit" class="btn btn-primary mx-2">Save Edit</button>
                                     </div>
                                 </form>
-
-                                {{!-- save msg --}}
-                                {{#if saveMsg}}
-                                <hr>
-                                <p class="text-success text-center fst-italic mt-3">Position successfully updated.
-                                </p>
-                                {{/if}}
-
-
                             </div>
 
                             <!--=============== Edit position Form============================ -->

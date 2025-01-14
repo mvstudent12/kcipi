@@ -26,10 +26,10 @@ residentRoutes.get(
 
 residentRoutes.get("/faq", requireResidentAuth, controller.faq);
 
-residentRoutes.get("/jobInfo/:id", requireResidentAuth, controller.jobInfo);
+residentRoutes.get("/jobInfo/:jobID", requireResidentAuth, controller.jobInfo);
 
 residentRoutes.post(
-  "/saveApplication/:id",
+  "/saveApplication/:jobID",
   requireResidentAuth,
   controller.saveApplication
 );

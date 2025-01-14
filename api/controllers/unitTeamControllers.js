@@ -2,6 +2,7 @@ const Admin = require("../models/Admin");
 const Employer = require("../models/Employer");
 const UnitTeam = require("../models/UnitTeam");
 const Resident = require("../models/Resident");
+const Jobs = require("../models/Jobs");
 
 module.exports = {
   async dashboard(req, res) {
@@ -10,12 +11,12 @@ module.exports = {
       const caseLoad = await Resident.find({
         "resume.unitTeam": email,
       }).lean();
-      console.log(caseLoad);
+
       // Access all job applications across all residents
       const allJobApplications = caseLoad.flatMap(
         (resident) => resident.jobApplications
       );
-      console.log(allJobApplications);
+
       res.render("unitTeam/dashboard", {
         user: req.session.user,
         caseLoad,
@@ -46,7 +47,7 @@ module.exports = {
       const residentID = req.params.id;
       const resident = await Resident.findOne({ residentID }).lean();
       const activeTab = "overview";
-      res.render("unitTeam/residentProfile", {
+      res.render("unitTeam/profiles/residentProfile", {
         user: req.session.user,
         resident,
         activeTab,
@@ -60,7 +61,7 @@ module.exports = {
     try {
       const facility = req.session.user.facility;
       const residents = await Resident.find({ facility }).lean();
-      res.render("unitTeam/residentTables", {
+      res.render("unitTeam/tables/residentTables", {
         user: req.session.user,
         residents,
       });

@@ -73,6 +73,7 @@ const Admin = require("./api/models/Admin");
 const Employer = require("./api/models/Employer");
 const UnitTeam = require("./api/models/UnitTeam");
 const Resident = require("./api/models/Resident");
+const Jobs = require("./api/models/Jobs");
 
 app.engine(
   "handlebars",

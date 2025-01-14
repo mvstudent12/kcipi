@@ -16,11 +16,11 @@
             <!-- Left side columns -->
             <div class="col-lg-12">
                 <div class="row">
-                    <!-- Sales Card -->
+                    <!-- Eligible Jobs -->
                     <div class="col-xxl-4 col-md-4">
                         <div class="card info-card sales-card">
                             <div class="card-body">
-                                <h5 class="card-title">My Jobs</h5>
+                                <h5 class="card-title">Eligible Jobs</h5>
                                 <div class="d-flex align-items-center">
                                     <div
                                         class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -32,7 +32,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div><!-- End Sales Card -->
+                    </div><!-- End My Jobs -->
 
                     <!-- My Applications Card -->
                     <div class="col-xxl-4 col-md-4">
@@ -105,12 +105,12 @@
                                     <tbody>
                                         {{#each jobs}}
                                         <tr>
-                                            <th scope="row"><a href="/resident/jobInfo/{{this.jobs._id}}">{{add
-                                                    @index 1}}</a></th>
+                                            <th scope="row"><a href="/resident/jobInfo/{{this._id}}">{{add @index
+                                                    1}}</a></th>
                                             <td class="text-capitalize">{{this.companyName}}</td>
-                                            <td class="text-capitalize"><a href="/resident/jobInfo/{{this.job._id}}"
-                                                    class="text-primary">{{this.job.position}}</a></td>
-                                            <td class="text-capitalize">{{formatDate this.job.dateCreated}}</td>
+                                            <td class="text-capitalize"><a href="/resident/jobInfo/{{this._id}}"
+                                                    class="text-primary">{{this.position}}</a></td>
+                                            <td class="text-capitalize">{{formatDate this.dateCreated}}</td>
                                             {{#if this.residentInApplicants}}
                                             <td><span class="badge bg-warning">Applied</span></td>
                                             {{else}}

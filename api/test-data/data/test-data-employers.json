@@ -5,7 +5,7 @@
     "email": "lucas.harris@ks.gov",
     "password": "asd",
     "role": "employer",
-    "company": "impact design",
+    "companyName": "impact design",
     "facility": "El Dorado"
   },
   {
@@ -14,7 +14,7 @@
     "email": "emily.davis@ks.gov",
     "password": "asd",
     "role": "employer",
-    "company": "pioneer ballons",
+    "companyName": "pioneer ballons",
     "facility": "El Dorado"
   },
   {
@@ -23,7 +23,7 @@
     "email": "sophia.martin@ks.gov",
     "password": "asd",
     "role": "employer",
-    "company": "great plains",
+    "companyName": "great plains",
     "facility": "Ellsworth"
   },
   {
@@ -32,7 +32,7 @@
     "email": "james.wilson@ks.gov",
     "password": "asd",
     "role": "employer",
-    "company": "moly manufacturing",
+    "companyName": "moly manufacturing",
     "facility": "Ellsworth"
   },
   {
@@ -41,7 +41,7 @@
     "email": "oliver.brown@ks.gov",
     "password": "asd",
     "role": "employer",
-    "company": "pkm steel",
+    "companyName": "pkm steel",
     "facility": "Ellsworth"
   },
   {
@@ -50,7 +50,7 @@
     "email": "ella.rodriguez@ks.gov",
     "password": "asd",
     "role": "employer",
-    "company": "maico industries inc.",
+    "companyName": "maico industries inc.",
     "facility": "Ellsworth"
   },
   {
@@ -59,7 +59,7 @@
     "email": "jackson.lee@ks.gov",
     "password": "asd",
     "role": "employer",
-    "company": "bac",
+    "companyName": "bac",
     "facility": "Lansing"
   },
   {
@@ -68,7 +68,7 @@
     "email": "mason.gonzalez@ks.gov",
     "password": "asd",
     "role": "employer",
-    "company": "heatron",
+    "companyName": "heatron",
     "facility": "Lansing"
   },
   {
@@ -77,7 +77,7 @@
     "email": "chloe.miller@ks.gov",
     "password": "asd",
     "role": "employer",
-    "company": "lpf high performance",
+    "companyName": "lpf high performance",
     "facility": "Lansing"
   },
   {
@@ -86,7 +86,7 @@
     "email": "liam.anderson@ks.gov",
     "password": "asd",
     "role": "employer",
-    "company": "zephyr",
+    "companyName": "zephyr",
     "facility": "Lansing"
   },
   {
@@ -95,7 +95,7 @@
     "email": "shawn.williams@ks.gov",
     "password": "asd",
     "role": "employer",
-    "company": "russell stovers",
+    "companyName": "russell stovers",
     "facility": "Topeka"
   },
   {
@@ -104,7 +104,7 @@
     "email": "amy.cook@ks.gov",
     "password": "asd",
     "role": "employer",
-    "company": "polo",
+    "companyName": "polo",
     "facility": "Topeka"
   }
 ]

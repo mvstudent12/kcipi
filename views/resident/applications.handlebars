@@ -7,7 +7,7 @@
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/resident/dashboard">Dashboard</a></li>
-                <li class="breadcrumb-item active">My Applications</li>
+                <li class="breadcrumb-item active" aria-current="page">My Applications</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -17,9 +17,10 @@
             <div class="col-xl-4">
                 <div class="card">
                     <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-                        <img src="/assets/img/avatar.png" alt="Profile" class="rounded-circle">
+                        <img src="/assets/img/avatar.png" alt="Profile Avatar" class="rounded-circle">
                         <h2 class="text-capitalize">{{user.firstName}} {{user.lastName}}</h2>
-                        <h2 class="text-capitalize mb-3">#{{user.residentID}}</h2>
+                        <h2 class="text-capitalize mb-3" aria-label="Resident ID #{{user.residentID}}">
+                            #{{user.residentID}}</h2>
                         <h3>KDOC Resident</h3>
                     </div>
                 </div>
@@ -30,26 +31,27 @@
                 <div class="card">
                     <div class="card-body pt-3">
                         <!-- Bordered Tabs -->
-                        <ul class="nav nav-tabs nav-tabs-bordered">
+                        <ul class="nav nav-tabs nav-tabs-bordered" role="tablist">
                             <li class="nav-item">
-                                <button class="nav-link active" data-bs-toggle="tab"
+                                <button class="nav-link active" role="tab" aria-selected="true"
+                                    aria-controls="profile-overview" data-bs-toggle="tab"
                                     data-bs-target="#profile-overview">Completed Applications</button>
                             </li>
                         </ul>
                         <div class="tab-content pt-2">
-
-                            <div class="tab-pane fade show active profile-overview" id="profile-overview">
+                            <div class="tab-pane fade show active profile-overview" id="profile-overview"
+                                role="tabpanel" aria-labelledby="profile-overview-tab">
                                 {{#if appliedJobs}}
                                 <div class="row mt-3">
-                                    <div class="col-lg-4 col-md-4 label text-capitalize text-muted">Company
-
-                                    </div>
-                                    <div class="col-lg-8 col-md-8 text-capitalize text-muted">Position</div>
+                                    <div class="col-lg-4 col-md-4 label text-capitalize text-muted" aria-hidden="true">
+                                        Company</div>
+                                    <div class="col-lg-8 col-md-8 text-capitalize text-muted" aria-hidden="true">
+                                        Position</div>
                                 </div>
                                 {{#each appliedJobs}}
                                 <div class="row mt-3">
-                                    <div class="col-lg-4 col-md-4 label text-capitalize">{{this.companyName}}
-
+                                    <div class="col-lg-4 col-md-4 label text-capitalize">
+                                        {{this.companyName}}
                                     </div>
                                     <div class="col-lg-8 col-md-8 text-capitalize">{{this.job.position}}</div>
                                 </div>
