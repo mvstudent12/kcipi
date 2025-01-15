@@ -22,15 +22,20 @@ module.exports = {
   async residentProfile(req, res) {
     try {
       const residentID = req.params.id;
-      const resident = await Resident.findOne({
-        residentID: residentID,
+      const resident = await Resident.findOne({ residentID }).lean();
+      const id = resident._id;
+
+      //find positions resident has applied for
+      const applications = await Jobs.find({
+        applicants: { $in: [id] },
       }).lean();
-      console.log(resident);
+
       const activeTab = "overview";
       res.render(`${req.session.user.role}/profiles/residentProfile`, {
         resident,
         user: req.session.user,
         activeTab,
+        applications,
       });
     } catch (err) {
       console.log(err);
