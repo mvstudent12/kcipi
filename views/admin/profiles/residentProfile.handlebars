@@ -45,8 +45,10 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button id="" type="submit" class="btn btn-danger">Reject</button>
+                    <div class="col-12 d-flex justify-content-between">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button id="" type="submit" class="btn btn-danger">Reject</button>
+                    </div>
                 </div>
             </form>
         </div>
@@ -164,20 +166,8 @@
                     <div class="row mb-3">
                         <legend class="col-form-label ">Eligibility Requirements:</legend>
                         <div class="">
-                            <div class="form-check">
-                                <input required name="resumeCheck" class="form-check-input" type="checkbox"
-                                    id="gridCheck6">
-                                <label class="form-check-label" for="gridCheck6">
-                                    Resume approved?
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input required name="jobPIE Employedheck" class="form-check-input" type="checkbox"
-                                    id="gridCheck5">
-                                <label class="form-check-label" for="gridCheck5">
-                                    Job pool assigned?
-                                </label>
-                            </div>
+
+
                             <div class="form-check">
                                 <input required name="medCheck" class="form-check-input" type="checkbox"
                                     id="gridCheck1">
@@ -212,7 +202,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer d-flex justify-content-between">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-success">Approve</button>
                 </div>

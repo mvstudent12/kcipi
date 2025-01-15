@@ -78,7 +78,7 @@ module.exports = {
         }
       );
 
-      const saveMsg = "Resume Approved.";
+      const saveMsg = "This resume has been approved.";
       const resident = await Resident.findOne({ residentID }).lean();
       const activeTab = "resume";
 

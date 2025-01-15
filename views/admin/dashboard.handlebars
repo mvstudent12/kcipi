@@ -59,12 +59,12 @@
                         </div>
                     </div><!-- End Resumes Count Card -->
 
-                    <!-- Applications Card -->
+                    <!-- Applicants Card -->
                     <div class="col-xxl-4 col-md-4">
                         <div class="card info-card revenue-card">
 
                             <div class="card-body">
-                                <h5 class="card-title">Applications <span>| Pending</span></h5>
+                                <h5 class="card-title">Applicants <span>| To Review</span></h5>
 
                                 <div class="d-flex align-items-center">
                                     <div
@@ -72,13 +72,13 @@
                                         <i class="bi bi-card-list"></i>
                                     </div>
                                     <div class="ps-3">
-                                        <h6>{{countArrayItems allJobApplications}}</h6>
+                                        <h6>{{countArrayItems allJobApplicants}}</h6>
                                     </div>
                                 </div>
                             </div>
 
                         </div>
-                    </div><!-- End Applications Card -->
+                    </div><!-- End Applicants Card -->
 
 
 
@@ -188,28 +188,28 @@
                         </div>
                     </div><!-- End Resume Table -->
 
-                    <!-- Applications Table -->
+                    <!-- Applicants Table -->
                     <div class="col-12">
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
-                                <h5 class="card-title">Applications <span>| To Review</span></h5>
+                                <h5 class="card-title">Applicants <span>| To Review</span></h5>
                                 <table class="table table-borderless datatable">
                                     <thead>
                                         <tr>
                                             <th scope="col">ID #</th>
-                                            <th scope="col">Company</th>
-                                            <th scope="col">Resident</th>
+                                            <th scope="col">Facility</th>
+                                            <th scope="col">Name</th>
                                             <th scope="col">Custody</th>
                                             <th scope="col">Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{#each allJobApplications}}
+                                        {{#each allJobApplicants}}
                                         <tr>
                                             <th scope="row"><a
                                                     href="/unitTeam/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
                                             </th>
-                                            <td class="text-capitalize">{{this.companyName}}</td>
+                                            <td class="text-capitalize">{{this.facility}}</td>
 
                                             <td><a href="/unitTeam/residentProfile/{{this.residentID}}"
                                                     class="text-primary text-capitalize">{{this.firstName}}
@@ -224,7 +224,7 @@
                                 </table>
                             </div>
                         </div>
-                    </div><!-- End Applications Table -->
+                    </div><!-- End Applicants Table -->
 
 
 

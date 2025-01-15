@@ -28,17 +28,26 @@ module.exports = {
       }).lean();
       //find all residents in KDOC
       const caseLoad = await Resident.find().lean();
+      let applicantIDs;
 
-      // Access all job applications across all residents
-      const allJobApplications = caseLoad.flatMap(
-        (resident) => resident.jobApplications
-      );
+      await Jobs.aggregate([
+        { $unwind: "$applicants" }, // Flatten the applicants array
+        { $group: { _id: null, allResidents: { $push: "$applicants" } } }, // Collect all resident IDs, including duplicates
+      ]).then((result) => {
+        return (applicantIDs = result[0].allResidents);
+      });
+
+      const allJobApplicants = await Resident.find(
+        { _id: { $in: applicantIDs } },
+        "firstName lastName facility residentID custodyLevel"
+      ).lean();
+      console.log(allJobApplicants);
 
       res.render("admin/dashboard", {
         residentsNeedReview,
         resumeNeedReview,
         caseLoad,
-        allJobApplications,
+        allJobApplicants,
         user: req.session.user,
       });
     } catch (err) {

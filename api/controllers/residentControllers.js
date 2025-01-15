@@ -5,6 +5,7 @@ const Company = require("../models/Company");
 const Jobs = require("../models/Jobs");
 
 const mongoose = require("mongoose");
+const { residentTables } = require("./adminControllers");
 
 module.exports = {
   async dashboard(req, res) {
@@ -38,7 +39,7 @@ module.exports = {
             },
           },
         ]);
-        console.log(jobs);
+
         const applicationCount = jobs.filter(
           (job) => job.residentInApplicants
         ).length;
@@ -62,19 +63,13 @@ module.exports = {
 
   async profile(req, res) {
     try {
-      //if resident has not completed a resume or has a resume rejected
-      if (
-        !req.session.resident.resumeIsComplete ||
-        !req.session.resident.resumeRejectionReason
-      ) {
-        const unitTeam = await UnitTeam.find({
-          facility: req.session.resident.facility,
-        }).lean();
-        res.render("resident/profile", {
-          unitTeam,
-          user: req.session.resident,
-        });
-      }
+      const unitTeam = await UnitTeam.find({
+        facility: req.session.resident.facility,
+      }).lean();
+      res.render("resident/profile", {
+        unitTeam,
+        user: req.session.resident,
+      });
     } catch (err) {
       console.log(err);
     }
@@ -83,62 +78,49 @@ module.exports = {
     const email = req.body.unitTeam;
     const id = req.session.resident._id.toString();
     try {
-      //if resident is completing a resume for the first time
-      if (email) {
-        const unitTeam = await UnitTeam.findOne({ email }).lean();
+      const unitTeam = await UnitTeam.findOne({ email }).lean();
 
-        const unitTeamName = `${unitTeam.firstName} ${unitTeam.lastName}`;
-        await Resident.updateOne(
-          { _id: id },
-          {
-            $set: {
-              resumeIsComplete: true,
-              resume: req.body,
-              unitTeam: unitTeamName,
-            },
-          }
-        );
-      } else {
-        //if resident is correcting a rejected resume
-        await Resident.updateOne(
-          { _id: id },
-          {
-            $set: {
-              resumeIsComplete: true,
-              resume: req.body,
-              resumeRejectionReason: "",
-            },
-          }
-        );
-      }
+      const unitTeamName = `${unitTeam.firstName} ${unitTeam.lastName}`;
+      await Resident.updateOne(
+        { _id: id },
+        {
+          $set: {
+            resumeIsComplete: true,
+            resume: req.body,
+            unitTeam: unitTeamName,
+            resumeRejectionReason: "",
+          },
+        }
+      );
 
       let resident = await Resident.findOne({ _id: id }).lean();
-      req.session.resident = resident;
 
+      req.session.resident = resident;
       res.render("resident/profile", { user: req.session.resident });
     } catch (err) {
       console.log(err);
     }
   },
+
   async applications(req, res) {
     try {
-      const residentID = req.session.resident._id;
+      const id = req.session.resident._id;
 
-      const appliedJobs = await Company.aggregate([
+      const appliedJobs = await Jobs.aggregate([
         {
-          $unwind: "$jobs", // Unwind the jobs array to access each job
+          $unwind: "$applicants", // Unwind the applicants array to access each job
         },
         {
           $match: {
-            "jobs.applicants": new mongoose.Types.ObjectId(residentID), // Match jobs where the resident is in applicants
+            applicants: new mongoose.Types.ObjectId(id), // Match jobs where the resident is in applicants
           },
         },
         {
           $project: {
             _id: 0, // Optionally exclude the company _id from the result
             companyName: "$companyName", // Include the company name
-            job: "$jobs", // Include the job details
-            facility: "$facility",
+            pay: "$pay", // Include the job details
+            position: "$position",
           },
         },
       ]);
@@ -178,7 +160,7 @@ module.exports = {
         },
       ]);
       position = position[0];
-      console.log(position);
+
       if (position.residentInApplicants) {
         const residentHasApplied = true;
         res.render("resident/jobInfo", {
@@ -199,41 +181,8 @@ module.exports = {
   async saveApplication(req, res) {
     try {
       const { jobID } = req.params;
-      const {
-        firstName,
-        lastName,
-        residentID,
-        custodyLevel,
-        facility,
-        outDate,
-        workHistory,
-        certifications,
-        hsGraduate,
-        companyName,
-      } = req.body;
 
       const id = req.session.resident._id;
-      //update resident document with application details
-      await Resident.updateOne(
-        { _id: id },
-        {
-          $push: {
-            jobApplications: {
-              firstName,
-              lastName,
-              residentID,
-              custodyLevel,
-              facility,
-              outDate,
-              workHistory,
-              certifications,
-              hsGraduate,
-              companyName,
-              position: jobID,
-            },
-          },
-        }
-      );
 
       await Jobs.findByIdAndUpdate(
         jobID,

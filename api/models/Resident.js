@@ -12,6 +12,7 @@ const resumeSchema = new Schema({
   certifications: { type: String },
   education: { type: String },
   programs: { type: String },
+  skills: { type: String },
 });
 
 const residentSchema = new Schema({
@@ -57,7 +58,7 @@ const residentSchema = new Schema({
     type: String,
     lowercase: true,
   },
-  jobApplications: [], // References to job application
+
   resume: resumeSchema,
   resumeIsComplete: { type: Boolean, default: false },
   resumeIsApproved: { type: Boolean, default: false },

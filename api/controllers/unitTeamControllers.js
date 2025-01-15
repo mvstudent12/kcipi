@@ -12,15 +12,33 @@ module.exports = {
         "resume.unitTeam": email,
       }).lean();
 
-      // Access all job applications across all residents
-      const allJobApplications = caseLoad.flatMap(
-        (resident) => resident.jobApplications
-      );
+      //make array of resident _id in caseload
+      const residentIDs = caseLoad.flatMap((resident) => resident._id);
+
+      let applicantIDs = [];
+
+      //make array of applicant ids
+      await Jobs.aggregate([
+        { $unwind: "$applicants" }, // Flatten the applicants array
+        { $match: { applicants: { $in: residentIDs } } }, // Filter applicants by residentID array
+        { $group: { _id: null, allResidents: { $push: "$applicants" } } }, // Collect matching resident IDs
+      ]).then((result) => {
+        if (result.length > 0) {
+          return (applicantIDs = result[0].allResidents);
+        } else {
+          return;
+        }
+      });
+      //find all residents with applications in
+      const applicants = await Resident.find(
+        { _id: { $in: applicantIDs } },
+        "firstName lastName facility residentID custodyLevel"
+      ).lean();
 
       res.render("unitTeam/dashboard", {
         user: req.session.user,
         caseLoad,
-        allJobApplications,
+        applicants,
       });
     } catch (err) {
       console.log(err);
@@ -46,11 +64,19 @@ module.exports = {
     try {
       const residentID = req.params.id;
       const resident = await Resident.findOne({ residentID }).lean();
+      const id = resident._id;
+
+      //find positions resident has applied for
+      const applications = await Jobs.find({
+        applicants: { $in: [id] },
+      }).lean();
+
       const activeTab = "overview";
       res.render("unitTeam/profiles/residentProfile", {
         user: req.session.user,
         resident,
         activeTab,
+        applications,
       });
     } catch (err) {
       console.log(err);

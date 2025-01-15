@@ -40,19 +40,17 @@
                             </li>
                         </ul>
                         <div class="tab-content pt-2">
-
-                            <div class="tab-pane fade show active profile-overview" id="profile-overview">
+                            <div class="tab-pane fade show active profile-overview pt-3" id="profile-overview">
                                 {{#if user.resumeIsComplete}}
                                 {{#unless user.resumeIsApproved}}
-                                <span class="fst-italic text-success">Your resume has been sent to Unit Team for
+                                <p class="text-warning text-center">Your resume has been sent to Unit Team for
                                     approval.
-                                </span>
+                                </p>
                                 {{/unless}}
                                 {{/if}}
                                 {{#if user.resumeIsComplete}}
                                 {{#if user.resumeIsApproved}}
-                                <span class="fst-italic text-success">Your resume has been approved by Unit Team.
-                                </span>
+                                <p class="text-success text-center">Your resume has been approved by unit team.</p>
                                 {{/if}}
                                 {{/if}}
 
@@ -74,10 +72,14 @@
                                     <div class="col-lg-3 col-md-4 label">Custody Level</div>
                                     <div class="col-lg-9 col-md-8 text-capitalize">{{user.custodyLevel}}</div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 label">Out Date</div>
+                                    <div class="col-lg-9 col-md-8 text-capitalize">{{formatDate user.outDate}}</div>
+                                </div>
                             </div>
 
                             {{#if user.resumeIsComplete}}
-                            <!--========================= Resume Completed Form ==========================================-->
+                            <!--========= Resume Completed Form ============-->
                             <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
                                 {{#if user.resumeIsApproved}}
                                 <p class="text-success text-center">Your resume has been approved by unit team.</p>
@@ -165,13 +167,14 @@
                                                 style="height: 100px" disabled>{{user.resume.education}}</textarea>
                                         </div>
                                     </div>
-                                    {{!-- Completed programs --}}
+                                    {{!-- Relevant Skills --}}
                                     <div class="row mb-3">
-                                        <label for="programs" class="col-md-4 col-lg-3 col-form-label">Completed
-                                            Programs</label>
+                                        <label for="skills" class="col-md-4 col-lg-3 col-form-label">Relevant Skills
+                                            &amp;
+                                            Experience</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <textarea name="programs" class="form-control" id="programs"
-                                                style="height: 100px" disabled>{{user.resume.programs}}</textarea>
+                                            <textarea name="skills" class="form-control" id="skills"
+                                                style="height: 100px" disabled>{{user.resume.skills}}</textarea>
                                         </div>
                                     </div>
                                     {{!-- US Citizen options --}}
@@ -266,17 +269,18 @@
                                         </div>
                                     </div>
 
-                                </form><!-- End Profile Edit Form -->
+                                </form>
                             </div>
                             {{else}}
                             {{#if user.resumeRejectionReason}}
 
-                            {{!--============= Rejected Resume Form =============================--}}
+                            {{!--========= Rejected Resume Form ==============--}}
                             <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
                                 <p class="text-danger text-center">Your resume has been rejected by your unit team for
                                     being {{user.resumeRejectionReason}}.</p>
-                                <p class="text-danger text-center">Please review your answers and correct them
+                                <p class="text-warning text-center mb-3">Please review your answers and correct them
                                     accordingly.</p>
+                                <hr>
                                 <form method="POST" action="/resident/saveResume">
                                     {{!-- Resident First Name --}}
                                     <div class="row mb-3">
@@ -322,12 +326,18 @@
                                                 id="facility" value="{{user.facility}}" disabled>
                                         </div>
                                     </div>
-                                    {{!-- Unit Team Assigned --}}
+                                    {{!-- UTM Select Box --}}
                                     <div class="row mb-3">
-                                        <label for="unitTeam" class="col-md-4 col-lg-3 col-form-label">Unit Team</label>
+                                        <label class="col-md-4 col-lg-3 col-form-label">Unit Team</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="unitTeam" type="text" class="form-control text-capitalize"
-                                                id="unitTeam" value="{{user.unitTeam}}" disabled>
+                                            <select name="unitTeam" class="form-select text-capitalize"
+                                                aria-label="unit team" required>
+                                                <option selected value="">Choose Unit Team Member</option>
+                                                {{#each unitTeam}}
+                                                <option value="{{this.email}}" class="text-capitalize">
+                                                    {{this.firstName}} {{this.lastName}}</option>
+                                                {{/each}}
+                                            </select>
                                         </div>
                                     </div>
                                     {{!-- work history input --}}
@@ -342,7 +352,8 @@
                                     {{!-- Certifications & Licenses input --}}
                                     <div class="row mb-3">
                                         <label for="certifications"
-                                            class="col-md-4 col-lg-3 col-form-label">Certifications &amp;
+                                            class="col-md-4 col-lg-3 col-form-label">Certifications
+                                            &amp;
                                             Licenses</label>
                                         <div class="col-md-8 col-lg-9">
                                             <textarea name="certifications" class="form-control" id="certifications"
@@ -356,6 +367,16 @@
                                         <div class="col-md-8 col-lg-9">
                                             <textarea name="education" class="form-control" id="education"
                                                 style="height: 100px">{{user.resume.education}}</textarea>
+                                        </div>
+                                    </div>
+                                    {{!-- Relevant Skills --}}
+                                    <div class="row mb-3">
+                                        <label for="skills" class="col-md-4 col-lg-3 col-form-label">Relevant Skills
+                                            &amp;
+                                            Experience</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <textarea name="skills" class="form-control" id="skills"
+                                                style="height: 100px">{{user.resume.skills}}</textarea>
                                         </div>
                                     </div>
                                     {{!-- Completed programs --}}
@@ -458,8 +479,9 @@
                                         </div>
                                     </div>
                                     {{!-- Resume Submit Button --}}
+                                    <hr class="mb-3">
                                     <div class="text-center">
-                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                        <button type="submit" class="btn btn-primary">Submit Resume</button>
                                     </div>
                                 </form><!-- End Resume Edit Form -->
                             </div>
@@ -528,7 +550,6 @@
                                                 <option value="{{this.email}}" class="text-capitalize">
                                                     {{this.firstName}} {{this.lastName}}</option>
                                                 {{/each}}
-
                                             </select>
                                         </div>
                                     </div>
@@ -546,7 +567,8 @@
                                     {{!-- Certifications & Licenses input --}}
                                     <div class="row mb-3">
                                         <label for="certifications"
-                                            class="col-md-4 col-lg-3 col-form-label">Certifications &amp;
+                                            class="col-md-4 col-lg-3 col-form-label">Certifications
+                                            &amp;
                                             Licenses</label>
                                         <div class="col-md-8 col-lg-9">
                                             <textarea name="certifications" class="form-control" id="certifications"
@@ -559,6 +581,16 @@
                                             Education</label>
                                         <div class="col-md-8 col-lg-9">
                                             <textarea name="education" class="form-control" id="education"
+                                                style="height: 100px"></textarea>
+                                        </div>
+                                    </div>
+                                    {{!-- Relevant Skills --}}
+                                    <div class="row mb-3">
+                                        <label for="skills" class="col-md-4 col-lg-3 col-form-label">Relevant Skills
+                                            &amp;
+                                            Experience</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <textarea name="skills" class="form-control" id="skills"
                                                 style="height: 100px"></textarea>
                                         </div>
                                     </div>
@@ -656,21 +688,21 @@
                                         </div>
                                     </div>
                                     {{!-- Resume Submit Button --}}
-                                    <div class="text-center">
-                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    <hr class="mb-3">
+                                    <div class="text-end">
+                                        <button type="submit" class="btn btn-primary">Submit Resume</button>
                                     </div>
-                                </form><!-- End Profile Edit Form -->
-                            </div>
-                            {{/if}}
-                            {{/if}}
+                                </form>
+                                {{/if}}
+                                {{/if}}
 
-                        </div><!-- End Bordered Tabs -->
+                            </div><!-- End Bordered Tabs -->
 
+                        </div>
                     </div>
-                </div>
 
+                </div>
             </div>
-        </div>
     </section>
 
 </main><!-- End #main -->

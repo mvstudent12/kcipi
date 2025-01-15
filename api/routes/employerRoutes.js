@@ -35,6 +35,13 @@ employerRoutes.post(
   controller.editPosition
 );
 
+employerRoutes.post(
+  "/deletePosition/:jobID",
+  checkUser,
+  requireAuth,
+  controller.deletePosition
+);
+
 employerRoutes.get(
   "/applicants",
   checkUser,

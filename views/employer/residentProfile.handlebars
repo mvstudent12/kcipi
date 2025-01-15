@@ -38,8 +38,12 @@
                                     data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
                             </li>
                             <li class="nav-item">
+                                <button class="nav-link {{#if (eq activeTab 'resume')}}active{{/if}}"
+                                    data-bs-toggle="tab" data-bs-target="#profile-resume">Resume</button>
+                            </li>
+                            <li class="nav-item">
                                 <button class="nav-link {{#if (eq activeTab 'application')}}active{{/if}}"
-                                    data-bs-toggle="tab" data-bs-target="#profile-application">Applications</button>
+                                    data-bs-toggle="tab" data-bs-target="#profile-applicants">Applicants</button>
                             </li>
                         </ul>
                         {{!--===== TABS =====--}}
@@ -80,28 +84,180 @@
                                 </div>
                             </div>
 
+                            {{!-- Resume --}}
+                            <div class="tab-pane fade {{#if (eq activeTab 'resume')}}show active{{/if}} profile-resume pt-3"
+                                id="profile-resume">
+
+                                {{!-- Resident First Name --}}
+                                <div class="row mb-3">
+                                    <label for="firstName" class="col-md-4 col-lg-3 col-form-label">First
+                                        Name</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <input name="firstName" type="text" class="form-control text-capitalize"
+                                            id="firstName" value="{{resident.firstName}}" disabled>
+                                    </div>
+                                </div>
+                                {{!-- Resident Last Name --}}
+                                <div class="row mb-3">
+                                    <label for="lastName" class="col-md-4 col-lg-3 col-form-label">Last
+                                        Name</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <input name="lastName" type="text" class="form-control text-capitalize"
+                                            id="lastName" value="{{resident.lastName}}" disabled>
+                                    </div>
+                                </div>
+                                {{!-- Resident ID --}}
+                                <div class="row mb-3">
+                                    <label for="residentID" class="col-md-4 col-lg-3 col-form-label">Resident
+                                        ID</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <input name="residentID" type="text" class="form-control text-capitalize"
+                                            id="residentID" value="{{resident.residentID}}" disabled>
+                                    </div>
+                                </div>
+                                {{!-- Resident Custody Level --}}
+                                <div class="row mb-3">
+                                    <label for="custodyLevel" class="col-md-4 col-lg-3 col-form-label">Custody
+                                        Level</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <input name="custodyLevel" type="text" class="form-control text-capitalize"
+                                            id="custodyLevel" value="{{resident.custodyLevel}}" disabled>
+                                    </div>
+                                </div>
+                                {{!-- Resident Facility --}}
+                                <div class="row mb-3">
+                                    <label for="facility" class="col-md-4 col-lg-3 col-form-label">Facility</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <input name="facility" type="text" class="form-control text-capitalize"
+                                            id="facility" value="{{resident.facility}}" disabled>
+                                    </div>
+                                </div>
+                                {{!-- Unit Team Assigned --}}
+                                <div class="row mb-3">
+                                    <label for="unitTeam" class="col-md-4 col-lg-3 col-form-label">Unit Team</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <input name="unitTeam" type="text" class="form-control text-capitalize"
+                                            id="unitTeam" value="{{resident.unitTeam}}" disabled>
+                                    </div>
+                                </div>
+                                {{!-- work history input --}}
+                                <div class="row mb-3">
+                                    <label for="workHistory" class="col-md-4 col-lg-3 col-form-label">Work
+                                        History</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <textarea name="workHistory" class="form-control" id="workHistory"
+                                            style="height: 100px" disabled>{{resident.resume.workHistory}}</textarea>
+                                    </div>
+                                </div>
+                                {{!-- Certifications & Licenses input --}}
+                                <div class="row mb-3">
+                                    <label for="certifications" class="col-md-4 col-lg-3 col-form-label">Certifications
+                                        &amp;
+                                        Licenses</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <textarea name="certifications" class="form-control" id="certifications"
+                                            style="height: 100px" disabled>{{resident.resume.certifications}}</textarea>
+                                    </div>
+                                </div>
+                                {{!-- Higher Education --}}
+                                <div class="row mb-3">
+                                    <label for="education" class="col-md-4 col-lg-3 col-form-label">Higher
+                                        Education</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <textarea name="education" class="form-control" id="education"
+                                            style="height: 100px" disabled>{{resident.resume.education}}</textarea>
+                                    </div>
+                                </div>
+                                {{!-- Relevant Skills --}}
+                                <div class="row mb-3">
+                                    <label for="skills" class="col-md-4 col-lg-3 col-form-label">Relevant Skills
+                                        &amp;
+                                        Experience</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <textarea name="skills" class="form-control" id="skills" style="height: 100px"
+                                            disabled>{{resident.resume.skills}}</textarea>
+                                    </div>
+                                </div>
+                                {{!-- US Citizen options --}}
+                                <div class="row mb-3">
+                                    <label for="legalCitizen" class="col-md-4 col-lg-3 col-form-label">U.S.
+                                        Citizen</label>
+                                    <div class="col-sm-10">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="legalCitizen"
+                                                id="legalCitizen1" value="true" {{#if resident.resume.legalCitizen}}
+                                                checked{{/if}} disabled>
+                                            <label class="form-check-label" for="legalCitizen1">
+                                                Yes
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="legalCitizen"
+                                                id="legalCitizen2" value="false" {{#if (eq resident.resume.legalCitizen
+                                                false)}}checked{{/if}} disabled>
+                                            <label class="form-check-label" for="legalCitizen2">
+                                                No
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{!-- GED or diploma option --}}
+                                <div class="row mb-3">
+                                    <label for="hsGraduate" class=" col-form-label">GED or High
+                                        School Diploma</label>
+                                    <div class="col-sm-10">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="hsGraduate"
+                                                id="hsGraduate1" value="true" {{#if resident.resume.hsGraduate}}
+                                                checked{{/if}} disabled>
+                                            <label class="form-check-label" for="hsGraduate1">
+                                                Yes
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="hsGraduate"
+                                                id="hsGraduate2" value="false" {{#if (eq resident.resume.hsGraduate
+                                                false)}}checked{{/if}} disabled>
+                                            <label class="form-check-label" for="hsGraduate2">
+                                                No
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+                            </div>
                             {{!--======== Applications TAB ========--}}
-                            <div class="tab-pane fade {{#if (eq activeTab 'application')}}show active{{/if}} profile-application pt-3"
-                                id="profile-application">
+                            <div class="tab-pane fade {{#if (eq activeTab 'application')}}show active{{/if}} profile-applicants pt-3"
+                                id="profile-applicants">
                                 <div class="card">
                                     <div class="card-body pt-3">
                                         {{#if applications}}
                                         <div class="row mt-3 mb-3">
-                                            <div class="col-lg-4 col-md-4 label text-capitalize text-muted">
+                                            <div class="col-lg-3 col-md-3 label text-muted">
                                                 Company</div>
-                                            <div class="col-lg-8 col-md-8 text-capitalize text-muted">
+                                            <div class="col-lg-3 col-md-3 label text-muted">
                                                 Position</div>
+                                            <div class="col-lg-2 col-md-2 text-muted">
+                                                Pay</div>
                                         </div>
                                         {{#each applications}}
                                         <div class="row mt-3">
-                                            <div class="col-lg-4 col-md-4 label text-capitalize">
+                                            <div class="col-lg-3 col-md-3 label text-capitalize">
                                                 {{this.companyName}}
                                             </div>
-                                            <div class="col-lg-5 col-md-5 text-capitalize">
-                                                {{this.positionDetails.position}}</div>
-                                            <button class="col-lg-3 col-md-3 text-capitalize btn btn-info" type="submit"
-                                                data-bs-toggle="modal" data-bs-target="#{{this.position}}">
-                                                View</button>
+                                            <div class="col-lg-3 col-md-3 label text-capitalize">
+                                                {{this.position}}
+                                            </div>
+                                            <div class="col-lg-2 col-md-2 text-capitalize">
+                                                ${{this.pay}} /hour</div>
+                                            <div class="col-lg-4 col-md-4">
+                                                <button class="btn btn-primary" type="button" data-bs-toggle="modal"
+                                                    data-bs-target="#{{this.position}}">
+                                                    Manage Hiring</button>
+                                            </div>
                                         </div>
                                         <hr>
                                         {{/each}}
@@ -131,125 +287,58 @@
 {{!-- View Application Modal --}}
 <div class="modal fade" id="{{this.position}}" tabindex="-1">
     <div class="modal-dialog">
-        <div class="modal-content">
-            <form id="clearance-form" method="post" action="">
-                <div class="modal-header">
-                    <h3 id="request-title" class="modal-title text-center text-capitalize">{{this.firstName}}
-                        {{this.lastName}}</h3>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-content p-2">
+
+            <div class="modal-header">
+                <h3 id="request-title" class="modal-title text-center text-capitalize">{{../resident.firstName}}
+                    {{../resident.lastName}}</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="row mb-2">
+                    <div class="col-lg-4 col-md-4 label text-info">Resident ID:</div>
+                    <div class="col-lg-8 col-md-8">{{../resident.residentID}}</div>
                 </div>
-                <div class="modal-body">
-                    <form method="POST" action="#">
-
-                        {{!-- Resident First Name --}}
-                        <div class="row mb-3">
-                            <label for="firstName" class="col-md-4 col-lg-4 col-form-label">First
-                                Name</label>
-                            <div class="col-md-8 col-lg-8">
-                                <input name="firstName" type="text" class="form-control text-capitalize" id="firstName"
-                                    value="{{this.firstName}}" readonly>
-                            </div>
-                        </div>
-                        {{!-- Resident Last Name --}}
-                        <div class="row mb-3">
-                            <label for="lastName" class="col-md-4 col-lg-4 col-form-label">Last
-                                Name</label>
-                            <div class="col-md-8 col-lg-8">
-                                <input name="lastName" type="text" class="form-control text-capitalize" id="lastName"
-                                    value="{{this.lastName}}" readonly>
-                            </div>
-                        </div>
-                        {{!-- Resident ID --}}
-                        <div class="row mb-3">
-                            <label for="residentID" class="col-md-4 col-lg-4 col-form-label">Resident
-                                ID</label>
-                            <div class="col-md-8 col-lg-8">
-                                <input name="residentID" type="text" class="form-control text-capitalize"
-                                    id="residentID" value="{{this.residentID}}" readonly>
-                            </div>
-                        </div>
-                        {{!-- Resident Custody Level --}}
-                        <div class="row mb-3">
-                            <label for="custodyLevel" class="col-md-4 col-lg-4 col-form-label">Custody
-                                Level</label>
-                            <div class="col-md-8 col-lg-8">
-                                <input name="custodyLevel" type="text" class="form-control text-capitalize"
-                                    id="custodyLevel" value="{{this.custodyLevel}}" readonly>
-                            </div>
-                        </div>
-                        {{!-- facility --}}
-                        <div class="row mb-3">
-                            <label for="facility" class="col-md-4 col-lg-4 col-form-label">Facility</label>
-                            <div class="col-md-8 col-lg-8">
-                                <input name="facility" type="text" class="form-control text-capitalize" id="facility"
-                                    value="{{this.facility}}" readonly>
-                            </div>
-                        </div>
-                        {{!-- Out Date --}}
-                        <div class="row mb-3">
-                            <label for="outDate" class="col-md-4 col-lg-4 col-form-label">Out Date</label>
-                            <div class="col-md-8 col-lg-8">
-                                <input name="outDate" type="text" class="form-control text-capitalize" id="outDate"
-                                    value="{{this.outDate}}" readonly>
-                            </div>
-                        </div>
-                        {{!-- work history input --}}
-                        <div class="row mb-3">
-                            <label for="workHistory" class="col-md-4 col-lg-4 col-form-label">Relevant
-                                Experience</label>
-                            <div class="col-md-8 col-lg-8">
-                                <textarea required name="workHistory" class="form-control" id="workHistory"
-                                    style="height: 100px" readonly>{{this.workHistory}}</textarea>
-                            </div>
-                        </div>
-                        {{!-- Certifications & Licenses input --}}
-                        <div class="row mb-3">
-                            <label for="certifications" class="col-md-4 col-lg-4 col-form-label">Certifications
-                                &amp;
-                                Licenses</label>
-                            <div class="col-md-8 col-lg-8">
-                                <textarea required name="certifications" class="form-control" id="certifications"
-                                    style="height: 100px">{{this.certifications}}</textarea>
-                            </div>
-                        </div>
-
-                        {{!-- GED or diploma option --}}
-                        <div class="row mb-3">
-                            <label for="hsGraduate" class="col-md-4 col-lg-4 col-form-label">High School Diploma</label>
-                            <div class="col-md-8 col-lg-8">
-                                <input name="hsGraduate" type="text" class="form-control text-capitalize"
-                                    id="hsGraduate" value="{{this.hsGraduate}}" readonly>
-                            </div>
-                        </div>
-
-                        {{!-- Application Submit Button --}}
-                        {{!--
-                        <hr>
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-primary">Submit Application</button>
-                        </div> --}}
-                    </form><!-- End Profile Edit Form -->
-
+                <div class="row mb-2">
+                    <div class="col-lg-4 col-md-4 label text-info">Facility:</div>
+                    <div class="col-lg-8 col-md-8 text-capitalize">{{../resident.facility}}</div>
                 </div>
-                <div class="modal-footer">
-                    <div id="request-btns" class="d-block">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button id="" type="submit" class="btn btn-info">Request</button>
-                    </div>
-                    <div id="done-btn" class="d-none">
-                        <button type="button" class="btn btn-info" data-bs-dismiss="modal">Close</button>
-                    </div>
-
+                <div class="row mb-2">
+                    <div class="col-lg-4 col-md-4 label text-info">Custody Level:</div>
+                    <div class="col-lg-8 col-md-8 text-capitalize">{{../resident.custodyLevel}}</div>
                 </div>
-            </form>
+                <div class="row mb-2">
+                    <div class="col-lg-4 col-md-4 label text-info">Out Date:</div>
+                    <div class="col-lg-8 col-md-8 text-capitalize">{{formatDate ../resident.outDate}}</div>
+                </div>
+                <hr>
+                <div class="row mb-2">
+                    <div class="col-lg-4 col-md-4 label text-info">Company:</div>
+                    <div class="col-lg-8 col-md-8 text-capitalize">{{this.companyName}}</div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-lg-4 col-md-4 label text-info">Position:</div>
+                    <div class="col-lg-8 col-md-8 text-capitalize">{{this.position}}</div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-lg-4 col-md-4 label text-info">Pay:</div>
+                    <div class="col-lg-8 col-md-8 text-capitalize">${{this.pay}}/hour</div>
+                </div>
+
+
+
+            </div>
+            <div class="modal-footer">
+                <div class="col-12 d-flex justify-content-between">
+                    <button type="button" class="btn btn-danger mx-2">Reject Hire</button>
+                    <button type="button" class="btn btn-success mx-2">Hire Resident</button>
+                </div>
+            </div>
+
         </div>
     </div>
 </div><!-- End clearance modal-->
 
 {{/each}}
-
-
-{{!--
-<script type="text/javascript" src="/../assets/js/residentApprovalForm.js"></script>
-
-<script type="text/javascript" src="/../assets/js/requestClearance.js"></script> --}}

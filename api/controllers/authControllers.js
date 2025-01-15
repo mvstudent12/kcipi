@@ -31,9 +31,8 @@ module.exports = {
 
     try {
       const user = await Resident.findResident(residentID);
-
       req.session.resident = user;
-      console.log("resident login session " + req.session.resident);
+      //console.log("resident login session " + req.session.resident);
       res.status(200).json({ user: "found" });
     } catch (err) {
       console.log(err);

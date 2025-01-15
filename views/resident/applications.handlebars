@@ -43,17 +43,20 @@
                                 role="tabpanel" aria-labelledby="profile-overview-tab">
                                 {{#if appliedJobs}}
                                 <div class="row mt-3">
-                                    <div class="col-lg-4 col-md-4 label text-capitalize text-muted" aria-hidden="true">
+                                    <div class="col-lg-4 col-md-4 label text-muted" aria-hidden="true">
                                         Company</div>
-                                    <div class="col-lg-8 col-md-8 text-capitalize text-muted" aria-hidden="true">
+                                    <div class="col-lg-4 col-md-4 label text-muted" aria-hidden="true">
                                         Position</div>
+                                    <div class="col-lg-4 col-md-4 label text-muted" aria-hidden="true">
+                                        Pay</div>
                                 </div>
                                 {{#each appliedJobs}}
                                 <div class="row mt-3">
                                     <div class="col-lg-4 col-md-4 label text-capitalize">
                                         {{this.companyName}}
                                     </div>
-                                    <div class="col-lg-8 col-md-8 text-capitalize">{{this.job.position}}</div>
+                                    <div class="col-lg-4 col-md-4 text-capitalize">{{this.position}}</div>
+                                    <div class="col-lg-4 col-md-4 text-capitalize">${{this.pay}}/hour</div>
                                 </div>
                                 <hr>
                                 {{/each}}

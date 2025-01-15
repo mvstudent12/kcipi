@@ -22,11 +22,6 @@ module.exports = {
       // add total number of available job positions needed to fill
       if (jobs) {
         let positionsAvailable = jobs.length;
-        // Calculate the total number of applicants
-        let totalApplicants = jobs.reduce(
-          (total, job) => total + job.applicants.length,
-          0
-        );
         // Flatten the applicants arrays from all jobs into one array of ObjectIds
         const applicantIds = jobs.flatMap((job) => job.applicants);
 
@@ -39,18 +34,18 @@ module.exports = {
           user: req.session.user,
           company,
           positionsAvailable,
-          totalApplicants,
           applicants,
           jobs,
         });
       } else {
+        //if there are no current applicants
         let positionsAvailable = 0;
-        let totalApplicants = 0;
+        let applicants = 0;
         res.render("employer/dashboard", {
           user: req.session.user,
           company,
           positionsAvailable,
-          totalApplicants,
+          applicants,
           jobs,
         });
       }
@@ -96,35 +91,10 @@ module.exports = {
       const resident = await Resident.findOne({ residentID }).lean();
       const id = resident._id;
 
-      const jobApplications = resident.jobApplications;
-
-      // Extract the position IDs from the array
-      const positionIds = jobApplications.map(
-        (item) => new mongoose.Types.ObjectId(item.position)
-      );
-
-      // Query the Jobs collection to get the position data
-      const positions = await Jobs.find({
-        _id: { $in: positionIds },
+      //find positions resident has applied for
+      const applications = await Jobs.find({
+        applicants: { $in: [id] },
       }).lean();
-
-      // Combine the position information with the original data
-      const applications = jobApplications.map((item) => {
-        // Find the corresponding position object by position ID
-        const position = positions.find(
-          (p) => p._id.toString() === item.position
-        );
-
-        // If a matching position is found, add it to the item
-        if (position) {
-          return {
-            ...item,
-            positionDetails: position, // Add the position details to the object
-          };
-        }
-
-        return item; // Return the original item if no match is found
-      });
 
       const activeTab = "overview";
       res.render("employer/residentProfile", {
@@ -169,8 +139,6 @@ module.exports = {
       // Query jobs with the specified companyID
       const jobs = await Jobs.find({ companyID }).lean();
 
-      console.log(jobs);
-
       res.render("employer/managePositions", {
         user: req.session.user,
         company,
@@ -211,7 +179,6 @@ module.exports = {
         jobPool,
         facility,
       });
-      console.log(newJob);
 
       const company = await Company.findOne({
         companyName: companyName,
@@ -235,13 +202,23 @@ module.exports = {
 
       const position = await Jobs.findById(jobID).lean();
       const companyID = position.companyID;
+
+      const applicantsArray = position.applicants;
+
+      const applicants = await Resident.find({
+        _id: { $in: applicantsArray },
+      }).lean();
+
       const company = await Company.findById(companyID).lean();
       const activeTab = "overview";
+
+      console.log(applicants);
       res.render("employer/jobProfile", {
         user: req.session.user,
         position,
         company,
         activeTab,
+        applicants,
       });
     } catch (err) {
       console.log(err);
@@ -259,7 +236,7 @@ module.exports = {
         facility,
         jobPool,
       } = req.body;
-      console.log(req.body);
+
       await Jobs.findOneAndUpdate(
         { _id: jobID },
         {
@@ -290,5 +267,31 @@ module.exports = {
     } catch (err) {
       console.log(err);
     }
+  },
+  async deletePosition(req, res) {
+    const { jobID } = req.params;
+    console.log(jobID);
+    // Deleting a user by ID
+    Jobs.deleteOne({ _id: jobID })
+      .then((result) => {
+        console.log("Delete Result:", result);
+      })
+      .catch((error) => {
+        console.error("Error deleting document:", error);
+      });
+
+    const companyName = req.session.user.companyName;
+    const company = await Company.findOne({
+      companyName: companyName,
+    }).lean();
+    const companyID = company._id;
+    // Query jobs with the specified companyID
+    const jobs = await Jobs.find({ companyID }).lean();
+
+    res.render("employer/managePositions", {
+      user: req.session.user,
+      company,
+      jobs,
+    });
   },
 };

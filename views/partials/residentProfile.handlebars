@@ -30,6 +30,10 @@
                             <button class="nav-link {{#if (eq activeTab 'clearance')}}active{{/if}}"
                                 data-bs-toggle="tab" data-bs-target="#profile-clearance">Clearance</button>
                         </li>
+                        <li class="nav-item">
+                            <button class="nav-link {{#if (eq activeTab 'application')}}active{{/if}}"
+                                data-bs-toggle="tab" data-bs-target="#profile-application">Applications</button>
+                        </li>
                     </ul>
                     {{!--===== TABS =====--}}
                     <div class="tab-content pt-2">
@@ -38,14 +42,14 @@
                             id="profile-overview">
                             {{#if resident.isEligibleToWork}}
                             <div class="text-center">
-                                <span class="fst-italic text-success">This resident is approved and eligible for
-                                    work.</span>
+                                <p class="text-success">This resident is approved and eligible for
+                                    work.</p>
                             </div>
                             {{/if}}
                             {{#if resident.isRestrictedFromWork}}
                             <div class="text-center">
-                                <span class="fst-italic text-danger">This resident is not eligible
-                                    to work due to {{resident.eligibilityRestrictionReason}} restrictions.</span>
+                                <p class="text-danger">This resident is not eligible
+                                    to work due to {{resident.eligibilityRestrictionReason}} restrictions.</p>
                             </div>
                             {{/if}}
 
@@ -87,7 +91,7 @@
                             {{!-- Confirmation Msg to user when saving Resume --}}
                             {{#if saveMsg}}
                             <div class="mb-3 text-center">
-                                <span class="fst-italic text-warning">{{saveMsg}}</span>
+                                <p class="text-success">{{saveMsg}}</p>
                             </div>
 
                             {{/if}}
@@ -301,6 +305,7 @@
                                             value="{{resident.jobPool}}" readonly required>
                                     </div>
                                 </div>
+                                <hr class="mb-3">
                                 <div class="text-center">
                                     <p class="text-success">This resume has been approved by unit team.</p>
                                     <button type="button" class="btn btn-danger mx-2" data-bs-toggle="modal"
@@ -336,9 +341,10 @@
                                 <hr>
                                 <div class="row">
                                     <div class="col-12 d-flex justify-content-between">
-                                        <button type="submit" class="btn btn-primary mx-2">Approve</button>
                                         <button type="button" class="btn btn-danger mx-2" data-bs-toggle="modal"
-                                            data-bs-target="#basicModal">Reject</button>
+                                            data-bs-target="#basicModal">Reject Resume</button>
+                                        <button type="submit" class="btn btn-primary mx-2">Approve Resume</button>
+
                                     </div>
                                 </div>
                                 {{/if}}
@@ -359,14 +365,14 @@
                             id="profile-clearance">
                             {{#if resident.isEligibleToWork}}
                             <div class="text-center">
-                                <span class="fst-italic text-success">This resident is approved and eligible for
-                                    work.</span>
+                                <p class="text-success">This resident is approved and eligible for
+                                    work.</p>
                             </div>
                             {{/if}}
                             {{#if resident.isRestrictedFromWork}}
                             <div class="text-center">
-                                <span class="fst-italic text-danger">This resident is not eligible
-                                    to work due to {{resident.eligibilityRestrictionReason}} restrictions.</span>
+                                <p class="text-danger">This resident is not eligible
+                                    to work due to {{resident.eligibilityRestrictionReason}} restrictions.</p>
                             </div>
                             {{/if}}
                             {{#if resident.jobPool}}
@@ -488,16 +494,17 @@
                             <hr>
 
                             <div class="row d-flex justify-content-between">
+
+                                <div class="col-auto">
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                        data-bs-target="#rejectResident">Restrict Resident</button>
+                                </div>
                                 <div class="col-auto">
                                     {{#unless resident.isEligibleToWork}}
                                     <button id="approveClearance" type="button" class="btn btn-success"
                                         data-bs-toggle="modal" data-bs-target="#approveResident">Approve
                                         Resident</button>
                                     {{/unless}}
-                                </div>
-                                <div class="col-auto">
-                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                        data-bs-target="#rejectResident">Restrict Resident</button>
                                 </div>
                             </div>
                             {{else}}
@@ -508,9 +515,109 @@
                             </div>
                             {{/if}}
                         </div>
+                        {{!--======== Applications TAB ========--}}
+                        <div class="tab-pane fade {{#if (eq activeTab 'application')}}show active{{/if}} profile-application pt-3"
+                            id="profile-application">
+                            <div class="card">
+                                <div class="card-body pt-3">
+                                    {{#if applications}}
+                                    <div class="row mt-3 mb-3">
+                                        <div class="col-lg-3 col-md-3 label text-muted">
+                                            Company</div>
+                                        <div class="col-lg-3 col-md-3 label text-muted">
+                                            Position</div>
+                                        <div class="col-lg-2 col-md-2 text-muted">
+                                            Pay</div>
+                                    </div>
+                                    {{#each applications}}
+                                    <div class="row mt-3">
+                                        <div class="col-lg-3 col-md-3 label text-capitalize">
+                                            {{this.companyName}}
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 label text-capitalize">
+                                            {{this.position}}
+                                        </div>
+                                        <div class="col-lg-2 col-md-2 text-capitalize">
+                                            ${{this.pay}} /hour</div>
+                                        <div class="col-lg-4 col-md-4">
+                                            <button class="btn btn-primary" type="button" data-bs-toggle="modal"
+                                                data-bs-target="#{{this.position}}">
+                                                Manage Hiring</button>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    {{/each}}
+                                    {{else}}
+                                    <span class="text-warning">Resident has completed no applications.
+                                    </span>
+                                    {{/if}}
+                                </div>
+                            </div>
+                        </div>
                     </div><!-- End Bordered Tabs -->
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+{{#each applications}}
+
+{{!-- View Application Modal --}}
+<div class="modal fade" id="{{this.position}}" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content p-2">
+
+            <div class="modal-header">
+                <h3 id="request-title" class="modal-title text-center text-capitalize">{{../resident.firstName}}
+                    {{../resident.lastName}}</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="row mb-2">
+                    <div class="col-lg-4 col-md-4 label text-info">Resident ID:</div>
+                    <div class="col-lg-8 col-md-8">{{../resident.residentID}}</div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-lg-4 col-md-4 label text-info">Facility:</div>
+                    <div class="col-lg-8 col-md-8 text-capitalize">{{../resident.facility}}</div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-lg-4 col-md-4 label text-info">Custody Level:</div>
+                    <div class="col-lg-8 col-md-8 text-capitalize">{{../resident.custodyLevel}}</div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-lg-4 col-md-4 label text-info">Out Date:</div>
+                    <div class="col-lg-8 col-md-8 text-capitalize">{{formatDate ../resident.outDate}}</div>
+                </div>
+                <hr>
+                <div class="row mb-2">
+                    <div class="col-lg-4 col-md-4 label text-info">Company:</div>
+                    <div class="col-lg-8 col-md-8 text-capitalize">{{this.companyName}}</div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-lg-4 col-md-4 label text-info">Position:</div>
+                    <div class="col-lg-8 col-md-8 text-capitalize">{{this.position}}</div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-lg-4 col-md-4 label text-info">Pay:</div>
+                    <div class="col-lg-8 col-md-8 text-capitalize">${{this.pay}}/hour</div>
+                </div>
+
+
+
+            </div>
+            <div class="modal-footer">
+                <div class="col-12 d-flex justify-content-between">
+                    <button type="button" class="btn btn-danger mx-2">Reject Hire</button>
+                    <button type="button" class="btn btn-success mx-2">Hire Resident</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div><!-- End clearance modal-->
+
+{{/each}}

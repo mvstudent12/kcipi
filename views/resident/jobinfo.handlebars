@@ -36,7 +36,7 @@
                             </li>
                             <li class="nav-item">
                                 <button class="nav-link" data-bs-toggle="tab"
-                                    data-bs-target="#profile-edit">Application</button>
+                                    data-bs-target="#profile-edit">Apply</button>
                             </li>
                         </ul>
                         <div class="tab-content pt-2">
@@ -72,123 +72,27 @@
                             <!--==================== Application  Form ===========================-->
                             {{#if residentHasApplied}}
                             <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
-                                <p class="small fst-italic text-success text-center">You have already applied for this
+                                <p class=" text-success text-center">You have already applied for this
                                     position.</p>
                             </div>
                             {{else}}
                             <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
-                                <p class="small fst-italic text-info text-center">You may only submit this
-                                    application one time. You cannot save your progress if it is left unsubmitted.</p>
+
                                 <!-- Application Form -->
                                 <form method="POST" action="/resident/saveApplication/{{position._id}}">
-                                    {{!-- Company Name --}}
-                                    <div class="row mb-3">
-                                        <label for="companyName"
-                                            class="col-md-4 col-lg-3 col-form-label">Company</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="companyName" type="text" class="form-control text-capitalize"
-                                                id="companyName" value="{{position.companyName}}" readonly>
-                                        </div>
-                                    </div>
-                                    {{!-- Resident First Name --}}
-                                    <div class="row mb-3">
-                                        <label for="firstName" class="col-md-4 col-lg-3 col-form-label">First
-                                            Name</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="firstName" type="text" class="form-control text-capitalize"
-                                                id="firstName" value="{{user.firstName}}" readonly>
-                                        </div>
-                                    </div>
-                                    {{!-- Resident Last Name --}}
-                                    <div class="row mb-3">
-                                        <label for="lastName" class="col-md-4 col-lg-3 col-form-label">Last
-                                            Name</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="lastName" type="text" class="form-control text-capitalize"
-                                                id="lastName" value="{{user.lastName}}" readonly>
-                                        </div>
-                                    </div>
-                                    {{!-- Resident ID --}}
-                                    <div class="row mb-3">
-                                        <label for="residentID" class="col-md-4 col-lg-3 col-form-label">Resident
-                                            ID</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="residentID" type="text" class="form-control text-capitalize"
-                                                id="residentID" value="{{user.residentID}}" readonly>
-                                        </div>
-                                    </div>
-                                    {{!-- Resident Custody Level --}}
-                                    <div class="row mb-3">
-                                        <label for="custodyLevel" class="col-md-4 col-lg-3 col-form-label">Custody
-                                            Level</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="custodyLevel" type="text" class="form-control text-capitalize"
-                                                id="custodyLevel" value="{{user.custodyLevel}}" readonly>
-                                        </div>
-                                    </div>
-                                    {{!-- facility --}}
-                                    <div class="row mb-3">
-                                        <label for="facility" class="col-md-4 col-lg-3 col-form-label">Facility</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="facility" type="text" class="form-control text-capitalize"
-                                                id="facility" value="{{user.facility}}" readonly>
-                                        </div>
-                                    </div>
-                                    {{!-- Out Date --}}
-                                    <div class="row mb-3">
-                                        <label for="outDate" class="col-md-4 col-lg-3 col-form-label">Out Date</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="outDate" type="text" class="form-control text-capitalize"
-                                                id="outDate" value="{{formatDate user.outDate}}" readonly>
-                                        </div>
-                                    </div>
-                                    {{!-- work history input --}}
-                                    <div class="row mb-3">
-                                        <label for="workHistory" class="col-md-4 col-lg-3 col-form-label">Relevant
-                                            Experience</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <textarea required name="workHistory" class="form-control" id="workHistory"
-                                                style="height: 100px"></textarea>
-                                        </div>
-                                    </div>
-                                    {{!-- Certifications & Licenses input --}}
-                                    <div class="row mb-3">
-                                        <label for="certifications"
-                                            class="col-md-4 col-lg-3 col-form-label">Certifications
-                                            &amp;
-                                            Licenses</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <textarea required name="certifications" class="form-control"
-                                                id="certifications" style="height: 100px"></textarea>
-                                        </div>
+
+                                    <div class="row p-3">
+                                        <p>You are eligible to apply for this position.</p>
+                                        <p>When you apply, your resume will be sent to the employer and to Unit Team for
+                                            processing. Please be patient during this process. You will be notified of
+                                            their decision once the hiring round has been completed.</p>
                                     </div>
 
-                                    {{!-- GED or diploma option --}}
-                                    <div class="row mb-3">
-                                        <label for="hsGraduate" class=" col-form-label">GED or High
-                                            School Diploma</label>
-                                        <div class="col-sm-10">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="hsGraduate"
-                                                    id="hsGraduate1" value="true" checked>
-                                                <label class="form-check-label" for="hsGraduate1">
-                                                    Yes
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="hsGraduate"
-                                                    id="hsGraduate2" value="false">
-                                                <label class="form-check-label" for="hsGraduate2">
-                                                    No
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
 
                                     {{!-- Application Submit Button --}}
                                     <hr>
-                                    <div class="text-center">
-                                        <button type="submit" class="btn btn-primary">Submit Application</button>
+                                    <div class="text-end">
+                                        <button type="submit" class="btn btn-primary">Apply For Position</button>
                                     </div>
                                 </form><!--  Application Form -->
                             </div>
