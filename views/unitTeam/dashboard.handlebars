@@ -21,63 +21,66 @@
                     <!-- Resumes Count Card -->
                     <div class="col-xxl-4 col-md-4">
                         <div class="card info-card sales-card">
+                            <a href="#resumeTable">
+                                <div class="card-body">
+                                    <h5 class="card-title">Resumes <span>| Pending</span></h5>
 
-                            <div class="card-body">
-                                <h5 class="card-title">Resumes <span>| Pending</span></h5>
-
-                                <div class="d-flex align-items-center">
-                                    <div
-                                        class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-clipboard-check"></i>
-                                    </div>
-                                    <div class="ps-3">
-                                        <h6>{{countPendingItems caseLoad "resumeIsComplete" "resumeIsApproved"}}
-                                        </h6>
+                                    <div class="d-flex align-items-center">
+                                        <div
+                                            class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                            <i class="bi bi-clipboard-check"></i>
+                                        </div>
+                                        <div class="ps-3">
+                                            <h6>{{countPendingItems caseLoad "resumeIsComplete" "resumeIsApproved"}}
+                                            </h6>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-
+                            </a>
                         </div>
                     </div><!-- End Resumes Count Card -->
 
                     <!-- Applicants Card -->
                     <div class="col-xxl-4 col-md-4">
                         <div class="card info-card revenue-card">
+                            <a href="#applicantTable">
 
-                            <div class="card-body">
-                                <h5 class="card-title">Applicants <span>| To Review</span></h5>
+                                <div class="card-body">
+                                    <h5 class="card-title">Applicants <span>| To Review</span></h5>
 
-                                <div class="d-flex align-items-center">
-                                    <div
-                                        class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-card-list"></i>
-                                    </div>
-                                    <div class="ps-3">
-                                        <h6>{{countItems applicants}}</h6>
+                                    <div class="d-flex align-items-center">
+                                        <div
+                                            class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                            <i class="bi bi-card-list"></i>
+                                        </div>
+                                        <div class="ps-3">
+                                            <h6>{{countItems applicants}}</h6>
 
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-
+                            </a>
                         </div>
                     </div><!-- End Applications Card -->
 
                     <!-- Residents Card -->
                     <div class="col-xxl-4 col-md-4">
                         <div class="card info-card customers-card">
-                            <div class="card-body">
-                                <h5 class="card-title">Residents <span>| My Caseload</span></h5>
-                                <div class="d-flex align-items-center">
-                                    <div
-                                        class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-people"></i>
+                            <a href="#">
+                                <div class="card-body">
+                                    <h5 class="card-title">Residents <span>| My Caseload</span></h5>
+                                    <div class="d-flex align-items-center">
+                                        <div
+                                            class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                            <i class="bi bi-people"></i>
+                                        </div>
+                                        <div class="ps-3">
+                                            <h6>{{countItems caseLoad}}</h6>
+                                        </div>
                                     </div>
-                                    <div class="ps-3">
-                                        <h6>{{countItems caseLoad}}</h6>
-                                    </div>
-                                </div>
 
-                            </div>
+                                </div>
+                            </a>
                         </div>
                     </div><!-- End Residents Card -->
 
@@ -86,7 +89,7 @@
 
 
                     <!-- Residents Table -->
-                    <div class="col-12">
+                    <div class="col-12" id="residentTable">
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
                                 <h5 class="card-title">Residents <span>| My Caseload</span></h5>
@@ -146,7 +149,7 @@
                     </div><!-- End Residents Table -->
 
                     <!-- Resume Table -->
-                    <div class="col-12">
+                    <div class="col-12" id="resumeTable">
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
                                 <h5 class="card-title">Resumes <span>| To Approve</span></h5>
@@ -190,7 +193,7 @@
                     </div><!-- End Resume Table -->
 
                     <!-- Applicants Table -->
-                    <div class="col-12">
+                    <div class="col-12" id="applicantTable">
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
                                 <h5 class="card-title">Applicants <span>| To Review</span></h5>
