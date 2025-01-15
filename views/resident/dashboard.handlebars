@@ -37,32 +37,35 @@
                     <!-- My Applications Card -->
                     <div class="col-xxl-4 col-md-4">
                         <div class="card info-card revenue-card">
-                            <div class="card-body">
-                                <h5 class="card-title">My Applications</h5>
-                                <div class="d-flex align-items-center">
-                                    <div
-                                        class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-card-checklist"></i>
-                                    </div>
-                                    <div class="ps-3">
-                                        <h6>{{applicationCount}}</h6>
+                            <a href="/resident/applications">
+                                <div class="card-body">
+                                    <h5 class="card-title">My Applications</h5>
+                                    <div class="d-flex align-items-center">
+                                        <div
+                                            class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                            <i class="bi bi-card-checklist"></i>
+                                        </div>
+                                        <div class="ps-3">
+                                            <h6>{{applicationCount}}</h6>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </a>
                         </div>
                     </div><!-- End Revenue Card -->
 
                     <!-- My Resume Status Card -->
                     <div class="col-xxl-4 col-md-4">
                         <div class="card info-card customers-card">
-                            <div class="card-body">
-                                <h5 class="card-title">My Resume</h5>
-                                <div class="d-flex align-items-center">
-                                    <div
-                                        class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-clipboard-check"></i>
-                                    </div>
-                                    <a href="/resident/profile">
+                            <a href="/resident/profile">
+                                <div class="card-body">
+                                    <h5 class="card-title">My Resume</h5>
+                                    <div class="d-flex align-items-center">
+                                        <div
+                                            class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                            <i class="bi bi-clipboard-check"></i>
+                                        </div>
+
                                         <div class="ps-3">
                                             {{#if user.resumeRejectionReason}}
                                             <h6 class="resumeStatus">Rejected</h6>
@@ -78,9 +81,10 @@
                                             {{/if}}
                                             {{/if}}
                                         </div>
-                                    </a>
+
+                                    </div>
                                 </div>
-                            </div>
+                            </a>
                         </div>
                     </div><!-- End Customers Card -->
 
