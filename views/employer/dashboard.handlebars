@@ -21,16 +21,18 @@
                         <div class="card info-card sales-card">
 
                             <div class="card-body">
-                                <h5 class="card-title">Positions <span>| To Fill</span></h5>
-                                <div class="d-flex align-items-center">
-                                    <div
-                                        class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-clipboard-check"></i>
+                                <a href="/employer/managePositions">
+                                    <h5 class="card-title">Positions <span>| To Fill</span></h5>
+                                    <div class="d-flex align-items-center">
+                                        <div
+                                            class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                            <i class="bi bi-clipboard-check"></i>
+                                        </div>
+                                        <div class="ps-3">
+                                            <h6>{{positionsAvailable}}</h6>
+                                        </div>
                                     </div>
-                                    <div class="ps-3">
-                                        <h6>{{positionsAvailable}}</h6>
-                                    </div>
-                                </div>
+                                </a>
                             </div>
                         </div>
                     </div><!-- End Positions card -->
@@ -39,16 +41,18 @@
                     <div class="col-xxl-4 col-md-4">
                         <div class="card info-card revenue-card">
                             <div class="card-body">
-                                <h5 class="card-title">Applicants <span>| Pending</span></h5>
-                                <div class="d-flex align-items-center">
-                                    <div
-                                        class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-card-list"></i>
+                                <a href="/employer/applicants">
+                                    <h5 class="card-title">Applicants <span>| Pending</span></h5>
+                                    <div class="d-flex align-items-center">
+                                        <div
+                                            class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                            <i class="bi bi-card-list"></i>
+                                        </div>
+                                        <div class="ps-3">
+                                            <h6>{{countArrayItems applicants}}</h6>
+                                        </div>
                                     </div>
-                                    <div class="ps-3">
-                                        <h6>{{countArrayItems applicants}}</h6>
-                                    </div>
-                                </div>
+                                </a>
                             </div>
                         </div>
                     </div><!-- End Applicants Card -->
@@ -57,16 +61,18 @@
                     <div class="col-xxl-4 col-md-4">
                         <div class="card info-card customers-card">
                             <div class="card-body">
-                                <h5 class="card-title">Employees <span>| Total</span></h5>
-                                <div class="d-flex align-items-center">
-                                    <div
-                                        class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-people"></i>
+                                <a href="/employer/employees">
+                                    <h5 class="card-title">Employees <span>| Total</span></h5>
+                                    <div class="d-flex align-items-center">
+                                        <div
+                                            class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                            <i class="bi bi-people"></i>
+                                        </div>
+                                        <div class="ps-3">
+                                            <h6>{{countItems residents}}</h6>
+                                        </div>
                                     </div>
-                                    <div class="ps-3">
-                                        <h6>{{countItems residents}}</h6>
-                                    </div>
-                                </div>
+                                </a>
                             </div>
                         </div>
                     </div><!-- End Employees Card -->
