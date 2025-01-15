@@ -58,16 +58,32 @@ module.exports = {
   async applicants(req, res) {
     try {
       const companyName = req.session.user.companyName;
-      const company = await Company.findOne({
-        companyName: companyName,
-      }).lean();
 
-      // Flatten the applicants arrays from all jobs into one array of ObjectIds
-      const applicantIds = company.jobs.flatMap((job) => job.applicants);
+      console.log(companyName);
+
+      let applicantIDs;
+
+      await Jobs.aggregate([
+        { $match: { companyName: companyName } }, // Match Jobs with the specific company name
+        { $unwind: "$applicants" }, // Flatten the applicants array
+        { $group: { _id: null, allResidents: { $push: "$applicants" } } }, // Collect all resident IDs into an array
+      ])
+        .then((result) => {
+          if (result.length > 0) {
+            console.log(applicantIDs); // Array of all resident IDs (may include duplicates)
+            return (applicantIDs = result[0].allResidents);
+          } else {
+            console.log("No matching jobs found"); // No matching jobs found
+            return (applicantIDs = []);
+          }
+        })
+        .catch((err) => {
+          console.error("Error fetching resident IDs:", err);
+        });
 
       // Query Resident model to find residents matching these IDs that applied to jobs
       const applicants = await Resident.find({
-        _id: { $in: applicantIds },
+        _id: { $in: applicantIDs },
       }).lean();
 
       res.render("employer/applicants", { user: req.session.user, applicants });
