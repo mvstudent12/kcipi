@@ -28,6 +28,8 @@ module.exports = {
       }).lean();
       //find all residents in KDOC
       const caseLoad = await Resident.find().lean();
+
+      //create object with all applicants
       let applicantIDs = [];
 
       await Jobs.aggregate([
@@ -54,6 +56,40 @@ module.exports = {
         allJobApplicants,
         user: req.session.user,
       });
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  async applicants(req, res) {
+    try {
+      const companyName = req.session.user.companyName;
+
+      //create object with all applicants
+      let applicantIDs = [];
+
+      await Jobs.aggregate([
+        { $unwind: "$applicants" }, // Flatten the applicants array
+        { $group: { _id: null, allResidents: { $push: "$applicants" } } }, // Collect all resident IDs, including duplicates
+      ]).then((result) => {
+        if (result.length !== 0) {
+          console.log(result);
+          return (applicantIDs = result[0].allResidents);
+        } else {
+          return;
+        }
+      });
+
+      const allJobApplicants = await Resident.find(
+        { _id: { $in: applicantIDs } },
+        "firstName lastName facility residentID custodyLevel"
+      ).lean();
+
+      // Query Resident model to find residents matching these IDs that applied to jobs
+      const applicants = await Resident.find({
+        _id: { $in: applicantIDs },
+      }).lean();
+
+      res.render("admin/applicants", { user: req.session.user, applicants });
     } catch (err) {
       console.log(err);
     }

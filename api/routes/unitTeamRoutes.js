@@ -24,5 +24,11 @@ unitTeamRoutes.get(
   requireAuth,
   controller.residentTables
 );
+unitTeamRoutes.get(
+  "/applicants",
+  checkUser,
+  requireAuth,
+  controller.applicants
+);
 
 module.exports = unitTeamRoutes;

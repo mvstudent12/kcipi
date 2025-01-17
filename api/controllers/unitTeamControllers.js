@@ -95,4 +95,39 @@ module.exports = {
       console.log(err);
     }
   },
+  async applicants(req, res) {
+    try {
+      const email = req.session.user.email;
+      const caseLoad = await Resident.find({
+        "resume.unitTeam": email,
+      }).lean();
+
+      //make array of resident _id in caseload
+      const residentIDs = caseLoad.flatMap((resident) => resident._id);
+
+      let applicantIDs = [];
+
+      //make array of applicant ids
+      await Jobs.aggregate([
+        { $unwind: "$applicants" }, // Flatten the applicants array
+        { $match: { applicants: { $in: residentIDs } } }, // Filter applicants by residentID array
+        { $group: { _id: null, allResidents: { $push: "$applicants" } } }, // Collect matching resident IDs
+      ]).then((result) => {
+        if (result.length > 0) {
+          return (applicantIDs = result[0].allResidents);
+        } else {
+          return;
+        }
+      });
+
+      // Query Resident model to find residents matching these IDs that applied to jobs
+      const applicants = await Resident.find({
+        _id: { $in: applicantIDs },
+      }).lean();
+
+      res.render("unitTeam/applicants", { user: req.session.user, applicants });
+    } catch (err) {
+      console.log(err);
+    }
+  },
 };
