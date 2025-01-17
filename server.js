@@ -69,12 +69,6 @@ require("./api/dbConfig/db");
 
 const { engine } = require("express-handlebars");
 
-const Admin = require("./api/models/Admin");
-const Employer = require("./api/models/Employer");
-const UnitTeam = require("./api/models/UnitTeam");
-const Resident = require("./api/models/Resident");
-const Jobs = require("./api/models/Jobs");
-
 app.engine(
   "handlebars",
 
@@ -125,6 +119,27 @@ app.engine(
       },
       formatDate: (date) => {
         return moment(date).format("MM/D/YY");
+      },
+      isResidentInInterviews: (residentID, interviews) => {
+        if (
+          Array.isArray(interviews) &&
+          interviews.some((interview) => interview.residentID === residentID)
+        ) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      getInterview: (residentID, interviews, options) => {
+        if (Array.isArray(interviews)) {
+          const interview = interviews.find(
+            (interview) => interview.residentID === residentID
+          );
+          if (interview) {
+            return options.fn(interview);
+          }
+        }
+        return options.inverse(this);
       },
     },
     // Register the partials directory

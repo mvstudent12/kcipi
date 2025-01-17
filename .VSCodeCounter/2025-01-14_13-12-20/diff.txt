@@ -45,6 +45,6 @@ Files
 | c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\employer\jobProfile.handlebars       | Handlebars |         31 |          1 |          0 |         32 |
 | c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\employer\managePositions.handlebars  | Handlebars |         20 |          1 |          1 |         22 |
 | c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\partials\residentProfile.handlebars  | Handlebars |         11 |          1 |          0 |         12 |
-| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\resident\jobinfo.handlebars          | Handlebars |          7 |          1 |          0 |          8 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\resident\jobInfo.handlebars          | Handlebars |          7 |          1 |          0 |          8 |
 | Total                                                                                     |            |        123 |          7 |          0 |        130 |
 +-------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+

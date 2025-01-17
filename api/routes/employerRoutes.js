@@ -13,7 +13,18 @@ employerRoutes.get(
   requireAuth,
   controller.managePositions
 );
-
+employerRoutes.post(
+  "/searchPosition",
+  checkUser,
+  requireAuth,
+  controller.searchPosition
+);
+employerRoutes.post(
+  "/editSearchedPosition/:jobID",
+  checkUser,
+  requireAuth,
+  controller.editSearchedPosition
+);
 employerRoutes.post(
   "/addNewPosition",
   checkUser,
@@ -56,6 +67,32 @@ employerRoutes.get(
   checkUser,
   requireAuth,
   controller.residentProfile
+);
+
+employerRoutes.get(
+  "/manageHiring",
+  checkUser,
+  requireAuth,
+  controller.manageHiring
+);
+employerRoutes.post(
+  "/scheduleInterview/:jobID",
+  checkUser,
+  requireAuth,
+  controller.scheduleInterview
+);
+
+employerRoutes.get(
+  "/hireResident/:id/:jobID",
+  checkUser,
+  requireAuth,
+  controller.hireResident
+);
+employerRoutes.post(
+  "/terminateResident/:id",
+  checkUser,
+  requireAuth,
+  controller.terminateResident
 );
 
 employerRoutes.get("/contact", checkUser, requireAuth, controller.contact);

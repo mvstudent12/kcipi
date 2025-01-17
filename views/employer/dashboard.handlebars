@@ -62,20 +62,20 @@
                         <div class="card info-card customers-card">
                             <div class="card-body">
                                 <a href="/employer/employees">
-                                    <h5 class="card-title">Employees <span>| Total</span></h5>
+                                    <h5 class="card-title">Employees <span>| Total Hired</span></h5>
                                     <div class="d-flex align-items-center">
                                         <div
                                             class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                             <i class="bi bi-people"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6>{{countItems residents}}</h6>
+                                            <h6>{{countItems allEmployees}}</h6>
                                         </div>
                                     </div>
                                 </a>
                             </div>
                         </div>
-                    </div><!-- End Employees Card -->
+                    </div>
 
                     {{!-- Data Tables Section --}}
 
@@ -90,23 +90,34 @@
                                             <th scope="col">#</th>
                                             <th scope="col">Position</th>
                                             <th scope="col">Job Pool</th>
-                                            <th scope="col">Pay</th>
-                                            <th scope="col">Status</th>
+                                            <th scope="col"># Available</th>
+                                            <th scope="col">Applicants</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {{#each jobs}}
                                         <tr>
-                                            <th scope="row">{{this.availablePositions}}</th>
-
+                                            <th scope="row">
+                                                <a href="/employer/jobProfile/{{this._id}}"
+                                                    class="text-primary text-capitalize">
+                                                    {{this.availablePositions}}</a>
+                                            </th>
                                             <td><a href="/employer/jobProfile/{{this._id}}"
-                                                    class="text-primary text-capitalize">{{this.position}}</a></td>
-                                            <td class="text-capitalize">{{this.jobPool}}</td>
-                                            <td>${{this.pay}} /hour</td>
-                                            {{#if this.isAvailable}}
-                                            <td><span class="badge bg-success">open</span></td>
+                                                    class="text-primary text-capitalize">{{this.position}}</a>
+                                            </td>
+                                            <td class="text-capitalize"><a href="/employer/jobProfile/{{this._id}}"
+                                                    class="text-primary">{{this.jobPool}}</a>
+                                            </td>
+                                            <td><a href="/employer/jobProfile/{{this._id}}"
+                                                    class="text-primary text-capitalize">{{this.availablePositions}}</a>
+                                            </td>
+                                            {{#if (eq this.applicants '')}}
+                                            <td><span class="badge bg-danger">none</span></td>
                                             {{else}}
-                                            <td><span class="badge bg-secondary">closed</span></td>
+                                            <td><span class="badge bg-success">
+                                                    &nbsp;&nbsp;{{countArrayItems this.applicants}}
+                                                    &nbsp;&nbsp;</span>
+                                            </td>
                                             {{/if}}
                                         </tr>
                                         {{/each}}
@@ -114,7 +125,7 @@
                                 </table>
                             </div>
                         </div>
-                    </div><!-- End Job Positions Table -->
+                    </div>
 
                     <!-- Applicants Table -->
                     <div class="col-12">
@@ -127,21 +138,32 @@
                                             <th scope="col">ID #</th>
                                             <th scope="col">Facility</th>
                                             <th scope="col">Resident</th>
-                                            <th scope="col">Date</th>
+                                            <th scope="col">Out Date</th>
                                             <th scope="col">Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {{#each applicants}}
                                         <tr>
-                                            <th scope="row"><a
+                                            <th scope="row">
+                                                <a
                                                     href="/employer/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
                                             </th>
-                                            <td class="text-capitalize">{{this.facility}}</td>
-                                            <td><a href="/employer/residentProfile/{{this.residentID}}"
+                                            <td class="text-capitalize">
+                                                <a
+                                                    href="/employer/residentProfile/{{this.residentID}}">{{this.facility}}</a>
+                                            </td>
+                                            <td>
+                                                <a href="/employer/residentProfile/{{this.residentID}}"
                                                     class="text-primary text-capitalize">{{this.firstName}}
-                                                    {{this.lastName}}</a></td>
-                                            <td>{{formatDate this.resume.dateCreated}}</td>
+                                                    {{this.lastName}}</a>
+                                            </td>
+                                            <td>
+                                                <a href="/employer/residentProfile/{{this.residentID}}"
+                                                    class="text-primary text-capitalize">
+                                                    {{formatDate this.outDate}}
+                                                </a>
+                                            </td>
                                             <td><span class="badge bg-warning">Pending</span></td>
                                         </tr>
                                         {{/each}}
@@ -149,9 +171,9 @@
                                 </table>
                             </div>
                         </div>
-                    </div><!-- End Applicants Table -->
+                    </div>
 
-                    <!-- Residents Table -->
+                    <!-- Employees Table -->
                     <div class="col-12">
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
@@ -161,28 +183,35 @@
                                         <tr>
                                             <th scope="col">ID #</th>
                                             <th scope="col">Facility</th>
-                                            <th scope="col">First Name</th>
-                                            <th scope="col">Last Name</th>
-                                            <th scope="col">Resume</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Out Date</th>
+                                            <th scope="col">Unit Team</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{#each residents}}
+                                        {{#each allEmployees}}
                                         <tr>
-                                            <th scope="row"><a
+                                            <th scope="row">
+                                                <a
                                                     href="/employer/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
                                             </th>
-                                            <td class="text-capitalize">{{this.facility}}</td>
-                                            <td class="text-capitalize">{{this.firstName}}</td>
-                                            <td class="text-capitalize">{{this.lastName}}</td>
-                                            {{#if this.resumeIsApproved}}
-                                            <td><span class="badge bg-success">Approved</span></td>
-                                            {{#if this.resumeRejectionReason}}
-                                            <td><span class="badge bg-danger">Rejected</span></td>
-                                            {{else}}
-                                            <td><span class="badge bg-warning">Pending</span></td>
-                                            {{/if}}
-                                            {{/if}}
+                                            <td class="text-capitalize">
+                                                <a
+                                                    href="/employer/residentProfile/{{this.residentID}}">{{this.facility}}</a>
+                                            </td>
+                                            <td class="text-capitalize">
+                                                <a href="/employer/residentProfile/{{this.residentID}}">{{this.firstName}}
+                                                    {{this.lastName}}</a>
+                                            </td>
+                                            <td class="text-capitalize">
+                                                <a href="/employer/residentProfile/{{this.residentID}}">{{formatDate
+                                                    this.outDate}}</a>
+                                            </td>
+                                            <td class="text-capitalize">
+                                                <a
+                                                    href="/employer/residentProfile/{{this.residentID}}">{{this.unitTeam}}</a>
+                                            </td>
+
 
                                         </tr>
 
@@ -191,7 +220,7 @@
                                 </table>
                             </div>
                         </div>
-                    </div><!-- End Residents Table -->
+                    </div>
 
                     {{!-- End of Data Tables Section --}}
                 </div>

@@ -11,8 +11,20 @@ const jobSchema = new Schema({
   pay: { type: String, lowercase: true, trim: true },
   jobPool: { type: String, lowercase: true, trim: true },
   applicants: [{ type: mongoose.Schema.Types.ObjectId, ref: "Resident" }],
+  employees: [{ type: mongoose.Schema.Types.ObjectId, ref: "Resident" }],
   isAvailable: { type: Boolean, default: true },
   dateCreated: { type: Date, default: Date.now },
+  interviews: [
+    {
+      residentID: {
+        type: String,
+        required: true,
+      },
+      date: { type: Date, required: true },
+      time: { type: String, required: true }, // Store time as a string in HH:mm or other formats
+      instructions: { type: String, trim: true },
+    },
+  ],
 });
 
 const Jobs = mongoose.model("jobs", jobSchema);

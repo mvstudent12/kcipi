@@ -608,7 +608,7 @@ h6 {
   top: 60px;
   left: 0;
   bottom: 0;
-  width: 300px;
+  width: 235px;
   z-index: 996;
   transition: all 0.3s;
   padding: 20px;
@@ -621,7 +621,7 @@ h6 {
 
 @media (max-width: 1199px) {
   .sidebar {
-    left: -300px;
+    left: -235px;
   }
 }
 
@@ -655,7 +655,7 @@ h6 {
   }
 
   .toggle-sidebar .sidebar {
-    left: -300px;
+    left: -235px;
   }
 }
 

@@ -151,7 +151,7 @@ const residentSchema = new Schema({
 
   //Complete Eligibility Status
   isEligibleToWork: { type: Boolean, default: false },
-  isHired: { type: Boolean, default: false },
+
   eligibilityApprovedBy: {
     type: String,
     lowercase: true,
@@ -168,6 +168,7 @@ const residentSchema = new Schema({
     lowercase: true,
     default: "",
   },
+  isHired: { type: Boolean, default: false },
 });
 
 //static method to find resident

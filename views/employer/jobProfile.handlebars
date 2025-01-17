@@ -61,7 +61,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-4 col-md-4 label">Pay:</div>
-                                    <div class="col-lg-8 col-md-8 text-capitalize">${{position.pay}} /hour</div>
+                                    <div class="col-lg-8 col-md-8">${{position.pay}} /hr</div>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-4 col-md-4 label">Available:</div>
@@ -88,7 +88,7 @@
                                 {{/if}}
                             </div>
 
-                            {{!-- Positions tab --}}
+                            {{!-- edit Positions tab --}}
                             <div class="tab-pane fade {{#if (eq activeTab 'edit')}}show active{{/if}} edit-position pt-3"
                                 id="edit-position">
 
@@ -116,8 +116,8 @@
                                     <div class="row mb-3">
                                         <label for="pay" class="col-md-4 col-lg-4 col-form-label">Hourly Pay</label>
                                         <div class="col-md-8 col-lg-8">
-                                            <input name="pay" type="number" class="form-control" id="pay" required
-                                                value="{{position.pay}}">
+                                            <input name="pay" type="number" min="0" placeholder="per hour"
+                                                class="form-control" id="pay" required value="{{position.pay}}">
                                         </div>
                                     </div>
                                     {{!-- Positions Available --}}
@@ -125,7 +125,7 @@
                                         <label for="availablePositions"
                                             class="col-md-4 col-lg-4 col-form-label">Positions Available</label>
                                         <div class="col-md-8 col-lg-8">
-                                            <input name="availablePositions" type="number" class="form-control"
+                                            <input name="availablePositions" type="number" min="0" class="form-control"
                                                 id="availablePositions" required
                                                 value="{{position.availablePositions}}">
                                         </div>
@@ -242,14 +242,19 @@
                                                 <tbody>
                                                     {{#each applicants}}
                                                     <tr>
-                                                        <th scope="row"><a
+                                                        <th scope="row">
+                                                            <a
                                                                 href="/employer/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
                                                         </th>
-                                                        <td class="text-capitalize">{{this.facility}}</td>
+                                                        <td class="text-capitalize"><a
+                                                                href="/employer/residentProfile/{{this.residentID}}">{{this.facility}}</a>
+                                                        </td>
                                                         <td><a href="/employer/residentProfile/{{this.residentID}}"
                                                                 class="text-primary text-capitalize">{{this.firstName}}
                                                                 {{this.lastName}}</a></td>
-                                                        <td>{{formatDate this.outDate}}</td>
+                                                        <td><a href="/employer/residentProfile/{{this.residentID}}"
+                                                                class="text-primary text-capitalize">{{formatDate
+                                                                this.outDate}}</a></td>
                                                         <td><span class="badge bg-warning">Pending</span></td>
                                                     </tr>
                                                     {{/each}}
@@ -277,7 +282,7 @@
 {{> arrowUp}}
 
 
-{{!-- MODAL FOR REJECT RESUME --}}
+{{!-- MODAL FOR Delete Position --}}
 <div class="modal fade" id="deletePosition" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -294,7 +299,7 @@
                 <div class="modal-footer">
                     <div class="col-12 d-flex justify-content-between">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button id="" type="submit" class="btn btn-danger">Delete</button>
+                        <button id="" type="submit" class="btn btn-danger">Delete Position</button>
                     </div>
                 </div>
             </form>

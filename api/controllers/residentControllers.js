@@ -94,7 +94,6 @@ module.exports = {
       );
 
       let resident = await Resident.findOne({ _id: id }).lean();
-      console.log(resident);
 
       req.session.resident = resident;
       res.render("resident/profile", { user: req.session.resident });

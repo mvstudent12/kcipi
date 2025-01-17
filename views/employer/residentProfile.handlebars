@@ -43,7 +43,7 @@
                             </li>
                             <li class="nav-item">
                                 <button class="nav-link {{#if (eq activeTab 'application')}}active{{/if}}"
-                                    data-bs-toggle="tab" data-bs-target="#profile-applicants">Applicants</button>
+                                    data-bs-toggle="tab" data-bs-target="#profile-applications">Applications</button>
                             </li>
                         </ul>
                         {{!--===== TABS =====--}}
@@ -230,8 +230,8 @@
 
                             </div>
                             {{!--======== Applications TAB ========--}}
-                            <div class="tab-pane fade {{#if (eq activeTab 'application')}}show active{{/if}} profile-applicants pt-3"
-                                id="profile-applicants">
+                            <div class="tab-pane fade {{#if (eq activeTab 'application')}}show active{{/if}} profile-applications pt-3"
+                                id="profile-applications">
                                 <div class="card">
                                     <div class="card-body pt-3">
                                         {{#if applications}}
@@ -251,8 +251,8 @@
                                             <div class="col-lg-3 col-md-3 label text-capitalize">
                                                 {{this.position}}
                                             </div>
-                                            <div class="col-lg-2 col-md-2 text-capitalize">
-                                                ${{this.pay}} /hour</div>
+                                            <div class="col-lg-2 col-md-2">
+                                                ${{this.pay}} /hr</div>
                                             <div class="col-lg-4 col-md-4">
                                                 <button class="btn btn-primary" type="button" data-bs-toggle="modal"
                                                     data-bs-target="#{{this.position}}">
@@ -262,8 +262,18 @@
                                         <hr>
                                         {{/each}}
                                         {{else}}
+                                        {{#if resident.isHired}}
+                                        <span class="text-success">Resident is currently employed.
+                                        </span>
+                                        <hr>
+                                        <button class="btn btn-danger" type="button" data-bs-toggle="modal"
+                                            data-bs-target="#terminate">
+                                            Terminate Employment</button>
+
+                                        {{else}}
                                         <span class="text-warning">Resident has completed no applications.
                                         </span>
+                                        {{/if}}
                                         {{/if}}
                                     </div>
                                 </div>
@@ -283,16 +293,27 @@
 
 
 {{#each applications}}
-
 {{!-- View Application Modal --}}
 <div class="modal fade" id="{{this.position}}" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content p-2">
 
-            <div class="modal-header">
-                <h3 id="request-title" class="modal-title text-center text-capitalize">{{../resident.firstName}}
-                    {{../resident.lastName}}</h3>
+            <div class="modal-header row">
+
+                <div class="col-6">
+                    <h3 id="request-title" class="modal-title text-center text-capitalize">{{../resident.firstName}}
+                        {{../resident.lastName}}</h3>
+                </div>
+                {{#if (isResidentInInterviews ../resident.residentID this.interviews)}}
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                {{else}}
+                <div class="col-6">
+                    <button type="button" class="btn btn-info mx-2" data-bs-toggle="modal"
+                        data-bs-target="#{{this.position}}2">Schedule
+                        Interview</button>
+                </div>
+                {{/if}}
+
             </div>
 
             <div class="modal-body">
@@ -324,7 +345,16 @@
                 </div>
                 <div class="row mb-2">
                     <div class="col-lg-4 col-md-4 label text-info">Pay:</div>
-                    <div class="col-lg-8 col-md-8 text-capitalize">${{this.pay}}/hour</div>
+                    <div class="col-lg-8 col-md-8 text-capitalize">${{this.pay}}/hr</div>
+                </div>
+                <hr>
+                <div class="row mb-2">
+                    <div class="col-lg-6 col-md-6 label text-info">Interview Scheduled:</div>
+                    {{#getInterview ../resident.residentID this.interviews}}
+                    <div class="col-lg-6 col-md-6">{{formatDate date}} &nbsp; @ &nbsp; {{time}}</div>
+                    {{else}}
+                    <div class="col-lg-6 col-md-6">No</div>
+                    {{/getInterview}}
                 </div>
 
 
@@ -332,13 +362,121 @@
             </div>
             <div class="modal-footer">
                 <div class="col-12 d-flex justify-content-between">
-                    <button type="button" class="btn btn-danger mx-2">Reject Hire</button>
-                    <button type="button" class="btn btn-success mx-2">Hire Resident</button>
+                    <a href="/employer/rejectHire/{{../resident._id}}/{{this._id}}"><button type="button"
+                            class="btn btn-danger mx-2">Reject Hire</button></a>
+                    <a href="/employer/hireResident/{{../resident._id}}/{{this._id}}"><button type="button"
+                            class="btn btn-success mx-2">Hire Resident</button></a>
                 </div>
             </div>
 
         </div>
     </div>
-</div><!-- End clearance modal-->
+</div>
 
+{{!-- Schedule Interview Modal --}}
+<div class="modal fade" id="{{this.position}}2" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content p-2">
+
+            <div class="modal-header">
+
+                <h3 id="request-title" class="modal-title">
+                    Schedule Interview
+                </h3>
+
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="POST" action="/employer/scheduleInterview/{{this._id}}">
+                <div class="modal-body">
+
+                    <div class="row mb-3">
+                        <label for="name" class="col-sm-2 col-form-label">Resident</label>
+                        <div class="col-sm-10">
+                            <input required type="text" class="form-control text-capitalize" readonly
+                                value="{{../resident.firstName}} {{../resident.lastName}}">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="name" class="col-sm-2 col-form-label">ID #</label>
+                        <div class="col-sm-10">
+                            <input required type="text" class="form-control" name="residentID" readonly
+                                value="{{../resident.residentID}}">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="date" class="col-sm-2 col-form-label">Date</label>
+                        <div class="col-sm-10">
+                            <input required type="date" class="form-control" name="date">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="time" class="col-sm-2 col-form-label">Time</label>
+                        <div class="col-sm-10">
+                            <input required type="time" class="form-control" name="time">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="instructions" class="col-12 col-form-label">Additional Instructions for
+                            Resident:</label>
+                        <div class="col-12">
+                            <textarea class="form-control" style="height: 100px" name="instructions"
+                                placeholder="optional"></textarea>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <div class="col-12 d-flex justify-content-between">
+                        <button type="button" class="btn-close btn-secondary mx-2" data-bs-dismiss="modal"
+                            aria-label="Close">Cancel</button>
+                        <button type="submit" class="btn btn-info mx-2">Schedule</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 {{/each}}
+
+
+{{!-- Terminate Resident Modal --}}
+<div class="modal fade" id="terminate" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" action="/employer/terminateResident/{{resident._id}}">
+                <div class="modal-header">
+                    <h5 class="modal-title">Terminate Employment</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-sm-10">
+                            <select required name="terminationReason" id="terminationReason" class="form-select"
+                                aria-label="Termination reason">
+                                <option selected value="">Select reason for termination:
+                                </option>
+                                <option value="release">Release from KDOC</option>
+                                <option value="performance">Poor Performance</option>
+                                <option value="misconduct">Misconduct</option>
+                                <option value="attendance">Attendance Issues</option>
+                                <option value="layoffs">Layoffs</option>
+                                <option value="medical">Medical Layoff</option>
+                                <option value="custody">Loss of Custody</option>
+                                <option value="moved">Changed Facility</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-12 d-flex justify-content-between">
+                        <button type="button" class="btn-close btn-secondary mx-2" data-bs-dismiss="modal"
+                            aria-label="Close">Cancel</button>
+                        <button type="submit" class="btn btn-danger mx-2">Terminate Employment</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

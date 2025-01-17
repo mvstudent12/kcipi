@@ -145,8 +145,8 @@
                                     <div class="row mb-3">
                                         <label for="pay" class="col-md-4 col-lg-3 col-form-label">Hourly Pay</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="pay" type="text" class="form-control text-capitalize" id="pay"
-                                                required>
+                                            <input name="pay" type="number" min="0" placeholder="per hour"
+                                                class="form-control text-capitalize" id="pay" required>
                                         </div>
                                     </div>
                                     {{!-- Positions Available --}}
@@ -154,7 +154,7 @@
                                         <label for="availablePositions"
                                             class="col-md-4 col-lg-3 col-form-label">Positions Available</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="availablePositions" type="number" class="form-control"
+                                            <input name="availablePositions" type="number" min="0" class="form-control"
                                                 id="availablePositions" required>
                                         </div>
                                     </div>

@@ -26,9 +26,15 @@
                                         class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                         <i class="bi bi-briefcase-fill"></i>
                                     </div>
+                                    {{#if user.isHired}}
+                                    <div class="ps-3">
+                                        <h6>0</h6>
+                                    </div>
+                                    {{else}}
                                     <div class="ps-3">
                                         <h6>{{countArrayItems jobs}}</h6>
                                     </div>
+                                    {{/if}}
                                 </div>
                             </div>
                         </div>
@@ -95,7 +101,10 @@
 
                             <div class="card-body">
                                 <h5 class="card-title">All Available Jobs</h5>
-
+                                {{#if user.isHired}}
+                                <p class="text-success mt-3">You are currently working.</p>
+                                <p>You are not eligible to complete any applications while you are employed.</p>
+                                {{else}}
                                 <table class="table table-borderless datatable">
                                     <thead>
                                         <tr>
@@ -124,7 +133,7 @@
                                         {{/each}}
                                     </tbody>
                                 </table>
-
+                                {{/if}}
                             </div>
 
                         </div>

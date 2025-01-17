@@ -19,49 +19,59 @@
             <div class="col-lg-12">
                 <div class="row">
 
-                    {{!-- Data Tables Section --}}
-                    <!-- Work Force Table -->
+                    <!-- Employees Table -->
                     <div class="col-12">
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
-                                <h5 class="card-title">Work Force <span>| Current Employees</span></h5>
+                                <h5 class="card-title">Employees <span>| Work Force</span></h5>
                                 <table class="table table-borderless datatable">
                                     <thead>
                                         <tr>
-                                            <th scope="col">#</th>
+                                            <th scope="col">ID #</th>
+                                            <th scope="col">Facility</th>
                                             <th scope="col">Name</th>
                                             <th scope="col">Out Date</th>
-                                            <th scope="col">Custody</th>
-                                            <th scope="col">Facility</th>
+                                            <th scope="col">Unit Team</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{!-- {{#each applicants}}
+                                        {{#each allEmployees}}
                                         <tr>
-                                            <th scope="row"><a
-                                                    href="/employer/residentProfile/{{this._id}}">{{this.residentID}}</a>
+                                            <th scope="row">
+                                                <a
+                                                    href="/employer/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
                                             </th>
-                                            <td class="text-capitalize"><a
-                                                    href="/employer/residentProfile/{{this._id}}">
-                                                    {{this.firstName}} {{this.lastName}}</a></td>
-                                            <td class="text-capitalize">01/13/26</td>
+                                            <td class="text-capitalize">
+                                                <a
+                                                    href="/employer/residentProfile/{{this.residentID}}">{{this.facility}}</a>
+                                            </td>
+                                            <td class="text-capitalize">
+                                                <a href="/employer/residentProfile/{{this.residentID}}">{{this.firstName}}
+                                                    {{this.lastName}}</a>
+                                            </td>
+                                            <td class="text-capitalize">
+                                                <a href="/employer/residentProfile/{{this.residentID}}">{{formatDate
+                                                    this.outDate}}</a>
+                                            </td>
+                                            <td class="text-capitalize">
+                                                <a
+                                                    href="/employer/residentProfile/{{this.residentID}}">{{this.unitTeam}}</a>
+                                            </td>
 
-                                            <td>{{this.custodyLevel}}</td>
-                                            <td class="text-capitalize">{{this.facility}}</td>
+
                                         </tr>
-                                        {{/each}} --}}
+
+                                        {{/each}}
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
-                    <!-- End Work Force Table -->
-                    {{!-- End of Data Tables Section --}}
                 </div>
-            </div><!-- End Dashboard Cone -->
+            </div>
         </div>
     </section>
-</main><!-- End #main -->
+</main>
 <!-- ======= Footer ======= -->
 {{> footer}}
 {{> arrowUp}}

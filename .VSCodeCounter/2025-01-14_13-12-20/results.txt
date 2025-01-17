@@ -663,7 +663,7 @@ Files
 | c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\resident\applications.handlebars                                    | Handlebars |         69 |          0 |          7 |         76 |
 | c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\resident\dashboard.handlebars                                       | Handlebars |        131 |          0 |         16 |        147 |
 | c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\resident\faq.handlebars                                             | Handlebars |        217 |          0 |         33 |        250 |
-| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\resident\jobinfo.handlebars                                         | Handlebars |        187 |         11 |          9 |        207 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\resident\jobInfo.handlebars                                         | Handlebars |        187 |         11 |          9 |        207 |
 | c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\resident\profile.handlebars                                         | Handlebars |        615 |         46 |         19 |        680 |
 | c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\unitTeam\contact.handlebars                                         | Handlebars |         97 |          0 |          8 |        105 |
 | c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\unitTeam\dashboard.handlebars                                       | Handlebars |        205 |          2 |         35 |        242 |

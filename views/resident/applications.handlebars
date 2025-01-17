@@ -56,13 +56,18 @@
                                         {{this.companyName}}
                                     </div>
                                     <div class="col-lg-4 col-md-4 text-capitalize">{{this.position}}</div>
-                                    <div class="col-lg-4 col-md-4 text-capitalize">${{this.pay}}/hour</div>
+                                    <div class="col-lg-4 col-md-4 text-capitalize">${{this.pay}}/hr</div>
                                 </div>
                                 <hr>
                                 {{/each}}
                                 {{else}}
-                                <span class="text-warning">You have not submitted any applications yet.
-                                </span>
+                                {{#if user.isHired}}
+                                <p class="text-success mt-3">You are currently working.
+                                </p>
+                                {{else}}
+                                <p class="text-warning mt-3">You have not submitted any applications yet.
+                                </p>
+                                {{/if}}
                                 {{/if}}
                             </div>
                         </div><!-- End Bordered Tabs -->

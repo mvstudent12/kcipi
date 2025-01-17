@@ -78,7 +78,34 @@
             </a>
         </li><!-- End Dashboard Nav -->
 
-
+        <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-menu-button-wide"></i><span>Manage Database</span><i
+                    class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="/admin/residentDB">
+                        <i class="bi bi-circle"></i><span>Residents</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/admin/unitTeamDB">
+                        <i class="bi bi-circle"></i><span>Unit Team</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/admin/employerDB">
+                        <i class="bi bi-circle"></i><span>Employer Contacts</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/admin/companyDB">
+                        <i class="bi bi-circle"></i><span>Partners</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
         {{!-- maybe add charts or something later --}}
         {{!-- <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
@@ -92,6 +119,13 @@
                 </li>
             </ul>
         </li> --}}
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="/employer/managePositions">
+                <i class="bi bi-person-check-fill"></i>
+                <span>Manage Hiring</span>
+            </a>
+        </li>
         <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-layout-text-window-reverse"></i><span>KCI PI Rosters</span><i
@@ -119,33 +153,6 @@
                     </a>
                 </li>
 
-            </ul>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-menu-button-wide"></i><span>Database</span><i class="bi bi-chevron-down ms-auto"></i>
-            </a>
-            <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                <li>
-                    <a href="/admin/residentDB">
-                        <i class="bi bi-circle"></i><span>Residents</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="/admin/unitTeamDB">
-                        <i class="bi bi-circle"></i><span>Unit Team</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="/admin/employerDB">
-                        <i class="bi bi-circle"></i><span>Employer Contacts</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="/admin/companyDB">
-                        <i class="bi bi-circle"></i><span>Partners</span>
-                    </a>
-                </li>
             </ul>
         </li>
 

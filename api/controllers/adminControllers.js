@@ -41,7 +41,6 @@ module.exports = {
         { _id: { $in: applicantIDs } },
         "firstName lastName facility residentID custodyLevel"
       ).lean();
-      console.log(allJobApplicants);
 
       res.render("admin/dashboard", {
         residentsNeedReview,

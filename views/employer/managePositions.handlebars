@@ -22,19 +22,28 @@
                         <!-- Bordered Tabs -->
                         <ul class="nav nav-tabs nav-tabs-bordered">
                             <li class="nav-item">
-                                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-edit">All
+                                <button class="nav-link {{#if (eq activeTab 'all')}}active{{/if}}" data-bs-toggle="tab"
+                                    data-bs-target="#position-all">All
                                     Positions</button>
                             </li>
                             <li class="nav-item">
-                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-add-employer">Add
+                                <button class="nav-link {{#if (eq activeTab 'add')}}active{{/if}}" data-bs-toggle="tab"
+                                    data-bs-target="#position-add">Add
+                                    Position</button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-link {{#if (eq activeTab 'edit')}}active{{/if}}" data-bs-toggle="tab"
+                                    data-bs-target="#position-edit">Edit
                                     Position</button>
                             </li>
                         </ul>
+                        {{!-- Bordered Tab Content --}}
 
                         <div class="tab-content pt-2">
 
                             {{!-- All Positions TAB --}}
-                            <div class="tab-pane fade show active profile-edit pt-3" id="profile-edit">
+                            <div class="tab-pane fade {{#if (eq activeTab 'all')}}show active{{/if}} position-all pt-3"
+                                id="position-all">
                                 {{!-- Positions table --}}
                                 <div class="row mb-3">
                                     <div class="col-12">
@@ -58,9 +67,19 @@
                                                             <td><a href="/employer/jobProfile/{{this._id}}"
                                                                     class="text-primary text-capitalize">{{this.position}}</a>
                                                             </td>
-                                                            <td class="text-capitalize">{{this.jobPool}}</td>
+                                                            <td class="text-capitalize"><a
+                                                                    href="/employer/jobProfile/{{this._id}}"
+                                                                    class="text-primary">{{this.jobPool}}</a>
+                                                            </td>
                                                             <td>{{formatDate this.dateCreated}}</td>
-                                                            <td><span class="badge bg-danger">None</span></td>
+                                                            {{#if (eq this.applicants '')}}
+                                                            <td><span class="badge bg-danger">none</span></td>
+                                                            {{else}}
+                                                            <td><span class="badge bg-success">
+                                                                    &nbsp;&nbsp;{{countArrayItems this.applicants}}
+                                                                    &nbsp;&nbsp;</span>
+                                                            </td>
+                                                            {{/if}}
                                                         </tr>
                                                         {{/each}}
                                                     </tbody>
@@ -76,7 +95,8 @@
                             </div>
 
                             {{!-- Add Position TAB --}}
-                            <div class="tab-pane fade profile-add-employer pt-3" id="profile-add-employer">
+                            <div class="tab-pane fade {{#if (eq activeTab 'add')}}show active{{/if}} position-add pt-3"
+                                id="position-add">
                                 <form method="POST" action="/employer/addNewPosition">
 
                                     {{!-- Position Title --}}
@@ -101,8 +121,8 @@
                                     <div class="row mb-3">
                                         <label for="pay" class="col-md-4 col-lg-4 col-form-label">Hourly Pay</label>
                                         <div class="col-md-8 col-lg-8">
-                                            <input name="pay" type="text" class="form-control text-capitalize" id="pay"
-                                                required>
+                                            <input name="pay" min="0" placeholder="per hour" type="number"
+                                                class="form-control text-capitalize" id="pay" required>
                                         </div>
                                     </div>
                                     {{!-- Positions Available --}}
@@ -164,6 +184,194 @@
                                     </div>
                                 </form>
                             </div>
+                            {{!-- Edit Position TAB --}}
+                            <div class="tab-pane fade {{#if (eq activeTab 'edit')}}show active{{/if}} position-edit p-3"
+                                id="position-edit">
+                                <div class="row mb-3">
+                                    {{!-- Position Search Bar --}}
+                                    <label for="positionList" class="col-md-4 col-lg-4 col-form-label">Position
+                                        Title</label>
+                                    <div class="col-md-8 col-lg-8">
+                                        <div class="search-bar">
+                                            <form class="search-form d-flex align-items-center" method="POST"
+                                                action="/employer/searchPosition">
+
+                                                <div class="input-group">
+                                                    <select required name="jobID" id="positionList"
+                                                        class="form-select text-capitalize"
+                                                        aria-label="Select Position to Edit">
+                                                        <option selected value="">Select position to edit:
+                                                        </option>
+                                                        {{#each jobs}}
+                                                        <option class="text-capitalize" value="{{this._id}}">
+                                                            {{this.position}}
+                                                        </option>
+                                                        {{/each}}
+                                                    </select>
+                                                    <!-- Search Button -->
+                                                    <button class="btn btn-primary" type="submit" id="searchButton"
+                                                        title="Search">
+                                                        <i class="bi bi-search"></i>
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    {{#if positionFound}}
+                                    <div>
+                                        <hr>
+                                        <p class="text-info">Edit Position Details Below:</p>
+                                        <form method="POST"
+                                            action="/employer/editSearchedPosition/{{positionFound._id}}">
+                                            <input type="hidden" name="id" value="{{positionFound._id}}">
+                                            {{!-- Position Title --}}
+                                            <div class="row mb-3">
+                                                <label for="editPosition"
+                                                    class="col-md-4 col-lg-4 col-form-label">Position
+                                                    Title</label>
+                                                <div class="col-md-8 col-lg-8">
+                                                    <input name="editPosition" type="text"
+                                                        class="form-control text-capitalize" id="editPosition" required
+                                                        value="{{positionFound.position}}">
+                                                </div>
+                                            </div>
+                                            {{!-- Description --}}
+                                            <div class="row mb-3">
+                                                <label for="description"
+                                                    class="col-md-4 col-lg-4 col-form-label">Description</label>
+                                                <div class="col-md-8 col-lg-8">
+                                                    <input name="description" type="text"
+                                                        class="form-control text-capitalize" id="description" required
+                                                        value="{{positionFound.description}}">
+                                                </div>
+                                            </div>
+                                            {{!-- Hourly Pay --}}
+                                            <div class="row mb-3">
+                                                <label for="pay" class="col-md-4 col-lg-4 col-form-label">Hourly
+                                                    Pay</label>
+                                                <div class="col-md-8 col-lg-8">
+                                                    <input name="pay" min="0" placeholder="per hour" type="number"
+                                                        min="0" placeholder="per hour" class="form-control" id="pay"
+                                                        required value="{{positionFound.pay}}">
+                                                </div>
+                                            </div>
+                                            {{!-- Positions Available --}}
+                                            <div class="row mb-3">
+                                                <label for="availablePositions"
+                                                    class="col-md-4 col-lg-4 col-form-label">Positions Available</label>
+                                                <div class="col-md-8 col-lg-8">
+                                                    <input name="availablePositions" type="number" min="0"
+                                                        class="form-control" id="availablePositions" required
+                                                        value="{{positionFound.availablePositions}}">
+                                                </div>
+                                            </div>
+
+                                            {{!-- Job Available --}}
+                                            <div class="row mb-3">
+                                                <label for="availablePositions"
+                                                    class="col-md-4 col-lg-4 col-form-label">Available</label>
+                                                <div class="col-md-8 col-lg-8">
+
+                                                    <select required name="isAvailable" class="form-select"
+                                                        aria-label="Available">
+                                                        <option {{#if (eq positionFound.isAvailable "true" )
+                                                            }}selected{{/if}} value="true">Position is Available
+                                                        </option>
+                                                        <option {{#if (eq positionFound.isAvailable "false" )
+                                                            }}selected{{/if}} value="false">Position is Not
+                                                            Available
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            {{!-- Position Facility --}}
+                                            <div class="row mb-3">
+                                                <label for="facility"
+                                                    class="col-md-4 col-lg-4 col-form-label">Facility</label>
+                                                <div class="col-md-8 col-lg-8">
+                                                    <select required name="facility" id="facilityEdit"
+                                                        class="form-select" aria-label="Facility Options">
+                                                        <option {{#if (eq positionFound.facility "El Dorado" )
+                                                            }}selected{{/if}} value="El Dorado">El Dorado</option>
+                                                        <option {{#if (eq positionFound.facility "Ellsworth" )
+                                                            }}selected{{/if}} value="Ellsworth">Ellsworth</option>
+                                                        <option {{#if (eq positionFound.facility "Hutchinson" )
+                                                            }}selected{{/if}} value="Hutchinson">Hutchinson
+                                                        </option>
+                                                        <option {{#if (eq positionFound.facility "Lansing" )
+                                                            }}selected{{/if}} value="Lansing">Lansing</option>
+                                                        <option {{#if (eq positionFound.facility "Larned" )
+                                                            }}selected{{/if}} value="Larned">Larned</option>
+                                                        <option {{#if (eq positionFound.facility "Norton" )
+                                                            }}selected{{/if}} value="Norton">Norton</option>
+                                                        <option {{#if (eq positionFound.facility "Topeka" )
+                                                            }}selected{{/if}} value="Topeka">Topeka</option>
+                                                        <option {{#if (eq positionFound.facility "Winfield" )
+                                                            }}selected{{/if}} value="Winfield">Winfield</option>
+                                                        <option {{#if (eq positionFound.facility "Wichita" )
+                                                            }}selected{{/if}} value="Wichita">Wichita</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            {{!-- Job Pool--}}
+                                            <div class="row mb-3">
+                                                <label for="jobPool" class="col-md-4 col-lg-4 col-form-label">Job
+                                                    Pool</label>
+                                                <div class="col-md-8 col-lg-8">
+                                                    <select required name="jobPool" class="form-select"
+                                                        aria-label="Job Pool">
+                                                        <option {{#if (eq
+                                                            positionFound.jobPool "Male Minimum 1 (Off-Site)" )
+                                                            }}selected{{/if}} value="Male Minimum 1 (Off-Site)">Male
+                                                            Minimum 1
+                                                            &lpar;Off-Site&rpar;
+                                                        </option>
+                                                        <option {{#if (eq
+                                                            positionFound.jobPool "Male Minimum 2 (On-Site)" )
+                                                            }}selected{{/if}} value="Male Minimum 2 (On-Site)">Male
+                                                            Minimum 2
+                                                            &lpar;On-Site&rpar;
+                                                        </option>
+                                                        <option {{#if (eq positionFound.jobPool "Male Medium/Maximum" )
+                                                            }}selected{{/if}} value="Male Medium/Maximum">Male
+                                                            Medium/Maximum
+                                                        </option>
+                                                        <option {{#if (eq
+                                                            positionFound.jobPool "Female Minimum 1 (Off-Site)" )
+                                                            }}selected{{/if}} value="Female Minimum 1 (Off-Site)">
+                                                            Female Minimum
+                                                            1
+                                                            &lpar;Off-Site&rpar;
+                                                        </option>
+                                                        <option {{#if (eq
+                                                            positionFound.jobPool "Female Minimum 2 (On-Site)" )
+                                                            }}selected{{/if}} value="Female Minimum 2 (On-Site)">
+                                                            Female Minimum
+                                                            2
+                                                            &lpar;On-Site&rpar;
+                                                        </option>
+                                                        <option {{#if (eq positionFound.jobPool "Female Medium/Maximum"
+                                                            ) }}selected{{/if}} value="Female Medium/Maximum">Female
+                                                            Medium/Maximum
+                                                        </option>
+                                                    </select>
+
+                                                </div>
+                                            </div>
+                                            {{!-- Save Button & Delete Buttons--}}
+                                            <hr>
+                                            <div class="d-flex justify-content-between">
+                                                <button data-bs-toggle="modal" data-bs-target="#deletePosition"
+                                                    type="button" class="btn btn-danger mx-2">Delete
+                                                    Position</button>
+                                                <button type="submit" class="btn btn-primary mx-2">Save Edit</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                {{/if}}
+                            </div>
                         </div><!-- End Bordered Tabs -->
                     </div>
                 </div>
@@ -176,3 +384,29 @@
 {{> footer}}
 
 {{> arrowUp}}
+
+
+{{!-- MODAL FOR Delete Position --}}
+<div class="modal fade" id="deletePosition" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" action="/employer/deletePosition/{{positionFound._id}}">
+                <div class="modal-header">
+                    <h5 class="modal-title text-capitalize">Delete Position: {{positionFound.position}}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3 mt-3">
+                        <p>Are you sure you want to delete this position?</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-12 d-flex justify-content-between">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button id="" type="submit" class="btn btn-danger">Delete Position</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div><!-- End Basic Modal-->
