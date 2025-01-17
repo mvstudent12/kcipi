@@ -45,21 +45,6 @@ module.exports = {
     }
   },
 
-  async helpDesk(req, res) {
-    try {
-      res.render("unitTeam/helpDesk", { user: req.session.user });
-    } catch (err) {
-      console.log(err);
-    }
-  },
-
-  async contact(req, res) {
-    try {
-      res.render("unitTeam/contact", { user: req.session.user });
-    } catch (err) {
-      console.log(err);
-    }
-  },
   async residentProfile(req, res) {
     try {
       const residentID = req.params.id;
@@ -91,6 +76,21 @@ module.exports = {
         user: req.session.user,
         residents,
       });
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  async helpDesk(req, res) {
+    try {
+      res.render("unitTeam/helpDesk", { user: req.session.user });
+    } catch (err) {
+      console.log(err);
+    }
+  },
+
+  async contact(req, res) {
+    try {
+      res.render("unitTeam/contact", { user: req.session.user });
     } catch (err) {
       console.log(err);
     }

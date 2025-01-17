@@ -21,7 +21,7 @@ module.exports = {
   //serves resident profile with their resume
   async residentProfile(req, res) {
     try {
-      const residentID = req.params.id;
+      const { residentID } = req.params;
       const resident = await Resident.findOne({ residentID }).lean();
       const id = resident._id;
 
@@ -32,15 +32,16 @@ module.exports = {
 
       const activeTab = "overview";
       res.render(`${req.session.user.role}/profiles/residentProfile`, {
-        resident,
         user: req.session.user,
-        activeTab,
+        resident,
         applications,
+        activeTab,
       });
     } catch (err) {
       console.log(err);
     }
   },
+  //rejects resident resume
   async rejectResume(req, res) {
     const residentID = req.params.id;
     const rejectReason = req.body.rejectReason;
@@ -68,6 +69,7 @@ module.exports = {
       console.error(err);
     }
   },
+  //approves resident resume
   async approveResume(req, res) {
     const residentID = req.params.id;
     const jobPool = req.body.jobPool;
@@ -97,6 +99,7 @@ module.exports = {
       console.error(err);
     }
   },
+  //edits residents clearance values for eligibility
   async editClearance(req, res) {
     let { residentID, dept } = req.params;
     const { clearance, comments } = req.body;
@@ -151,9 +154,10 @@ module.exports = {
       console.error(err);
     }
   },
+
+  //approved resident's eligibility to work
   async approveEligibility(req, res) {
     const { residentID } = req.params;
-    const user = req.session.user._id;
 
     try {
       await Resident.updateOne(
@@ -166,8 +170,9 @@ module.exports = {
           },
         }
       );
-      const eligibleMsg = "This resident is approved and eligible for work.";
       const resident = await Resident.findOne({ residentID }).lean();
+
+      const eligibleMsg = "This resident is approved and eligible for work.";
       const activeTab = "clearance";
 
       res.render(`${req.session.user.role}/profiles/residentProfile`, {
@@ -180,6 +185,7 @@ module.exports = {
       console.log(err);
     }
   },
+  //denies resident's eligibility to work
   async rejectEligibility(req, res) {
     const { residentID } = req.params;
 
@@ -204,6 +210,132 @@ module.exports = {
         resident,
         activeTab,
         user: req.session.user,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  async scheduleInterview(req, res) {
+    try {
+      const { residentID } = req.body;
+
+      const resident = await Resident.findOne({
+        residentID: residentID,
+      }).lean();
+
+      const id = resident._id;
+
+      const { jobID } = req.params;
+      const interviewDetails = req.body;
+      await Jobs.findByIdAndUpdate(jobID, {
+        $push: {
+          interviews: interviewDetails,
+        },
+      });
+      //find positions resident has applied for
+      const applications = await Jobs.find({
+        applicants: { $in: [id] },
+      }).lean();
+
+      const activeTab = "application";
+      res.render(`${req.session.user.role}/profiles/residentProfile`, {
+        user: req.session.user,
+        resident,
+        activeTab,
+        applications,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  //employs resident to company
+  async hireResident(req, res) {
+    try {
+      const { id, jobID } = req.params;
+
+      await Resident.findByIdAndUpdate(id, {
+        $set: {
+          isHired: true,
+        },
+      });
+      const resident = await Resident.findById(id).lean();
+      const residentID = resident.residentID;
+
+      //remove user from applicants/ interviews add to workforce
+      await Jobs.findByIdAndUpdate(jobID, {
+        $pull: {
+          applicants: id,
+          interviews: { residentID: residentID },
+        },
+        $push: {
+          employees: id,
+        },
+        $inc: {
+          availablePositions: -1, // Subtract 1 from availablePositions
+        },
+        set: {
+          isAvailable: {
+            $cond: {
+              if: { $eq: ["$availablePositions", 0] },
+              then: false,
+              else: "$isAvailable",
+            },
+          },
+        },
+      });
+      //remove resident from all other applied jobs
+      await Jobs.updateMany(
+        {}, // This empty filter matches all documents
+        {
+          $pull: {
+            applicants: id, // Remove residentID from the applicants array
+            interviews: { residentID: residentID }, // Remove interview with the given residentID
+          },
+        }
+      );
+      //find positions resident has applied for
+      const applications = await Jobs.find({
+        applicants: { $in: [id] },
+      }).lean();
+
+      const activeTab = "application";
+      res.render(`${req.session.user.role}/profiles/residentProfile`, {
+        user: req.session.user,
+        resident,
+        activeTab,
+        applications,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  //fires resident
+  async terminateResident(req, res) {
+    try {
+      const { id } = req.params;
+
+      await Resident.findByIdAndUpdate(id, {
+        $set: {
+          isHired: false,
+        },
+      });
+      const resident = await Resident.findById(id).lean();
+
+      const job = await Jobs.findOneAndUpdate(
+        { employees: id }, // Find the job where id exists in employees
+        { $pull: { employees: id } } // Remove the residentID from the employees array
+      ).lean();
+      console.log(job);
+      //find positions resident has applied for
+      const applications = await Jobs.find({
+        applicants: { $in: [id] },
+      }).lean();
+      const activeTab = "application";
+      res.render(`${req.session.user.role}/profiles/residentProfile`, {
+        user: req.session.user,
+        resident,
+        activeTab,
+        applications,
       });
     } catch (err) {
       console.log(err);

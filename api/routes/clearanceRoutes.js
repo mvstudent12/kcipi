@@ -9,7 +9,7 @@ clearanceRoutes.get("/dashboard", checkUser, requireAuth, controller.dashboard);
 
 //serves resident clearance profile to admin and unit team
 clearanceRoutes.get(
-  "/residentProfile/:id",
+  "/residentProfile/:residentID",
   checkUser,
   requireAuth,
   controller.residentProfile
@@ -45,6 +45,24 @@ clearanceRoutes.post(
   checkUser,
   requireAuth,
   controller.rejectEligibility
+);
+clearanceRoutes.post(
+  "/scheduleInterview/:jobID",
+  checkUser,
+  requireAuth,
+  controller.scheduleInterview
+);
+clearanceRoutes.get(
+  "/hireResident/:id/:jobID",
+  checkUser,
+  requireAuth,
+  controller.hireResident
+);
+clearanceRoutes.post(
+  "/terminateResident/:id",
+  checkUser,
+  requireAuth,
+  controller.terminateResident
 );
 
 module.exports = clearanceRoutes;

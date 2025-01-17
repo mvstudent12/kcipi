@@ -63,36 +63,10 @@ employerRoutes.get(
 employerRoutes.get("/employees", checkUser, requireAuth, controller.employees);
 
 employerRoutes.get(
-  "/residentProfile/:residentID",
-  checkUser,
-  requireAuth,
-  controller.residentProfile
-);
-
-employerRoutes.get(
   "/manageHiring",
   checkUser,
   requireAuth,
   controller.manageHiring
-);
-employerRoutes.post(
-  "/scheduleInterview/:jobID",
-  checkUser,
-  requireAuth,
-  controller.scheduleInterview
-);
-
-employerRoutes.get(
-  "/hireResident/:id/:jobID",
-  checkUser,
-  requireAuth,
-  controller.hireResident
-);
-employerRoutes.post(
-  "/terminateResident/:id",
-  checkUser,
-  requireAuth,
-  controller.terminateResident
 );
 
 employerRoutes.get("/contact", checkUser, requireAuth, controller.contact);

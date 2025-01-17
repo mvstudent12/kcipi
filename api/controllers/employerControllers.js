@@ -63,6 +63,9 @@ module.exports = {
     }
   },
 
+  //=============================
+  //     Table Pages
+  //=============================
   //serves applicants page for employers
   async applicants(req, res) {
     try {
@@ -122,179 +125,6 @@ module.exports = {
       console.log(err);
     }
   },
-  //serves residentProfile page for employers
-  async residentProfile(req, res) {
-    try {
-      const { residentID } = req.params;
-
-      const resident = await Resident.findOne({ residentID }).lean();
-      const id = resident._id;
-
-      //find positions resident has applied for
-      const applications = await Jobs.find({
-        applicants: { $in: [id] },
-      }).lean();
-
-      const activeTab = "overview";
-      res.render("employer/residentProfile", {
-        user: req.session.user,
-        resident,
-        activeTab,
-        applications,
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  },
-  async scheduleInterview(req, res) {
-    try {
-      const { residentID } = req.body;
-
-      const resident = await Resident.findOne({
-        residentID: residentID,
-      }).lean();
-
-      const id = resident._id;
-
-      const { jobID } = req.params;
-      const interviewDetails = req.body;
-      await Jobs.findByIdAndUpdate(jobID, {
-        $push: {
-          interviews: interviewDetails,
-        },
-      });
-      //find positions resident has applied for
-      const applications = await Jobs.find({
-        applicants: { $in: [id] },
-      }).lean();
-
-      const activeTab = "application";
-      res.render("employer/residentProfile", {
-        user: req.session.user,
-        resident,
-        activeTab,
-        applications,
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  },
-  async hireResident(req, res) {
-    try {
-      const { id, jobID } = req.params;
-
-      await Resident.findByIdAndUpdate(id, {
-        $set: {
-          isHired: true,
-        },
-      });
-      const resident = await Resident.findById(id).lean();
-      const residentID = resident.residentID;
-
-      //remove user from applicants/ interviews add to workforce
-      await Jobs.findByIdAndUpdate(jobID, {
-        $pull: {
-          applicants: id,
-          interviews: { residentID: residentID },
-        },
-        $push: {
-          employees: id,
-        },
-        $inc: {
-          availablePositions: -1, // Subtract 1 from availablePositions
-        },
-        set: {
-          isAvailable: {
-            $cond: {
-              if: { $eq: ["$availablePositions", 0] },
-              then: false,
-              else: "$isAvailable",
-            },
-          },
-        },
-      });
-      //remove resident from all other applied jobs
-      await Jobs.updateMany(
-        {}, // This empty filter matches all documents
-        {
-          $pull: {
-            applicants: id, // Remove residentID from the applicants array
-            interviews: { residentID: residentID }, // Remove interview with the given residentID
-          },
-        }
-      );
-      //find positions resident has applied for
-      const applications = await Jobs.find({
-        applicants: { $in: [id] },
-      }).lean();
-
-      const activeTab = "application";
-      res.render("employer/residentProfile", {
-        user: req.session.user,
-        resident,
-        activeTab,
-        applications,
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  },
-
-  async terminateResident(req, res) {
-    try {
-      const { id } = req.params;
-
-      await Resident.findByIdAndUpdate(id, {
-        $set: {
-          isHired: false,
-        },
-      });
-      const resident = await Resident.findById(id).lean();
-
-      const job = await Jobs.findOneAndUpdate(
-        { employees: id }, // Find the job where id exists in employees
-        { $pull: { employees: id } } // Remove the residentID from the employees array
-      ).lean();
-      console.log(job);
-      //find positions resident has applied for
-      const applications = await Jobs.find({
-        applicants: { $in: [id] },
-      }).lean();
-      const activeTab = "application";
-      res.render("employer/residentProfile", {
-        user: req.session.user,
-        resident,
-        activeTab,
-        applications,
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  },
-  //serves manageHiring page for employers
-  async manageHiring(req, res) {
-    try {
-      res.render("employer/manageHiring", { user: req.session.user });
-    } catch (err) {
-      console.log(err);
-    }
-  },
-  //serves contact page for employers
-  async contact(req, res) {
-    try {
-      res.render("employer/contact", { user: req.session.user });
-    } catch (err) {
-      console.log(err);
-    }
-  },
-  //serves help desk page for employers
-  async helpDesk(req, res) {
-    try {
-      res.render("employer/helpDesk", { user: req.session.user });
-    } catch (err) {
-      console.log(err);
-    }
-  },
 
   //=============================
   //     Manage Positions
@@ -322,6 +152,7 @@ module.exports = {
       console.log(err);
     }
   },
+  //find position to edit
   async searchPosition(req, res) {
     try {
       const { jobID } = req.body;
@@ -349,6 +180,7 @@ module.exports = {
       console.log(err);
     }
   },
+  //edits found position
   async editSearchedPosition(req, res) {
     try {
       const { jobID } = req.params;
@@ -396,7 +228,6 @@ module.exports = {
       console.log(err);
     }
   },
-
   //adds new position to company db
   async addNewPosition(req, res) {
     try {
@@ -446,6 +277,7 @@ module.exports = {
       console.log(err);
     }
   },
+  //serves job profile info for specific job
   async jobProfile(req, res) {
     try {
       const { jobID } = req.params;
@@ -459,7 +291,7 @@ module.exports = {
       const company = await Company.findById(companyID).lean();
       const activeTab = "overview";
 
-      res.render("employer/jobProfile", {
+      res.render("employer/profiles/jobProfile", {
         user: req.session.user,
         position,
         company,
@@ -470,6 +302,7 @@ module.exports = {
       console.log(err);
     }
   },
+  //edits position on jobProfile
   async editPosition(req, res) {
     try {
       const { jobID } = req.params;
@@ -507,7 +340,7 @@ module.exports = {
       const activeTab = "overview";
 
       const saveMsg = true;
-      res.render("employer/jobProfile", {
+      res.render("employer/profiles/jobProfile", {
         user: req.session.user,
         position,
         company,
@@ -547,5 +380,36 @@ module.exports = {
       jobs,
       activeTab,
     });
+  },
+  //=============================
+  //     Manage Hiring
+  //=============================
+  //serves manageHiring page for employers
+  async manageHiring(req, res) {
+    try {
+      res.render("employer/manageHiring", { user: req.session.user });
+    } catch (err) {
+      console.log(err);
+    }
+  },
+
+  //=============================
+  //     Basic Routes
+  //=============================
+  //serves contact page for employers
+  async contact(req, res) {
+    try {
+      res.render("employer/contact", { user: req.session.user });
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  //serves help desk page for employers
+  async helpDesk(req, res) {
+    try {
+      res.render("employer/helpDesk", { user: req.session.user });
+    } catch (err) {
+      console.log(err);
+    }
   },
 };

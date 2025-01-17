@@ -28,13 +28,18 @@ module.exports = {
       }).lean();
       //find all residents in KDOC
       const caseLoad = await Resident.find().lean();
-      let applicantIDs;
+      let applicantIDs = [];
 
       await Jobs.aggregate([
         { $unwind: "$applicants" }, // Flatten the applicants array
         { $group: { _id: null, allResidents: { $push: "$applicants" } } }, // Collect all resident IDs, including duplicates
       ]).then((result) => {
-        return (applicantIDs = result[0].allResidents);
+        if (result.length !== 0) {
+          console.log(result);
+          return (applicantIDs = result[0].allResidents);
+        } else {
+          return;
+        }
       });
 
       const allJobApplicants = await Resident.find(

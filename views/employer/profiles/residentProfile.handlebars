@@ -362,9 +362,9 @@
             </div>
             <div class="modal-footer">
                 <div class="col-12 d-flex justify-content-between">
-                    <a href="/employer/rejectHire/{{../resident._id}}/{{this._id}}"><button type="button"
+                    <a href="/clearance/rejectHire/{{../resident._id}}/{{this._id}}"><button type="button"
                             class="btn btn-danger mx-2">Reject Hire</button></a>
-                    <a href="/employer/hireResident/{{../resident._id}}/{{this._id}}"><button type="button"
+                    <a href="/clearance/hireResident/{{../resident._id}}/{{this._id}}"><button type="button"
                             class="btn btn-success mx-2">Hire Resident</button></a>
                 </div>
             </div>
@@ -386,7 +386,7 @@
 
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form method="POST" action="/employer/scheduleInterview/{{this._id}}">
+            <form method="POST" action="/clearance/scheduleInterview/{{this._id}}">
                 <div class="modal-body">
 
                     <div class="row mb-3">
@@ -424,8 +424,6 @@
                                 placeholder="optional"></textarea>
                         </div>
                     </div>
-
-
                 </div>
                 <div class="modal-footer">
                     <div class="col-12 d-flex justify-content-between">
@@ -445,7 +443,7 @@
 <div class="modal fade" id="terminate" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method="post" action="/employer/terminateResident/{{resident._id}}">
+            <form method="post" action="/clearance/terminateResident/{{resident._id}}">
                 <div class="modal-header">
                     <h5 class="modal-title">Terminate Employment</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

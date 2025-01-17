@@ -11,11 +11,11 @@ module.exports = {
   async dashboard(req, res) {
     try {
       const jobPool = req.session.resident.jobPool;
-      const residentID = req.session.resident._id;
+      const id = req.session.resident._id;
+      const residentID = req.session.resident.residentID;
 
+      //if resident has an approved resume, find jobs
       if (jobPool) {
-        //const jobs = await Jobs.find({ jobPool }).lean();
-
         const jobs = await Jobs.aggregate([
           {
             $match: {
@@ -27,10 +27,7 @@ module.exports = {
               residentInApplicants: {
                 $cond: {
                   if: {
-                    $in: [
-                      new mongoose.Types.ObjectId(residentID),
-                      "$applicants",
-                    ],
+                    $in: [new mongoose.Types.ObjectId(id), "$applicants"],
                   },
                   then: true,
                   else: false,
@@ -39,15 +36,52 @@ module.exports = {
             },
           },
         ]);
-
         const applicationCount = jobs.filter(
           (job) => job.residentInApplicants
         ).length;
+
+        //check for interviews
+        const interviews = await Jobs.aggregate([
+          {
+            $match: {
+              "interviews.residentID": residentID, // Match documents where interviews contain the specified residentID
+            },
+          },
+          {
+            $project: {
+              _id: 0, // Exclude the document's ObjectId
+              companyName: 1, // Include company name
+              position: 1, // Include position
+              interviews: {
+                $filter: {
+                  input: "$interviews",
+                  as: "interview",
+                  cond: { $eq: ["$$interview.residentID", residentID] }, // Filter interviews by residentID
+                },
+              },
+            },
+          },
+          {
+            $unwind: "$interviews", // Deconstruct the filtered interviews array into individual objects
+          },
+          {
+            $project: {
+              companyName: 1, // Include company name
+              position: 1, // Include position
+              "interviews.date": 1, // Include the date field
+              "interviews.time": 1, // Include the time field
+              "interviews.instructions": 1, // Include the instructions field
+            },
+          },
+        ]);
+
+        console.log(interviews);
 
         res.render("resident/dashboard", {
           user: req.session.resident,
           jobs,
           applicationCount,
+          interviews,
         });
       } else {
         const applicationCount = 0;
@@ -94,7 +128,6 @@ module.exports = {
       );
 
       let resident = await Resident.findOne({ _id: id }).lean();
-
       req.session.resident = resident;
       res.render("resident/profile", { user: req.session.resident });
     } catch (err) {
@@ -137,7 +170,7 @@ module.exports = {
   async jobInfo(req, res) {
     try {
       const { jobID } = req.params;
-      const residentID = req.session.resident._id;
+      const id = req.session.resident._id;
 
       let position = await Jobs.aggregate([
         {
@@ -150,7 +183,7 @@ module.exports = {
             residentInApplicants: {
               $cond: {
                 if: {
-                  $in: [new mongoose.Types.ObjectId(residentID), "$applicants"],
+                  $in: [new mongoose.Types.ObjectId(id), "$applicants"],
                 },
                 then: true,
                 else: false,

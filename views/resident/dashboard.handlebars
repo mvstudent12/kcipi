@@ -3,6 +3,7 @@
 <main id="main" class="main">
 
     <div class="pagetitle">
+
         <h1>Dashboard</h1>
         <nav>
             <ol class="breadcrumb">
@@ -94,6 +95,26 @@
                         </div>
                     </div><!-- End Customers Card -->
 
+                    {{#each interviews}}
+
+                    <div class="col-12">
+                        <div class="card recent-sales overflow-auto">
+                            <div class="card-body p-5 text-center">
+                                <h3 class="text-warning mb-3">You have an interview scheduled.</h3>
+                                <div>
+                                    <p> Please be ready for your interview with <span
+                                            class="text-capitalize text-info">{{this.companyName}}</span> at <span
+                                            class="text-success">{{this.interviews.time}}</span> on <span
+                                            class="text-success">{{formatDate this.interviews.date}}.</span></p>
+                                    {{#if this.interviews.instructions}}
+                                    <p>Additional Instructions: {{this.interviews.instructions}}</p>
+                                    {{/if}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/each}}
+
 
                     <!-- All Available Jobs -->
                     <div class="col-12">
@@ -120,7 +141,8 @@
                                         <tr>
                                             <th scope="row"><a href="/resident/jobInfo/{{this._id}}">{{add @index
                                                     1}}</a></th>
-                                            <td class="text-capitalize">{{this.companyName}}</td>
+                                            <td class="text-capitalize"><a
+                                                    href="/resident/jobInfo/{{this._id}}">{{this.companyName}}</a></td>
                                             <td class="text-capitalize"><a href="/resident/jobInfo/{{this._id}}"
                                                     class="text-primary">{{this.position}}</a></td>
                                             <td class="text-capitalize">{{formatDate this.dateCreated}}</td>
