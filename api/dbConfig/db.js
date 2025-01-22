@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
+require("dotenv").config();
 
-const dbURI =
-  "mongodb+srv://kcicodingdev:WWsgMyk4wiBt3Vze@kcipi.vkftg.mongodb.net/?retryWrites=true&w=majority&appName=kcipi"; //use for dev-production
+const dbURI = process.env.DB_URI;
 
 //"mongodb://localhost/kcipi"; //use for development
 mongoose

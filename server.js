@@ -1,4 +1,5 @@
 require("dotenv").config();
+const dbURI = process.env.DB_URI;
 
 const moment = require("moment");
 const path = require("path");
@@ -21,7 +22,7 @@ app.use(
     store: MongoStore.create({
       mongoUrl:
         // "mongodb://localhost/kcipi"
-        "mongodb+srv://kcicodingdev:WWsgMyk4wiBt3Vze@kcipi.vkftg.mongodb.net/?retryWrites=true&w=majority&appName=kcipi", // MongoDB URI
+        dbURI, // MongoDB URI
       collectionName: "sessions", // Collection name for storing sessions in MongoDB
     }),
     cookie: {
