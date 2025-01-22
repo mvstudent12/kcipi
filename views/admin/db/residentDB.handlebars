@@ -297,7 +297,7 @@
                                 </form>
                                 {{else}}
                                 <p class="text-primary">Search for a specific resident by entering their seven digit
-                                    resident ID number in the search box.</p>
+                                    resident ID number.</p>
                                 {{/if}}
                                 {{#if saveMsg}}
                                 <hr>
@@ -323,7 +323,7 @@
                                                         <th scope="col">ID #</th>
                                                         <th scope="col">Facility</th>
                                                         <th scope="col">Name</th>
-                                                        <th scope="col">Unit Team</th>
+                                                        <th scope="col">Out Date</th>
                                                         <th scope="col">Work Status</th>
                                                     </tr>
                                                 </thead>
@@ -337,11 +337,9 @@
                                                         <td class="text-capitalize"><a
                                                                 href="/clearance/residentProfile/{{this.residentID}}">{{this.firstName}}
                                                                 {{this.lastName}}</a></td>
-                                                        {{#if this.resume.unitTeam}}
-                                                        <td class="text-capitalize">{{this.resume.unitTeam}}</td>
-                                                        {{else}}
-                                                        <td class="text-capitalize">Not Assigned</td>
-                                                        {{/if}}
+
+                                                        <td class="text-capitalize">{{formatDate this.outDate}}</td>
+
                                                         {{#if this.isEligibleToWork}}
                                                         <td><span class="badge bg-success">Eligible</span></td>
                                                         {{else}}

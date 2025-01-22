@@ -25,24 +25,8 @@
                         <h6 class="text-capitalize">{{user.firstName}} {{user.lastName}}</h6>
                         <span id="userEmail">{{user.email}}</span>
                     </li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center" href="#">
-                            <i class="bi bi-person"></i>
-                            <span>My Profile</span>
-                        </a>
-                    </li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center" href="#">
-                            <i class="bi bi-gear"></i>
-                            <span>Account Settings</span>
-                        </a>
-                    </li>
+
+
                     <li>
                         <hr class="dropdown-divider">
                     </li>
@@ -78,34 +62,7 @@
             </a>
         </li><!-- End Dashboard Nav -->
 
-        <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-menu-button-wide"></i><span>Manage Database</span><i
-                    class="bi bi-chevron-down ms-auto"></i>
-            </a>
-            <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                <li>
-                    <a href="/admin/residentDB">
-                        <i class="bi bi-circle"></i><span>Residents</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="/admin/unitTeamDB">
-                        <i class="bi bi-circle"></i><span>Unit Team</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="/admin/employerDB">
-                        <i class="bi bi-circle"></i><span>Employer Contacts</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="/admin/companyDB">
-                        <i class="bi bi-circle"></i><span>Partners</span>
-                    </a>
-                </li>
-            </ul>
-        </li>
+
         {{!-- maybe add charts or something later --}}
         {{!-- <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
@@ -153,6 +110,34 @@
                     </a>
                 </li>
 
+            </ul>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-menu-button-wide"></i><span>Manage Database</span><i
+                    class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="/admin/residentDB">
+                        <i class="bi bi-circle"></i><span>Residents</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/admin/unitTeamDB">
+                        <i class="bi bi-circle"></i><span>Unit Team</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/admin/employerDB">
+                        <i class="bi bi-circle"></i><span>Employer Contacts</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/admin/companyDB">
+                        <i class="bi bi-circle"></i><span>Partners</span>
+                    </a>
+                </li>
             </ul>
         </li>
 
