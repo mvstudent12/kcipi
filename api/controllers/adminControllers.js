@@ -37,7 +37,6 @@ module.exports = {
         { $group: { _id: null, allResidents: { $push: "$applicants" } } }, // Collect all resident IDs, including duplicates
       ]).then((result) => {
         if (result.length !== 0) {
-          console.log(result);
           return (applicantIDs = result[0].allResidents);
         } else {
           return;
@@ -72,7 +71,6 @@ module.exports = {
         { $group: { _id: null, allResidents: { $push: "$applicants" } } }, // Collect all resident IDs, including duplicates
       ]).then((result) => {
         if (result.length !== 0) {
-          console.log(result);
           return (applicantIDs = result[0].allResidents);
         } else {
           return;

@@ -339,6 +339,9 @@
                                                                 {{this.lastName}}</a></td>
 
                                                         <td class="text-capitalize">{{formatDate this.outDate}}</td>
+                                                        {{#if this.isHired}}
+                                                        <td><span class="badge bg-info">Hired</span></td>
+                                                        {{else}}
 
                                                         {{#if this.isEligibleToWork}}
                                                         <td><span class="badge bg-success">Eligible</span></td>
@@ -349,6 +352,7 @@
 
                                                         <td><span class="badge bg-warning">Pending</span></td>
 
+                                                        {{/if}}
                                                         {{/if}}
                                                         {{/if}}
 

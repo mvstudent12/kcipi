@@ -75,8 +75,6 @@ module.exports = {
           },
         ]);
 
-        console.log(interviews);
-
         res.render("resident/dashboard", {
           user: req.session.resident,
           jobs,

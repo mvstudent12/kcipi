@@ -125,6 +125,9 @@
                                             {{/if}}
                                             {{/if}}
 
+                                            {{#if this.isHired}}
+                                            <td><span class="badge bg-info">Hired</span></td>
+                                            {{else}}
                                             {{#if this.isEligibleToWork}}
                                             <td><span class="badge bg-success">Eligible</span></td>
                                             {{else}}
@@ -132,6 +135,7 @@
                                             <td><span class="badge bg-danger">Restricted</span></td>
                                             {{else}}
                                             <td><span class="badge bg-secondary">None</span></td>
+                                            {{/if}}
                                             {{/if}}
                                             {{/if}}
 

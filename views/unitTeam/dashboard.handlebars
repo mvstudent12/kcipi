@@ -131,6 +131,9 @@
                                             {{/if}}
                                             {{/if}}
 
+                                            {{#if this.isHired}}
+                                            <td><span class="badge bg-info">Hired</span></td>
+                                            {{else}}
                                             {{#if this.isEligibleToWork}}
                                             <td><span class="badge bg-success">Eligible</span></td>
                                             {{else}}
@@ -138,6 +141,7 @@
                                             <td><span class="badge bg-danger">Restricted</span></td>
                                             {{else}}
                                             <td><span class="badge bg-secondary">None</span></td>
+                                            {{/if}}
                                             {{/if}}
                                             {{/if}}
 
@@ -151,7 +155,7 @@
                     </div><!-- End Residents Table -->
 
                     <!-- Resume Table -->
-                    <div class="col-12" id="resumeTable">
+                    <div class="col-12">
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
                                 <h5 class="card-title">Resumes <span>| To Approve</span></h5>
@@ -167,41 +171,26 @@
                                     </thead>
                                     <tbody>
                                         {{#each caseLoad}}
+                                        {{#unless this.resumeIsApproved}}
+                                        {{#if this.resumeIsComplete}}
                                         <tr>
                                             <th scope="row"><a
                                                     href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
                                             </th>
                                             <td class="text-capitalize">{{this.facility}}</td>
-                                            <td class="text-capitalize"><a
-                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.firstName}}
+                                            <td><a href="/clearance/residentProfile/{{this.residentID}}"
+                                                    class="text-primary text-capitalize">{{this.firstName}}
                                                     {{this.lastName}}</a></td>
-
-                                            {{#if this.resumeIsApproved}}
-                                            <td><span class="badge bg-success">Approved</span></td>
-                                            {{else}}
+                                            <td>{{formatDate this.resume.dateCreated}}</td>
                                             {{#if this.resumeRejectionReason}}
                                             <td><span class="badge bg-danger">Rejected</span></td>
                                             {{else}}
-                                            {{#if this.resumeIsComplete}}
                                             <td><span class="badge bg-warning">Pending</span></td>
-                                            {{else}}
-                                            <td><span class="badge bg-secondary">None</span></td>
-                                            {{/if}}
-                                            {{/if}}
-                                            {{/if}}
-
-                                            {{#if this.isEligibleToWork}}
-                                            <td><span class="badge bg-success">Eligible</span></td>
-                                            {{else}}
-                                            {{#if this.isRestrictedFromWork}}
-                                            <td><span class="badge bg-danger">Restricted</span></td>
-                                            {{else}}
-                                            <td><span class="badge bg-secondary">None</span></td>
-                                            {{/if}}
                                             {{/if}}
 
                                         </tr>
-
+                                        {{/if}}
+                                        {{/unless}}
                                         {{/each}}
                                     </tbody>
                                 </table>
