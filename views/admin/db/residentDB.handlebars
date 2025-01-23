@@ -14,36 +14,20 @@
 
     <section class="section profile">
         <div class="row">
-            <div class="col-xl-4">
-                <div class="card">
-                    <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-                        <h2 class="text-capitalize mb-3">Update Database</h2>
-                        <h3 class="text-muted">All KDOC Residents</h3>
-                        {{!-- UPDATE ALL RESIDENTS IN DB FORM --}}
-                        <div class="row mb-3 mt-3">
-                            <form action="/admin/updateAllResidentsDB" method="POST" enctype="multipart/form-data">
-                                <label class="col-form-label" for="csvfile">Import CSV File:</label>
-                                <input class="form-control mb-3" type="file" name="csvfile" id="csvfile" accept=".csv"
-                                    required>
-                                <button class="btn btn-danger" type="submit">Update</button>
-                                {{#if dataMSG}}
-                                <p class="text-warning mt-3">{{dataMSG}}</p>
-                                {{/if}}
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <div class="col-xl-8">
+            <div class="col-xl-12">
 
                 <div class="card">
                     <div class="card-body pt-3">
                         <!-- Bordered Tabs -->
                         <ul class="nav nav-tabs nav-tabs-bordered">
                             <li class="nav-item">
+                                <button class="nav-link {{#if (eq activeTab 'update')}}active{{/if}}"
+                                    data-bs-toggle="tab" data-bs-target="#update-db">Update Database</button>
+                            </li>
+                            <li class="nav-item">
                                 <button class="nav-link {{#if (eq activeTab 'add')}}active{{/if}}" data-bs-toggle="tab"
-                                    data-bs-target="#add-resident">Add resident</button>
+                                    data-bs-target="#add-resident">Add Resident</button>
                             </li>
                             <li class="nav-item">
                                 <button class="nav-link {{#if (eq activeTab 'edit')}}active{{/if}}" data-bs-toggle="tab"
@@ -58,6 +42,32 @@
                         </ul>
 
                         <div class="tab-content pt-2">
+                            {{!-- Update DB Tab --}}
+                            <div class="tab-pane fade {{#if (eq activeTab 'update')}}show active{{/if}} update-db pt-3"
+                                id="update-db">
+
+
+                                <h2 class="text-capitalize text-muted mb-3">Update KDOC Resident Database</h2>
+                                <hr class="mb-3">
+                                {{!-- <h5 class="text-muted">All KDOC Residents</h5> --}}
+                                {{!-- UPDATE ALL RESIDENTS IN DB FORM --}}
+                                <div class="row mb-3 mt-3">
+                                    <form action="/admin/updateAllResidentsDB" method="POST"
+                                        enctype="multipart/form-data">
+                                        <label class="col-form-label" for="csvfile">Choose a CSV File to Upload:</label>
+                                        <input class="form-control mb-3" type="file" name="csvfile" id="csvfile"
+                                            accept=".csv" required>
+                                        <hr>
+                                        <button class="btn btn-danger" type="submit">Update Database</button>
+                                        {{#if dataMSG}}
+                                        <hr>
+                                        <p class="text-success mt-3">{{dataMSG}}</p>
+                                        {{/if}}
+                                    </form>
+                                </div>
+
+                            </div>
+
                             {{!-- Add resident tab --}}
                             <div class="tab-pane fade {{#if (eq activeTab 'add')}}show active{{/if}} add-resident pt-3"
                                 id="add-resident">
@@ -130,7 +140,7 @@
                                     {{!-- Save Button --}}
                                     <hr>
                                     <div class="text-center">
-                                        <button type="submit" class="btn btn-primary mx-2">Add</button>
+                                        <button type="submit" class="btn btn-primary mx-2">Add Resident</button>
                                     </div>
                                 </form>
                                 {{#if addMsg}}
@@ -146,22 +156,10 @@
 
                                 {{!-- Resident Search Bar --}}
                                 <div class="row mb-3">
-                                    <label for="firstName" class="col-md-4 col-lg-3 col-form-label">Search
+                                    <label for="firstName" class="col-md-2 col-lg-2 col-form-label">Search By
                                         ID</label>
-                                    {{!-- <div class="col-md-8 col-lg-9">
-                                        <div class="search-bar">
-                                            <form class="search-form d-flex align-items-center" method="POST"
-                                                action="/admin/searchResidentID">
-                                                <input type="text" name="residentID" placeholder="Enter Resident ID"
-                                                    title="Enter Resident ID">
-                                                <button type="submit" title="Search"><i
-                                                        class="bi bi-search"></i></button>
-                                            </form>
-                                        </div>
-                                    </div> --}}
 
-
-                                    <div class="col-md-8 col-lg-9">
+                                    <div class="col-md-10 col-lg-10">
                                         <div class="search-bar">
                                             <form class="search-form d-flex align-items-center" method="POST"
                                                 action="/admin/searchResidentID">
@@ -175,19 +173,17 @@
                                                     <!-- Search Button -->
                                                     <button class="btn btn-primary" type="submit" id="searchButton"
                                                         title="Search">
-                                                        <i class="bi bi-search"></i> <!-- Bootstrap Search Icon -->
+                                                        <i class="bi bi-search"></i>
                                                     </button>
                                                 </div>
                                             </form>
                                         </div>
                                     </div>
-
-
-
                                 </div><!-- End Search Bar -->
+
                                 {{#if failedSearch}}
                                 <p class="text-danger">No residents found with this number.</p>
-                                <p class="text-danger">Make sure you enter a seven digit number.</p>
+                                <p class="text-danger">Make sure to enter a seven digit number.</p>
                                 {{/if}}
 
                                 {{#if residentFound}}
@@ -231,15 +227,18 @@
                                             <select required name="custodyLevel" class="form-select" id="custodyLevel">
 
                                                 <option value="Minimum 1" {{#if (eq
-                                                    residentFound.custodyLevel "minimum 1" ) }}selected{{/if}}>Minimum 1
+                                                    residentFound.custodyLevel "minimum 1" ) }}selected{{/if}}>
+                                                    Minimum 1
                                                 </option>
                                                 <option value="Minimum 2" {{#if (eq
-                                                    residentFound.custodyLevel "minimum 2" ) }}selected{{/if}}>Minimum 2
+                                                    residentFound.custodyLevel "minimum 2" ) }}selected{{/if}}>
+                                                    Minimum 2
                                                 </option>
                                                 <option value="Medium" {{#if (eq residentFound.custodyLevel "medium" )
                                                     }}selected{{/if}}>Medium</option>
                                                 <option value="Maximum" {{#if (eq residentFound.custodyLevel "maximum" )
-                                                    }}selected{{/if}}>Maximum</option>
+                                                    }}selected{{/if}}>search
+                                                </option>
                                             </select>
                                         </div>
                                     </div>
@@ -296,8 +295,8 @@
                                     </div>
                                 </form>
                                 {{else}}
-                                <p class="text-primary">Search for a specific resident by entering their seven digit
-                                    resident ID number.</p>
+                                <p class="text-primary text-center mt-5">Search for a specific resident by entering
+                                    their seven digit resident ID number.</p>
                                 {{/if}}
                                 {{#if saveMsg}}
                                 <hr>
@@ -306,7 +305,6 @@
                                 </p>
                                 {{/if}}
 
-                                <!--=============== Edit Resident Form============================ -->
                             </div>
 
                             {{!-- All Residents tab --}}
@@ -317,14 +315,14 @@
                                     <div class="card recent-sales overflow-auto">
                                         <div class="card-body">
                                             <h5 class="card-title">Residents <span>| All KDOC</span></h5>
-                                            <table class="table table-borderless datatable">
+                                            <table class="table table-borderless table-striped datatable">
                                                 <thead>
                                                     <tr>
                                                         <th scope="col">ID #</th>
                                                         <th scope="col">Facility</th>
                                                         <th scope="col">Name</th>
                                                         <th scope="col">Out Date</th>
-                                                        <th scope="col">Work Status</th>
+                                                        <th scope="col">Custody</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -339,25 +337,9 @@
                                                                 {{this.lastName}}</a></td>
 
                                                         <td class="text-capitalize">{{formatDate this.outDate}}</td>
-                                                        {{#if this.isHired}}
-                                                        <td><span class="badge bg-info">Hired</span></td>
-                                                        {{else}}
-
-                                                        {{#if this.isEligibleToWork}}
-                                                        <td><span class="badge bg-success">Eligible</span></td>
-                                                        {{else}}
-                                                        {{#if this.isRestrictedFromWork}}
-                                                        <td><span class="badge bg-danger">Restricted</span></td>
-                                                        {{else}}
-
-                                                        <td><span class="badge bg-warning">Pending</span></td>
-
-                                                        {{/if}}
-                                                        {{/if}}
-                                                        {{/if}}
-
+                                                        <td><span class="text-capitalize">{{this.custodyLevel}}</span>
+                                                        </td>
                                                     </tr>
-
                                                     {{/each}}
                                                 </tbody>
                                             </table>

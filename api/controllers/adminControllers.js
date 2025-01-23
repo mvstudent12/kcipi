@@ -423,7 +423,7 @@ module.exports = {
   async residentDB(req, res) {
     try {
       const residents = await Resident.find().lean();
-      const activeTab = "add";
+      const activeTab = "update";
       res.render("admin/db/residentDB", {
         user: req.session.user,
         activeTab,
@@ -434,8 +434,8 @@ module.exports = {
     }
   },
   async updateAllResidentsDB(req, res) {
-    //BE CAREFUL - THIS IS OVERWRITE ALL RESIDENT DATA NEED TO ALTER SO IT ONLY UPDATES!!
     try {
+      const activeTab = "update";
       const filePath = path.join(__dirname, "../../uploads", req.file.filename);
 
       // Parse the CSV and populate the database
@@ -445,6 +445,7 @@ module.exports = {
         "lastName",
         "residentID",
         "custodyLevel",
+        "outDate",
         "facility",
       ];
       fs.createReadStream(filePath)
@@ -471,19 +472,32 @@ module.exports = {
               res.render("admin/db/residentDB", {
                 user: req.session.user,
                 dataMSG,
+                activeTab,
               });
             } else {
-              await Resident.collection.drop();
-              console.log("Resident Collection dropped");
-              // Insert parsed CSV data into MongoDB
-              await Resident.insertMany(results);
-              console.log("CSV data has been inserted into the database.");
-              const dataMSG = "Resident Database successfully updated.";
+              // Update or insert residents based on residentID
+              for (const residentData of results) {
+                await Resident.findOneAndUpdate(
+                  { residentID: residentData.residentID }, // Find resident by residentID
+                  residentData, // Update with new data
+                  { upsert: true } // Create a new document if it doesn't exist
+                );
+              }
+              console.log(
+                "Resident data has been updated or inserted into the database."
+              );
+              // Optionally, remove residents not in the CSV
+              const residentIDs = results.map((r) => r.residentID);
+              await Resident.deleteMany({ residentID: { $nin: residentIDs } });
+
+              const dataMSG = "Residents successfully updated.";
               const residents = await Resident.find().lean();
+
               res.render("admin/db/residentDB", {
                 user: req.session.user,
                 dataMSG,
                 residents,
+                activeTab,
               });
             }
           } catch (err) {
