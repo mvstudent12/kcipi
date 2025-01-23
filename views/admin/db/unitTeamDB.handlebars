@@ -14,18 +14,18 @@
 
     <section class="section profile">
         <div class="row">
-            <div class="col-xl-4">
+            {{!-- <div class="col-xl-4">
                 <div class="card">
                     <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
                         <img src="/assets/img/employer.png" alt="Profile" class="rounded-circle">
-                        <h2 class="text-capitalize mb-3">Unit Team Database</h2>
+                        <h2 class="text-capitalize mb-3">UTM Database</h2>
                         <h3>KDOC Employees</h3>
 
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
-            <div class="col-xl-8">
+            <div class="col-12">
 
                 <div class="card">
                     <div class="card-body pt-3">
@@ -53,206 +53,226 @@
                             {{!-- Add Unit Team Tab --}}
                             <div class="tab-pane fade {{#if (eq activeTab 'add')}}show active{{/if}} add-unitTeam pt-3"
                                 id="add-unitTeam">
-                                <form method="POST" action="/admin/addUnitTeam">
+                                <div class="card">
+                                    <div class="card-body pt-3">
+                                        <form method="POST" action="/admin/addUnitTeam">
 
-                                    {{!-- unitTeam first name --}}
-                                    <div class="row mb-3">
-                                        <label for="firstName" class="col-md-4 col-lg-4 col-form-label">First
-                                            Name</label>
-                                        <div class="col-md-8 col-lg-8">
-                                            <input required name="firstName" type="text"
-                                                class="form-control text-capitalize" id="firstName">
-                                        </div>
-                                    </div>
-                                    {{!-- unitTeam last name--}}
-                                    <div class="row mb-3">
-                                        <label for="lastName" class="col-md-4 col-lg-4 col-form-label">Last Name</label>
-                                        <div class="col-md-8 col-lg-8">
-                                            <input required name="lastName" type="text"
-                                                class="form-control text-capitalize" id="lastName">
-                                        </div>
-                                    </div>
+                                            {{!-- unitTeam first name --}}
+                                            <div class="row mb-3">
+                                                <label for="firstName" class="col-md-3 col-lg-3 col-form-label">First
+                                                    Name</label>
+                                                <div class="col-md-8 col-lg-8">
+                                                    <input required name="firstName" type="text"
+                                                        class="form-control text-capitalize" id="firstName">
+                                                </div>
+                                            </div>
+                                            {{!-- unitTeam last name--}}
+                                            <div class="row mb-3">
+                                                <label for="lastName" class="col-md-3 col-lg-3 col-form-label">Last
+                                                    Name</label>
+                                                <div class="col-md-8 col-lg-8">
+                                                    <input required name="lastName" type="text"
+                                                        class="form-control text-capitalize" id="lastName">
+                                                </div>
+                                            </div>
 
-                                    {{!-- unitTeam email --}}
-                                    <div class="row mb-3">
-                                        <label for="email" class="col-md-4 col-lg-4 col-form-label">Email</label>
-                                        <div class="col-md-8 col-lg-8">
-                                            <input required name="email" type="email" class="form-control" id="email">
-                                        </div>
-                                    </div>
+                                            {{!-- unitTeam email --}}
+                                            <div class="row mb-3">
+                                                <label for="email"
+                                                    class="col-md-3 col-lg-3 col-form-label">Email</label>
+                                                <div class="col-md-8 col-lg-8">
+                                                    <input required name="email" type="email" class="form-control"
+                                                        id="email">
+                                                </div>
+                                            </div>
 
-                                    {{!-- unitTeam Password --}}
-                                    <div class="row mb-3">
-                                        <label for="password" class="col-md-4 col-lg-4 col-form-label">Password</label>
-                                        <div class="col-md-8 col-lg-8">
-                                            <input required name="password" type="text" class="form-control"
-                                                id="password">
-                                        </div>
-                                    </div>
-                                    {{!-- unitTeam Facility --}}
-                                    <div class="row mb-3">
-                                        <label for="facility" class="col-md-4 col-lg-4 col-form-label">Facility</label>
-                                        <div class="col-md-8 col-lg-8">
-                                            <select required name="facility" id="facility" class="form-select"
-                                                aria-label="Facility Options">
-                                                <option selected value="">Select Facility:
-                                                </option>
-                                                <option value="El Dorado">El Dorado</option>
-                                                <option value="Ellsworth">Ellsworth</option>
-                                                <option value="Hutchinson">Hutchinson</option>
-                                                <option value="Lansing">Lansing</option>
-                                                <option value="Larned">Larned</option>
-                                                <option value="Norton">Norton</option>
-                                                <option value="Topeka">Topeka</option>
-                                                <option value="Winfield">Winfield</option>
-                                                <option value="Wichita">Wichita</option>
+                                            {{!-- unitTeam Password --}}
+                                            <div class="row mb-3">
+                                                <label for="password"
+                                                    class="col-md-3 col-lg-3 col-form-label">Password</label>
+                                                <div class="col-md-8 col-lg-8">
+                                                    <input required name="password" type="text" class="form-control"
+                                                        id="password">
+                                                </div>
+                                            </div>
+                                            {{!-- unitTeam Facility --}}
+                                            <div class="row mb-3">
+                                                <label for="facility"
+                                                    class="col-md-3 col-lg-3 col-form-label">Facility</label>
+                                                <div class="col-md-8 col-lg-8">
+                                                    <select required name="facility" id="facility" class="form-select"
+                                                        aria-label="Facility Options">
+                                                        <option selected value="">Select Facility:
+                                                        </option>
+                                                        <option value="El Dorado">El Dorado</option>
+                                                        <option value="Ellsworth">Ellsworth</option>
+                                                        <option value="Hutchinson">Hutchinson</option>
+                                                        <option value="Lansing">Lansing</option>
+                                                        <option value="Larned">Larned</option>
+                                                        <option value="Norton">Norton</option>
+                                                        <option value="Topeka">Topeka</option>
+                                                        <option value="Winfield">Winfield</option>
+                                                        <option value="Wichita">Wichita</option>
 
-                                            </select>
-                                        </div>
-                                    </div>
+                                                    </select>
+                                                </div>
+                                            </div>
 
-                                    {{!-- Save Button --}}
-                                    <hr>
-                                    <div class="text-center">
-                                        <button type="submit" class="btn btn-primary mx-2">Add</button>
+                                            {{!-- Save Button --}}
+                                            <hr>
+                                            <div class="text-center">
+                                                <button type="submit" class="btn btn-primary mx-2">Add Member</button>
+                                            </div>
+                                        </form>
+                                        {{#if addMsg}}
+                                        <hr>
+                                        <p class="text-success text-center fst-italic mt-3">New member added
+                                            successfully.</p>
+                                        {{/if}}
                                     </div>
-                                </form>
-                                {{#if addMsg}}
-                                <hr>
-                                <p class="text-success text-center fst-italic mt-3">New member added successfully.</p>
-                                {{/if}}
+                                </div>
                             </div>
 
                             {{!-- Edit Existing Unit Team Tab --}}
                             <div class="tab-pane fade {{#if (eq activeTab 'edit')}}show active{{/if}} edit-unitTeam pt-3"
                                 id="edit-unitTeam">
+                                <div class="card">
+                                    <div class="card-body pt-3">
 
-                                {{!-- Unit Team Search Bar --}}
-                                <div class="row mb-3">
-                                    <label for="unitTeamList" class="col-md-4 col-lg-4 col-form-label">Unit Team
-                                        Name</label>
-                                    <div class="col-md-8 col-lg-8">
-                                        <div class="search-bar">
-                                            <form class="search-form d-flex align-items-center" method="POST"
-                                                action="/admin/searchUnitTeamName">
+                                        {{!-- Unit Team Search Bar --}}
+                                        <div class="row mb-3">
+                                            <label for="unitTeamList" class="col-md-4 col-lg-4 col-form-label">Unit Team
+                                                Name</label>
+                                            <div class="col-md-8 col-lg-8">
+                                                <div class="search-bar">
+                                                    <form class="search-form d-flex align-items-center" method="POST"
+                                                        action="/admin/searchUnitTeamName">
 
-                                                <div class="input-group">
-                                                    <select required name="unitTeamID" id="unitTeamList"
-                                                        class="form-select text-capitalize"
-                                                        aria-label="Select Unit Team">
-                                                        <option selected value="">Select Unit Team:
-                                                        </option>
-                                                        {{#each unitTeam}}
-                                                        <option class="text-capitalize" value="{{this._id}}">
-                                                            {{this.firstName}} {{this.lastName}} - {{this.facility}}
-                                                        </option>
-                                                        {{/each}}
-                                                    </select>
-                                                    <!-- Search Button -->
-                                                    <button class="btn btn-primary" type="submit" id="searchButton"
-                                                        title="Search">
-                                                        <i class="bi bi-search"></i> <!-- Bootstrap Search Icon -->
-                                                    </button>
+                                                        <div class="input-group">
+                                                            <select required name="unitTeamID" id="unitTeamList"
+                                                                class="form-select text-capitalize"
+                                                                aria-label="Select Unit Team">
+                                                                <option selected value="">Select Unit Team:
+                                                                </option>
+                                                                {{#each unitTeam}}
+                                                                <option class="text-capitalize" value="{{this._id}}">
+                                                                    {{this.firstName}} {{this.lastName}} -
+                                                                    {{this.facility}}
+                                                                </option>
+                                                                {{/each}}
+                                                            </select>
+                                                            <!-- Search Button -->
+                                                            <button class="btn btn-primary" type="submit"
+                                                                id="searchButton" title="Search">
+                                                                <i class="bi bi-search"></i>
+                                                                <!-- Bootstrap Search Icon -->
+                                                            </button>
+                                                        </div>
+                                                    </form>
                                                 </div>
-                                            </form>
-                                        </div>
+                                            </div>
+                                        </div><!-- End Search Bar -->
+
+
+                                        {{#if unitTeamFound}}
+                                        <!--=============== Edit Unit Team Form =========================== -->
+                                        <hr>
+                                        <form method="POST" action="/admin/saveUnitTeamEdit">
+                                            <input type="hidden" name="id" value="{{unitTeamFound._id}}">
+                                            {{!-- unitTeam firstName --}}
+                                            <div class="row mb-3">
+                                                <label for="firstName" class="col-md-4 col-lg-4 col-form-label">First
+                                                    Name</label>
+                                                <div class="col-md-8 col-lg-8">
+                                                    <input name="firstName" type="text"
+                                                        class="form-control text-capitalize" id="editfirstName"
+                                                        value="{{unitTeamFound.firstName}}">
+                                                </div>
+                                            </div>
+                                            {{!-- unitTeam lastName --}}
+                                            <div class="row mb-3">
+                                                <label for="lastName" class="col-md-4 col-lg-4 col-form-label">Last
+                                                    Name</label>
+                                                <div class="col-md-8 col-lg-8">
+                                                    <input name="lastName" type="text"
+                                                        class="form-control text-capitalize" id="editLastName"
+                                                        value="{{unitTeamFound.lastName}}">
+                                                </div>
+                                            </div>
+                                            {{!-- !!!!!Create a password change functionality later!!!!! --}}
+                                            {{!-- unitTeam password --}}
+                                            {{!-- <div class="row mb-3">
+                                                <label for="password"
+                                                    class="col-md-4 col-lg-4 col-form-label">Password</label>
+                                                <div class="col-md-8 col-lg-8">
+                                                    <input name="password" type="text"
+                                                        class="form-control text-capitalize" id="editPassword">
+                                                </div>
+                                            </div> --}}
+
+                                            {{!-- unitTeam email --}}
+                                            <div class="row mb-3">
+                                                <label for="email" class="col-md-4 col-lg-4 col-form-label">
+                                                    Email</label>
+                                                <div class="col-md-8 col-lg-8">
+                                                    <input name="email" type="text" class="form-control" id="email"
+                                                        value="{{unitTeamFound.email}}">
+                                                </div>
+                                            </div>
+                                            {{!-- unitTeam Facility --}}
+                                            <div class="row mb-3">
+                                                <label for="facility"
+                                                    class="col-md-4 col-lg-4 col-form-label">Facility</label>
+                                                <div class="col-md-8 col-lg-8">
+
+                                                    <select required name="facility" id="facilityEdit"
+                                                        class="form-select" aria-label="Facility Options">
+                                                        <option {{#if (eq unitTeamFound.facility "El Dorado" )
+                                                            }}selected{{/if}} value="El Dorado">El Dorado</option>
+                                                        <option {{#if (eq unitTeamFound.facility "Ellsworth" )
+                                                            }}selected{{/if}} value="Ellsworth">Ellsworth</option>
+                                                        <option {{#if (eq unitTeamFound.facility "Hutchinson" )
+                                                            }}selected{{/if}} value="Hutchinson">Hutchinson</option>
+                                                        <option {{#if (eq unitTeamFound.facility "Lansing" )
+                                                            }}selected{{/if}} value="Lansing">Lansing</option>
+                                                        <option {{#if (eq unitTeamFound.facility "Larned" )
+                                                            }}selected{{/if}} value="Larned">Larned</option>
+                                                        <option {{#if (eq unitTeamFound.facility "Norton" )
+                                                            }}selected{{/if}} value="Norton">Norton</option>
+                                                        <option {{#if (eq unitTeamFound.facility "Topeka" )
+                                                            }}selected{{/if}} value="Topeka">Topeka</option>
+                                                        <option {{#if (eq unitTeamFound.facility "Winfield" )
+                                                            }}selected{{/if}} value="Winfield">Winfield</option>
+                                                        <option {{#if (eq unitTeamFound.facility "Wichita" )
+                                                            }}selected{{/if}} value="Wichita">Wichita</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            {{!-- Save Button --}}
+                                            <hr>
+                                            <div class="d-flex justify-content-between mt-3">
+                                                <!-- Save Button (Left) -->
+                                                {{!-- !!!!!!!!!!!ADD THIS FUNCTIONALITY LATER!!!!!!!!! --}}
+                                                <button type="button" class="btn btn-danger mx-2">Delete Member</button>
+
+                                                <!-- Edit Button (Right) -->
+                                                <button type="submit" class="btn btn-primary mx-2">Save Edit</button>
+                                            </div>
+                                        </form>
+
+                                        {{/if}}
+                                        {{#if saveMsg}}
+                                        <hr>
+                                        <p class="text-success text-center fst-italic mt-3">Your edits have been saved
+                                            successfully.
+                                        </p>
+                                        {{/if}}
+
+
+                                        <!--=============== Edit unitTeam Form============================ -->
                                     </div>
-                                </div><!-- End Search Bar -->
-
-
-                                {{#if unitTeamFound}}
-                                <!--=============== Edit Unit Team Form =========================== -->
-                                <hr>
-                                <form method="POST" action="/admin/saveUnitTeamEdit">
-                                    <input type="hidden" name="id" value="{{unitTeamFound._id}}">
-                                    {{!-- unitTeam firstName --}}
-                                    <div class="row mb-3">
-                                        <label for="firstName" class="col-md-4 col-lg-4 col-form-label">First
-                                            Name</label>
-                                        <div class="col-md-8 col-lg-8">
-                                            <input name="firstName" type="text" class="form-control text-capitalize"
-                                                id="editfirstName" value="{{unitTeamFound.firstName}}">
-                                        </div>
-                                    </div>
-                                    {{!-- unitTeam lastName --}}
-                                    <div class="row mb-3">
-                                        <label for="lastName" class="col-md-4 col-lg-4 col-form-label">Last
-                                            Name</label>
-                                        <div class="col-md-8 col-lg-8">
-                                            <input name="lastName" type="text" class="form-control text-capitalize"
-                                                id="editLastName" value="{{unitTeamFound.lastName}}">
-                                        </div>
-                                    </div>
-                                    {{!-- !!!!!Create a password change functionality later!!!!! --}}
-                                    {{!-- unitTeam password --}}
-                                    {{!-- <div class="row mb-3">
-                                        <label for="password" class="col-md-4 col-lg-4 col-form-label">Password</label>
-                                        <div class="col-md-8 col-lg-8">
-                                            <input name="password" type="text" class="form-control text-capitalize"
-                                                id="editPassword">
-                                        </div>
-                                    </div> --}}
-
-                                    {{!-- unitTeam email --}}
-                                    <div class="row mb-3">
-                                        <label for="email" class="col-md-4 col-lg-4 col-form-label">
-                                            Email</label>
-                                        <div class="col-md-8 col-lg-8">
-                                            <input name="email" type="text" class="form-control" id="email"
-                                                value="{{unitTeamFound.email}}">
-                                        </div>
-                                    </div>
-                                    {{!-- unitTeam Facility --}}
-                                    <div class="row mb-3">
-                                        <label for="facility" class="col-md-4 col-lg-4 col-form-label">Facility</label>
-                                        <div class="col-md-8 col-lg-8">
-
-                                            <select required name="facility" id="facilityEdit" class="form-select"
-                                                aria-label="Facility Options">
-                                                <option {{#if (eq unitTeamFound.facility "El Dorado" ) }}selected{{/if}}
-                                                    value="El Dorado">El Dorado</option>
-                                                <option {{#if (eq unitTeamFound.facility "Ellsworth" ) }}selected{{/if}}
-                                                    value="Ellsworth">Ellsworth</option>
-                                                <option {{#if (eq unitTeamFound.facility "Hutchinson" )
-                                                    }}selected{{/if}} value="Hutchinson">Hutchinson</option>
-                                                <option {{#if (eq unitTeamFound.facility "Lansing" ) }}selected{{/if}}
-                                                    value="Lansing">Lansing</option>
-                                                <option {{#if (eq unitTeamFound.facility "Larned" ) }}selected{{/if}}
-                                                    value="Larned">Larned</option>
-                                                <option {{#if (eq unitTeamFound.facility "Norton" ) }}selected{{/if}}
-                                                    value="Norton">Norton</option>
-                                                <option {{#if (eq unitTeamFound.facility "Topeka" ) }}selected{{/if}}
-                                                    value="Topeka">Topeka</option>
-                                                <option {{#if (eq unitTeamFound.facility "Winfield" ) }}selected{{/if}}
-                                                    value="Winfield">Winfield</option>
-                                                <option {{#if (eq unitTeamFound.facility "Wichita" ) }}selected{{/if}}
-                                                    value="Wichita">Wichita</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    {{!-- Save Button --}}
-                                    <hr>
-                                    <div class="d-flex justify-content-between mt-3">
-                                        <!-- Save Button (Left) -->
-                                        {{!-- !!!!!!!!!!!ADD THIS FUNCTIONALITY LATER!!!!!!!!! --}}
-                                        <button type="button" class="btn btn-danger mx-2">Delete Member</button>
-
-                                        <!-- Edit Button (Right) -->
-                                        <button type="submit" class="btn btn-primary mx-2">Save Edit</button>
-                                    </div>
-                                </form>
-
-                                {{/if}}
-                                {{#if saveMsg}}
-                                <hr>
-                                <p class="text-success text-center fst-italic mt-3">Your edits have been saved
-                                    successfully.
-                                </p>
-                                {{/if}}
-
-
-                                <!--=============== Edit unitTeam Form============================ -->
+                                </div>
                             </div>
 
                             {{!-- All Unit Team tab --}}

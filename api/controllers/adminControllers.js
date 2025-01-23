@@ -196,11 +196,15 @@ module.exports = {
     try {
       const id = req.params.id;
       const company = await Company.findById(id).lean();
+      const companyName = company.companyName;
+      const positions = await Jobs.find({ companyName }).lean();
+      console.log(positions);
       const activeTab = "overview";
       res.render("admin/profiles/companyProfile", {
         user: req.session.user,
         company,
         activeTab,
+        positions,
       });
     } catch (err) {
       console.log(err);
