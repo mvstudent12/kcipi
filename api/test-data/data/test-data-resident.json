@@ -319,5 +319,179 @@
     "unitTeam": "",
     "facility": "Lansing",
     "outDate": "2039-01-02"
+  },
+  {
+    "firstName": "Daniel",
+    "lastName": "Morris",
+    "residentID": "7648392",
+    "facility": "Topeka",
+    "outDate": "2033-08-15",
+    "custodyLevel": "minimum 1"
+  },
+  {
+    "firstName": "Ella",
+    "lastName": "Mitchell",
+    "residentID": "8473921",
+    "facility": "Lansing",
+    "outDate": "2037-04-30",
+    "custodyLevel": "minimum 2",
+    "unitTeam": ""
+  },
+  {
+    "firstName": "Liam",
+    "lastName": "Carter",
+    "residentID": "9823745",
+    "facility": "Topeka",
+    "outDate": "2032-01-19",
+    "custodyLevel": "minimum 1"
+  },
+  {
+    "firstName": "Grace",
+    "lastName": "Fisher",
+    "residentID": "2847301",
+    "facility": "Lansing",
+    "outDate": "2030-07-23",
+    "custodyLevel": "medium",
+    "unitTeam": ""
+  },
+  {
+    "firstName": "Jack",
+    "lastName": "Perry",
+    "residentID": "4782039",
+    "facility": "Topeka",
+    "outDate": "2035-12-10",
+    "custodyLevel": "minimum 1",
+    "unitTeam": ""
+  },
+  {
+    "firstName": "Olivia",
+    "lastName": "Hunter",
+    "residentID": "3948127",
+    "facility": "Lansing",
+    "outDate": "2036-09-18",
+    "custodyLevel": "minimum 2",
+    "unitTeam": ""
+  },
+  {
+    "firstName": "Benjamin",
+    "lastName": "Stone",
+    "residentID": "5648293",
+    "facility": "Topeka",
+    "outDate": "2034-05-11",
+    "custodyLevel": "minimum 1"
+  },
+  {
+    "firstName": "Sophia",
+    "lastName": "Bell",
+    "residentID": "7234891",
+    "facility": "Lansing",
+    "outDate": "2028-03-25",
+    "custodyLevel": "medium",
+    "unitTeam": ""
+  },
+  {
+    "firstName": "Ethan",
+    "lastName": "Coleman",
+    "residentID": "8392047",
+    "facility": "Topeka",
+    "outDate": "2041-02-07",
+    "custodyLevel": "minimum 1"
+  },
+  {
+    "firstName": "Mia",
+    "lastName": "Collins",
+    "residentID": "4857612",
+    "facility": "Lansing",
+    "outDate": "2040-06-29",
+    "custodyLevel": "minimum 2",
+    "unitTeam": ""
+  },
+  {
+    "firstName": "Lucas",
+    "lastName": "Ford",
+    "residentID": "9403872",
+    "facility": "Topeka",
+    "outDate": "2039-10-03",
+    "custodyLevel": "minimum 1",
+    "unitTeam": ""
+  },
+  {
+    "firstName": "Avery",
+    "lastName": "Parker",
+    "residentID": "8472903",
+    "facility": "Lansing",
+    "outDate": "2038-12-05",
+    "custodyLevel": "medium",
+    "unitTeam": ""
+  },
+  {
+    "firstName": "Henry",
+    "lastName": "Turner",
+    "residentID": "2039481",
+    "facility": "Topeka",
+    "outDate": "2037-08-14",
+    "custodyLevel": "minimum 1"
+  },
+  {
+    "firstName": "Emma",
+    "lastName": "Anderson",
+    "residentID": "4938021",
+    "facility": "Lansing",
+    "outDate": "2035-11-17",
+    "custodyLevel": "medium",
+    "unitTeam": ""
+  },
+  {
+    "firstName": "Mason",
+    "lastName": "Brooks",
+    "residentID": "8472034",
+    "facility": "Topeka",
+    "outDate": "2034-03-09",
+    "custodyLevel": "minimum 1",
+    "unitTeam": ""
+  },
+  {
+    "firstName": "Harper",
+    "lastName": "Reed",
+    "residentID": "9384725",
+    "facility": "Lansing",
+    "outDate": "2043-01-20",
+    "custodyLevel": "minimum 2",
+    "unitTeam": ""
+  },
+  {
+    "firstName": "James",
+    "lastName": "Wright",
+    "residentID": "5839274",
+    "facility": "Topeka",
+    "outDate": "2032-06-13",
+    "custodyLevel": "minimum 1"
+  },
+  {
+    "firstName": "Lily",
+    "lastName": "Evans",
+    "residentID": "7482035",
+    "facility": "Lansing",
+    "outDate": "2029-09-16",
+    "custodyLevel": "medium",
+    "unitTeam": ""
+  },
+  {
+    "firstName": "Elijah",
+    "lastName": "Hughes",
+    "residentID": "8392043",
+    "facility": "Topeka",
+    "outDate": "2038-04-21",
+    "custodyLevel": "minimum 1",
+    "unitTeam": ""
+  },
+  {
+    "firstName": "Scarlett",
+    "lastName": "King",
+    "residentID": "4839207",
+    "facility": "Lansing",
+    "outDate": "2033-10-18",
+    "custodyLevel": "minimum 2",
+    "unitTeam": ""
   }
 ]

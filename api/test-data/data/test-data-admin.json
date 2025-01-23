@@ -1,5 +1,26 @@
 [
   {
+    "firstName": "Heidi",
+    "lastName": "Chiles",
+    "email": "heidi.chiles@ks.gov",
+    "password": "password",
+    "role": "admin"
+  },
+  {
+    "firstName": "Richard",
+    "lastName": "O'Donnell",
+    "email": "richard.odonnell@ks.gov",
+    "password": "password",
+    "role": "admin"
+  },
+  {
+    "firstName": "Karola",
+    "lastName": "Karlin",
+    "email": "karola.karlin1@ks.gov",
+    "password": "password",
+    "role": "admin"
+  },
+  {
     "firstName": "Alice",
     "lastName": "Johnson",
     "email": "alice.johnson@ks.gov",
