@@ -8,6 +8,7 @@ module.exports = {
   async dashboard(req, res) {
     try {
       const email = req.session.user.email;
+      //find caseload specific to UTM
       const caseLoad = await Resident.find({
         "resume.unitTeam": email,
       }).lean();
@@ -34,6 +35,9 @@ module.exports = {
         { _id: { $in: applicantIDs } },
         "firstName lastName facility residentID custodyLevel"
       ).lean();
+
+      //find all residents who are actively hired
+      const employees = await Resident.find({});
 
       res.render("unitTeam/dashboard", {
         user: req.session.user,

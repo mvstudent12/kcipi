@@ -198,7 +198,6 @@ module.exports = {
       const company = await Company.findById(id).lean();
       const companyName = company.companyName;
       const positions = await Jobs.find({ companyName }).lean();
-      console.log(positions);
       const activeTab = "overview";
       res.render("admin/profiles/companyProfile", {
         user: req.session.user,
@@ -212,29 +211,39 @@ module.exports = {
   },
   async addNewPosition(req, res) {
     try {
-      const { id, position, description, pay, jobPool, availablePositions } =
-        req.body;
-      const newPosition = await Company.updateOne(
-        { _id: id },
-        {
-          $push: {
-            jobs: {
-              position: position,
-              description: description,
-              pay: pay,
-              jobPool: jobPool,
-              availablePositions: availablePositions,
-              isAvailable: true,
-            },
-          },
-        }
-      );
-      const company = await Company.findById(id).lean();
+      const {
+        companyID,
+        companyName,
+        position,
+        description,
+        pay,
+        jobPool,
+        availablePositions,
+        facility,
+      } = req.body;
+
+      const newJob = await Jobs.create({
+        companyID,
+        companyName,
+        position,
+        description,
+        pay,
+        availablePositions: Number(availablePositions), // Ensure this is a number
+        jobPool,
+        facility,
+      });
+
+      const company = await Company.findOne({
+        companyName: companyName,
+      }).lean();
+      const positions = await Jobs.find({ companyID }).lean();
+
       const activeTab = "positions";
       res.render("admin/profiles/companyProfile", {
         user: req.session.user,
         company,
         activeTab,
+        positions,
       });
     } catch (err) {
       console.log(err);
@@ -551,6 +560,7 @@ module.exports = {
         }
         const activeTab = "edit";
         const residents = await Resident.find().lean();
+
         res.render("admin/db/residentDB", {
           user: req.session.user,
           residentFound,

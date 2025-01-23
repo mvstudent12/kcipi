@@ -258,7 +258,7 @@
                                                             Medium</option>
                                                         <option value="Maximum" {{#if (eq
                                                             residentFound.custodyLevel "maximum" ) }}selected{{/if}}>
-                                                            search
+                                                            Maximum
                                                         </option>
                                                     </select>
                                                 </div>
@@ -300,10 +300,12 @@
                                                     <select required name="unitTeam" id="unitTeamList"
                                                         class="form-select text-capitalize"
                                                         aria-label="Select Unit Team">
-                                                        <option selected value="">Select Unit Team:
+                                                        <option {{#if ../residentFound.resume.unitTeam}} selected
+                                                            {{/if}}value="">Select Unit Team:
                                                         </option>
                                                         {{#each unitTeam}}
-                                                        <option class="text-capitalize"
+                                                        <option {{#if (eq ../residentFound.resume.unitTeam this.email)}}
+                                                            selected {{/if}}class="text-capitalize"
                                                             value="{{this.firstName}} {{this.lastName}}">
                                                             {{this.firstName}} {{this.lastName}} - {{this.facility}}
                                                         </option>

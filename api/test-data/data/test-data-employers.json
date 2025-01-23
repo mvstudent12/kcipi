@@ -3,7 +3,7 @@
     "firstName": "lucas",
     "lastName": "harris",
     "email": "lucas.harris@ks.gov",
-    "password": "asd",
+    "password": "password",
     "role": "employer",
     "companyName": "impact design",
     "facility": "El Dorado"
@@ -12,7 +12,7 @@
     "firstName": "emily",
     "lastName": "davis",
     "email": "emily.davis@ks.gov",
-    "password": "asd",
+    "password": "password",
     "role": "employer",
     "companyName": "pioneer ballons",
     "facility": "El Dorado"
@@ -21,7 +21,7 @@
     "firstName": "sophia",
     "lastName": "martin",
     "email": "sophia.martin@ks.gov",
-    "password": "asd",
+    "password": "password",
     "role": "employer",
     "companyName": "great plains",
     "facility": "Ellsworth"
@@ -30,7 +30,7 @@
     "firstName": "james",
     "lastName": "wilson",
     "email": "james.wilson@ks.gov",
-    "password": "asd",
+    "password": "password",
     "role": "employer",
     "companyName": "moly manufacturing",
     "facility": "Ellsworth"
@@ -39,7 +39,7 @@
     "firstName": "oliver",
     "lastName": "brown",
     "email": "oliver.brown@ks.gov",
-    "password": "asd",
+    "password": "password",
     "role": "employer",
     "companyName": "pkm steel",
     "facility": "Ellsworth"
@@ -48,7 +48,7 @@
     "firstName": "ella",
     "lastName": "rodriguez",
     "email": "ella.rodriguez@ks.gov",
-    "password": "asd",
+    "password": "password",
     "role": "employer",
     "companyName": "maico industries inc.",
     "facility": "Ellsworth"
@@ -57,7 +57,7 @@
     "firstName": "jackson",
     "lastName": "lee",
     "email": "jackson.lee@ks.gov",
-    "password": "asd",
+    "password": "password",
     "role": "employer",
     "companyName": "bac",
     "facility": "Lansing"
@@ -66,7 +66,7 @@
     "firstName": "mason",
     "lastName": "gonzalez",
     "email": "mason.gonzalez@ks.gov",
-    "password": "asd",
+    "password": "password",
     "role": "employer",
     "companyName": "heatron",
     "facility": "Lansing"
@@ -75,7 +75,7 @@
     "firstName": "chloe",
     "lastName": "miller",
     "email": "chloe.miller@ks.gov",
-    "password": "asd",
+    "password": "password",
     "role": "employer",
     "companyName": "lpf high performance",
     "facility": "Lansing"
@@ -84,7 +84,7 @@
     "firstName": "liam",
     "lastName": "anderson",
     "email": "liam.anderson@ks.gov",
-    "password": "asd",
+    "password": "password",
     "role": "employer",
     "companyName": "zephyr",
     "facility": "Lansing"
@@ -93,7 +93,7 @@
     "firstName": "shawn",
     "lastName": "williams",
     "email": "shawn.williams@ks.gov",
-    "password": "asd",
+    "password": "password",
     "role": "employer",
     "companyName": "russell stovers",
     "facility": "Topeka"
@@ -102,7 +102,7 @@
     "firstName": "Amy",
     "lastName": "Cook",
     "email": "amy.cook@ks.gov",
-    "password": "asd",
+    "password": "password",
     "role": "employer",
     "companyName": "polo",
     "facility": "Topeka"
