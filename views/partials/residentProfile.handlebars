@@ -42,12 +42,26 @@
                             id="profile-overview">
                             <div class="card">
                                 <div class="card-body pt-3">
+                                    {{#if resident.isHired}}
+                                    <div class="text-center">
+                                        <p class="text-success">This resident is working as of {{formatDate
+                                            resident.dateHired}}</p>
+                                    </div>
+                                    {{else}}
                                     {{#if resident.isEligibleToWork}}
                                     <div class="text-center">
                                         <p class="text-success">This resident is approved and eligible for
                                             work.</p>
                                     </div>
+                                    {{else}}
+                                    <div class="text-center">
+                                        <p class="text-warning">This resident needs reviewed for clearance.</p>
+                                    </div>
                                     {{/if}}
+                                    {{/if}}
+
+
+
                                     {{#if resident.isRestrictedFromWork}}
                                     <div class="text-center">
                                         <p class="text-danger">This resident is not eligible
@@ -98,13 +112,7 @@
                             <div class="card">
                                 <div class="card-body pt-3">
 
-                                    {{!-- Confirmation Msg to user when saving Resume --}}
-                                    {{#if saveMsg}}
-                                    <div class="mb-3 text-center">
-                                        <p class="text-success">{{saveMsg}}</p>
-                                    </div>
 
-                                    {{/if}}
                                     <!--======== Resume  Form ========== -->
                                     {{#if resident.resumeRejectionReason}}
                                     {{!-- if resume has been rejected, show the reason --}}
@@ -118,7 +126,11 @@
                                     <form method="POST" action="/clearance/approveResume/{{resident.residentID}}">
                                         {{#unless resident.resumeIsApproved}}
                                         <div class="mb-3 text-center">
-                                            <p class="text-info">Review resume and select job pool.</p>
+                                            <p class="text-warning">Review resume and select job pool.</p>
+                                        </div>
+                                        {{else}}
+                                        <div class="mb-3 text-center">
+                                            <p class="text-success">This resume has been approved by Unit Team.</p>
                                         </div>
                                         {{/unless}}
                                         {{!-- Resident First Name --}}
@@ -403,12 +415,20 @@
                             id="profile-clearance">
                             <div class="card">
                                 <div class="card-body pt-3">
+                                    {{#if resident.isHired}}
+                                    <div class="text-center">
+                                        <p class="text-success">This resident is working as of {{formatDate
+                                            resident.dateHired}}</p>
+                                    </div>
+                                    {{else}}
                                     {{#if resident.isEligibleToWork}}
                                     <div class="text-center">
                                         <p class="text-success">This resident is approved and eligible for
                                             work.</p>
                                     </div>
                                     {{/if}}
+                                    {{/if}}
+
                                     {{#if resident.isRestrictedFromWork}}
                                     <div class="text-center">
                                         <p class="text-danger">This resident is not eligible
@@ -424,7 +444,7 @@
                                         <div class="col-lg-4 col-md-4 label ">Medical</div>
                                         <div class="clearanceCheck col-lg-2 col-md-2 text-capitalize">
                                             {{resident.MedicalClearance}}</div>
-                                        <div class="col-lg-2 col-md-2">
+                                        <div class="col-lg-2 col-md-2 d-flex justify-content-between">
                                             <button type="submit" class="btn btn-info"
                                                 data-route="/notification/requestClearance/{{resident.residentID}}/Medical"
                                                 data-category="Medical" data-bs-toggle="modal"
@@ -432,7 +452,7 @@
                                                 Request</button>
                                         </div>
                                         <div class="col-lg-4 col-md-4">
-                                            <button id="" type="submit" class="btn btn-warning"
+                                            <button id="" type="submit" class="btn btn-warning ms-2"
                                                 data-route="/clearance/editClearance/{{resident.residentID}}/Medical"
                                                 data-category="Medical" data-bs-toggle="modal"
                                                 data-bs-target="#editModal">Edit</button>
@@ -444,7 +464,7 @@
                                         <div class="clearanceCheck col-lg-2 col-md-2 text-capitalize">
                                             {{resident.EAIClearance}}
                                         </div>
-                                        <div class="col-lg-2 col-md-2">
+                                        <div class="col-lg-2 col-md-2 d-flex justify-content-between">
                                             <button type="submit" class="btn btn-info"
                                                 data-route="/notification/requestClearance/{{resident.residentID}}/EAI"
                                                 data-category="EAI" data-bs-toggle="modal"
@@ -452,7 +472,7 @@
                                                 Request</button>
                                         </div>
                                         <div class="col-lg-4 col-md-4">
-                                            <button id="" type="submit" class="btn btn-warning"
+                                            <button id="" type="submit" class="btn btn-warning ms-2"
                                                 data-route="/clearance/editClearance/{{resident.residentID}}/EAI"
                                                 data-category="EAI" data-bs-toggle="modal"
                                                 data-bs-target="#editModal">Edit</button>
@@ -464,7 +484,7 @@
                                         <div class="clearanceCheck col-lg-2 col-md-2 text-capitalize">
                                             {{resident.sexOffenderClearance}}
                                         </div>
-                                        <div class="col-lg-2 col-md-2">
+                                        <div class="col-lg-2 col-md-2 d-flex justify-content-between">
                                             <button type="submit" class="btn btn-info"
                                                 data-route="/notification/requestClearance/{{resident.residentID}}/Sex-Offender"
                                                 data-category="Sex-Offender" data-bs-toggle="modal"
@@ -472,7 +492,7 @@
                                                 Request</button>
                                         </div>
                                         <div class="col-lg-4 col-md-4">
-                                            <button id="" type="submit" class="btn btn-warning"
+                                            <button id="" type="submit" class="btn btn-warning ms-2"
                                                 data-route="/clearance/editClearance/{{resident.residentID}}/Sex-Offender"
                                                 data-category="Sex-Offender" data-bs-toggle="modal"
                                                 data-bs-target="#editModal">Edit</button>
@@ -484,7 +504,7 @@
                                         <div class="clearanceCheck col-lg-2 col-md-2 text-capitalize">
                                             {{resident.ClassificationClearance}}
                                         </div>
-                                        <div class="col-lg-2 col-md-2">
+                                        <div class="col-lg-2 col-md-2 d-flex justify-content-between">
                                             <button type="submit" class="btn btn-info"
                                                 data-route="/notification/requestClearance/{{resident.residentID}}/Classification"
                                                 data-category="Classification" data-bs-toggle="modal"
@@ -492,7 +512,7 @@
                                                 Request</button>
                                         </div>
                                         <div class="col-lg-4 col-md-4">
-                                            <button id="" type="submit" class="btn btn-warning"
+                                            <button id="" type="submit" class="btn btn-warning ms-2"
                                                 data-route="/clearance/editClearance/{{resident.residentID}}/Classification"
                                                 data-category="Classification" data-bs-toggle="modal"
                                                 data-bs-target="#editModal">Edit</button>
@@ -503,7 +523,7 @@
                                         <div class="col-lg-4 col-md-4 label">Warden</div>
                                         <div class="clearanceCheck col-lg-2 col-md-2 text-capitalize">
                                             {{resident.WardenClearance}}</div>
-                                        <div class="col-lg-2 col-md-2">
+                                        <div class="col-lg-2 col-md-2 d-flex justify-content-between">
                                             <button type="submit" class="btn btn-info"
                                                 data-route="/notification/requestClearance/{{resident.residentID}}/Warden"
                                                 data-category="Warden" data-bs-toggle="modal"
@@ -511,7 +531,7 @@
                                                 Request</button>
                                         </div>
                                         <div class="col-lg-4 col-md-4">
-                                            <button id="" type="submit" class="btn btn-warning"
+                                            <button id="" type="submit" class="btn btn-warning ms-2"
                                                 data-route="/clearance/editClearance/{{resident.residentID}}/Warden"
                                                 data-category="Warden" data-bs-toggle="modal"
                                                 data-bs-target="#editModal">Edit</button>
@@ -523,7 +543,7 @@
                                         <div class="clearanceCheck col-lg-2 col-md-2 text-capitalize">
                                             {{resident.UTMClearance}}
                                         </div>
-                                        <div class="col-lg-2 col-md-2">
+                                        <div class="col-lg-2 col-md-2 d-flex justify-content-between">
                                             <button type="submit" class="btn btn-info"
                                                 data-route="/notification/requestClearance/{{resident.residentID}}/UTM"
                                                 data-category="UTM" data-bs-toggle="modal"
@@ -531,7 +551,7 @@
                                                 Request</button>
                                         </div>
                                         <div class="col-lg-4 col-md-4">
-                                            <button id="" type="submit" class="btn btn-warning"
+                                            <button id="" type="submit" class="btn btn-warning ms-2"
                                                 data-route="/clearance/editClearance/{{resident.residentID}}/UTM"
                                                 data-category="UTM" data-bs-toggle="modal"
                                                 data-bs-target="#editModal">Edit</button>
@@ -596,11 +616,20 @@
                                     </div>
                                     <hr>
                                     {{/each}}
+
                                     {{else}}
+                                    {{#if resident.isHired}}
+                                    <div class="text-center">
+                                        <p class="text-success">This resident is working as of {{formatDate
+                                            resident.dateHired}}</p>
+                                    </div>
+                                    {{else}}
+
                                     <div class="text-center">
                                         <span class="text-warning">This resident has completed no applications.
                                         </span>
                                     </div>
+                                    {{/if}}
                                     {{/if}}
                                 </div>
                             </div>
@@ -624,15 +653,25 @@
                     <h3 id="request-title" class="modal-title text-center text-capitalize">{{../resident.firstName}}
                         {{../resident.lastName}}</h3>
                 </div>
-                {{#if (isResidentInInterviews ../resident.residentID this.interviews)}}
+
+                {{#getInterview ../resident.residentID this.interviews}}
+                {{#if date}}
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
                 {{else}}
                 <div class="col-6">
                     <button type="button" class="btn btn-info mx-2" data-bs-toggle="modal"
-                        data-bs-target="#{{this.position}}2">Schedule
+                        data-bs-target="#{{../this.position}}2">Schedule
                         Interview</button>
                 </div>
                 {{/if}}
+                {{else}}
+                <div class="col-6">
+                    <button type="button" class="btn btn-info mx-2" data-bs-toggle="modal"
+                        data-bs-target="#{{../this.position}}2">Schedule
+                        Interview</button>
+                </div>
+                {{/getInterview}}
 
             </div>
 
@@ -669,16 +708,26 @@
                 </div>
                 <hr>
                 <div class="row mb-2">
-                    <div class="col-lg-6 col-md-6 label text-info">Interview Scheduled:</div>
+                    <div class="col-lg-6 col-md-6 label text-info">Interview Requested On:</div>
                     {{#getInterview ../resident.residentID this.interviews}}
-                    <div class="col-lg-6 col-md-6">{{formatDate date}} &nbsp; @ &nbsp; {{time}}</div>
+                    <div class="col-lg-6 col-md-6">{{formatDate dateRequested}}</div>
                     {{else}}
                     <div class="col-lg-6 col-md-6">No</div>
                     {{/getInterview}}
                 </div>
 
-
-
+                <div class="row mb-2">
+                    <div class="col-lg-6 col-md-6 label text-info">Interview Scheduled For:</div>
+                    {{#getInterview ../resident.residentID this.interviews}}
+                    {{#if date}}
+                    <div class="col-lg-6 col-md-6">{{formatDate date}} &nbsp; @ &nbsp; {{time}}</div>
+                    {{else}}
+                    <div class="col-lg-6 col-md-6">No</div>
+                    {{/if}}
+                    {{else}}
+                    <div class="col-lg-6 col-md-6">No</div>
+                    {{/getInterview}}
+                </div>
             </div>
             <div class="modal-footer">
                 <div class="col-12 d-flex justify-content-between">
@@ -708,6 +757,32 @@
             </div>
             <form method="POST" action="/clearance/scheduleInterview/{{this._id}}">
                 <div class="modal-body">
+                    {{#getInterview ../resident.residentID this.interviews}}
+
+                    <input type="hidden" name="interviewID" value="{{_id}}">
+                    <p>Employer Preferences - Requested on {{formatDate dateRequested}}</p>
+                    <hr>
+                    <div class="row mb-3">
+                        <label for="instructions" class="col-12 col-form-label">Scheduling Preferences:</label>
+                        <div class="col-12">
+                            <textarea disabled class="form-control" style="height: 100px" name="instructions"
+                                placeholder="none">{{preferredDate}}</textarea>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="instructions" class="col-12 col-form-label">Instructions:</label>
+                        <div class="col-12">
+                            <textarea disabled class="form-control" style="height: 100px" name="instructions"
+                                placeholder="none">{{employerInstructions}}</textarea>
+                        </div>
+                    </div>
+                    <hr>
+                    {{else}}
+                    <div class="row mb-3">
+                        <p>No requests or preferences from employer.</p>
+                    </div>
+                    <hr>
+                    {{/getInterview}}
 
                     <div class="row mb-3">
                         <label for="name" class="col-sm-2 col-form-label">Resident</label>
@@ -723,6 +798,9 @@
                                 value="{{../resident.residentID}}">
                         </div>
                     </div>
+
+
+                    <hr>
 
                     <div class="row mb-3">
                         <label for="date" class="col-sm-2 col-form-label">Date</label>
@@ -747,7 +825,7 @@
                 </div>
                 <div class="modal-footer">
                     <div class="col-12 d-flex justify-content-between">
-                        <button type="button" class="btn-close btn-secondary mx-2" data-bs-dismiss="modal"
+                        <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal"
                             aria-label="Close">Cancel</button>
                         <button type="submit" class="btn btn-info mx-2">Schedule</button>
                     </div>
@@ -788,7 +866,7 @@
                 </div>
                 <div class="modal-footer">
                     <div class="col-12 d-flex justify-content-between">
-                        <button type="button" class="btn-close btn-secondary mx-2" data-bs-dismiss="modal"
+                        <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal"
                             aria-label="Close">Cancel</button>
                         <button type="submit" class="btn btn-danger mx-2">Terminate Employment</button>
                     </div>

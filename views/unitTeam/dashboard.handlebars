@@ -9,12 +9,11 @@
                 <li class="breadcrumb-item active">Dashboard</li>
             </ol>
         </nav>
-    </div><!-- End Page Title -->
+    </div>
 
     <section class="section dashboard">
         <div class="row">
 
-            <!-- Dashboard Cone -->
             <div class="col-lg-12">
                 <div class="row">
 
@@ -37,7 +36,7 @@
                                 </div>
                             </a>
                         </div>
-                    </div><!-- End Residents Card -->
+                    </div>
 
                     <!-- Resumes Count Card -->
                     <div class="col-xxl-4 col-md-4">
@@ -59,7 +58,7 @@
                                 </div>
                             </a>
                         </div>
-                    </div><!-- End Resumes Count Card -->
+                    </div>
 
                     <!-- Applicants Card -->
                     <div class="col-xxl-4 col-md-4">
@@ -82,13 +81,11 @@
                                 </div>
                             </a>
                         </div>
-                    </div><!-- End Applications Card -->
+                    </div>
 
 
 
                     {{!-- Data Tables Section --}}
-
-
 
                     <!-- Residents Table -->
                     <div class="col-12" id="residentTable">
@@ -196,7 +193,7 @@
                                 </table>
                             </div>
                         </div>
-                    </div><!-- End Resume Table -->
+                    </div>
 
                     <!-- Applicants Table -->
                     <div class="col-12" id="applicantTable">
@@ -234,16 +231,115 @@
                                 </table>
                             </div>
                         </div>
-                    </div><!-- End Applicants Table -->
+                    </div>
+
+                    <!-- Interviews Table -->
+                    <div class="col-12">
+                        <div class="card recent-sales overflow-auto">
+                            <div class="card-body">
+                                <h5 class="card-title">Interviews <span>| Requested</span></h5>
+                                <table class="table table-borderless table-striped datatable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">ID #</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Company</th>
+                                            <th scope="col">Requested</th>
+                                            <th scope="col">Scheduled</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each interviews}}
+                                        <tr>
+                                            <th scope="row"><a
+                                                    href="/clearance/residentProfile/{{this.interview.residentID}}">{{this.interview.residentID}}</a>
+                                            </th>
+                                            <td class="text-capitalize"><a
+                                                    href="/clearance/residentProfile/{{this.interview.residentID}}">
+                                                    {{this.interview.name}}</a></td>
+
+                                            <td class="text-capitalize">
+                                                <a href="/clearance/residentProfile/{{this.interview.residentID}}">
+                                                    {{this.companyName}}</a>
+                                            </td>
+                                            {{#if this.interview.isRequested}}
+                                            <td><span class="badge bg-success">{{formatDate
+                                                    this.interview.dateRequested}}</span></td>
+                                            {{else}}
+                                            <td>No</td>
+                                            {{/if}}
+
+                                            {{#if this.interview.date}}
+                                            <td>{{formatDate this.interview.date}}</td>
+                                            {{else}}
+                                            <td>No</td>
+                                            {{/if}}
+
+
+
+                                        </tr>
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Employees Table -->
+                    <div class="col-12">
+                        <div class="card recent-sales overflow-auto">
+                            <div class="card-body">
+                                <h5 class="card-title">Employees <span>| Work Force</span></h5>
+                                <table class="table table-borderless table-striped datatable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">ID #</th>
+                                            <th scope="col">Facility</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Out Date</th>
+                                            <th scope="col">Hired Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each employees}}
+                                        <tr>
+                                            <th scope="row">
+                                                <a
+                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
+                                            </th>
+                                            <td class="text-capitalize">
+                                                <a
+                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.facility}}</a>
+                                            </td>
+                                            <td class="text-capitalize">
+                                                <a href="/clearance/residentProfile/{{this.residentID}}">{{this.firstName}}
+                                                    {{this.lastName}}</a>
+                                            </td>
+                                            <td class="text-capitalize">
+                                                <a href="/clearance/residentProfile/{{this.residentID}}">{{formatDate
+                                                    this.outDate}}</a>
+                                            </td>
+                                            <td class="text-capitalize">
+                                                <a href="/clearance/residentProfile/{{this.residentID}}">{{formatDate
+                                                    this.dateHired}}</a>
+                                            </td>
+
+
+                                        </tr>
+
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
 
                     {{!-- End of Data Tables Section --}}
-
                 </div>
-            </div><!-- End Dashboard Cone -->
-
+            </div>
         </div>
     </section>
-</main><!-- End #main -->
+</main>
 
 <!-- ======= Footer ======= -->
 {{> footer}}

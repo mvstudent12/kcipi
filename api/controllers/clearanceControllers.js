@@ -215,23 +215,48 @@ module.exports = {
       console.log(err);
     }
   },
+
   async scheduleInterview(req, res) {
     try {
-      const { residentID } = req.body;
-
-      const resident = await Resident.findOne({
-        residentID: residentID,
-      }).lean();
-
-      const id = resident._id;
-
       const { jobID } = req.params;
-      const interviewDetails = req.body;
-      await Jobs.findByIdAndUpdate(jobID, {
-        $push: {
-          interviews: interviewDetails,
-        },
-      });
+      const { residentID, date, time, instructions } = req.body;
+
+      const resident = await Resident.findOne({ residentID }).lean();
+      const id = resident._id;
+      const name = `${resident.firstName} ${resident.lastName}`;
+
+      if (req.body.interviewID) {
+        const { interviewID } = req.body;
+        await Jobs.updateOne(
+          {
+            _id: jobID, // Match the job by its ID
+            "interviews._id": interviewID, // Match the specific interview by its _id
+          },
+          {
+            $set: {
+              "interviews.$.date": date, // Update the date
+              "interviews.$.time": time, // Update the time
+              "interviews.$.instructions": instructions, // Update the instructions
+            },
+          }
+        );
+      } else {
+        // //add interview to Jobs document
+        await Jobs.findByIdAndUpdate(jobID, {
+          $push: {
+            interviews: {
+              isRequested: true,
+              dateRequested: new Date(),
+              residentID,
+              name,
+              date,
+              time,
+              instructions,
+            },
+          },
+        });
+      }
+
       //find positions resident has applied for
       const applications = await Jobs.find({
         applicants: { $in: [id] },
@@ -252,10 +277,14 @@ module.exports = {
   async hireResident(req, res) {
     try {
       const { id, jobID } = req.params;
+      const position = await Jobs.findOne({ _id: jobID }).lean();
+      const companyName = position.companyName;
 
       await Resident.findByIdAndUpdate(id, {
         $set: {
           isHired: true,
+          dateHired: new Date(),
+          companyName,
         },
       });
       const resident = await Resident.findById(id).lean();
@@ -317,6 +346,8 @@ module.exports = {
       await Resident.findByIdAndUpdate(id, {
         $set: {
           isHired: false,
+          companyName: "",
+          dateHired: null,
         },
       });
       const resident = await Resident.findById(id).lean();
@@ -325,7 +356,7 @@ module.exports = {
         { employees: id }, // Find the job where id exists in employees
         { $pull: { employees: id } } // Remove the residentID from the employees array
       ).lean();
-      console.log(job);
+      console.log(resident);
       //find positions resident has applied for
       const applications = await Jobs.find({
         applicants: { $in: [id] },

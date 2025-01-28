@@ -1,0 +1,236 @@
+<!-- ======= Header ======= -->
+<header id="header" class="header fixed-top d-flex align-items-center">
+    <div class="d-flex align-items-center justify-content-between">
+        <a href="#" class="logo d-flex align-items-center">
+            <img src="/assets/img/favicon.png" alt="Kansas Correctional Industries">
+            <span class="d-none d-lg-block">KCI Private Industry</span>
+        </a>
+    </div><!-- End Logo -->
+    <nav class="header-nav ms-auto">
+        <ul class="d-flex align-items-center">
+            <li class="nav-item p-5">
+                <span class="d-md-block ps-2">{{email}}</span>
+            </li>
+        </ul>
+    </nav>
+</header><!-- End Header -->
+
+
+
+<main id="mainApproval" class="main">
+    <div class="pagetitle">
+        <h1>Workforce Interview Request</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active">Resident Information</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section profile">
+
+        {{!-- Resident info card --}}
+        <div class="row">
+
+            {{> residentProfileCard}}
+
+            {{!-- Bordered Tab Section --}}
+            <div class="col-xl-8">
+                <div class="card">
+                    <div class="card-body pt-3">
+                        <!--========= Bordered Tab Labels =======-->
+                        <ul class="nav nav-tabs nav-tabs-bordered">
+                            <li class="nav-item">
+                                <button class="nav-link {{#if (eq activeTab 'status')}}active{{/if}}"
+                                    data-bs-toggle="tab" data-bs-target="#medical-status">Status</button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-link {{#if (eq activeTab 'notes')}}active{{/if}}"
+                                    data-bs-toggle="tab" data-bs-target="#medical-notes">Additional
+                                    Notes</button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-link {{#if (eq activeTab 'notify')}}active{{/if}}"
+                                    data-bs-toggle="tab" data-bs-target="#medical-notification">Notify</button>
+                            </li>
+                        </ul>
+                        {{!--===== BORDERED TABS =====--}}
+                        <div class="tab-content pt-2">
+                            {{!--===== Resident Clearance Tab =====--}}
+                            <div class="tab-pane fade {{#if (eq activeTab 'status')}}show active{{/if}} profile-overview"
+                                id="medical-status">
+                                <h5 class="card-title">Provide review and verify resident's medical status.</h5>
+
+                                <hr>
+
+                                {{#if resident.MedicalClearance}}
+                                {{!-- Resident is medically cleared/ --}}
+                                <h5 class="card-title text-success">Resident has been medically cleared.</h5>
+                                <div class="col-lg-4 col-md-6 d-grid gap-2 mt-3">
+                                    <a
+                                        href="/notification/Medical/removeMedicalClearance/{{resident.residentID}}/{{email}}">
+                                        <button type="submit" class="btn btn-danger">Remove Clearance</button>
+                                    </a>
+                                </div>
+
+                                {{else}}
+                                {{#if resident.MedicalRestriction}}
+                                {{!-- Resident has medical restrictions --}}
+                                <h5 class="card-title text-danger">Resident has medical restrictions.</h5>
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-6 d-grid gap-2 mt-3">
+                                        <a
+                                            href="/notification/Medical/removeMedicalRestriction/{{resident.residentID}}/{{email}}">
+                                            <button type="submit" class="btn btn-primary">Remove Restrictions</button>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                {{else}}
+                                {{!-- Resident has neither been cleared nor restricted --}}
+                                {{#unless resident.MedicalReviewed}}
+                                <h5 class="card-title">Resident has not been medically reviewed.</h5>
+                                <div class="row">
+                                    <div class="container">
+                                        <div class="d-flex flex-column">
+                                            <a href="/notification/Medical/approve/{{resident.residentID}}/{{email}}">
+                                                <button type="submit" style="width: 50%;"
+                                                    class="btn btn-primary btn-block mb-2">Approve
+                                                    Clearance</button>
+                                            </a>
+                                            <a href="/notification/Medical/deny/{{resident.residentID}}/{{email}}">
+                                                <button type="submit" style="width: 50%;"
+                                                    class="btn btn-danger btn-block mb-2">Add Restriction</button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{/unless}}
+                                {{/if}}
+                                {{/if}}
+
+                                <hr>
+                                <div class="d-flex justify-content-between">
+                                    <a class="ms-auto"
+                                        href="/notification/next_notes/{{resident.residentID}}/{{email}}/Medical">
+                                        <button type="button" class="btn btn-info btn-block mb-2">Next
+                                            Step</button>
+                                    </a>
+                                </div>
+
+                            </div>
+                            {{!-- ====== Additional Notes Tab ========= --}}
+                            <div class="tab-pane fade {{#if (eq activeTab 'notes')}}show active{{/if}} profile-overview pt-3"
+                                id="medical-notes">
+                                <form method="POST"
+                                    action="/notification/Medical/saveMedicalNotes/{{resident.residentID}}/{{email}}">
+                                    <h5 class="card-title">Provide additional information if needed.</h5>
+                                    <div class="row">
+                                        <div class="row mb-3">
+                                            <div class="col-sm-10">
+                                                <textarea class="form-control" name="notes"
+                                                    placeholder="Additional notes or comments"
+                                                    style="height: 100px;"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-lg-4 col-md-6 d-grid gap-2 mt-3">
+
+                                            <button type="submit" class="btn btn-primary mb-2">Save</button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <hr>
+                                <h4 class="card-title">Previous Notes:</h4>
+                                <div class="row">
+                                    <div class="row mb-3">
+                                        <div class="col-sm-10">
+                                            {{#if resident.MedicalNotes}}
+                                            {{#each resident.MedicalNotes}}
+                                            <p>{{this}}</p>
+
+                                            {{/each}}
+                                            {{else}}
+                                            <p><i>There has been no documentation yet.</i></p>
+                                            {{/if}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="d-flex justify-content-between">
+                                    <a class="ms-auto"
+                                        href="/notification/next_notify/{{resident.residentID}}/{{email}}/Medical">
+                                        <button type="button" class="btn btn-info btn-block mb-2">Next
+                                            Step</button>
+                                    </a>
+                                </div>
+
+                            </div>
+                            {{!-- ====== Notify ========= --}}
+                            {{!-- sends notification from email chain notifications --}}
+
+                            <div class="tab-pane fade {{#if (eq activeTab 'notify')}}show active{{/if}} profile-overview pt-3"
+                                id="medical-notification">
+                                <form method="POST"
+                                    action="/notification/sendNextNotification/{{resident.residentID}}/{{email}}">
+                                    <h5 class="card-title">Please send notification to the correct recipient.</h5>
+                                    <hr>
+                                    <div class="row mb-3 col-md-8 col-lg-9">
+                                        <label for="category" class="form-label text-muted">Recipient
+                                            Category</label>
+                                        <div class="input-group mb-3">
+                                            <select required name="category" class="form-select"
+                                                aria-label="Recipient Category" id="category">
+                                                <option value="">Select Category</option>
+                                                <option value="UTM">Unit Team</option>
+                                                <option value="Medical">Medical</option>
+                                                <option value="EAI">EAI</option>
+                                                <option value="Sex-Offender">Sex-Offender</option>
+                                                <option value="Classification">Classification</option>
+                                                <option value="Warden">Warden</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    {{!-- recipients email --}}
+                                    <div class="row mb-3 col-md-8 col-lg-9">
+                                        <label for="recipientEmail" class="form-label text-muted">Recipient
+                                            Email</label>
+                                        <div class="input-group mb-3">
+                                            <input required type="email" class="form-control" id="recipientEmail"
+                                                name="recipientEmail">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="row mb-3">
+                                            <label for="comments" class="form-label text-muted">Provide additional
+                                                comments or directions:</label>
+                                            <div class="col-sm-10 input-group">
+                                                <textarea class="form-control" name="comments" id="comments"
+                                                    placeholder="Comments or directions"
+                                                    style="height: 100px;"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-lg-4 col-md-6 d-grid gap-2 mt-3">
+                                            <button type="submit" class="btn btn-primary mb-2">Send</button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <hr>
+                            </div>
+                        </div>
+                    </div><!-- End Bordered Tabs -->
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+{{> footer}}
+
+{{> arrowUp}}

@@ -503,7 +503,7 @@ Total : 519 files, 588954 codes, 62747 comments, 14085 blanks, all 665786 lines
 | [views/clearance/UTM.handlebars](/views/clearance/UTM.handlebars)                                                                                       | Handlebars |    204 |      11 |    20 |    235 |
 | [views/clearance/Warden.handlebars](/views/clearance/Warden.handlebars)                                                                                 | Handlebars |    205 |      11 |    20 |    236 |
 | [views/clearance/thankYou.handlebars](/views/clearance/thankYou.handlebars)                                                                             | Handlebars |     11 |       1 |     3 |     15 |
-| [views/employer/applicants.handlebars](/views/employer/applicants.handlebars)                                                                           | Handlebars |     59 |       2 |     6 |     67 |
+| [views/employer/manageWorkForce.handlebars](/views/employer/manageWorkForce.handlebars)                                                                 | Handlebars |     59 |       2 |     6 |     67 |
 | [views/employer/contact.handlebars](/views/employer/contact.handlebars)                                                                                 | Handlebars |     97 |       0 |     8 |    105 |
 | [views/employer/dashboard.handlebars](/views/employer/dashboard.handlebars)                                                                             | Handlebars |    182 |       2 |    17 |    201 |
 | [views/employer/employees.handlebars](/views/employer/employees.handlebars)                                                                             | Handlebars |     46 |      16 |     5 |     67 |

@@ -46,6 +46,7 @@ clearanceRoutes.post(
   requireAuth,
   controller.rejectEligibility
 );
+
 clearanceRoutes.post(
   "/scheduleInterview/:jobID",
   checkUser,

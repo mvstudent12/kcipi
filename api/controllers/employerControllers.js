@@ -7,21 +7,45 @@ const Jobs = require("../models/Jobs");
 
 const mongoose = require("mongoose");
 
+// add total number of available job positions needed to fill
+function getTotalAvailablePositions(jobsArray) {
+  if (!Array.isArray(jobsArray)) {
+    throw new Error("Input must be an array");
+  }
+
+  return jobsArray.reduce((total, job) => {
+    if (typeof job.availablePositions === "number") {
+      return total + job.availablePositions;
+    }
+    return total; // Skip if availablePositions is not a number
+  }, 0);
+}
+
+//find jobs in company
+const findJobs = async (companyName) => {
+  //find company by name
+  const company = await Company.findOne({
+    companyName: companyName,
+  }).lean();
+
+  //declare companyID
+  const companyID = company._id;
+
+  //find jobs with companyID
+  const jobs = await Jobs.find({ companyID }).lean();
+  return jobs;
+};
+
 module.exports = {
   //serves dashboard page for employers
   async dashboard(req, res) {
     try {
+      //declare companyName
       const companyName = req.session.user.companyName;
-      const company = await Company.findOne({
-        companyName: companyName,
-      }).lean();
-      const companyID = company._id;
-
-      const jobs = await Jobs.find({ companyID }).lean();
-
-      // add total number of available job positions needed to fill
+      const jobs = await findJobs(companyName);
+      //check if jobs exist
       if (jobs) {
-        let positionsAvailable = jobs.length;
+        let positionsAvailable = getTotalAvailablePositions(jobs);
 
         // Flatten the applicants arrays from all jobs into one array of ObjectIds
         const applicantIds = jobs.flatMap((job) => job.applicants);
@@ -34,15 +58,15 @@ module.exports = {
         // Flatten the array of employees from all job documents
         const employeeIDs = jobs.flatMap((job) => job.employees);
 
-        const allEmployees = await Resident.find({
+        //find all employees at this company
+        const employees = await Resident.find({
           _id: { $in: employeeIDs },
         }).lean();
 
         res.render("employer/dashboard", {
           user: req.session.user,
-          company,
           positionsAvailable,
-          allEmployees,
+          employees,
           applicants,
           jobs,
         });
@@ -64,15 +88,127 @@ module.exports = {
   },
 
   //=============================
-  //     Table Pages
+  //     Manage Pages
   //=============================
-  //serves applicants page for employers
-  async applicants(req, res) {
+  //serves manageWorkForce page for employers
+  async manageWorkForce(req, res) {
     try {
       const companyName = req.session.user.companyName;
-
       let applicantIDs;
 
+      //find all resident IDs who have applied for jobs in caseload
+      await Jobs.aggregate([
+        { $match: { companyName: companyName } },
+        { $unwind: "$applicants" },
+        { $group: { _id: null, allResidents: { $push: "$applicants" } } }, // Collect all resident IDs into an array
+      ])
+        .then((result) => {
+          if (result.length > 0) {
+            return (applicantIDs = result[0].allResidents);
+          } else {
+            console.log("No matching jobs found");
+            return (applicantIDs = []);
+          }
+        })
+        .catch((err) => {
+          console.error("Error fetching resident IDs:", err);
+        });
+
+      // Query Resident model to find residents matching these IDs that applied to jobs
+      const applicants = await Resident.find(
+        {
+          _id: { $in: applicantIDs },
+        },
+        {
+          _id: 0,
+          residentID: 1, // Include residentID
+          firstName: 1, // Include name
+          lastName: 1,
+          outDate: 1, // Include outDate
+          custodyLevel: 1, // Include custodyLevel
+          facility: 1, // Include facility
+        }
+      ).lean();
+
+      const findInterviews = await Jobs.aggregate([
+        // Match jobs by the specific companyName
+        { $match: { companyName: companyName.toLowerCase() } },
+
+        // Project only the interviews field along with the job ID or other context fields if needed
+        {
+          $project: {
+            _id: 0, // Exclude the default `_id` field (optional)
+            interviews: 1, // Include the interviews field
+            position: 1,
+          },
+        },
+
+        // Unwind the interviews array to process each interview individually
+        { $unwind: "$interviews" },
+
+        // Optionally format the output to include interview details with additional context (e.g., job ID)
+        {
+          $group: {
+            _id: null, // Group all interviews into one object (no specific grouping criteria)
+            allInterviews: {
+              $push: {
+                interview: "$interviews",
+                position: "$position",
+              },
+            },
+          },
+        },
+      ]);
+
+      let interviews = [];
+      if (findInterviews.length) {
+        interviews = findInterviews[0].allInterviews;
+      }
+
+      const jobs = await findJobs(companyName);
+      // Flatten the array of employees from all job documents
+      const employeeIDs = jobs.flatMap((job) => job.employees);
+
+      //find all employees at this company
+      const employees = await Resident.find(
+        {
+          _id: { $in: employeeIDs },
+        },
+        {
+          _id: 0,
+          residentID: 1,
+          firstName: 1,
+          lastName: 1,
+          outDate: 1,
+          custodyLevel: 1,
+          facility: 1,
+          unitTeam: 1,
+          dateHired: 1,
+        }
+      ).lean();
+
+      res.render("employer/manageWorkForce", {
+        user: req.session.user,
+        applicants,
+        interviews,
+        employees,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  },
+
+  //cancel interview with resident
+  async cancelInterview(req, res) {
+    try {
+      const { interviewID } = req.params;
+      //delete interview from jobs
+      await Jobs.updateOne(
+        { "interviews._id": interviewID }, // Match the job by its ID
+        { $pull: { interviews: { _id: interviewID } } } // Remove the interview with the specific _id
+      );
+      const companyName = req.session.user.companyName;
+      let applicantIDs;
       await Jobs.aggregate([
         { $match: { companyName: companyName } }, // Match Jobs with the specific company name
         { $unwind: "$applicants" }, // Flatten the applicants array
@@ -95,7 +231,39 @@ module.exports = {
         _id: { $in: applicantIDs },
       }).lean();
 
-      res.render("employer/applicants", { user: req.session.user, applicants });
+      const findInterviews = await Jobs.aggregate([
+        // Match jobs by the specific companyName
+        { $match: { companyName: companyName.toLowerCase() } },
+
+        // Project only the interviews field along with the job ID or other context fields if needed
+        {
+          $project: {
+            _id: 0, // Exclude the default `_id` field (optional)
+            interviews: 1, // Include the interviews field
+          },
+        },
+
+        // Unwind the interviews array to process each interview individually
+        { $unwind: "$interviews" },
+
+        // Optionally format the output to include interview details with additional context (e.g., job ID)
+        {
+          $group: {
+            _id: null, // Group all interviews into one object (no specific grouping criteria)
+            allInterviews: { $push: "$interviews" },
+          },
+        },
+      ]);
+      let interviews = [];
+      if (findInterviews.length) {
+        interviews = findInterviews[0].allInterviews;
+      }
+
+      res.render("employer/manageWorkForce", {
+        user: req.session.user,
+        applicants,
+        interviews,
+      });
     } catch (err) {
       console.log(err);
     }
@@ -382,16 +550,8 @@ module.exports = {
     });
   },
   //=============================
-  //     Manage Hiring
+  //     Manage Workforce
   //=============================
-  //serves manageHiring page for employers
-  async manageHiring(req, res) {
-    try {
-      res.render("employer/manageHiring", { user: req.session.user });
-    } catch (err) {
-      console.log(err);
-    }
-  },
 
   //=============================
   //     Basic Routes

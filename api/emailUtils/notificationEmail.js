@@ -98,8 +98,51 @@ const sendContactEmail = async (name, subject, sender, message, recipient) => {
   }
 };
 
+const sendRequestInterviewEmail = async (
+  resident,
+  companyName,
+  recipient,
+  sender,
+  interviewID
+) => {
+  const mailOptions = {
+    from: `${sender}`,
+    to: `${recipient}`,
+    subject: `KCI PI Resident Interview Requested`,
+    text: `${companyName} is requesting an interview to be scheduled with #${resident.residentID}.`,
+    html: `
+      <h2 style="font-size: 24px; font-weight: bold; color: #333;">Resident #${resident.residentID} -<span style="text-transform: capitalize;">  ${resident.lastName}, ${resident.firstName}</span></h2>
+      <p style="font-size: 16px; color: #333;"><span style="text-transform: capitalize;">${companyName}</span> is requesting an interview with resident #${resident.residentID} - <span style="text-transform: capitalize;">${resident.lastName}, ${resident.firstName}.</span></p> 
+      <h4 style="font-size: 18px; font-weight: bold; color: #333;">Please review this request and schedule an interview for the appropriate time.</h4>
+      <h4 style="font-size: 16px; font-weight: bold; color: #333;">Sent from: ${sender}</h4>
+      
+      <p>
+      
+        <a href="http://kcipi.onrender.com/notification/reviewInterviewRequest/${interviewID}"
+           style="display: inline-block; background-color: #4CAF50; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-size: 16px; text-align: center; font-weight: bold;">
+          Schedule Interview
+        </a>
+      </p>
+
+      <p style="font-size: 14px; color: #333;">If you are unable to click the button, please copy and paste the following link into your browser:</p>
+      <p style="font-size: 14px; color: #333;">
+        <a href="http://kcipi.onrender.com/notification/reviewInterviewRequest/${interviewID}" 
+           style="color: #007BFF; text-decoration: none;"><span style="text-transform: capitalize;">${companyName}</span> Review Link</a>
+      </p>
+    `,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log(`Email sent to ${recipient}`);
+  } catch (error) {
+    console.error("Error sending email: ", error);
+  }
+};
+
 module.exports = {
   sendReviewEmail,
   sendHelpDeskEmail,
   sendContactEmail,
+  sendRequestInterviewEmail,
 };

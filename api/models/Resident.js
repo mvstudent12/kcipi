@@ -169,6 +169,12 @@ const residentSchema = new Schema({
     default: "",
   },
   isHired: { type: Boolean, default: false },
+  dateHired: { type: Date },
+  companyName: {
+    type: String,
+    lowercase: true,
+    default: "",
+  },
 });
 
 //static method to find resident

@@ -2,6 +2,16 @@ const express = require("express");
 const notificationRoutes = express.Router();
 const controller = require("../controllers/notificationControllers");
 
+notificationRoutes.post(
+  "/requestInterview/:jobID",
+  controller.requestInterview
+);
+
+notificationRoutes.get(
+  "/reviewInterviewRequest/:jobID",
+  controller.reviewInterviewRequest
+);
+
 //============================
 //Help Desk & Contact Notifications
 //============================

@@ -27,6 +27,12 @@ adminRoutes.get(
   requireAuth,
   controller.residentTables
 );
+adminRoutes.get(
+  "/employedResidents",
+  checkUser,
+  requireAuth,
+  controller.employedResidents
+);
 
 adminRoutes.get(
   "/unitTeamTables",

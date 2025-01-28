@@ -345,7 +345,7 @@
                                         <label for="workHistory" class="col-md-4 col-lg-3 col-form-label">Work
                                             History</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <textarea name="workHistory" class="form-control" id="workHistory"
+                                            <textarea required name="workHistory" class="form-control" id="workHistory"
                                                 style="height: 100px">{{user.resume.workHistory}}</textarea>
                                         </div>
                                     </div>
@@ -356,7 +356,8 @@
                                             &amp;
                                             Licenses</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <textarea name="certifications" class="form-control" id="certifications"
+                                            <textarea required name="certifications" class="form-control"
+                                                id="certifications"
                                                 style="height: 100px">{{user.resume.certifications}}</textarea>
                                         </div>
                                     </div>
@@ -365,7 +366,7 @@
                                         <label for="education" class="col-md-4 col-lg-3 col-form-label">Higher
                                             Education</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <textarea name="education" class="form-control" id="education"
+                                            <textarea required name="education" class="form-control" id="education"
                                                 style="height: 100px">{{user.resume.education}}</textarea>
                                         </div>
                                     </div>
@@ -375,7 +376,7 @@
                                             &amp;
                                             Experience</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <textarea name="skills" class="form-control" id="skills"
+                                            <textarea required name="skills" class="form-control" id="skills"
                                                 style="height: 100px">{{user.resume.skills}}</textarea>
                                         </div>
                                     </div>
@@ -384,7 +385,7 @@
                                         <label for="programs" class="col-md-4 col-lg-3 col-form-label">Completed
                                             Programs</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <textarea name="programs" class="form-control" id="programs"
+                                            <textarea required name="programs" class="form-control" id="programs"
                                                 style="height: 100px">{{user.resume.programs}}</textarea>
                                         </div>
                                     </div>
@@ -478,21 +479,20 @@
                                             </div>
                                         </div>
                                     </div>
-                                    {{!-- Resume Submit Button --}}
+                                    {{!-- Edit Resume Submit Button --}}
                                     <hr class="mb-3">
                                     <div class="text-center">
                                         <button type="submit" class="btn btn-primary">Submit Resume</button>
                                     </div>
-                                </form><!-- End Resume Edit Form -->
+                                </form>
                             </div>
 
                             {{else}}
-                            {{!--============= Editable Resume Form ===========================--}}
+                            {{!--============= Resume Form ===========================--}}
                             <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
-                                <p class="small fst-italic text-info text-center">You may only submit your resume one
+                                <p class="small text-info text-center">You may only submit your resume one
                                     time. You cannot save your progress.</p>
-                                <p class="small fst-italic text-warning"></p>
-                                <!-- Profile Edit Form -->
+                                <!-- Profile Resume Form -->
                                 <form method="POST" action="/resident/saveResume">
                                     {{!-- Resident First Name --}}
                                     <div class="row mb-3">
@@ -530,7 +530,7 @@
                                                 id="custodyLevel" value="{{user.custodyLevel}}" disabled>
                                         </div>
                                     </div>
-                                    {{!-- Resident Custody Level --}}
+                                    {{!-- Resident Facility --}}
                                     <div class="row mb-3">
                                         <label for="facility" class="col-md-4 col-lg-3 col-form-label">Facility</label>
                                         <div class="col-md-8 col-lg-9">
@@ -538,7 +538,6 @@
                                                 id="facility" value="{{user.facility}}" disabled>
                                         </div>
                                     </div>
-
                                     {{!-- UTM Select Box --}}
                                     <div class="row mb-3">
                                         <label class="col-md-4 col-lg-3 col-form-label">Unit Team</label>
@@ -553,14 +552,12 @@
                                             </select>
                                         </div>
                                     </div>
-
-
                                     {{!-- work history input --}}
                                     <div class="row mb-3">
                                         <label for="workHistory" class="col-md-4 col-lg-3 col-form-label">Work
                                             History</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <textarea name="workHistory" class="form-control" id="workHistory"
+                                            <textarea required name="workHistory" class="form-control" id="workHistory"
                                                 style="height: 100px"></textarea>
                                         </div>
                                     </div>
@@ -571,8 +568,8 @@
                                             &amp;
                                             Licenses</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <textarea name="certifications" class="form-control" id="certifications"
-                                                style="height: 100px"></textarea>
+                                            <textarea required name="certifications" class="form-control"
+                                                id="certifications" style="height: 100px"></textarea>
                                         </div>
                                     </div>
                                     {{!-- Higher Education --}}
@@ -580,7 +577,7 @@
                                         <label for="education" class="col-md-4 col-lg-3 col-form-label">Higher
                                             Education</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <textarea name="education" class="form-control" id="education"
+                                            <textarea required name="education" class="form-control" id="education"
                                                 style="height: 100px"></textarea>
                                         </div>
                                     </div>
@@ -590,7 +587,7 @@
                                             &amp;
                                             Experience</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <textarea name="skills" class="form-control" id="skills"
+                                            <textarea required name="skills" class="form-control" id="skills"
                                                 style="height: 100px"></textarea>
                                         </div>
                                     </div>
@@ -599,7 +596,7 @@
                                         <label for="programs" class="col-md-4 col-lg-3 col-form-label">Completed
                                             Programs</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <textarea name="programs" class="form-control" id="programs"
+                                            <textarea required name="programs" class="form-control" id="programs"
                                                 style="height: 100px"></textarea>
                                         </div>
                                     </div>

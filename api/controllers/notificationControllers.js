@@ -9,9 +9,74 @@ const {
   sendReviewEmail,
   sendHelpDeskEmail,
   sendContactEmail,
+  sendRequestInterviewEmail,
 } = require("../emailUtils/notificationEmail");
 
 module.exports = {
+  async requestInterview(req, res) {
+    let { residentID, unitTeam, email, preferences, additionalNotes } =
+      req.body;
+
+    console.log(req.body);
+    const { jobID } = req.params;
+    const resident = await Resident.findOne({ residentID }).lean();
+    const id = resident._id;
+    const name = `${resident.firstName} ${resident.lastName}`;
+    const companyName = req.session.user.companyName;
+    const sender = req.session.user.email;
+
+    await Jobs.findByIdAndUpdate(jobID, {
+      $push: {
+        interviews: {
+          isRequested: true,
+          residentID,
+          name,
+          dateRequested: new Date(),
+          preferredDate: preferences,
+          employerInstructions: additionalNotes,
+        },
+      },
+    });
+
+    // Retrieve the updated job and return the _id of the last interview
+    const updatedJob = await Jobs.findById(jobID);
+    const interviewID =
+      updatedJob.interviews[updatedJob.interviews.length - 1]._id;
+
+    console.log(interviewID);
+
+    // find positions resident has applied for
+    const applications = await Jobs.find({
+      applicants: { $in: [id] },
+    }).lean();
+
+    //send notification email to UTM
+    let devEmail = "kcicodingdev@gmail.com";
+    sendRequestInterviewEmail(
+      resident,
+      companyName,
+      devEmail, //change to email in production
+      sender,
+      interviewID
+    );
+
+    const activeTab = "application";
+    res.render(`${req.session.user.role}/profiles/residentProfile`, {
+      user: req.session.user,
+      resident,
+      activeTab,
+      applications,
+    });
+  },
+  async reviewInterviewRequest(req, res) {
+    try {
+      const { jobID } = req.params;
+      res.render("clearance/requestInterview");
+      console.log("REVIEED SCHEDULE");
+    } catch (err) {
+      console.log(err);
+    }
+  },
   //========================
   //   Help Desk
   //========================

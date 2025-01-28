@@ -263,7 +263,8 @@
                                         {{/each}}
                                         {{else}}
                                         {{#if resident.isHired}}
-                                        <span class="text-success">Resident is currently employed.
+                                        <span class="text-success">Resident is currently employed as of {{formatDate
+                                            resident.dateHired}}
                                         </span>
                                         <hr>
                                         <button class="btn btn-danger" type="button" data-bs-toggle="modal"
@@ -309,7 +310,7 @@
                 {{else}}
                 <div class="col-6">
                     <button type="button" class="btn btn-info mx-2" data-bs-toggle="modal"
-                        data-bs-target="#{{this.position}}2">Schedule
+                        data-bs-target="#{{this.position}}2">Request
                         Interview</button>
                 </div>
                 {{/if}}
@@ -349,9 +350,22 @@
                 </div>
                 <hr>
                 <div class="row mb-2">
-                    <div class="col-lg-6 col-md-6 label text-info">Interview Scheduled:</div>
+                    <div class="col-lg-6 col-md-6 label text-info">Interview Requested On:</div>
                     {{#getInterview ../resident.residentID this.interviews}}
+                    <div class="col-lg-6 col-md-6">{{formatDate dateRequested}}</div>
+                    {{else}}
+                    <div class="col-lg-6 col-md-6">No</div>
+                    {{/getInterview}}
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col-lg-6 col-md-6 label text-info">Interview Scheduled For:</div>
+                    {{#getInterview ../resident.residentID this.interviews}}
+                    {{#if date}}
                     <div class="col-lg-6 col-md-6">{{formatDate date}} &nbsp; @ &nbsp; {{time}}</div>
+                    {{else}}
+                    <div class="col-lg-6 col-md-6">No</div>
+                    {{/if}}
                     {{else}}
                     <div class="col-lg-6 col-md-6">No</div>
                     {{/getInterview}}
@@ -373,7 +387,7 @@
     </div>
 </div>
 
-{{!-- Schedule Interview Modal --}}
+{{!-- Request Interview Modal --}}
 <div class="modal fade" id="{{this.position}}2" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content p-2">
@@ -381,55 +395,58 @@
             <div class="modal-header">
 
                 <h3 id="request-title" class="modal-title">
-                    Schedule Interview
+                    Request Interview
                 </h3>
 
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form method="POST" action="/clearance/scheduleInterview/{{this._id}}">
+            <form method="POST" action="/notification/requestInterview/{{this._id}}">
                 <div class="modal-body">
 
                     <div class="row mb-3">
-                        <label for="name" class="col-sm-2 col-form-label">Resident</label>
-                        <div class="col-sm-10">
+                        <label for="name" class="col-sm-3 col-form-label">Resident</label>
+                        <div class="col-sm-9">
                             <input required type="text" class="form-control text-capitalize" readonly
                                 value="{{../resident.firstName}} {{../resident.lastName}}">
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="name" class="col-sm-2 col-form-label">ID #</label>
-                        <div class="col-sm-10">
+                        <label for="name" class="col-sm-3 col-form-label">Resident ID</label>
+                        <div class="col-sm-9">
                             <input required type="text" class="form-control" name="residentID" readonly
                                 value="{{../resident.residentID}}">
                         </div>
                     </div>
+                    <div class="row mb-3">
+                        <label for="unitTeam" class="col-sm-3 col-form-label">Unit Team</label>
+                        <div class="col-sm-9">
+                            <input required type="text" class="form-control text-capitalize" name="unitTeam" readonly
+                                value="{{../resident.unitTeam}}">
+                        </div>
+                    </div>
 
-                    <div class="row mb-3">
-                        <label for="date" class="col-sm-2 col-form-label">Date</label>
-                        <div class="col-sm-10">
-                            <input required type="date" class="form-control" name="date">
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label for="time" class="col-sm-2 col-form-label">Time</label>
-                        <div class="col-sm-10">
-                            <input required type="time" class="form-control" name="time">
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label for="instructions" class="col-12 col-form-label">Additional Instructions for
-                            Resident:</label>
+                    <input type="hidden" name="email" value="{{../resident.resume.unitTeam}}">
+
+                    <div class="row mt-3 mb-3">
+                        <label for="preferences" class="col-12 col-form-label">Time / Date / Place Preferences:</label>
                         <div class="col-12">
-                            <textarea class="form-control" style="height: 100px" name="instructions"
-                                placeholder="optional"></textarea>
+                            <textarea class="form-control" style="height: 100px" name="preferences"
+                                placeholder="Optional"></textarea>
+                        </div>
+                    </div>
+                    <div class="row mt-3 mb-3">
+                        <label for="additionalNotes" class="col-12 col-form-label">Additional Information:</label>
+                        <div class="col-12">
+                            <textarea class="form-control" style="height: 100px" name="additionalNotes"
+                                placeholder="Optional"></textarea>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <div class="col-12 d-flex justify-content-between">
-                        <button type="button" class="btn-close btn-secondary mx-2" data-bs-dismiss="modal"
+                        <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal"
                             aria-label="Close">Cancel</button>
-                        <button type="submit" class="btn btn-info mx-2">Schedule</button>
+                        <button type="submit" class="btn btn-info mx-2">Request</button>
                     </div>
                 </div>
             </form>
@@ -469,7 +486,7 @@
                 </div>
                 <div class="modal-footer">
                     <div class="col-12 d-flex justify-content-between">
-                        <button type="button" class="btn-close btn-secondary mx-2" data-bs-dismiss="modal"
+                        <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal"
                             aria-label="Close">Cancel</button>
                         <button type="submit" class="btn btn-danger mx-2">Terminate Employment</button>
                     </div>

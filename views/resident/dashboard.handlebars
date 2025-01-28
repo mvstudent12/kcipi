@@ -96,6 +96,7 @@
                     </div><!-- End Customers Card -->
 
                     {{#each interviews}}
+                    {{#if this.interviews.date}}
 
                     <div class="col-12">
                         <div class="card recent-sales overflow-auto">
@@ -113,6 +114,7 @@
                             </div>
                         </div>
                     </div>
+                    {{/if}}
                     {{/each}}
 
 
@@ -123,7 +125,8 @@
                             <div class="card-body">
                                 <h5 class="card-title">All Available Jobs</h5>
                                 {{#if user.isHired}}
-                                <p class="text-success mt-3">You are currently working.</p>
+                                <p class="text-success mt-3">You are currently working as of {{formatDate
+                                    user.dateHired}}.</p>
                                 <p>You are not eligible to complete any applications while you are employed.</p>
                                 {{else}}
                                 <table class="table table-borderless table-striped datatable">

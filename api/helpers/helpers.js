@@ -69,6 +69,9 @@ const helpers = {
     }
     return options.inverse(this);
   },
+  json: (context) => {
+    return JSON.stringify(context);
+  },
 };
 
 module.exports = helpers;

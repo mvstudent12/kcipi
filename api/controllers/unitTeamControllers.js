@@ -4,32 +4,74 @@ const UnitTeam = require("../models/UnitTeam");
 const Resident = require("../models/Resident");
 const Jobs = require("../models/Jobs");
 
+const findInterviews = async (residentIDs) => {
+  try {
+    const interviews = await Jobs.aggregate([
+      // Unwind the interviews array to separate each interview
+      { $unwind: "$interviews" },
+
+      // Match interviews where residentID is in the applicantIDs array
+      {
+        $match: {
+          "interviews.residentID": { $in: residentIDs },
+        },
+      },
+
+      // Optionally, project to return only the interview details
+      {
+        $project: {
+          _id: 0, // Exclude the job _id
+          interview: "$interviews", // Include the interview details
+          jobId: "$_id", // Include the job _id for context
+          companyName: "$companyName",
+        },
+      },
+    ]);
+    return interviews;
+  } catch (error) {
+    console.error("Error fetching interviews:", error);
+    throw error; // Re-throw the error to handle it in the calling code
+  }
+};
+
+const findApplicantIDs = async (IDs) => {
+  try {
+    let applicantIDs = [];
+    //make array of applicant ids
+    await Jobs.aggregate([
+      { $unwind: "$applicants" }, // Flatten the applicants array
+      { $match: { applicants: { $in: IDs } } }, // Filter applicants by residentID array
+      { $group: { _id: null, allResidents: { $push: "$applicants" } } }, // Collect matching resident IDs
+    ]).then((result) => {
+      if (result.length > 0) {
+        applicantIDs = result[0].allResidents;
+      }
+    });
+    return applicantIDs;
+  } catch (error) {
+    console.error("Error fetching applicantIDs:", error);
+    throw error; // Re-throw the error to handle it in the calling code
+  }
+};
+
 module.exports = {
   async dashboard(req, res) {
     try {
       const email = req.session.user.email;
+
       //find caseload specific to UTM
       const caseLoad = await Resident.find({
         "resume.unitTeam": email,
       }).lean();
 
       //make array of resident _id in caseload
-      const residentIDs = caseLoad.flatMap((resident) => resident._id);
+      const IDs = caseLoad.flatMap((resident) => resident._id);
 
-      let applicantIDs = [];
+      //make array of resident _id in caseload
+      const residentIDs = caseLoad.flatMap((resident) => resident.residentID);
 
-      //make array of applicant ids
-      await Jobs.aggregate([
-        { $unwind: "$applicants" }, // Flatten the applicants array
-        { $match: { applicants: { $in: residentIDs } } }, // Filter applicants by residentID array
-        { $group: { _id: null, allResidents: { $push: "$applicants" } } }, // Collect matching resident IDs
-      ]).then((result) => {
-        if (result.length > 0) {
-          return (applicantIDs = result[0].allResidents);
-        } else {
-          return;
-        }
-      });
+      let applicantIDs = await findApplicantIDs(IDs);
+
       //find all residents with applications in
       const applicants = await Resident.find(
         { _id: { $in: applicantIDs } },
@@ -37,12 +79,21 @@ module.exports = {
       ).lean();
 
       //find all residents who are actively hired
-      const employees = await Resident.find({});
+      const employees = await Resident.find({
+        "resume.unitTeam": email,
+        isHired: true,
+      }).lean();
+
+      //find all active interviews
+      const interviews = await findInterviews(residentIDs);
+      console.log(interviews);
 
       res.render("unitTeam/dashboard", {
         user: req.session.user,
         caseLoad,
         applicants,
+        interviews,
+        employees,
       });
     } catch (err) {
       console.log(err);
@@ -99,7 +150,7 @@ module.exports = {
       console.log(err);
     }
   },
-  async applicants(req, res) {
+  async manageWorkForce(req, res) {
     try {
       const email = req.session.user.email;
       const caseLoad = await Resident.find({
@@ -107,29 +158,33 @@ module.exports = {
       }).lean();
 
       //make array of resident _id in caseload
-      const residentIDs = caseLoad.flatMap((resident) => resident._id);
+      const IDs = caseLoad.flatMap((resident) => resident._id);
 
-      let applicantIDs = [];
+      //make array of residentID in caseload
+      const residentIDs = caseLoad.flatMap((resident) => resident.residentID);
 
-      //make array of applicant ids
-      await Jobs.aggregate([
-        { $unwind: "$applicants" }, // Flatten the applicants array
-        { $match: { applicants: { $in: residentIDs } } }, // Filter applicants by residentID array
-        { $group: { _id: null, allResidents: { $push: "$applicants" } } }, // Collect matching resident IDs
-      ]).then((result) => {
-        if (result.length > 0) {
-          return (applicantIDs = result[0].allResidents);
-        } else {
-          return;
-        }
-      });
+      let applicantIDs = await findApplicantIDs(IDs);
 
       // Query Resident model to find residents matching these IDs that applied to jobs
       const applicants = await Resident.find({
         _id: { $in: applicantIDs },
       }).lean();
 
-      res.render("unitTeam/applicants", { user: req.session.user, applicants });
+      const interviews = await findInterviews(residentIDs);
+
+      //find all residents who are actively hired
+      const employees = await Resident.find({
+        "resume.unitTeam": email,
+        isHired: true,
+      }).lean();
+      console.log(interviews);
+
+      res.render("unitTeam/manageWorkForce", {
+        user: req.session.user,
+        applicants,
+        interviews,
+        employees,
+      });
     } catch (err) {
       console.log(err);
     }

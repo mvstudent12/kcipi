@@ -54,23 +54,23 @@ employerRoutes.post(
 );
 
 employerRoutes.get(
-  "/applicants",
+  "/manageWorkForce",
   checkUser,
   requireAuth,
-  controller.applicants
+  controller.manageWorkForce
 );
 
 employerRoutes.get("/employees", checkUser, requireAuth, controller.employees);
 
-employerRoutes.get(
-  "/manageHiring",
-  checkUser,
-  requireAuth,
-  controller.manageHiring
-);
-
 employerRoutes.get("/contact", checkUser, requireAuth, controller.contact);
 
 employerRoutes.get("/helpDesk", checkUser, requireAuth, controller.helpDesk);
+
+employerRoutes.get(
+  "/cancelInterview/:interviewID",
+  checkUser,
+  requireAuth,
+  controller.cancelInterview
+);
 
 module.exports = employerRoutes;

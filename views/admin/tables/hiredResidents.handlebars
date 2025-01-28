@@ -1,0 +1,81 @@
+{{> adminTemplate}}
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Employed Residents</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active"><a href="/admin/dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item active">Employed Residents</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row">
+                    <!-- Residents Table -->
+                    <div class="col-12">
+                        <div class="card recent-sales overflow-auto">
+                            <div class="card-body">
+                                <h5 class="card-title">Employed Residents<span>| All KDOC</span></h5>
+                                <table class="table table-borderless table-striped datatable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">ID #</th>
+                                            <th scope="col">Facility</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Unit Team</th>
+                                            <th scope="col">Company</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each residents}}
+                                        <tr>
+                                            <th scope="row"><a
+                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
+                                            </th>
+                                            <td class="text-capitalize">{{this.facility}}</td>
+                                            <td class="text-capitalize"><a
+                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.firstName}}
+                                                    {{this.lastName}}</a></td>
+                                            {{#if this.unitTeam}}
+                                            <td class="text-capitalize">{{this.unitTeam}}</td>
+                                            {{else}}
+                                            <td class="text-capitalize">Not Assigned</td>
+                                            {{/if}}
+
+                                            {{#if this.isHired}}
+                                            <td><span class="badge bg-info">Hired</span></td>
+                                            {{else}}
+                                            {{#if this.isEligibleToWork}}
+                                            <td><span class="badge bg-success">Eligible</span></td>
+                                            {{else}}
+                                            {{#if this.isRestrictedFromWork}}
+                                            <td><span class="badge bg-danger">Restricted</span></td>
+                                            {{else}}
+
+                                            <td><span class="badge bg-warning">Pending</span></td>
+
+                                            {{/if}}
+                                            {{/if}}
+                                            {{/if}}
+                                        </tr>
+
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </section>
+</main>
+
+<!-- ======= Footer ======= -->
+{{> footer}}
+
+{{> arrowUp}}

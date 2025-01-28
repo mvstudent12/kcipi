@@ -14,9 +14,18 @@ const jobSchema = new Schema({
   employees: [{ type: mongoose.Schema.Types.ObjectId, ref: "Resident" }],
   isAvailable: { type: Boolean, default: true },
   dateCreated: { type: Date, default: Date.now },
+
   interviews: [
     {
+      isRequested: { type: Boolean, default: false },
+      preferredDate: { type: String, trim: true },
+      employerInstructions: { type: String, trim: true },
+      dateRequested: { type: Date, required: true },
       residentID: {
+        type: String,
+        required: true,
+      },
+      name: {
         type: String,
         required: true,
       },

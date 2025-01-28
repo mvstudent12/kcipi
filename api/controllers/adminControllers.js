@@ -122,6 +122,19 @@ module.exports = {
       console.log(err);
     }
   },
+  //serves hiredResidents page from admin dashboard
+  async employedResidents(req, res) {
+    try {
+      const residents = await Resident.find({ isHired: true }).lean();
+      console.log(residents);
+      res.render("admin/tables/hiredResidents", {
+        user: req.session.user,
+        residents,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  },
 
   //serves unitTeamTables page from admin dashboard
   async unitTeamTables(req, res) {

@@ -5,8 +5,8 @@ const dbURI =
   "mongodb+srv://kcicodingdev:WWsgMyk4wiBt3Vze@kcipi.vkftg.mongodb.net/?retryWrites=true&w=majority&appName=kcipi";
 
 // process.env.DB_URI;
-
-//"mongodb://localhost/kcipi"; //use for development
+//
+("mongodb://localhost/kcipi"); //use for development
 mongoose
   .connect(dbURI, {
     ssl: true, // Ensure SSL is enabled -comment out in development/localhost all three lines

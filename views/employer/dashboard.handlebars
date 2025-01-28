@@ -41,7 +41,7 @@
                     <div class="col-xxl-4 col-md-4">
                         <div class="card info-card revenue-card">
                             <div class="card-body">
-                                <a href="/employer/applicants">
+                                <a href="/employer/manageWorkForce">
                                     <h5 class="card-title">Applicants <span>| Pending</span></h5>
                                     <div class="d-flex align-items-center">
                                         <div
@@ -69,7 +69,7 @@
                                             <i class="bi bi-people"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6>{{countItems allEmployees}}</h6>
+                                            <h6>{{countItems employees}}</h6>
                                         </div>
                                     </div>
                                 </a>
@@ -189,7 +189,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{#each allEmployees}}
+                                        {{#each employees}}
                                         <tr>
                                             <th scope="row">
                                                 <a
