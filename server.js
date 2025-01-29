@@ -20,9 +20,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
-      mongoUrl:
-        // "mongodb://localhost/kcipi"
-        dbURI, // MongoDB URI
+      mongoUrl: dbURI, // MongoDB URI
       collectionName: "sessions", // Collection name for storing sessions in MongoDB
     }),
     cookie: {
