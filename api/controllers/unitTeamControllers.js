@@ -162,28 +162,30 @@ module.exports = {
     }
   },
 
-  async residentProfile(req, res) {
-    try {
-      const residentID = req.params.id;
-      const resident = await Resident.findOne({ residentID }).lean();
-      const id = resident._id;
+  // async residentProfile(req, res) {
+  //   try {
+  //     const residentID = req.params.id;
+  //     const resident = await Resident.findOne({ residentID }).lean();
+  //     const id = resident._id;
 
-      //find positions resident has applied for
-      const applications = await Jobs.find({
-        applicants: { $in: [id] },
-      }).lean();
+  //     console.log(resident);
 
-      const activeTab = "overview";
-      res.render("unitTeam/profiles/residentProfile", {
-        user: req.session.user,
-        resident,
-        activeTab,
-        applications,
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  },
+  //     //find positions resident has applied for
+  //     const applications = await Jobs.find({
+  //       applicants: { $in: [id] },
+  //     }).lean();
+
+  //     const activeTab = "overview";
+  //     res.render("unitTeam/profiles/residentProfile", {
+  //       user: req.session.user,
+  //       resident,
+  //       activeTab,
+  //       applications,
+  //     });
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // },
 
   async helpDesk(req, res) {
     try {

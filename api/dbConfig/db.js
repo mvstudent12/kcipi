@@ -6,9 +6,10 @@ const dbURI =
 
   process.env.DB_URI;
 
-//"mongodb://localhost/kcipi"; //use for development
+// "mongodb://localhost/kcipi"; //use for development
 mongoose
   .connect(dbURI, {
+    //comment these three out in localhost development vvv
     ssl: true, // Ensure SSL is enabled -comment out in development/localhost all three lines
     tls: true, // Force TLS connection
     tlsInsecure: false, // Optionally, enforce secure connection (recommended)

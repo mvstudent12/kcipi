@@ -60,8 +60,6 @@
                                     {{/if}}
                                     {{/if}}
 
-
-
                                     {{#if resident.isRestrictedFromWork}}
                                     <div class="text-center">
                                         <p class="text-danger">This resident is not eligible
@@ -102,6 +100,25 @@
                                         <div class="col-lg-8 col-md-8 text-capitalize">{{resident.resumeIsApproved}}
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-4 label">UTM</div>
+                                        {{#if resident.unitTeam}}
+                                        <div class="col-lg-8 col-md-8 text-capitalize">{{resident.unitTeam}}</div>
+                                        {{else}}
+                                        <div class="col-lg-8 col-md-8">Not Assigned</div>
+                                        {{/if}}
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-4 label">Job Pool</div>
+                                        {{#if resident.jobPool}}
+                                        <div class="col-lg-8 col-md-8 text-capitalize">{{resident.jobPool}}</div>
+                                        {{else}}
+                                        <div class="col-lg-8 col-md-8">Not Assigned</div>
+                                        {{/if}}
+                                    </div>
+                                    <hr>
+                                    <button type="button" class="btn btn-info" data-bs-toggle="modal"
+                                        data-bs-target="#editResident">Edit Resident</button>
                                 </div>
                             </div>
                         </div>
@@ -640,6 +657,158 @@
         </div>
     </div>
 </section>
+{{!-- Edit Resident Modal --}}
+<div class="modal fade" id="editResident" tabindex="-1" aria-labelledby="editResidentLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="POST" action="/clearance/editResident">
+                <div class="modal-header">
+                    <h5 id="editResidentLabel" class="modal-title">Edit Resident</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="card">
+                        <div class="card-body pt-3">
+
+                            {{!-- Resident Name --}}
+                            <div class="row mb-3">
+                                <label for="name" class="col-md-4 col-lg-3 col-form-label">Name</label>
+                                <div class="col-md-8 col-lg-9">
+                                    <input readonly name="name" type="text" class="form-control text-capitalize"
+                                        id="name" value="{{resident.firstName}} {{resident.lastName}}">
+                                </div>
+                            </div>
+
+                            {{!-- Resident ID --}}
+                            <div class="row mb-3">
+                                <label for="residentID" class="col-md-4 col-lg-3 col-form-label">Resident ID</label>
+                                <div class="col-md-8 col-lg-9">
+                                    <input readonly name="residentID" type="text" class="form-control text-capitalize"
+                                        id="residentID" value="{{resident.residentID}}">
+                                </div>
+                            </div>
+
+                            {{!-- Resident Custody Level --}}
+                            <div class="row mb-3">
+                                <label for="custodyLevel" class="col-md-4 col-lg-3 col-form-label">Custody</label>
+                                <div class="col-md-8 col-lg-9">
+                                    <select required name="custodyLevel" class="form-select" id="custodyLevel">
+                                        <option value="Minimum 1" {{#if (eq resident.custodyLevel "Minimum 1"
+                                            )}}selected{{/if}}>Minimum 1</option>
+                                        <option value="Minimum 2" {{#if (eq resident.custodyLevel "Minimum 2"
+                                            )}}selected{{/if}}>Minimum 2</option>
+                                        <option value="Medium" {{#if (eq resident.custodyLevel "Medium"
+                                            )}}selected{{/if}}>Medium</option>
+                                        <option value="Maximum" {{#if (eq resident.custodyLevel "Maximum"
+                                            )}}selected{{/if}}>Maximum</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            {{!-- Resident Facility --}}
+                            <div class="row mb-3">
+                                <label for="facility" class="col-md-4 col-lg-3 col-form-label">Facility</label>
+                                <div class="col-md-8 col-lg-9">
+                                    <select required name="facility" id="facilityEdit" class="form-select"
+                                        aria-label="Facility Options">
+                                        <option {{#if (eq resident.facility "El Dorado" )}}selected{{/if}}
+                                            value="El Dorado">El Dorado</option>
+                                        <option {{#if (eq resident.facility "Ellsworth" )}}selected{{/if}}
+                                            value="Ellsworth">Ellsworth</option>
+                                        <option {{#if (eq resident.facility "Hutchinson" )}}selected{{/if}}
+                                            value="Hutchinson">Hutchinson</option>
+                                        <option {{#if (eq resident.facility "Lansing" )}}selected{{/if}}
+                                            value="Lansing">Lansing</option>
+                                        <option {{#if (eq resident.facility "Larned" )}}selected{{/if}} value="Larned">
+                                            Larned</option>
+                                        <option {{#if (eq resident.facility "Norton" )}}selected{{/if}} value="Norton">
+                                            Norton</option>
+                                        <option {{#if (eq resident.facility "Topeka" )}}selected{{/if}} value="Topeka">
+                                            Topeka</option>
+                                        <option {{#if (eq resident.facility "Winfield" )}}selected{{/if}}
+                                            value="Winfield">Winfield</option>
+                                        <option {{#if (eq resident.facility "Wichita" )}}selected{{/if}}
+                                            value="Wichita">Wichita</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            {{!-- Unit Team Assigned --}}
+                            <div class="row mb-3">
+                                <label for="unitTeam" class="col-md-4 col-lg-3 col-form-label">Unit Team</label>
+                                <div class="col-md-8 col-lg-9">
+                                    <select required name="unitTeamInfo" id="unitTeamList"
+                                        class="form-select text-capitalize" aria-label="Select Unit Team">
+                                        {{#unless resident.resume.unitTeam}}
+                                        <option value="">Select Unit Team:</option>
+                                        {{/unless}}
+                                        {{#each unitTeam}}
+                                        <option {{#if (eq resident.resume.unitTeam this.email)}}selected{{/if}}
+                                            class="text-capitalize"
+                                            value="{{this.email}}|{{this.firstName}} {{this.lastName}}">
+                                            {{this.firstName}} {{this.lastName}} - {{this.facility}}
+                                        </option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                            </div>
+
+                            {{!-- Job Pool--}}
+                            <div class="row mb-3">
+                                <label for="jobPool" class="col-md-4 col-lg-3 col-form-label">Job
+                                    Pool</label>
+                                <div class="col-md-8 col-lg-9">
+                                    <select required name="jobPool" class="form-select" aria-label="Job Pool">
+                                        <option {{#if (eq resident.jobPool "" ) }}selected{{/if}} value="">Select Job
+                                            Pool</option>
+                                        <option {{#if (eq resident.jobPool "Male Minimum 1 (Off-Site)" )
+                                            }}selected{{/if}} value="Male Minimum 1 (Off-Site)">Male
+                                            Minimum 1
+                                            &lpar;Off-Site&rpar;
+                                        </option>
+                                        <option {{#if (eq resident.jobPool "Male Minimum 2 (On-Site)" )
+                                            }}selected{{/if}} value="Male Minimum 2 (On-Site)">Male
+                                            Minimum 2
+                                            &lpar;On-Site&rpar;
+                                        </option>
+                                        <option {{#if (eq resident.jobPool "Male Medium/Maximum" ) }}selected{{/if}}
+                                            value="Male Medium/Maximum">Male
+                                            Medium/Maximum
+                                        </option>
+                                        <option {{#if (eq resident.jobPool "Female Minimum 1 (Off-Site)" )
+                                            }}selected{{/if}} value="Female Minimum 1 (Off-Site)">
+                                            Female Minimum
+                                            1
+                                            &lpar;Off-Site&rpar;
+                                        </option>
+                                        <option {{#if (eq resident.jobPool "Female Minimum 2 (On-Site)" )
+                                            }}selected{{/if}} value="Female Minimum 2 (On-Site)">
+                                            Female Minimum
+                                            2
+                                            &lpar;On-Site&rpar;
+                                        </option>
+                                        <option {{#if (eq resident.jobPool "Female Medium/Maximum" ) }}selected{{/if}}
+                                            value="Female Medium/Maximum">Female
+                                            Medium/Maximum
+                                        </option>
+                                    </select>
+
+                                </div>
+                            </div>
+
+                            <div class="modal-footer d-flex justify-content-between">
+                                <button type="button" class="btn btn-secondary mx-2"
+                                    data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-info mx-2">Save Edit</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 {{#each applications}}
 {{!-- View Application Modal --}}
@@ -1100,6 +1269,17 @@
         </div>
     </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
 
 <script type="text/javascript" src="/../assets/js/residentApprovalForm.js"></script>
 

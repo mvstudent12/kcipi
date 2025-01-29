@@ -23,6 +23,7 @@ module.exports = {
     try {
       const { residentID } = req.params;
       const resident = await Resident.findOne({ residentID }).lean();
+
       const id = resident._id;
 
       //find positions resident has applied for
@@ -30,12 +31,60 @@ module.exports = {
         applicants: { $in: [id] },
       }).lean();
 
+      const unitTeam = await UnitTeam.find({}).sort({ firstName: 1 }).lean();
+
       const activeTab = "overview";
       res.render(`${req.session.user.role}/profiles/residentProfile`, {
         user: req.session.user,
         resident,
         applications,
         activeTab,
+        unitTeam,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  async editResident(req, res) {
+    try {
+      console.log(req.body);
+      let { residentID, custodyLevel, facility, unitTeamInfo, jobPool } =
+        req.body;
+      console.log(unitTeamInfo);
+
+      let [unitTeamEmail, unitTeamName] = unitTeamInfo.split("|");
+
+      await Resident.updateOne(
+        { residentID: residentID }, // Find the resident by ID
+        {
+          $set: {
+            facility: facility,
+            unitTeam: unitTeamName,
+            custodyLevel: custodyLevel,
+            jobPool: jobPool,
+            "resume.unitTeam": unitTeamEmail,
+          },
+        }
+      );
+      const resident = await Resident.findOne({ residentID }).lean();
+      console.log(resident);
+
+      const id = resident._id;
+
+      //find positions resident has applied for
+      const applications = await Jobs.find({
+        applicants: { $in: [id] },
+      }).lean();
+
+      const unitTeam = await UnitTeam.find({}).sort({ firstName: 1 }).lean();
+
+      const activeTab = "overview";
+      res.render(`${req.session.user.role}/profiles/residentProfile`, {
+        user: req.session.user,
+        resident,
+        applications,
+        activeTab,
+        unitTeam,
       });
     } catch (err) {
       console.log(err);
