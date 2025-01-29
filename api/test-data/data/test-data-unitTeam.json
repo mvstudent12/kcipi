@@ -28,7 +28,7 @@
     "lastName": "Johnson",
     "email": "emily.johnson@ks.gov",
     "password": "password",
-    "facility": "Hutchison",
+    "facility": "Hutchinson",
     "role": "unitTeam"
   },
   {
@@ -84,7 +84,7 @@
     "lastName": "Anderson",
     "email": "charles.anderson@ks.gov",
     "password": "password",
-    "facility": "Hutchison",
+    "facility": "Hutchinson",
     "role": "unitTeam"
   },
   {
@@ -140,7 +140,7 @@
     "lastName": "Rodriguez",
     "email": "daniel.rodriguez@ks.gov",
     "password": "password",
-    "facility": "Hutchison",
+    "facility": "Hutchinson",
     "role": "unitTeam"
   },
   {
@@ -196,7 +196,7 @@
     "lastName": "Adams",
     "email": "kimberly.adams@ks.gov",
     "password": "password",
-    "facility": "Hutchison",
+    "facility": "Hutchinson",
     "role": "unitTeam"
   },
   {
@@ -252,7 +252,7 @@
     "lastName": "Turner",
     "email": "george.turner@ks.gov",
     "password": "password",
-    "facility": "Hutchison",
+    "facility": "Hutchinson",
     "role": "unitTeam"
   },
   {
@@ -316,7 +316,7 @@
     "lastName": "Walker",
     "email": "linda.walker@ks.gov",
     "password": "password",
-    "facility": "Hutchison",
+    "facility": "Hutchinson",
     "role": "unitTeam"
   },
   {
