@@ -3,7 +3,7 @@ const notificationRoutes = express.Router();
 const controller = require("../controllers/notificationControllers");
 
 notificationRoutes.post(
-  "/requestInterview/:jobID",
+  "/requestInterview/:jobID/:email",
   controller.requestInterview
 );
 

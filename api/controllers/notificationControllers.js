@@ -16,8 +16,7 @@ const {
 
 module.exports = {
   async requestInterview(req, res) {
-    let { residentID, unitTeam, email, preferences, additionalNotes } =
-      req.body;
+    let { residentID, preferences, additionalNotes } = req.body;
 
     const { jobID } = req.params;
     const resident = await Resident.findOne({ residentID }).lean();
@@ -69,7 +68,8 @@ module.exports = {
   },
   async reviewInterviewRequest(req, res) {
     try {
-      const { interviewID } = req.params;
+      const { interviewID, email } = req.params;
+      console.log(email);
 
       let interview = await Jobs.aggregate([
         // Unwind the interviews array to make each interview a separate document
@@ -88,6 +88,7 @@ module.exports = {
             _id: 0, // Exclude the Job document's _id
             position_id: "$_id", // Include the Job document's _id as jobID for context
             interview: "$interviews", // Include the matched interview
+            companyName: "$companyName",
           },
         },
       ]);
@@ -99,7 +100,7 @@ module.exports = {
       }).lean();
 
       res.render("clearance/requestInterview", {
-        user: req.session.user,
+        email,
         interview,
         resident,
       });

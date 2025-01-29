@@ -122,9 +122,9 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">ID #</th>
-                                            <th scope="col">Facility</th>
                                             <th scope="col">Name</th>
                                             <th scope="col">Out Date</th>
+                                            <th scope="col">Date Hired</th>
                                             <th scope="col">Company</th>
                                         </tr>
                                     </thead>
@@ -135,10 +135,7 @@
                                                 <a
                                                     href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
                                             </th>
-                                            <td class="text-capitalize">
-                                                <a
-                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.facility}}</a>
-                                            </td>
+
                                             <td class="text-capitalize">
                                                 <a href="/clearance/residentProfile/{{this.residentID}}">{{this.firstName}}
                                                     {{this.lastName}}</a>
@@ -146,6 +143,10 @@
                                             <td class="text-capitalize">
                                                 <a href="/clearance/residentProfile/{{this.residentID}}">{{formatDate
                                                     this.outDate}}</a>
+                                            </td>
+                                            <td class="text-capitalize">
+                                                <a href="/clearance/residentProfile/{{this.residentID}}">{{formatDate
+                                                    this.dateHired}}</a>
                                             </td>
                                             <td class="text-capitalize">
                                                 <a
