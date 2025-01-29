@@ -13,7 +13,6 @@ const {
   sendContactEmail,
   sendRequestInterviewEmail,
 } = require("../emailUtils/notificationEmail");
-const { faLessThan } = require("@fortawesome/free-solid-svg-icons");
 
 module.exports = {
   async requestInterview(req, res) {
