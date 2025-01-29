@@ -59,6 +59,12 @@ clearanceRoutes.get(
   requireAuth,
   controller.hireResident
 );
+clearanceRoutes.get(
+  "/rejectHire/:id/:jobID",
+  checkUser,
+  requireAuth,
+  controller.rejectHire
+);
 clearanceRoutes.post(
   "/terminateResident/:id",
   checkUser,

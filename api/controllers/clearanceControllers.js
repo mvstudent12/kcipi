@@ -317,11 +317,60 @@ module.exports = {
         {}, // This empty filter matches all documents
         {
           $pull: {
-            applicants: id, // Remove residentID from the applicants array
+            applicants: id, // Remove resident_id from the applicants array
             interviews: { residentID: residentID }, // Remove interview with the given residentID
           },
         }
       );
+      //find positions resident has applied for
+      const applications = await Jobs.find({
+        applicants: { $in: [id] },
+      }).lean();
+
+      const activeTab = "application";
+      res.render(`${req.session.user.role}/profiles/residentProfile`, {
+        user: req.session.user,
+        resident,
+        activeTab,
+        applications,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  //employs resident to company
+  async rejectHire(req, res) {
+    try {
+      const { id, jobID } = req.params;
+      const position = await Jobs.findOne({ _id: jobID }).lean();
+      const companyName = position.companyName;
+
+      await Resident.findByIdAndUpdate(id, {
+        $set: {
+          isHired: false,
+        },
+      });
+      const resident = await Resident.findById(id).lean();
+      const residentID = resident.residentID;
+
+      //remove user from applicants/ interviews add to workforce
+      await Jobs.findByIdAndUpdate(jobID, {
+        $pull: {
+          applicants: id,
+          interviews: { residentID: residentID },
+        },
+
+        set: {
+          isAvailable: {
+            $cond: {
+              if: { $eq: ["$availablePositions", 0] },
+              then: false,
+              else: "$isAvailable",
+            },
+          },
+        },
+      });
+
       //find positions resident has applied for
       const applications = await Jobs.find({
         applicants: { $in: [id] },
