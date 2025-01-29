@@ -31,4 +31,11 @@ unitTeamRoutes.get(
   controller.manageWorkForce
 );
 
+unitTeamRoutes.get(
+  "/manageClearance",
+  checkUser,
+  requireAuth,
+  controller.manageClearance
+);
+
 module.exports = unitTeamRoutes;

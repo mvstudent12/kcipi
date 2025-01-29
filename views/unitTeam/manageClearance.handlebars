@@ -1,0 +1,180 @@
+{{> unitTeamTemplate}}
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Manage PI Clearance</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active"><a href="/unitTeam/dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item active">Manage PI Clearance</li>
+            </ol>
+        </nav>
+    </div>
+
+    <section class="section dashboard">
+        <div class="row">
+
+            <div class="col-lg-12">
+                <div class="row">
+
+                    <!-- Resume Table -->
+                    <div class="col-12">
+                        <div class="card recent-sales overflow-auto">
+                            <div class="card-body">
+                                <h5 class="card-title">Resumes <span>| To Approve</span></h5>
+                                <table class="table table-borderless table-striped datatable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">ID #</th>
+                                            <th scope="col">Facility</th>
+                                            <th scope="col">Resident</th>
+                                            <th scope="col">Date</th>
+                                            <th scope="col">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each caseLoad}}
+                                        {{#unless this.resumeIsApproved}}
+                                        {{#if this.resumeIsComplete}}
+                                        <tr>
+                                            <th scope="row"><a
+                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
+                                            </th>
+                                            <td class="text-capitalize">{{this.facility}}</td>
+                                            <td><a href="/clearance/residentProfile/{{this.residentID}}"
+                                                    class="text-primary text-capitalize">{{this.firstName}}
+                                                    {{this.lastName}}</a></td>
+                                            <td>{{formatDate this.resume.dateCreated}}</td>
+                                            {{#if this.resumeRejectionReason}}
+                                            <td><span class="badge bg-danger">Rejected</span></td>
+                                            {{else}}
+                                            <td><span class="badge bg-warning">Pending</span></td>
+                                            {{/if}}
+
+                                        </tr>
+                                        {{/if}}
+                                        {{/unless}}
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Clearance Table -->
+                    <div class="col-12">
+                        <div class="card recent-sales overflow-auto">
+                            <div class="card-body">
+                                <h5 class="card-title">PI Clearance <span>| To Review</span></h5>
+                                <table class="table table-borderless table-striped datatable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">ID #</th>
+                                            <th scope="col">Resident</th>
+
+                                            <th scope="col">Med.</th>
+                                            <th scope="col">E.A.I.</th>
+                                            <th scope="col">S.O.</th>
+                                            <th scope="col">C.A.</th>
+                                            <th scope="col">Warden</th>
+                                            <th scope="col">UTM</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each caseLoad}}
+                                        {{#if this.resumeIsApproved}}
+                                        <tr>
+                                            <th scope="row"><a href="/clearance/residentProfile/{{this.residentID}}">
+                                                    {{this.residentID}}</a></th>
+
+                                            <td><a href="/clearance/residentProfile/{{this.residentID}}"
+                                                    class="text-primary text-capitalize">{{this.firstName}}
+                                                    {{this.lastName}}</a></td>
+
+
+                                            {{#if this.MedicalClearance}}
+                                            <td><span class="badge bg-success">Cleared</span></td>
+                                            {{else}}
+                                            {{#if this.MedicalRestriction}}
+                                            <td><span class="badge bg-danger">Rejected</span></td>
+                                            {{else}}
+                                            <td><span class="badge bg-secondary">None</span></td>
+                                            {{/if}}
+                                            {{/if}}
+
+
+                                            {{#if this.UTMClearance}}
+                                            <td><span class="badge bg-success">Cleared</span></td>
+                                            {{else}}
+                                            {{#if this.UTMRestriction}}
+                                            <td><span class="badge bg-danger">Rejected</span></td>
+                                            {{else}}
+                                            <td><span class="badge bg-secondary">None</span></td>
+                                            {{/if}}
+                                            {{/if}}
+
+                                            {{#if this.EAIClearance}}
+                                            <td><span class="badge bg-success">Cleared</span></td>
+                                            {{else}}
+                                            {{#if this.EAIRestriction}}
+                                            <td><span class="badge bg-danger">Rejected</span></td>
+                                            {{else}}
+                                            <td><span class="badge bg-secondary">None</span></td>
+                                            {{/if}}
+                                            {{/if}}
+
+                                            {{#if this.sexOffenderClearance}}
+                                            <td><span class="badge bg-success">Cleared</span></td>
+                                            {{else}}
+                                            {{#if this.sexOffenderRestriction}}
+                                            <td><span class="badge bg-danger">Rejected</span></td>
+                                            {{else}}
+                                            <td><span class="badge bg-secondary">None</span></td>
+                                            {{/if}}
+                                            {{/if}}
+
+                                            {{#if this.ClassificationClearance}}
+                                            <td><span class="badge bg-success">Cleared</span></td>
+                                            {{else}}
+                                            {{#if this.ClassificationRestriction}}
+                                            <td><span class="badge bg-danger">Rejected</span></td>
+                                            {{else}}
+                                            <td><span class="badge bg-secondary">None</span></td>
+                                            {{/if}}
+                                            {{/if}}
+
+                                            {{#if this.WardenClearance}}
+                                            <td><span class="badge bg-success">Cleared</span></td>
+                                            {{else}}
+                                            {{#if this.WardenRestriction}}
+                                            <td><span class="badge bg-danger">Rejected</span></td>
+                                            {{else}}
+                                            <td><span class="badge bg-secondary">None</span></td>
+                                            {{/if}}
+                                            {{/if}}
+
+
+
+
+
+
+                                        </tr>
+                                        {{/if}}
+
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+<!-- ======= Footer ======= -->
+{{> footer}}
+{{> arrowUp}}

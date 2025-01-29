@@ -17,6 +17,8 @@ authRoutes.get("/", controller.index); //serves non-resident admin login page
 
 authRoutes.post("/login", controller.login); //checks if non-resident exists
 
+authRoutes.get("/thankYou", controller.thankYou); //serves thank you page
+
 authRoutes.get(
   "/user/dashboard/:id",
   checkUser,

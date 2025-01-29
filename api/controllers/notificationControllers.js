@@ -5,19 +5,21 @@ const UnitTeam = require("../models/UnitTeam");
 const Resident = require("../models/Resident");
 const Jobs = require("../models/Jobs");
 
+const mongoose = require("mongoose");
+
 const {
   sendReviewEmail,
   sendHelpDeskEmail,
   sendContactEmail,
   sendRequestInterviewEmail,
 } = require("../emailUtils/notificationEmail");
+const { faLessThan } = require("@fortawesome/free-solid-svg-icons");
 
 module.exports = {
   async requestInterview(req, res) {
     let { residentID, unitTeam, email, preferences, additionalNotes } =
       req.body;
 
-    console.log(req.body);
     const { jobID } = req.params;
     const resident = await Resident.findOne({ residentID }).lean();
     const id = resident._id;
@@ -43,15 +45,13 @@ module.exports = {
     const interviewID =
       updatedJob.interviews[updatedJob.interviews.length - 1]._id;
 
-    console.log(interviewID);
-
     // find positions resident has applied for
     const applications = await Jobs.find({
       applicants: { $in: [id] },
     }).lean();
 
     //send notification email to UTM
-    let devEmail = "kcicodingdev@gmail.com";
+    let devEmail = "carrie.branson@ks.gov";
     sendRequestInterviewEmail(
       resident,
       companyName,
@@ -70,9 +70,64 @@ module.exports = {
   },
   async reviewInterviewRequest(req, res) {
     try {
-      const { jobID } = req.params;
-      res.render("clearance/requestInterview");
-      console.log("REVIEED SCHEDULE");
+      const { interviewID } = req.params;
+
+      let interview = await Jobs.aggregate([
+        // Unwind the interviews array to make each interview a separate document
+        { $unwind: "$interviews" },
+
+        // Match the specific interview by its _id
+        {
+          $match: {
+            "interviews._id": new mongoose.Types.ObjectId(interviewID),
+          },
+        },
+
+        // Project the interview and optionally other relevant fields
+        {
+          $project: {
+            _id: 0, // Exclude the Job document's _id
+            position_id: "$_id", // Include the Job document's _id as jobID for context
+            interview: "$interviews", // Include the matched interview
+          },
+        },
+      ]);
+      interview = interview[0];
+      const residentID = interview.interview.residentID;
+      const resident = await Resident.findOne({
+        residentID: residentID,
+      }).lean();
+
+      res.render("clearance/requestInterview", {
+        user: req.session.user,
+        interview,
+        resident,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }, //schedule interview from email notification
+  async scheduleInterview(req, res) {
+    try {
+      const { interviewID, jobID } = req.params;
+      const { date, time, instructions } = req.body;
+      //update the interview in job
+      await Jobs.updateOne(
+        {
+          _id: jobID, // Match the job by its ID
+          "interviews._id": interviewID, // Match the specific interview by its _id
+        },
+        {
+          $set: {
+            "interviews.$.date": date, // Update the date
+            "interviews.$.time": time, // Update the time
+            "interviews.$.instructions": instructions, // Update the instructions
+          },
+        }
+      );
+      res.render(`clearance/thankYou`, {
+        user: req.session.user,
+      });
     } catch (err) {
       console.log(err);
     }

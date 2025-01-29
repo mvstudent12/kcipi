@@ -8,8 +8,13 @@ notificationRoutes.post(
 );
 
 notificationRoutes.get(
-  "/reviewInterviewRequest/:jobID",
+  "/reviewInterviewRequest/:interviewID",
   controller.reviewInterviewRequest
+);
+
+notificationRoutes.post(
+  "/scheduleInterview/:interviewID/:jobID",
+  controller.scheduleInterview
 );
 
 //============================

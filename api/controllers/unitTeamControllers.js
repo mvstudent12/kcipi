@@ -189,4 +189,20 @@ module.exports = {
       console.log(err);
     }
   },
+  async manageClearance(req, res) {
+    try {
+      const email = req.session.user.email;
+
+      //find caseload specific to UTM
+      const caseLoad = await Resident.find({
+        "resume.unitTeam": email,
+      }).lean();
+      res.render("unitTeam/manageClearance", {
+        user: req.session.user,
+        caseLoad,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  },
 };

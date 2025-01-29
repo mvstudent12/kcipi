@@ -65,7 +65,7 @@
 
                                 {{#if resident.sexOffenderClearance}}
                                 {{!-- Resident is Sex-Offender cleared/ --}}
-                                <h5 class="card-title text-success">Resident has been cleared by Sex-Offender.</h5>
+                                <h5 class="card-title text-success">Resident has been cleared.</h5>
                                 <div class="col-lg-4 col-md-6 d-grid gap-2 mt-3">
                                     <a
                                         href="/notification/Sex-Offender/removeSex-OffenderClearance/{{resident.residentID}}/{{email}}">
@@ -76,7 +76,7 @@
                                 {{else}}
                                 {{#if resident.sexOffenderRestriction}}
                                 {{!-- Resident has Sex-Offender restrictions --}}
-                                <h5 class="card-title text-danger">Resident has been restricted by Sex-Offender.</h5>
+                                <h5 class="card-title text-danger">Resident has been restricted.</h5>
                                 <div class="row">
                                     <div class="col-lg-4 col-md-6 d-grid gap-2 mt-3">
                                         <a
@@ -89,7 +89,7 @@
                                 {{else}}
                                 {{!-- Resident has neither been cleared nor restricted --}}
                                 {{#unless resident.sexOffenderReviewed}}
-                                <h5 class="card-title">Resident needs reviewed by Sex-Offender.</h5>
+                                <h5 class="card-title">Resident has not yet been reviewed.</h5>
                                 <div class="row">
                                     <div class="container">
                                         <div class="d-flex flex-column">
@@ -190,6 +190,7 @@
                                                 <option value="EAI">EAI</option>
                                                 <option value="Classification">Classification</option>
                                                 <option value="Sex-Offender">Sex-Offender</option>
+                                                <option value="Warden">Warden</option>
                                             </select>
                                         </div>
                                     </div>
@@ -214,10 +215,18 @@
                                         </div>
                                     </div>
                                     <div class="row mb-3">
-                                        <div class="col-lg-4 col-md-6 d-grid gap-2 mt-3">
-                                            <button type="submit" class="btn btn-primary mb-2">Send</button>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="col-lg-4 col-md-6 d-grid gap-2 mt-3">
+                                                <button type="submit" class="btn btn-primary">Send Email</button>
+                                            </div>
+                                            <div>
+                                                <a href="/thankYou">
+                                                    <button type="button" class="btn btn-info">Skip</button>
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
+
                                 </form>
                                 <hr>
                             </div>
