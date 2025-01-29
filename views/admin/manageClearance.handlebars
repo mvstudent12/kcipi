@@ -1,4 +1,4 @@
-{{> unitTeamTemplate}}
+{{> adminTemplate}}
 
 <main id="main" class="main">
 
@@ -27,10 +27,10 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">ID #</th>
+                                            <th scope="col">Facility</th>
                                             <th scope="col">Resident</th>
                                             <th scope="col">Out Date</th>
                                             <th scope="col">Submitted</th>
-                                            <th scope="col">Custody</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -41,7 +41,7 @@
                                             <th scope="row"><a
                                                     href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
                                             </th>
-
+                                            <td class="text-capitalize">{{this.facility}}</td>
                                             <td><a href="/clearance/residentProfile/{{this.residentID}}"
                                                     class="text-primary text-capitalize">{{this.firstName}}
                                                     {{this.lastName}}</a></td>
@@ -49,12 +49,7 @@
                                                     class="text-primary text-capitalize">{{formatDate this.outDate}}</a>
                                             </td>
 
-                                            <td><a href="/clearance/residentProfile/{{this.residentID}}"
-                                                    class="text-primary text-capitalize">{{formatDate
-                                                    this.resume.createdAt}}</a></td>
-                                            <td><a href="/clearance/residentProfile/{{this.residentID}}"
-                                                    class="text-primary text-capitalize">{{this.custodyLevel}}</a>
-                                            </td>
+                                            <td>{{formatDate this.resume.createdAt}}</td>
 
 
 
@@ -90,10 +85,8 @@
                                     </thead>
                                     <tbody>
                                         {{#each caseLoad}}
-
                                         {{#if this.resumeIsApproved}}
                                         {{#unless this.isEligibleToWork}}
-
                                         <tr>
                                             <th scope="row"><a href="/clearance/residentProfile/{{this.residentID}}">
                                                     {{this.residentID}}</a></th>
@@ -163,11 +156,6 @@
                                             <td><span class="badge bg-secondary">None</span></td>
                                             {{/if}}
                                             {{/if}}
-
-
-
-
-
 
                                         </tr>
                                         {{/unless}}

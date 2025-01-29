@@ -19,7 +19,19 @@ adminRoutes.get("/helpDesk", checkUser, requireAuth, controller.helpDesk);
 
 adminRoutes.get("/contact", checkUser, requireAuth, controller.contact);
 
-adminRoutes.get("/applicants", checkUser, requireAuth, controller.applicants);
+adminRoutes.get(
+  "/manageWorkForce",
+  checkUser,
+  requireAuth,
+  controller.manageWorkForce
+);
+
+adminRoutes.get(
+  "/manageClearance",
+  checkUser,
+  requireAuth,
+  controller.manageClearance
+);
 
 adminRoutes.get(
   "/residentTables",

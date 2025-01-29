@@ -1,38 +1,36 @@
-{{> adminTemplate}}
+{{> unitTeamTemplate}}
 
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Eligible Applicants</h1>
+        <h1 class="text-capitalize">{{user.facility}} Residents</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item active"><a href="/admin/dashboard">Dashboard</a></li>
-                <li class="breadcrumb-item active">Eligible Applicants</li>
+                <li class="breadcrumb-item active"><a href="/unitTeam/dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item active">Resident Data</li>
             </ol>
         </nav>
-    </div><!-- End Page Title -->
+    </div>
 
     <section class="section dashboard">
         <div class="row">
-
-            <!-- Dashboard Cone -->
             <div class="col-lg-12">
                 <div class="row">
 
-                    {{!-- Data Tables Section --}}
+
                     <!-- Applicants Table -->
                     <div class="col-12">
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
-                                <h5 class="card-title">Applicants <span>| Eligible Hires</span></h5>
+                                <h5 class="card-title">All Applicants <span>| Eligible Hires</span></h5>
                                 <table class="table table-borderless table-striped datatable">
                                     <thead>
                                         <tr>
-                                            <th scope="col">#</th>
+                                            <th scope="col">ID #</th>
                                             <th scope="col">Name</th>
                                             <th scope="col">Out Date</th>
                                             <th scope="col">Custody</th>
-                                            <th scope="col">Facility</th>
+                                            <th scope="col">Company</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -44,10 +42,14 @@
                                             <td class="text-capitalize"><a
                                                     href="/clearance/residentProfile/{{this.residentID}}">
                                                     {{this.firstName}} {{this.lastName}}</a></td>
-                                            <td class="text-capitalize">01/13/26</td>
+                                            <td class="text-capitalize"><a
+                                                    href="/clearance/residentProfile/{{this.residentID}}">
+                                                    {{formatDate this.outDate}}</a></td>
 
-                                            <td class="text-capitalize">{{this.custodyLevel}}</td>
-                                            <td class="text-capitalize">{{this.facility}}</td>
+                                            <td class="text-capitalize"><a
+                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.custodyLevel}}</a>
+                                            </td>
+                                            <td class="text-capitalize">{{this.companyName}}</td>
                                         </tr>
                                         {{/each}}
                                     </tbody>
@@ -55,13 +57,16 @@
                             </div>
                         </div>
                     </div>
-                    <!-- End Applicants Table -->
-                    {{!-- End of Data Tables Section --}}
+
+
                 </div>
             </div><!-- End Dashboard Cone -->
+
         </div>
     </section>
-</main><!-- End #main -->
+</main>
+
 <!-- ======= Footer ======= -->
 {{> footer}}
+
 {{> arrowUp}}

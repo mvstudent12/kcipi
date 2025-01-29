@@ -24,7 +24,7 @@ const sendReviewEmail = async (
     text: `${department} clearance is needed for resident #${resident.residentID} and is awaiting approval from ${department}. Please review.`,
     html: `
       <h2 style="font-size: 24px; font-weight: bold; color: #333;">Resident #${resident.residentID} - ${resident.lastName}, ${resident.firstName}</h2>
-      <p style="font-size: 16px; color: #333;">We are awaiting approval from ${department} to place this resident in a job.</p> 
+      <p style="font-size: 16px; color: #333;">We are awaiting approval to place this resident in a job.</p> 
       <h4 style="font-size: 18px; font-weight: bold; color: #333;">Please approve or deny clearance for this resident.</h4>
       <p style="color: blue; font-size: 14px; font-weight: bold;">${notes}</p>
       <h4 style="font-size: 16px; font-weight: bold; color: #333;">Sent from: ${sender}</h4>

@@ -10,6 +10,25 @@ const path = require("path");
 const csv = require("csv-parser");
 const fs = require("fs");
 
+async function getAllInterviews() {
+  try {
+    const jobs = await Jobs.find(
+      {},
+      { companyName: 1, interviews: 1, _id: 0 }
+    ).lean();
+    const interviews = jobs.flatMap((job) =>
+      job.interviews.map((interview) => ({
+        companyName: job.companyName, // Attach companyName to each interview
+        ...interview, // Spread interview details
+      }))
+    ); // Flatten the array of arrays
+
+    return interviews;
+  } catch (error) {
+    console.error("Error fetching interviews:", error);
+  }
+}
+
 module.exports = {
   //serves admin dashboard from admin portal
   async dashboard(req, res) {
@@ -59,7 +78,7 @@ module.exports = {
       console.log(err);
     }
   },
-  async applicants(req, res) {
+  async manageWorkForce(req, res) {
     try {
       const companyName = req.session.user.companyName;
 
@@ -77,21 +96,39 @@ module.exports = {
         }
       });
 
-      const allJobApplicants = await Resident.find(
+      const applicants = await Resident.find(
         { _id: { $in: applicantIDs } },
-        "firstName lastName facility residentID custodyLevel"
+        "firstName lastName facility residentID custodyLevel outDate"
       ).lean();
 
-      // Query Resident model to find residents matching these IDs that applied to jobs
-      const applicants = await Resident.find({
-        _id: { $in: applicantIDs },
-      }).lean();
+      let interviews = await getAllInterviews();
+      console.log(interviews);
 
-      res.render("admin/applicants", { user: req.session.user, applicants });
+      const employees = await Resident.find({ isHired: true }).lean();
+
+      res.render("admin/manageWorkForce", {
+        user: req.session.user,
+        applicants,
+        interviews,
+        employees,
+      });
     } catch (err) {
       console.log(err);
     }
   },
+  async manageClearance(req, res) {
+    try {
+      //find caseload specific to UTM
+      const caseLoad = await Resident.find({}).lean();
+      res.render("admin/manageClearance", {
+        user: req.session.user,
+        caseLoad,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  },
+
   //serves help page from admin dashboard
   async helpDesk(req, res) {
     try {

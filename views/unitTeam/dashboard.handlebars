@@ -149,7 +149,7 @@
                                 </table>
                             </div>
                         </div>
-                    </div><!-- End Residents Table -->
+                    </div>
 
                     <!-- Resume Table -->
                     <div class="col-12">
@@ -160,10 +160,10 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">ID #</th>
-                                            <th scope="col">Facility</th>
                                             <th scope="col">Resident</th>
-                                            <th scope="col">Date</th>
-                                            <th scope="col">Status</th>
+                                            <th scope="col">Out Date</th>
+                                            <th scope="col">Submitted</th>
+                                            <th scope="col">Custody</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -174,16 +174,20 @@
                                             <th scope="row"><a
                                                     href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
                                             </th>
-                                            <td class="text-capitalize">{{this.facility}}</td>
+
                                             <td><a href="/clearance/residentProfile/{{this.residentID}}"
                                                     class="text-primary text-capitalize">{{this.firstName}}
                                                     {{this.lastName}}</a></td>
-                                            <td>{{formatDate this.resume.dateCreated}}</td>
-                                            {{#if this.resumeRejectionReason}}
-                                            <td><span class="badge bg-danger">Rejected</span></td>
-                                            {{else}}
-                                            <td><span class="badge bg-warning">Pending</span></td>
-                                            {{/if}}
+                                            <td><a href="/clearance/residentProfile/{{this.residentID}}"
+                                                    class="text-primary text-capitalize">{{formatDate this.outDate}}</a>
+                                            </td>
+
+                                            <td><a href="/clearance/residentProfile/{{this.residentID}}">{{formatDate
+                                                    this.resume.createdAt}}</a></td>
+
+                                            <td class="text-capitalize"><a
+                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.custodyLevel}}</a>
+                                            </td>
 
                                         </tr>
                                         {{/if}}
@@ -204,10 +208,10 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">ID #</th>
-                                            <th scope="col">Facility</th>
                                             <th scope="col">Name</th>
                                             <th scope="col">Custody</th>
-                                            <th scope="col">Status</th>
+                                            <th scope="col">Out Date</th>
+                                            <th scope="col">Company</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -216,15 +220,22 @@
                                             <th scope="row"><a
                                                     href="/unitTeam/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
                                             </th>
-                                            <td class="text-capitalize">{{this.facility}}</td>
+
 
                                             <td><a href="/unitTeam/residentProfile/{{this.residentID}}"
                                                     class="text-primary text-capitalize">{{this.firstName}}
                                                     {{this.lastName}}</a></td>
 
-                                            <td class="text-capitalize">{{this.custodyLevel}}</td>
+                                            <td class="text-capitalize"><a
+                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.custodyLevel}}</a>
+                                            </td>
 
-                                            <td><span class="badge bg-warning">Pending</span></td>
+                                            <td><a href="/clearance/residentProfile/{{this.residentID}}">{{formatDate
+                                                    this.outDate}}</a></td>
+
+                                            <td class="text-capitalize"><a
+                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.companyName}}</a>
+                                            </td>
                                         </tr>
                                         {{/each}}
                                     </tbody>
@@ -297,7 +308,7 @@
                                             <th scope="col">Facility</th>
                                             <th scope="col">Name</th>
                                             <th scope="col">Out Date</th>
-                                            <th scope="col">Hired Date</th>
+                                            <th scope="col">Company Name</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -320,8 +331,8 @@
                                                     this.outDate}}</a>
                                             </td>
                                             <td class="text-capitalize">
-                                                <a href="/clearance/residentProfile/{{this.residentID}}">{{formatDate
-                                                    this.dateHired}}</a>
+                                                <a
+                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.companyName}}</a>
                                             </td>
 
 

@@ -1,4 +1,4 @@
-{{> unitTeamTemplate}}
+{{> adminTemplate}}
 
 <main id="main" class="main">
 
@@ -6,7 +6,7 @@
         <h1>Manage Workforce</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item active"><a href="/unitTeam/dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item active"><a href="/admin/dashboard">Dashboard</a></li>
                 <li class="breadcrumb-item active">Manage Workforce</li>
             </ol>
         </nav>
@@ -30,7 +30,7 @@
                                             <th scope="col">Name</th>
                                             <th scope="col">Out Date</th>
                                             <th scope="col">Custody</th>
-                                            <th scope="col">Company</th>
+                                            <th scope="col">Facility</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -49,9 +49,7 @@
                                             <td class="text-capitalize"><a
                                                     href="/clearance/residentProfile/{{this.residentID}}">{{this.custodyLevel}}</a>
                                             </td>
-                                            <td class="text-capitalize"><a
-                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.companyName}}</a>
-                                            </td>
+                                            <td class="text-capitalize">{{this.facility}}</td>
                                         </tr>
                                         {{/each}}
                                     </tbody>
@@ -59,7 +57,6 @@
                             </div>
                         </div>
                     </div>
-
                     <!-- Interviews Table -->
                     <div class="col-12">
                         <div class="card recent-sales overflow-auto">
@@ -70,40 +67,39 @@
                                         <tr>
                                             <th scope="col">ID #</th>
                                             <th scope="col">Name</th>
-
+                                            <th scope="col">Company</th>
                                             <th scope="col">Requested</th>
                                             <th scope="col">Scheduled</th>
-                                            <th scope="col">Company</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {{#each interviews}}
                                         <tr>
                                             <th scope="row"><a
-                                                    href="/clearance/residentProfile/{{this.interview.residentID}}">{{this.interview.residentID}}</a>
+                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
                                             </th>
                                             <td class="text-capitalize"><a
-                                                    href="/clearance/residentProfile/{{this.interview.residentID}}">
-                                                    {{this.interview.name}}</a></td>
-
-
-                                            {{#if this.interview.isRequested}}
-                                            <td><span class="badge bg-success">{{formatDate
-                                                    this.interview.dateRequested}}</span></td>
-                                            {{else}}
-                                            <td>No</td>
-                                            {{/if}}
-
-                                            {{#if this.interview.date}}
-                                            <td>{{formatDate this.interview.date}}</td>
-                                            {{else}}
-                                            <td>No</td>
-                                            {{/if}}
+                                                    href="/clearance/residentProfile/{{this.residentID}}">
+                                                    {{this.name}}</a></td>
 
                                             <td class="text-capitalize">
-                                                <a href="/clearance/residentProfile/{{this.interview.residentID}}">
+                                                <a href="/clearance/residentProfile/{{this.residentID}}">
                                                     {{this.companyName}}</a>
                                             </td>
+                                            {{#if this.isRequested}}
+                                            <td><span class="badge bg-success">{{formatDate
+                                                    this.dateRequested}}</span></td>
+                                            {{else}}
+                                            <td>No</td>
+                                            {{/if}}
+
+                                            {{#if this.date}}
+                                            <td>{{formatDate this.date}}</td>
+                                            {{else}}
+                                            <td>No</td>
+                                            {{/if}}
+
+
 
                                         </tr>
                                         {{/each}}
@@ -112,7 +108,6 @@
                             </div>
                         </div>
                     </div>
-
                     <!-- Employees Table -->
                     <div class="col-12">
                         <div class="card recent-sales overflow-auto">
@@ -125,7 +120,7 @@
                                             <th scope="col">Facility</th>
                                             <th scope="col">Name</th>
                                             <th scope="col">Out Date</th>
-                                            <th scope="col">Company</th>
+                                            <th scope="col">Company Name</th>
                                         </tr>
                                     </thead>
                                     <tbody>

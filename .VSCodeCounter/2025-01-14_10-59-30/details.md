@@ -492,7 +492,7 @@ Total : 519 files, 588831 codes, 62740 comments, 14085 blanks, all 665656 lines
 | [views/admin/profiles/unitTeamProfile.handlebars](/views/admin/profiles/unitTeamProfile.handlebars)                                                     | Handlebars |     96 |       3 |    17 |    116 |
 | [views/admin/tables/companyTables.handlebars](/views/admin/tables/companyTables.handlebars)                                                             | Handlebars |     59 |       3 |     5 |     67 |
 | [views/admin/tables/employerTables.handlebars](/views/admin/tables/employerTables.handlebars)                                                           | Handlebars |     58 |       2 |     6 |     66 |
-| [views/admin/tables/residentTables.handlebars](/views/admin/tables/residentTables.handlebars)                                                           | Handlebars |     71 |       2 |    17 |     90 |
+| [views/admin/tables/residents.handlebars](/views/admin/tables/residentTables.handlebars)                                                                     | Handlebars |     71 |       2 |    17 |     90 |
 | [views/admin/tables/unitTeamTables.handlebars](/views/admin/tables/unitTeamTables.handlebars)                                                           | Handlebars |     60 |       2 |     5 |     67 |
 | [views/auth/login.handlebars](/views/auth/login.handlebars)                                                                                             | Handlebars |     58 |       5 |    18 |     81 |
 | [views/auth/residentLogin.handlebars](/views/auth/residentLogin.handlebars)                                                                             | Handlebars |     48 |       0 |     5 |     53 |
@@ -530,6 +530,6 @@ Total : 519 files, 588831 codes, 62740 comments, 14085 blanks, all 665656 lines
 | [views/unitTeam/dashboard.handlebars](/views/unitTeam/dashboard.handlebars)                                                                             | Handlebars |    205 |       2 |    35 |    242 |
 | [views/unitTeam/helpDesk.handlebars](/views/unitTeam/helpDesk.handlebars)                                                                               | Handlebars |     73 |       0 |     7 |     80 |
 | [views/unitTeam/profiles/residentProfile.handlebars](/views/unitTeam/profiles/residentProfile.handlebars)                                               | Handlebars |    256 |       9 |    30 |    295 |
-| [views/unitTeam/tables/residentTables.handlebars](/views/unitTeam/tables/residentTables.handlebars)                                                     | Handlebars |     71 |       2 |    17 |     90 |
+| [views/unitTeam/tables/residents.handlebars](/views/unitTeam/tables/residents.handlebars)                                                               | Handlebars |     71 |       2 |    17 |     90 |
 
 [Summary](results.md) / Details / [Diff Summary](diff.md) / [Diff Details](diff-details.md)

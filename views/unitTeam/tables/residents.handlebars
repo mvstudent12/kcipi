@@ -3,7 +3,7 @@
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Resident Data</h1>
+        <h1 class="text-capitalize">{{user.facility}} Residents</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item active"><a href="/unitTeam/dashboard">Dashboard</a></li>
@@ -14,46 +14,59 @@
 
     <section class="section dashboard">
         <div class="row">
-
-            <!-- Dashboard Cone -->
             <div class="col-lg-12">
                 <div class="row">
-
-
-
-                    {{!-- Data Tables Section --}}
 
                     <!-- Residents Table -->
                     <div class="col-12">
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
-                                <h5 class="card-title">Residents <span>| All KDOC</span></h5>
+                                <h5 class="card-title text-capitalize">All Residents <span>| {{user.facility}}</span>
+                                </h5>
                                 <table class="table table-borderless table-striped datatable">
                                     <thead>
                                         <tr>
                                             <th scope="col">ID #</th>
-                                            <th scope="col">Facility</th>
                                             <th scope="col">Name</th>
                                             <th scope="col">Unit Team</th>
+                                            <th scope="col">Resume</th>
                                             <th scope="col">Work Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{#each residents}}
+                                        {{#each caseLoad}}
                                         <tr>
                                             <th scope="row"><a
                                                     href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
                                             </th>
-                                            <td class="text-capitalize">{{this.facility}}</td>
+
                                             <td class="text-capitalize"><a
                                                     href="/clearance/residentProfile/{{this.residentID}}">{{this.firstName}}
                                                     {{this.lastName}}</a></td>
+                                            {{!-- Unit Team Conditional --}}
                                             {{#if this.unitTeam}}
                                             <td class="text-capitalize">{{this.unitTeam}}</td>
                                             {{else}}
-                                            <td class="text-capitalize">Not Assigned</td>
+                                            <td class="text-capitalize text-warning">Not Assigned</td>
                                             {{/if}}
 
+                                            {{!-- Resume Conditional --}}
+                                            {{#if this.resumeIsApproved}}
+                                            <td><span class="badge bg-success">Approved</span></td>
+                                            {{else}}
+                                            {{#if this.resumeRejectionReason}}
+                                            <td><span class="badge bg-danger">Rejected</span></td>
+                                            {{else}}
+                                            {{#if this.resumeIsComplete}}
+                                            <td><span class="badge bg-warning">Pending</span></td>
+                                            {{else}}
+                                            <td><span class="badge bg-secondary">None</span></td>
+                                            {{/if}}
+                                            {{/if}}
+                                            {{/if}}
+
+
+                                            {{!-- Work Eligibility Conditional --}}
                                             {{#if this.isHired}}
                                             <td><span class="badge bg-info">Hired</span></td>
                                             {{else}}
@@ -64,7 +77,8 @@
                                             <td><span class="badge bg-danger">Restricted</span></td>
                                             {{else}}
 
-                                            <td><span class="badge bg-warning">Pending</span></td>
+                                            <td><span class="badge bg-secondary">None</span></td>
+
                                             {{/if}}
                                             {{/if}}
                                             {{/if}}
@@ -77,12 +91,9 @@
                             </div>
                         </div>
                     </div>
-                    <!-- End Residents Table -->
-
-                    {{!-- End of Data Tables Section --}}
 
                 </div>
-            </div><!-- End Dashboard Cone -->
+            </div>
 
         </div>
     </section>

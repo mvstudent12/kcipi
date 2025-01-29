@@ -159,8 +159,8 @@
                                             <th scope="col">ID #</th>
                                             <th scope="col">Facility</th>
                                             <th scope="col">Resident</th>
-                                            <th scope="col">Date</th>
-                                            <th scope="col">Status</th>
+                                            <th scope="col">Out Date</th>
+                                            <th scope="col">Submitted</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -175,12 +175,14 @@
                                             <td><a href="/clearance/residentProfile/{{this.residentID}}"
                                                     class="text-primary text-capitalize">{{this.firstName}}
                                                     {{this.lastName}}</a></td>
-                                            <td>{{formatDate this.resume.dateCreated}}</td>
-                                            {{#if this.resumeRejectionReason}}
-                                            <td><span class="badge bg-danger">Rejected</span></td>
-                                            {{else}}
-                                            <td><span class="badge bg-warning">Pending</span></td>
-                                            {{/if}}
+                                            <td><a href="/clearance/residentProfile/{{this.residentID}}"
+                                                    class="text-primary text-capitalize">{{formatDate this.outDate}}</a>
+                                            </td>
+
+                                            <td>{{formatDate this.resume.createdAt}}</td>
+
+
+
 
                                         </tr>
                                         {{/if}}
@@ -204,7 +206,7 @@
                                             <th scope="col">Facility</th>
                                             <th scope="col">Name</th>
                                             <th scope="col">Custody</th>
-                                            <th scope="col">Status</th>
+                                            <th scope="col">Out Date</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -221,7 +223,7 @@
 
                                             <td class="text-capitalize">{{this.custodyLevel}}</td>
 
-                                            <td><span class="badge bg-warning">Pending</span></td>
+                                            <td>{{formatDate this.outDate}}</td>
                                         </tr>
                                         {{/each}}
                                     </tbody>

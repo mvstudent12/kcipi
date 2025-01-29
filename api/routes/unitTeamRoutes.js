@@ -19,12 +19,6 @@ unitTeamRoutes.get(
 );
 
 unitTeamRoutes.get(
-  "/residentTables",
-  checkUser,
-  requireAuth,
-  controller.residentTables
-);
-unitTeamRoutes.get(
   "/manageWorkForce",
   checkUser,
   requireAuth,
@@ -37,5 +31,23 @@ unitTeamRoutes.get(
   requireAuth,
   controller.manageClearance
 );
+//=========================
+// ROSTERS
+//=========================
+
+unitTeamRoutes.get("/residents", checkUser, requireAuth, controller.residents);
+
+unitTeamRoutes.get("/resumes", checkUser, requireAuth, controller.resumes);
+
+unitTeamRoutes.get("/clearance", checkUser, requireAuth, controller.clearance);
+
+unitTeamRoutes.get(
+  "/applicants",
+  checkUser,
+  requireAuth,
+  controller.applicants
+);
+
+unitTeamRoutes.get("/employees", checkUser, requireAuth, controller.employees);
 
 module.exports = unitTeamRoutes;
