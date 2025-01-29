@@ -50,7 +50,7 @@ module.exports = {
     }).lean();
 
     //send notification email to UTM
-    let devEmail = "kcicodingdev@gmail.com";
+    let devEmail = "carrie.branson@ks.gov";
     sendRequestInterviewEmail(
       resident,
       companyName,
