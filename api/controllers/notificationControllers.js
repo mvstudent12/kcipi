@@ -50,7 +50,7 @@ module.exports = {
     }).lean();
 
     //send notification email to UTM
-    let devEmail = "carrie.branson@ks.gov";
+    let devEmail = "kcicodingdev@gmail.com";
     sendRequestInterviewEmail(
       resident,
       companyName,
@@ -92,6 +92,7 @@ module.exports = {
         },
       ]);
       interview = interview[0];
+      console.log(interview);
       const residentID = interview.interview.residentID;
       const resident = await Resident.findOne({
         residentID: residentID,
