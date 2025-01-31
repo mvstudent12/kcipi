@@ -6,9 +6,10 @@ const Resident = require("../models/Resident");
 const Jobs = require("../models/Jobs");
 
 //csv file upload requirements
-const path = require("path");
-const csv = require("csv-parser");
 const fs = require("fs");
+const path = require("path");
+const moment = require("moment");
+const csv = require("csv-parser");
 
 async function getAllInterviews() {
   try {
@@ -27,6 +28,47 @@ async function getAllInterviews() {
   } catch (error) {
     console.error("Error fetching interviews:", error);
   }
+}
+// Function to clean and format the logs
+
+function cleanLogs(rawLogs) {
+  return rawLogs.map((log) => {
+    const { timestamp, level, message } = log;
+
+    let cleanLog = {
+      timestamp,
+      level,
+      message,
+      route: null,
+      statusCode: null,
+      duration: null,
+      userAction: null,
+    };
+
+    // Pattern to match logs with request/response details (IP, route, status, duration)
+    const requestLogPattern =
+      /::ffff:\d+\.\d+\.\d+\.\d+ (\S+) (\d+) (\d+\.\d+) ms/;
+    const userActionPattern = /User logged in: (.*)/;
+
+    // Clean up the message
+    cleanLog.message = message.replace(/::ffff:\d+\.\d+\.\d+\.\d+/g, ""); // Remove IP addresses
+
+    // Match request logs
+    const requestMatch = cleanLog.message.match(requestLogPattern);
+    if (requestMatch) {
+      cleanLog.route = requestMatch[1]; // Capture the route (e.g., /logs)
+      cleanLog.statusCode = requestMatch[2]; // Capture status code (e.g., 200)
+      cleanLog.duration = requestMatch[3]; // Capture duration (e.g., 2102.453)
+    }
+
+    // Match user action logs (e.g., user logins)
+    const userActionMatch = cleanLog.message.match(userActionPattern);
+    if (userActionMatch) {
+      cleanLog.userAction = `User logged in: ${userActionMatch[1]}`;
+    }
+
+    return cleanLog;
+  });
 }
 
 module.exports = {
@@ -147,6 +189,49 @@ module.exports = {
     }
   },
 
+  // Serves logs from the admin dashboard
+  async logs(req, res) {
+    try {
+      const logFileName = `logs/${moment().format("YYYY-MM-DD")}-app.log`; // Today's log file
+      const logFilePath = path.join(__dirname, "../../", logFileName);
+
+      fs.readFile(logFilePath, "utf8", (err, data) => {
+        if (err) {
+          return res.render("logs", {
+            user: req.session.user,
+            logs: [`Error reading logs: ${err.message}`],
+          });
+        }
+
+        const logsArray = data
+          .split("\n")
+          .filter((line) => line.trim() !== "") // Filter out empty lines
+          .map((line) => {
+            try {
+              const log = JSON.parse(line);
+              return {
+                timestamp: log.timestamp,
+                level: log.level.toUpperCase(),
+                message: log.message,
+              };
+            } catch (parseError) {
+              return {
+                timestamp: "Invalid JSON",
+                level: "ERROR",
+                message: `Failed to parse log entry: ${line}`,
+              };
+            }
+          });
+
+        res.render("admin/logs", {
+          user: req.session.user,
+          logs: logsArray.reverse(), // Reverse to show latest logs first
+        });
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  },
   //serves residentTables page from admin dashboard
   async residentTables(req, res) {
     try {

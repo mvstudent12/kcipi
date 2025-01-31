@@ -1,0 +1,4 @@
+{"level":"info","message":"2025-01-31T12:23:24.813Z [INFO] : ::ffff:127.0.0.1 /admin/logs 500 857.655 ms","timestamp":"2025-01-31 06:23:24"}
+{"level":"info","message":"2025-01-31T12:23:39.925Z [INFO] : ::ffff:127.0.0.1 /manageClearance 200 116.302 ms","timestamp":"2025-01-31 06:23:39"}
+{"level":"info","message":"2025-01-31T12:23:41.730Z [INFO] : ::ffff:127.0.0.1 /logs 200 94.377 ms","timestamp":"2025-01-31 06:23:41"}
+{"level":"info","message":"2025-01-31T12:24:34.618Z [INFO] : ::ffff:127.0.0.1 /manageClearance 200 97.301 ms","timestamp":"2025-01-31 06:24:34"}

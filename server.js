@@ -1,22 +1,55 @@
-require("dotenv").config();
-const dbURI = process.env.DB_URI;
+require("dotenv").config(); //holds env variables
+const dbURI = process.env.DB_URI || "mongodb://localhost/kcipi";
 
-const moment = require("moment");
 const path = require("path");
+const express = require("express"); //initializes express api
+const app = express(); //initializes app with express
 
-//initializes express api
-const express = require("express"); //uses express middleware
-//initializes app with express
-const app = express();
+//user logging functionality
+const logger = require("./api/utils/logger");
+const morgan = require("morgan");
 
-//initialize express-sessions
-const session = require("express-session");
-// This stores sessions in MongoDB
-const MongoStore = require("connect-mongo");
+// Define a regex pattern to ignore asset requests
+const assetExtensions =
+  /\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|map)$/i;
+
+// Custom Morgan token to filter out assets
+morgan.token("filtered-url", (req) => {
+  return assetExtensions.test(req.url) ? null : req.url;
+});
+
+// Custom Morgan format that logs only non-asset requests
+morgan.format(
+  "custom",
+  ":date[iso] [INFO] : :remote-addr :filtered-url :status :response-time ms"
+);
+
+// Morgan middleware to log non-asset requests
+app.use(
+  morgan("custom", {
+    skip: (req) => assetExtensions.test(req.url), // Skip logging assets
+    stream: {
+      write: (message) => logger.info(message.trim()), // Log only non-asset requests
+    },
+  })
+);
+
+const session = require("express-session"); //initialize express-sessions
+const MongoStore = require("connect-mongo"); // This stores sessions in MongoDB
+const crypto = require("crypto"); //generates random session secret
+
+// Generate a random session secret dynamically
+const generateSessionSecret = () => {
+  return crypto.randomBytes(32).toString("hex"); // Generates a 64-character secret
+};
+
+// Use the generated session secret
+const sessionSecret = process.env.SESSION_SECRET || generateSessionSecret();
+console.log("Session Secret:", sessionSecret); // Log the secret for development (don't do this in production)
 
 app.use(
   session({
-    secret: "onehandwashestheother", // Use a strong, unique secret key for session encryption
+    secret: "somethingsectwerwrwerwrwer0000000", //sessionSecret, // Use a strong, unique secret key for session ,encryption
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
@@ -83,16 +116,17 @@ app.use("/employer", employerRoutes);
 app.use("/notification", notificationRoutes);
 app.use("/clearance", clearanceRoutes);
 
+//404 route
 app.get("*", (req, res) => {
-  //serves 404 error page
   res.render("error");
+  logger.warn(`Page not found: ${req.originalUrl}`); // Log 404 errors
 });
 
-//initializes server
+//initialize server
 const PORT = process.env.PORT || 5999;
 app.listen(PORT, function () {
-  console.log(`*****  KCI Private Industry is Running  *****
-    App listening on PORT ${PORT}`);
+  console.log(`*****  KCI Private Industry is Running  *****`);
+  console.log(`App listening on PORT ${PORT}`);
 });
 
 // For app termination

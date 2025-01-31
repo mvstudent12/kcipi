@@ -355,6 +355,7 @@ module.exports = {
       const {
         editPosition,
         description,
+        skillSet,
         pay,
         availablePositions,
         isAvailable,
@@ -368,6 +369,7 @@ module.exports = {
           $set: {
             position: editPosition,
             description: description,
+            skillSet: skillSet,
             pay: pay,
             availablePositions: availablePositions,
             isAvailable: isAvailable,
@@ -404,6 +406,7 @@ module.exports = {
         companyName,
         position,
         description,
+        skillSet,
         pay,
         jobPool,
         availablePositions,
@@ -421,6 +424,7 @@ module.exports = {
         companyName,
         position,
         description,
+        skillSet,
         pay,
         availablePositions: Number(availablePositions), // Ensure this is a number
         jobPool,
@@ -477,6 +481,7 @@ module.exports = {
       const {
         editPosition,
         description,
+        skillSet,
         pay,
         availablePositions,
         isAvailable,
@@ -490,6 +495,7 @@ module.exports = {
           $set: {
             position: editPosition,
             description: description,
+            skillSet: skillSet,
             pay: pay,
             availablePositions: availablePositions,
             isAvailable: isAvailable,

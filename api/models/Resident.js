@@ -149,6 +149,22 @@ const residentSchema = new Schema({
   sexOffenderRestrictionDate: { type: Date },
   sexOffenderRestrictedBy: { type: String, lowercase: true, default: "" },
 
+  //Victim Services
+  victimServicesReviewed: { type: Boolean, default: false },
+  victimServicesNotes: [{ type: String, lowercase: true, default: "" }],
+  victimServicesClearance: { type: Boolean, default: false },
+  victimServicesClearanceDate: { type: Date },
+  victimServicesClearedBy: { type: String, lowercase: true, default: "" },
+  victimServicesClearanceRemovedBy: {
+    type: String,
+    lowercase: true,
+    default: "",
+  },
+  victimServicesClearanceRemovedDate: { type: Date },
+  victimServicesRestriction: { type: Boolean, default: false },
+  victimServicesRestrictionDate: { type: Date },
+  victimServicesRestrictedBy: { type: String, lowercase: true, default: "" },
+
   //Complete Eligibility Status
   isEligibleToWork: { type: Boolean, default: false },
 

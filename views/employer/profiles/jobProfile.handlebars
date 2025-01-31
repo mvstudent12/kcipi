@@ -60,6 +60,14 @@
                                     <div class="col-lg-8 col-md-8 text-capitalize">{{position.description}}</div>
                                 </div>
                                 <div class="row">
+                                    <div class="col-lg-4 col-md-4 label">Required Skill Set:</div>
+                                    {{#if position.skillSet}}
+                                    <div class="col-lg-8 col-md-8 text-capitalize">{{position.skillSet}}</div>
+                                    {{each}}
+                                    <div class="col-lg-8 col-md-8 text-capitalize">None</div>
+                                    {{/if}}
+                                </div>
+                                <div class="row">
                                     <div class="col-lg-4 col-md-4 label">Pay:</div>
                                     <div class="col-lg-8 col-md-8">${{position.pay}} /hr</div>
                                 </div>

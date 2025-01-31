@@ -155,6 +155,9 @@ module.exports = {
     if (dept == "Sex-Offender") {
       dept = "sexOffender";
     }
+    if (dept == "Victim-Services") {
+      dept = "victimServices";
+    }
     try {
       if (clearance === "true") {
         await Resident.updateOne(

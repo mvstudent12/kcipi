@@ -117,6 +117,15 @@
                                                 id="description" required>
                                         </div>
                                     </div>
+                                    {{!-- Skill Set --}}
+                                    <div class="row mb-3">
+                                        <label for="skillSet" class="col-md-4 col-lg-4 col-form-label">Required Skill
+                                            Set</label>
+                                        <div class="col-md-8 col-lg-8">
+                                            <input name="skillSet" type="text" class="form-control text-capitalize"
+                                                id="skillSet" placeholder="Optional">
+                                        </div>
+                                    </div>
                                     {{!-- Hourly Pay --}}
                                     <div class="row mb-3">
                                         <label for="pay" class="col-md-4 col-lg-4 col-form-label">Hourly Pay</label>
@@ -243,6 +252,16 @@
                                                     <input name="description" type="text"
                                                         class="form-control text-capitalize" id="description" required
                                                         value="{{positionFound.description}}">
+                                                </div>
+                                            </div>
+                                            {{!-- Skill Set --}}
+                                            <div class="row mb-3">
+                                                <label for="skillSet" class="col-md-4 col-lg-4 col-form-label">Required
+                                                    Skill Set</label>
+                                                <div class="col-md-8 col-lg-8">
+                                                    <input name="skillSet" type="text"
+                                                        class="form-control text-capitalize" id="skillSet"
+                                                        placeholder="Optional" value="{{positionFound.skillSet}}">
                                                 </div>
                                             </div>
                                             {{!-- Hourly Pay --}}

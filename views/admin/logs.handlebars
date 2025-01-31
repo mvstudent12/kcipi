@@ -1,0 +1,40 @@
+{{> adminTemplate}}
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Application Logs</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active"><a href="/unitTeam/dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item active">Application Logs</li>
+            </ol>
+        </nav>
+    </div>
+
+
+    <section class="section dashboard">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="log-container">
+                        {{#each logs}}
+                        <div class="log-entry">
+                            <span class="log-timestamp">{{this.timestamp}}</span>
+                            <span class="log-level">{{this.level}}</span>
+                            <span class="log-message">{{this.message}}</span>
+                        </div>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+</main>
+<!-- ======= Footer ======= -->
+{{> footer}}
+{{> arrowUp}}

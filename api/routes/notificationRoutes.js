@@ -187,6 +187,33 @@ notificationRoutes.get(
   "/Sex-Offender/removeSex-OffenderClearance/:residentID/:email",
   controller.removeSexOffenderClearance
 );
+//============================
+// Victim-Services Notifications
+//============================
+
+notificationRoutes.get(
+  "/Victim-Services/approve/:residentID/:email",
+  controller.approveVictimServices
+);
+
+notificationRoutes.get(
+  "/Victim-Services/removeVictim-ServicesRestriction/:residentID/:email",
+  controller.removeVictimServicesRestriction
+);
+
+notificationRoutes.get(
+  "/Victim-Services/deny/:residentID/:email",
+  controller.denyVictimServicesClearance
+);
+
+notificationRoutes.post(
+  "/Victim-Services/saveVictim-ServicesNotes/:residentID/:email",
+  controller.saveVictimServicesNotes
+);
+notificationRoutes.get(
+  "/Victim-Services/removeVictim-ServicesClearance/:residentID/:email",
+  controller.removeVictimServicesClearance
+);
 //=============================
 //    All Notifications
 //=============================

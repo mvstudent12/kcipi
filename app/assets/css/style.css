@@ -1235,3 +1235,35 @@ h6 {
   font-size: 13px;
   color: #012970;
 }
+/* ============================== */
+/* LOGS */
+.log-container {
+  font-family: Arial, sans-serif;
+  margin-top: 20px;
+}
+
+.log-entry {
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.log-timestamp {
+  font-weight: bold;
+  font-size: 14px;
+  color: #6c757d;
+}
+
+.log-level {
+  font-size: 13px;
+  font-weight: bold;
+  color: #007bff;
+}
+
+.log-message {
+  font-size: 14px;
+  color: #343a40;
+  margin-top: 5px;
+}

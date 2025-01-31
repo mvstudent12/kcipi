@@ -12,7 +12,7 @@ const {
   sendHelpDeskEmail,
   sendContactEmail,
   sendRequestInterviewEmail,
-} = require("../emailUtils/notificationEmail");
+} = require("../utils/emailUtils/notificationEmail");
 
 module.exports = {
   async requestInterview(req, res) {
@@ -862,6 +862,123 @@ module.exports = {
     const resident = await Resident.findOne({ residentID }).lean();
 
     res.render("clearance/Sex-Offender", { resident, email, activeTab });
+  },
+
+  //========================
+  // Victim-Services Clearance
+  //========================
+
+  async approveVictimServices(req, res) {
+    const residentID = req.params.residentID;
+    const email = req.params.email;
+    try {
+      await Resident.updateOne(
+        { residentID: residentID },
+        {
+          $set: {
+            victimServicesClearance: true,
+            victimServicesClearanceDate: new Date(),
+            victimServicesClearedBy: email,
+            victimServicesReviewed: true,
+          },
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+    activeTab = "status";
+    const resident = await Resident.findOne({ residentID }).lean();
+    res.render("clearance/Victim-Services", { resident, email, activeTab });
+  },
+  async removeVictimServicesClearance(req, res) {
+    const residentID = req.params.residentID;
+    const email = req.params.email;
+    try {
+      await Resident.updateOne(
+        { residentID: residentID },
+        {
+          $set: {
+            victimServicesClearance: false,
+            victimServicesClearanceRemovedDate: new Date(),
+            victimServicesClearanceRemovedBy: email,
+            victimServicesReviewed: false,
+            victimServicesRestriction: false,
+          },
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+    activeTab = "status";
+    const resident = await Resident.findOne({ residentID }).lean();
+    res.render("clearance/Victim-Services", { resident, email, activeTab });
+  },
+  async removeVictimServicesRestriction(req, res) {
+    const residentID = req.params.residentID;
+    const email = req.params.email;
+    try {
+      await Resident.updateOne(
+        { residentID: residentID },
+        {
+          $set: {
+            victimServicesClearance: false,
+            victimServicesReviewed: false,
+            victimServicesRestriction: false,
+          },
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+    activeTab = "status";
+    const resident = await Resident.findOne({ residentID }).lean();
+    res.render("clearance/Victim-Services", { resident, email, activeTab });
+  },
+
+  async denyVictimServicesClearance(req, res) {
+    const residentID = req.params.residentID;
+    const email = req.params.email;
+    try {
+      await Resident.updateOne(
+        { residentID: residentID },
+        {
+          $set: {
+            victimServicesClearance: false,
+            victimServicesRestrictionDate: new Date(),
+            victimServicesRestrictedBy: email,
+            victimServicesRestriction: true,
+            victimServicesReviewed: true,
+          },
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+    activeTab = "status";
+    const resident = await Resident.findOne({ residentID }).lean();
+    res.render("clearance/Victim-Services", { resident, email, activeTab });
+  },
+  async saveVictimServicesNotes(req, res) {
+    const residentID = req.params.residentID;
+    const email = req.params.email;
+    const notes = req.body.notes;
+
+    try {
+      await Resident.updateOne(
+        { residentID: residentID },
+        {
+          $push: {
+            victimServicesNotes: notes,
+          },
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+    const activeTab = "notes";
+    const resident = await Resident.findOne({ residentID }).lean();
+
+    res.render("clearance/Victim-Services", { resident, email, activeTab });
   },
   //===========================
   //     All Notifications

@@ -8,6 +8,7 @@ const jobSchema = new Schema({
   facility: { type: String, lowercase: true, trim: true },
   availablePositions: { type: Number, default: 0 },
   description: { type: String, lowercase: true, trim: true },
+  skillSet: { type: String, lowercase: true, trim: true },
   pay: { type: String, lowercase: true, trim: true },
   jobPool: { type: String, lowercase: true, trim: true },
   applicants: [{ type: mongoose.Schema.Types.ObjectId, ref: "Resident" }],

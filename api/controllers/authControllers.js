@@ -1,4 +1,6 @@
 const bcrypt = require("bcryptjs");
+const logger = require("../utils/logger");
+const morgan = require("morgan");
 
 const Admin = require("../models/Admin");
 const Employer = require("../models/Employer");
@@ -33,6 +35,11 @@ module.exports = {
       const user = await Resident.findResident(residentID);
       req.session.resident = user;
       //console.log("resident login session " + req.session.resident);
+
+      // Log successful login-- create better error handling for this
+      logger.info(
+        `User logged in: ${req.session.resident.residentID} ${req.session.resident.lastName}`
+      );
       res.status(200).json({ user: "found" });
     } catch (err) {
       console.log(err);
@@ -43,6 +50,11 @@ module.exports = {
 
   //logs out resident users
   async residentLogOut(req, res) {
+    // Log user logout
+    logger.info(
+      `User logged out: ${req.session.resident.residentID} ${req.session.resident.lastName}`
+    );
+
     req.session.destroy((err) => {
       if (err) {
         return res.status(500).send("Failed to logout");
@@ -95,14 +107,24 @@ module.exports = {
             if (err) {
               console.error("Session save error:", err);
             }
+            // Log successful login
+            logger.info(`User logged in: ${req.session.user.email}`);
 
             res.status(200).json({ user: userID });
           });
         } else {
+          // Log error
+          logger.info(
+            `User attempted login: ${req.session.user.email}: wrong password`
+          );
           //if password does not match
           throw Error("incorrect password");
         }
       } else {
+        // Log error
+        logger.info(
+          `User attempted login: ${req.session.user.email}: wrong email`
+        );
         //if no user found
         throw Error("This email does not exist");
       }
@@ -135,6 +157,8 @@ module.exports = {
 
   //logs out non resident users
   async logOut(req, res) {
+    // Log user logout
+    logger.info(`User logged out: ${req.session.user.email}`);
     req.session.destroy((err) => {
       if (err) {
         return res.status(500).send("Failed to logout");

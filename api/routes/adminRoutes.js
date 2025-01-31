@@ -19,6 +19,8 @@ adminRoutes.get("/helpDesk", checkUser, requireAuth, controller.helpDesk);
 
 adminRoutes.get("/contact", checkUser, requireAuth, controller.contact);
 
+adminRoutes.get("/logs", checkUser, requireAuth, controller.logs);
+
 adminRoutes.get(
   "/manageWorkForce",
   checkUser,
