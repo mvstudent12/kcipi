@@ -2,3 +2,28 @@
 {"level":"info","message":"2025-01-31T12:23:39.925Z [INFO] : ::ffff:127.0.0.1 /manageClearance 200 116.302 ms","timestamp":"2025-01-31 06:23:39"}
 {"level":"info","message":"2025-01-31T12:23:41.730Z [INFO] : ::ffff:127.0.0.1 /logs 200 94.377 ms","timestamp":"2025-01-31 06:23:41"}
 {"level":"info","message":"2025-01-31T12:24:34.618Z [INFO] : ::ffff:127.0.0.1 /manageClearance 200 97.301 ms","timestamp":"2025-01-31 06:24:34"}
+{"level":"info","message":"2025-01-31T12:32:21.534Z [INFO] : ::ffff:127.0.0.1 /sendNextNotification/2639581/alice.johnson@ks.gov 200 77.724 ms","timestamp":"2025-01-31 06:32:21"}
+{"level":"info","message":"2025-01-31T12:33:35.377Z [INFO] : ::ffff:127.0.0.1 /sendNextNotification/2639581/alice.johnson@ks.gov 200 7.084 ms","timestamp":"2025-01-31 06:33:35"}
+{"level":"info","message":"2025-01-31T12:33:52.499Z [INFO] : ::ffff:127.0.0.1 /reviewClearance/Victim-Services/2639581/alice.johnson@ks.gov 200 20.492 ms","timestamp":"2025-01-31 06:33:52"}
+{"level":"info","message":"2025-01-31T12:33:52.649Z [INFO] : ::ffff:127.0.0.1 /assets/vendor/bootstrap-icons/fonts/bootstrap-icons.woff2?dd67030699838ea613ee6dbda90effa6 200 4.904 ms","timestamp":"2025-01-31 06:33:52"}
+{"level":"info","message":"2025-01-31T12:33:52.942Z [INFO] : ::ffff:127.0.0.1 /assets/vendor/bootstrap-icons/fonts/bootstrap-icons.woff2?dd67030699838ea613ee6dbda90effa6 304 1.333 ms","timestamp":"2025-01-31 06:33:52"}
+{"level":"info","message":"2025-01-31T12:33:54.595Z [INFO] : ::ffff:127.0.0.1 /Victim-Services/approve/2639581/alice.johnson@ks.gov 200 13.539 ms","timestamp":"2025-01-31 06:33:54"}
+{"level":"info","message":"2025-01-31T12:35:09.581Z [INFO] : ::ffff:127.0.0.1 /logOut 302 4.980 ms","timestamp":"2025-01-31 06:35:09"}
+{"level":"info","message":"2025-01-31T12:35:10.347Z [INFO] : ::ffff:127.0.0.1 / 200 765.239 ms","timestamp":"2025-01-31 06:35:10"}
+{"level":"info","message":"User logged in: alice.johnson@ks.gov","timestamp":"2025-01-31 06:35:17"}
+{"level":"info","message":"2025-01-31T12:35:17.077Z [INFO] : ::ffff:127.0.0.1 /login 200 175.499 ms","timestamp":"2025-01-31 06:35:17"}
+{"level":"info","message":"2025-01-31T12:35:17.173Z [INFO] : ::ffff:127.0.0.1 /user/dashboard/679bb48f66518c6358f427b0 302 87.450 ms","timestamp":"2025-01-31 06:35:17"}
+{"level":"info","message":"2025-01-31T12:35:17.382Z [INFO] : ::ffff:127.0.0.1 /dashboard 200 118.467 ms","timestamp":"2025-01-31 06:35:17"}
+{"level":"info","message":"2025-01-31T12:37:31.829Z [INFO] : ::1 /residentLogOut 302 8.579 ms","timestamp":"2025-01-31 06:37:31"}
+{"level":"info","message":"2025-01-31T12:37:32.416Z [INFO] : ::1 /resident 304 655.835 ms","timestamp":"2025-01-31 06:37:32"}
+{"level":"info","message":"2025-01-31T12:37:32.616Z [INFO] : ::1 /assets/vendor/bootstrap-icons/fonts/bootstrap-icons.woff2?dd67030699838ea613ee6dbda90effa6 304 0.722 ms","timestamp":"2025-01-31 06:37:32"}
+{"level":"info","message":"User logged in: 1029384 garcia","timestamp":"2025-01-31 06:37:35"}
+{"level":"info","message":"2025-01-31T12:37:35.484Z [INFO] : ::1 /residentLogin 200 20.125 ms","timestamp":"2025-01-31 06:37:35"}
+{"level":"info","message":"2025-01-31T12:37:35.701Z [INFO] : ::1 /dashboard 200 115.882 ms","timestamp":"2025-01-31 06:37:35"}
+{"level":"info","message":"2025-01-31T12:37:39.229Z [INFO] : ::ffff:127.0.0.1 /logs 200 90.549 ms","timestamp":"2025-01-31 06:37:39"}
+{"level":"info","message":"2025-01-31T12:38:59.428Z [INFO] : ::ffff:127.0.0.1 /logs 302 428.277 ms","timestamp":"2025-01-31 06:38:59"}
+{"level":"info","message":"2025-01-31T12:39:00.079Z [INFO] : ::ffff:127.0.0.1 / 304 647.094 ms","timestamp":"2025-01-31 06:39:00"}
+{"level":"info","message":"User logged in: alice.johnson@ks.gov","timestamp":"2025-01-31 06:39:11"}
+{"level":"info","message":"2025-01-31T12:39:11.246Z [INFO] : ::ffff:127.0.0.1 /login 200 420.312 ms","timestamp":"2025-01-31 06:39:11"}
+{"level":"info","message":"2025-01-31T12:39:11.670Z [INFO] : ::ffff:127.0.0.1 /user/dashboard/679cc44e2f50f107350938f9 302 415.371 ms","timestamp":"2025-01-31 06:39:11"}
+{"level":"info","message":"2025-01-31T12:39:12.545Z [INFO] : ::ffff:127.0.0.1 /dashboard 200 786.184 ms","timestamp":"2025-01-31 06:39:12"}

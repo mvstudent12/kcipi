@@ -44,12 +44,15 @@ const generateSessionSecret = () => {
 };
 
 // Use the generated session secret
-const sessionSecret = process.env.SESSION_SECRET || generateSessionSecret();
+const sessionSecret = generateSessionSecret();
+
+//const sessionSecret = "asdasdasd8798798798279827342kmnikjn89s8ed0s8d";
+
 console.log("Session Secret:", sessionSecret); // Log the secret for development (don't do this in production)
 
 app.use(
   session({
-    secret: sessionSecret, //sessionSecret, // Use a strong, unique secret key for session ,encryption
+    secret: sessionSecret, // Use a strong, unique secret key for session ,encryption
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({

@@ -38,7 +38,7 @@ module.exports = {
 
       // Log successful login-- create better error handling for this
       logger.info(
-        `User logged in: ${req.session.resident.residentID} ${req.session.resident.lastName}`
+        `User logged in: #${req.session.resident.residentID}: ${req.session.resident.firstName}, ${req.session.resident.lastName}`
       );
       res.status(200).json({ user: "found" });
     } catch (err) {
@@ -108,23 +108,19 @@ module.exports = {
               console.error("Session save error:", err);
             }
             // Log successful login
-            logger.info(`User logged in: ${req.session.user.email}`);
+            logger.info(`User logged in: ${email}`);
 
             res.status(200).json({ user: userID });
           });
         } else {
           // Log error
-          logger.info(
-            `User attempted login: ${req.session.user.email}: wrong password`
-          );
+          logger.info(`User attempted login: ${email}: wrong password`);
           //if password does not match
           throw Error("incorrect password");
         }
       } else {
         // Log error
-        logger.info(
-          `User attempted login: ${req.session.user.email}: wrong email`
-        );
+        logger.info(`User attempted login: ${email}: wrong email`);
         //if no user found
         throw Error("This email does not exist");
       }
