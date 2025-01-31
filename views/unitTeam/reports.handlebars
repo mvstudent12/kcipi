@@ -1,0 +1,225 @@
+{{> unitTeamTemplate}}
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>PI Reports</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active"><a href="/unitTeam/dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item active">PI Reports</li>
+            </ol>
+        </nav>
+    </div>
+    {{#if noData}}
+    <div class="card">
+
+        <p class="text-danger text-center pt-2"> No data found for this report.</p>
+
+    </div>
+
+    {{/if}}
+
+    <section class="section dashboard">
+        <div class="row">
+
+            <!-- Dashboard Cone -->
+            <div class="col-lg-12">
+                <div class="row">
+
+                    <!-- Residents Card -->
+                    <div class="col-xxl-4 col-md-4">
+                        <div class="card info-card customers-card">
+                            <div class="card-body">
+                                <h5 class="card-title">Residents <span>| Create Report</span></h5>
+                                <div class="row mb-3">
+                                    <legend class="col-form-label ">Select Fields:</legend>
+                                    <form method="POST" action="/unitTeam/residentReport">
+
+                                        <div class="form-check">
+                                            <input name="facility" class="form-check-input" type="checkbox"
+                                                id="facility">
+                                            <label class="form-check-label" for="facility">
+                                                Facility
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input name="firstName" class="form-check-input" type="checkbox"
+                                                id="firstName">
+                                            <label class="form-check-label" for="firstName">
+                                                First Name
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input name="lastName" class="form-check-input" type="checkbox"
+                                                id="lastName">
+                                            <label class="form-check-label" for="lastName">
+                                                Last Name
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input required name="residentID" class="form-check-input" type="checkbox"
+                                                id="residentID">
+                                            <label class="form-check-label" for="residentID">
+                                                Resident ID
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input name="outDate" class="form-check-input" type="checkbox" id="outDate">
+                                            <label class="form-check-label" for="outDate">
+                                                Out Date
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input name="custodyLevel" class="form-check-input" type="checkbox"
+                                                id="custodyLevel">
+                                            <label class="form-check-label" for="custodyLevel">
+                                                Custody Level
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input name="jobPool" class="form-check-input" type="checkbox" id="jobPool">
+                                            <label class="form-check-label" for="jobPool">
+                                                Job Pool
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input name="unitTeam" class="form-check-input" type="checkbox"
+                                                id="unitTeam">
+                                            <label class="form-check-label" for="unitTeam">
+                                                Unit Team
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input name="isEligibleToWork" class="form-check-input" type="checkbox"
+                                                id="isEligibleToWork">
+                                            <label class="form-check-label" for="isEligibleToWork">
+                                                Eligible to Work
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input name="isHired" class="form-check-input" type="checkbox" id="isHired">
+                                            <label class="form-check-label" for="isHired">
+                                                Employment Status
+                                            </label>
+                                        </div>
+                                        <hr>
+                                        <button type="submit" class="btn btn-primary">Export</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- End Residents Card -->
+
+                    <!-- Employees Card -->
+                    <div class="col-xxl-4 col-md-4">
+                        <div class="card info-card sales-card">
+
+                            <div class="card-body">
+                                <h5 class="card-title">Employees <span>| Create Report</span></h5>
+                                <div class="row mb-3">
+                                    <legend class="col-form-label ">Select Fields:</legend>
+                                    <form method="POST" action="/unitTeam/employedResidentsReport">
+
+                                        <div class="form-check">
+                                            <input name="facility" class="form-check-input" type="checkbox"
+                                                id="facility">
+                                            <label class="form-check-label" for="facility">
+                                                Facility
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input name="firstName" class="form-check-input" type="checkbox"
+                                                id="firstName">
+                                            <label class="form-check-label" for="firstName">
+                                                First Name
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input name="lastName" class="form-check-input" type="checkbox"
+                                                id="lastName">
+                                            <label class="form-check-label" for="lastName">
+                                                Last Name
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input required name="residentID" class="form-check-input" type="checkbox"
+                                                id="residentID">
+                                            <label class="form-check-label" for="residentID">
+                                                Resident ID
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input name="outDate" class="form-check-input" type="checkbox" id="outDate">
+                                            <label class="form-check-label" for="outDate">
+                                                Out Date
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input name="custodyLevel" class="form-check-input" type="checkbox"
+                                                id="custodyLevel">
+                                            <label class="form-check-label" for="custodyLevel">
+                                                Custody Level
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input name="jobPool" class="form-check-input" type="checkbox" id="jobPool">
+                                            <label class="form-check-label" for="jobPool">
+                                                Job Pool
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input name="unitTeam" class="form-check-input" type="checkbox"
+                                                id="unitTeam">
+                                            <label class="form-check-label" for="unitTeam">
+                                                Unit Team
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input name="companyName" class="form-check-input" type="checkbox"
+                                                id="companyName">
+                                            <label class="form-check-label" for="companyName">
+                                                Company Name
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input name="dateHired" class="form-check-input" type="checkbox"
+                                                id="dateHired">
+                                            <label class="form-check-label" for="dateHired">
+                                                Date Hired
+                                            </label>
+                                        </div>
+                                        <hr>
+                                        <button type="submit" class="btn btn-primary">Export</button>
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div><!-- End Resumes Count Card -->
+
+                    <!-- Applicants Card -->
+                    <div class="col-xxl-4 col-md-4">
+                        <div class="card info-card revenue-card">
+
+                            <div class="card-body">
+                                <h5 class="card-title">Applicants <span>| Select Fields</span></h5>
+
+
+                            </div>
+
+                        </div>
+                    </div><!-- End Applicants Card -->
+
+
+                </div>
+            </div><!-- End Dashboard Cone -->
+
+        </div>
+    </section>
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+{{> footer}}
+
+{{> arrowUp}}

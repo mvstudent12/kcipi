@@ -188,6 +188,14 @@ module.exports = {
       console.log(err);
     }
   },
+  //serves reports page from admin dashboard
+  async reports(req, res) {
+    try {
+      res.render("admin/reports", { user: req.session.user });
+    } catch (err) {
+      console.log(err);
+    }
+  },
 
   // Serves logs from the admin dashboard
   async logs(req, res) {

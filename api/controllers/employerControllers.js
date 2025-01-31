@@ -578,4 +578,11 @@ module.exports = {
       console.log(err);
     }
   },
+  async reports(req, res) {
+    try {
+      res.render("employer/reports", { user: req.session.user });
+    } catch (err) {
+      console.log(err);
+    }
+  },
 };

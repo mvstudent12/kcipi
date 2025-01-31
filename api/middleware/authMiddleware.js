@@ -2,108 +2,110 @@ const Admin = require("../models/Admin");
 const Employer = require("../models/Employer");
 const UnitTeam = require("../models/UnitTeam");
 const Resident = require("../models/Resident");
-const Jobs = require("../models/Jobs");
 
-// Middleware to require authentication for non-residents
-async function requireAuth(req, res, next) {
-  if (!req.session.user && req.originalUrl !== "/") {
-    return res.redirect("/"); // Redirect if no user is found in session
+const logger = require("../utils/logger");
+
+// Middleware to ensure a user is authenticated
+function requireAuth(req, res, next) {
+  if (!req.session.user) {
+    return res.redirect("/"); // Redirect if not logged in
   }
-  next(); // Proceed if the user is authenticated
+  next();
 }
 
-// Middleware to require authentication for residents
-async function requireResidentAuth(req, res, next) {
-  if (!req.session.resident && req.originalUrl !== "/resident") {
-    return res.redirect("/resident"); // Redirect if no user is found in session
+// Middleware to ensure a resident is authenticated
+function requireResidentAuth(req, res, next) {
+  if (!req.session.resident) {
+    return res.redirect("/resident"); // Redirect if not logged in
   }
-  next(); // Proceed if the resident is authenticated
+  next();
 }
 
-// Middleware to check user details and store it in res.session
+// Middleware to check if the user has a specific role
+function requireRole(allowedRoles) {
+  return async (req, res, next) => {
+    if (!req.session.user) {
+      return res.redirect("/"); // Redirect if no user session
+    }
+
+    try {
+      // Fetch user details if not already in session
+      let user = req.session.user;
+      if (!user.role) {
+        user = await findUserById(user._id); // Get user from database
+        if (!user) {
+          req.session.user = null;
+          return res.redirect("/");
+        }
+        req.session.user = user; // Store updated user in session
+      }
+
+      // Check if user has an allowed role
+      if (!allowedRoles.includes(user.role)) {
+        logger.info(`Role check error:: ${user.role}::Access denied.`);
+        //maybe make this 404 page later
+        return res.status(403).send("Access denied."); // Forbidden if role mismatch
+      }
+
+      next();
+    } catch (err) {
+      console.error("Role check error:", err.message);
+      logger.info(`Role check error:: ${err.message}`);
+      res.status(500).send("Internal server error");
+    }
+  };
+}
+
+// Middleware to store user details in session
 const checkUser = async (req, res, next) => {
-  //console.log("checkUser has been called");
-
-  // Check if user session exists
-  const user = req.session.user;
-
-  if (!user) {
-    // No session found (user is not logged in)
-    req.session.user = null; // Explicitly set to null (in case there's old session data)
-    // console.log("No user session found: user set to null");
-    return next(); // Proceed to next middleware or route handler
+  if (!req.session.user) {
+    req.session.user = null;
+    return next();
   }
 
   try {
-    // If the session exists, simply attach the user to the request object
-    //console.log("User found in session:", user);
-
-    // You could optionally add extra checks to make sure the user data is still valid
-    // Example: Find the user in the database (e.g., if user session data is outdated)
-    const foundUser = await findUserById(user); // Example to find user by ID from session data
-
-    if (foundUser) {
-      req.session.user = foundUser; // Store the found user in session
-
-      //console.log("User found in database:", foundUser);
-    } else {
-      req.session.user = null; // If user not found in database, clear session
-      console.log("User not found in database: session set to null");
-    }
-
-    next(); // Proceed to next middleware or route handler
+    const user = await findUserById(req.session.user._id);
+    req.session.user = user || null;
+    next();
   } catch (err) {
-    // Handle any error (e.g., database error or session access issues)
-    console.log("checkUser error:", err.message);
-    req.session.user = null; // Clear session if any error occurs
-    next(); // Proceed anyway
+    console.error("checkUser error:", err.message);
+    req.session.user = null;
+    next();
   }
 };
 
+// Middleware to store resident details in session
 const checkResident = async (req, res, next) => {
-  // Check if user session exists
-  const resident = req.session.resident;
-
-  if (!resident) {
-    // No session found (user is not logged in)
-    req.session.resident = null; // Explicitly set to null (in case there's old session data)
-    // console.log("No user session found: user set to null");
-    return next(); // Proceed to next middleware or route handler
+  if (!req.session.resident) {
+    req.session.resident = null;
+    return next();
   }
 
   try {
-    // If the session exists, simply attach the user to the request object
-    // console.log("User found in session:", resident);
-
-    // You could optionally add extra checks to make sure the user data is still valid
-    // Example: Find the user in the database (e.g., if user session data is outdated)
-    const foundResident = await findUserById(resident); // Example to find user by ID from session data
-
-    if (foundResident) {
-      req.session.resident = foundResident; // Store the found Resident in session
-      // console.log("Resident found in database:", foundResident);
-    } else {
-      req.session.resident = null; // If user not found in database, clear session
-      console.log("Resident not found in database: session set to null");
-    }
-
-    next(); // Proceed to next middleware or route handler
+    const resident = await findUserById(req.session.resident._id);
+    req.session.resident = resident || null;
+    next();
   } catch (err) {
-    // Handle any error (e.g., database error or session access issues)
-    console.log("checkResident error:", err.message);
-    req.session.resident = null; // Clear session if any error occurs
-    next(); // Proceed anyway
+    console.error("checkResident error:", err.message);
+    req.session.resident = null;
+    next();
   }
 };
 
 // Helper function to find the user in the models
 async function findUserById(userId) {
-  const user =
+  return (
     (await Admin.findById(userId).lean()) ||
     (await UnitTeam.findById(userId).lean()) ||
     (await Employer.findById(userId).lean()) ||
-    (await Resident.findById(userId).lean());
-  return user;
+    (await Resident.findById(userId).lean())
+  );
 }
 
-module.exports = { requireAuth, checkUser, requireResidentAuth, checkResident };
+module.exports = {
+  requireAuth,
+  requireResidentAuth,
+  requireRole,
+  checkUser,
+  checkResident,
+};

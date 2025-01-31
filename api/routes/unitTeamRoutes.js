@@ -3,25 +3,41 @@ const unitTeamRoutes = express.Router();
 const controller = require("../controllers/unitTeamControllers");
 
 //authentication middleware
-const { requireAuth, checkUser } = require("../middleware/authMiddleware");
+const {
+  requireAuth,
+  checkUser,
+  requireRole,
+} = require("../middleware/authMiddleware");
 
-unitTeamRoutes.get("/dashboard", checkUser, requireAuth, controller.dashboard);
+unitTeamRoutes.get(
+  "/dashboard",
+  checkUser,
+  requireAuth,
+  requireRole(["unitTeam"]),
+  controller.dashboard
+);
 
-unitTeamRoutes.get("/helpDesk", checkUser, requireAuth, controller.helpDesk);
+unitTeamRoutes.get(
+  "/helpDesk",
+  checkUser,
+  requireAuth,
+  requireRole(["unitTeam"]),
+  controller.helpDesk
+);
 
-unitTeamRoutes.get("/contact", checkUser, requireAuth, controller.contact);
-
-// unitTeamRoutes.get(
-//   "/residentProfile/:id",
-//   checkUser,
-//   requireAuth,
-//   controller.residentProfile
-// );
+unitTeamRoutes.get(
+  "/contact",
+  checkUser,
+  requireAuth,
+  requireRole(["unitTeam"]),
+  controller.contact
+);
 
 unitTeamRoutes.get(
   "/manageWorkForce",
   checkUser,
   requireAuth,
+  requireRole(["unitTeam"]),
   controller.manageWorkForce
 );
 
@@ -29,25 +45,77 @@ unitTeamRoutes.get(
   "/manageClearance",
   checkUser,
   requireAuth,
+  requireRole(["unitTeam"]),
   controller.manageClearance
 );
 //=========================
 // ROSTERS
 //=========================
 
-unitTeamRoutes.get("/residents", checkUser, requireAuth, controller.residents);
+unitTeamRoutes.get(
+  "/residents",
+  checkUser,
+  requireAuth,
+  requireRole(["unitTeam"]),
+  controller.residents
+);
 
-unitTeamRoutes.get("/resumes", checkUser, requireAuth, controller.resumes);
+unitTeamRoutes.get(
+  "/resumes",
+  checkUser,
+  requireAuth,
+  requireRole(["unitTeam"]),
+  controller.resumes
+);
 
-unitTeamRoutes.get("/clearance", checkUser, requireAuth, controller.clearance);
+unitTeamRoutes.get(
+  "/clearance",
+  checkUser,
+  requireAuth,
+  requireRole(["unitTeam"]),
+  controller.clearance
+);
 
 unitTeamRoutes.get(
   "/applicants",
   checkUser,
   requireAuth,
+  requireRole(["unitTeam"]),
   controller.applicants
 );
 
-unitTeamRoutes.get("/employees", checkUser, requireAuth, controller.employees);
+unitTeamRoutes.get(
+  "/employees",
+  checkUser,
+  requireAuth,
+  requireRole(["unitTeam"]),
+  controller.employees
+);
+//=========================
+// Reports
+//=========================
+
+unitTeamRoutes.get(
+  "/reports",
+  checkUser,
+  requireAuth,
+  requireRole(["unitTeam"]),
+  controller.reports
+);
+unitTeamRoutes.post(
+  "/residentReport",
+  checkUser,
+  requireAuth,
+  requireRole(["unitTeam"]),
+  controller.residentReport
+);
+
+unitTeamRoutes.post(
+  "/employedResidentsReport",
+  checkUser,
+  requireAuth,
+  requireRole(["unitTeam"]),
+  controller.employedResidentsReport
+);
 
 module.exports = unitTeamRoutes;

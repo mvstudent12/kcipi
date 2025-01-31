@@ -4,6 +4,9 @@ const UnitTeam = require("../models/UnitTeam");
 const Resident = require("../models/Resident");
 const Jobs = require("../models/Jobs");
 
+const { Parser } = require("json2csv");
+const { trusted } = require("mongoose");
+
 const findInterviews = async (residentIDs) => {
   try {
     const interviews = await Jobs.aggregate([
@@ -330,6 +333,90 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
+    }
+  },
+  //===============================
+  //        REPORTS
+  //===============================
+  async reports(req, res) {
+    try {
+      res.render("unitTeam/reports", { user: req.session.user });
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  async residentReport(req, res) {
+    try {
+      const selectedFields = Object.keys(req.body);
+
+      if (selectedFields.length === 0) {
+        return res.status(400).send("No fields selected for the report.");
+      }
+
+      // Fetch data from MongoDB with only selected fields
+      const residents = await Resident.find(
+        {},
+        selectedFields.join(" ")
+      ).lean();
+
+      if (residents.length === 0) {
+        return res.status(404).send("No data found.");
+      }
+
+      // Convert data to CSV
+      const json2csvParser = new Parser({ fields: selectedFields });
+      const csv = json2csvParser.parse(residents);
+
+      // Set response headers to trigger file download
+      res.setHeader(
+        "Content-Disposition",
+        'attachment; filename="resident_report.csv"'
+      );
+      res.setHeader("Content-Type", "text/csv");
+
+      res.status(200).send(csv);
+    } catch (err) {
+      console.log(err);
+      res.status(500).send("Error generating report.");
+    }
+  },
+  async employedResidentsReport(req, res) {
+    try {
+      const selectedFields = Object.keys(req.body);
+
+      if (selectedFields.length === 0) {
+        return res.status(400).send("No fields selected for the report.");
+      }
+
+      // Fetch data from MongoDB with only selected fields
+      const residents = await Resident.find(
+        { isHired: true },
+        selectedFields.join(" ")
+      ).lean();
+
+      if (residents.length === 0) {
+        const noData = true;
+        return res.render("unitTeam/reports", {
+          user: req.session.user,
+          noData,
+        });
+      }
+
+      // Convert data to CSV
+      const json2csvParser = new Parser({ fields: selectedFields });
+      const csv = json2csvParser.parse(residents);
+
+      // Set response headers to trigger file download
+      res.setHeader(
+        "Content-Disposition",
+        'attachment; filename="resident_report.csv"'
+      );
+      res.setHeader("Content-Type", "text/csv");
+
+      res.status(200).send(csv);
+    } catch (err) {
+      console.log(err);
+      res.status(500).send("Error generating report.");
     }
   },
 };
