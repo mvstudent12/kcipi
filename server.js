@@ -49,7 +49,7 @@ console.log("Session Secret:", sessionSecret); // Log the secret for development
 
 app.use(
   session({
-    secret: "somethingsectwerwrwerwrwer0000000", //sessionSecret, // Use a strong, unique secret key for session ,encryption
+    secret: sessionSecret, //sessionSecret, // Use a strong, unique secret key for session ,encryption
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
