@@ -4,6 +4,8 @@ const UnitTeam = require("../models/UnitTeam");
 const Resident = require("../models/Resident");
 const Jobs = require("../models/Jobs");
 
+const mongoose = require("mongoose");
+
 module.exports = {
   //serves non-resident dashboard from login portal portal
   async dashboard(req, res) {
@@ -158,6 +160,8 @@ module.exports = {
   async editClearance(req, res) {
     let { residentID, dept } = req.params;
     const { clearance, comments } = req.body;
+    console.log(req.body);
+    console.log(req.params);
     if (dept == "Sex-Offender") {
       dept = "sexOffender";
     }
@@ -179,7 +183,7 @@ module.exports = {
               [`${dept}ClearedBy`]: req.session.user._id,
             },
             $push: {
-              [`${dept}Notes`]: comments,
+              [`${dept}Notes`]: { createdAt: new Date(), note: comments },
             },
           }
         );
@@ -198,7 +202,7 @@ module.exports = {
               isEligibleToWork: false,
             },
             $push: {
-              [`${dept}Notes`]: comments,
+              [`${dept}Notes`]: { createdAt: new Date(), note: comments },
             },
           }
         );
@@ -215,6 +219,86 @@ module.exports = {
       });
     } catch (err) {
       console.error(err);
+    }
+  },
+  async findNotes(req, res) {
+    try {
+      const { residentID, dept } = req.params;
+      // Find the resident by residentID
+      const resident = await Resident.findOne({ residentID }).lean();
+
+      if (!resident) {
+        return res.status(404).json({ message: "Resident not found." }); // Handle case where resident is not found
+      }
+
+      // Dynamically create the key for the notes
+      const notesKey = `${dept}Notes`;
+      console.log(notesKey);
+
+      // Check if the notesKey exists on the resident object
+      if (!resident[notesKey]) {
+        return res.status(404).json({ message: `No notes found for ${dept}.` }); // Handle case where no notes exist for the department
+      }
+
+      // Retrieve the notes from the resident object
+      const notes = resident[notesKey];
+
+      // Send the notes in the response as JSON
+      return res.status(200).json({ notes }); // Return the notes in the response body
+    } catch (err) {
+      console.error(err); // Log the error for debugging
+      return res
+        .status(500)
+        .json({ message: "An error occurred while fetching the notes." }); // Handle server errors
+    }
+  },
+  async addNotes(req, res) {
+    try {
+      console.log(req.body); // This will log the route parameters
+
+      const { residentID, dept } = req.params;
+
+      const { notes } = req.body;
+
+      await Resident.updateOne(
+        { residentID: residentID },
+        {
+          $push: {
+            [`${dept}Notes`]: { createdAt: new Date(), note: notes },
+          },
+        }
+      );
+      // Find the resident based on residentID
+      const resident = await Resident.findOne({ residentID }).lean();
+      if (!resident) {
+        return res.status(404).send("Resident not found"); // Handling case when resident is not found
+      }
+
+      const id = resident._id;
+
+      // Find positions the resident has applied for
+      const applications = await Jobs.find({
+        "applicants.resident_id": id, // Match applicants by resident ID in the applicants array
+      }).lean();
+
+      // Fetch the unit team, sorted by firstName
+      const unitTeam = await UnitTeam.find({}).sort({ firstName: 1 }).lean();
+
+      const activeTab = "clearance"; // Set the active tab for the profile
+
+      // Render the profile page
+      res.render(`${req.session.user.role}/profiles/residentProfile`, {
+        user: req.session.user,
+        resident,
+        applications,
+        activeTab,
+        unitTeam,
+      });
+    } catch (err) {
+      console.error(err); // Log the error for debugging
+      return res
+        .status(500)
+        .json({ message: "An error occurred while fetching the notes." }); // Handle server errors
     }
   },
 
@@ -292,8 +376,8 @@ module.exports = {
         const { interviewID } = req.body;
         await Jobs.updateOne(
           {
-            _id: jobID, // Match the job by its ID
-            "interviews._id": interviewID, // Match the specific interview by its _id
+            _id: new mongoose.Types.ObjectId(jobID), // Ensure jobID is an ObjectId
+            "interviews._id": new mongoose.Types.ObjectId(interviewID), // Ensure interviewID is an ObjectId
           },
           {
             $set: {
@@ -305,19 +389,23 @@ module.exports = {
         );
       } else {
         // //add interview to Jobs document
-        await Jobs.findByIdAndUpdate(jobID, {
-          $push: {
-            interviews: {
-              isRequested: true,
-              dateRequested: new Date(),
-              residentID,
-              name,
-              date,
-              time,
-              instructions,
+        await Jobs.findByIdAndUpdate(
+          new mongoose.Types.ObjectId(jobID), // Ensure jobID is an ObjectId
+          {
+            $push: {
+              interviews: {
+                isRequested: true,
+                dateRequested: new Date(), // Automatically set request date
+                residentID,
+                name,
+                dateScheduled: date, // Ensure correct field name
+                time,
+                instructions,
+              },
             },
           },
-        });
+          { new: true } // Returns the updated document (optional)
+        );
       }
 
       //find positions resident has applied for

@@ -86,4 +86,17 @@ clearanceRoutes.post(
   controller.requestHire
 );
 
+clearanceRoutes.get(
+  "/findNotes/:residentID/:dept",
+  checkUser,
+  requireAuth,
+  controller.findNotes
+);
+clearanceRoutes.post(
+  "/addNotes/:residentID/:dept",
+  checkUser,
+  requireAuth,
+  controller.addNotes
+);
+
 module.exports = clearanceRoutes;

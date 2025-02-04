@@ -13,28 +13,39 @@ module.exports = {
       const jobPool = req.session.resident.jobPool;
       const residentObjectId = req.session.resident._id;
       const residentID = req.session.resident.residentID;
+      const facility = req.session.resident.facility;
 
       //if resident has been cleared to work
       if (residentHasClearance) {
+        //find all jobs in resident's job pool and facility
         const jobs = await Jobs.aggregate([
           {
             $match: {
               jobPool: jobPool, // Match jobs with the same jobPool as the resident
+              facility: facility,
             },
           },
           {
+            //show whether resident has applied to this job with added residentInApplicants field
             $addFields: {
               residentInApplicants: {
-                $cond: {
-                  if: {
-                    $in: [
-                      new mongoose.Types.ObjectId(residentObjectId),
-                      "$applicants.resident_id",
-                    ], // Match against applicants.resident_id
+                $gt: [
+                  {
+                    $size: {
+                      $filter: {
+                        input: "$applicants",
+                        as: "applicant",
+                        cond: {
+                          $eq: [
+                            "$$applicant.resident_id",
+                            new mongoose.Types.ObjectId(residentObjectId),
+                          ],
+                        },
+                      },
+                    },
                   },
-                  then: true,
-                  else: false,
-                },
+                  0,
+                ], // Returns true if at least one match is found
               },
             },
           },

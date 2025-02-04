@@ -361,8 +361,8 @@
                 <div class="row mb-2">
                     <div class="col-lg-6 col-md-6 label text-info">Interview Scheduled For:</div>
                     {{#getInterview ../resident.residentID this.interviews}}
-                    {{#if date}}
-                    <div class="col-lg-6 col-md-6">{{formatDate date}} &nbsp; @ &nbsp; {{time}}</div>
+                    {{#if dateScheduled}}
+                    <div class="col-lg-6 col-md-6">{{formatDate dateScheduled}} &nbsp; @ &nbsp; {{time}}</div>
                     {{else}}
                     <div class="col-lg-6 col-md-6">No</div>
                     {{/if}}

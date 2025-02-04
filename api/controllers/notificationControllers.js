@@ -295,7 +295,10 @@ module.exports = {
         { residentID: residentID },
         {
           $push: {
-            MedicalNotes: notes,
+            MedicalNotes: {
+              note: notes,
+              createdAt: new Date(),
+            },
           },
         }
       );
@@ -410,7 +413,10 @@ module.exports = {
         { residentID: residentID },
         {
           $push: {
-            UTMNotes: notes,
+            UTMNotes: {
+              note: notes,
+              createdAt: new Date(),
+            },
           },
         }
       );
@@ -525,7 +531,10 @@ module.exports = {
         { residentID: residentID },
         {
           $push: {
-            EAINotes: notes,
+            EAINotes: {
+              note: notes,
+              createdAt: new Date(),
+            },
           },
         }
       );
@@ -641,7 +650,10 @@ module.exports = {
         { residentID: residentID },
         {
           $push: {
-            ClassificationNotes: notes,
+            ClassificationNotes: {
+              note: notes,
+              createdAt: new Date(),
+            },
           },
         }
       );
@@ -757,7 +769,10 @@ module.exports = {
         { residentID: residentID },
         {
           $push: {
-            DWNotes: notes,
+            DWNotes: {
+              note: notes,
+              createdAt: new Date(),
+            },
           },
         }
       );
@@ -872,7 +887,10 @@ module.exports = {
         { residentID: residentID },
         {
           $push: {
-            WardenNotes: notes,
+            WardenNotes: {
+              note: notes,
+              createdAt: new Date(),
+            },
           },
         }
       );
@@ -989,7 +1007,10 @@ module.exports = {
         { residentID: residentID },
         {
           $push: {
-            sexOffenderNotes: notes,
+            sexOffenderNotes: {
+              note: notes,
+              createdAt: new Date(),
+            },
           },
         }
       );
@@ -1106,7 +1127,10 @@ module.exports = {
         { residentID: residentID },
         {
           $push: {
-            victimServicesNotes: notes,
+            victimServicesNotes: {
+              note: notes,
+              createdAt: new Date(),
+            },
           },
         }
       );

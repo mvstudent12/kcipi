@@ -69,7 +69,7 @@ const residentSchema = new Schema({
   MedicalReviewed: { type: Boolean, default: false },
   MedicalNotes: [
     {
-      createdAt: { type: Date, default: Date.now },
+      createdAt: { type: Date },
       note: { type: String, required: true },
     },
   ],
@@ -86,7 +86,7 @@ const residentSchema = new Schema({
   UTMReviewed: { type: Boolean, default: false },
   UTMNotes: [
     {
-      createdAt: { type: Date, default: Date.now },
+      createdAt: { type: Date },
       note: { type: String, required: true },
     },
   ],
@@ -103,7 +103,7 @@ const residentSchema = new Schema({
   EAIReviewed: { type: Boolean, default: false },
   EAINotes: [
     {
-      createdAt: { type: Date, default: Date.now },
+      createdAt: { type: Date },
       note: { type: String, required: true },
     },
   ],
@@ -120,7 +120,7 @@ const residentSchema = new Schema({
   ClassificationReviewed: { type: Boolean, default: false },
   ClassificationNotes: [
     {
-      createdAt: { type: Date, default: Date.now },
+      createdAt: { type: Date },
       note: { type: String, required: true },
     },
   ],
@@ -141,7 +141,7 @@ const residentSchema = new Schema({
   DWReviewed: { type: Boolean, default: false },
   DWNotes: [
     {
-      createdAt: { type: Date, default: Date.now },
+      createdAt: { type: Date },
       note: { type: String, required: true },
     },
   ],
@@ -158,7 +158,7 @@ const residentSchema = new Schema({
   WardenReviewed: { type: Boolean, default: false },
   WardenNotes: [
     {
-      createdAt: { type: Date, default: Date.now },
+      createdAt: { type: Date },
       note: { type: String, required: true },
     },
   ],
@@ -180,7 +180,7 @@ const residentSchema = new Schema({
   sexOffenderReviewed: { type: Boolean, default: false },
   sexOffenderNotes: [
     {
-      createdAt: { type: Date, default: Date.now },
+      createdAt: { type: Date },
       note: { type: String, required: true },
     },
   ],
@@ -201,7 +201,7 @@ const residentSchema = new Schema({
   victimServicesReviewed: { type: Boolean, default: false },
   victimServicesNotes: [
     {
-      createdAt: { type: Date, default: Date.now },
+      createdAt: { type: Date },
       note: { type: String, required: true },
     },
   ],

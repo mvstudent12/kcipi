@@ -51,8 +51,9 @@ editButtons.forEach((button) => {
 });
 
 //===================================
-//Populates the Add notesclearance modal
+//Populates the Add notes clearance modal
 //====================================
+
 // Get all buttons that trigger the modal
 const addNotesButtons = document.querySelectorAll(
   '[data-bs-toggle="modal"][data-bs-target="#addNotes"]'
@@ -65,37 +66,45 @@ addNotesButtons.forEach((button) => {
     const route = button.getAttribute("data-route");
     const category = button.getAttribute("data-category");
     const residentID = button.getAttribute("data-residentID");
-    const notesCategory = button.getAttribute("data-data-notes-category");
+    const notesCategory = button.getAttribute("data-notes-category");
 
     // Update the modal title
     const dataCategory = document.getElementById("addNotes-data-category");
-
     dataCategory.textContent = category;
 
     // Update the form action URL dynamically
     const addNotesForm = document.getElementById("addNotes-form");
     addNotesForm.action = route;
 
-    //fetch previous notes
-    fetch(`/clearance/${residentID}/notes/${notesCategory}`)
+    // Get previous notes container
+    let previousNotes = document.getElementById("previousNotes");
+
+    // Fetch previous notes
+    fetch(`/clearance/findNotes/${residentID}/${notesCategory}`)
       .then((response) => response.json())
       .then((data) => {
-        previousNotesDiv.innerHTML = ""; // Clear existing content
+        console.log(data);
+        let notesContent = ""; // Build notes content as a string
+
         if (data.notes.length > 0) {
           data.notes.forEach((note) => {
-            previousNotesDiv.innerHTML += `
-                                    <span>${new Date(
-                                      note.createdAt
-                                    ).toLocaleString()}</span>
-                                    <p>${note.note}</p>
-                                    <hr>
-                                `;
+            notesContent += `
+              <span>${new Date(note.createdAt).toLocaleString()}</span>
+              <p>${note.note}</p>
+              <hr>
+            `;
           });
         } else {
-          previousNotesDiv.innerHTML =
-            "<p><i>There has been no documentation yet.</i></p>";
+          notesContent = "<p><i>There has been no documentation yet.</i></p>";
         }
+
+        // Update the content in one go
+        previousNotes.innerHTML = notesContent;
       })
-      .catch((error) => console.error("Error fetching notes:", error));
+      .catch((error) => {
+        console.error("Error fetching notes:", error);
+        previousNotes.innerHTML =
+          "<p><i>Error fetching notes. Please try again later.</i></p>";
+      });
   });
 });

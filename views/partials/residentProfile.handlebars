@@ -707,7 +707,7 @@
                                         </div>
                                         <div class="col-lg-2 col-md-2">
                                             ${{this.pay}} /hr</div>
-                                        <div class="col-lg-2 col-md-2">
+                                        <div class="col-lg-4 col-md-4">
                                             <button class="btn btn-primary" type="button" data-bs-toggle="modal"
                                                 data-bs-target="#{{this.position}}">
                                                 Manage Hiring</button>
@@ -937,16 +937,16 @@
         <div class="modal-content">
             <form id="addNotes-form" method="post" action="">
                 <div class="modal-header">
-                    <h5 id="request-title" class="modal-title">Add <span id="addNotes-data-category"></span> Notes</h5>
+                    <h5 class="modal-title">Add <span id="addNotes-data-category"></span> Notes</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div id="request-body" class="d-block">
+                    <div>
                         {{!-- additional comments --}}
                         <div class="row mb-3">
                             <div class="col-sm-10">
-                                <textarea name="comments" class="form-control"
-                                    placeholder="Additional notes or comments" style="height: 100px;"></textarea>
+                                <textarea name="notes" class="form-control" placeholder="Additional notes or comments"
+                                    style="height: 100px;"></textarea>
                             </div>
                         </div>
                     </div>
@@ -961,7 +961,7 @@
                     </div>
 
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer d-flex justify-content-between">
 
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     <button id="" type="submit" class="btn btn-info">Add Note</button>
@@ -1052,9 +1052,11 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <div id="request-btns" class="d-block">
+                    <div id="request-btns" class="d-block ">
+
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                         <button id="" type="submit" class="btn btn-info">Request</button>
+
                     </div>
                     <div id="done-btn" class="d-none">
                         <button type="button" class="btn btn-info" data-bs-dismiss="modal">Close</button>
@@ -1072,11 +1074,11 @@
         <div class="modal-content">
             <form id="edit-form" method="post" action="">
                 <div class="modal-header">
-                    <h5 id="request-title" class="modal-title">Edit <span id="edit-data-category"></span> Clearance</h5>
+                    <h5 class="modal-title">Edit <span id="edit-data-category"></span> Clearance</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div id="request-body" class="d-block">
+                    <div>
                         {{!-- recipients email --}}
                         <div class="row mb-3">
                             <div class="col-sm-10">
@@ -1100,11 +1102,10 @@
                     </div>
 
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer d-flex justify-content-between">
 
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button id="" type="submit" class="btn btn-warning">Edit</button>
-
+                    <button id="" type="submit" class="btn btn-warning">Edit Clearance</button>
 
                 </div>
             </form>
@@ -1223,12 +1224,12 @@
             <div class="modal-header row">
 
                 <div class="col-6">
-                    <h3 id="request-title" class="modal-title text-center text-capitalize">{{../resident.firstName}}
+                    <h3 class="modal-title text-center text-capitalize">{{../resident.firstName}}
                         {{../resident.lastName}}</h3>
                 </div>
 
                 {{#getInterview ../resident.residentID this.interviews}}
-                {{#if date}}
+                {{#if dateScheduled}}
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
                 {{else}}
@@ -1292,8 +1293,8 @@
                 <div class="row mb-2">
                     <div class="col-lg-6 col-md-6 label text-info">Interview Scheduled For:</div>
                     {{#getInterview ../resident.residentID this.interviews}}
-                    {{#if date}}
-                    <div class="col-lg-6 col-md-6">{{formatDate date}} &nbsp; @ &nbsp; {{time}}</div>
+                    {{#if dateScheduled}}
+                    <div class="col-lg-6 col-md-6">{{formatDate dateScheduled}} &nbsp; @ &nbsp; {{time}}</div>
                     {{else}}
                     <div class="col-lg-6 col-md-6">No</div>
                     {{/if}}
@@ -1322,7 +1323,7 @@
 
             <div class="modal-header">
 
-                <h3 id="request-title" class="modal-title">
+                <h3 class="modal-title">
                     Schedule Interview
                 </h3>
 
@@ -1413,18 +1414,18 @@
 
 
 
+<script type="text/javascript" src="/../assets/js/requestClearance.js"></script>
 
 
 <script type="text/javascript" src="/../assets/js/residentApprovalForm.js"></script>
 
-<script type="text/javascript" src="/../assets/js/requestClearance.js"></script>
 
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
 
         const clearanceValues = document.querySelectorAll('.clearanceCheck')
-        const approveClearance = document.getElementById("approveClearance");
+
 
 
         // Function to check if all clearances are "true"
@@ -1439,7 +1440,7 @@
             });
 
             // Show or hide the button based on the clearance check
-
+            const approveClearance = document.getElementById("approveClearance");
             if (allApproved) {
                 approveClearance.style.display = "block"; // Show the button
             } else {
