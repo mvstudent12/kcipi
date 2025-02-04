@@ -118,4 +118,12 @@ unitTeamRoutes.post(
   controller.employedResidentsReport
 );
 
+unitTeamRoutes.post(
+  "/applicantsReport",
+  checkUser,
+  requireAuth,
+  requireRole(["unitTeam"]),
+  controller.applicantsReport
+);
+
 module.exports = unitTeamRoutes;

@@ -148,7 +148,7 @@
                                             </div>
                                             {{!-- Save Button --}}
                                             <hr>
-                                            <div class="text-center">
+                                            <div class="">
                                                 <button type="submit" class="btn btn-primary mx-2">Add Resident</button>
                                             </div>
                                         </form>
@@ -300,8 +300,8 @@
                                                     <select required name="unitTeam" id="unitTeamList"
                                                         class="form-select text-capitalize"
                                                         aria-label="Select Unit Team">
-                                                        <option {{#if ../residentFound.resume.unitTeam}} selected
-                                                            {{/if}}value="">Select Unit Team:
+                                                        <option {{#unless residentFound.resume.unitTeam}} selected
+                                                            {{/unless}}value="">Select Unit Team:
                                                         </option>
                                                         {{#each unitTeam}}
                                                         <option {{#if (eq ../residentFound.resume.unitTeam this.email)}}
@@ -314,9 +314,30 @@
                                                     </select>
                                                 </div>
                                             </div>
+
+                                            {{!-- Active Status --}}
+                                            <div class="row mb-3">
+                                                <label for="isActive"
+                                                    class="col-md-4 col-lg-3 col-form-label">Status</label>
+                                                <div class="col-md-8 col-lg-9">
+                                                    <select required name="isActive" id="isActiveList"
+                                                        class="form-select text-capitalize" aria-label="Select Status">
+                                                        <option {{#if residentFound.isActive}} selected
+                                                            {{/if}}class="text-capitalize"
+                                                            value="{{residentFound.isActive}}">
+                                                            Active - Incarcerated
+                                                        </option>
+                                                        <option {{#unless residentFound.isActive}} selected
+                                                            {{/unless}}class="text-capitalize"
+                                                            value="{{residentFound.isActive}}">
+                                                            Inactive - Not Incarcerated
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
                                             {{!-- Save Button --}}
                                             <hr>
-                                            <div class="text-center">
+                                            <div class="">
                                                 <button type="submit" class="btn btn-primary mx-2">Save Edit</button>
                                             </div>
                                         </form>

@@ -1,9 +1,10 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-//const dbURI = "mongodb+srv://kcicodingdev:WWsgMyk4wiBt3Vze@kcipi.vkftg.mongodb.net/?retryWrites=true&w=majority&appName=kcipi"; //for updating dummy data to atlas
+const dbURI =
+  "mongodb+srv://kcicodingdev:WWsgMyk4wiBt3Vze@kcipi.vkftg.mongodb.net/?retryWrites=true&w=majority&appName=kcipi"; //for updating dummy data to atlas
 
-const dbURI = process.env.DB_URI; //for production
+//const dbURI = process.env.DB_URI; //for production
 
 //const dbURI = "mongodb://localhost/kcipi"; //use for development
 

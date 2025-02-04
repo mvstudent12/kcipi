@@ -79,4 +79,11 @@ clearanceRoutes.post(
   controller.editResident
 );
 
+clearanceRoutes.post(
+  "/requestHire",
+  checkUser,
+  requireAuth,
+  controller.requestHire
+);
+
 module.exports = clearanceRoutes;

@@ -3,7 +3,7 @@
     <div class="d-flex align-items-center justify-content-between">
         <a href="#" class="logo d-flex align-items-center">
             <img src="/assets/img/favicon.png" alt="Kansas Correctional Industries">
-            <span class="d-none d-lg-block">KCI Private Industry</span>
+            <span class="">KCI Private Industry</span>
         </a>
     </div><!-- End Logo -->
     <nav class="header-nav ms-auto">
@@ -148,7 +148,8 @@
                                         <div class="col-sm-10">
                                             {{#if resident.EAINotes}}
                                             {{#each resident.EAINotes}}
-                                            <p>{{this}}</p>
+                                            <span>{{this.createdAt}}</span>
+                                            <p>{{this.notes}}</p>
 
                                             {{/each}}
                                             {{else}}
@@ -187,9 +188,10 @@
                                                 <option value="Medical">Medical</option>
                                                 <option value="EAI">EAI</option>
                                                 <option value="Sex-Offender">Sex-Offender</option>
-                                                <option value="Classification">Classification</option>
-                                                <option value="Warden">Warden</option>
                                                 <option value="Victim-Services">Victim-Services</option>
+                                                <option value="Classification">Classification</option>
+                                                <option value="Deputy-Warden">Deputy Warden</option>
+                                                <option value="Warden">Warden</option>
                                             </select>
                                         </div>
                                     </div>

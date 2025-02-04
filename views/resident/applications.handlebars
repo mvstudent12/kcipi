@@ -48,7 +48,7 @@
                                     <div class="col-lg-4 col-md-4 label text-muted" aria-hidden="true">
                                         Position</div>
                                     <div class="col-lg-4 col-md-4 label text-muted" aria-hidden="true">
-                                        Pay</div>
+                                        Date Applied</div>
                                 </div>
                                 {{#each appliedJobs}}
                                 <div class="row mt-3">
@@ -56,7 +56,7 @@
                                         {{this.companyName}}
                                     </div>
                                     <div class="col-lg-4 col-md-4 text-capitalize">{{this.position}}</div>
-                                    <div class="col-lg-4 col-md-4 text-capitalize">${{this.pay}}/hr</div>
+                                    <div class="col-lg-4 col-md-4 text-capitalize">{{formatDate this.dateApplied}}</div>
                                 </div>
                                 <hr>
                                 {{/each}}

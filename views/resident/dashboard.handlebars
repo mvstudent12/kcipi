@@ -96,7 +96,7 @@
                     </div><!-- End Customers Card -->
 
                     {{#each interviews}}
-                    {{#if this.interviews.date}}
+                    {{#if this.interviews.dateScheduled}}
 
                     <div class="col-12">
                         <div class="card recent-sales overflow-auto">
@@ -106,7 +106,8 @@
                                     <p> Please be ready for your interview with <span
                                             class="text-capitalize text-info">{{this.companyName}}</span> at <span
                                             class="text-success">{{this.interviews.time}}</span> on <span
-                                            class="text-success">{{formatDate this.interviews.date}}.</span></p>
+                                            class="text-success">{{formatDate this.interviews.dateScheduled}}.</span>
+                                    </p>
                                     {{#if this.interviews.instructions}}
                                     <p>Additional Instructions: {{this.interviews.instructions}}</p>
                                     {{/if}}

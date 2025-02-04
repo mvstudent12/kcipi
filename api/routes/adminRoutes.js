@@ -50,14 +50,6 @@ adminRoutes.get(
 );
 
 adminRoutes.get(
-  "/reports",
-  checkUser,
-  requireAuth,
-  requireRole(["admin"]),
-  controller.reports
-);
-
-adminRoutes.get(
   "/manageWorkForce",
   checkUser,
   requireAuth,
@@ -281,6 +273,39 @@ adminRoutes.post(
   requireAuth,
   requireRole(["admin"]),
   controller.saveUnitTeamEdit
+);
+//=============================
+//   Reports
+//=============================
+adminRoutes.get(
+  "/reports",
+  checkUser,
+  requireAuth,
+  requireRole(["admin"]),
+  controller.reports
+);
+adminRoutes.post(
+  "/residentReport",
+  checkUser,
+  requireAuth,
+  requireRole(["admin"]),
+  controller.residentReport
+);
+
+adminRoutes.post(
+  "/employedResidentsReport",
+  checkUser,
+  requireAuth,
+  requireRole(["admin"]),
+  controller.employedResidentsReport
+);
+
+adminRoutes.post(
+  "/applicantsReport",
+  checkUser,
+  requireAuth,
+  requireRole(["admin"]),
+  controller.applicantsReport
 );
 
 module.exports = adminRoutes;

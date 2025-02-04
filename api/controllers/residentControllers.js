@@ -5,17 +5,17 @@ const Company = require("../models/Company");
 const Jobs = require("../models/Jobs");
 
 const mongoose = require("mongoose");
-const { residentTables } = require("./adminControllers");
 
 module.exports = {
   async dashboard(req, res) {
     try {
+      const residentHasClearance = req.session.resident.isEligibleToWork;
       const jobPool = req.session.resident.jobPool;
-      const id = req.session.resident._id;
+      const residentObjectId = req.session.resident._id;
       const residentID = req.session.resident.residentID;
 
-      //if resident has an approved resume, find jobs
-      if (jobPool) {
+      //if resident has been cleared to work
+      if (residentHasClearance) {
         const jobs = await Jobs.aggregate([
           {
             $match: {
@@ -27,7 +27,10 @@ module.exports = {
               residentInApplicants: {
                 $cond: {
                   if: {
-                    $in: [new mongoose.Types.ObjectId(id), "$applicants"],
+                    $in: [
+                      new mongoose.Types.ObjectId(residentObjectId),
+                      "$applicants.resident_id",
+                    ], // Match against applicants.resident_id
                   },
                   then: true,
                   else: false,
@@ -36,6 +39,7 @@ module.exports = {
             },
           },
         ]);
+
         const applicationCount = jobs.filter(
           (job) => job.residentInApplicants
         ).length;
@@ -68,13 +72,14 @@ module.exports = {
             $project: {
               companyName: 1, // Include company name
               position: 1, // Include position
-              "interviews.date": 1, // Include the date field
+              "interviews.dateScheduled": 1, // Include the date field
               "interviews.time": 1, // Include the time field
               "interviews.instructions": 1, // Include the instructions field
+              "interviews.isRequested": 1, // Include the isRequested field if needed
             },
           },
         ]);
-
+        console.log(interviews);
         res.render("resident/dashboard", {
           user: req.session.resident,
           jobs,
@@ -92,7 +97,6 @@ module.exports = {
       console.log(err);
     }
   },
-
   async profile(req, res) {
     try {
       const unitTeam = await UnitTeam.find({
@@ -132,29 +136,30 @@ module.exports = {
       console.log(err);
     }
   },
-
   async applications(req, res) {
     try {
       const id = req.session.resident._id;
 
       const appliedJobs = await Jobs.aggregate([
         {
-          $unwind: "$applicants", // Unwind the applicants array to access each job
+          $unwind: "$applicants", // Unwind the applicants array to access each applicant
         },
         {
           $match: {
-            applicants: new mongoose.Types.ObjectId(id), // Match jobs where the resident is in applicants
+            "applicants.resident_id": new mongoose.Types.ObjectId(id), // Match jobs where the resident's ID is in applicants.resident_id
           },
         },
         {
           $project: {
-            _id: 0, // Optionally exclude the company _id from the result
-            companyName: "$companyName", // Include the company name
-            pay: "$pay", // Include the job details
-            position: "$position",
+            _id: 0, // Optionally exclude the job's _id from the result
+            companyName: "$companyName", // Include company name
+            pay: "$pay", // Include pay details
+            position: "$position", // Include the job position
+            dateApplied: "$applicants.dateApplied",
           },
         },
       ]);
+      console.log(appliedJobs);
 
       res.render("resident/applications", {
         user: req.session.resident,
@@ -164,7 +169,6 @@ module.exports = {
       console.log(err);
     }
   },
-
   async jobInfo(req, res) {
     try {
       const { jobID } = req.params;
@@ -212,15 +216,32 @@ module.exports = {
   async saveApplication(req, res) {
     try {
       const { jobID } = req.params;
+      const residentID = req.session.resident._id;
 
-      const id = req.session.resident._id;
+      // Check if the resident has already applied
+      const job = await Jobs.findOne({
+        _id: jobID,
+        "applicants.resident_id": residentID, // Check if resident is already in the applicants array
+      });
 
-      await Jobs.findByIdAndUpdate(
-        jobID,
-        { $addToSet: { applicants: id } }, // Adds only if not present
-        { new: true } // Returns the updated document
-      );
+      if (!job) {
+        // Add resident to the applicants array with additional fields
+        await Jobs.findByIdAndUpdate(
+          jobID,
+          {
+            $addToSet: {
+              applicants: {
+                resident_id: residentID,
+                hireRequest: false,
+                dateApplied: new Date(),
+              },
+            },
+          },
+          { new: true }
+        );
+      }
 
+      // Re-fetch job with the updated data
       let position = await Jobs.aggregate([
         {
           $match: {
@@ -232,7 +253,10 @@ module.exports = {
             residentInApplicants: {
               $cond: {
                 if: {
-                  $in: [new mongoose.Types.ObjectId(id), "$applicants"],
+                  $in: [
+                    new mongoose.Types.ObjectId(residentID),
+                    "$applicants.resident_id", // Adjusted to check inside the applicants array
+                  ],
                 },
                 then: true,
                 else: false,
@@ -242,6 +266,7 @@ module.exports = {
         },
       ]);
       position = position[0];
+      console.log(position);
 
       const residentHasApplied = true;
       res.render("resident/jobInfo", {
@@ -253,6 +278,7 @@ module.exports = {
       console.log(err);
     }
   },
+
   async faq(req, res) {
     try {
       res.render("resident/faq", { user: req.session.resident });

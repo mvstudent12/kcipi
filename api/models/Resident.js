@@ -20,6 +20,7 @@ const residentSchema = new Schema({
     type: String,
     default: "resident",
   },
+  isActive: { type: Boolean, default: true },
   residentID: {
     type: String,
     unique: true,
@@ -66,7 +67,12 @@ const residentSchema = new Schema({
 
   //Medical clearance
   MedicalReviewed: { type: Boolean, default: false },
-  MedicalNotes: [{ type: String, lowercase: true, default: "" }],
+  MedicalNotes: [
+    {
+      createdAt: { type: Date, default: Date.now },
+      note: { type: String, required: true },
+    },
+  ],
   MedicalClearance: { type: Boolean, default: false },
   MedicalClearanceDate: { type: Date },
   MedicalClearedBy: { type: String, lowercase: true, default: "" },
@@ -78,7 +84,12 @@ const residentSchema = new Schema({
 
   //UTM clearance
   UTMReviewed: { type: Boolean, default: false },
-  UTMNotes: [{ type: String, lowercase: true, default: "" }],
+  UTMNotes: [
+    {
+      createdAt: { type: Date, default: Date.now },
+      note: { type: String, required: true },
+    },
+  ],
   UTMClearance: { type: Boolean, default: false },
   UTMClearanceDate: { type: Date },
   UTMClearedBy: { type: String, lowercase: true, default: "" },
@@ -90,7 +101,12 @@ const residentSchema = new Schema({
 
   //EAI clearance
   EAIReviewed: { type: Boolean, default: false },
-  EAINotes: [{ type: String, lowercase: true, default: "" }],
+  EAINotes: [
+    {
+      createdAt: { type: Date, default: Date.now },
+      note: { type: String, required: true },
+    },
+  ],
   EAIClearance: { type: Boolean, default: false },
   EAIClearanceDate: { type: Date },
   EAIClearedBy: { type: String, lowercase: true, default: "" },
@@ -102,7 +118,12 @@ const residentSchema = new Schema({
 
   //Classification clearance
   ClassificationReviewed: { type: Boolean, default: false },
-  ClassificationNotes: [{ type: String, lowercase: true, default: "" }],
+  ClassificationNotes: [
+    {
+      createdAt: { type: Date, default: Date.now },
+      note: { type: String, required: true },
+    },
+  ],
   ClassificationClearance: { type: Boolean, default: false },
   ClassificationClearanceDate: { type: Date },
   ClassificationClearedBy: { type: String, lowercase: true, default: "" },
@@ -116,9 +137,31 @@ const residentSchema = new Schema({
   ClassificationRestrictionDate: { type: Date },
   ClassificationRestrictedBy: { type: String, lowercase: true, default: "" },
 
+  //Deputy Warden clearance
+  DWReviewed: { type: Boolean, default: false },
+  DWNotes: [
+    {
+      createdAt: { type: Date, default: Date.now },
+      note: { type: String, required: true },
+    },
+  ],
+  DWClearance: { type: Boolean, default: false },
+  DWClearanceDate: { type: Date },
+  DWClearedBy: { type: String, lowercase: true, default: "" },
+  DWClearanceRemovedBy: { type: String, lowercase: true, default: "" },
+  DWClearanceRemovedDate: { type: Date },
+  DWRestriction: { type: Boolean, default: false },
+  DWRestrictionDate: { type: Date },
+  DWRestrictedBy: { type: String, lowercase: true, default: "" },
+
   //Warden clearance
   WardenReviewed: { type: Boolean, default: false },
-  WardenNotes: [{ type: String, lowercase: true, default: "" }],
+  WardenNotes: [
+    {
+      createdAt: { type: Date, default: Date.now },
+      note: { type: String, required: true },
+    },
+  ],
   WardenClearance: { type: Boolean, default: false },
   WardenClearanceDate: { type: Date },
   WardenClearedBy: { type: String, lowercase: true, default: "" },
@@ -135,7 +178,12 @@ const residentSchema = new Schema({
   //Sex Offender
   isSexOffender: { type: Boolean, default: false },
   sexOffenderReviewed: { type: Boolean, default: false },
-  sexOffenderNotes: [{ type: String, lowercase: true, default: "" }],
+  sexOffenderNotes: [
+    {
+      createdAt: { type: Date, default: Date.now },
+      note: { type: String, required: true },
+    },
+  ],
   sexOffenderClearance: { type: Boolean, default: false },
   sexOffenderClearanceDate: { type: Date },
   sexOffenderClearedBy: { type: String, lowercase: true, default: "" },
@@ -151,7 +199,12 @@ const residentSchema = new Schema({
 
   //Victim Services
   victimServicesReviewed: { type: Boolean, default: false },
-  victimServicesNotes: [{ type: String, lowercase: true, default: "" }],
+  victimServicesNotes: [
+    {
+      createdAt: { type: Date, default: Date.now },
+      note: { type: String, required: true },
+    },
+  ],
   victimServicesClearance: { type: Boolean, default: false },
   victimServicesClearanceDate: { type: Date },
   victimServicesClearedBy: { type: String, lowercase: true, default: "" },

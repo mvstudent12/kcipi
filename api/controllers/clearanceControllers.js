@@ -22,18 +22,26 @@ module.exports = {
   async residentProfile(req, res) {
     try {
       const { residentID } = req.params;
+
+      // Find the resident based on residentID
       const resident = await Resident.findOne({ residentID }).lean();
+      if (!resident) {
+        return res.status(404).send("Resident not found"); // Handling case when resident is not found
+      }
 
       const id = resident._id;
 
-      //find positions resident has applied for
+      // Find positions the resident has applied for
       const applications = await Jobs.find({
-        applicants: { $in: [id] },
+        "applicants.resident_id": id, // Match applicants by resident ID in the applicants array
       }).lean();
 
+      // Fetch the unit team, sorted by firstName
       const unitTeam = await UnitTeam.find({}).sort({ firstName: 1 }).lean();
 
-      const activeTab = "overview";
+      const activeTab = "overview"; // Set the active tab for the profile
+
+      // Render the profile page
       res.render(`${req.session.user.role}/profiles/residentProfile`, {
         user: req.session.user,
         resident,
@@ -42,15 +50,14 @@ module.exports = {
         unitTeam,
       });
     } catch (err) {
-      console.log(err);
+      console.error("Error fetching resident profile:", err);
+      res.status(500).send("An error occurred while fetching the profile.");
     }
   },
   async editResident(req, res) {
     try {
-      console.log(req.body);
       let { residentID, custodyLevel, facility, unitTeamInfo, jobPool } =
         req.body;
-      console.log(unitTeamInfo);
 
       let [unitTeamEmail, unitTeamName] = unitTeamInfo.split("|");
 
@@ -67,13 +74,12 @@ module.exports = {
         }
       );
       const resident = await Resident.findOne({ residentID }).lean();
-      console.log(resident);
 
       const id = resident._id;
 
       //find positions resident has applied for
       const applications = await Jobs.find({
-        applicants: { $in: [id] },
+        "applicants.resident_id": id, // Match the resident_id field inside the applicants array
       }).lean();
 
       const unitTeam = await UnitTeam.find({}).sort({ firstName: 1 }).lean();
@@ -158,6 +164,9 @@ module.exports = {
     if (dept == "Victim-Services") {
       dept = "victimServices";
     }
+    if (dept == "Deputy-Warden") {
+      dept = "DW";
+    }
     try {
       if (clearance === "true") {
         await Resident.updateOne(
@@ -186,6 +195,7 @@ module.exports = {
               [`${dept}Restriction`]: true,
               [`${dept}RestrictionDate`]: new Date(),
               [`${dept}RestrictedBy`]: req.session.user._id,
+              isEligibleToWork: false,
             },
             $push: {
               [`${dept}Notes`]: comments,
@@ -195,6 +205,7 @@ module.exports = {
       }
 
       const resident = await Resident.findOne({ residentID }).lean();
+      console.log(resident);
       const activeTab = "clearance";
 
       res.render(`${req.session.user.role}/profiles/residentProfile`, {
@@ -286,7 +297,7 @@ module.exports = {
           },
           {
             $set: {
-              "interviews.$.date": date, // Update the date
+              "interviews.$.dateScheduled": date, // Update the date
               "interviews.$.time": time, // Update the time
               "interviews.$.instructions": instructions, // Update the instructions
             },
@@ -311,7 +322,7 @@ module.exports = {
 
       //find positions resident has applied for
       const applications = await Jobs.find({
-        applicants: { $in: [id] },
+        "applicants.resident_id": id, // Match the resident_id field inside the applicants array
       }).lean();
 
       const activeTab = "application";
@@ -345,38 +356,31 @@ module.exports = {
       //remove user from applicants/ interviews add to workforce
       await Jobs.findByIdAndUpdate(jobID, {
         $pull: {
-          applicants: id,
-          interviews: { residentID: residentID },
+          applicants: { resident_id: id }, // Remove resident from the applicants array
+          interviews: { residentID: residentID }, // Remove interview with the given residentID
         },
         $push: {
-          employees: id,
+          employees: id, // Add the resident to the employees array
         },
         $inc: {
           availablePositions: -1, // Subtract 1 from availablePositions
         },
-        set: {
-          isAvailable: {
-            $cond: {
-              if: { $eq: ["$availablePositions", 0] },
-              then: false,
-              else: "$isAvailable",
-            },
-          },
-        },
       });
+
       //remove resident from all other applied jobs
       await Jobs.updateMany(
         {}, // This empty filter matches all documents
         {
           $pull: {
-            applicants: id, // Remove resident_id from the applicants array
+            applicants: { resident_id: id }, // Remove resident_id from the applicants array
             interviews: { residentID: residentID }, // Remove interview with the given residentID
           },
         }
       );
+
       //find positions resident has applied for
       const applications = await Jobs.find({
-        applicants: { $in: [id] },
+        "applicants.resident_id": id, // Match the resident_id field inside the applicants array
       }).lean();
 
       const activeTab = "application";
@@ -425,7 +429,7 @@ module.exports = {
 
       //find positions resident has applied for
       const applications = await Jobs.find({
-        applicants: { $in: [id] },
+        "applicants.resident_id": id, // Match the resident_id field inside the applicants array
       }).lean();
 
       const activeTab = "application";
@@ -453,15 +457,16 @@ module.exports = {
       });
       const resident = await Resident.findById(id).lean();
 
-      const job = await Jobs.findOneAndUpdate(
+      await Jobs.findOneAndUpdate(
         { employees: id }, // Find the job where id exists in employees
         { $pull: { employees: id } } // Remove the residentID from the employees array
       ).lean();
-      console.log(resident);
+
       //find positions resident has applied for
       const applications = await Jobs.find({
-        applicants: { $in: [id] },
+        "applicants.resident_id": id, // Match the resident_id field inside the applicants array
       }).lean();
+
       const activeTab = "application";
       res.render(`${req.session.user.role}/profiles/residentProfile`, {
         user: req.session.user,
@@ -469,6 +474,13 @@ module.exports = {
         activeTab,
         applications,
       });
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  async requestHire(req, res) {
+    try {
+      console.log("hire requested");
     } catch (err) {
       console.log(err);
     }

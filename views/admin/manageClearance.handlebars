@@ -79,8 +79,8 @@
                                             <th scope="col">E.A.I.</th>
                                             <th scope="col">S.O.</th>
                                             <th scope="col">C.A.</th>
+                                            <th scope="col">D.W.</th>
                                             <th scope="col">Warden</th>
-                                            <th scope="col">UTM</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -107,15 +107,7 @@
                                             {{/if}}
 
 
-                                            {{#if this.UTMClearance}}
-                                            <td><span class="badge bg-success">Cleared</span></td>
-                                            {{else}}
-                                            {{#if this.UTMRestriction}}
-                                            <td><span class="badge bg-danger">Rejected</span></td>
-                                            {{else}}
-                                            <td><span class="badge bg-secondary">None</span></td>
-                                            {{/if}}
-                                            {{/if}}
+
 
                                             {{#if this.EAIClearance}}
                                             <td><span class="badge bg-success">Cleared</span></td>
@@ -141,6 +133,16 @@
                                             <td><span class="badge bg-success">Cleared</span></td>
                                             {{else}}
                                             {{#if this.ClassificationRestriction}}
+                                            <td><span class="badge bg-danger">Rejected</span></td>
+                                            {{else}}
+                                            <td><span class="badge bg-secondary">None</span></td>
+                                            {{/if}}
+                                            {{/if}}
+
+                                            {{#if this.DWClearance}}
+                                            <td><span class="badge bg-success">Cleared</span></td>
+                                            {{else}}
+                                            {{#if this.DWRestriction}}
                                             <td><span class="badge bg-danger">Rejected</span></td>
                                             {{else}}
                                             <td><span class="badge bg-secondary">None</span></td>

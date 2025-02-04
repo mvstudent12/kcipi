@@ -5,6 +5,8 @@ const UnitTeam = require("../models/UnitTeam");
 const Resident = require("../models/Resident");
 const Jobs = require("../models/Jobs");
 
+const { Parser } = require("json2csv");
+
 //csv file upload requirements
 const fs = require("fs");
 const path = require("path");
@@ -29,48 +31,105 @@ async function getAllInterviews() {
     console.error("Error fetching interviews:", error);
   }
 }
-// Function to clean and format the logs
+const findApplicantIDsAndCompanyName = async (IDs) => {
+  try {
+    let applicantIDs = [];
 
-function cleanLogs(rawLogs) {
-  return rawLogs.map((log) => {
-    const { timestamp, level, message } = log;
+    // Aggregation pipeline to retrieve applicant IDs and associated companyName
+    await Jobs.aggregate([
+      { $unwind: "$applicants" }, // Flatten the applicants array
+      { $match: { applicants: { $in: IDs } } }, // Filter applicants by residentID array
+      {
+        $project: {
+          applicantID: "$applicants", // Rename applicants to applicantID for clarity
+          companyName: 1, // Include the companyName field
+          dateCreated: 1,
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          allApplicants: {
+            $push: {
+              applicantID: "$applicantID",
+              companyName: "$companyName",
+              dateCreated: "$dateCreated",
+            },
+          },
+        },
+      }, // Group by null to get all applicants
+    ]).then((result) => {
+      if (result.length > 0) {
+        applicantIDs = result[0].allApplicants;
+      }
+    });
 
-    let cleanLog = {
-      timestamp,
-      level,
-      message,
-      route: null,
-      statusCode: null,
-      duration: null,
-      userAction: null,
-    };
+    return applicantIDs;
+  } catch (error) {
+    console.error("Error fetching applicantIDs:", error);
+    throw error; // Re-throw the error to handle it in the calling code
+  }
+};
+const createApplicantsReport = async (applicantData, selectedFields) => {
+  try {
+    const applicantIDs = applicantData.map((item) => item.applicantID);
 
-    // Pattern to match logs with request/response details (IP, route, status, duration)
-    const requestLogPattern =
-      /::ffff:\d+\.\d+\.\d+\.\d+ (\S+) (\d+) (\d+\.\d+) ms/;
-    const userActionPattern = /User logged in: (.*)/;
+    // Always include _id for mapping, but remove it later if not requested
+    const includeID = selectedFields.includes("_id");
+    const fieldsToSelect = includeID
+      ? selectedFields
+      : [...selectedFields, "_id"];
 
-    // Clean up the message
-    cleanLog.message = message.replace(/::ffff:\d+\.\d+\.\d+\.\d+/g, ""); // Remove IP addresses
+    // Find residents with only the selected fields
+    const residents = await Resident.find(
+      { _id: { $in: applicantIDs } },
+      fieldsToSelect.join(" ")
+    ).lean();
 
-    // Match request logs
-    const requestMatch = cleanLog.message.match(requestLogPattern);
-    if (requestMatch) {
-      cleanLog.route = requestMatch[1]; // Capture the route (e.g., /logs)
-      cleanLog.statusCode = requestMatch[2]; // Capture status code (e.g., 200)
-      cleanLog.duration = requestMatch[3]; // Capture duration (e.g., 2102.453)
-    }
+    // Fetch dateApplied and companyName for each applicant
+    const jobData = await Jobs.aggregate([
+      { $unwind: "$applicants" }, // Flatten applicants array
+      { $match: { "applicants.resident_id": { $in: applicantIDs } } }, // Match applicant resident_id
+      {
+        $project: {
+          applicantID: "$applicants.resident_id",
+          companyName: 1,
+          dateApplied: "$applicants.dateApplied", // Extract dateApplied from the applicants array
+        },
+      },
+    ]);
 
-    // Match user action logs (e.g., user logins)
-    const userActionMatch = cleanLog.message.match(userActionPattern);
-    if (userActionMatch) {
-      cleanLog.userAction = `User logged in: ${userActionMatch[1]}`;
-    }
+    // Map residents with companyName and dateApplied
+    const residentsWithDetails = residents.map((resident) => {
+      const matchingCompany = applicantData.find(
+        (item) => item.applicantID.toString() === resident._id.toString()
+      );
 
-    return cleanLog;
-  });
-}
+      const matchingJob = jobData.find(
+        (job) => job.applicantID.toString() === resident._id.toString()
+      );
 
+      const residentWithDetails = {
+        ...resident,
+        companyName: matchingCompany ? matchingCompany.companyName : null,
+        dateApplied: matchingJob ? matchingJob.dateApplied : null, // Attach dateApplied
+      };
+
+      // Remove _id if it wasn't in the original selected fields
+      if (!includeID) {
+        delete residentWithDetails._id;
+      }
+
+      return residentWithDetails;
+    });
+
+    console.log(residentsWithDetails);
+    return residentsWithDetails;
+  } catch (error) {
+    console.error("Error fetching residents with details:", error);
+    throw error;
+  }
+};
 module.exports = {
   //serves admin dashboard from admin portal
   async dashboard(req, res) {
@@ -95,12 +154,19 @@ module.exports = {
 
       await Jobs.aggregate([
         { $unwind: "$applicants" }, // Flatten the applicants array
-        { $group: { _id: null, allResidents: { $push: "$applicants" } } }, // Collect all resident IDs, including duplicates
+        {
+          $group: {
+            _id: null,
+            allResidents: {
+              $push: "$applicants.resident_id", // Collect resident_id from applicants, not the whole applicant object
+            },
+          },
+        },
       ]).then((result) => {
         if (result.length !== 0) {
-          return (applicantIDs = result[0].allResidents);
+          return (applicantIDs = result[0].allResidents); // Return the array of resident IDs
         } else {
-          return;
+          return; // Return an empty array if no applicants
         }
       });
 
@@ -129,12 +195,19 @@ module.exports = {
 
       await Jobs.aggregate([
         { $unwind: "$applicants" }, // Flatten the applicants array
-        { $group: { _id: null, allResidents: { $push: "$applicants" } } }, // Collect all resident IDs, including duplicates
+        {
+          $group: {
+            _id: null,
+            allResidents: {
+              $push: "$applicants.resident_id", // Collect resident_id from applicants, not the whole applicant object
+            },
+          },
+        },
       ]).then((result) => {
         if (result.length !== 0) {
-          return (applicantIDs = result[0].allResidents);
+          return (applicantIDs = result[0].allResidents); // Return the array of resident IDs
         } else {
-          return;
+          return; // Return an empty array if no applicants
         }
       });
 
@@ -188,15 +261,9 @@ module.exports = {
       console.log(err);
     }
   },
-  //serves reports page from admin dashboard
-  async reports(req, res) {
-    try {
-      res.render("admin/reports", { user: req.session.user });
-    } catch (err) {
-      console.log(err);
-    }
-  },
-
+  //=============================
+  //   Logging
+  //=============================
   // Serves logs from the admin dashboard
   async logs(req, res) {
     try {
@@ -240,6 +307,9 @@ module.exports = {
       console.log(err);
     }
   },
+  //=============================
+  //   PI Roster Tables
+  //=============================
   //serves residentTables page from admin dashboard
   async residentTables(req, res) {
     try {
@@ -619,6 +689,10 @@ module.exports = {
                   );
                 }
               });
+              // Validate residentID format (assuming it's a 7-digit number)
+              if (row.residentID && !/^\d{7}$/.test(row.residentID)) {
+                errors.push(`Row ${index + 1}: Invalid residentID format.`);
+              }
             });
             //checks for errors
             if (errors.length > 0) {
@@ -642,9 +716,12 @@ module.exports = {
               console.log(
                 "Resident data has been updated or inserted into the database."
               );
-              // Optionally, remove residents not in the CSV
+              // Update 'isActive' status for residents not in the CSV
               const residentIDs = results.map((r) => r.residentID);
-              await Resident.deleteMany({ residentID: { $nin: residentIDs } });
+              await Resident.updateMany(
+                { residentID: { $nin: residentIDs } }, // Residents not in the CSV
+                { $set: { isActive: false } } // Set 'isActive' to false
+              );
 
               const dataMSG = "Residents successfully updated.";
               const residents = await Resident.find().lean();
@@ -657,7 +734,13 @@ module.exports = {
               });
             }
           } catch (err) {
-            console.log(err);
+            console.error("Error processing CSV:", err);
+            const dataMSG = "An error occurred while processing the CSV file.";
+            return res.render("admin/db/residentDB", {
+              user: req.session.user,
+              dataMSG,
+              activeTab,
+            });
           } finally {
             // Clean up the uploaded file
             fs.unlinkSync(filePath);
@@ -692,13 +775,14 @@ module.exports = {
 
     try {
       const residentFound = await Resident.findOne({ residentID }).lean();
+      console.log(residentFound);
       if (residentFound) {
         const unitTeam = await UnitTeam.find({
           facility: residentFound.facility,
         })
           .sort({ firstName: 1 })
           .lean();
-        if (!unitTeam) {
+        if (unitTeam.length === 0) {
           unitTeam = null;
         }
         const activeTab = "edit";
@@ -853,6 +937,158 @@ module.exports = {
       });
     } catch (err) {
       console.log("Error in saving unit team edit: ", err);
+    }
+  },
+  //==========================
+  //   Reports
+  //==========================
+  //serves reports page from admin dashboard
+  async reports(req, res) {
+    try {
+      res.render("admin/reports", { user: req.session.user });
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  async residentReport(req, res) {
+    try {
+      const selectedFields = Object.keys(req.body);
+
+      if (selectedFields.length === 0) {
+        const noData = true;
+        return res.render("admin/reports", {
+          user: req.session.user,
+          noData,
+        });
+      }
+
+      // Fetch data from MongoDB with only selected fields
+      const residents = await Resident.find(
+        {},
+        selectedFields.join(" ")
+      ).lean();
+
+      if (residents.length === 0) {
+        const noData = true;
+        return res.render("admin/reports", {
+          user: req.session.user,
+          noData,
+        });
+      }
+
+      // Convert data to CSV
+      const json2csvParser = new Parser({ fields: selectedFields });
+      const csv = json2csvParser.parse(residents);
+
+      // Set response headers to trigger file download
+      res.setHeader(
+        "Content-Disposition",
+        'attachment; filename="KDOC_resident_report.csv"'
+      );
+      res.setHeader("Content-Type", "text/csv");
+
+      res.status(200).send(csv);
+    } catch (err) {
+      console.log(err);
+      res.status(500).send("Error generating report.");
+    }
+  },
+  async employedResidentsReport(req, res) {
+    try {
+      const selectedFields = Object.keys(req.body);
+
+      if (selectedFields.length === 0) {
+        const noData = true;
+        return res.render("admin/reports", {
+          user: req.session.user,
+          noData,
+        });
+      }
+
+      // Fetch data from MongoDB with only selected fields
+      const residents = await Resident.find(
+        { isHired: true },
+        selectedFields.join(" ")
+      ).lean();
+
+      if (residents.length === 0) {
+        const noData = true;
+        return res.render("admin/reports", {
+          user: req.session.user,
+          noData,
+        });
+      }
+
+      // Convert data to CSV
+      const json2csvParser = new Parser({ fields: selectedFields });
+      const csv = json2csvParser.parse(residents);
+
+      // Set response headers to trigger file download
+      res.setHeader(
+        "Content-Disposition",
+        'attachment; filename="PI_employees_report.csv"'
+      );
+      res.setHeader("Content-Type", "text/csv");
+
+      res.status(200).send(csv);
+    } catch (err) {
+      console.log(err);
+      res.status(500).send("Error generating report.");
+    }
+  },
+
+  //Applicants Report
+  async applicantsReport(req, res) {
+    try {
+      const selectedFields = Object.keys(req.body);
+
+      if (selectedFields.length === 0) {
+        const noData = true;
+        return res.render("admin/reports", {
+          user: req.session.user,
+          noData,
+        });
+      }
+
+      const email = req.session.user.email;
+
+      //find caseload specific to UTM
+      const caseLoad = await Resident.find({}).lean();
+
+      //make array of resident _id in caseload
+      const IDs = caseLoad.flatMap((resident) => resident._id);
+
+      let applicantIDs = await findApplicantIDsAndCompanyName(IDs);
+
+      //find all residents with applications in
+      const applicants = await createApplicantsReport(
+        applicantIDs,
+        selectedFields
+      );
+
+      if (applicants.length === 0) {
+        const noData = true;
+        return res.render("admin/reports", {
+          user: req.session.user,
+          noData,
+        });
+      }
+
+      // Convert data to CSV
+      const json2csvParser = new Parser({ fields: selectedFields });
+      const csv = json2csvParser.parse(applicants);
+
+      // Set response headers to trigger file download
+      res.setHeader(
+        "Content-Disposition",
+        'attachment; filename="PI_applicants_report.csv"'
+      );
+      res.setHeader("Content-Type", "text/csv");
+
+      res.status(200).send(csv);
+    } catch (err) {
+      console.log(err);
+      res.status(500).send("Error generating report.");
     }
   },
 };

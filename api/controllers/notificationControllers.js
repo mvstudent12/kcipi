@@ -16,55 +16,67 @@ const {
 
 module.exports = {
   async requestInterview(req, res) {
-    let { residentID, preferences, additionalNotes } = req.body;
+    try {
+      let { residentID, preferences, additionalNotes } = req.body;
+      const { jobID } = req.params;
 
-    const { jobID } = req.params;
-    const resident = await Resident.findOne({ residentID }).lean();
-    const id = resident._id;
-    const name = `${resident.firstName} ${resident.lastName}`;
-    const companyName = req.session.user.companyName;
-    const sender = req.session.user.email;
+      const resident = await Resident.findOne({ residentID }).lean();
+      if (!resident) {
+        throw new Error("Resident not found");
+      }
+      const residentObjectId = resident._id; // MongoDB ObjectId
 
-    await Jobs.findByIdAndUpdate(jobID, {
-      $push: {
-        interviews: {
-          isRequested: true,
-          residentID,
-          name,
-          dateRequested: new Date(),
-          preferredDate: preferences,
-          employerInstructions: additionalNotes,
+      const name = `${resident.firstName} ${resident.lastName}`;
+      const companyName = req.session.user.companyName;
+      const sender = req.session.user.email;
+
+      await Jobs.findByIdAndUpdate(jobID, {
+        $push: {
+          interviews: {
+            isRequested: true,
+            residentID,
+            name,
+            dateRequested: new Date(),
+            preferredDate: preferences || null,
+            employerInstructions: additionalNotes || "",
+          },
         },
-      },
-    });
+      });
 
-    // Retrieve the updated job and return the _id of the last interview
-    const updatedJob = await Jobs.findById(jobID);
-    const interviewID =
-      updatedJob.interviews[updatedJob.interviews.length - 1]._id;
+      // Retrieve the updated job and return the _id of the last interview
+      const updatedJob = await Jobs.findById(jobID).lean();
+      if (!updatedJob || !updatedJob.interviews.length) {
+        throw new Error("Interview request failed");
+      }
+      const interviewID =
+        updatedJob.interviews[updatedJob.interviews.length - 1]._id;
 
-    // find positions resident has applied for
-    const applications = await Jobs.find({
-      applicants: { $in: [id] },
-    }).lean();
+      // find all jobs resident has applied for
+      const applications = await Jobs.find({
+        "applicants.resident_id": residentObjectId,
+      }).lean();
 
-    //send notification email to UTM
-    let devEmail = "kcicodingdev@gmail.com";
-    sendRequestInterviewEmail(
-      resident,
-      companyName,
-      devEmail, //change to email in production
-      sender,
-      interviewID
-    );
+      //send notification email to UTM
+      let devEmail = "kcicodingdev@gmail.com";
+      sendRequestInterviewEmail(
+        resident,
+        companyName,
+        devEmail, //change to email in production
+        sender,
+        interviewID
+      );
 
-    const activeTab = "application";
-    res.render(`${req.session.user.role}/profiles/residentProfile`, {
-      user: req.session.user,
-      resident,
-      activeTab,
-      applications,
-    });
+      const activeTab = "application";
+      res.render(`${req.session.user.role}/profiles/residentProfile`, {
+        user: req.session.user,
+        resident,
+        activeTab,
+        applications,
+      });
+    } catch (err) {
+      console.error("Error requesting interview:", err);
+      res.status(500).send("An error occurred while requesting the interview.");
+    }
   },
   async reviewInterviewRequest(req, res) {
     try {
@@ -112,25 +124,36 @@ module.exports = {
     try {
       const { interviewID, jobID } = req.params;
       const { date, time, instructions } = req.body;
+
+      // Convert interviewID to ObjectId
+      const interviewObjectId = new mongoose.Types.ObjectId(interviewID);
+
       //update the interview in job
-      await Jobs.updateOne(
+      const result = await Jobs.updateOne(
         {
           _id: jobID, // Match the job by its ID
-          "interviews._id": interviewID, // Match the specific interview by its _id
+          "interviews._id": interviewObjectId, // Match the specific interview by its _id
         },
         {
           $set: {
-            "interviews.$.date": date, // Update the date
+            "interviews.$.dateScheduled": new Date(date), // Update the date
             "interviews.$.time": time, // Update the time
-            "interviews.$.instructions": instructions, // Update the instructions
+            "interviews.$.instructions": instructions.trim(), // Update the instructions
           },
         }
       );
+
+      if (result.modifiedCount === 0) {
+        throw new Error(
+          "Interview update failed. Ensure job and interview exist."
+        );
+      }
       res.render(`clearance/thankYou`, {
         user: req.session.user,
       });
     } catch (err) {
-      console.log(err);
+      console.error("Error scheduling interview:", err);
+      res.status(500).send("An error occurred while scheduling the interview.");
     }
   },
   //========================
@@ -629,6 +652,121 @@ module.exports = {
     const resident = await Resident.findOne({ residentID }).lean();
 
     res.render("clearance/Classification", { resident, email, activeTab });
+  },
+  //========================
+  //   DW Clearance
+  //========================
+
+  async approveDW(req, res) {
+    const residentID = req.params.residentID;
+    const email = req.params.email;
+    try {
+      await Resident.updateOne(
+        { residentID: residentID },
+        {
+          $set: {
+            DWClearance: true,
+            DWClearanceDate: new Date(),
+            DWClearedBy: email,
+            DWReviewed: true,
+          },
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+    activeTab = "status";
+    const resident = await Resident.findOne({ residentID }).lean();
+
+    res.render("clearance/Deputy-Warden", { resident, email, activeTab });
+  },
+  async removeDWClearance(req, res) {
+    const residentID = req.params.residentID;
+    const email = req.params.email;
+    try {
+      await Resident.updateOne(
+        { residentID: residentID },
+        {
+          $set: {
+            DWClearance: false,
+            DWClearanceRemovedDate: new Date(),
+            DWClearanceRemovedBy: email,
+            DWReviewed: false,
+            DWRestriction: false,
+          },
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+    activeTab = "status";
+    const resident = await Resident.findOne({ residentID }).lean();
+    res.render("clearance/Deputy-Warden", { resident, email, activeTab });
+  },
+  async removeDWRestriction(req, res) {
+    const residentID = req.params.residentID;
+    const email = req.params.email;
+    try {
+      await Resident.updateOne(
+        { residentID: residentID },
+        {
+          $set: {
+            DWClearance: false,
+            DWReviewed: false,
+            DWRestriction: false,
+          },
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+    activeTab = "status";
+    const resident = await Resident.findOne({ residentID }).lean();
+    res.render("clearance/Deputy-Warden", { resident, email, activeTab });
+  },
+
+  async denyDWClearance(req, res) {
+    const residentID = req.params.residentID;
+    const email = req.params.email;
+    try {
+      await Resident.updateOne(
+        { residentID: residentID },
+        {
+          $set: {
+            DWClearance: false,
+            DWRestrictionDate: new Date(),
+            DWRestrictedBy: email,
+            DWRestriction: true,
+            DWReviewed: true,
+          },
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+    activeTab = "status";
+    const resident = await Resident.findOne({ residentID }).lean();
+    res.render("clearance/Deputy-Warden", { resident, email, activeTab });
+  },
+  async saveDWNotes(req, res) {
+    const residentID = req.params.residentID;
+    const email = req.params.email;
+    const notes = req.body.notes;
+    try {
+      await Resident.updateOne(
+        { residentID: residentID },
+        {
+          $push: {
+            DWNotes: notes,
+          },
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+    const activeTab = "notes";
+    const resident = await Resident.findOne({ residentID }).lean();
+    res.render("clearance/Deputy-Warden", { resident, email, activeTab });
   },
   //========================
   //   Warden Clearance

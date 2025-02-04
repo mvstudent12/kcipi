@@ -5,7 +5,6 @@ const Resident = require("../models/Resident");
 const Jobs = require("../models/Jobs");
 
 const { Parser } = require("json2csv");
-const { trusted } = require("mongoose");
 
 const findInterviews = async (residentIDs) => {
   try {
@@ -69,13 +68,18 @@ const findApplicantIDsAndCompanyName = async (IDs) => {
         $project: {
           applicantID: "$applicants", // Rename applicants to applicantID for clarity
           companyName: 1, // Include the companyName field
+          dateCreated: 1,
         },
       },
       {
         $group: {
           _id: null,
           allApplicants: {
-            $push: { applicantID: "$applicantID", companyName: "$companyName" },
+            $push: {
+              applicantID: "$applicantID",
+              companyName: "$companyName",
+              dateCreated: "$dateCreated",
+            },
           },
         },
       }, // Group by null to get all applicants
@@ -114,11 +118,71 @@ const findResidentsWithCompany = async (applicantData) => {
       };
     });
 
-    console.log(residentsWithCompany);
     return residentsWithCompany;
   } catch (error) {
     console.error("Error fetching residents with company:", error);
     throw error; // Re-throw the error to handle it in the calling code
+  }
+};
+
+const createApplicantsReport = async (applicantData, selectedFields) => {
+  try {
+    const applicantIDs = applicantData.map((item) => item.applicantID);
+
+    // Always include _id for mapping, but remove it later if not requested
+    const includeID = selectedFields.includes("_id");
+    const fieldsToSelect = includeID
+      ? selectedFields
+      : [...selectedFields, "_id"];
+
+    // Find residents with only the selected fields
+    const residents = await Resident.find(
+      { _id: { $in: applicantIDs } },
+      fieldsToSelect.join(" ")
+    ).lean();
+
+    // Fetch dateApplied and companyName for each applicant
+    const jobData = await Jobs.aggregate([
+      { $unwind: "$applicants" }, // Flatten applicants array
+      { $match: { "applicants.resident_id": { $in: applicantIDs } } }, // Match applicant resident_id
+      {
+        $project: {
+          applicantID: "$applicants.resident_id",
+          companyName: 1,
+          dateApplied: "$applicants.dateApplied", // Extract dateApplied from the applicants array
+        },
+      },
+    ]);
+
+    // Map residents with companyName and dateApplied
+    const residentsWithDetails = residents.map((resident) => {
+      const matchingCompany = applicantData.find(
+        (item) => item.applicantID.toString() === resident._id.toString()
+      );
+
+      const matchingJob = jobData.find(
+        (job) => job.applicantID.toString() === resident._id.toString()
+      );
+
+      const residentWithDetails = {
+        ...resident,
+        companyName: matchingCompany ? matchingCompany.companyName : null,
+        dateApplied: matchingJob ? matchingJob.dateApplied : null, // Attach dateApplied
+      };
+
+      // Remove _id if it wasn't in the original selected fields
+      if (!includeID) {
+        delete residentWithDetails._id;
+      }
+
+      return residentWithDetails;
+    });
+
+    console.log(residentsWithDetails);
+    return residentsWithDetails;
+  } catch (error) {
+    console.error("Error fetching residents with details:", error);
+    throw error;
   }
 };
 
@@ -151,7 +215,6 @@ module.exports = {
 
       //find all active interviews
       const interviews = await findInterviews(residentIDs);
-      console.log(interviews);
 
       res.render("unitTeam/dashboard", {
         user: req.session.user,
@@ -164,31 +227,6 @@ module.exports = {
       console.log(err);
     }
   },
-
-  // async residentProfile(req, res) {
-  //   try {
-  //     const residentID = req.params.id;
-  //     const resident = await Resident.findOne({ residentID }).lean();
-  //     const id = resident._id;
-
-  //     console.log(resident);
-
-  //     //find positions resident has applied for
-  //     const applications = await Jobs.find({
-  //       applicants: { $in: [id] },
-  //     }).lean();
-
-  //     const activeTab = "overview";
-  //     res.render("unitTeam/profiles/residentProfile", {
-  //       user: req.session.user,
-  //       resident,
-  //       activeTab,
-  //       applications,
-  //     });
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // },
 
   async helpDesk(req, res) {
     try {
@@ -229,7 +267,6 @@ module.exports = {
         "resume.unitTeam": email,
         isHired: true,
       }).lean();
-      console.log(interviews);
 
       res.render("unitTeam/manageWorkForce", {
         user: req.session.user,
@@ -249,7 +286,7 @@ module.exports = {
       const caseLoad = await Resident.find({
         "resume.unitTeam": email,
       }).lean();
-      console.log(caseLoad);
+
       res.render("unitTeam/manageClearance", {
         user: req.session.user,
         caseLoad,
@@ -347,20 +384,29 @@ module.exports = {
   },
   async residentReport(req, res) {
     try {
+      const facility = req.session.user.facility;
       const selectedFields = Object.keys(req.body);
 
       if (selectedFields.length === 0) {
-        return res.status(400).send("No fields selected for the report.");
+        const noData = true;
+        return res.render("unitTeam/reports", {
+          user: req.session.user,
+          noData,
+        });
       }
 
       // Fetch data from MongoDB with only selected fields
       const residents = await Resident.find(
-        {},
+        { facility: facility },
         selectedFields.join(" ")
       ).lean();
 
       if (residents.length === 0) {
-        return res.status(404).send("No data found.");
+        const noData = true;
+        return res.render("unitTeam/reports", {
+          user: req.session.user,
+          noData,
+        });
       }
 
       // Convert data to CSV
@@ -382,15 +428,20 @@ module.exports = {
   },
   async employedResidentsReport(req, res) {
     try {
+      const facility = req.session.user.facility;
       const selectedFields = Object.keys(req.body);
 
       if (selectedFields.length === 0) {
-        return res.status(400).send("No fields selected for the report.");
+        const noData = true;
+        return res.render("unitTeam/reports", {
+          user: req.session.user,
+          noData,
+        });
       }
 
       // Fetch data from MongoDB with only selected fields
       const residents = await Resident.find(
-        { isHired: true },
+        { facility: facility, isHired: true },
         selectedFields.join(" ")
       ).lean();
 
@@ -409,7 +460,64 @@ module.exports = {
       // Set response headers to trigger file download
       res.setHeader(
         "Content-Disposition",
-        'attachment; filename="resident_report.csv"'
+        'attachment; filename="PI_employees_report.csv"'
+      );
+      res.setHeader("Content-Type", "text/csv");
+
+      res.status(200).send(csv);
+    } catch (err) {
+      console.log(err);
+      res.status(500).send("Error generating report.");
+    }
+  },
+
+  //Applicants Report
+  async applicantsReport(req, res) {
+    try {
+      const selectedFields = Object.keys(req.body);
+
+      if (selectedFields.length === 0) {
+        const noData = true;
+        return res.render("unitTeam/reports", {
+          user: req.session.user,
+          noData,
+        });
+      }
+
+      const email = req.session.user.email;
+
+      //find caseload specific to UTM
+      const caseLoad = await Resident.find({
+        "resume.unitTeam": email,
+      }).lean();
+
+      //make array of resident _id in caseload
+      const IDs = caseLoad.flatMap((resident) => resident._id);
+
+      let applicantIDs = await findApplicantIDsAndCompanyName(IDs);
+
+      //find all residents with applications in
+      const applicants = await createApplicantsReport(
+        applicantIDs,
+        selectedFields
+      );
+
+      if (applicants.length === 0) {
+        const noData = true;
+        return res.render("unitTeam/reports", {
+          user: req.session.user,
+          noData,
+        });
+      }
+
+      // Convert data to CSV
+      const json2csvParser = new Parser({ fields: selectedFields });
+      const csv = json2csvParser.parse(applicants);
+
+      // Set response headers to trigger file download
+      res.setHeader(
+        "Content-Disposition",
+        'attachment; filename="PI_applicants_report.csv"'
       );
       res.setHeader("Content-Type", "text/csv");
 

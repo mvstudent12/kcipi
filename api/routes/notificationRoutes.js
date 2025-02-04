@@ -134,6 +134,30 @@ notificationRoutes.post(
   controller.saveClassificationNotes
 );
 //============================
+//   DW Notifications
+//============================
+
+notificationRoutes.get("/DW/approve/:residentID/:email", controller.approveDW);
+notificationRoutes.get(
+  "/DW/removeDWClearance/:residentID/:email",
+  controller.removeDWClearance
+);
+
+notificationRoutes.get(
+  "/DW/removeDWRestriction/:residentID/:email",
+  controller.removeDWRestriction
+);
+
+notificationRoutes.get(
+  "/DW/deny/:residentID/:email",
+  controller.denyDWClearance
+);
+
+notificationRoutes.post(
+  "/DW/saveDWNotes/:residentID/:email",
+  controller.saveDWNotes
+);
+//============================
 //    Warden Notifications
 //============================
 
