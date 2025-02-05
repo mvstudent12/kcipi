@@ -12,6 +12,12 @@ const applicantSchema = new Schema(
 
 const interviewSchema = new Schema(
   {
+    status: {
+      type: String,
+      enum: ["active", "inactive"],
+      required: true,
+      default: "active",
+    },
     isRequested: { type: Boolean, default: false },
     preferredDate: { type: String, trim: true },
     employerInstructions: { type: String, trim: true },

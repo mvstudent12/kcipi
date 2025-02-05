@@ -56,6 +56,7 @@ module.exports = {
       res.status(500).send("An error occurred while fetching the profile.");
     }
   },
+  //edits resident information
   async editResident(req, res) {
     try {
       let { residentID, custodyLevel, facility, unitTeamInfo, jobPool } =
@@ -160,8 +161,8 @@ module.exports = {
   async editClearance(req, res) {
     let { residentID, dept } = req.params;
     const { clearance, comments } = req.body;
-    console.log(req.body);
-    console.log(req.params);
+    const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
+
     if (dept == "Sex-Offender") {
       dept = "sexOffender";
     }
@@ -173,43 +174,57 @@ module.exports = {
     }
     try {
       if (clearance === "true") {
-        await Resident.updateOne(
-          { residentID: residentID },
-          {
-            $set: {
-              [`${dept}Reviewed`]: true,
-              [`${dept}Clearance`]: true,
-              [`${dept}ClearanceDate`]: new Date(),
-              [`${dept}ClearedBy`]: req.session.user._id,
+        const updateData = {
+          $set: {
+            [`${dept}Clearance.status`]: "approved",
+            "workEligibility.status": "pending",
+          },
+          $push: {
+            [`${dept}Clearance.clearanceHistory`]: {
+              action: "approved",
+              performedBy: name,
+              reason: "Clearance approved",
             },
-            $push: {
-              [`${dept}Notes`]: { createdAt: new Date(), note: comments },
-            },
-          }
-        );
-      } else if (clearance === "false") {
-        await Resident.updateOne(
-          { residentID: residentID },
-          {
-            $set: {
-              [`${dept}Reviewed`]: true,
-              [`${dept}Clearance`]: false,
-              [`${dept}ClearanceRemovedDate`]: new Date(),
-              [`${dept}ClearanceRemovedBy`]: req.session.user._id,
-              [`${dept}Restriction`]: true,
-              [`${dept}RestrictionDate`]: new Date(),
-              [`${dept}RestrictedBy`]: req.session.user._id,
-              isEligibleToWork: false,
-            },
-            $push: {
-              [`${dept}Notes`]: { createdAt: new Date(), note: comments },
-            },
-          }
-        );
-      }
+          },
+        };
 
+        // Only push to notes if comments are not empty
+        if (comments) {
+          updateData.$push[`${dept}Clearance.notes`] = {
+            createdAt: new Date(),
+            createdBy: name,
+            note: comments,
+          };
+        }
+        await Resident.updateOne({ residentID: residentID }, updateData);
+      } else if (clearance === "false") {
+        const updateData = {
+          $set: {
+            [`${dept}Clearance.status`]: "restricted",
+            "workEligibility.status": "restricted",
+          },
+          $push: {
+            [`${dept}Clearance.clearanceHistory`]: {
+              action: "restricted",
+              performedBy: name,
+              reason: "Clearance restricted",
+            },
+          },
+        };
+
+        // Only push to notes if comments are not empty
+        if (comments) {
+          updateData.$push[`${dept}Clearance.notes`] = {
+            createdAt: new Date(),
+            note: comments,
+            createdBy: name,
+          };
+        }
+
+        await Resident.updateOne({ residentID: residentID }, updateData);
+      }
       const resident = await Resident.findOne({ residentID }).lean();
-      console.log(resident);
+
       const activeTab = "clearance";
 
       res.render(`${req.session.user.role}/profiles/residentProfile`, {
@@ -231,17 +246,26 @@ module.exports = {
         return res.status(404).json({ message: "Resident not found." }); // Handle case where resident is not found
       }
 
-      // Dynamically create the key for the notes
-      const notesKey = `${dept}Notes`;
-      console.log(notesKey);
+      // Dynamically create the key for the clearance field (e.g., MedicalClearance, UTMClearance)
+      const clearanceKey = `${dept}Clearance`;
 
-      // Check if the notesKey exists on the resident object
-      if (!resident[notesKey]) {
-        return res.status(404).json({ message: `No notes found for ${dept}.` }); // Handle case where no notes exist for the department
+      // Check if the clearanceKey exists on the resident object
+      if (!resident[clearanceKey]) {
+        return res
+          .status(404)
+          .json({ message: `${dept} clearance not found.` }); // Handle case where the clearance field does not exist
       }
 
-      // Retrieve the notes from the resident object
-      const notes = resident[notesKey];
+      // Check if there are notes in the clearance field
+      const clearance = resident[clearanceKey];
+      // if (!clearance.notes || clearance.notes.length === 0) {
+      //   return res
+      //     .status(404)
+      //     .json({ message: `No notes found for ${dept} clearance.` }); // Handle case where no notes exist for the department
+      // }
+
+      // Retrieve the notes from the clearance field
+      const notes = clearance.notes;
 
       // Send the notes in the response as JSON
       return res.status(200).json({ notes }); // Return the notes in the response body
@@ -254,20 +278,23 @@ module.exports = {
   },
   async addNotes(req, res) {
     try {
-      console.log(req.body); // This will log the route parameters
-
       const { residentID, dept } = req.params;
-
       const { notes } = req.body;
+      const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
 
       await Resident.updateOne(
         { residentID: residentID },
         {
           $push: {
-            [`${dept}Notes`]: { createdAt: new Date(), note: notes },
+            [`${dept}Clearance.notes`]: {
+              createdAt: new Date(),
+              createdBy: name,
+              note: notes,
+            },
           },
         }
       );
+
       // Find the resident based on residentID
       const resident = await Resident.findOne({ residentID }).lean();
       if (!resident) {
@@ -306,18 +333,32 @@ module.exports = {
   async approveEligibility(req, res) {
     const { residentID } = req.params;
 
+    const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
+
     try {
       await Resident.updateOne(
         { residentID: residentID },
         {
           $set: {
-            isEligibleToWork: true,
-            eligibilityApprovedBy: req.session.user._id,
-            isRestrictedFromWork: false,
+            "workEligibility.status": "approved", // Setting the status to approved
+          },
+          $push: {
+            "workEligibility.clearanceHistory": {
+              action: "approved",
+              performedBy: name,
+              reason: "Eligibility approved to work",
+            },
+            "workEligibility.notes": {
+              note: `Work eligibility granted by ${name}.`,
+              createdAt: new Date(),
+              createdBy: name,
+            },
           },
         }
       );
+
       const resident = await Resident.findOne({ residentID }).lean();
+      console.log(resident.workEligibility.status);
 
       const eligibleMsg = "This resident is approved and eligible for work.";
       const activeTab = "clearance";
@@ -335,21 +376,33 @@ module.exports = {
   //denies resident's eligibility to work
   async rejectEligibility(req, res) {
     const { residentID } = req.params;
+    const { rejectReason } = req.body;
+    const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
 
     try {
       await Resident.updateOne(
         { residentID: residentID },
         {
           $set: {
-            isEligibleToWork: false,
-            isRestrictedFromWork: true,
-            eligibilityRestrictedBy: req.session.user._id,
-            eligibilityRestrictionReason: req.body.rejectReason,
+            "workEligibility.status": "restricted", // Setting the status to restricted
+          },
+          $push: {
+            "workEligibility.clearanceHistory": {
+              action: "restricted",
+              performedBy: name,
+              reason: rejectReason,
+            },
+            "workEligibility.notes": {
+              note: `Work eligibility restricted by ${name} for ${rejectReason}`,
+              createdAt: new Date(),
+              createdBy: name,
+            },
           },
         }
       );
 
       const resident = await Resident.findOne({ residentID }).lean();
+      console.log(resident.workEligibility);
 
       const activeTab = "clearance";
 
@@ -430,18 +483,21 @@ module.exports = {
       const { id, jobID } = req.params;
       const position = await Jobs.findOne({ _id: jobID }).lean();
       const companyName = position.companyName;
+      const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
+      const { startDate, notes } = req.body;
 
+      //update resident object with hiring info
       await Resident.findByIdAndUpdate(id, {
         $set: {
           isHired: true,
-          dateHired: new Date(),
+          dateHired: startDate,
           companyName,
         },
       });
       const resident = await Resident.findById(id).lean();
       const residentID = resident.residentID;
 
-      //remove user from applicants/ interviews add to workforce
+      // //remove user from applicants/ interviews add to workforce
       await Jobs.findByIdAndUpdate(jobID, {
         $pull: {
           applicants: { resident_id: id }, // Remove resident from the applicants array
@@ -466,7 +522,7 @@ module.exports = {
         }
       );
 
-      //find positions resident has applied for
+      // //find positions resident has applied for
       const applications = await Jobs.find({
         "applicants.resident_id": id, // Match the resident_id field inside the applicants array
       }).lean();
@@ -535,22 +591,55 @@ module.exports = {
   async terminateResident(req, res) {
     try {
       const { id } = req.params;
+      const { terminationReason, workRestriction, notes } = req.body;
 
-      await Resident.findByIdAndUpdate(id, {
+      const resInfo = await Resident.findById(id).lean();
+      const dateHired = resInfo.dateHired;
+      const companyName = resInfo.companyName;
+      const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
+      console.log(req.body);
+
+      const updateData = {
         $set: {
           isHired: false,
           companyName: "",
           dateHired: null,
+          "workEligibility.status": workRestriction,
         },
-      });
+      };
+
+      // Construct the workHistory object
+      const workHistoryEntry = {
+        companyName: companyName,
+        startDate: dateHired ? new Date(dateHired) : null,
+        endDate: new Date(),
+        reasonForLeaving: terminationReason || "",
+      };
+
+      // If notes exist, add them as an array inside workHistory
+      if (notes) {
+        workHistoryEntry.note = {
+          createdAt: new Date(),
+          createdBy: name,
+          note: notes,
+        };
+      }
+
+      // Push the workHistory entry into the array
+      updateData.$push = { workHistory: workHistoryEntry };
+
+      // Perform the update
+      await Resident.updateOne({ _id: id }, updateData);
+
       const resident = await Resident.findById(id).lean();
 
+      //remove employees from Jobs DB
       await Jobs.findOneAndUpdate(
         { employees: id }, // Find the job where id exists in employees
         { $pull: { employees: id } } // Remove the residentID from the employees array
       ).lean();
 
-      //find positions resident has applied for
+      // //find positions resident has applied for
       const applications = await Jobs.find({
         "applicants.resident_id": id, // Match the resident_id field inside the applicants array
       }).lean();

@@ -15,6 +15,88 @@ const {
 } = require("../utils/emailUtils/notificationEmail");
 
 module.exports = {
+  //===========================
+  //     All Notifications
+  //===========================
+  //request clearance from Medical, eai etc through email
+  async requestClearance(req, res) {
+    const { recipient, comments } = req.body;
+    let { residentID, dept } = req.params;
+    const sender = req.session.user.email;
+    try {
+      if (dept == "Sex-Offender") {
+        dept = "sexOffender";
+      }
+      if (dept == "Victim-Services") {
+        dept = "victimServices";
+      }
+      if (dept == "Deputy-Warden") {
+        dept = "DW";
+      }
+      await Resident.updateOne(
+        { residentID: residentID },
+        {
+          $set: {
+            [`${dept}Clearance.status`]: "pending",
+            "workEligibility.status": "pending",
+          },
+        }
+      );
+      const resident = await Resident.findOne({ residentID }).lean();
+
+      sendReviewEmail(resident, dept, recipient, sender, comments);
+      dept = req.params.dept;
+      const activeTab = "clearance";
+      res.render(`${req.session.user.role}/profiles/residentProfile`, {
+        resident,
+        activeTab,
+        user: req.session.user,
+      });
+    } catch (err) {
+      console.log(err);
+      //add more elegant error handling functionality later
+      //add const errors = handleErrors(err);
+      //res.status(400).json({ errors });
+      res.status(400).json({ message: "Request Failed" });
+    }
+  },
+  async reviewClearance(req, res) {
+    const { residentID, email, dept } = req.params;
+    try {
+      const resident = await Resident.findOne({ residentID }).lean();
+      const activeTab = "status";
+
+      res.render(`clearance/${dept}`, { resident, email, activeTab });
+    } catch (err) {
+      console.error(err);
+      console.log(err);
+    }
+  },
+  async next_notes(req, res) {
+    const { residentID, email, category } = req.params;
+
+    const resident = await Resident.findOne({ residentID }).lean();
+    const activeTab = "notes";
+    res.render(`clearance/${category}`, { resident, email, activeTab });
+  },
+  async next_notify(req, res) {
+    const { residentID, email, category } = req.params;
+    const resident = await Resident.findOne({ residentID }).lean();
+    const activeTab = "notify";
+    res.render(`clearance/${category}`, { resident, email, activeTab });
+  },
+
+  async sendNextNotification(req, res) {
+    const residentID = req.params.residentID;
+    const email = req.params.email;
+    const department = req.body.category;
+    const recipient = req.body.recipientEmail;
+    const notes = req.body.comments;
+    const resident = await Resident.findOne({ residentID }).lean();
+
+    sendReviewEmail(resident, department, recipient, email, notes);
+    res.render("clearance/thankYou", { resident, email });
+  },
   async requestInterview(req, res) {
     try {
       let { residentID, preferences, additionalNotes } = req.body;
@@ -290,6 +372,7 @@ module.exports = {
     const residentID = req.params.residentID;
     const email = req.params.email;
     const notes = req.body.notes;
+    const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
     try {
       await Resident.updateOne(
         { residentID: residentID },
@@ -298,6 +381,7 @@ module.exports = {
             MedicalNotes: {
               note: notes,
               createdAt: new Date(),
+              createdBy: name,
             },
           },
         }
@@ -408,6 +492,7 @@ module.exports = {
     const residentID = req.params.residentID;
     const email = req.params.email;
     const notes = req.body.notes;
+    const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
     try {
       await Resident.updateOne(
         { residentID: residentID },
@@ -416,6 +501,7 @@ module.exports = {
             UTMNotes: {
               note: notes,
               createdAt: new Date(),
+              createdBy: name,
             },
           },
         }
@@ -525,7 +611,7 @@ module.exports = {
     const residentID = req.params.residentID;
     const email = req.params.email;
     const notes = req.body.notes;
-
+    const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
     try {
       await Resident.updateOne(
         { residentID: residentID },
@@ -534,6 +620,7 @@ module.exports = {
             EAINotes: {
               note: notes,
               createdAt: new Date(),
+              createdBy: name,
             },
           },
         }
@@ -644,7 +731,7 @@ module.exports = {
     const residentID = req.params.residentID;
     const email = req.params.email;
     const notes = req.body.notes;
-
+    const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
     try {
       await Resident.updateOne(
         { residentID: residentID },
@@ -653,6 +740,7 @@ module.exports = {
             ClassificationNotes: {
               note: notes,
               createdAt: new Date(),
+              createdBy: name,
             },
           },
         }
@@ -764,6 +852,7 @@ module.exports = {
     const residentID = req.params.residentID;
     const email = req.params.email;
     const notes = req.body.notes;
+    const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
     try {
       await Resident.updateOne(
         { residentID: residentID },
@@ -772,6 +861,7 @@ module.exports = {
             DWNotes: {
               note: notes,
               createdAt: new Date(),
+              createdBy: name,
             },
           },
         }
@@ -881,7 +971,7 @@ module.exports = {
     const residentID = req.params.residentID;
     const email = req.params.email;
     const notes = req.body.notes;
-
+    const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
     try {
       await Resident.updateOne(
         { residentID: residentID },
@@ -890,6 +980,7 @@ module.exports = {
             WardenNotes: {
               note: notes,
               createdAt: new Date(),
+              createdBy: name,
             },
           },
         }
@@ -1001,7 +1092,7 @@ module.exports = {
     const residentID = req.params.residentID;
     const email = req.params.email;
     const notes = req.body.notes;
-
+    const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
     try {
       await Resident.updateOne(
         { residentID: residentID },
@@ -1010,6 +1101,7 @@ module.exports = {
             sexOffenderNotes: {
               note: notes,
               createdAt: new Date(),
+              createdBy: name,
             },
           },
         }
@@ -1121,7 +1213,7 @@ module.exports = {
     const residentID = req.params.residentID;
     const email = req.params.email;
     const notes = req.body.notes;
-
+    const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
     try {
       await Resident.updateOne(
         { residentID: residentID },
@@ -1130,6 +1222,7 @@ module.exports = {
             victimServicesNotes: {
               note: notes,
               createdAt: new Date(),
+              createdBy: name,
             },
           },
         }
@@ -1141,63 +1234,5 @@ module.exports = {
     const resident = await Resident.findOne({ residentID }).lean();
 
     res.render("clearance/Victim-Services", { resident, email, activeTab });
-  },
-  //===========================
-  //     All Notifications
-  //===========================
-  //request clearance from Medical, eai etc through email
-  async requestClearance(req, res) {
-    const { recipient, comments } = req.body;
-    const { residentID, category } = req.params;
-    const sender = req.session.user.email;
-
-    try {
-      const resident = await Resident.findOne({ residentID }).lean();
-      sendReviewEmail(resident, category, recipient, sender, comments);
-      res.status(200).json({ message: "Request Sent" });
-    } catch (err) {
-      console.log(errors);
-      //add more elegant error handling functionality later
-      //add const errors = handleErrors(err);
-      //res.status(400).json({ errors });
-      res.status(400).json({ message: "Request Failed" });
-    }
-  },
-  async reviewClearance(req, res) {
-    const { residentID, email, dept } = req.params;
-    try {
-      const resident = await Resident.findOne({ residentID }).lean();
-      const activeTab = "status";
-
-      res.render(`clearance/${dept}`, { resident, email, activeTab });
-    } catch (err) {
-      console.error(err);
-      console.log(err);
-    }
-  },
-  async next_notes(req, res) {
-    const { residentID, email, category } = req.params;
-
-    const resident = await Resident.findOne({ residentID }).lean();
-    const activeTab = "notes";
-    res.render(`clearance/${category}`, { resident, email, activeTab });
-  },
-  async next_notify(req, res) {
-    const { residentID, email, category } = req.params;
-    const resident = await Resident.findOne({ residentID }).lean();
-    const activeTab = "notify";
-    res.render(`clearance/${category}`, { resident, email, activeTab });
-  },
-
-  async sendNextNotification(req, res) {
-    const residentID = req.params.residentID;
-    const email = req.params.email;
-    const department = req.body.category;
-    const recipient = req.body.recipientEmail;
-    const notes = req.body.comments;
-    const resident = await Resident.findOne({ residentID }).lean();
-
-    sendReviewEmail(resident, department, recipient, email, notes);
-    res.render("clearance/thankYou", { resident, email });
   },
 };

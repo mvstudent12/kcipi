@@ -9,14 +9,14 @@ const mongoose = require("mongoose");
 module.exports = {
   async dashboard(req, res) {
     try {
-      const residentHasClearance = req.session.resident.isEligibleToWork;
+      const workClearance = req.session.resident.workEligibility.status;
       const jobPool = req.session.resident.jobPool;
       const residentObjectId = req.session.resident._id;
       const residentID = req.session.resident.residentID;
       const facility = req.session.resident.facility;
 
       //if resident has been cleared to work
-      if (residentHasClearance) {
+      if (workClearance === "approved") {
         //find all jobs in resident's job pool and facility
         const jobs = await Jobs.aggregate([
           {

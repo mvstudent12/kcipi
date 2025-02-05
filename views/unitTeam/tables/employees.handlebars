@@ -28,8 +28,9 @@
                                             <th scope="col">ID #</th>
                                             <th scope="col">Name</th>
                                             <th scope="col">Out Date</th>
+                                            <th scope="col">Date Hired</th>
                                             <th scope="col">Company Name</th>
-                                            <th scope="col">Unit Team</th>
+
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -49,13 +50,14 @@
                                                     this.outDate}}</a>
                                             </td>
                                             <td class="text-capitalize">
-                                                <a
-                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.companyName}}</a>
+                                                <a href="/clearance/residentProfile/{{this.residentID}}">{{formatDate
+                                                    this.dateHired}}</a>
                                             </td>
                                             <td class="text-capitalize">
                                                 <a
-                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.unitTeam}}</a>
+                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.companyName}}</a>
                                             </td>
+
 
                                         </tr>
 

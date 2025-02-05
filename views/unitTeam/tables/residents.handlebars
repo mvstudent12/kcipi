@@ -65,20 +65,21 @@
                                             {{/if}}
                                             {{/if}}
 
-
-                                            {{!-- Work Eligibility Conditional --}}
+                                            {{!-- work status --}}
                                             {{#if this.isHired}}
                                             <td><span class="badge bg-info">Hired</span></td>
                                             {{else}}
-                                            {{#if this.isEligibleToWork}}
-                                            <td><span class="badge bg-success">Eligible</span></td>
+                                            {{#if (eq this.workEligibility.status "approved")}}
+                                            <td><span class="badge bg-success">Approved</span></td>
                                             {{else}}
-                                            {{#if this.isRestrictedFromWork}}
+                                            {{#if (eq this.workEligibility.status "restricted")}}
                                             <td><span class="badge bg-danger">Restricted</span></td>
                                             {{else}}
-
+                                            {{#if (eq this.workEligibility.status "pending")}}
+                                            <td><span class="badge bg-warning">Pending</span></td>
+                                            {{else}}
                                             <td><span class="badge bg-secondary">None</span></td>
-
+                                            {{/if}}
                                             {{/if}}
                                             {{/if}}
                                             {{/if}}

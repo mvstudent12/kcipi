@@ -1267,3 +1267,7 @@ h6 {
   color: #343a40;
   margin-top: 5px;
 }
+
+.first-letter::first-letter {
+  text-transform: uppercase;
+}

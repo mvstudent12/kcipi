@@ -38,7 +38,7 @@ const findApplicantIDsAndCompanyName = async (IDs) => {
     // Aggregation pipeline to retrieve applicant IDs and associated companyName
     await Jobs.aggregate([
       { $unwind: "$applicants" }, // Flatten the applicants array
-      { $match: { applicants: { $in: IDs } } }, // Filter applicants by residentID array
+      { $match: { "applicants.resident_id": { $in: IDs } } }, // Filter applicants by residentID array
       {
         $project: {
           applicantID: "$applicants", // Rename applicants to applicantID for clarity
@@ -134,13 +134,6 @@ module.exports = {
   //serves admin dashboard from admin portal
   async dashboard(req, res) {
     try {
-      //finds residents who have not been reviewed for eligibility but have aproved resumes
-      const residentsNeedReview = await Resident.find({
-        isEligibleToWork: false,
-        isRestrictedFromWork: false,
-        resumeIsApproved: true,
-      }).lean();
-
       //finds residents who need resumes approved
       const resumeNeedReview = await Resident.find({
         resumeIsComplete: true,
@@ -176,7 +169,6 @@ module.exports = {
       ).lean();
 
       res.render("admin/dashboard", {
-        residentsNeedReview,
         resumeNeedReview,
         caseLoad,
         allJobApplicants,

@@ -15,235 +15,79 @@ const resumeSchema = new Schema({
   skills: { type: String },
 });
 
-const residentSchema = new Schema({
-  role: {
+const clearanceRecordSchema = new Schema({
+  createdAt: { type: Date, default: Date.now },
+  action: {
     type: String,
-    default: "resident",
-  },
-  isActive: { type: Boolean, default: true },
-  residentID: {
-    type: String,
-    unique: true,
-    required: [true, "Please enter resident ID"],
-    lowercase: true,
-  },
-  firstName: {
-    type: String,
-    lowercase: true,
-    required: [true, "Please enter resident's first name"],
-  },
-  lastName: {
-    type: String,
-    lowercase: true,
-    required: [true, "Please enter resident's last name"],
-  },
-  facility: {
-    type: String,
-    lowercase: true,
-    required: [true, "Please enter resident's facility"],
-  },
-  outDate: {
-    type: Date,
+    enum: ["approved", "pending", "restricted"],
     required: true,
   },
-  custodyLevel: {
+  performedBy: { type: String, lowercase: true, required: true },
+  reason: { type: String, lowercase: true, default: "" },
+});
+
+const clearanceSchema = new Schema({
+  status: {
     type: String,
-    lowercase: true,
-    required: [true, "Please enter resident's custody level"],
+    enum: ["approved", "pending", "restricted", "none"],
+    required: true,
+    default: "none",
   },
-  unitTeam: {
-    type: String,
-    lowercase: true,
+  clearanceHistory: [clearanceRecordSchema],
+
+  notes: [
+    {
+      createdAt: { type: Date, default: Date.now },
+      createdBy: { type: String, required: true },
+      note: { type: String, required: true },
+    },
+  ],
+});
+const workHistorySchema = new Schema({
+  companyName: { type: String, required: true },
+  startDate: { type: Date, required: true },
+  endDate: { type: Date },
+  reasonForLeaving: { type: String, default: "" },
+  note: {
+    createdAt: { type: Date, default: Date.now },
+    createdBy: { type: String, required: true },
+    note: { type: String, required: true },
   },
-  jobPool: {
-    type: String,
-    lowercase: true,
-  },
+});
+
+const residentSchema = new Schema({
+  role: { type: String, default: "resident" },
+  isActive: { type: Boolean, default: true },
+  residentID: { type: String, unique: true, required: true, lowercase: true },
+  firstName: { type: String, lowercase: true, required: true },
+  lastName: { type: String, lowercase: true, required: true },
+  facility: { type: String, lowercase: true, required: true },
+  outDate: { type: Date, required: true },
+  custodyLevel: { type: String, lowercase: true, required: true },
+  unitTeam: { type: String, lowercase: true },
+  jobPool: { type: String, lowercase: true },
 
   resume: resumeSchema,
   resumeIsComplete: { type: Boolean, default: false },
   resumeIsApproved: { type: Boolean, default: false },
   resumeRejectionReason: { type: String, lowercase: true, default: "" },
 
-  //Medical clearance
-  MedicalReviewed: { type: Boolean, default: false },
-  MedicalNotes: [
-    {
-      createdAt: { type: Date },
-      note: { type: String, required: true },
-    },
-  ],
-  MedicalClearance: { type: Boolean, default: false },
-  MedicalClearanceDate: { type: Date },
-  MedicalClearedBy: { type: String, lowercase: true, default: "" },
-  MedicalClearanceRemovedBy: { type: String, lowercase: true, default: "" },
-  MedicalClearanceRemovedDate: { type: Date },
-  MedicalRestriction: { type: Boolean, default: false },
-  MedicalRestrictionDate: { type: Date },
-  MedicalRestrictedBy: { type: String, lowercase: true, default: "" },
+  MedicalClearance: { type: clearanceSchema, default: () => ({}) },
+  UTMClearance: { type: clearanceSchema, default: () => ({}) },
+  EAIClearance: { type: clearanceSchema, default: () => ({}) },
+  ClassificationClearance: { type: clearanceSchema, default: () => ({}) },
+  DWClearance: { type: clearanceSchema, default: () => ({}) },
+  WardenClearance: { type: clearanceSchema, default: () => ({}) },
+  sexOffenderClearance: { type: clearanceSchema, default: () => ({}) },
+  victimServicesClearance: { type: clearanceSchema, default: () => ({}) },
 
-  //UTM clearance
-  UTMReviewed: { type: Boolean, default: false },
-  UTMNotes: [
-    {
-      createdAt: { type: Date },
-      note: { type: String, required: true },
-    },
-  ],
-  UTMClearance: { type: Boolean, default: false },
-  UTMClearanceDate: { type: Date },
-  UTMClearedBy: { type: String, lowercase: true, default: "" },
-  UTMClearanceRemovedBy: { type: String, lowercase: true, default: "" },
-  UTMClearanceRemovedDate: { type: Date },
-  UTMRestriction: { type: Boolean, default: false },
-  UTMRestrictionDate: { type: Date },
-  UTMRestrictedBy: { type: String, lowercase: true, default: "" },
+  // Combined eligibility with the same structure as other clearances
+  workEligibility: { type: clearanceSchema, default: () => ({}) },
 
-  //EAI clearance
-  EAIReviewed: { type: Boolean, default: false },
-  EAINotes: [
-    {
-      createdAt: { type: Date },
-      note: { type: String, required: true },
-    },
-  ],
-  EAIClearance: { type: Boolean, default: false },
-  EAIClearanceDate: { type: Date },
-  EAIClearedBy: { type: String, lowercase: true, default: "" },
-  EAIClearanceRemovedBy: { type: String, lowercase: true, default: "" },
-  EAIClearanceRemovedDate: { type: Date },
-  EAIRestriction: { type: Boolean, default: false },
-  EAIRestrictionDate: { type: Date },
-  EAIRestrictedBy: { type: String, lowercase: true, default: "" },
-
-  //Classification clearance
-  ClassificationReviewed: { type: Boolean, default: false },
-  ClassificationNotes: [
-    {
-      createdAt: { type: Date },
-      note: { type: String, required: true },
-    },
-  ],
-  ClassificationClearance: { type: Boolean, default: false },
-  ClassificationClearanceDate: { type: Date },
-  ClassificationClearedBy: { type: String, lowercase: true, default: "" },
-  ClassificationClearanceRemovedBy: {
-    type: String,
-    lowercase: true,
-    default: "",
-  },
-  ClassificationClearanceRemovedDate: { type: Date },
-  ClassificationRestriction: { type: Boolean, default: false },
-  ClassificationRestrictionDate: { type: Date },
-  ClassificationRestrictedBy: { type: String, lowercase: true, default: "" },
-
-  //Deputy Warden clearance
-  DWReviewed: { type: Boolean, default: false },
-  DWNotes: [
-    {
-      createdAt: { type: Date },
-      note: { type: String, required: true },
-    },
-  ],
-  DWClearance: { type: Boolean, default: false },
-  DWClearanceDate: { type: Date },
-  DWClearedBy: { type: String, lowercase: true, default: "" },
-  DWClearanceRemovedBy: { type: String, lowercase: true, default: "" },
-  DWClearanceRemovedDate: { type: Date },
-  DWRestriction: { type: Boolean, default: false },
-  DWRestrictionDate: { type: Date },
-  DWRestrictedBy: { type: String, lowercase: true, default: "" },
-
-  //Warden clearance
-  WardenReviewed: { type: Boolean, default: false },
-  WardenNotes: [
-    {
-      createdAt: { type: Date },
-      note: { type: String, required: true },
-    },
-  ],
-  WardenClearance: { type: Boolean, default: false },
-  WardenClearanceDate: { type: Date },
-  WardenClearedBy: { type: String, lowercase: true, default: "" },
-  WardenClearanceRemovedBy: {
-    type: String,
-    lowercase: true,
-    default: "",
-  },
-  WardenClearanceRemovedDate: { type: Date },
-  WardenRestriction: { type: Boolean, default: false },
-  WardenRestrictionDate: { type: Date },
-  WardenRestrictedBy: { type: String, lowercase: true, default: "" },
-
-  //Sex Offender
-  isSexOffender: { type: Boolean, default: false },
-  sexOffenderReviewed: { type: Boolean, default: false },
-  sexOffenderNotes: [
-    {
-      createdAt: { type: Date },
-      note: { type: String, required: true },
-    },
-  ],
-  sexOffenderClearance: { type: Boolean, default: false },
-  sexOffenderClearanceDate: { type: Date },
-  sexOffenderClearedBy: { type: String, lowercase: true, default: "" },
-  sexOffenderClearanceRemovedBy: {
-    type: String,
-    lowercase: true,
-    default: "",
-  },
-  sexOffenderClearanceRemovedDate: { type: Date },
-  sexOffenderRestriction: { type: Boolean, default: false },
-  sexOffenderRestrictionDate: { type: Date },
-  sexOffenderRestrictedBy: { type: String, lowercase: true, default: "" },
-
-  //Victim Services
-  victimServicesReviewed: { type: Boolean, default: false },
-  victimServicesNotes: [
-    {
-      createdAt: { type: Date },
-      note: { type: String, required: true },
-    },
-  ],
-  victimServicesClearance: { type: Boolean, default: false },
-  victimServicesClearanceDate: { type: Date },
-  victimServicesClearedBy: { type: String, lowercase: true, default: "" },
-  victimServicesClearanceRemovedBy: {
-    type: String,
-    lowercase: true,
-    default: "",
-  },
-  victimServicesClearanceRemovedDate: { type: Date },
-  victimServicesRestriction: { type: Boolean, default: false },
-  victimServicesRestrictionDate: { type: Date },
-  victimServicesRestrictedBy: { type: String, lowercase: true, default: "" },
-
-  //Complete Eligibility Status
-  isEligibleToWork: { type: Boolean, default: false },
-
-  eligibilityApprovedBy: {
-    type: String,
-    lowercase: true,
-    default: "",
-  },
-  isRestrictedFromWork: { type: Boolean, default: false },
-  eligibilityRestrictedBy: {
-    type: String,
-    lowercase: true,
-    default: "",
-  },
-  eligibilityRestrictionReason: {
-    type: String,
-    lowercase: true,
-    default: "",
-  },
   isHired: { type: Boolean, default: false },
   dateHired: { type: Date },
-  companyName: {
-    type: String,
-    lowercase: true,
-    default: "",
-  },
+  companyName: { type: String, lowercase: true, default: "" },
+  workHistory: [workHistorySchema],
 });
 
 //static method to find resident

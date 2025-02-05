@@ -74,19 +74,23 @@
                                         <tr>
                                             <th scope="col">ID #</th>
                                             <th scope="col">Resident</th>
-
                                             <th scope="col">Med.</th>
                                             <th scope="col">E.A.I.</th>
                                             <th scope="col">S.O.</th>
                                             <th scope="col">C.A.</th>
                                             <th scope="col">D.W.</th>
                                             <th scope="col">Warden</th>
+
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {{#each caseLoad}}
+
                                         {{#if this.resumeIsApproved}}
-                                        {{#unless this.isEligibleToWork}}
+
+                                        {{#unless (eq this.workEligibility.status "approved")}}
+                                        {{#unless (eq this.workEligibility.status "restricted")}}
+
                                         <tr>
                                             <th scope="row"><a href="/clearance/residentProfile/{{this.residentID}}">
                                                     {{this.residentID}}</a></th>
@@ -96,80 +100,94 @@
                                                     {{this.lastName}}</a></td>
 
 
-                                            {{#if this.MedicalClearance}}
-                                            <td><span class="badge bg-success">Cleared</span></td>
-                                            {{else}}
-                                            {{#if this.MedicalRestriction}}
-                                            <td><span class="badge bg-danger">Rejected</span></td>
-                                            {{else}}
+                                            {{#if (eq this.MedicalClearance.status "approved")}}
+                                            <td><span class="badge bg-success">Approved</span></td>
+                                            {{/if}}
+                                            {{#if (eq this.MedicalClearance.status "restricted")}}
+                                            <td><span class="badge bg-danger">Restricted</span></td>
+                                            {{/if}}
+                                            {{#if (eq this.MedicalClearance.status "pending")}}
+                                            <td><span class="badge bg-warning">Pending</span></td>
+                                            {{/if}}
+                                            {{#if (eq this.MedicalClearance.status "none")}}
                                             <td><span class="badge bg-secondary">None</span></td>
                                             {{/if}}
+
+                                            {{#if (eq this.EAIClearance.status "approved")}}
+                                            <td><span class="badge bg-success">Approved</span></td>
                                             {{/if}}
-
-
-
-
-                                            {{#if this.EAIClearance}}
-                                            <td><span class="badge bg-success">Cleared</span></td>
-                                            {{else}}
-                                            {{#if this.EAIRestriction}}
-                                            <td><span class="badge bg-danger">Rejected</span></td>
-                                            {{else}}
+                                            {{#if (eq this.EAIClearance.status "restricted")}}
+                                            <td><span class="badge bg-danger">Restricted</span></td>
+                                            {{/if}}
+                                            {{#if (eq this.EAIClearance.status "pending")}}
+                                            <td><span class="badge bg-warning">Pending</span></td>
+                                            {{/if}}
+                                            {{#if (eq this.EAIClearance.status "none")}}
                                             <td><span class="badge bg-secondary">None</span></td>
                                             {{/if}}
-                                            {{/if}}
 
-                                            {{#if this.sexOffenderClearance}}
-                                            <td><span class="badge bg-success">Cleared</span></td>
-                                            {{else}}
-                                            {{#if this.sexOffenderRestriction}}
-                                            <td><span class="badge bg-danger">Rejected</span></td>
-                                            {{else}}
+                                            {{#if (eq this.sexOffenderClearance.status "approved")}}
+                                            <td><span class="badge bg-success">Approved</span></td>
+                                            {{/if}}
+                                            {{#if (eq this.sexOffenderClearance.status "restricted")}}
+                                            <td><span class="badge bg-danger">Restricted</span></td>
+                                            {{/if}}
+                                            {{#if (eq this.sexOffenderClearance.status "pending")}}
+                                            <td><span class="badge bg-warning">Pending</span></td>
+                                            {{/if}}
+                                            {{#if (eq this.sexOffenderClearance.status "none")}}
                                             <td><span class="badge bg-secondary">None</span></td>
                                             {{/if}}
-                                            {{/if}}
 
-                                            {{#if this.ClassificationClearance}}
-                                            <td><span class="badge bg-success">Cleared</span></td>
-                                            {{else}}
-                                            {{#if this.ClassificationRestriction}}
-                                            <td><span class="badge bg-danger">Rejected</span></td>
-                                            {{else}}
+                                            {{#if (eq this.ClassificationClearance.status "approved")}}
+                                            <td><span class="badge bg-success">Approved</span></td>
+                                            {{/if}}
+                                            {{#if (eq this.ClassificationClearance.status "restricted")}}
+                                            <td><span class="badge bg-danger">Restricted</span></td>
+                                            {{/if}}
+                                            {{#if (eq this.ClassificationClearance.status "pending")}}
+                                            <td><span class="badge bg-warning">Pending</span></td>
+                                            {{/if}}
+                                            {{#if (eq this.ClassificationClearance.status "none")}}
                                             <td><span class="badge bg-secondary">None</span></td>
                                             {{/if}}
-                                            {{/if}}
 
-                                            {{#if this.DWClearance}}
-                                            <td><span class="badge bg-success">Cleared</span></td>
-                                            {{else}}
-                                            {{#if this.DWRestriction}}
-                                            <td><span class="badge bg-danger">Rejected</span></td>
-                                            {{else}}
+                                            {{#if (eq this.DWClearance.status "approved")}}
+                                            <td><span class="badge bg-success">Approved</span></td>
+                                            {{/if}}
+                                            {{#if (eq this.DWClearance.status "restricted")}}
+                                            <td><span class="badge bg-danger">Restricted</span></td>
+                                            {{/if}}
+                                            {{#if (eq this.DWClearance.status "pending")}}
+                                            <td><span class="badge bg-warning">Pending</span></td>
+                                            {{/if}}
+                                            {{#if (eq this.DWClearance.status "none")}}
                                             <td><span class="badge bg-secondary">None</span></td>
                                             {{/if}}
-                                            {{/if}}
 
-                                            {{#if this.WardenClearance}}
-                                            <td><span class="badge bg-success">Cleared</span></td>
-                                            {{else}}
-                                            {{#if this.WardenRestriction}}
-                                            <td><span class="badge bg-danger">Rejected</span></td>
-                                            {{else}}
+                                            {{#if (eq this.WardenClearance.status "approved")}}
+                                            <td><span class="badge bg-success">Approved</span></td>
+                                            {{/if}}
+                                            {{#if (eq this.WardenClearance.status "restricted")}}
+                                            <td><span class="badge bg-danger">Restricted</span></td>
+                                            {{/if}}
+                                            {{#if (eq this.WardenClearance.status "pending")}}
+                                            <td><span class="badge bg-warning">Pending</span></td>
+                                            {{/if}}
+                                            {{#if (eq this.WardenClearance.status "none")}}
                                             <td><span class="badge bg-secondary">None</span></td>
                                             {{/if}}
-                                            {{/if}}
-
                                         </tr>
                                         {{/unless}}
-                                        {{/if}}
+                                        {{/unless}}
 
+                                        {{/if}}
                                         {{/each}}
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
-
 
                 </div>
             </div>

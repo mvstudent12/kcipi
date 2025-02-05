@@ -43,7 +43,8 @@
                             </li>
                             <li class="nav-item">
                                 <button class="nav-link {{#if (eq activeTab 'application')}}active{{/if}}"
-                                    data-bs-toggle="tab" data-bs-target="#profile-applications">Applications</button>
+                                    data-bs-toggle="tab" data-bs-target="#profile-applications">{{#if
+                                    resident.isHired}}Employment{{else}}Applications{{/if}}</button>
                             </li>
                         </ul>
                         {{!--===== TABS =====--}}
@@ -460,9 +461,9 @@
 <div class="modal fade" id="terminate" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method="post" action="/clearance/terminateResident/{{resident._id}}">
+            <form method="post" action="/clearance/requestTermination/{{resident._id}}">
                 <div class="modal-header">
-                    <h5 class="modal-title">Terminate Employment</h5>
+                    <h5 class="modal-title">Request Termination</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -472,15 +473,23 @@
                                 aria-label="Termination reason">
                                 <option selected value="">Select reason for termination:
                                 </option>
-                                <option value="release">Release from KDOC</option>
-                                <option value="performance">Poor Performance</option>
-                                <option value="misconduct">Misconduct</option>
-                                <option value="attendance">Attendance Issues</option>
+                                <option value="Release from KDOC">Release from KDOC</option>
+                                <option value="Poor Performance">Poor Performance</option>
+                                <option value="Misconduct">Misconduct</option>
+                                <option value="Attendance Issues">Attendance Issues</option>
                                 <option value="layoffs">Layoffs</option>
-                                <option value="medical">Medical Layoff</option>
-                                <option value="custody">Loss of Custody</option>
-                                <option value="moved">Changed Facility</option>
+                                <option value="Medical Layoff">Medical Layoff</option>
+                                <option value="Loss of Custody">Loss of Custody</option>
+                                <option value="Changed Facility">Changed Facility</option>
+                                <option value="PI Time Limitations">PI Time Limitations</option>
+                                <option value="Other">Other - Provide Details Below</option>
                             </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-10">
+                            <textarea name="notes" class="form-control" placeholder="Additional notes and comments"
+                                style="height: 100px;"></textarea>
                         </div>
                     </div>
                 </div>
@@ -488,7 +497,7 @@
                     <div class="col-12 d-flex justify-content-between">
                         <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal"
                             aria-label="Close">Cancel</button>
-                        <button type="submit" class="btn btn-danger mx-2">Terminate Employment</button>
+                        <button type="submit" class="btn btn-danger mx-2">Request Termination</button>
                     </div>
                 </div>
             </form>

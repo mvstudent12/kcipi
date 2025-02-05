@@ -32,7 +32,12 @@
                         </li>
                         <li class="nav-item">
                             <button class="nav-link {{#if (eq activeTab 'application')}}active{{/if}}"
-                                data-bs-toggle="tab" data-bs-target="#profile-application">Applications</button>
+                                data-bs-toggle="tab" data-bs-target="#profile-application">{{#if
+                                resident.isHired}}Employment{{else}}Applications{{/if}}</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link {{#if (eq activeTab 'work-history')}}active{{/if}}"
+                                data-bs-toggle="tab" data-bs-target="#profile-work-history">Work History</button>
                         </li>
                     </ul>
                     {{!--===== TABS =====--}}
@@ -48,24 +53,32 @@
                                             resident.dateHired}}</p>
                                     </div>
                                     {{else}}
-                                    {{#if resident.isEligibleToWork}}
+                                    {{#if (eq resident.workEligibility.status "approved")}}
                                     <div class="text-center">
                                         <p class="text-success">This resident is approved and eligible for
                                             work.</p>
                                     </div>
-                                    {{else}}
+                                    {{/if}}
+                                    {{/if}}
+
+                                    {{#if (eq resident.workEligibility.status "none")}}
                                     <div class="text-center">
                                         <p class="text-warning">This resident needs reviewed for clearance.</p>
                                     </div>
                                     {{/if}}
-                                    {{/if}}
 
-                                    {{#if resident.isRestrictedFromWork}}
+                                    {{#if (eq resident.workEligibility.status "restricted")}}
                                     <div class="text-center">
                                         <p class="text-danger">This resident is not eligible
-                                            to work due to {{resident.eligibilityRestrictionReason}} restrictions.</p>
+                                            to work due to restrictions.</p>
                                     </div>
                                     {{/if}}
+                                    {{#if (eq resident.workEligibility.status "pending")}}
+                                    <div class="text-center">
+                                        <p class="text-warning">This resident is in the clearance process.</p>
+                                    </div>
+                                    {{/if}}
+
 
                                     <h5 class="card-title">Resident Information</h5>
                                     <div class="row">
@@ -446,7 +459,7 @@
                                             resident.dateHired}}</p>
                                     </div>
                                     {{else}}
-                                    {{#if resident.isEligibleToWork}}
+                                    {{#if (eq resident.workEligibility.status "approved")}}
                                     <div class="text-center">
                                         <p class="text-success">This resident is approved and eligible for
                                             work.</p>
@@ -454,10 +467,10 @@
                                     {{/if}}
                                     {{/if}}
 
-                                    {{#if resident.isRestrictedFromWork}}
+                                    {{#if (eq resident.workEligibility.status "restricted")}}
                                     <div class="text-center">
                                         <p class="text-danger">This resident is not eligible
-                                            to work due to {{resident.eligibilityRestrictionReason}} restrictions.</p>
+                                            to work due to restrictions.</p>
                                     </div>
                                     {{/if}}
                                     {{#if resident.resumeIsApproved}}
@@ -468,7 +481,7 @@
                                     <div class="row">
                                         <div class="col-4 label ">Medical</div>
                                         <div class="clearanceCheck col-2 text-capitalize">
-                                            {{resident.MedicalClearance}}</div>
+                                            {{resident.MedicalClearance.status}}</div>
                                         <div class="col-2 d-flex justify-content-between">
                                             <button type="submit" class="btn btn-info"
                                                 data-route="/notification/requestClearance/{{resident.residentID}}/Medical"
@@ -494,7 +507,7 @@
                                     <div class="row">
                                         <div class="col-4 label">EAI</div>
                                         <div class="clearanceCheck col-2 text-capitalize">
-                                            {{resident.EAIClearance}}
+                                            {{resident.EAIClearance.status}}
                                         </div>
                                         <div class="col-2 d-flex justify-content-between">
                                             <button type="submit" class="btn btn-info"
@@ -521,7 +534,7 @@
                                     <div class="row">
                                         <div class="col-4 label">Sex Offender</div>
                                         <div class="clearanceCheck col-2 text-capitalize">
-                                            {{resident.sexOffenderClearance}}
+                                            {{resident.sexOffenderClearance.status}}
                                         </div>
                                         <div class="col-2 d-flex justify-content-between">
                                             <button type="submit" class="btn btn-info"
@@ -549,7 +562,7 @@
                                     <div class="row">
                                         <div class="col-4 label">Victim Services</div>
                                         <div class="clearanceCheck col-2 text-capitalize">
-                                            {{resident.victimServicesClearance}}
+                                            {{resident.victimServicesClearance.status}}
                                         </div>
                                         <div class="col-2 d-flex justify-content-between">
                                             <button type="submit" class="btn btn-info"
@@ -577,7 +590,7 @@
                                     <div class="row">
                                         <div class="col-4 label">Classification</div>
                                         <div class="clearanceCheck col-2 text-capitalize">
-                                            {{resident.ClassificationClearance}}
+                                            {{resident.ClassificationClearance.status}}
                                         </div>
                                         <div class="col-2 d-flex justify-content-between">
                                             <button type="submit" class="btn btn-info"
@@ -605,7 +618,7 @@
                                     <div class="row">
                                         <div class="col-4 label">Deputy Warden</div>
                                         <div class="clearanceCheck col-2 text-capitalize">
-                                            {{resident.DWClearance}}
+                                            {{resident.DWClearance.status}}
                                         </div>
                                         <div class="col-2 d-flex justify-content-between">
                                             <button type="submit" class="btn btn-info"
@@ -632,7 +645,7 @@
                                     <div class="row">
                                         <div class="col-4 label">Warden</div>
                                         <div class="clearanceCheck col-2 text-capitalize">
-                                            {{resident.WardenClearance}}</div>
+                                            {{resident.WardenClearance.status}}</div>
                                         <div class="col-2 d-flex justify-content-between">
                                             <button type="submit" class="btn btn-info"
                                                 data-route="/notification/requestClearance/{{resident.residentID}}/Warden"
@@ -658,13 +671,15 @@
                                     <hr>
 
                                     <div class="row d-flex justify-content-between">
-
+                                        {{#unless (eq resident.workEligibility.status "restricted")}}
                                         <div class="col-auto">
-                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                            <button type="button" class="btn btn-danger " data-bs-toggle="modal"
                                                 data-bs-target="#rejectResident">Restrict Resident</button>
                                         </div>
+                                        {{/unless}}
+
                                         <div class="col-auto">
-                                            {{#unless resident.isEligibleToWork}}
+                                            {{#unless (eq resident.workEligibility.status "approved")}}
                                             <button id="approveClearance" type="button" style="display: none;"
                                                 class="btn btn-success" data-bs-toggle="modal"
                                                 data-bs-target="#approveResident">Approve
@@ -717,8 +732,10 @@
                                     {{/each}}
                                     {{else}}
                                     {{#if resident.isHired}}
-                                    <span class="text-success">Resident is currently employed as of {{formatDate
-                                        resident.dateHired}}
+                                    <span class="text-success">Resident is currently employed at <span
+                                            class="text-capitalize text-info">{{resident.companyName}}</span>
+                                        as of {{formatDate
+                                        resident.dateHired}}.
                                     </span>
                                     <hr>
                                     <button class="btn btn-danger" type="button" data-bs-toggle="modal"
@@ -732,6 +749,52 @@
                                     </div>
                                     {{/if}}
                                     {{/if}}
+                                </div>
+                            </div>
+                        </div>
+                        {{!--======== Applications TAB ========--}}
+                        <div class="tab-pane fade {{#if (eq activeTab 'work-history')}}show active{{/if}} profile-work-history pt-3"
+                            id="profile-work-history">
+                            <div class="card">
+                                <div class="card-body pt-3">
+
+                                    {{#if resident.workHistory}}
+                                    {{#if resident.isHired}}
+                                    <p>This resident is currently working at <span
+                                            class="text-capitalize">{{resident.companyName}}</span>.</p>
+                                    <p>Start date: {{formatDate resident.dateHired}}</p>
+                                    <hr>
+                                    {{else}}
+                                    <p>This resident is not currently working.</p>
+                                    <hr>
+                                    {{/if}}
+                                    {{#each resident.workHistory}}
+
+                                    <p>Company - {{this.companyName}}</p>
+                                    <p>Start Date - {{formatDate this.startDate}}</p>
+                                    <p>End Date - {{formatDate this.endDate}}</p>
+                                    <p>Reason for leaving - {{this.reasonForLeaving}} </p>
+
+                                    {{#if this.note}}
+                                    <p class="text-capitalize">Notes - {{formatDate this.note.createdAt}} -
+                                        {{this.note.createdBy}}: {{this.note.note}}</p>
+
+                                    {{/if}}
+
+
+                                    <hr>
+                                    {{/each}}
+                                    {{else}}
+                                    {{#if resident.isHired}}
+                                    <p>This resident is currently working at <span
+                                            class="text-capitalize">{{resident.companyName}}</span>.</p>
+                                    <p>Start date: {{formatDate resident.dateHired}}</p>
+                                    <p>No further work history.</p>
+                                    {{else}}
+                                    <p>This resident has no work history and is not currently employed.</p>
+                                    {{/if}}
+                                    {{/if}}
+
                                 </div>
                             </div>
                         </div>
@@ -945,8 +1008,8 @@
                         {{!-- additional comments --}}
                         <div class="row mb-3">
                             <div class="col-sm-10">
-                                <textarea name="notes" class="form-control" placeholder="Additional notes or comments"
-                                    style="height: 100px;"></textarea>
+                                <textarea required name="notes" class="form-control"
+                                    placeholder="Additional notes or comments" style="height: 100px;"></textarea>
                             </div>
                         </div>
                     </div>
@@ -990,15 +1053,38 @@
                                 aria-label="Termination reason">
                                 <option selected value="">Select reason for termination:
                                 </option>
-                                <option value="release">Release from KDOC</option>
-                                <option value="performance">Poor Performance</option>
-                                <option value="misconduct">Misconduct</option>
-                                <option value="attendance">Attendance Issues</option>
+                                <option value="Release from KDOC">Release from KDOC</option>
+                                <option value="Poor Performance">Poor Performance</option>
+                                <option value="Misconduct">Misconduct</option>
+                                <option value="Attendance Issues">Attendance Issues</option>
                                 <option value="layoffs">Layoffs</option>
-                                <option value="medical">Medical Layoff</option>
-                                <option value="custody">Loss of Custody</option>
-                                <option value="moved">Changed Facility</option>
+                                <option value="Medical Layoff">Medical Layoff</option>
+                                <option value="Loss of Custody">Loss of Custody</option>
+                                <option value="Changed Facility">Changed Facility</option>
+                                <option value="PI Time Limitations">PI Time Limitations</option>
+                                <option value="Other">Other - Provide Details Below</option>
                             </select>
+                        </div>
+
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-10">
+                            <select required name="workRestriction" id="workRestriction" class="form-select"
+                                aria-label="Work Restriction Options">
+                                <option selected value="">Select work restrictions:
+                                </option>
+                                <option value="approved">Resident is not restricted from work.
+                                </option>
+                                <option value="restricted">Resident is restricted from work.</option>
+
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-10">
+                            <textarea name="notes" class="form-control" placeholder="Additional notes and comments"
+                                style="height: 100px;"></textarea>
                         </div>
                     </div>
                 </div>
@@ -1034,7 +1120,7 @@
                                         Email</label>
                                     <div class="input-group mb-3 col-sm-10">
                                         <input required type="email" class="form-control" id="recipient"
-                                            name="recipient">
+                                            placeholder="@ks.gov" name="recipient">
                                     </div>
                                 </div>
                             </div>
@@ -1043,7 +1129,8 @@
                         <div class="row mb-3">
                             <div class="col-sm-10">
                                 <textarea name="comments" class="form-control"
-                                    placeholder="Additional notes or comments" style="height: 100px;"></textarea>
+                                    placeholder="Additional instructions for recipient."
+                                    style="height: 100px;"></textarea>
                             </div>
                         </div>
                     </div>
@@ -1191,14 +1278,14 @@
                                 aria-label="Rejection reason">
                                 <option selected value="">Select reason for restriction:
                                 </option>
-                                <option value="classification">Classification Hold
+                                <option value="Classification Hold">Classification Hold
                                 </option>
-                                <option value="security">Facility Security</option>
-                                <option value="sex-offender">Sex Offender
+                                <option value="Facility Security">Facility Security</option>
+                                <option value="Sex Offender Hold">Sex Offender
                                 </option>
-                                <option value="citizenship">Citizenship Issues
+                                <option value="Citizenship Issues">Citizenship Issues
                                 </option>
-                                <option value="medical">Medical Restrictions
+                                <option value="Medical Restrictions">Medical Restrictions
                                 </option>
                             </select>
                         </div>
@@ -1307,8 +1394,9 @@
                 <div class="col-12 d-flex justify-content-between">
                     <a href="/clearance/rejectHire/{{../resident._id}}/{{this._id}}"><button type="button"
                             class="btn btn-danger mx-2">Reject Hire</button></a>
-                    <a href="/clearance/hireResident/{{../resident._id}}/{{this._id}}"><button type="button"
-                            class="btn btn-success mx-2">Hire Resident</button></a>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#{{this.position}}3"
+                        class="btn btn-success mx-2">Hire
+                        Resident</button>
                 </div>
             </div>
 
@@ -1408,13 +1496,46 @@
         </div>
     </div>
 </div>
+
+{{!-- Hire Resident Modal --}}
+<div class="modal fade" id="{{this.position}}3" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" action="/clearance/hireResident/{{../resident._id}}/{{this._id}}">
+                <div class="modal-header">
+                    <h5 class="modal-title">Employ Resident</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <label for="startDate" class="col-form-label">Select Start Date:</label>
+                        <div class="col-sm-10">
+                            <input required type="date" class="form-control" name="startDate">
+                        </div>
+                    </div>
+                    {{!-- maybe provide this functionality later --}}
+                    {{!-- <div class="row mb-3">
+                        <label for="notes" class="col-sm-10 col-form-label">Additional notes and comments:</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" style="height: 100px" name="notes"
+                                placeholder="Optional notes"></textarea>
+                        </div>
+                    </div> --}}
+                </div>
+                <div class="modal-footer">
+                    <div class="col-12 d-flex justify-content-between">
+                        <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal"
+                            aria-label="Close">Cancel</button>
+                        <button type="submit" class="btn btn-success mx-2">Employ Resident</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 {{/each}}
 
 
-
-
-
-<script type="text/javascript" src="/../assets/js/requestClearance.js"></script>
 
 
 <script type="text/javascript" src="/../assets/js/residentApprovalForm.js"></script>
@@ -1434,7 +1555,7 @@
 
             clearanceValues.forEach((element) => {
                 const value = element.textContent.trim(); // Get the text value of the element
-                if (value !== "true") {
+                if (value !== "approved") {
                     allApproved = false; // If any value is not "true", set allApproved to false
                 }
             });

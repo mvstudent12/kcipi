@@ -89,8 +89,13 @@ addNotesButtons.forEach((button) => {
         if (data.notes.length > 0) {
           data.notes.forEach((note) => {
             notesContent += `
-              <span>${new Date(note.createdAt).toLocaleString()}</span>
-              <p>${note.note}</p>
+              <span>${new Date(
+                note.createdAt
+              ).toLocaleString()}</span> - <span class="text-capitalize">${
+              note.createdBy
+            }</span>
+
+              <p class="text-info first-letter">${note.note}</p>
               <hr>
             `;
           });

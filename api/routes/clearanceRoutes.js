@@ -53,7 +53,7 @@ clearanceRoutes.post(
   requireAuth,
   controller.scheduleInterview
 );
-clearanceRoutes.get(
+clearanceRoutes.post(
   "/hireResident/:id/:jobID",
   checkUser,
   requireAuth,

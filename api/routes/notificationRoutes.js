@@ -243,7 +243,7 @@ notificationRoutes.get(
 //=============================
 //request clearance from Medical, EAI, Classification, etc
 notificationRoutes.post(
-  "/requestClearance/:residentID/:category",
+  "/requestClearance/:residentID/:dept",
   controller.requestClearance
 );
 

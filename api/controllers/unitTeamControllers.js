@@ -42,7 +42,7 @@ const findApplicantIDs = async (IDs) => {
     //make array of applicant ids
     await Jobs.aggregate([
       { $unwind: "$applicants" }, // Flatten the applicants array
-      { $match: { applicants: { $in: IDs } } }, // Filter applicants by residentID array
+      { $match: { "applicants.resident_id": { $in: IDs } } }, // Filter applicants by residentID array
       { $group: { _id: null, allResidents: { $push: "$applicants" } } }, // Collect matching resident IDs
     ]).then((result) => {
       if (result.length > 0) {
@@ -61,12 +61,12 @@ const findApplicantIDsAndCompanyName = async (IDs) => {
     let applicantIDs = [];
 
     // Aggregation pipeline to retrieve applicant IDs and associated companyName
-    await Jobs.aggregate([
+    const result = await Jobs.aggregate([
       { $unwind: "$applicants" }, // Flatten the applicants array
-      { $match: { applicants: { $in: IDs } } }, // Filter applicants by residentID array
+      { $match: { "applicants.resident_id": { $in: IDs } } }, // Filter applicants by residentID array
       {
         $project: {
-          applicantID: "$applicants", // Rename applicants to applicantID for clarity
+          applicantID: "$applicants.resident_id", // Renamed applicants to applicantID for clarity
           companyName: 1, // Include the companyName field
           dateCreated: 1,
         },
@@ -83,11 +83,11 @@ const findApplicantIDsAndCompanyName = async (IDs) => {
           },
         },
       }, // Group by null to get all applicants
-    ]).then((result) => {
-      if (result.length > 0) {
-        applicantIDs = result[0].allApplicants;
-      }
-    });
+    ]);
+
+    if (result.length > 0) {
+      applicantIDs = result[0].allApplicants;
+    }
 
     return applicantIDs;
   } catch (error) {
@@ -198,6 +198,7 @@ module.exports = {
 
       //make array of resident _id in caseload
       const IDs = caseLoad.flatMap((resident) => resident._id);
+      console.log(IDs);
 
       //make array of resident _id in caseload
       const residentIDs = caseLoad.flatMap((resident) => resident.residentID);
@@ -215,7 +216,7 @@ module.exports = {
 
       //find all active interviews
       const interviews = await findInterviews(residentIDs);
-
+      console.log(applicants);
       res.render("unitTeam/dashboard", {
         user: req.session.user,
         caseLoad,
