@@ -1,5 +1,6 @@
 // helpers.js
 const moment = require("moment");
+const mongoose = require("mongoose");
 
 const helpers = {
   countArrayItems: (array) => {
@@ -71,6 +72,27 @@ const helpers = {
   },
   json: (context) => {
     return JSON.stringify(context);
+  },
+
+  getApplication: (resident_id, applicants, options) => {
+    if (Array.isArray(applicants)) {
+      // Convert resident_id to ObjectId if it's not already
+      const residentObjectId = new mongoose.Types.ObjectId(resident_id);
+
+      // Find the specific applicant in the array by matching resident_id
+      const application = applicants.find(
+        (application) =>
+          application.resident_id.toString() === residentObjectId.toString()
+      );
+
+      if (application) {
+        console.log(application);
+        return options.fn(application); // Return the application to the template
+      }
+    }
+
+    // Return the inverse block if no match is found
+    return options.inverse(this);
   },
 };
 

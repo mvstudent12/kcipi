@@ -42,16 +42,15 @@ function requireRole(allowedRoles) {
 
       // Check if user has an allowed role
       if (!allowedRoles.includes(user.role)) {
-        logger.info(`Role check error:: ${user.role}::Access denied.`);
-        //maybe make this 404 page later
-        return res.status(403).send("Access denied."); // Forbidden if role mismatch
+        logger.warn(`Role check error:: ${user.role}::Access denied.`);
+        return res.render("error/403");
       }
 
       next();
     } catch (err) {
       console.error("Role check error:", err.message);
-      logger.info(`Role check error:: ${err.message}`);
-      res.status(500).send("Internal server error");
+      logger.warn(`Role check error:: ${err.message}`);
+      res.render("error/500");
     }
   };
 }

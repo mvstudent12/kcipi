@@ -118,4 +118,44 @@ employerRoutes.get(
   controller.cancelInterview
 );
 
+employerRoutes.get(
+  "/residentProfile/:residentID",
+  checkUser,
+  requireAuth,
+  requireRole(["employer"]),
+  controller.residentProfile
+);
+
+employerRoutes.post(
+  "/requestInterview/:jobID",
+  checkUser,
+  requireAuth,
+  requireRole(["employer"]),
+  controller.requestInterview
+);
+
+employerRoutes.post(
+  "/requestInterview/:jobID",
+  checkUser,
+  requireAuth,
+  requireRole(["employer"]),
+  controller.requestInterview
+);
+
+employerRoutes.post(
+  "/requestHire/:jobID",
+  checkUser,
+  requireAuth,
+  requireRole(["employer"]),
+  controller.requestHire
+);
+
+employerRoutes.get(
+  "/rejectHire/:id/:jobID",
+  checkUser,
+  requireAuth,
+  requireRole(["employer"]),
+  controller.rejectHire
+);
+
 module.exports = employerRoutes;

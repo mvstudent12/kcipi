@@ -39,10 +39,10 @@
                                         {{#each applicants}}
                                         <tr>
                                             <th scope="row"><a
-                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
+                                                    href="/employer/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
                                             </th>
                                             <td class="text-capitalize"><a
-                                                    href="/clearance/residentProfile/{{this.residentID}}">
+                                                    href="/employer/residentProfile/{{this.residentID}}">
                                                     {{this.firstName}} {{this.lastName}}</a></td>
                                             <td class="text-capitalize">{{formatDate this.outDate}}</td>
 
@@ -83,14 +83,14 @@
                                         {{#each interviews}}
                                         <tr>
                                             <th scope="row"><a
-                                                    href="/clearance/residentProfile/{{this.interview.residentID}}">{{this.interview.residentID}}</a>
+                                                    href="/employer/residentProfile/{{this.interview.residentID}}">{{this.interview.residentID}}</a>
                                             </th>
                                             <td class="text-capitalize"><a
-                                                    href="/clearance/residentProfile/{{this.interview.residentID}}">
+                                                    href="/employer/residentProfile/{{this.interview.residentID}}">
                                                     {{this.interview.name}}</a></td>
 
                                             <td class="text-capitalize"><a
-                                                    href="/clearance/residentProfile/{{this.interview.residentID}}">{{this.position}}</a>
+                                                    href="/employer/residentProfile/{{this.interview.residentID}}">{{this.position}}</a>
                                             </td>
                                             {{#if this.interview.isRequested}}
                                             <td>{{formatDate this.interview.dateRequested}}</td>
@@ -138,22 +138,22 @@
                                         <tr>
                                             <th scope="row">
                                                 <a
-                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
+                                                    href="/employer/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
                                             </th>
                                             <td class="text-capitalize">
                                                 <a
-                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.facility}}</a>
+                                                    href="/employer/residentProfile/{{this.residentID}}">{{this.facility}}</a>
                                             </td>
                                             <td class="text-capitalize">
-                                                <a href="/clearance/residentProfile/{{this.residentID}}">{{this.firstName}}
+                                                <a href="/employer/residentProfile/{{this.residentID}}">{{this.firstName}}
                                                     {{this.lastName}}</a>
                                             </td>
                                             <td class="text-capitalize">
-                                                <a href="/clearance/residentProfile/{{this.residentID}}">{{formatDate
+                                                <a href="/employer/residentProfile/{{this.residentID}}">{{formatDate
                                                     this.outDate}}</a>
                                             </td>
                                             <td class="text-capitalize">
-                                                <a href="/clearance/residentProfile/{{this.residentID}}">{{formatDate
+                                                <a href="/employer/residentProfile/{{this.residentID}}">{{formatDate
                                                     this.dateHired}}</a>
                                             </td>
                                         </tr>

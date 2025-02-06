@@ -178,7 +178,6 @@ const createApplicantsReport = async (applicantData, selectedFields) => {
       return residentWithDetails;
     });
 
-    console.log(residentsWithDetails);
     return residentsWithDetails;
   } catch (error) {
     console.error("Error fetching residents with details:", error);
@@ -198,7 +197,6 @@ module.exports = {
 
       //make array of resident _id in caseload
       const IDs = caseLoad.flatMap((resident) => resident._id);
-      console.log(IDs);
 
       //make array of resident _id in caseload
       const residentIDs = caseLoad.flatMap((resident) => resident.residentID);
@@ -216,7 +214,7 @@ module.exports = {
 
       //find all active interviews
       const interviews = await findInterviews(residentIDs);
-      console.log(applicants);
+
       res.render("unitTeam/dashboard", {
         user: req.session.user,
         caseLoad,
@@ -424,7 +422,8 @@ module.exports = {
       res.status(200).send(csv);
     } catch (err) {
       console.log(err);
-      res.status(500).send("Error generating report.");
+      logger.warn("Error generating report: " + err);
+      res.render("error/500");
     }
   },
   async employedResidentsReport(req, res) {
@@ -468,7 +467,8 @@ module.exports = {
       res.status(200).send(csv);
     } catch (err) {
       console.log(err);
-      res.status(500).send("Error generating report.");
+      logger.warn("Error generating report: " + err);
+      res.render("error/500");
     }
   },
 
@@ -525,7 +525,8 @@ module.exports = {
       res.status(200).send(csv);
     } catch (err) {
       console.log(err);
-      res.status(500).send("Error generating report.");
+      logger.warn("Error generating report: " + err);
+      res.render("error/500");
     }
   },
 };

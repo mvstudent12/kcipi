@@ -2,10 +2,8 @@ const express = require("express");
 const notificationRoutes = express.Router();
 const controller = require("../controllers/notificationControllers");
 
-notificationRoutes.post(
-  "/requestInterview/:jobID/:email",
-  controller.requestInterview
-);
+//authentication middleware
+const { requireAuth, checkUser } = require("../middleware/authMiddleware");
 
 notificationRoutes.get(
   "/reviewInterviewRequest/:interviewID",

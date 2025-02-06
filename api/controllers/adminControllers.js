@@ -209,7 +209,6 @@ module.exports = {
       ).lean();
 
       let interviews = await getAllInterviews();
-      console.log(interviews);
 
       const employees = await Resident.find({ isHired: true }).lean();
 
@@ -318,7 +317,6 @@ module.exports = {
   async employedResidents(req, res) {
     try {
       const residents = await Resident.find({ isHired: true }).lean();
-      console.log(residents);
       res.render("admin/tables/hiredResidents", {
         user: req.session.user,
         residents,
@@ -767,7 +765,7 @@ module.exports = {
 
     try {
       const residentFound = await Resident.findOne({ residentID }).lean();
-      console.log(residentFound);
+
       if (residentFound) {
         const unitTeam = await UnitTeam.find({
           facility: residentFound.facility,
@@ -982,7 +980,8 @@ module.exports = {
       res.status(200).send(csv);
     } catch (err) {
       console.log(err);
-      res.status(500).send("Error generating report.");
+      logger.warn("Error generating resident report: " + err);
+      res.render("error/500");
     }
   },
   async employedResidentsReport(req, res) {
@@ -1025,7 +1024,8 @@ module.exports = {
       res.status(200).send(csv);
     } catch (err) {
       console.log(err);
-      res.status(500).send("Error generating report.");
+      logger.warn("Error generating PI Employees report: " + err);
+      res.render(500);
     }
   },
 
@@ -1080,7 +1080,9 @@ module.exports = {
       res.status(200).send(csv);
     } catch (err) {
       console.log(err);
-      res.status(500).send("Error generating report.");
+      logger.warn("Error generating applicants report: " + err);
+
+      res.render(500);
     }
   },
 };

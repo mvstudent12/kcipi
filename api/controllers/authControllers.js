@@ -18,7 +18,8 @@ module.exports = {
   async residentIndex(req, res) {
     req.session.destroy((err) => {
       if (err) {
-        return res.status(500).send("Failed to logout");
+        logger.warn("Failed to logout: " + err);
+        return res.render("error/500");
       }
       res.clearCookie("connect.sid"); // Remove session cookie if using express-session
       res.render("auth/residentLogin");
@@ -55,7 +56,8 @@ module.exports = {
 
     req.session.destroy((err) => {
       if (err) {
-        return res.status(500).send("Failed to logout");
+        logger.warn("Failed to logout: " + err);
+        return res.render("error/500");
       }
     });
     res.clearCookie("connect.sid"); // Remove session cookie if using express-session
@@ -74,7 +76,8 @@ module.exports = {
   async index(req, res) {
     req.session.destroy((err) => {
       if (err) {
-        return res.status(500).send("Failed to logout");
+        logger.warn("Failed to logout: " + err);
+        return res.render("error/500");
       }
       res.clearCookie("connect.sid"); // Remove session cookie if using express-session
       res.render("auth/login");
@@ -155,7 +158,8 @@ module.exports = {
     logger.info(`User logged out: ${req.session.user.email}`);
     req.session.destroy((err) => {
       if (err) {
-        return res.status(500).send("Failed to logout");
+        logger.warn("Failed to logout: " + err);
+        return res.render("error/500");
       }
       res.clearCookie("connect.sid"); // Remove session cookie if using express-session
       res.redirect("/");

@@ -83,7 +83,6 @@ addNotesButtons.forEach((button) => {
     fetch(`/clearance/findNotes/${residentID}/${notesCategory}`)
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         let notesContent = ""; // Build notes content as a string
 
         if (data.notes.length > 0) {

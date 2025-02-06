@@ -4,7 +4,11 @@ const Schema = mongoose.Schema;
 const applicantSchema = new Schema(
   {
     resident_id: { type: mongoose.Schema.Types.ObjectId, ref: "Resident" },
+    residentID: { type: String, trim: true },
     hireRequest: { type: Boolean, default: false },
+    hireRequestDate: { type: Date, required: true },
+    hireRequestStartDate: { type: Date, required: true },
+    hireRequestInfo: { type: String, trim: true },
     dateApplied: { type: Date, required: true },
   },
   { timestamps: true }

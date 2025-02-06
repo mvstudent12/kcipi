@@ -90,7 +90,7 @@ module.exports = {
             },
           },
         ]);
-        console.log(interviews);
+
         res.render("resident/dashboard", {
           user: req.session.resident,
           jobs,
@@ -170,7 +170,6 @@ module.exports = {
           },
         },
       ]);
-      console.log(appliedJobs);
 
       res.render("resident/applications", {
         user: req.session.resident,
@@ -277,7 +276,6 @@ module.exports = {
         },
       ]);
       position = position[0];
-      console.log(position);
 
       const residentHasApplied = true;
       res.render("resident/jobInfo", {

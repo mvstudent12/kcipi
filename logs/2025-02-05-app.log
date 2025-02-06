@@ -590,3 +590,333 @@
 {"level":"info","message":"2025-02-05T19:03:05.167Z [INFO] : ::ffff:127.0.0.1 /dashboard 200 95.261 ms","timestamp":"2025-02-05 13:03:05"}
 {"level":"info","message":"2025-02-05T19:03:11.391Z [INFO] : ::ffff:127.0.0.1 /residentProfile/7384920 200 94.099 ms","timestamp":"2025-02-05 13:03:11"}
 {"level":"info","message":"2025-02-05T19:03:39.281Z [INFO] : ::ffff:127.0.0.1 /dashboard 304 98.025 ms","timestamp":"2025-02-05 13:03:39"}
+{"level":"info","message":"User logged out: kari.johnson@ks.gov","timestamp":"2025-02-05 13:05:21"}
+{"level":"info","message":"2025-02-05T19:05:21.980Z [INFO] : ::ffff:127.0.0.1 /logOut 302 190.606 ms","timestamp":"2025-02-05 13:05:21"}
+{"level":"info","message":"2025-02-05T19:05:22.090Z [INFO] : ::ffff:127.0.0.1 / 200 107.868 ms","timestamp":"2025-02-05 13:05:22"}
+{"level":"info","message":"User logged in: alice.johnson@ks.gov","timestamp":"2025-02-05 13:05:26"}
+{"level":"info","message":"2025-02-05T19:05:26.412Z [INFO] : ::ffff:127.0.0.1 /login 200 186.463 ms","timestamp":"2025-02-05 13:05:26"}
+{"level":"info","message":"2025-02-05T19:05:26.513Z [INFO] : ::ffff:127.0.0.1 /user/dashboard/67a3afd874d332f6e4e0c7e1 302 91.333 ms","timestamp":"2025-02-05 13:05:26"}
+{"level":"info","message":"2025-02-05T19:05:27.186Z [INFO] : ::ffff:127.0.0.1 /dashboard 200 583.949 ms","timestamp":"2025-02-05 13:05:27"}
+{"level":"info","message":"2025-02-05T19:07:55.759Z [INFO] : ::ffff:127.0.0.1 /manageWorkForce 200 110.804 ms","timestamp":"2025-02-05 13:07:55"}
+{"level":"info","message":"2025-02-05T19:08:02.713Z [INFO] : ::ffff:127.0.0.1 /manageClearance 200 111.203 ms","timestamp":"2025-02-05 13:08:02"}
+{"level":"info","message":"2025-02-05T19:08:20.431Z [INFO] : ::ffff:127.0.0.1 /dashboard 304 100.209 ms","timestamp":"2025-02-05 13:08:20"}
+{"level":"info","message":"2025-02-05T19:08:24.503Z [INFO] : ::ffff:127.0.0.1 /residentProfile/7384920 200 139.404 ms","timestamp":"2025-02-05 13:08:24"}
+{"level":"info","message":"2025-02-05T19:08:37.142Z [INFO] : ::ffff:127.0.0.1 /approveEligibility/7384920 200 99.250 ms","timestamp":"2025-02-05 13:08:37"}
+{"level":"info","message":"2025-02-05T19:08:43.402Z [INFO] : ::1 /dashboard 200 105.036 ms","timestamp":"2025-02-05 13:08:43"}
+{"level":"info","message":"2025-02-05T19:08:44.979Z [INFO] : ::1 /jobInfo/67a3b036e72fee97ed46676f 304 94.497 ms","timestamp":"2025-02-05 13:08:44"}
+{"level":"info","message":"2025-02-05T19:08:47.423Z [INFO] : ::1 /saveApplication/67a3b036e72fee97ed46676f 200 102.527 ms","timestamp":"2025-02-05 13:08:47"}
+{"level":"info","message":"2025-02-05T19:08:50.096Z [INFO] : ::ffff:127.0.0.1 /dashboard 200 94.653 ms","timestamp":"2025-02-05 13:08:50"}
+{"level":"info","message":"2025-02-05T19:08:51.742Z [INFO] : ::ffff:127.0.0.1 /residentProfile/7384920 200 87.098 ms","timestamp":"2025-02-05 13:08:51"}
+{"level":"info","message":"2025-02-05T19:10:01.998Z [INFO] : ::1 /resident 200 154.827 ms","timestamp":"2025-02-05 13:10:01"}
+{"level":"info","message":"2025-02-05T19:10:02.438Z [INFO] : ::1 /assets/vendor/bootstrap-icons/fonts/bootstrap-icons.woff2?dd67030699838ea613ee6dbda90effa6 200 1.883 ms","timestamp":"2025-02-05 13:10:02"}
+{"level":"info","message":"2025-02-05T19:10:06.527Z [INFO] : ::1 /residentLogin 400 28.299 ms","timestamp":"2025-02-05 13:10:06"}
+{"level":"info","message":"2025-02-05T19:10:10.214Z [INFO] : ::1 / 200 87.614 ms","timestamp":"2025-02-05 13:10:10"}
+{"level":"info","message":"User logged in: shawn.williams@ks.gov","timestamp":"2025-02-05 13:10:14"}
+{"level":"info","message":"2025-02-05T19:10:14.597Z [INFO] : ::1 /login 200 172.632 ms","timestamp":"2025-02-05 13:10:14"}
+{"level":"info","message":"2025-02-05T19:10:14.808Z [INFO] : ::1 /user/dashboard/67a3afd874d332f6e4e0c81b 302 94.365 ms","timestamp":"2025-02-05 13:10:14"}
+{"level":"info","message":"2025-02-05T19:10:15.369Z [INFO] : ::1 /dashboard 200 561.891 ms","timestamp":"2025-02-05 13:10:15"}
+{"level":"info","message":"2025-02-05T19:10:19.205Z [INFO] : ::1 /dashboard 304 92.260 ms","timestamp":"2025-02-05 13:10:19"}
+{"level":"info","message":"2025-02-05T19:10:22.345Z [INFO] : ::1 /managePositions 200 111.636 ms","timestamp":"2025-02-05 13:10:22"}
+{"level":"info","message":"2025-02-05T19:10:33.075Z [INFO] : ::1 /addNewPosition 200 101.287 ms","timestamp":"2025-02-05 13:10:33"}
+{"level":"info","message":"2025-02-05T19:10:36.296Z [INFO] : ::1 /dashboard 200 101.801 ms","timestamp":"2025-02-05 13:10:36"}
+{"level":"info","message":"2025-02-05T19:10:37.832Z [INFO] : ::1 /jobInfo/67a3b7a844a0fe5dc6acbc5e 200 98.988 ms","timestamp":"2025-02-05 13:10:37"}
+{"level":"info","message":"2025-02-05T19:10:39.778Z [INFO] : ::1 /saveApplication/67a3b7a844a0fe5dc6acbc5e 200 104.806 ms","timestamp":"2025-02-05 13:10:39"}
+{"level":"info","message":"2025-02-05T19:10:43.317Z [INFO] : ::ffff:127.0.0.1 /residentProfile/7384920 200 136.405 ms","timestamp":"2025-02-05 13:10:43"}
+{"level":"info","message":"2025-02-05T19:10:47.746Z [INFO] : ::ffff:127.0.0.1 /rejectHire/67a3afd874d332f6e4e0c644/67a3b036e72fee97ed46676f 200 102.672 ms","timestamp":"2025-02-05 13:10:47"}
+{"level":"info","message":"2025-02-05T19:13:06.412Z [INFO] : ::ffff:127.0.0.1 /rejectHire/67a3afd874d332f6e4e0c644/67a3b036e72fee97ed46676f 200 351.595 ms","timestamp":"2025-02-05 13:13:06"}
+{"level":"info","message":"2025-02-05T19:13:13.405Z [INFO] : ::ffff:127.0.0.1 /rejectHire/67a3afd874d332f6e4e0c644/67a3b7a844a0fe5dc6acbc5e 200 103.979 ms","timestamp":"2025-02-05 13:13:13"}
+{"level":"info","message":"2025-02-05T19:13:27.076Z [INFO] : ::1 /dashboard 200 115.232 ms","timestamp":"2025-02-05 13:13:27"}
+{"level":"info","message":"2025-02-05T19:18:55.578Z [INFO] : ::1 /jobInfo/67a3b036e72fee97ed46676f 304 134.614 ms","timestamp":"2025-02-05 13:18:55"}
+{"level":"info","message":"2025-02-05T19:18:58.449Z [INFO] : ::1 /saveApplication/67a3b036e72fee97ed46676f 200 126.134 ms","timestamp":"2025-02-05 13:18:58"}
+{"level":"info","message":"2025-02-05T19:19:00.683Z [INFO] : ::1 /dashboard 200 106.077 ms","timestamp":"2025-02-05 13:19:00"}
+{"level":"info","message":"2025-02-05T19:19:02.220Z [INFO] : ::1 /jobInfo/67a3b7a844a0fe5dc6acbc5e 304 88.241 ms","timestamp":"2025-02-05 13:19:02"}
+{"level":"info","message":"2025-02-05T19:19:04.108Z [INFO] : ::1 /saveApplication/67a3b7a844a0fe5dc6acbc5e 200 104.664 ms","timestamp":"2025-02-05 13:19:04"}
+{"level":"info","message":"2025-02-05T19:19:05.928Z [INFO] : ::ffff:127.0.0.1 /dashboard 200 117.739 ms","timestamp":"2025-02-05 13:19:05"}
+{"level":"info","message":"2025-02-05T19:19:07.696Z [INFO] : ::ffff:127.0.0.1 /residentProfile/7384920 200 129.928 ms","timestamp":"2025-02-05 13:19:07"}
+{"level":"info","message":"2025-02-05T19:19:25.035Z [INFO] : ::ffff:127.0.0.1 /rejectHire/67a3afd874d332f6e4e0c644/67a3b036e72fee97ed46676f - - ms","timestamp":"2025-02-05 13:19:25"}
+{"level":"info","message":"2025-02-05T19:20:05.422Z [INFO] : ::ffff:127.0.0.1 /rejectHire/67a3afd874d332f6e4e0c644/67a3b036e72fee97ed46676f 200 229.579 ms","timestamp":"2025-02-05 13:20:05"}
+{"level":"info","message":"2025-02-05T19:20:11.141Z [INFO] : ::ffff:127.0.0.1 /dashboard 304 112.269 ms","timestamp":"2025-02-05 13:20:11"}
+{"level":"info","message":"2025-02-05T19:20:12.845Z [INFO] : ::ffff:127.0.0.1 /residentProfile/7384920 304 91.312 ms","timestamp":"2025-02-05 13:20:12"}
+{"level":"info","message":"2025-02-05T19:20:40.459Z [INFO] : ::ffff:127.0.0.1 /residentProfile/7384920 304 3579.421 ms","timestamp":"2025-02-05 13:20:40"}
+{"level":"info","message":"2025-02-05T19:20:48.327Z [INFO] : ::ffff:127.0.0.1 /rejectHire/67a3afd874d332f6e4e0c644/67a3b036e72fee97ed46676f 304 120.939 ms","timestamp":"2025-02-05 13:20:48"}
+{"level":"info","message":"2025-02-05T19:21:50.647Z [INFO] : ::ffff:127.0.0.1 /rejectHire/67a3afd874d332f6e4e0c644/67a3b036e72fee97ed46676f 304 2539.748 ms","timestamp":"2025-02-05 13:21:50"}
+{"level":"info","message":"2025-02-05T19:22:05.729Z [INFO] : ::ffff:127.0.0.1 /rejectHire/67a3afd874d332f6e4e0c644/67a3b7a844a0fe5dc6acbc5e 200 104.635 ms","timestamp":"2025-02-05 13:22:05"}
+{"level":"info","message":"2025-02-05T19:22:45.177Z [INFO] : ::ffff:127.0.0.1 /rejectHire/67a3afd874d332f6e4e0c644/67a3b7a844a0fe5dc6acbc5e 304 2739.664 ms","timestamp":"2025-02-05 13:22:45"}
+{"level":"info","message":"2025-02-05T19:24:02.729Z [INFO] : ::ffff:127.0.0.1 /rejectHire/67a3afd874d332f6e4e0c644/67a3b036e72fee97ed46676f 200 221.862 ms","timestamp":"2025-02-05 13:24:02"}
+{"level":"info","message":"2025-02-05T19:24:54.286Z [INFO] : ::ffff:127.0.0.1 /rejectHire/67a3afd874d332f6e4e0c644/67a3b036e72fee97ed46676f 304 10010.971 ms","timestamp":"2025-02-05 13:24:54"}
+{"level":"info","message":"2025-02-05T19:26:04.672Z [INFO] : ::ffff:127.0.0.1 /rejectHire/67a3afd874d332f6e4e0c644/67a3b036e72fee97ed46676f 200 205.667 ms","timestamp":"2025-02-05 13:26:04"}
+{"level":"info","message":"2025-02-05T19:31:07.579Z [INFO] : ::ffff:127.0.0.1 /rejectHire/67a3afd874d332f6e4e0c644/67a3b036e72fee97ed46676f 200 234.503 ms","timestamp":"2025-02-05 13:31:07"}
+{"level":"info","message":"2025-02-05T19:32:28.943Z [INFO] : ::ffff:127.0.0.1 /rejectHire/67a3afd874d332f6e4e0c644/67a3b036e72fee97ed46676f 200 3603.009 ms","timestamp":"2025-02-05 13:32:28"}
+{"level":"info","message":"2025-02-05T19:33:55.605Z [INFO] : ::ffff:127.0.0.1 /rejectHire/67a3afd874d332f6e4e0c644/67a3b036e72fee97ed46676f 200 217.970 ms","timestamp":"2025-02-05 13:33:55"}
+{"level":"info","message":"2025-02-05T19:34:01.478Z [INFO] : ::1 /dashboard 200 107.397 ms","timestamp":"2025-02-05 13:34:01"}
+{"level":"info","message":"2025-02-05T19:34:33.959Z [INFO] : ::ffff:127.0.0.1 /rejectHire/67a3afd874d332f6e4e0c644/67a3b7a844a0fe5dc6acbc5e 200 103.869 ms","timestamp":"2025-02-05 13:34:33"}
+{"level":"info","message":"2025-02-05T19:34:36.315Z [INFO] : ::1 /dashboard 200 93.569 ms","timestamp":"2025-02-05 13:34:36"}
+{"level":"info","message":"2025-02-05T19:34:40.861Z [INFO] : ::1 /jobInfo/67a3b036e72fee97ed46676f 304 91.669 ms","timestamp":"2025-02-05 13:34:40"}
+{"level":"info","message":"2025-02-05T19:34:43.188Z [INFO] : ::1 /saveApplication/67a3b036e72fee97ed46676f 200 112.911 ms","timestamp":"2025-02-05 13:34:43"}
+{"level":"info","message":"2025-02-05T19:35:07.764Z [INFO] : ::ffff:127.0.0.1 /dashboard 200 113.528 ms","timestamp":"2025-02-05 13:35:07"}
+{"level":"info","message":"2025-02-05T19:35:09.144Z [INFO] : ::ffff:127.0.0.1 /residentProfile/7384920 200 88.091 ms","timestamp":"2025-02-05 13:35:09"}
+{"level":"info","message":"2025-02-05T19:35:16.764Z [INFO] : ::ffff:127.0.0.1 /hireResident/67a3afd874d332f6e4e0c644/67a3b036e72fee97ed46676f 200 104.129 ms","timestamp":"2025-02-05 13:35:16"}
+{"level":"info","message":"2025-02-05T19:36:22.260Z [INFO] : ::ffff:127.0.0.1 /terminateResident/67a3afd874d332f6e4e0c644 200 104.752 ms","timestamp":"2025-02-05 13:36:22"}
+{"level":"info","message":"2025-02-05T19:36:25.207Z [INFO] : ::1 /dashboard 304 101.291 ms","timestamp":"2025-02-05 13:36:25"}
+{"level":"info","message":"2025-02-05T19:36:26.778Z [INFO] : ::1 /jobInfo/67a3b036e72fee97ed46676f 304 90.504 ms","timestamp":"2025-02-05 13:36:26"}
+{"level":"info","message":"2025-02-05T19:36:28.835Z [INFO] : ::1 /saveApplication/67a3b036e72fee97ed46676f 200 95.911 ms","timestamp":"2025-02-05 13:36:28"}
+{"level":"info","message":"User logged out: alice.johnson@ks.gov","timestamp":"2025-02-05 13:36:32"}
+{"level":"info","message":"2025-02-05T19:36:32.925Z [INFO] : ::ffff:127.0.0.1 /logOut 302 175.903 ms","timestamp":"2025-02-05 13:36:32"}
+{"level":"info","message":"2025-02-05T19:36:33.020Z [INFO] : ::ffff:127.0.0.1 / 200 89.548 ms","timestamp":"2025-02-05 13:36:33"}
+{"level":"info","message":"User logged in: shawn.williams@ks.gov","timestamp":"2025-02-05 13:36:38"}
+{"level":"info","message":"2025-02-05T19:36:38.590Z [INFO] : ::ffff:127.0.0.1 /login 200 169.499 ms","timestamp":"2025-02-05 13:36:38"}
+{"level":"info","message":"2025-02-05T19:36:38.691Z [INFO] : ::ffff:127.0.0.1 /user/dashboard/67a3afd874d332f6e4e0c81b 302 91.367 ms","timestamp":"2025-02-05 13:36:38"}
+{"level":"info","message":"2025-02-05T19:36:38.893Z [INFO] : ::ffff:127.0.0.1 /dashboard 200 101.063 ms","timestamp":"2025-02-05 13:36:38"}
+{"level":"info","message":"2025-02-05T19:36:45.868Z [INFO] : ::ffff:127.0.0.1 /jobProfile/67a3b036e72fee97ed46676f 200 115.152 ms","timestamp":"2025-02-05 13:36:45"}
+{"level":"info","message":"2025-02-05T19:36:48.646Z [INFO] : ::ffff:127.0.0.1 /residentProfile/7384920 200 109.897 ms","timestamp":"2025-02-05 13:36:48"}
+{"level":"info","message":"2025-02-05T19:36:53.408Z [INFO] : ::ffff:127.0.0.1 /rejectHire/67a3afd874d332f6e4e0c644/67a3b036e72fee97ed46676f 200 98.063 ms","timestamp":"2025-02-05 13:36:53"}
+{"level":"info","message":"2025-02-05T19:36:56.049Z [INFO] : ::ffff:127.0.0.1 /dashboard 200 88.529 ms","timestamp":"2025-02-05 13:36:56"}
+{"level":"info","message":"2025-02-05T19:37:08.028Z [INFO] : ::1 /dashboard 304 90.039 ms","timestamp":"2025-02-05 13:37:08"}
+{"level":"info","message":"2025-02-05T19:37:09.760Z [INFO] : ::1 /jobInfo/67a3b036e72fee97ed46676f 304 90.810 ms","timestamp":"2025-02-05 13:37:09"}
+{"level":"info","message":"2025-02-05T19:37:11.948Z [INFO] : ::1 /saveApplication/67a3b036e72fee97ed46676f 200 100.131 ms","timestamp":"2025-02-05 13:37:11"}
+{"level":"info","message":"2025-02-05T19:37:14.222Z [INFO] : ::ffff:127.0.0.1 /jobProfile/67a3b036e72fee97ed46676f 304 91.922 ms","timestamp":"2025-02-05 13:37:14"}
+{"level":"info","message":"2025-02-05T19:37:16.450Z [INFO] : ::ffff:127.0.0.1 /residentProfile/7384920 304 87.109 ms","timestamp":"2025-02-05 13:37:16"}
+{"level":"warn","message":"Page not found: /clearance/requestHire/67a3afd874d332f6e4e0c644/67a3b036e72fee97ed46676f","timestamp":"2025-02-05 13:37:33"}
+{"level":"info","message":"2025-02-05T19:37:33.206Z [INFO] : ::ffff:127.0.0.1 /clearance/requestHire/67a3afd874d332f6e4e0c644/67a3b036e72fee97ed46676f 200 95.162 ms","timestamp":"2025-02-05 13:37:33"}
+{"level":"warn","message":"Page not found: /clearance/requestHire/67a3afd874d332f6e4e0c644/67a3b036e72fee97ed46676f","timestamp":"2025-02-05 13:38:20"}
+{"level":"info","message":"2025-02-05T19:38:20.538Z [INFO] : ::ffff:127.0.0.1 /clearance/requestHire/67a3afd874d332f6e4e0c644/67a3b036e72fee97ed46676f 304 85.145 ms","timestamp":"2025-02-05 13:38:20"}
+{"level":"warn","message":"Page not found: /clearance/requestHire/67a3afd874d332f6e4e0c644/67a3b036e72fee97ed46676f","timestamp":"2025-02-05 13:39:44"}
+{"level":"info","message":"2025-02-05T19:39:44.373Z [INFO] : ::ffff:127.0.0.1 /clearance/requestHire/67a3afd874d332f6e4e0c644/67a3b036e72fee97ed46676f 304 83.287 ms","timestamp":"2025-02-05 13:39:44"}
+{"level":"warn","message":"Page not found: /clearance/requestHire/67a3afd874d332f6e4e0c644/67a3b036e72fee97ed46676f","timestamp":"2025-02-05 13:40:35"}
+{"level":"info","message":"2025-02-05T19:40:35.808Z [INFO] : ::ffff:127.0.0.1 /clearance/requestHire/67a3afd874d332f6e4e0c644/67a3b036e72fee97ed46676f 304 2776.321 ms","timestamp":"2025-02-05 13:40:35"}
+{"level":"info","message":"2025-02-05T19:40:51.763Z [INFO] : ::ffff:127.0.0.1 /residentProfile/7384920 304 125.663 ms","timestamp":"2025-02-05 13:40:51"}
+{"level":"warn","message":"Page not found: /clearance/requestHire/67a3afd874d332f6e4e0c644/67a3b036e72fee97ed46676f","timestamp":"2025-02-05 13:40:55"}
+{"level":"info","message":"2025-02-05T19:40:55.977Z [INFO] : ::ffff:127.0.0.1 /clearance/requestHire/67a3afd874d332f6e4e0c644/67a3b036e72fee97ed46676f 304 86.311 ms","timestamp":"2025-02-05 13:40:55"}
+{"level":"info","message":"2025-02-05T19:41:33.464Z [INFO] : ::ffff:127.0.0.1 /requestHire/67a3afd874d332f6e4e0c644/67a3b036e72fee97ed46676f - - ms","timestamp":"2025-02-05 13:41:33"}
+{"level":"warn","message":"Page not found: /clearance/requestHire/67a3afd874d332f6e4e0c644/67a3b036e72fee97ed46676f","timestamp":"2025-02-05 13:45:14"}
+{"level":"info","message":"2025-02-05T19:45:14.275Z [INFO] : ::ffff:127.0.0.1 /clearance/requestHire/67a3afd874d332f6e4e0c644/67a3b036e72fee97ed46676f 200 126.355 ms","timestamp":"2025-02-05 13:45:14"}
+{"level":"info","message":"2025-02-05T19:45:27.644Z [INFO] : ::ffff:127.0.0.1 /residentProfile/7384920 200 927.654 ms","timestamp":"2025-02-05 13:45:27"}
+{"level":"info","message":"2025-02-05T19:45:34.105Z [INFO] : ::ffff:127.0.0.1 /requestHire/67a3afd874d332f6e4e0c644/67a3b036e72fee97ed46676f - - ms","timestamp":"2025-02-05 13:45:34"}
+{"level":"info","message":"2025-02-05T19:49:18.276Z [INFO] : ::ffff:127.0.0.1 /requestHire/67a3afd874d332f6e4e0c644/67a3b036e72fee97ed46676f - - ms","timestamp":"2025-02-05 13:49:18"}
+{"level":"info","message":"2025-02-05T19:51:08.122Z [INFO] : ::ffff:127.0.0.1 /requestHire/67a3afd874d332f6e4e0c644/67a3b036e72fee97ed46676f - - ms","timestamp":"2025-02-05 13:51:08"}
+{"level":"info","message":"2025-02-05T19:53:46.490Z [INFO] : ::ffff:127.0.0.1 /requestHire/67a3afd874d332f6e4e0c644/67a3b036e72fee97ed46676f - - ms","timestamp":"2025-02-05 13:53:46"}
+{"level":"info","message":"2025-02-05T19:56:17.543Z [INFO] : ::ffff:127.0.0.1 /notification/requestHire/67a3afd874d332f6e4e0c644/67a3b036e72fee97ed46676f - - ms","timestamp":"2025-02-05 13:56:17"}
+{"level":"info","message":"2025-02-05T19:56:20.918Z [INFO] : ::ffff:127.0.0.1 /requestHire/67a3afd874d332f6e4e0c644/67a3b036e72fee97ed46676f 200 1960.243 ms","timestamp":"2025-02-05 13:56:20"}
+{"level":"info","message":"2025-02-05T19:56:30.498Z [INFO] : ::ffff:127.0.0.1 /requestHire/67a3afd874d332f6e4e0c644/67a3b036e72fee97ed46676f 304 104.269 ms","timestamp":"2025-02-05 13:56:30"}
+{"level":"info","message":"2025-02-05T19:59:31.770Z [INFO] : ::ffff:127.0.0.1 /requestHire/67a3afd874d332f6e4e0c644/67a3b036e72fee97ed46676f 200 2568.272 ms","timestamp":"2025-02-05 13:59:31"}
+{"level":"info","message":"2025-02-05T20:01:04.615Z [INFO] : ::ffff:127.0.0.1 /requestHire/67a3afd874d332f6e4e0c644/67a3b036e72fee97ed46676f 200 193.542 ms","timestamp":"2025-02-05 14:01:04"}
+{"level":"info","message":"2025-02-05T20:01:36.131Z [INFO] : ::ffff:127.0.0.1 /requestInterview/67a3b036e72fee97ed46676f/shawn.williams@ks.gov 200 118.998 ms","timestamp":"2025-02-05 14:01:36"}
+{"level":"info","message":"User logged out: shawn.williams@ks.gov","timestamp":"2025-02-05 14:06:51"}
+{"level":"info","message":"2025-02-05T20:06:51.114Z [INFO] : ::ffff:127.0.0.1 /logOut 302 195.386 ms","timestamp":"2025-02-05 14:06:51"}
+{"level":"info","message":"2025-02-05T20:06:51.204Z [INFO] : ::ffff:127.0.0.1 / 200 87.227 ms","timestamp":"2025-02-05 14:06:51"}
+{"level":"info","message":"User logged in: alice.johnson@ks.gov","timestamp":"2025-02-05 14:06:55"}
+{"level":"info","message":"2025-02-05T20:06:55.102Z [INFO] : ::ffff:127.0.0.1 /login 200 177.792 ms","timestamp":"2025-02-05 14:06:55"}
+{"level":"info","message":"2025-02-05T20:06:55.200Z [INFO] : ::ffff:127.0.0.1 /user/dashboard/67a3afd874d332f6e4e0c7e1 302 90.036 ms","timestamp":"2025-02-05 14:06:55"}
+{"level":"info","message":"2025-02-05T20:06:55.397Z [INFO] : ::ffff:127.0.0.1 /dashboard 200 110.807 ms","timestamp":"2025-02-05 14:06:55"}
+{"level":"info","message":"2025-02-05T20:06:58.315Z [INFO] : ::ffff:127.0.0.1 /residentProfile/9127345 200 148.290 ms","timestamp":"2025-02-05 14:06:58"}
+{"level":"info","message":"2025-02-05T20:07:03.690Z [INFO] : ::ffff:127.0.0.1 /approveResume/9127345 200 95.649 ms","timestamp":"2025-02-05 14:07:03"}
+{"level":"info","message":"2025-02-05T20:07:19.126Z [INFO] : ::ffff:127.0.0.1 /editClearance/9127345/Medical 200 100.920 ms","timestamp":"2025-02-05 14:07:19"}
+{"level":"info","message":"2025-02-05T20:07:21.543Z [INFO] : ::ffff:127.0.0.1 /editClearance/9127345/EAI 200 93.695 ms","timestamp":"2025-02-05 14:07:21"}
+{"level":"info","message":"2025-02-05T20:07:24.026Z [INFO] : ::ffff:127.0.0.1 /editClearance/9127345/Sex-Offender 200 95.447 ms","timestamp":"2025-02-05 14:07:24"}
+{"level":"info","message":"2025-02-05T20:07:26.522Z [INFO] : ::ffff:127.0.0.1 /editClearance/9127345/Victim-Services 200 90.729 ms","timestamp":"2025-02-05 14:07:26"}
+{"level":"info","message":"2025-02-05T20:07:29.376Z [INFO] : ::ffff:127.0.0.1 /editClearance/9127345/Classification 200 89.108 ms","timestamp":"2025-02-05 14:07:29"}
+{"level":"info","message":"2025-02-05T20:07:32.538Z [INFO] : ::ffff:127.0.0.1 /editClearance/9127345/Deputy-Warden 200 104.226 ms","timestamp":"2025-02-05 14:07:32"}
+{"level":"info","message":"2025-02-05T20:07:35.810Z [INFO] : ::ffff:127.0.0.1 /editClearance/9127345/Warden 200 91.174 ms","timestamp":"2025-02-05 14:07:35"}
+{"level":"info","message":"2025-02-05T20:07:44.342Z [INFO] : ::ffff:127.0.0.1 /approveEligibility/9127345 200 90.123 ms","timestamp":"2025-02-05 14:07:44"}
+{"level":"info","message":"User logged out: 7384920 morrison","timestamp":"2025-02-05 14:07:50"}
+{"level":"info","message":"2025-02-05T20:07:50.602Z [INFO] : ::1 /residentLogOut 302 88.503 ms","timestamp":"2025-02-05 14:07:50"}
+{"level":"info","message":"2025-02-05T20:07:50.690Z [INFO] : ::1 /resident 304 84.891 ms","timestamp":"2025-02-05 14:07:50"}
+{"level":"info","message":"User logged in: #9127345: mia, johnson","timestamp":"2025-02-05 14:07:52"}
+{"level":"info","message":"2025-02-05T20:07:52.567Z [INFO] : ::1 /residentLogin 200 3.413 ms","timestamp":"2025-02-05 14:07:52"}
+{"level":"info","message":"2025-02-05T20:07:52.766Z [INFO] : ::1 /dashboard 200 105.369 ms","timestamp":"2025-02-05 14:07:52"}
+{"level":"info","message":"2025-02-05T20:07:54.323Z [INFO] : ::1 /jobInfo/67a3b036e72fee97ed46676f 200 90.049 ms","timestamp":"2025-02-05 14:07:54"}
+{"level":"info","message":"2025-02-05T20:07:56.288Z [INFO] : ::1 /saveApplication/67a3b036e72fee97ed46676f 200 100.540 ms","timestamp":"2025-02-05 14:07:56"}
+{"level":"info","message":"2025-02-05T20:07:57.906Z [INFO] : ::1 /dashboard 200 138.119 ms","timestamp":"2025-02-05 14:07:57"}
+{"level":"info","message":"2025-02-05T20:07:59.395Z [INFO] : ::1 /jobInfo/67a3b7a844a0fe5dc6acbc5e 200 88.235 ms","timestamp":"2025-02-05 14:07:59"}
+{"level":"info","message":"2025-02-05T20:08:01.197Z [INFO] : ::1 /saveApplication/67a3b7a844a0fe5dc6acbc5e 200 94.507 ms","timestamp":"2025-02-05 14:08:01"}
+{"level":"info","message":"User logged out: alice.johnson@ks.gov","timestamp":"2025-02-05 14:08:06"}
+{"level":"info","message":"2025-02-05T20:08:06.699Z [INFO] : ::ffff:127.0.0.1 /logOut 302 168.192 ms","timestamp":"2025-02-05 14:08:06"}
+{"level":"info","message":"2025-02-05T20:08:06.782Z [INFO] : ::ffff:127.0.0.1 / 304 81.820 ms","timestamp":"2025-02-05 14:08:06"}
+{"level":"info","message":"User logged in: shawn.williams@ks.gov","timestamp":"2025-02-05 14:08:11"}
+{"level":"info","message":"2025-02-05T20:08:11.347Z [INFO] : ::ffff:127.0.0.1 /login 200 152.413 ms","timestamp":"2025-02-05 14:08:11"}
+{"level":"info","message":"2025-02-05T20:08:11.440Z [INFO] : ::ffff:127.0.0.1 /user/dashboard/67a3afd874d332f6e4e0c81b 302 85.992 ms","timestamp":"2025-02-05 14:08:11"}
+{"level":"info","message":"2025-02-05T20:08:11.629Z [INFO] : ::ffff:127.0.0.1 /dashboard 200 100.222 ms","timestamp":"2025-02-05 14:08:11"}
+{"level":"info","message":"2025-02-05T20:08:16.034Z [INFO] : ::ffff:127.0.0.1 /residentProfile/9127345 200 94.419 ms","timestamp":"2025-02-05 14:08:16"}
+{"level":"info","message":"2025-02-05T20:08:21.139Z [INFO] : ::ffff:127.0.0.1 /requestInterview/67a3b036e72fee97ed46676f/shawn.williams@ks.gov 200 90.675 ms","timestamp":"2025-02-05 14:08:21"}
+{"level":"info","message":"2025-02-05T20:08:27.389Z [INFO] : ::ffff:127.0.0.1 /managePositions 200 110.963 ms","timestamp":"2025-02-05 14:08:27"}
+{"level":"info","message":"2025-02-05T20:08:29.068Z [INFO] : ::ffff:127.0.0.1 /jobProfile/67a3b036e72fee97ed46676f 200 119.841 ms","timestamp":"2025-02-05 14:08:29"}
+{"level":"info","message":"2025-02-05T20:08:32.071Z [INFO] : ::ffff:127.0.0.1 /residentProfile/7384920 200 97.722 ms","timestamp":"2025-02-05 14:08:32"}
+{"level":"info","message":"2025-02-05T20:08:52.555Z [INFO] : ::ffff:127.0.0.1 /managePositions 304 90.370 ms","timestamp":"2025-02-05 14:08:52"}
+{"level":"info","message":"2025-02-05T20:08:53.923Z [INFO] : ::ffff:127.0.0.1 /jobProfile/67a3b7a844a0fe5dc6acbc5e 200 95.797 ms","timestamp":"2025-02-05 14:08:53"}
+{"level":"info","message":"2025-02-05T20:09:04.205Z [INFO] : ::ffff:127.0.0.1 /residentProfile/9127345 200 91.414 ms","timestamp":"2025-02-05 14:09:04"}
+{"level":"info","message":"2025-02-05T20:13:17.170Z [INFO] : ::ffff:127.0.0.1 /clearance/residentProfile/9127345 500 2896.567 ms","timestamp":"2025-02-05 14:13:17"}
+{"level":"info","message":"2025-02-05T20:13:37.833Z [INFO] : ::ffff:127.0.0.1 /jobProfile/67a3b7a844a0fe5dc6acbc5e 304 3530.294 ms","timestamp":"2025-02-05 14:13:37"}
+{"level":"info","message":"2025-02-05T20:13:42.282Z [INFO] : ::ffff:127.0.0.1 /residentProfile/9127345 200 109.508 ms","timestamp":"2025-02-05 14:13:42"}
+{"level":"info","message":"2025-02-05T20:14:49.561Z [INFO] : ::ffff:127.0.0.1 /residentProfile/9127345 304 3944.529 ms","timestamp":"2025-02-05 14:14:49"}
+{"level":"info","message":"2025-02-05T20:15:44.120Z [INFO] : ::ffff:127.0.0.1 /residentProfile/9127345 304 158.434 ms","timestamp":"2025-02-05 14:15:44"}
+{"level":"info","message":"2025-02-05T20:15:55.242Z [INFO] : ::ffff:127.0.0.1 /residentProfile/9127345 304 3616.631 ms","timestamp":"2025-02-05 14:15:55"}
+{"level":"info","message":"2025-02-05T20:16:48.082Z [INFO] : ::ffff:127.0.0.1 /clearance/residentProfile/9127345 500 3021.034 ms","timestamp":"2025-02-05 14:16:48"}
+{"level":"info","message":"2025-02-05T20:16:57.205Z [INFO] : ::ffff:127.0.0.1 /clearance/residentProfile/9127345 - - ms","timestamp":"2025-02-05 14:16:57"}
+{"level":"info","message":"2025-02-05T20:16:57.423Z [INFO] : ::ffff:127.0.0.1 /residentProfile/9127345 200 121.653 ms","timestamp":"2025-02-05 14:16:57"}
+{"level":"warn","message":"Page not found: /notification/requestHire//","timestamp":"2025-02-05 14:17:23"}
+{"level":"info","message":"2025-02-05T20:17:24.008Z [INFO] : ::ffff:127.0.0.1 /notification/requestHire// 200 88.624 ms","timestamp":"2025-02-05 14:17:24"}
+{"level":"info","message":"2025-02-05T20:17:56.182Z [INFO] : ::ffff:127.0.0.1 /residentProfile/9127345 200 129.013 ms","timestamp":"2025-02-05 14:17:56"}
+{"level":"warn","message":"Page not found: /notification/requestHire//67a3b036e72fee97ed46676f","timestamp":"2025-02-05 14:17:59"}
+{"level":"info","message":"2025-02-05T20:17:59.315Z [INFO] : ::ffff:127.0.0.1 /notification/requestHire//67a3b036e72fee97ed46676f 200 93.491 ms","timestamp":"2025-02-05 14:17:59"}
+{"level":"info","message":"2025-02-05T20:19:43.001Z [INFO] : ::ffff:127.0.0.1 /residentProfile/9127345 304 3939.910 ms","timestamp":"2025-02-05 14:19:43"}
+{"level":"info","message":"2025-02-05T20:20:14.280Z [INFO] : ::ffff:127.0.0.1 /residentProfile/9127345 304 176.208 ms","timestamp":"2025-02-05 14:20:14"}
+{"level":"info","message":"2025-02-05T20:20:25.092Z [INFO] : ::ffff:127.0.0.1 /residentProfile/9127345 304 1847.358 ms","timestamp":"2025-02-05 14:20:25"}
+{"level":"warn","message":"Page not found: /notification/requestHire//67a3b036e72fee97ed46676f","timestamp":"2025-02-05 14:20:30"}
+{"level":"info","message":"2025-02-05T20:20:31.048Z [INFO] : ::ffff:127.0.0.1 /notification/requestHire//67a3b036e72fee97ed46676f 304 87.321 ms","timestamp":"2025-02-05 14:20:31"}
+{"level":"info","message":"2025-02-05T20:21:03.279Z [INFO] : ::ffff:127.0.0.1 /residentProfile/9127345 200 3024.701 ms","timestamp":"2025-02-05 14:21:03"}
+{"level":"info","message":"2025-02-05T20:21:08.779Z [INFO] : ::ffff:127.0.0.1 /requestHire/67a3afd874d332f6e4e0c683/67a3b036e72fee97ed46676f 200 116.802 ms","timestamp":"2025-02-05 14:21:08"}
+{"level":"info","message":"2025-02-05T20:21:49.956Z [INFO] : ::ffff:127.0.0.1 /requestHire/67a3afd874d332f6e4e0c683/67a3b036e72fee97ed46676f 304 180.686 ms","timestamp":"2025-02-05 14:21:49"}
+{"level":"info","message":"2025-02-05T20:22:26.349Z [INFO] : ::ffff:127.0.0.1 /requestHire/67a3afd874d332f6e4e0c683/67a3b036e72fee97ed46676f 304 184.709 ms","timestamp":"2025-02-05 14:22:26"}
+{"level":"info","message":"2025-02-05T20:24:18.841Z [INFO] : ::ffff:127.0.0.1 /notification/requestHire/67a3afd874d332f6e4e0c683/67a3b036e72fee97ed46676f 500 172.493 ms","timestamp":"2025-02-05 14:24:18"}
+{"level":"info","message":"2025-02-05T20:24:38.484Z [INFO] : ::ffff:127.0.0.1 /requestHire/67a3afd874d332f6e4e0c683/67a3b036e72fee97ed46676f 200 166.167 ms","timestamp":"2025-02-05 14:24:38"}
+{"level":"info","message":"2025-02-05T20:26:00.282Z [INFO] : ::ffff:127.0.0.1 /notification/requestHire/67a3afd874d332f6e4e0c683/67a3b036e72fee97ed46676f 500 152.352 ms","timestamp":"2025-02-05 14:26:00"}
+{"level":"info","message":"2025-02-05T20:26:02.997Z [INFO] : ::ffff:127.0.0.1 /notification/requestHire/67a3afd874d332f6e4e0c683/67a3b036e72fee97ed46676f 500 109.900 ms","timestamp":"2025-02-05 14:26:02"}
+{"level":"info","message":"2025-02-05T20:26:11.828Z [INFO] : ::ffff:127.0.0.1 /clearance/residentProfile/9127345 500 104.552 ms","timestamp":"2025-02-05 14:26:11"}
+{"level":"info","message":"2025-02-05T20:26:16.594Z [INFO] : ::ffff:127.0.0.1 /jobProfile/67a3b7a844a0fe5dc6acbc5e 304 127.246 ms","timestamp":"2025-02-05 14:26:16"}
+{"level":"info","message":"2025-02-05T20:26:21.215Z [INFO] : ::ffff:127.0.0.1 /clearance/residentProfile/9127345 500 94.519 ms","timestamp":"2025-02-05 14:26:21"}
+{"level":"info","message":"2025-02-05T20:26:46.409Z [INFO] : ::ffff:127.0.0.1 /clearance/residentProfile/9127345 500 91.487 ms","timestamp":"2025-02-05 14:26:46"}
+{"level":"info","message":"2025-02-05T20:26:56.269Z [INFO] : ::ffff:127.0.0.1 /jobProfile/67a3b7a844a0fe5dc6acbc5e 304 125.060 ms","timestamp":"2025-02-05 14:26:56"}
+{"level":"info","message":"2025-02-05T20:26:59.614Z [INFO] : ::ffff:127.0.0.1 /residentProfile/9127345 200 109.775 ms","timestamp":"2025-02-05 14:26:59"}
+{"level":"info","message":"2025-02-05T20:27:44.833Z [INFO] : ::ffff:127.0.0.1 /residentProfile/9127345 200 164.187 ms","timestamp":"2025-02-05 14:27:44"}
+{"level":"warn","message":"Page not found: /notification/requestHire//67a3c5211bcc4d21d7d6dd05","timestamp":"2025-02-05 14:28:04"}
+{"level":"info","message":"2025-02-05T20:28:04.576Z [INFO] : ::ffff:127.0.0.1 /notification/requestHire//67a3c5211bcc4d21d7d6dd05 200 89.262 ms","timestamp":"2025-02-05 14:28:04"}
+{"level":"info","message":"2025-02-05T20:31:55.805Z [INFO] : ::ffff:127.0.0.1 /residentProfile/9127345 200 1949.890 ms","timestamp":"2025-02-05 14:31:55"}
+{"level":"warn","message":"Page not found: /notification/requestHire//67a3c5211bcc4d21d7d6dd05","timestamp":"2025-02-05 14:32:03"}
+{"level":"info","message":"2025-02-05T20:32:03.114Z [INFO] : ::ffff:127.0.0.1 /notification/requestHire//67a3c5211bcc4d21d7d6dd05 200 95.850 ms","timestamp":"2025-02-05 14:32:03"}
+{"level":"info","message":"2025-02-05T20:32:27.816Z [INFO] : ::ffff:127.0.0.1 /residentProfile/9127345 200 1812.159 ms","timestamp":"2025-02-05 14:32:27"}
+{"level":"info","message":"2025-02-05T20:32:35.698Z [INFO] : ::ffff:127.0.0.1 /requestHire/67a3afd874d332f6e4e0c683/67a3c5211bcc4d21d7d6dd05 200 113.378 ms","timestamp":"2025-02-05 14:32:35"}
+{"level":"info","message":"2025-02-05T20:32:44.886Z [INFO] : ::ffff:127.0.0.1 /requestHire/67a3afd874d332f6e4e0c683/67a3c5211bcc4d21d7d6dd05 304 105.130 ms","timestamp":"2025-02-05 14:32:44"}
+{"level":"info","message":"2025-02-05T20:34:38.784Z [INFO] : ::ffff:127.0.0.1 /requestHire/67a3afd874d332f6e4e0c683/67a3c5211bcc4d21d7d6dd05 304 985.571 ms","timestamp":"2025-02-05 14:34:38"}
+{"level":"info","message":"2025-02-05T20:35:45.250Z [INFO] : ::ffff:127.0.0.1 /requestHire/67a3afd874d332f6e4e0c683/67a3c5211bcc4d21d7d6dd05 304 3562.780 ms","timestamp":"2025-02-05 14:35:45"}
+{"level":"info","message":"2025-02-05T20:36:16.008Z [INFO] : ::ffff:127.0.0.1 /requestHire/67a3afd874d332f6e4e0c683/67a3c5211bcc4d21d7d6dd05 304 483.410 ms","timestamp":"2025-02-05 14:36:16"}
+{"level":"info","message":"2025-02-05T20:37:38.116Z [INFO] : ::ffff:127.0.0.1 /requestHire/67a3afd874d332f6e4e0c683/67a3c5211bcc4d21d7d6dd05 304 109.539 ms","timestamp":"2025-02-05 14:37:38"}
+{"level":"info","message":"2025-02-05T20:38:34.002Z [INFO] : ::ffff:127.0.0.1 /dashboard 302 90.032 ms","timestamp":"2025-02-05 14:38:34"}
+{"level":"info","message":"2025-02-05T20:38:34.178Z [INFO] : ::ffff:127.0.0.1 / 200 174.902 ms","timestamp":"2025-02-05 14:38:34"}
+{"level":"info","message":"User logged in: shawn.williams@ks.gov","timestamp":"2025-02-05 14:38:45"}
+{"level":"info","message":"2025-02-05T20:38:45.713Z [INFO] : ::ffff:127.0.0.1 /login 200 187.302 ms","timestamp":"2025-02-05 14:38:45"}
+{"level":"info","message":"2025-02-05T20:38:45.811Z [INFO] : ::ffff:127.0.0.1 /user/dashboard/67a3cc33024d9fb48c0363d2 302 91.085 ms","timestamp":"2025-02-05 14:38:45"}
+{"level":"info","message":"2025-02-05T20:38:46.007Z [INFO] : ::ffff:127.0.0.1 /dashboard 200 105.442 ms","timestamp":"2025-02-05 14:38:46"}
+{"level":"info","message":"2025-02-05T20:38:53.447Z [INFO] : ::ffff:127.0.0.1 /managePositions 200 114.422 ms","timestamp":"2025-02-05 14:38:53"}
+{"level":"info","message":"2025-02-05T20:39:04.436Z [INFO] : ::ffff:127.0.0.1 /addNewPosition 200 117.276 ms","timestamp":"2025-02-05 14:39:04"}
+{"level":"info","message":"2025-02-05T20:39:14.507Z [INFO] : ::ffff:127.0.0.1 /addNewPosition 200 94.188 ms","timestamp":"2025-02-05 14:39:14"}
+{"level":"info","message":"User logged out: shawn.williams@ks.gov","timestamp":"2025-02-05 14:39:24"}
+{"level":"info","message":"2025-02-05T20:39:24.483Z [INFO] : ::ffff:127.0.0.1 /logOut 302 178.018 ms","timestamp":"2025-02-05 14:39:24"}
+{"level":"info","message":"2025-02-05T20:39:24.573Z [INFO] : ::ffff:127.0.0.1 / 304 87.572 ms","timestamp":"2025-02-05 14:39:24"}
+{"level":"info","message":"User logged in: kari.johnson@ks.gov","timestamp":"2025-02-05 14:39:29"}
+{"level":"info","message":"2025-02-05T20:39:29.774Z [INFO] : ::ffff:127.0.0.1 /login 200 161.338 ms","timestamp":"2025-02-05 14:39:29"}
+{"level":"info","message":"2025-02-05T20:39:29.869Z [INFO] : ::ffff:127.0.0.1 /user/dashboard/67a3cc33024d9fb48c0363c1 302 88.364 ms","timestamp":"2025-02-05 14:39:29"}
+{"level":"info","message":"2025-02-05T20:39:30.087Z [INFO] : ::ffff:127.0.0.1 /dashboard 200 127.875 ms","timestamp":"2025-02-05 14:39:30"}
+{"level":"info","message":"2025-02-05T20:39:32.216Z [INFO] : ::ffff:127.0.0.1 /residentProfile/7384920 200 132.593 ms","timestamp":"2025-02-05 14:39:32"}
+{"level":"info","message":"2025-02-05T20:39:36.647Z [INFO] : ::ffff:127.0.0.1 /approveResume/7384920 200 93.261 ms","timestamp":"2025-02-05 14:39:36"}
+{"level":"info","message":"2025-02-05T20:39:41.973Z [INFO] : ::ffff:127.0.0.1 /editClearance/7384920/Medical 200 88.825 ms","timestamp":"2025-02-05 14:39:41"}
+{"level":"info","message":"2025-02-05T20:39:44.577Z [INFO] : ::ffff:127.0.0.1 /editClearance/7384920/EAI 200 90.711 ms","timestamp":"2025-02-05 14:39:44"}
+{"level":"info","message":"2025-02-05T20:39:47.506Z [INFO] : ::ffff:127.0.0.1 /editClearance/7384920/Sex-Offender 200 88.121 ms","timestamp":"2025-02-05 14:39:47"}
+{"level":"info","message":"2025-02-05T20:39:50.518Z [INFO] : ::ffff:127.0.0.1 /editClearance/7384920/Victim-Services 200 88.918 ms","timestamp":"2025-02-05 14:39:50"}
+{"level":"info","message":"2025-02-05T20:39:54.036Z [INFO] : ::ffff:127.0.0.1 /editClearance/7384920/Classification 200 87.949 ms","timestamp":"2025-02-05 14:39:54"}
+{"level":"info","message":"2025-02-05T20:39:57.131Z [INFO] : ::ffff:127.0.0.1 /editClearance/7384920/Deputy-Warden 200 91.549 ms","timestamp":"2025-02-05 14:39:57"}
+{"level":"info","message":"2025-02-05T20:40:00.629Z [INFO] : ::ffff:127.0.0.1 /editClearance/7384920/Warden 200 93.396 ms","timestamp":"2025-02-05 14:40:00"}
+{"level":"info","message":"2025-02-05T20:40:06.118Z [INFO] : ::ffff:127.0.0.1 /approveEligibility/7384920 200 90.720 ms","timestamp":"2025-02-05 14:40:06"}
+{"level":"info","message":"2025-02-05T20:40:09.130Z [INFO] : ::ffff:127.0.0.1 /dashboard 200 94.873 ms","timestamp":"2025-02-05 14:40:09"}
+{"level":"info","message":"2025-02-05T20:40:10.982Z [INFO] : ::ffff:127.0.0.1 /residentProfile/1738492 200 89.009 ms","timestamp":"2025-02-05 14:40:10"}
+{"level":"info","message":"2025-02-05T20:40:35.926Z [INFO] : ::ffff:127.0.0.1 /approveResume/1738492 200 90.145 ms","timestamp":"2025-02-05 14:40:35"}
+{"level":"info","message":"2025-02-05T20:40:40.255Z [INFO] : ::ffff:127.0.0.1 /editClearance/1738492/Medical 200 88.896 ms","timestamp":"2025-02-05 14:40:40"}
+{"level":"info","message":"2025-02-05T20:40:42.851Z [INFO] : ::ffff:127.0.0.1 /editClearance/1738492/EAI 200 86.248 ms","timestamp":"2025-02-05 14:40:42"}
+{"level":"info","message":"2025-02-05T20:40:45.490Z [INFO] : ::ffff:127.0.0.1 /editClearance/1738492/Sex-Offender 200 87.273 ms","timestamp":"2025-02-05 14:40:45"}
+{"level":"info","message":"2025-02-05T20:40:48.281Z [INFO] : ::ffff:127.0.0.1 /editClearance/1738492/Victim-Services 200 86.537 ms","timestamp":"2025-02-05 14:40:48"}
+{"level":"info","message":"2025-02-05T20:40:51.447Z [INFO] : ::ffff:127.0.0.1 /editClearance/1738492/Classification 200 86.911 ms","timestamp":"2025-02-05 14:40:51"}
+{"level":"info","message":"2025-02-05T20:40:54.568Z [INFO] : ::ffff:127.0.0.1 /editClearance/1738492/Deputy-Warden 200 87.507 ms","timestamp":"2025-02-05 14:40:54"}
+{"level":"info","message":"2025-02-05T20:40:57.762Z [INFO] : ::ffff:127.0.0.1 /editClearance/1738492/Warden 200 85.064 ms","timestamp":"2025-02-05 14:40:57"}
+{"level":"info","message":"2025-02-05T20:41:02.841Z [INFO] : ::ffff:127.0.0.1 /approveEligibility/1738492 200 87.794 ms","timestamp":"2025-02-05 14:41:02"}
+{"level":"info","message":"2025-02-05T20:41:11.302Z [INFO] : ::1 /residentLogOut 302 87.104 ms","timestamp":"2025-02-05 14:41:11"}
+{"level":"info","message":"2025-02-05T20:41:11.390Z [INFO] : ::1 /resident 304 170.255 ms","timestamp":"2025-02-05 14:41:11"}
+{"level":"info","message":"User logged in: #1738492: isabella, martinez","timestamp":"2025-02-05 14:41:13"}
+{"level":"info","message":"2025-02-05T20:41:13.581Z [INFO] : ::1 /residentLogin 200 2.664 ms","timestamp":"2025-02-05 14:41:13"}
+{"level":"info","message":"2025-02-05T20:41:13.769Z [INFO] : ::1 /dashboard 200 97.151 ms","timestamp":"2025-02-05 14:41:13"}
+{"level":"info","message":"2025-02-05T20:41:15.890Z [INFO] : ::1 /jobInfo/67a3cc68f12d39b6efa3d6ab 200 89.590 ms","timestamp":"2025-02-05 14:41:15"}
+{"level":"info","message":"2025-02-05T20:41:17.873Z [INFO] : ::1 /saveApplication/67a3cc68f12d39b6efa3d6ab 200 99.451 ms","timestamp":"2025-02-05 14:41:17"}
+{"level":"info","message":"2025-02-05T20:41:18.679Z [INFO] : ::1 /dashboard 200 94.127 ms","timestamp":"2025-02-05 14:41:18"}
+{"level":"info","message":"2025-02-05T20:41:20.228Z [INFO] : ::1 /jobInfo/67a3cc72f12d39b6efa3d6b2 200 92.661 ms","timestamp":"2025-02-05 14:41:20"}
+{"level":"info","message":"2025-02-05T20:41:22.136Z [INFO] : ::1 /saveApplication/67a3cc72f12d39b6efa3d6b2 200 116.645 ms","timestamp":"2025-02-05 14:41:22"}
+{"level":"info","message":"2025-02-05T20:41:25.354Z [INFO] : ::ffff:127.0.0.1 /dashboard 200 110.775 ms","timestamp":"2025-02-05 14:41:25"}
+{"level":"info","message":"User logged out: 1738492 martinez","timestamp":"2025-02-05 14:41:31"}
+{"level":"info","message":"2025-02-05T20:41:31.023Z [INFO] : ::1 /residentLogOut 302 88.052 ms","timestamp":"2025-02-05 14:41:31"}
+{"level":"info","message":"2025-02-05T20:41:31.110Z [INFO] : ::1 /resident 304 84.121 ms","timestamp":"2025-02-05 14:41:31"}
+{"level":"info","message":"User logged in: #7384920: jessica, morrison","timestamp":"2025-02-05 14:41:33"}
+{"level":"info","message":"2025-02-05T20:41:33.172Z [INFO] : ::1 /residentLogin 200 2.618 ms","timestamp":"2025-02-05 14:41:33"}
+{"level":"info","message":"2025-02-05T20:41:33.361Z [INFO] : ::1 /dashboard 200 92.363 ms","timestamp":"2025-02-05 14:41:33"}
+{"level":"info","message":"2025-02-05T20:41:35.179Z [INFO] : ::1 /jobInfo/67a3cc68f12d39b6efa3d6ab 200 91.835 ms","timestamp":"2025-02-05 14:41:35"}
+{"level":"info","message":"2025-02-05T20:41:37.188Z [INFO] : ::1 /saveApplication/67a3cc68f12d39b6efa3d6ab 200 95.645 ms","timestamp":"2025-02-05 14:41:37"}
+{"level":"info","message":"2025-02-05T20:41:38.111Z [INFO] : ::1 /dashboard 200 94.139 ms","timestamp":"2025-02-05 14:41:38"}
+{"level":"info","message":"2025-02-05T20:41:39.653Z [INFO] : ::1 /jobInfo/67a3cc72f12d39b6efa3d6b2 200 84.613 ms","timestamp":"2025-02-05 14:41:39"}
+{"level":"info","message":"2025-02-05T20:41:42.078Z [INFO] : ::1 /saveApplication/67a3cc72f12d39b6efa3d6b2 200 98.074 ms","timestamp":"2025-02-05 14:41:42"}
+{"level":"info","message":"2025-02-05T20:41:43.864Z [INFO] : ::1 /dashboard 200 88.996 ms","timestamp":"2025-02-05 14:41:43"}
+{"level":"info","message":"2025-02-05T20:41:48.586Z [INFO] : ::ffff:127.0.0.1 /manageWorkForce 200 97.465 ms","timestamp":"2025-02-05 14:41:48"}
+{"level":"info","message":"2025-02-05T20:41:52.221Z [INFO] : ::ffff:127.0.0.1 /residentProfile/7384920 200 86.603 ms","timestamp":"2025-02-05 14:41:52"}
+{"level":"info","message":"User logged out: kari.johnson@ks.gov","timestamp":"2025-02-05 14:42:07"}
+{"level":"info","message":"2025-02-05T20:42:07.163Z [INFO] : ::ffff:127.0.0.1 /logOut 302 180.186 ms","timestamp":"2025-02-05 14:42:07"}
+{"level":"info","message":"2025-02-05T20:42:07.252Z [INFO] : ::ffff:127.0.0.1 / 304 86.176 ms","timestamp":"2025-02-05 14:42:07"}
+{"level":"info","message":"User logged in: shawn.williams@ks.gov","timestamp":"2025-02-05 14:42:14"}
+{"level":"info","message":"2025-02-05T20:42:14.396Z [INFO] : ::ffff:127.0.0.1 /login 200 160.308 ms","timestamp":"2025-02-05 14:42:14"}
+{"level":"info","message":"2025-02-05T20:42:14.490Z [INFO] : ::ffff:127.0.0.1 /user/dashboard/67a3cc33024d9fb48c0363d2 302 85.831 ms","timestamp":"2025-02-05 14:42:14"}
+{"level":"info","message":"2025-02-05T20:42:14.668Z [INFO] : ::ffff:127.0.0.1 /dashboard 200 90.816 ms","timestamp":"2025-02-05 14:42:14"}
+{"level":"info","message":"2025-02-05T20:42:19.680Z [INFO] : ::ffff:127.0.0.1 /residentProfile/7384920 200 93.655 ms","timestamp":"2025-02-05 14:42:19"}
+{"level":"info","message":"2025-02-05T20:42:22.916Z [INFO] : ::ffff:127.0.0.1 /requestHire/67a3cc33024d9fb48c0361fb/67a3cd01f12d39b6efa3d77a 200 99.570 ms","timestamp":"2025-02-05 14:42:22"}
+{"level":"info","message":"2025-02-05T20:42:26.675Z [INFO] : ::ffff:127.0.0.1 /requestHire/67a3cc33024d9fb48c0361fb/67a3cd05f12d39b6efa3d78f 200 92.992 ms","timestamp":"2025-02-05 14:42:26"}
+{"level":"info","message":"2025-02-05T20:43:20.881Z [INFO] : ::ffff:127.0.0.1 /requestHire/67a3cc33024d9fb48c0361fb/67a3cd05f12d39b6efa3d78f 304 97.165 ms","timestamp":"2025-02-05 14:43:20"}
+{"level":"info","message":"2025-02-05T20:44:54.213Z [INFO] : ::ffff:127.0.0.1 /requestHire/67a3cc33024d9fb48c0361fb/67a3cd05f12d39b6efa3d78f 304 2023.682 ms","timestamp":"2025-02-05 14:44:54"}
+{"level":"info","message":"2025-02-05T20:45:54.217Z [INFO] : ::ffff:127.0.0.1 /requestHire/67a3cc33024d9fb48c0361fb/67a3cd05f12d39b6efa3d78f 304 3579.091 ms","timestamp":"2025-02-05 14:45:54"}
+{"level":"info","message":"2025-02-05T20:45:57.058Z [INFO] : ::ffff:127.0.0.1 /requestHire/67a3cc33024d9fb48c0361fb/67a3cd05f12d39b6efa3d78f 304 101.078 ms","timestamp":"2025-02-05 14:45:57"}
+{"level":"info","message":"2025-02-05T20:46:04.268Z [INFO] : ::ffff:127.0.0.1 /requestHire/67a3cc33024d9fb48c0361fb/67a3cd05f12d39b6efa3d78f 304 105.847 ms","timestamp":"2025-02-05 14:46:04"}
+{"level":"info","message":"2025-02-05T20:46:16.520Z [INFO] : ::ffff:127.0.0.1 /requestHire/67a3cc33024d9fb48c0361fb/67a3cd05f12d39b6efa3d78f 304 102.838 ms","timestamp":"2025-02-05 14:46:16"}
+{"level":"info","message":"2025-02-05T20:47:47.093Z [INFO] : ::ffff:127.0.0.1 /requestHire/67a3cc33024d9fb48c0361fb/67a3cd05f12d39b6efa3d78f 304 2484.827 ms","timestamp":"2025-02-05 14:47:47"}
+{"level":"info","message":"2025-02-05T20:47:49.895Z [INFO] : ::ffff:127.0.0.1 /requestHire/67a3cc33024d9fb48c0361fb/67a3cd05f12d39b6efa3d78f 304 103.260 ms","timestamp":"2025-02-05 14:47:49"}
+{"level":"info","message":"2025-02-05T20:47:53.158Z [INFO] : ::ffff:127.0.0.1 /requestHire/67a3cc33024d9fb48c0361fb/67a3cd05f12d39b6efa3d78f 304 101.660 ms","timestamp":"2025-02-05 14:47:53"}
+{"level":"info","message":"User logged out: shawn.williams@ks.gov","timestamp":"2025-02-05 14:48:58"}
+{"level":"info","message":"2025-02-05T20:48:58.931Z [INFO] : ::ffff:127.0.0.1 /logOut 302 177.841 ms","timestamp":"2025-02-05 14:48:58"}
+{"level":"info","message":"2025-02-05T20:48:59.019Z [INFO] : ::ffff:127.0.0.1 / 304 86.705 ms","timestamp":"2025-02-05 14:48:59"}
+{"level":"info","message":"User logged in: kari.johnson@ks.gov","timestamp":"2025-02-05 14:49:04"}
+{"level":"info","message":"2025-02-05T20:49:04.206Z [INFO] : ::ffff:127.0.0.1 /login 200 177.618 ms","timestamp":"2025-02-05 14:49:04"}
+{"level":"info","message":"2025-02-05T20:49:04.311Z [INFO] : ::ffff:127.0.0.1 /user/dashboard/67a3cc33024d9fb48c0363c1 302 96.752 ms","timestamp":"2025-02-05 14:49:04"}
+{"level":"info","message":"2025-02-05T20:49:04.556Z [INFO] : ::ffff:127.0.0.1 /dashboard 200 154.807 ms","timestamp":"2025-02-05 14:49:04"}
+{"level":"info","message":"2025-02-05T20:49:07.228Z [INFO] : ::ffff:127.0.0.1 /manageWorkForce 304 100.372 ms","timestamp":"2025-02-05 14:49:07"}
+{"level":"info","message":"2025-02-05T20:49:10.729Z [INFO] : ::ffff:127.0.0.1 /residentProfile/1738492 200 132.969 ms","timestamp":"2025-02-05 14:49:10"}
+{"level":"info","message":"2025-02-05T20:49:27.367Z [INFO] : ::ffff:127.0.0.1 /rejectHire/67a3cc33024d9fb48c03624f/67a3cc72f12d39b6efa3d6b2 200 112.634 ms","timestamp":"2025-02-05 14:49:27"}
+{"level":"info","message":"2025-02-05T20:49:39.302Z [INFO] : ::ffff:127.0.0.1 /rejectHire/67a3cc33024d9fb48c03624f/67a3cc68f12d39b6efa3d6ab 200 98.094 ms","timestamp":"2025-02-05 14:49:39"}
+{"level":"info","message":"User logged out: 7384920 morrison","timestamp":"2025-02-05 14:49:42"}
+{"level":"info","message":"2025-02-05T20:49:42.013Z [INFO] : ::1 /residentLogOut 302 89.619 ms","timestamp":"2025-02-05 14:49:42"}
+{"level":"info","message":"2025-02-05T20:49:42.104Z [INFO] : ::1 /resident 304 88.172 ms","timestamp":"2025-02-05 14:49:42"}
+{"level":"info","message":"User logged in: #1738492: isabella, martinez","timestamp":"2025-02-05 14:49:44"}
+{"level":"info","message":"2025-02-05T20:49:44.862Z [INFO] : ::1 /residentLogin 200 5.880 ms","timestamp":"2025-02-05 14:49:44"}
+{"level":"info","message":"2025-02-05T20:49:45.052Z [INFO] : ::1 /dashboard 200 98.524 ms","timestamp":"2025-02-05 14:49:45"}
+{"level":"info","message":"2025-02-05T20:49:46.678Z [INFO] : ::1 /jobInfo/67a3cc68f12d39b6efa3d6ab 200 91.799 ms","timestamp":"2025-02-05 14:49:46"}
+{"level":"info","message":"2025-02-05T20:49:48.749Z [INFO] : ::1 /saveApplication/67a3cc68f12d39b6efa3d6ab 200 98.608 ms","timestamp":"2025-02-05 14:49:48"}
+{"level":"info","message":"2025-02-05T20:49:50.150Z [INFO] : ::1 /dashboard 200 88.155 ms","timestamp":"2025-02-05 14:49:50"}
+{"level":"info","message":"2025-02-05T20:49:52.341Z [INFO] : ::1 /jobInfo/67a3cc72f12d39b6efa3d6b2 200 94.193 ms","timestamp":"2025-02-05 14:49:52"}
+{"level":"info","message":"2025-02-05T20:49:54.224Z [INFO] : ::1 /saveApplication/67a3cc72f12d39b6efa3d6b2 200 96.940 ms","timestamp":"2025-02-05 14:49:54"}
+{"level":"info","message":"User logged out: kari.johnson@ks.gov","timestamp":"2025-02-05 14:50:02"}
+{"level":"info","message":"2025-02-05T20:50:02.132Z [INFO] : ::ffff:127.0.0.1 /logOut 302 170.197 ms","timestamp":"2025-02-05 14:50:02"}
+{"level":"info","message":"2025-02-05T20:50:02.218Z [INFO] : ::ffff:127.0.0.1 / 304 84.269 ms","timestamp":"2025-02-05 14:50:02"}
+{"level":"info","message":"User logged in: shawn.williams@ks.gov","timestamp":"2025-02-05 14:50:09"}
+{"level":"info","message":"2025-02-05T20:50:09.096Z [INFO] : ::ffff:127.0.0.1 /login 200 154.978 ms","timestamp":"2025-02-05 14:50:09"}
+{"level":"info","message":"2025-02-05T20:50:09.195Z [INFO] : ::ffff:127.0.0.1 /user/dashboard/67a3cc33024d9fb48c0363d2 302 88.795 ms","timestamp":"2025-02-05 14:50:09"}
+{"level":"info","message":"2025-02-05T20:50:09.388Z [INFO] : ::ffff:127.0.0.1 /dashboard 304 105.561 ms","timestamp":"2025-02-05 14:50:09"}
+{"level":"info","message":"2025-02-05T20:50:13.910Z [INFO] : ::ffff:127.0.0.1 /jobProfile/67a3cc68f12d39b6efa3d6ab 200 121.536 ms","timestamp":"2025-02-05 14:50:13"}
+{"level":"info","message":"2025-02-05T20:50:16.511Z [INFO] : ::ffff:127.0.0.1 /residentProfile/7384920 200 92.567 ms","timestamp":"2025-02-05 14:50:16"}
+{"level":"info","message":"2025-02-05T20:50:24.200Z [INFO] : ::ffff:127.0.0.1 /dashboard 304 94.924 ms","timestamp":"2025-02-05 14:50:24"}
+{"level":"info","message":"2025-02-05T20:50:26.870Z [INFO] : ::ffff:127.0.0.1 /residentProfile/1738492 200 91.396 ms","timestamp":"2025-02-05 14:50:26"}
+{"level":"info","message":"2025-02-05T20:50:31.347Z [INFO] : ::ffff:127.0.0.1 /requestHire/67a3cc33024d9fb48c03624f/67a3cef2f9b1586ffa5d0254 200 104.985 ms","timestamp":"2025-02-05 14:50:31"}
+{"level":"info","message":"2025-02-05T20:50:35.418Z [INFO] : ::ffff:127.0.0.1 /requestHire/67a3cc33024d9fb48c03624f/67a3ceecf9b1586ffa5d023f 200 99.855 ms","timestamp":"2025-02-05 14:50:35"}
+{"level":"info","message":"2025-02-05T20:50:38.247Z [INFO] : ::ffff:127.0.0.1 /requestHire/67a3cc33024d9fb48c03624f/67a3ceecf9b1586ffa5d023f 304 96.795 ms","timestamp":"2025-02-05 14:50:38"}
+{"level":"info","message":"2025-02-05T20:52:07.111Z [INFO] : ::ffff:127.0.0.1 /requestHire/67a3cc33024d9fb48c03624f/67a3ceecf9b1586ffa5d023f 304 569.396 ms","timestamp":"2025-02-05 14:52:07"}
+{"level":"info","message":"2025-02-05T20:52:17.419Z [INFO] : ::ffff:127.0.0.1 /requestHire/67a3cc33024d9fb48c03624f/67a3cef2f9b1586ffa5d0254 304 108.588 ms","timestamp":"2025-02-05 14:52:17"}
+{"level":"info","message":"2025-02-05T20:54:02.328Z [INFO] : ::ffff:127.0.0.1 /notification/requestHire/67a3cc33024d9fb48c03624f/67a3ceecf9b1586ffa5d023f - - ms","timestamp":"2025-02-05 14:54:02"}
+{"level":"info","message":"2025-02-05T20:54:04.998Z [INFO] : ::ffff:127.0.0.1 /requestHire/67a3cc33024d9fb48c03624f/67a3ceecf9b1586ffa5d023f 304 2581.043 ms","timestamp":"2025-02-05 14:54:04"}
+{"level":"info","message":"2025-02-05T20:54:38.174Z [INFO] : ::ffff:127.0.0.1 /requestHire/67a3cc33024d9fb48c03624f/67a3ceecf9b1586ffa5d023f 304 201.573 ms","timestamp":"2025-02-05 14:54:38"}
+{"level":"info","message":"2025-02-05T20:56:15.833Z [INFO] : ::ffff:127.0.0.1 /requestHire/67a3cc33024d9fb48c03624f/67a3ceecf9b1586ffa5d023f 304 5498.097 ms","timestamp":"2025-02-05 14:56:15"}
+{"level":"info","message":"2025-02-05T20:57:38.132Z [INFO] : ::ffff:127.0.0.1 /notification/requestHire/67a3cc33024d9fb48c03624f/67a3ceecf9b1586ffa5d023f - - ms","timestamp":"2025-02-05 14:57:38"}
+{"level":"info","message":"2025-02-05T20:57:41.984Z [INFO] : ::ffff:127.0.0.1 /requestHire/67a3cc33024d9fb48c03624f/67a3ceecf9b1586ffa5d023f 304 3759.704 ms","timestamp":"2025-02-05 14:57:41"}
+{"level":"info","message":"2025-02-05T20:58:58.639Z [INFO] : ::ffff:127.0.0.1 /requestHire/67a3cc33024d9fb48c03624f/67a3ceecf9b1586ffa5d023f 304 2813.633 ms","timestamp":"2025-02-05 14:58:58"}
+{"level":"info","message":"2025-02-05T20:59:35.417Z [INFO] : ::ffff:127.0.0.1 /requestHire/67a3cc33024d9fb48c03624f/67a3ceecf9b1586ffa5d023f 304 1366.585 ms","timestamp":"2025-02-05 14:59:35"}
+{"level":"info","message":"2025-02-05T21:01:29.931Z [INFO] : ::ffff:127.0.0.1 /notification/requestHire/67a3cc33024d9fb48c03624f/67a3ceecf9b1586ffa5d023f - - ms","timestamp":"2025-02-05 15:01:29"}
+{"level":"info","message":"2025-02-05T21:01:30.835Z [INFO] : ::ffff:127.0.0.1 /requestHire/67a3cc33024d9fb48c03624f/67a3ceecf9b1586ffa5d023f 200 807.019 ms","timestamp":"2025-02-05 15:01:30"}
+{"level":"info","message":"2025-02-05T21:01:36.232Z [INFO] : ::ffff:127.0.0.1 /requestHire/67a3cc33024d9fb48c03624f/67a3cef2f9b1586ffa5d0254 200 103.675 ms","timestamp":"2025-02-05 15:01:36"}

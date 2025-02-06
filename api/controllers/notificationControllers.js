@@ -12,7 +12,22 @@ const {
   sendHelpDeskEmail,
   sendContactEmail,
   sendRequestInterviewEmail,
+  sendRequestHireEmail,
 } = require("../utils/emailUtils/notificationEmail");
+
+const getAllApplicantsByResidentID = async (jobID, resID) => {
+  try {
+    const job = await Jobs.findOne(
+      { _id: jobID },
+      { applicants: { $elemMatch: { resident_id: resID } } } // Returns all matching applicants
+    );
+
+    return job ? job.applicants : [];
+  } catch (error) {
+    console.error("Error fetching applicants:", error);
+    throw error;
+  }
+};
 
 module.exports = {
   //===========================
@@ -157,13 +172,13 @@ module.exports = {
       });
     } catch (err) {
       console.error("Error requesting interview:", err);
-      res.status(500).send("An error occurred while requesting the interview.");
+      logger.warn("An error occurred while requesting the interview: " + err);
+      res.render("error/500");
     }
   },
   async reviewInterviewRequest(req, res) {
     try {
       const { interviewID, email } = req.params;
-      console.log(email);
 
       let interview = await Jobs.aggregate([
         // Unwind the interviews array to make each interview a separate document
@@ -187,7 +202,7 @@ module.exports = {
         },
       ]);
       interview = interview[0];
-      console.log(interview);
+
       const residentID = interview.interview.residentID;
       const resident = await Resident.findOne({
         residentID: residentID,
@@ -235,9 +250,11 @@ module.exports = {
       });
     } catch (err) {
       console.error("Error scheduling interview:", err);
-      res.status(500).send("An error occurred while scheduling the interview.");
+      logger.warn("An error occurred while scheduling the interview: " + err);
+      res.render("error/500");
     }
   },
+
   //========================
   //   Help Desk
   //========================

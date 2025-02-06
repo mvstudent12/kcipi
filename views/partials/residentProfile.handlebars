@@ -479,8 +479,8 @@
 
                                     {{!-- MEDICAL --}}
                                     <div class="row">
-                                        <div class="col-4 label ">Medical</div>
-                                        <div class="clearanceCheck col-2 text-capitalize">
+                                        <div class="col-3 label ">Medical</div>
+                                        <div class="clearanceCheck col-3 text-capitalize">
                                             {{resident.MedicalClearance.status}}</div>
                                         <div class="col-2 d-flex justify-content-between">
                                             <button type="submit" class="btn btn-info"
@@ -505,8 +505,8 @@
                                     </div>
                                     {{!-- EAI --}}
                                     <div class="row">
-                                        <div class="col-4 label">EAI</div>
-                                        <div class="clearanceCheck col-2 text-capitalize">
+                                        <div class="col-3 label">EAI</div>
+                                        <div class="clearanceCheck col-3 text-capitalize">
                                             {{resident.EAIClearance.status}}
                                         </div>
                                         <div class="col-2 d-flex justify-content-between">
@@ -532,8 +532,8 @@
                                     </div>
                                     {{!-- SEX OFFENDER --}}
                                     <div class="row">
-                                        <div class="col-4 label">Sex Offender</div>
-                                        <div class="clearanceCheck col-2 text-capitalize">
+                                        <div class="col-3 label">Sex Offender</div>
+                                        <div class="clearanceCheck col-3 text-capitalize">
                                             {{resident.sexOffenderClearance.status}}
                                         </div>
                                         <div class="col-2 d-flex justify-content-between">
@@ -560,8 +560,8 @@
                                     </div>
                                     {{!-- Victim Services --}}
                                     <div class="row">
-                                        <div class="col-4 label">Victim Services</div>
-                                        <div class="clearanceCheck col-2 text-capitalize">
+                                        <div class="col-3 label">Victim Services</div>
+                                        <div class="clearanceCheck col-3 text-capitalize">
                                             {{resident.victimServicesClearance.status}}
                                         </div>
                                         <div class="col-2 d-flex justify-content-between">
@@ -588,8 +588,8 @@
                                     </div>
                                     {{!-- CLASSIFICATION --}}
                                     <div class="row">
-                                        <div class="col-4 label">Classification</div>
-                                        <div class="clearanceCheck col-2 text-capitalize">
+                                        <div class="col-3 label">Classification</div>
+                                        <div class="clearanceCheck col-3 text-capitalize">
                                             {{resident.ClassificationClearance.status}}
                                         </div>
                                         <div class="col-2 d-flex justify-content-between">
@@ -616,8 +616,8 @@
                                     </div>
                                     {{!-- Deputy Warden --}}
                                     <div class="row">
-                                        <div class="col-4 label">Deputy Warden</div>
-                                        <div class="clearanceCheck col-2 text-capitalize">
+                                        <div class="col-3 label">Deputy Warden</div>
+                                        <div class="clearanceCheck col-3 text-capitalize">
                                             {{resident.DWClearance.status}}
                                         </div>
                                         <div class="col-2 d-flex justify-content-between">
@@ -643,8 +643,8 @@
                                     </div>
                                     {{!-- WARDEN --}}
                                     <div class="row">
-                                        <div class="col-4 label">Warden</div>
-                                        <div class="clearanceCheck col-2 text-capitalize">
+                                        <div class="col-3 label">Warden</div>
+                                        <div class="clearanceCheck col-3 text-capitalize">
                                             {{resident.WardenClearance.status}}</div>
                                         <div class="col-2 d-flex justify-content-between">
                                             <button type="submit" class="btn btn-info"
@@ -704,6 +704,7 @@
                             <div class="card">
                                 <div class="card-body pt-3">
                                     {{#if applications}}
+
                                     <div class="row mt-3 mb-3">
                                         <div class="col-lg-3 col-md-3 label text-muted">
                                             Company</div>
@@ -713,6 +714,7 @@
                                             Pay</div>
                                     </div>
                                     {{#each applications}}
+
                                     <div class="row mt-3">
                                         <div class="col-lg-3 col-md-3 label text-capitalize">
                                             {{this.companyName}}
@@ -729,10 +731,11 @@
                                         </div>
                                     </div>
                                     <hr>
+
                                     {{/each}}
                                     {{else}}
-                                    {{#if resident.isHired}}
-                                    <span class="text-success">Resident is currently employed at <span
+                                    {{#if resident.isHired}} <span class="text-success">
+                                        Resident is currently employed at <span
                                             class="text-capitalize text-info">{{resident.companyName}}</span>
                                         as of {{formatDate
                                         resident.dateHired}}.

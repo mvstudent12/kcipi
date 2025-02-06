@@ -121,7 +121,7 @@ app.use("/clearance", clearanceRoutes);
 
 //404 route
 app.get("*", (req, res) => {
-  res.render("error");
+  res.render("error/error");
   logger.warn(`Page not found: ${req.originalUrl}`); // Log 404 errors
 });
 

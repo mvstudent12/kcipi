@@ -53,7 +53,7 @@ module.exports = {
       });
     } catch (err) {
       console.error("Error fetching resident profile:", err);
-      res.status(500).send("An error occurred while fetching the profile.");
+      res.render("error/500");
     }
   },
   //edits resident information
@@ -271,9 +271,8 @@ module.exports = {
       return res.status(200).json({ notes }); // Return the notes in the response body
     } catch (err) {
       console.error(err); // Log the error for debugging
-      return res
-        .status(500)
-        .json({ message: "An error occurred while fetching the notes." }); // Handle server errors
+      logger.warn("An error occurred while fetching the notes: " + err);
+      return res.render("error/500");
     }
   },
   async addNotes(req, res) {
@@ -323,9 +322,8 @@ module.exports = {
       });
     } catch (err) {
       console.error(err); // Log the error for debugging
-      return res
-        .status(500)
-        .json({ message: "An error occurred while fetching the notes." }); // Handle server errors
+      logger.warn("An error occurred while fetching the notes: " + err);
+      return res.render("error/500");
     }
   },
 
@@ -358,7 +356,6 @@ module.exports = {
       );
 
       const resident = await Resident.findOne({ residentID }).lean();
-      console.log(resident.workEligibility.status);
 
       const eligibleMsg = "This resident is approved and eligible for work.";
       const activeTab = "clearance";
@@ -402,7 +399,6 @@ module.exports = {
       );
 
       const resident = await Resident.findOne({ residentID }).lean();
-      console.log(resident.workEligibility);
 
       const activeTab = "clearance";
 
@@ -538,55 +534,7 @@ module.exports = {
       console.log(err);
     }
   },
-  //employs resident to company
-  async rejectHire(req, res) {
-    try {
-      const { id, jobID } = req.params;
-      const position = await Jobs.findOne({ _id: jobID }).lean();
-      const companyName = position.companyName;
 
-      await Resident.findByIdAndUpdate(id, {
-        $set: {
-          isHired: false,
-        },
-      });
-      const resident = await Resident.findById(id).lean();
-      const residentID = resident.residentID;
-
-      //remove user from applicants/ interviews add to workforce
-      await Jobs.findByIdAndUpdate(jobID, {
-        $pull: {
-          applicants: id,
-          interviews: { residentID: residentID },
-        },
-
-        set: {
-          isAvailable: {
-            $cond: {
-              if: { $eq: ["$availablePositions", 0] },
-              then: false,
-              else: "$isAvailable",
-            },
-          },
-        },
-      });
-
-      //find positions resident has applied for
-      const applications = await Jobs.find({
-        "applicants.resident_id": id, // Match the resident_id field inside the applicants array
-      }).lean();
-
-      const activeTab = "application";
-      res.render(`${req.session.user.role}/profiles/residentProfile`, {
-        user: req.session.user,
-        resident,
-        activeTab,
-        applications,
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  },
   //fires resident
   async terminateResident(req, res) {
     try {
@@ -597,7 +545,6 @@ module.exports = {
       const dateHired = resInfo.dateHired;
       const companyName = resInfo.companyName;
       const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
-      console.log(req.body);
 
       const updateData = {
         $set: {
@@ -651,13 +598,6 @@ module.exports = {
         activeTab,
         applications,
       });
-    } catch (err) {
-      console.log(err);
-    }
-  },
-  async requestHire(req, res) {
-    try {
-      console.log("hire requested");
     } catch (err) {
       console.log(err);
     }
