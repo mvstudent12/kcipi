@@ -42,27 +42,5 @@ unitTeamSchema.pre("save", async function (next) {
   next();
 });
 
-//static method to find unit team user
-unitTeamSchema.statics.findUnitTeam = async function (email) {
-  const user = await this.find({ email: email }).lean();
-  if (user) {
-    return user;
-  }
-  throw Error("something went wrong");
-};
-
-//static method to login unit team user
-unitTeamSchema.statics.logIn = async function (email, password) {
-  const user = await this.findOne({ email });
-  if (user) {
-    const auth = await bcrypt.compare(password, user.password);
-    if (auth) {
-      return user;
-    }
-    throw Error("incorrect password");
-  }
-  throw Error("This email does not exist");
-};
-
 const UnitTeam = mongoose.model("unitTeam", unitTeamSchema);
 module.exports = UnitTeam;

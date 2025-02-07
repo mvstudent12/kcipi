@@ -1,0 +1,146 @@
+[
+  {
+    "firstName": "Carl",
+    "lastName": "Doe",
+    "email": "Carl.doe@ks.gov",
+    "password": "password",
+    "facility": "Lansing",
+    "role": "facility_management"
+  },
+  {
+    "firstName": "Jameson",
+    "lastName": "Smith",
+    "email": "Jameson.smith@ks.gov",
+    "password": "password",
+    "facility": "Topeka",
+    "role": "facility_management"
+  },
+  {
+    "firstName": "Bobby",
+    "lastName": "Brown",
+    "email": "Bobby.brown@ks.gov",
+    "password": "password",
+    "facility": "El Dorado",
+    "role": "facility_management"
+  },
+  {
+    "firstName": "Randy",
+    "lastName": "Johnson",
+    "email": "Randy.johnson@ks.gov",
+    "password": "password",
+    "facility": "Hutchinson",
+    "role": "facility_management"
+  },
+  {
+    "firstName": "Samuel",
+    "lastName": "Williams",
+    "email": "Samuel.williams@ks.gov",
+    "password": "password",
+    "facility": "Norton",
+    "role": "facility_management"
+  },
+  {
+    "firstName": "Clare",
+    "lastName": "Davis",
+    "email": "Clare.davis@ks.gov",
+    "password": "password",
+    "facility": "Ellsworth",
+    "role": "facility_management"
+  },
+  {
+    "firstName": "Karla",
+    "lastName": "Miller",
+    "email": "Karla.miller@ks.gov",
+    "password": "password",
+    "facility": "Winfield",
+    "role": "facility_management"
+  },
+  {
+    "firstName": "Michelle",
+    "lastName": "Wilson",
+    "email": "Michelle.wilson@ks.gov",
+    "password": "password",
+    "facility": "Lansing",
+    "role": "facility_management"
+  },
+  {
+    "firstName": "David",
+    "lastName": "Moore",
+    "email": "David.moore@ks.gov",
+    "password": "password",
+    "facility": "Topeka",
+    "role": "facility_management"
+  },
+  {
+    "firstName": "candace",
+    "lastName": "Taylor",
+    "email": "candace.taylor@ks.gov",
+    "password": "password",
+    "facility": "El Dorado",
+    "role": "facility_management"
+  },
+  {
+    "firstName": "antonio",
+    "lastName": "Anderson",
+    "email": "antonio.anderson@ks.gov",
+    "password": "password",
+    "facility": "Hutchinson",
+    "role": "facility_management"
+  },
+  {
+    "firstName": "timothy",
+    "lastName": "Thomas",
+    "email": "timothy.thomas@ks.gov",
+    "password": "password",
+    "facility": "Norton",
+    "role": "facility_management"
+  },
+  {
+    "firstName": "jesus",
+    "lastName": "Jackson",
+    "email": "jesus.jackson@ks.gov",
+    "password": "password",
+    "facility": "Ellsworth",
+    "role": "facility_management"
+  },
+  {
+    "firstName": "William",
+    "lastName": "winston",
+    "email": "william.winston@ks.gov",
+    "password": "password",
+    "facility": "Winfield",
+    "role": "facility_management"
+  },
+  {
+    "firstName": "Betty",
+    "lastName": "montgomery",
+    "email": "betty.montgomery@ks.gov",
+    "password": "password",
+    "facility": "Lansing",
+    "role": "facility_management"
+  },
+  {
+    "firstName": "Thomas",
+    "lastName": "whitmore",
+    "email": "thomas.whitmore@ks.gov",
+    "password": "password",
+    "facility": "Topeka",
+    "role": "facility_management"
+  },
+  {
+    "firstName": "Dorothy",
+    "lastName": "ramirez",
+    "email": "dorothy.ramirez@ks.gov",
+    "password": "password",
+    "facility": "El Dorado",
+    "role": "facility_management"
+  },
+  {
+    "firstName": "trevor",
+    "lastName": "miller",
+    "email": "trevor.miller@ks.gov",
+    "password": "password",
+    "facility": "Hutchinson",
+    "role": "facility_management"
+  }
+]

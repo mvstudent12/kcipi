@@ -224,3 +224,11 @@
 {"level":"info","message":"2025-02-06T19:45:03.496Z [INFO] : ::1 /dashboard 200 106.353 ms","timestamp":"2025-02-06 13:45:03"}
 {"level":"info","message":"2025-02-06T19:45:37.885Z [INFO] : ::ffff:127.0.0.1 /requestInterview/67a50bf4fceec97ee6083f98 200 194.291 ms","timestamp":"2025-02-06 13:45:37"}
 {"level":"info","message":"2025-02-06T19:45:58.409Z [INFO] : ::ffff:127.0.0.1 /dashboard 200 101.851 ms","timestamp":"2025-02-06 13:45:58"}
+{"level":"info","message":"2025-02-06T19:47:48.368Z [INFO] : ::ffff:127.0.0.1 /dashboard 302 454.588 ms","timestamp":"2025-02-06 13:47:48"}
+{"level":"info","message":"2025-02-06T19:47:49.019Z [INFO] : ::ffff:127.0.0.1 / 200 647.264 ms","timestamp":"2025-02-06 13:47:49"}
+{"level":"info","message":"User logged in: alice.johnson@ks.gov","timestamp":"2025-02-06 13:48:02"}
+{"level":"info","message":"2025-02-06T19:48:02.280Z [INFO] : ::ffff:127.0.0.1 /login 200 433.937 ms","timestamp":"2025-02-06 13:48:02"}
+{"level":"info","message":"2025-02-06T19:48:02.727Z [INFO] : ::ffff:127.0.0.1 /user/dashboard/67a25c08ceb5d05b587f8083 302 437.916 ms","timestamp":"2025-02-06 13:48:02"}
+{"level":"info","message":"2025-02-06T19:48:03.533Z [INFO] : ::ffff:127.0.0.1 /dashboard 200 719.694 ms","timestamp":"2025-02-06 13:48:03"}
+{"level":"info","message":"2025-02-06T19:57:21.605Z [INFO] : ::ffff:127.0.0.1 /logOut 302 90.180 ms","timestamp":"2025-02-06 13:57:21"}
+{"level":"info","message":"2025-02-06T19:57:22.431Z [INFO] : ::ffff:127.0.0.1 / 200 822.110 ms","timestamp":"2025-02-06 13:57:22"}

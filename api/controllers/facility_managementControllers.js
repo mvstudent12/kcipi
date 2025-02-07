@@ -190,10 +190,11 @@ module.exports = {
   async dashboard(req, res) {
     try {
       const email = req.session.user.email;
+      const facility = req.session.user.facility;
 
       //find caseload specific to UTM
       const caseLoad = await Resident.find({
-        "resume.unitTeam": email,
+        facility: facility,
       }).lean();
 
       //make array of resident _id in caseload
@@ -209,14 +210,14 @@ module.exports = {
 
       //find all residents who are actively hired
       const employees = await Resident.find({
-        "resume.unitTeam": email,
+        facility: facility,
         isHired: true,
       }).lean();
 
       //find all active interviews
       const interviews = await findInterviews(residentIDs);
 
-      res.render("unitTeam/dashboard", {
+      res.render("facility_management/dashboard", {
         user: req.session.user,
         caseLoad,
         applicants,
@@ -230,7 +231,7 @@ module.exports = {
 
   async helpDesk(req, res) {
     try {
-      res.render("unitTeam/helpDesk", { user: req.session.user });
+      res.render("facility_management/helpDesk", { user: req.session.user });
     } catch (err) {
       console.log(err);
     }
@@ -238,7 +239,7 @@ module.exports = {
 
   async contact(req, res) {
     try {
-      res.render("unitTeam/contact", { user: req.session.user });
+      res.render("facility_management/contact", { user: req.session.user });
     } catch (err) {
       console.log(err);
     }
@@ -246,8 +247,10 @@ module.exports = {
   async manageWorkForce(req, res) {
     try {
       const email = req.session.user.email;
+      const facility = req.session.user.facility;
+
       const caseLoad = await Resident.find({
-        "resume.unitTeam": email,
+        facility: facility,
       }).lean();
 
       //make array of resident _id in caseload
@@ -264,11 +267,11 @@ module.exports = {
 
       //find all residents who are actively hired
       const employees = await Resident.find({
-        "resume.unitTeam": email,
+        facility: facility,
         isHired: true,
       }).lean();
 
-      res.render("unitTeam/manageWorkForce", {
+      res.render("facility_management/manageWorkForce", {
         user: req.session.user,
         applicants,
         interviews,
@@ -281,13 +284,13 @@ module.exports = {
   async manageClearance(req, res) {
     try {
       const email = req.session.user.email;
-
+      const facility = req.session.user.facility;
       //find caseload specific to UTM
       const caseLoad = await Resident.find({
-        "resume.unitTeam": email,
+        facility: facility,
       }).lean();
 
-      res.render("unitTeam/manageClearance", {
+      res.render("facility_management/manageClearance", {
         user: req.session.user,
         caseLoad,
       });
@@ -302,7 +305,7 @@ module.exports = {
     try {
       const facility = req.session.user.facility;
       const caseLoad = await Resident.find({ facility }).lean();
-      res.render("unitTeam/tables/residents", {
+      res.render("facility_management/tables/residents", {
         user: req.session.user,
         caseLoad,
       });
@@ -314,7 +317,7 @@ module.exports = {
     try {
       const facility = req.session.user.facility;
       const caseLoad = await Resident.find({ facility }).lean();
-      res.render("unitTeam/tables/resumes", {
+      res.render("facility_management/tables/resumes", {
         user: req.session.user,
         caseLoad,
       });
@@ -326,7 +329,7 @@ module.exports = {
     try {
       const facility = req.session.user.facility;
       const caseLoad = await Resident.find({ facility }).lean();
-      res.render("unitTeam/tables/clearance", {
+      res.render("facility_management/tables/clearance", {
         user: req.session.user,
         caseLoad,
       });
@@ -347,7 +350,7 @@ module.exports = {
 
       const applicants = await findResidentsWithCompany(applicantIDs);
 
-      res.render("unitTeam/tables/applicants", {
+      res.render("facility_management/tables/applicants", {
         user: req.session.user,
         applicants,
       });
@@ -364,7 +367,7 @@ module.exports = {
         isHired: true,
       }).lean();
 
-      res.render("unitTeam/tables/employees", {
+      res.render("facility_management/tables/employees", {
         user: req.session.user,
         employees,
       });
@@ -377,7 +380,7 @@ module.exports = {
   //===============================
   async reports(req, res) {
     try {
-      res.render("unitTeam/reports", { user: req.session.user });
+      res.render("facility_management/reports", { user: req.session.user });
     } catch (err) {
       console.log(err);
     }
@@ -389,7 +392,7 @@ module.exports = {
 
       if (selectedFields.length === 0) {
         const noData = true;
-        return res.render("unitTeam/reports", {
+        return res.render("facility_management/reports", {
           user: req.session.user,
           noData,
         });
@@ -403,7 +406,7 @@ module.exports = {
 
       if (residents.length === 0) {
         const noData = true;
-        return res.render("unitTeam/reports", {
+        return res.render("facility_management/reports", {
           user: req.session.user,
           noData,
         });
@@ -434,7 +437,7 @@ module.exports = {
 
       if (selectedFields.length === 0) {
         const noData = true;
-        return res.render("unitTeam/reports", {
+        return res.render("facility_management/reports", {
           user: req.session.user,
           noData,
         });
@@ -448,7 +451,7 @@ module.exports = {
 
       if (residents.length === 0) {
         const noData = true;
-        return res.render("unitTeam/reports", {
+        return res.render("facility_management/reports", {
           user: req.session.user,
           noData,
         });
@@ -480,17 +483,18 @@ module.exports = {
 
       if (selectedFields.length === 0) {
         const noData = true;
-        return res.render("unitTeam/reports", {
+        return res.render("facility_management/reports", {
           user: req.session.user,
           noData,
         });
       }
 
       const email = req.session.user.email;
+      const facility = req.session.user.facility;
 
       //find caseload specific to UTM
       const caseLoad = await Resident.find({
-        "resume.unitTeam": email,
+        facility: facility,
       }).lean();
 
       //make array of resident _id in caseload
@@ -506,7 +510,7 @@ module.exports = {
 
       if (applicants.length === 0) {
         const noData = true;
-        return res.render("unitTeam/reports", {
+        return res.render("facility_management/reports", {
           user: req.session.user,
           noData,
         });
