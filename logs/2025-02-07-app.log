@@ -108,3 +108,11 @@
 {"level":"info","message":"2025-02-07T15:02:32.683Z [INFO] : ::ffff:127.0.0.1 /user/dashboard/67a60a19b9119b14617e2e7c 302 833.005 ms","timestamp":"2025-02-07 09:02:32"}
 {"level":"info","message":"2025-02-07T15:02:33.746Z [INFO] : ::ffff:127.0.0.1 /dashboard 200 975.478 ms","timestamp":"2025-02-07 09:02:33"}
 {"level":"info","message":"2025-02-07T15:03:23.470Z [INFO] : ::ffff:127.0.0.1 /manageClearance 200 589.882 ms","timestamp":"2025-02-07 09:03:23"}
+{"level":"info","message":"2025-02-07T15:05:01.373Z [INFO] : ::ffff:127.0.0.1 /manageClearance 302 101.910 ms","timestamp":"2025-02-07 09:05:01"}
+{"level":"info","message":"2025-02-07T15:05:02.094Z [INFO] : ::ffff:127.0.0.1 / 200 717.564 ms","timestamp":"2025-02-07 09:05:02"}
+{"level":"info","message":"User logged in: Jameson.smith@ks.gov","timestamp":"2025-02-07 09:05:08"}
+{"level":"info","message":"2025-02-07T15:05:08.057Z [INFO] : ::ffff:127.0.0.1 /login 200 180.581 ms","timestamp":"2025-02-07 09:05:08"}
+{"level":"info","message":"2025-02-07T15:05:08.159Z [INFO] : ::ffff:127.0.0.1 /user/dashboard/67a60d521876747c1b43dde6 302 92.835 ms","timestamp":"2025-02-07 09:05:08"}
+{"level":"info","message":"2025-02-07T15:05:08.381Z [INFO] : ::ffff:127.0.0.1 /dashboard 200 135.926 ms","timestamp":"2025-02-07 09:05:08"}
+{"level":"info","message":"2025-02-07T15:05:10.153Z [INFO] : ::ffff:127.0.0.1 /manageClearance 200 96.385 ms","timestamp":"2025-02-07 09:05:10"}
+{"level":"info","message":"2025-02-07T15:06:41.819Z [INFO] : ::ffff:127.0.0.1 /manageClearance 200 3545.955 ms","timestamp":"2025-02-07 09:06:41"}
