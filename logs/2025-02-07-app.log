@@ -101,3 +101,10 @@
 {"level":"info","message":"2025-02-07T14:04:22.288Z [INFO] : ::ffff:127.0.0.1 /unitTeamTables 200 89.371 ms","timestamp":"2025-02-07 08:04:22"}
 {"level":"warn","message":"Role check error:: facility_management::Access denied.","timestamp":"2025-02-07 08:04:25"}
 {"level":"info","message":"2025-02-07T14:04:25.885Z [INFO] : ::ffff:127.0.0.1 /companyTables 200 92.884 ms","timestamp":"2025-02-07 08:04:25"}
+{"level":"info","message":"2025-02-07T15:02:23.360Z [INFO] : ::ffff:127.0.0.1 /manageClearance 302 525.400 ms","timestamp":"2025-02-07 09:02:23"}
+{"level":"info","message":"2025-02-07T15:02:24.079Z [INFO] : ::ffff:127.0.0.1 / 200 715.876 ms","timestamp":"2025-02-07 09:02:24"}
+{"level":"info","message":"User logged in: Jameson.smith@ks.gov","timestamp":"2025-02-07 09:02:31"}
+{"level":"info","message":"2025-02-07T15:02:31.841Z [INFO] : ::ffff:127.0.0.1 /login 200 539.175 ms","timestamp":"2025-02-07 09:02:31"}
+{"level":"info","message":"2025-02-07T15:02:32.683Z [INFO] : ::ffff:127.0.0.1 /user/dashboard/67a60a19b9119b14617e2e7c 302 833.005 ms","timestamp":"2025-02-07 09:02:32"}
+{"level":"info","message":"2025-02-07T15:02:33.746Z [INFO] : ::ffff:127.0.0.1 /dashboard 200 975.478 ms","timestamp":"2025-02-07 09:02:33"}
+{"level":"info","message":"2025-02-07T15:03:23.470Z [INFO] : ::ffff:127.0.0.1 /manageClearance 200 589.882 ms","timestamp":"2025-02-07 09:03:23"}
