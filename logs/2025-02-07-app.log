@@ -116,3 +116,42 @@
 {"level":"info","message":"2025-02-07T15:05:08.381Z [INFO] : ::ffff:127.0.0.1 /dashboard 200 135.926 ms","timestamp":"2025-02-07 09:05:08"}
 {"level":"info","message":"2025-02-07T15:05:10.153Z [INFO] : ::ffff:127.0.0.1 /manageClearance 200 96.385 ms","timestamp":"2025-02-07 09:05:10"}
 {"level":"info","message":"2025-02-07T15:06:41.819Z [INFO] : ::ffff:127.0.0.1 /manageClearance 200 3545.955 ms","timestamp":"2025-02-07 09:06:41"}
+{"level":"info","message":"2025-02-07T18:14:23.206Z [INFO] : ::ffff:127.0.0.1 / 200 205.990 ms","timestamp":"2025-02-07 12:14:23"}
+{"level":"info","message":"2025-02-07T18:14:23.647Z [INFO] : ::ffff:127.0.0.1 /assets/vendor/bootstrap-icons/fonts/bootstrap-icons.woff2?dd67030699838ea613ee6dbda90effa6 200 2.081 ms","timestamp":"2025-02-07 12:14:23"}
+{"level":"info","message":"User logged in: alice.johnson@ks.gov","timestamp":"2025-02-07 12:14:34"}
+{"level":"info","message":"2025-02-07T18:14:34.061Z [INFO] : ::ffff:127.0.0.1 /login 200 193.737 ms","timestamp":"2025-02-07 12:14:34"}
+{"level":"info","message":"2025-02-07T18:14:34.249Z [INFO] : ::ffff:127.0.0.1 /user/dashboard/67a60d521876747c1b43df94 404 93.851 ms","timestamp":"2025-02-07 12:14:34"}
+{"level":"info","message":"User logged in: alice.johnson@ks.gov","timestamp":"2025-02-07 12:16:44"}
+{"level":"info","message":"2025-02-07T18:16:44.118Z [INFO] : ::ffff:127.0.0.1 /login 200 286.746 ms","timestamp":"2025-02-07 12:16:44"}
+{"level":"info","message":"User not found","timestamp":"2025-02-07 12:16:44"}
+{"level":"info","message":"2025-02-07T18:16:44.306Z [INFO] : ::ffff:127.0.0.1 /user/dashboard/67a60d521876747c1b43df94 500 90.951 ms","timestamp":"2025-02-07 12:16:44"}
+{"level":"info","message":"User logged in: alice.johnson@ks.gov","timestamp":"2025-02-07 12:18:07"}
+{"level":"info","message":"2025-02-07T18:18:07.837Z [INFO] : ::ffff:127.0.0.1 /login 200 275.229 ms","timestamp":"2025-02-07 12:18:07"}
+{"level":"info","message":"User not found","timestamp":"2025-02-07 12:18:07"}
+{"level":"info","message":"2025-02-07T18:18:08.044Z [INFO] : ::ffff:127.0.0.1 /user/dashboard/67a60d521876747c1b43df94 200 115.791 ms","timestamp":"2025-02-07 12:18:08"}
+{"level":"info","message":"2025-02-07T18:18:50.885Z [INFO] : ::ffff:127.0.0.1 / 304 3336.847 ms","timestamp":"2025-02-07 12:18:50"}
+{"level":"info","message":"User logged in: alice.johnson@ks.gov","timestamp":"2025-02-07 12:18:55"}
+{"level":"info","message":"2025-02-07T18:18:55.918Z [INFO] : ::ffff:127.0.0.1 /login 200 181.428 ms","timestamp":"2025-02-07 12:18:55"}
+{"level":"info","message":"2025-02-07T18:18:56.019Z [INFO] : ::ffff:127.0.0.1 /user/dashboard/67a60d521876747c1b43df94 302 88.714 ms","timestamp":"2025-02-07 12:18:56"}
+{"level":"info","message":"2025-02-07T18:18:56.844Z [INFO] : ::ffff:127.0.0.1 /dashboard 200 738.396 ms","timestamp":"2025-02-07 12:18:56"}
+{"level":"info","message":"User logged out: alice.johnson@ks.gov","timestamp":"2025-02-07 12:19:20"}
+{"level":"info","message":"2025-02-07T18:19:20.205Z [INFO] : ::ffff:127.0.0.1 /logOut 302 172.027 ms","timestamp":"2025-02-07 12:19:20"}
+{"level":"info","message":"2025-02-07T18:19:20.289Z [INFO] : ::ffff:127.0.0.1 / 200 82.993 ms","timestamp":"2025-02-07 12:19:20"}
+{"level":"info","message":"User logged in: Jameson.smith@ks.gov","timestamp":"2025-02-07 12:19:25"}
+{"level":"info","message":"2025-02-07T18:19:25.309Z [INFO] : ::ffff:127.0.0.1 /login 200 157.271 ms","timestamp":"2025-02-07 12:19:25"}
+{"level":"info","message":"2025-02-07T18:19:25.407Z [INFO] : ::ffff:127.0.0.1 /user/dashboard/67a60d521876747c1b43dde6 302 91.138 ms","timestamp":"2025-02-07 12:19:25"}
+{"level":"info","message":"2025-02-07T18:19:25.631Z [INFO] : ::ffff:127.0.0.1 /dashboard 200 133.214 ms","timestamp":"2025-02-07 12:19:25"}
+{"level":"info","message":"2025-02-07T18:19:51.316Z [INFO] : ::ffff:127.0.0.1 /manageWorkForce 200 105.017 ms","timestamp":"2025-02-07 12:19:51"}
+{"level":"info","message":"2025-02-07T18:24:05.351Z [INFO] : ::ffff:127.0.0.1 /logOut 302 99.498 ms","timestamp":"2025-02-07 12:24:05"}
+{"level":"info","message":"2025-02-07T18:24:06.194Z [INFO] : ::ffff:127.0.0.1 / 304 838.643 ms","timestamp":"2025-02-07 12:24:06"}
+{"level":"info","message":"User logged in: Jameson.smith@ks.gov","timestamp":"2025-02-07 12:24:10"}
+{"level":"info","message":"2025-02-07T18:24:10.665Z [INFO] : ::ffff:127.0.0.1 /login 200 184.441 ms","timestamp":"2025-02-07 12:24:10"}
+{"level":"info","message":"2025-02-07T18:24:10.772Z [INFO] : ::ffff:127.0.0.1 /user/dashboard/67a64fa01594a1b5075320e9 302 98.574 ms","timestamp":"2025-02-07 12:24:10"}
+{"level":"warn","message":"Page not found: /classification/dashboard","timestamp":"2025-02-07 12:24:10"}
+{"level":"info","message":"2025-02-07T18:24:10.944Z [INFO] : ::ffff:127.0.0.1 /classification/dashboard 200 86.141 ms","timestamp":"2025-02-07 12:24:10"}
+{"level":"info","message":"2025-02-07T18:26:04.010Z [INFO] : ::ffff:127.0.0.1 / 304 204.198 ms","timestamp":"2025-02-07 12:26:04"}
+{"level":"info","message":"User logged in: Jameson.smith@ks.gov","timestamp":"2025-02-07 12:26:10"}
+{"level":"info","message":"2025-02-07T18:26:10.088Z [INFO] : ::ffff:127.0.0.1 /login 200 189.976 ms","timestamp":"2025-02-07 12:26:10"}
+{"level":"info","message":"2025-02-07T18:26:10.197Z [INFO] : ::ffff:127.0.0.1 /user/dashboard/67a64fa01594a1b5075320e9 302 95.534 ms","timestamp":"2025-02-07 12:26:10"}
+{"level":"info","message":"2025-02-07T18:26:10.858Z [INFO] : ::ffff:127.0.0.1 /dashboard 200 575.687 ms","timestamp":"2025-02-07 12:26:10"}
+{"level":"info","message":"2025-02-07T18:27:02.682Z [INFO] : ::ffff:127.0.0.1 /clearance/residentProfile/7384920 500 115.399 ms","timestamp":"2025-02-07 12:27:02"}

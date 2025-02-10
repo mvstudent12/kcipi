@@ -1,5 +1,6 @@
 const Admin = require("../models/Admin");
 const Facility_Management = require("../models/Facility_Management");
+const Classification = require("../models/Classification");
 const Employer = require("../models/Employer");
 const UnitTeam = require("../models/UnitTeam");
 const Resident = require("../models/Resident");
@@ -33,26 +34,6 @@ const findInterviews = async (residentIDs) => {
     return interviews;
   } catch (error) {
     console.error("Error fetching interviews:", error);
-    throw error; // Re-throw the error to handle it in the calling code
-  }
-};
-
-const findApplicantIDs = async (IDs) => {
-  try {
-    let applicantIDs = [];
-    //make array of applicant ids
-    await Jobs.aggregate([
-      { $unwind: "$applicants" }, // Flatten the applicants array
-      { $match: { "applicants.resident_id": { $in: IDs } } }, // Filter applicants by residentID array
-      { $group: { _id: null, allResidents: { $push: "$applicants" } } }, // Collect matching resident IDs
-    ]).then((result) => {
-      if (result.length > 0) {
-        applicantIDs = result[0].allResidents;
-      }
-    });
-    return applicantIDs;
-  } catch (error) {
-    console.error("Error fetching applicantIDs:", error);
     throw error; // Re-throw the error to handle it in the calling code
   }
 };
@@ -189,7 +170,7 @@ const createApplicantsReport = async (applicantData, selectedFields) => {
 module.exports = {
   async dashboard(req, res) {
     try {
-      const email = req.session.user.email;
+
       const facility = req.session.user.facility;
 
       //find caseload specific to UTM

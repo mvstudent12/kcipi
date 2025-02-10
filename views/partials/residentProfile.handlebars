@@ -1,7 +1,7 @@
 <section class="section profile">
     <div class="row">
 
-        <div class="col-xl-4">
+        <div class="col-12">
             <div class="card">
                 <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
                     <img src="/assets/img/avatar.png" alt="Profile" class="rounded-circle">
@@ -9,10 +9,11 @@
                     <h2 class="text-capitalize mb-3">#{{resident.residentID}}</h2>
                     <h3>KDOC Resident</h3>
                 </div>
+
             </div>
         </div>
 
-        <div class="col-xl-8">
+        <div class="col-12">
 
             <div class="card">
                 <div class="card-body pt-3">
@@ -62,8 +63,11 @@
                                     {{/if}}
 
                                     {{#if (eq resident.workEligibility.status "none")}}
-                                    <div class="text-center">
-                                        <p class="text-warning">This resident needs reviewed for clearance.</p>
+                                    <div class="card">
+                                        <div class="text-center pt-3">
+                                            <p class="text-primary">This resident needs reviewed for clearance.</p>
+                                        </div>
+
                                     </div>
                                     {{/if}}
 
@@ -75,7 +79,7 @@
                                     {{/if}}
                                     {{#if (eq resident.workEligibility.status "pending")}}
                                     <div class="text-center">
-                                        <p class="text-warning">This resident is in the clearance process.</p>
+                                        <p class="text-primary">This resident is in the clearance process.</p>
                                     </div>
                                     {{/if}}
 
@@ -164,11 +168,13 @@
                                     <form method="POST" action="/clearance/approveResume/{{resident.residentID}}">
                                         {{#unless resident.resumeIsApproved}}
                                         <div class="mb-3 text-center">
-                                            <p class="text-warning">Review resume and select job pool.</p>
+                                            <p class="text-primary">Review resume and select job pool.</p>
                                         </div>
                                         {{else}}
-                                        <div class="mb-3 text-center">
-                                            <p class="text-success">This resume has been approved by Unit Team.</p>
+                                        <div class="mb-3 text-center card pt-3">
+                                            <p class="text-success">Resume approved by <span
+                                                    class="text-capitalize">{{resident.resumeApprovedBy}}</span> on
+                                                {{formatDate resident.resumeApprovalDate}}</p>
                                         </div>
                                         {{/unless}}
                                         {{!-- Resident First Name --}}
@@ -385,7 +391,9 @@
                                         </div>
                                         <hr class="mb-3">
                                         <div class="text-center">
-                                            <p class="text-success">This resume has been approved by Unit Team.</p>
+                                            <p class="text-success">Resume approved by <span
+                                                    class="text-capitalize">{{resident.resumeApprovedBy}}</span> on
+                                                {{formatDate resident.resumeApprovalDate}}</p>
                                             <button type="button" class="btn btn-danger mx-2" data-bs-toggle="modal"
                                                 data-bs-target="#rejectResume">Reject Approval</button>
                                         </div>
@@ -395,7 +403,7 @@
                                         {{!-- Job Pool--}}
                                         <div class="row mb-3">
                                             <label for="jobPool"
-                                                class="col-md-4 col-lg-3 col-form-label text-warning">Job
+                                                class="col-md-4 col-lg-3 col-form-label text-primary">Job
                                                 Pool</label>
                                             <div class="col-md-8 col-lg-9">
                                                 <select required name="jobPool" class="form-select"
@@ -435,7 +443,7 @@
                                     {{else}}
                                     <div class="text-center">
                                         {{!-- if resident has not completed their resume --}}
-                                        <span class="text-center text-warning">This resident has not completed their
+                                        <span class="text-center text-primary">This resident has not completed their
                                             resume.
                                         </span>
                                     </div>
@@ -600,7 +608,20 @@
                                                 Request</button>
                                         </div>
                                         <div class="col-2">
-                                            <button id="" type="submit" class="btn btn-warning ms-2"
+                                            <button id="" type="submit" class="btn btn-warning ms-2 
+                                                {{#if (eq user.role 'classification')}} 
+                                                d-block 
+                                                {{else}} 
+                                                {{#if (eq user.role 'facility_management' )}} 
+                                                d-block 
+                                                {{else}}
+                                                {{#if (eq user.role 'admin')}} 
+                                                d-block 
+                                                {{else}}
+                                                d-none 
+                                                {{/if}}
+                                                {{/if}}
+                                                {{/if}}"
                                                 data-route="/clearance/editClearance/{{resident.residentID}}/Classification"
                                                 data-category="Classification" data-bs-toggle="modal"
                                                 data-bs-target="#editModal">Edit</button>
@@ -628,7 +649,15 @@
                                                 Request</button>
                                         </div>
                                         <div class="col-2">
-                                            <button id="" type="submit" class="btn btn-warning ms-2"
+                                            <button id="" type="submit" class="btn btn-warning ms-2 {{#if (eq user.role 'facility_management' )}} 
+                                                d-block 
+                                                {{else}}
+                                                {{#if (eq user.role 'admin')}} 
+                                                d-block 
+                                                {{else}}
+                                                d-none 
+                                                {{/if}}
+                                                {{/if}}"
                                                 data-route="/clearance/editClearance/{{resident.residentID}}/Deputy-Warden"
                                                 data-category="Deputy-Warden" data-bs-toggle="modal"
                                                 data-bs-target="#editModal">Edit</button>
@@ -654,7 +683,15 @@
                                                 Request</button>
                                         </div>
                                         <div class="col-2">
-                                            <button id="" type="submit" class="btn btn-warning ms-2"
+                                            <button id="" type="submit" class="btn btn-warning ms-2 {{#if (eq user.role 'facility_management' )}} 
+                                                d-block 
+                                                {{else}}
+                                                {{#if (eq user.role 'admin')}} 
+                                                d-block 
+                                                {{else}}
+                                                d-none 
+                                                {{/if}}
+                                                {{/if}}"
                                                 data-route="/clearance/editClearance/{{resident.residentID}}/Warden"
                                                 data-category="Warden" data-bs-toggle="modal"
                                                 data-bs-target="#editModal">Edit</button>
@@ -690,7 +727,7 @@
                                     {{else}}
                                     <div class="text-center">
                                         {{!-- If UTM has not approved resume --}}
-                                        <span class="text-warning">This resident does not have an approved
+                                        <span class="text-primary">This resident does not have an approved
                                             resume.
                                         </span>
                                     </div>
@@ -747,7 +784,7 @@
                                     {{else}}
 
                                     <div class="text-center">
-                                        <span class="text-warning">This resident has completed no applications.
+                                        <span class="text-primary">This resident has completed no applications.
                                         </span>
                                     </div>
                                     {{/if}}
@@ -789,12 +826,19 @@
                                     {{/each}}
                                     {{else}}
                                     {{#if resident.isHired}}
-                                    <p>This resident is currently working at <span
-                                            class="text-capitalize">{{resident.companyName}}</span>.</p>
-                                    <p>Start date: {{formatDate resident.dateHired}}</p>
-                                    <p>No further work history.</p>
+                                    <div class="card">
+                                        <p class="text-center text-primary pt-3">This resident is currently working at
+                                            <span class="text-capitalize">{{resident.companyName}}</span>.
+                                        </p>
+                                        <p>Start date: {{formatDate resident.dateHired}}</p>
+                                        <p>No further work history.</p>
+                                    </div>
                                     {{else}}
-                                    <p>This resident has no work history and is not currently employed.</p>
+                                    <div class="card">
+                                        <p class="text-center text-primary pt-3">This resident has no work history and
+                                            is
+                                            not currently employed.</p>
+                                    </div>
                                     {{/if}}
                                     {{/if}}
 

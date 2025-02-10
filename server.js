@@ -87,6 +87,7 @@ const residentRoutes = require("./api/routes/residentRoutes");
 const unitTeamRoutes = require("./api/routes/unitTeamRoutes");
 const adminRoutes = require("./api/routes/adminRoutes");
 const facility_managementRoutes = require("./api/routes/facility_managementRoutes");
+const classificationRoutes = require("./api/routes/classificationRoutes");
 const employerRoutes = require("./api/routes/employerRoutes");
 const clearanceRoutes = require("./api/routes/clearanceRoutes");
 const notificationRoutes = require("./api/routes/notificationRoutes");
@@ -117,14 +118,14 @@ app.use("/resident", residentRoutes);
 app.use("/unitTeam", unitTeamRoutes);
 app.use("/admin", adminRoutes);
 app.use("/facility_management", facility_managementRoutes);
-
+app.use("/classification", classificationRoutes);
 app.use("/employer", employerRoutes);
 app.use("/notification", notificationRoutes);
 app.use("/clearance", clearanceRoutes);
 
 //404 route
 app.get("*", (req, res) => {
-  res.render("error/error");
+  res.render("error/404");
   logger.warn(`Page not found: ${req.originalUrl}`); // Log 404 errors
 });
 

@@ -1,29 +1,5 @@
 [
   {
-    "firstName": "Carl",
-    "lastName": "Doe",
-    "email": "Carl.doe@ks.gov",
-    "password": "password",
-    "facility": "Lansing",
-    "role": "facility_management"
-  },
-  {
-    "firstName": "Jameson",
-    "lastName": "Smith",
-    "email": "Jameson.smith@ks.gov",
-    "password": "password",
-    "facility": "Topeka",
-    "role": "facility_management"
-  },
-  {
-    "firstName": "Bobby",
-    "lastName": "Brown",
-    "email": "Bobby.brown@ks.gov",
-    "password": "password",
-    "facility": "El Dorado",
-    "role": "facility_management"
-  },
-  {
     "firstName": "Randy",
     "lastName": "Johnson",
     "email": "Randy.johnson@ks.gov",

@@ -1,0 +1,23 @@
+[
+  {
+    "firstName": "Carl",
+    "lastName": "Doe",
+    "email": "Carl.doe@ks.gov",
+    "password": "password",
+    "facility": "Lansing"
+  },
+  {
+    "firstName": "Jameson",
+    "lastName": "Smith",
+    "email": "Jameson.smith@ks.gov",
+    "password": "password",
+    "facility": "Topeka"
+  },
+  {
+    "firstName": "Bobby",
+    "lastName": "Brown",
+    "email": "Bobby.brown@ks.gov",
+    "password": "password",
+    "facility": "El Dorado"
+  }
+]

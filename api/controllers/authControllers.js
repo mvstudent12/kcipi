@@ -3,6 +3,7 @@ const logger = require("../utils/logger");
 
 const Admin = require("../models/Admin");
 const Facility_Management = require("../models/Facility_Management");
+const Classification = require("../models/Classification");
 const Employer = require("../models/Employer");
 const UnitTeam = require("../models/UnitTeam");
 const Resident = require("../models/Resident");
@@ -100,6 +101,9 @@ module.exports = {
       if (!user) {
         user = await Facility_Management.findOne({ email });
       }
+      if (!user) {
+        user = await Classification.findOne({ email });
+      }
       //check if user password matches
       if (user) {
         const userID = user._id.toString();
@@ -152,10 +156,15 @@ module.exports = {
       if (!user) {
         user = await Facility_Management.findOne({ _id: id });
       }
+      if (!user) {
+        user = await Classification.findOne({ _id: id });
+      }
 
       res.redirect(`/${user.role}/dashboard`);
     } catch (err) {
       console.log(err);
+      logger.warn("Unable to find user: ", err);
+      res.render("errors/403");
     }
   },
 

@@ -1,0 +1,488 @@
+{{> classificationTemplate}}
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1 class="mb-2">Classification Dashboard</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active">Dashboard</li>
+            </ol>
+        </nav>
+    </div>
+
+    <section class="section dashboard">
+        <div class="row">
+
+            <div class="col-lg-12">
+                <div class="row">
+
+                    <!-- Residents Card -->
+                    <div class="col-xxl-4 col-md-4">
+                        <div class="card info-card customers-card">
+                            <a href="#">
+                                <div class="card-body">
+                                    <h5 class="card-title text-capitalize">Residents <span>| {{user.facility}}</span>
+                                    </h5>
+                                    <div class="d-flex align-items-center">
+                                        <div
+                                            class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                            <i class="bi bi-people"></i>
+                                        </div>
+                                        <div class="ps-3">
+                                            <h6>{{countItems caseLoad}}</h6>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Resumes Count Card -->
+                    <div class="col-xxl-4 col-md-4">
+                        <div class="card info-card sales-card">
+                            <a href="#resumeTable">
+                                <div class="card-body">
+                                    <h5 class="card-title">Resumes <span>| Pending</span></h5>
+
+                                    <div class="d-flex align-items-center">
+                                        <div
+                                            class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                            <i class="bi bi-clipboard-check"></i>
+                                        </div>
+                                        <div class="ps-3">
+                                            <h6>{{countPendingItems caseLoad "resumeIsComplete" "resumeIsApproved"}}
+                                            </h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Applicants Card -->
+                    <div class="col-xxl-4 col-md-4">
+                        <div class="card info-card revenue-card">
+                            <a href="#applicantTable">
+
+                                <div class="card-body">
+                                    <h5 class="card-title">Applicants <span>| To Review</span></h5>
+
+                                    <div class="d-flex align-items-center">
+                                        <div
+                                            class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                            <i class="bi bi-card-list"></i>
+                                        </div>
+                                        <div class="ps-3">
+                                            <h6>{{countItems applicants}}</h6>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+
+
+                    {{!-- Data Tables Section --}}
+
+                    <!-- Residents Table -->
+                    <div class="col-12" id="residentTable">
+                        <div class="card recent-sales overflow-auto">
+                            <div class="card-body">
+                                <h5 class="card-title text-capitalize">Residents <span>| {{user.facility}}</span></h5>
+                                <table class="table table-borderless table-striped datatable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">ID #</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Out Date</th>
+                                            <th scope="col">Resume</th>
+                                            <th scope="col">Work Status</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each caseLoad}}
+                                        <tr>
+                                            <th scope="row"><a
+                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
+                                            </th>
+
+                                            <td class="text-capitalize"><a
+                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.firstName}}
+                                                    {{this.lastName}}</a></td>
+                                            <td class="text-capitalize">{{formatDate this.outDate}}</td>
+                                            {{#if this.resumeIsApproved}}
+                                            <td><span class="badge bg-success">Approved</span></td>
+                                            {{else}}
+                                            {{#if this.resumeRejectionReason}}
+                                            <td><span class="badge bg-danger">Rejected</span></td>
+                                            {{else}}
+                                            {{#if this.resumeIsComplete}}
+                                            <td><span class="badge bg-warning">Pending</span></td>
+                                            {{else}}
+                                            <td><span class="badge bg-info">None</span></td>
+                                            {{/if}}
+                                            {{/if}}
+                                            {{/if}}
+
+                                            {{!-- work status --}}
+                                            {{#if this.isHired}}
+                                            <td><span class="badge bg-info">Hired</span></td>
+                                            {{else}}
+                                            {{#if (eq this.workEligibility.status "approved")}}
+                                            <td><span class="badge bg-success">Approved</span></td>
+                                            {{else}}
+                                            {{#if (eq this.workEligibility.status "restricted")}}
+                                            <td><span class="badge bg-danger">Restricted</span></td>
+                                            {{else}}
+                                            {{#if (eq this.workEligibility.status "pending")}}
+                                            <td><span class="badge bg-warning">Pending</span></td>
+                                            {{else}}
+                                            <td><span class="badge bg-secondary">None</span></td>
+                                            {{/if}}
+                                            {{/if}}
+                                            {{/if}}
+                                            {{/if}}
+
+                                        </tr>
+
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Resume Table -->
+                    <div class="col-12">
+                        <div class="card recent-sales overflow-auto">
+                            <div class="card-body">
+                                <h5 class="card-title">Resumes <span>| To Approve</span></h5>
+                                <table class="table table-borderless table-striped datatable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">ID #</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Out Date</th>
+                                            <th scope="col">Submitted</th>
+                                            <th scope="col">Custody</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each caseLoad}}
+                                        {{#unless this.resumeIsApproved}}
+                                        {{#if this.resumeIsComplete}}
+                                        <tr>
+                                            <th scope="row"><a
+                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
+                                            </th>
+
+                                            <td><a href="/clearance/residentProfile/{{this.residentID}}"
+                                                    class="text-primary text-capitalize">{{this.firstName}}
+                                                    {{this.lastName}}</a></td>
+                                            <td><a href="/clearance/residentProfile/{{this.residentID}}"
+                                                    class="text-primary text-capitalize">{{formatDate this.outDate}}</a>
+                                            </td>
+
+                                            <td><a href="/clearance/residentProfile/{{this.residentID}}">{{formatDate
+                                                    this.resume.createdAt}}</a></td>
+
+                                            <td class="text-capitalize"><a
+                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.custodyLevel}}</a>
+                                            </td>
+
+                                        </tr>
+                                        {{/if}}
+                                        {{/unless}}
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Clearance Table -->
+                    <div class="col-12">
+                        <div class="card recent-sales overflow-auto">
+                            <div class="card-body">
+                                <h5 class="card-title">PI Clearance <span>| To Review</span></h5>
+                                <table class="table table-borderless table-striped datatable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">ID #</th>
+                                            <th scope="col">Resident</th>
+                                            <th scope="col">Med.</th>
+                                            <th scope="col">E.A.I.</th>
+                                            <th scope="col">S.O.</th>
+                                            <th scope="col">C.A.</th>
+                                            <th scope="col">D.W.</th>
+                                            <th scope="col">Warden</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each caseLoad}}
+
+                                        {{#if this.resumeIsApproved}}
+
+                                        {{#unless (eq this.workEligibility.status "approved")}}
+                                        {{#unless (eq this.workEligibility.status "restricted")}}
+
+                                        <tr>
+                                            <th scope="row"><a href="/clearance/residentProfile/{{this.residentID}}">
+                                                    {{this.residentID}}</a></th>
+
+                                            <td><a href="/clearance/residentProfile/{{this.residentID}}"
+                                                    class="text-primary text-capitalize">{{this.firstName}}
+                                                    {{this.lastName}}</a></td>
+
+
+                                            {{#if (eq this.MedicalClearance.status "approved")}}
+                                            <td><span class="badge bg-success">Approved</span></td>
+                                            {{/if}}
+                                            {{#if (eq this.MedicalClearance.status "restricted")}}
+                                            <td><span class="badge bg-danger">Restricted</span></td>
+                                            {{/if}}
+                                            {{#if (eq this.MedicalClearance.status "pending")}}
+                                            <td><span class="badge bg-warning">Pending</span></td>
+                                            {{/if}}
+                                            {{#if (eq this.MedicalClearance.status "none")}}
+                                            <td><span class="badge bg-secondary">None</span></td>
+                                            {{/if}}
+
+                                            {{#if (eq this.EAIClearance.status "approved")}}
+                                            <td><span class="badge bg-success">Approved</span></td>
+                                            {{/if}}
+                                            {{#if (eq this.EAIClearance.status "restricted")}}
+                                            <td><span class="badge bg-danger">Restricted</span></td>
+                                            {{/if}}
+                                            {{#if (eq this.EAIClearance.status "pending")}}
+                                            <td><span class="badge bg-warning">Pending</span></td>
+                                            {{/if}}
+                                            {{#if (eq this.EAIClearance.status "none")}}
+                                            <td><span class="badge bg-secondary">None</span></td>
+                                            {{/if}}
+
+                                            {{#if (eq this.sexOffenderClearance.status "approved")}}
+                                            <td><span class="badge bg-success">Approved</span></td>
+                                            {{/if}}
+                                            {{#if (eq this.sexOffenderClearance.status "restricted")}}
+                                            <td><span class="badge bg-danger">Restricted</span></td>
+                                            {{/if}}
+                                            {{#if (eq this.sexOffenderClearance.status "pending")}}
+                                            <td><span class="badge bg-warning">Pending</span></td>
+                                            {{/if}}
+                                            {{#if (eq this.sexOffenderClearance.status "none")}}
+                                            <td><span class="badge bg-secondary">None</span></td>
+                                            {{/if}}
+
+                                            {{#if (eq this.ClassificationClearance.status "approved")}}
+                                            <td><span class="badge bg-success">Approved</span></td>
+                                            {{/if}}
+                                            {{#if (eq this.ClassificationClearance.status "restricted")}}
+                                            <td><span class="badge bg-danger">Restricted</span></td>
+                                            {{/if}}
+                                            {{#if (eq this.ClassificationClearance.status "pending")}}
+                                            <td><span class="badge bg-warning">Pending</span></td>
+                                            {{/if}}
+                                            {{#if (eq this.ClassificationClearance.status "none")}}
+                                            <td><span class="badge bg-secondary">None</span></td>
+                                            {{/if}}
+
+                                            {{#if (eq this.DWClearance.status "approved")}}
+                                            <td><span class="badge bg-success">Approved</span></td>
+                                            {{/if}}
+                                            {{#if (eq this.DWClearance.status "restricted")}}
+                                            <td><span class="badge bg-danger">Restricted</span></td>
+                                            {{/if}}
+                                            {{#if (eq this.DWClearance.status "pending")}}
+                                            <td><span class="badge bg-warning">Pending</span></td>
+                                            {{/if}}
+                                            {{#if (eq this.DWClearance.status "none")}}
+                                            <td><span class="badge bg-secondary">None</span></td>
+                                            {{/if}}
+
+                                            {{#if (eq this.WardenClearance.status "approved")}}
+                                            <td><span class="badge bg-success">Approved</span></td>
+                                            {{/if}}
+                                            {{#if (eq this.WardenClearance.status "restricted")}}
+                                            <td><span class="badge bg-danger">Restricted</span></td>
+                                            {{/if}}
+                                            {{#if (eq this.WardenClearance.status "pending")}}
+                                            <td><span class="badge bg-warning">Pending</span></td>
+                                            {{/if}}
+                                            {{#if (eq this.WardenClearance.status "none")}}
+                                            <td><span class="badge bg-secondary">None</span></td>
+                                            {{/if}}
+                                        </tr>
+                                        {{/unless}}
+                                        {{/unless}}
+
+                                        {{/if}}
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Applicants Table -->
+                    <div class="col-12" id="applicantTable">
+                        <div class="card recent-sales overflow-auto">
+                            <div class="card-body">
+                                <h5 class="card-title">Applicants <span>| To Review</span></h5>
+                                <table class="table table-borderless table-striped datatable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">ID #</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Custody</th>
+                                            <th scope="col">Out Date</th>
+                                            <th scope="col">Company</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each applicants}}
+                                        <tr>
+                                            <th scope="row"><a
+                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
+                                            </th>
+
+
+                                            <td><a href="/clearance/residentProfile/{{this.residentID}}"
+                                                    class="text-primary text-capitalize">{{this.firstName}}
+                                                    {{this.lastName}}</a></td>
+
+                                            <td class="text-capitalize"><a
+                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.custodyLevel}}</a>
+                                            </td>
+
+                                            <td><a href="/clearance/residentProfile/{{this.residentID}}">{{formatDate
+                                                    this.outDate}}</a></td>
+
+                                            <td class="text-capitalize"><a
+                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.companyName}}</a>
+                                            </td>
+                                        </tr>
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Interviews Table -->
+                    <div class="col-12">
+                        <div class="card recent-sales overflow-auto">
+                            <div class="card-body">
+                                <h5 class="card-title">Interviews <span>| Requested</span></h5>
+                                <table class="table table-borderless table-striped datatable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">ID #</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Company</th>
+                                            <th scope="col">Requested</th>
+                                            <th scope="col">Scheduled</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each interviews}}
+                                        <tr>
+                                            <th scope="row"><a
+                                                    href="/clearance/residentProfile/{{this.interview.residentID}}">{{this.interview.residentID}}</a>
+                                            </th>
+                                            <td class="text-capitalize"><a
+                                                    href="/clearance/residentProfile/{{this.interview.residentID}}">
+                                                    {{this.interview.name}}</a></td>
+
+                                            <td class="text-capitalize">
+                                                <a href="/clearance/residentProfile/{{this.interview.residentID}}">
+                                                    {{this.companyName}}</a>
+                                            </td>
+                                            {{#if this.interview.isRequested}}
+                                            <td><span class="badge bg-success">{{formatDate
+                                                    this.interview.dateRequested}}</span></td>
+                                            {{else}}
+                                            <td>No</td>
+                                            {{/if}}
+
+                                            {{#if this.interview.dateScheduled}}
+                                            <td>{{formatDate this.interview.dateScheduled}}</td>
+                                            {{else}}
+                                            <td>No</td>
+                                            {{/if}}
+
+
+
+                                        </tr>
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Employees Table -->
+                    <div class="col-12">
+                        <div class="card recent-sales overflow-auto">
+                            <div class="card-body">
+                                <h5 class="card-title">Employees <span>| Workforce</span></h5>
+                                <table class="table table-borderless table-striped datatable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">ID #</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Out Date</th>
+                                            <th scope="col">Date Hired</th>
+                                            <th scope="col">Company</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each employees}}
+                                        <tr>
+                                            <th scope="row">
+                                                <a
+                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
+                                            </th>
+
+                                            <td class="text-capitalize">
+                                                <a href="/clearance/residentProfile/{{this.residentID}}">{{this.firstName}}
+                                                    {{this.lastName}}</a>
+                                            </td>
+                                            <td class="text-capitalize">
+                                                <a href="/clearance/residentProfile/{{this.residentID}}">{{formatDate
+                                                    this.outDate}}</a>
+                                            </td>
+                                            <td class="text-capitalize">
+                                                <a href="/clearance/residentProfile/{{this.residentID}}">{{formatDate
+                                                    this.dateHired}}</a>
+                                            </td>
+                                            <td class="text-capitalize">
+                                                <a
+                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.companyName}}</a>
+                                            </td>
+                                        </tr>
+
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{!-- End of Data Tables Section --}}
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- ======= Footer ======= -->
+{{> footer}}
+
+{{> arrowUp}}

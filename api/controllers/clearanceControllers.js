@@ -1,5 +1,6 @@
 const Admin = require("../models/Admin");
 const Facility_Management = require("../models/Facility_Management");
+const Classification = require("../models/Classification");
 const Employer = require("../models/Employer");
 const UnitTeam = require("../models/UnitTeam");
 const Resident = require("../models/Resident");
@@ -132,6 +133,7 @@ module.exports = {
   async approveResume(req, res) {
     const residentID = req.params.id;
     const jobPool = req.body.jobPool;
+    const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
 
     try {
       await Resident.updateOne(
@@ -139,6 +141,8 @@ module.exports = {
         {
           $set: {
             resumeIsApproved: true,
+            resumeApprovedBy: name,
+            resumeApprovalDate: new Date(),
             jobPool: jobPool,
           },
         }
@@ -184,7 +188,12 @@ module.exports = {
             [`${dept}Clearance.clearanceHistory`]: {
               action: "approved",
               performedBy: name,
-              reason: "Clearance approved",
+              reason: "Clearance approved. ✅",
+            },
+            [`${dept}Clearance.notes`]: {
+              createdAt: new Date(),
+              createdBy: name,
+              note: `Approved clearance. ✅`,
             },
           },
         };
@@ -209,6 +218,11 @@ module.exports = {
               action: "restricted",
               performedBy: name,
               reason: "Clearance restricted",
+            },
+            [`${dept}Clearance.notes`]: {
+              createdAt: new Date(),
+              createdBy: name,
+              note: `Denied clearance. ❌`,
             },
           },
         };
@@ -247,7 +261,7 @@ module.exports = {
         return res.status(404).json({ message: "Resident not found." }); // Handle case where resident is not found
       }
 
-      // Dynamically create the key for the clearance field (e.g., MedicalClearance, UTMClearance)
+      // Dynamically create the key for the clearance field (e.g., MedicalClearance, EAIClearance)
       const clearanceKey = `${dept}Clearance`;
 
       // Check if the clearanceKey exists on the resident object

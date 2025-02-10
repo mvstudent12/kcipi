@@ -1,5 +1,6 @@
 const Admin = require("../models/Admin");
 const Facility_Management = require("../models/Facility_Management");
+const Classification = require("../models/Classification");
 const Employer = require("../models/Employer");
 const UnitTeam = require("../models/UnitTeam");
 const Resident = require("../models/Resident");
@@ -99,7 +100,8 @@ async function findUserById(userId) {
     (await UnitTeam.findById(userId).lean()) ||
     (await Employer.findById(userId).lean()) ||
     (await Resident.findById(userId).lean()) ||
-    (await Facility_Management.findById(userId).lean())
+    (await Facility_Management.findById(userId).lean()) ||
+    (await Classification.findById(userId).lean())
   );
 }
 

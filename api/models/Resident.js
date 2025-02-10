@@ -70,10 +70,11 @@ const residentSchema = new Schema({
   resume: resumeSchema,
   resumeIsComplete: { type: Boolean, default: false },
   resumeIsApproved: { type: Boolean, default: false },
+  resumeApprovedBy: { type: String, lowercase: true },
+  resumeApprovalDate: { type: Date },
   resumeRejectionReason: { type: String, lowercase: true, default: "" },
 
   MedicalClearance: { type: clearanceSchema, default: () => ({}) },
-  UTMClearance: { type: clearanceSchema, default: () => ({}) },
   EAIClearance: { type: clearanceSchema, default: () => ({}) },
   ClassificationClearance: { type: clearanceSchema, default: () => ({}) },
   DWClearance: { type: clearanceSchema, default: () => ({}) },

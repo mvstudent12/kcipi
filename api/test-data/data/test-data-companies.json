@@ -1,25 +1,7 @@
 [
   {
     "companyName": "Impact Design",
-    "facility": "El Dorado",
-    "jobs": [
-      {
-        "position": "Driver",
-        "description": "Drives Truck",
-        "pay": "2",
-        "jobPool": "Male Minimum 1 (Off-Site)",
-        "isAvailable": true,
-        "availablePositions": "3"
-      },
-      {
-        "position": "Painter",
-        "description": "Paints Things",
-        "pay": "2",
-        "jobPool": "Male Minimum 1 (Off-Site)",
-        "isAvailable": true,
-        "availablePositions": "3"
-      }
-    ]
+    "facility": "El Dorado"
   },
   {
     "companyName": "Pioneer Ballons",
@@ -151,44 +133,10 @@
   },
   {
     "companyName": "Polo",
-    "facility": "Topeka",
-    "jobs": [
-      {
-        "position": "Machine Operator",
-        "description": "Operates Machines",
-        "pay": "2",
-        "jobPool": "Female Minimum 2 (On-Site)",
-        "isAvailable": true
-      },
-      {
-        "position": "Maintenance",
-        "description": "Maintain Machines",
-        "pay": "2",
-        "jobPool": "Female Minimum 2 (On-Site)",
-        "isAvailable": true
-      }
-    ]
+    "facility": "Topeka"
   },
   {
     "companyName": "Russell Stovers",
-    "facility": "Topeka",
-    "jobs": [
-      {
-        "position": "Machine Operator",
-        "description": "Operates Machines",
-        "pay": "14",
-        "jobPool": "Female Minimum 1 (Off-Site)",
-        "isAvailable": true,
-        "availablePositions": "3"
-      },
-      {
-        "position": "Quality Assurance Tech",
-        "description": "Assures quality of product.",
-        "pay": "14",
-        "jobPool": "Female Minimum 1 (Off-Site)",
-        "isAvailable": true,
-        "availablePositions": "6"
-      }
-    ]
+    "facility": "Topeka"
   }
 ]

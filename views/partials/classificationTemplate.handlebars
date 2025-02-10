@@ -1,0 +1,143 @@
+<!-- ======= Header ======= -->
+<header id="header" class="header fixed-top d-flex align-items-center">
+
+    <div class="d-flex align-items-center justify-content-between">
+        <a href="/classification/dashboard" class="logo d-flex align-items-center">
+            <img src="/assets/img/favicon.png" alt="Kansas Correctional Industries">
+            <span class="">KCI Private Industry</span>
+        </a>
+        <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->
+
+
+    <nav class="header-nav ms-auto">
+        <ul class="d-flex align-items-center">
+            <li class="nav-item dropdown pe-3">
+
+                <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+                    <img src="/assets/img/avatar.png" alt="Profile" class="rounded-circle">
+                    <span class="d-none d-md-block dropdown-toggle ps-2 text-capitalize">{{user.firstName}}
+                        {{user.lastName}}</span>
+                </a><!-- End Profile Image Icon -->
+
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                    <li class="dropdown-header">
+                        <h6 class="text-capitalize">{{user.firstName}} {{user.lastName}}</h6>
+                        <span id="userEmail">{{user.email}}</span>
+                    </li>
+
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="/classification/helpDesk">
+                            <i class="bi bi-question-circle"></i>
+                            <span>Need Help?</span>
+                        </a>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="/logOut">
+                            <i class="bi bi-box-arrow-right"></i>
+                            <span>Sign Out</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</header><!-- End Header -->
+
+<!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+        <li class="nav-item">
+            <a class="nav-link " href="/classification/dashboard">
+                <i class="bi bi-grid"></i>
+                <span>Dashboard</span>
+            </a>
+        </li><!-- End Dashboard Nav -->
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="/classification/manageClearance">
+                <i class="bi bi-person-square"></i>
+                <span>Manage Clearance</span>
+            </a>
+        </li>
+
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="/classification/manageWorkForce">
+                <i class="bi bi-person-check-fill"></i>
+                <span>Manage Workforce</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed text-capitalize" data-bs-target="#tables-nav" data-bs-toggle="collapse"
+                href="#">
+                <i class="bi bi-layout-text-window-reverse"></i><span>KCI PI Rosters</span><i
+                    class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="/classification/residents">
+                        <i class="bi bi-circle"></i><span class=" text-capitalize">Residents</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/classification/resumes">
+                        <i class="bi bi-circle"></i><span class=" text-capitalize">Resumes</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/classification/clearance">
+                        <i class="bi bi-circle"></i><span class=" text-capitalize">Clearance</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/classification/applicants">
+                        <i class="bi bi-circle"></i><span class=" text-capitalize">Applicants</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/classification/employees">
+                        <i class="bi bi-circle"></i><span class=" text-capitalize">Employees</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="/classification/reports">
+                <i class="bi bi-card-list"></i>
+                <span>Reports</span>
+            </a>
+        </li>
+
+
+        <li class="nav-heading">Links</li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="/classification/helpDesk">
+                <i class="bi bi-question-circle"></i>
+                <span>Help Desk</span>
+            </a>
+        </li><!-- End Help Page Nav -->
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="/classification/contact">
+                <i class="bi bi-envelope"></i>
+                <span>Contact</span>
+            </a>
+        </li><!-- End Contact Page Nav -->
+
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="/logOut">
+                <i class="bi bi-box-arrow-in-right"></i>
+                <span>Sign Out</span>
+            </a>
+        </li><!-- End Sign Out Page Nav -->
+    </ul>
+</aside><!-- End Sidebar-->

@@ -43,7 +43,7 @@
                             <div class="tab-pane fade show active profile-overview pt-3" id="profile-overview">
                                 {{#if user.resumeIsComplete}}
                                 {{#unless user.resumeIsApproved}}
-                                <p class="text-warning text-center">Your resume has been sent to Unit Team for
+                                <p class="text-primary text-center">Your resume has been sent to Unit Team for
                                     approval.
                                 </p>
                                 {{/unless}}
@@ -84,7 +84,7 @@
                                 {{#if user.resumeIsApproved}}
                                 <p class="text-success text-center">Your resume has been approved by Unit Team.</p>
                                 {{else}}
-                                <p class="text-warning text-center">Your resume is pending approval.</p>
+                                <p class="text-primary text-center">Your resume is pending approval.</p>
                                 {{/if}}
                                 <form>
                                     {{!-- Resident First Name --}}
@@ -278,7 +278,7 @@
                             <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
                                 <p class="text-danger text-center">Your resume has been rejected by Unit Team for
                                     being {{user.resumeRejectionReason}}.</p>
-                                <p class="text-warning text-center mb-3">Please review your answers and correct them
+                                <p class="text-primary text-center mb-3">Please review your answers and correct them
                                     accordingly.</p>
                                 <hr>
                                 <form method="POST" action="/resident/saveResume">
