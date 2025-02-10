@@ -439,3 +439,37 @@
 {"level":"info","message":"2025-02-10T19:29:32.907Z [INFO] : ::ffff:127.0.0.1 /clearance 200 99.184 ms","timestamp":"2025-02-10 13:29:32"}
 {"level":"info","message":"2025-02-10T19:29:36.474Z [INFO] : ::ffff:127.0.0.1 /applicants 200 95.104 ms","timestamp":"2025-02-10 13:29:36"}
 {"level":"info","message":"2025-02-10T19:29:38.720Z [INFO] : ::ffff:127.0.0.1 /employees 200 89.925 ms","timestamp":"2025-02-10 13:29:38"}
+{"level":"info","message":"2025-02-10T19:32:10.323Z [INFO] : ::ffff:127.0.0.1 /employees 304 103.767 ms","timestamp":"2025-02-10 13:32:10"}
+{"level":"info","message":"2025-02-10T19:32:17.807Z [INFO] : ::ffff:127.0.0.1 /dashboard 200 146.413 ms","timestamp":"2025-02-10 13:32:17"}
+{"level":"info","message":"User logged out: jameson.smith@ks.gov","timestamp":"2025-02-10 13:32:21"}
+{"level":"info","message":"2025-02-10T19:32:21.798Z [INFO] : ::ffff:127.0.0.1 /logOut 302 184.388 ms","timestamp":"2025-02-10 13:32:21"}
+{"level":"info","message":"2025-02-10T19:32:21.884Z [INFO] : ::ffff:127.0.0.1 / 200 84.366 ms","timestamp":"2025-02-10 13:32:21"}
+{"level":"info","message":"User logged in: David.moore@ks.gov","timestamp":"2025-02-10 13:32:26"}
+{"level":"info","message":"2025-02-10T19:32:26.367Z [INFO] : ::ffff:127.0.0.1 /login 200 182.525 ms","timestamp":"2025-02-10 13:32:26"}
+{"level":"info","message":"2025-02-10T19:32:26.466Z [INFO] : ::ffff:127.0.0.1 /user/dashboard/67aa536843cac566ad5b3101 302 91.681 ms","timestamp":"2025-02-10 13:32:26"}
+{"level":"info","message":"2025-02-10T19:32:26.685Z [INFO] : ::ffff:127.0.0.1 /dashboard 200 123.467 ms","timestamp":"2025-02-10 13:32:26"}
+{"level":"info","message":"2025-02-10T19:32:37.975Z [INFO] : ::ffff:127.0.0.1 /manageClearance 200 110.009 ms","timestamp":"2025-02-10 13:32:37"}
+{"level":"info","message":"2025-02-10T19:32:41.309Z [INFO] : ::ffff:127.0.0.1 /residentProfile/7384920 200 155.037 ms","timestamp":"2025-02-10 13:32:41"}
+{"level":"warn","message":"Role check error:: facility_management::Access denied.","timestamp":"2025-02-10 13:32:49"}
+{"level":"info","message":"2025-02-10T19:32:49.131Z [INFO] : ::ffff:127.0.0.1 /residentTables 200 91.802 ms","timestamp":"2025-02-10 13:32:49"}
+{"level":"info","message":"2025-02-10T19:33:22.624Z [INFO] : ::ffff:127.0.0.1 /residentProfile/7384920 200 2707.568 ms","timestamp":"2025-02-10 13:33:22"}
+{"level":"info","message":"2025-02-10T19:33:24.823Z [INFO] : ::ffff:127.0.0.1 /reports 200 87.343 ms","timestamp":"2025-02-10 13:33:24"}
+{"level":"warn","message":"Page not found: /facility_management/residentTables","timestamp":"2025-02-10 13:33:26"}
+{"level":"info","message":"2025-02-10T19:33:26.604Z [INFO] : ::ffff:127.0.0.1 /facility_management/residentTables 200 83.192 ms","timestamp":"2025-02-10 13:33:26"}
+{"level":"info","message":"2025-02-10T19:35:51.878Z [INFO] : ::ffff:127.0.0.1 /reports 200 3005.663 ms","timestamp":"2025-02-10 13:35:51"}
+{"level":"info","message":"2025-02-10T19:35:54.551Z [INFO] : ::ffff:127.0.0.1 /facility_management/residents 500 90.717 ms","timestamp":"2025-02-10 13:35:54"}
+{"level":"info","message":"2025-02-10T19:37:50.535Z [INFO] : ::ffff:127.0.0.1 /reports 304 96.606 ms","timestamp":"2025-02-10 13:37:50"}
+{"level":"info","message":"2025-02-10T19:37:54.022Z [INFO] : ::ffff:127.0.0.1 /residents 200 100.906 ms","timestamp":"2025-02-10 13:37:54"}
+{"level":"info","message":"2025-02-10T19:37:56.950Z [INFO] : ::ffff:127.0.0.1 /resumes 200 97.977 ms","timestamp":"2025-02-10 13:37:56"}
+{"level":"info","message":"2025-02-10T19:38:00.263Z [INFO] : ::ffff:127.0.0.1 /clearance 200 104.482 ms","timestamp":"2025-02-10 13:38:00"}
+{"level":"info","message":"2025-02-10T19:38:03.215Z [INFO] : ::ffff:127.0.0.1 /applicants 200 99.301 ms","timestamp":"2025-02-10 13:38:03"}
+{"level":"info","message":"2025-02-10T19:38:05.225Z [INFO] : ::ffff:127.0.0.1 /employees 200 88.414 ms","timestamp":"2025-02-10 13:38:05"}
+{"level":"info","message":"2025-02-10T19:38:08.133Z [INFO] : ::ffff:127.0.0.1 /reports 304 84.945 ms","timestamp":"2025-02-10 13:38:08"}
+{"level":"info","message":"2025-02-10T19:38:12.457Z [INFO] : ::ffff:127.0.0.1 /residentReport 200 104.098 ms","timestamp":"2025-02-10 13:38:12"}
+{"level":"info","message":"2025-02-10T19:38:21.940Z [INFO] : ::ffff:127.0.0.1 /employedResidentsReport 200 94.738 ms","timestamp":"2025-02-10 13:38:21"}
+{"level":"info","message":"2025-02-10T19:38:27.323Z [INFO] : ::ffff:127.0.0.1 /helpDesk 200 88.880 ms","timestamp":"2025-02-10 13:38:27"}
+{"level":"info","message":"2025-02-10T19:38:28.484Z [INFO] : ::ffff:127.0.0.1 /contact 200 92.790 ms","timestamp":"2025-02-10 13:38:28"}
+{"level":"info","message":"2025-02-10T19:38:30.566Z [INFO] : ::ffff:127.0.0.1 /manageClearance 200 103.681 ms","timestamp":"2025-02-10 13:38:30"}
+{"level":"info","message":"2025-02-10T19:38:33.129Z [INFO] : ::ffff:127.0.0.1 /manageWorkForce 200 98.834 ms","timestamp":"2025-02-10 13:38:33"}
+{"level":"info","message":"2025-02-10T19:38:40.437Z [INFO] : ::ffff:127.0.0.1 /manageClearance 304 98.460 ms","timestamp":"2025-02-10 13:38:40"}
+{"level":"info","message":"2025-02-10T19:38:41.969Z [INFO] : ::ffff:127.0.0.1 /residentProfile/2639581 200 145.862 ms","timestamp":"2025-02-10 13:38:41"}

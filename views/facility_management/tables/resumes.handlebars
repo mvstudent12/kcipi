@@ -1,0 +1,76 @@
+{{> facility_managementTemplate}}
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1 class="text-capitalize">{{user.facility}} Residents</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active"><a href="/facility_management/dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item active">Resident Data</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row">
+
+                    <!-- Resume Table -->
+                    <div class="col-12">
+                        <div class="card recent-sales overflow-auto">
+                            <div class="card-body">
+                                <h5 class="card-title">All Resumes <span>| To Approve</span></h5>
+                                <table class="table table-borderless table-striped datatable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">ID #</th>
+
+                                            <th scope="col">Resident</th>
+                                            <th scope="col">Out Date</th>
+                                            <th scope="col">Submitted</th>
+                                            <th scope="col">Unit Team</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each caseLoad}}
+                                        {{#unless this.resumeIsApproved}}
+                                        {{#if this.resumeIsComplete}}
+                                        <tr>
+                                            <th scope="row"><a
+                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
+                                            </th>
+
+                                            <td><a href="/clearance/residentProfile/{{this.residentID}}"
+                                                    class="text-primary text-capitalize">{{this.firstName}}
+                                                    {{this.lastName}}</a></td>
+                                            <td><a href="/clearance/residentProfile/{{this.residentID}}"
+                                                    class="text-primary text-capitalize">{{formatDate this.outDate}}</a>
+                                            </td>
+
+                                            <td>{{formatDate this.resume.createdAt}}</td>
+                                            <td class="text-capitalize">{{this.unitTeam}}</td>
+
+
+                                        </tr>
+                                        {{/if}}
+                                        {{/unless}}
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div><!-- End Resume Table -->
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+</main>
+
+<!-- ======= Footer ======= -->
+{{> footer}}
+
+{{> arrowUp}}
