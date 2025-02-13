@@ -398,3 +398,11 @@
 {"level":"info","message":"2025-02-13T20:50:53.052Z [INFO] : ::1 /dashboard 200 93.307 ms","timestamp":"2025-02-13 14:50:53"}
 {"level":"info","message":"2025-02-13T20:53:13.795Z [INFO] : ::1 /dashboard 200 1940.505 ms","timestamp":"2025-02-13 14:53:13"}
 {"level":"info","message":"2025-02-13T20:53:58.655Z [INFO] : ::1 /dashboard 200 143.285 ms","timestamp":"2025-02-13 14:53:58"}
+{"level":"info","message":"2025-02-13T21:03:52.770Z [INFO] : ::1 /dashboard 302 103.081 ms","timestamp":"2025-02-13 15:03:52"}
+{"level":"info","message":"2025-02-13T21:03:53.495Z [INFO] : ::1 / 304 811.570 ms","timestamp":"2025-02-13 15:03:53"}
+{"level":"info","message":"User logged in: shawn.williams@ks.gov","timestamp":"2025-02-13 15:03:55"}
+{"level":"info","message":"2025-02-13T21:03:55.436Z [INFO] : ::1 /login 200 203.429 ms","timestamp":"2025-02-13 15:03:55"}
+{"level":"info","message":"2025-02-13T21:03:55.626Z [INFO] : ::1 /user/dashboard/67ae0df95e9921bb03e19378 302 96.349 ms","timestamp":"2025-02-13 15:03:55"}
+{"level":"info","message":"2025-02-13T21:03:55.748Z [INFO] : ::1 /dashboard 200 113.771 ms","timestamp":"2025-02-13 15:03:55"}
+{"level":"info","message":"2025-02-13T21:03:56.441Z [INFO] : ::1 /resident 304 344.468 ms","timestamp":"2025-02-13 15:03:56"}
+{"level":"info","message":"2025-02-13T21:03:56.772Z [INFO] : ::1 /residentLogOut 302 192.813 ms","timestamp":"2025-02-13 15:03:56"}
