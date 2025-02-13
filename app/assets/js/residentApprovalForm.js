@@ -94,7 +94,7 @@ addNotesButtons.forEach((button) => {
               note.createdBy
             }</span>
 
-              <p class="text-info first-letter">${note.note}</p>
+              <p class="text-primary first-letter">${note.note}</p>
               <hr>
             `;
           });

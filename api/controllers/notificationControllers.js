@@ -16,9 +16,21 @@ const {
   sendRequestInterviewEmail,
   sendRequestHireEmail,
 } = require("../utils/emailUtils/notificationEmail");
+
 //===========================
 //  Global   functions
 //===========================
+
+const {
+  getUserNotifications,
+  createNotification,
+} = require("../utils/notificationUtils");
+
+const {
+  getEmployeeEmails,
+  sendNotificationsToEmployers,
+} = require("../utils/clearanceUtils");
+
 function getNameFromEmail(email) {
   const regex = /^([a-z]+)\.([a-z]+)@/i; // Matches "first.last@" pattern
   const match = email.match(regex);
@@ -150,73 +162,10 @@ module.exports = {
     sendReviewEmail(resident, department, recipient, email, notes);
     res.render("clearance/thankYou", { resident, email });
   },
-  async requestInterview(req, res) {
-    try {
-      let { residentID, preferences, additionalNotes } = req.body;
-      const { jobID } = req.params;
 
-      const resident = await Resident.findOne({ residentID }).lean();
-      if (!resident) {
-        throw new Error("Resident not found");
-      }
-      const residentObjectId = resident._id; // MongoDB ObjectId
-
-      const name = `${resident.firstName} ${resident.lastName}`;
-      const companyName = req.session.user.companyName;
-      const sender = req.session.user.email;
-
-      await Jobs.findByIdAndUpdate(jobID, {
-        $push: {
-          interviews: {
-            isRequested: true,
-            residentID,
-            name,
-            dateRequested: new Date(),
-            preferredDate: preferences || null,
-            employerInstructions: additionalNotes || "",
-          },
-        },
-      });
-
-      // Retrieve the updated job and return the _id of the last interview
-      const updatedJob = await Jobs.findById(jobID).lean();
-      if (!updatedJob || !updatedJob.interviews.length) {
-        throw new Error("Interview request failed");
-      }
-      const interviewID =
-        updatedJob.interviews[updatedJob.interviews.length - 1]._id;
-
-      // find all jobs resident has applied for
-      const applications = await Jobs.find({
-        "applicants.resident_id": residentObjectId,
-      }).lean();
-
-      //send notification email to UTM
-      let devEmail = "kcicodingdev@gmail.com";
-      sendRequestInterviewEmail(
-        resident,
-        companyName,
-        devEmail, //change to email in production
-        sender,
-        interviewID
-      );
-
-      const activeTab = "application";
-      res.render(`${req.session.user.role}/profiles/residentProfile`, {
-        user: req.session.user,
-        resident,
-        activeTab,
-        applications,
-      });
-    } catch (err) {
-      console.error("Error requesting interview:", err);
-      logger.warn("An error occurred while requesting the interview: " + err);
-      res.render("error/500");
-    }
-  },
   async reviewInterviewRequest(req, res) {
     try {
-      const { interviewID, email } = req.params;
+      const { interviewID } = req.params;
 
       let interview = await Jobs.aggregate([
         // Unwind the interviews array to make each interview a separate document
@@ -247,18 +196,18 @@ module.exports = {
       }).lean();
 
       res.render("clearance/requestInterview", {
-        email,
         interview,
         resident,
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   }, //schedule interview from email notification
   async scheduleInterview(req, res) {
     try {
       const { interviewID, jobID } = req.params;
-      const { date, time, instructions } = req.body;
+      const { date, time, instructions, residentID } = req.body;
 
       // Convert interviewID to ObjectId
       const interviewObjectId = new mongoose.Types.ObjectId(interviewID);
@@ -283,6 +232,18 @@ module.exports = {
           "Interview update failed. Ensure job and interview exist."
         );
       }
+      const resident = await Resident.findOne({ residentID }).lean();
+      const job = await Jobs.findOne({ _id: jobID }).lean();
+      const companyName = job.companyName;
+
+      //send notification to all PI partners in that company
+      const employerEmails = await getEmployeeEmails(companyName);
+
+      await sendNotificationsToEmployers(
+        employerEmails,
+        "interview_scheduled",
+        `New interview scheduled for resident #${resident.residentID}.`
+      );
       res.render(`clearance/thankYou`, {
         user: req.session.user,
       });
@@ -292,15 +253,75 @@ module.exports = {
       res.render("error/500");
     }
   },
+  async reviewHireRequest(req, res) {
+    try {
+      const { jobID, res_id } = req.params;
 
+      let application = await Jobs.findOne(
+        {
+          _id: jobID, // Match the job by jobID
+          "applicants.resident_id": res_id, // Match the applicant by resident_id
+        },
+        { "applicants.$": 1 } // Return the matched application from the applicants array
+      ).lean(); // Optional, if you prefer working with a plain JavaScript object
+
+      // If found, application will contain the job with the specific applicant data
+      application = application.applicants[0];
+
+      const job = await Jobs.findById({ _id: jobID }).lean();
+
+      const resident = await Resident.findById({ _id: res_id }).lean();
+      const email = resident.resume.unitTeam;
+      const unitTeam = await UnitTeam.findOne({ email }).lean();
+
+      req.session.user = unitTeam;
+
+      res.render("clearance/requestHire", {
+        application,
+        resident,
+        user: req.session.user,
+        job,
+      });
+    } catch (err) {
+      console.log(err);
+      res.render("error/500");
+    }
+  },
+  async reviewTerminationRequest(req, res) {
+    try {
+      const { res_id } = req.params;
+
+      const resident = await Resident.findOne({ _id: res_id }).lean();
+      const unitTeam = await UnitTeam.findOne({
+        email: resident.resume.unitTeam,
+      }).lean();
+
+      req.session.user = unitTeam;
+      res.render("clearance/requestTermination", {
+        user: req.session.user,
+        resident,
+      });
+    } catch (err) {
+      console.log(err);
+      res.render("error/500");
+    }
+  },
   //========================
   //   Clearance Functions
   //========================
   async approveClearance(req, res) {
     let { residentID, email, dept } = req.params;
 
+    const notifyDept = dept;
+
+    if (dept == "Sex-Offender") {
+      dept = "sexOffender";
+    }
     if (dept == "Victim-Services") {
       dept = "victimServices";
+    }
+    if (dept == "Deputy-Warden") {
+      dept = "DW";
     }
     const name = getNameFromEmail(email);
 
@@ -328,100 +349,131 @@ module.exports = {
       );
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
-    activeTab = "status";
     const resident = await Resident.findOne({ residentID }).lean();
-    console.log(dept);
+    //send notification to unit team of this interview request on their dashboard
+    await createNotification(
+      resident.resume.unitTeam,
+      "unitTeam",
+      "clearance_approved",
+      `${notifyDept} clearance approved for resident #${resident.residentID}.`
+    );
 
+    activeTab = "status";
     res.render(`clearance/${dept}`, { resident, email, activeTab });
   },
   async restrictClearance(req, res) {
-    let { residentID, email, dept } = req.params;
-    const name = getNameFromEmail(email);
-
-    if (dept == "Victim-Services") {
-      dept = "victimServices";
-    }
-
     try {
-      await Resident.updateOne(
-        { residentID: residentID },
-        {
-          $set: {
-            [`${dept}Clearance.status`]: "restricted",
-            "workEligibility.status": "restricted",
-          },
-          $push: {
-            [`${dept}Clearance.clearanceHistory`]: {
-              action: "restricted",
-              performedBy: name,
-              reason: "Restrictions added. ❌",
+      let { residentID, email, dept } = req.params;
+      const name = getNameFromEmail(email);
+
+      const notifyDept = dept;
+
+      if (dept == "Sex-Offender") {
+        dept = "sexOffender";
+      }
+      if (dept == "Victim-Services") {
+        dept = "victimServices";
+      }
+      if (dept == "Deputy-Warden") {
+        dept = "DW";
+      }
+
+      try {
+        await Resident.updateOne(
+          { residentID: residentID },
+          {
+            $set: {
+              [`${dept}Clearance.status`]: "restricted",
+              "workEligibility.status": "restricted",
             },
-            [`${dept}Clearance.notes`]: {
-              createdAt: new Date(),
-              createdBy: name,
-              note: `Restricted clearance. ❌`,
+            $push: {
+              [`${dept}Clearance.clearanceHistory`]: {
+                action: "restricted",
+                performedBy: name,
+                reason: "Restrictions added. ❌",
+              },
+              [`${dept}Clearance.notes`]: {
+                createdAt: new Date(),
+                createdBy: name,
+                note: `Restricted clearance. ❌`,
+              },
             },
-          },
-        }
+          }
+        );
+      } catch (err) {
+        console.log(err);
+        res.render("error/500");
+      }
+      const resident = await Resident.findOne({ residentID }).lean();
+      //send notification to unit team of this interview request on their dashboard
+      await createNotification(
+        resident.resume.unitTeam,
+        "unitTeam",
+        "clearance_denied",
+        `${notifyDept} clearance restricted for resident #${resident.residentID}.`
       );
+      activeTab = "status";
+      res.render(`clearance/${dept}`, { resident, email, activeTab });
     } catch (err) {
       console.log(err);
-      res.render("errors/500");
+      res.render("error/500");
     }
-    activeTab = "status";
-    const resident = await Resident.findOne({ residentID }).lean();
-    console.log(resident);
-    res.render(`clearance/${dept}`, { resident, email, activeTab });
   },
   async saveNotes(req, res) {
-    let { residentID, email, dept } = req.params;
-
-    if (dept == "Sex-Offender") {
-      dept = "sexOffender";
-    }
-    if (dept == "Victim-Services") {
-      dept = "victimServices";
-    }
-    if (dept == "Deputy-Warden") {
-      dept = "DW";
-    }
-    const { notes } = req.body;
-    let name = getNameFromEmail(email);
-
-    if (!name) {
-      name = email;
-    }
-    console.log(name);
     try {
-      await Resident.updateOne(
-        { residentID: residentID },
-        {
-          $push: {
-            [`${dept}Clearance.notes`]: {
-              createdAt: new Date(),
-              createdBy: name,
-              note: notes,
+      let { residentID, email, dept } = req.params;
+
+      if (dept == "Sex-Offender") {
+        dept = "sexOffender";
+      }
+      if (dept == "Victim-Services") {
+        dept = "victimServices";
+      }
+      if (dept == "Deputy-Warden") {
+        dept = "DW";
+      }
+      const { notes } = req.body;
+      let name = getNameFromEmail(email);
+
+      if (!name) {
+        name = email;
+      }
+
+      try {
+        await Resident.updateOne(
+          { residentID: residentID },
+          {
+            $push: {
+              [`${dept}Clearance.notes`]: {
+                createdAt: new Date(),
+                createdBy: name,
+                note: notes,
+              },
             },
-          },
-        }
-      );
+          }
+        );
+      } catch (err) {
+        console.log(err);
+        res.render("error/500");
+      }
+      const activeTab = "notes";
+      const resident = await Resident.findOne({ residentID }).lean();
+      res.render(`clearance/${dept}`, { resident, email, activeTab });
     } catch (err) {
       console.log(err);
-      res.render("errors/500");
+      res.render("error/500");
     }
-    const activeTab = "notes";
-    const resident = await Resident.findOne({ residentID }).lean();
-    res.render(`clearance/${dept}`, { resident, email, activeTab });
   },
 
   //========================
   //   Help Desk
   //========================
   async helpDesk(req, res) {
-    const { name, email, subject, message } = req.body;
-    const recipient = "kcicodingdev@gmail.com";
     try {
+      const { name, email, subject, message } = req.body;
+      const recipient = "kcicodingdev@gmail.com";
       sendHelpDeskEmail(name, subject, email, message, recipient);
       const sentMsg = true;
       res.render(`${req.session.user.role}/helpDesk`, {
@@ -436,9 +488,9 @@ module.exports = {
   //   Contact
   //========================
   async contact(req, res) {
-    const { name, email, subject, message } = req.body;
-    const recipient = "kcicodingdev@gmail.com";
     try {
+      const { name, email, subject, message } = req.body;
+      const recipient = "kcicodingdev@gmail.com"; //-->development only
       sendContactEmail(name, subject, email, message, recipient);
       const sentMsg = true;
       res.render(`${req.session.user.role}/contact`, {

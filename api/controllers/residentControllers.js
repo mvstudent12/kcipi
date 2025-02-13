@@ -23,6 +23,7 @@ module.exports = {
             $match: {
               jobPool: jobPool, // Match jobs with the same jobPool as the resident
               facility: facility,
+              availablePositions: { $gt: 0 }
             },
           },
           {
@@ -33,7 +34,7 @@ module.exports = {
                   {
                     $size: {
                       $filter: {
-                        input: "$applicants",
+                        input: "$applicants",// The array to filter
                         as: "applicant",
                         cond: {
                           $eq: [
@@ -44,8 +45,8 @@ module.exports = {
                       },
                     },
                   },
-                  0,
-                ], // Returns true if at least one match is found
+                  0,// Returns true if at least one match is found
+                ], 
               },
             },
           },
@@ -106,6 +107,7 @@ module.exports = {
       }
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
   async profile(req, res) {
@@ -119,6 +121,7 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
   async saveResume(req, res) {
@@ -145,6 +148,7 @@ module.exports = {
       res.render("resident/profile", { user: req.session.resident });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
   async applications(req, res) {
@@ -177,6 +181,7 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
   async jobInfo(req, res) {
@@ -221,17 +226,18 @@ module.exports = {
       }
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
   async saveApplication(req, res) {
     try {
       const { jobID } = req.params;
-      const residentID = req.session.resident._id;
+      const res_id = req.session.resident._id;
 
       // Check if the resident has already applied
       const job = await Jobs.findOne({
         _id: jobID,
-        "applicants.resident_id": residentID, // Check if resident is already in the applicants array
+        "applicants.resident_id": res_id, // Check if resident is already in the applicants array
       });
 
       if (!job) {
@@ -241,7 +247,7 @@ module.exports = {
           {
             $addToSet: {
               applicants: {
-                resident_id: residentID,
+                resident_id: res_id,
                 hireRequest: false,
                 dateApplied: new Date(),
               },
@@ -264,7 +270,7 @@ module.exports = {
               $cond: {
                 if: {
                   $in: [
-                    new mongoose.Types.ObjectId(residentID),
+                    new mongoose.Types.ObjectId(res_id),
                     "$applicants.resident_id", // Adjusted to check inside the applicants array
                   ],
                 },
@@ -285,6 +291,7 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
 
@@ -293,6 +300,7 @@ module.exports = {
       res.render("resident/faq", { user: req.session.resident });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
 };

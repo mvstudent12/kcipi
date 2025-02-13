@@ -15,6 +15,16 @@ notificationRoutes.post(
   controller.scheduleInterview
 );
 
+notificationRoutes.get(
+  "/reviewHireRequest/:jobID/:res_id",
+  controller.reviewHireRequest
+);
+
+notificationRoutes.get(
+  "/reviewTerminationRequest/:res_id",
+  controller.reviewTerminationRequest
+);
+
 //============================
 //Help Desk & Contact Notifications
 //============================

@@ -83,43 +83,44 @@
                     <div class="col-12">
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
-                                <h5 class="card-title">Job Positions <span>| Current</span></h5>
+                                <h5 class="card-title">Job Positions <span>| Available</span></h5>
                                 <table class="table table-borderless table-striped datatable">
                                     <thead>
                                         <tr>
-                                            <th scope="col">#</th>
+
                                             <th scope="col">Position</th>
+                                            <th scope="col">Pay</th>
                                             <th scope="col">Job Pool</th>
                                             <th scope="col"># Available</th>
                                             <th scope="col">Applicants</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{#each jobs}}
-                                        <tr>
-                                            <th scope="row">
-                                                <a href="/employer/jobProfile/{{this._id}}"
-                                                    class="text-primary text-capitalize">
-                                                    {{this.availablePositions}}</a>
-                                            </th>
-                                            <td><a href="/employer/jobProfile/{{this._id}}"
-                                                    class="text-primary text-capitalize">{{this.position}}</a>
-                                            </td>
-                                            <td class="text-capitalize"><a href="/employer/jobProfile/{{this._id}}"
-                                                    class="text-primary">{{this.jobPool}}</a>
-                                            </td>
-                                            <td><a href="/employer/jobProfile/{{this._id}}"
-                                                    class="text-primary text-capitalize">{{this.availablePositions}}</a>
-                                            </td>
-                                            {{#if (eq this.applicants '')}}
-                                            <td><span class="badge bg-danger">none</span></td>
-                                            {{else}}
-                                            <td><span class="badge bg-success">
-                                                    &nbsp;&nbsp;{{countArrayItems this.applicants}}
-                                                    &nbsp;&nbsp;</span>
-                                            </td>
-                                            {{/if}}
-                                        </tr>
+                                        {{#each availableJobs}}
+                                            <tr>
+                                                <th scope="row">
+                                                    <a href="/employer/jobProfile/{{this._id}}"
+                                                        class="text-primary text-capitalize">
+                                                        {{this.position}}</a>
+                                                </th>
+                                                <td><a href="/employer/jobProfile/{{this._id}}"
+                                                        class="text-primary text-capitalize">${{this.pay}}</a>
+                                                </td>
+                                                <td class="text-capitalize"><a href="/employer/jobProfile/{{this._id}}"
+                                                        class="text-primary">{{this.jobPool}}</a>
+                                                </td>
+                                                <td><a href="/employer/jobProfile/{{this._id}}"
+                                                        class="text-primary text-capitalize">{{this.availablePositions}}</a>
+                                                </td>
+                                                {{#if (eq this.applicants '')}}
+                                                    <td><span class="badge bg-danger">None</span></td>
+                                                {{else}}
+                                                    <td><span class="badge bg-success">
+                                                            &nbsp;&nbsp;{{countArrayItems this.applicants}}
+                                                            &nbsp;&nbsp;</span>
+                                                    </td>
+                                                {{/if}}
+                                            </tr>
                                         {{/each}}
                                     </tbody>
                                 </table>
@@ -144,31 +145,31 @@
                                     </thead>
                                     <tbody>
                                         {{#each applicants}}
-                                        <tr>
-                                            <th scope="row">
-                                                <a
-                                                    href="/employer/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
-                                            </th>
-                                            <td class="text-capitalize">
-                                                <a
-                                                    href="/employer/residentProfile/{{this.residentID}}">{{this.facility}}</a>
-                                            </td>
-                                            <td>
-                                                <a href="/employer/residentProfile/{{this.residentID}}"
-                                                    class="text-primary text-capitalize">{{this.firstName}}
-                                                    {{this.lastName}}</a>
-                                            </td>
-                                            <td>
-                                                <a href="/employer/residentProfile/{{this.residentID}}"
-                                                    class="text-primary text-capitalize">
-                                                    {{formatDate this.outDate}}
-                                                </a>
-                                            </td>
-                                            <td class="text-capitalize">
-                                                <a
-                                                    href="/employer/residentProfile/{{this.residentID}}">{{this.custodyLevel}}</a>
-                                            </td>
-                                        </tr>
+                                            <tr>
+                                                <th scope="row">
+                                                    <a
+                                                        href="/employer/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
+                                                </th>
+                                                <td class="text-capitalize">
+                                                    <a
+                                                        href="/employer/residentProfile/{{this.residentID}}">{{this.facility}}</a>
+                                                </td>
+                                                <td>
+                                                    <a href="/employer/residentProfile/{{this.residentID}}"
+                                                        class="text-primary text-capitalize">{{this.firstName}}
+                                                        {{this.lastName}}</a>
+                                                </td>
+                                                <td>
+                                                    <a href="/employer/residentProfile/{{this.residentID}}"
+                                                        class="text-primary text-capitalize">
+                                                        {{formatDate this.outDate}}
+                                                    </a>
+                                                </td>
+                                                <td class="text-capitalize">
+                                                    <a
+                                                        href="/employer/residentProfile/{{this.residentID}}">{{this.custodyLevel}}</a>
+                                                </td>
+                                            </tr>
                                         {{/each}}
                                     </tbody>
                                 </table>
@@ -193,30 +194,30 @@
                                     </thead>
                                     <tbody>
                                         {{#each employees}}
-                                        <tr>
-                                            <th scope="row">
-                                                <a
-                                                    href="/employer/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
-                                            </th>
-                                            <td class="text-capitalize">
-                                                <a
-                                                    href="/employer/residentProfile/{{this.residentID}}">{{this.facility}}</a>
-                                            </td>
-                                            <td class="text-capitalize">
-                                                <a href="/employer/residentProfile/{{this.residentID}}">{{this.firstName}}
-                                                    {{this.lastName}}</a>
-                                            </td>
-                                            <td class="text-capitalize">
-                                                <a href="/employer/residentProfile/{{this.residentID}}">{{formatDate
+                                            <tr>
+                                                <th scope="row">
+                                                    <a
+                                                        href="/employer/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
+                                                </th>
+                                                <td class="text-capitalize">
+                                                    <a
+                                                        href="/employer/residentProfile/{{this.residentID}}">{{this.facility}}</a>
+                                                </td>
+                                                <td class="text-capitalize">
+                                                    <a href="/employer/residentProfile/{{this.residentID}}">{{this.firstName}}
+                                                        {{this.lastName}}</a>
+                                                </td>
+                                                <td class="text-capitalize">
+                                                    <a href="/employer/residentProfile/{{this.residentID}}">{{formatDate
                                                     this.outDate}}</a>
-                                            </td>
-                                            <td class="text-capitalize">
-                                                <a
-                                                    href="/employer/residentProfile/{{this.residentID}}">{{this.unitTeam}}</a>
-                                            </td>
+                                                </td>
+                                                <td class="text-capitalize">
+                                                    <a
+                                                        href="/employer/residentProfile/{{this.residentID}}">{{this.unitTeam}}</a>
+                                                </td>
 
 
-                                        </tr>
+                                            </tr>
 
                                         {{/each}}
                                     </tbody>

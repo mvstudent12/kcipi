@@ -1,175 +1,23 @@
-const Admin = require("../models/Admin");
-const Facility_Management = require("../models/Facility_Management");
-const Classification = require("../models/Classification");
-const Employer = require("../models/Employer");
-const UnitTeam = require("../models/UnitTeam");
 const Resident = require("../models/Resident");
-const Jobs = require("../models/Jobs");
 
 const { Parser } = require("json2csv");
 
-const findInterviews = async (residentIDs) => {
-  try {
-    const interviews = await Jobs.aggregate([
-      // Unwind the interviews array to separate each interview
-      { $unwind: "$interviews" },
+const {
+  findInterviews,
+  findApplicantIDsAndCompanyName,
+  findResidentsWithCompany,
+  createApplicantsReport,
+} = require("../utils/facility_managementUtils");
 
-      // Match interviews where residentID is in the applicantIDs array
-      {
-        $match: {
-          "interviews.residentID": { $in: residentIDs },
-        },
-      },
-
-      // Optionally, project to return only the interview details
-      {
-        $project: {
-          _id: 0, // Exclude the job _id
-          interview: "$interviews", // Include the interview details
-          jobId: "$_id", // Include the job _id for context
-          companyName: "$companyName",
-        },
-      },
-    ]);
-    return interviews;
-  } catch (error) {
-    console.error("Error fetching interviews:", error);
-    throw error; // Re-throw the error to handle it in the calling code
-  }
-};
-
-const findApplicantIDsAndCompanyName = async (IDs) => {
-  try {
-    let applicantIDs = [];
-
-    // Aggregation pipeline to retrieve applicant IDs and associated companyName
-    const result = await Jobs.aggregate([
-      { $unwind: "$applicants" }, // Flatten the applicants array
-      { $match: { "applicants.resident_id": { $in: IDs } } }, // Filter applicants by residentID array
-      {
-        $project: {
-          applicantID: "$applicants.resident_id", // Renamed applicants to applicantID for clarity
-          companyName: 1, // Include the companyName field
-          dateCreated: 1,
-        },
-      },
-      {
-        $group: {
-          _id: null,
-          allApplicants: {
-            $push: {
-              applicantID: "$applicantID",
-              companyName: "$companyName",
-              dateCreated: "$dateCreated",
-            },
-          },
-        },
-      }, // Group by null to get all applicants
-    ]);
-
-    if (result.length > 0) {
-      applicantIDs = result[0].allApplicants;
-    }
-
-    return applicantIDs;
-  } catch (error) {
-    console.error("Error fetching applicantIDs:", error);
-    throw error; // Re-throw the error to handle it in the calling code
-  }
-};
-
-const findResidentsWithCompany = async (applicantData) => {
-  try {
-    // Extract all applicant IDs from the provided array
-    const applicantIDs = applicantData.map((item) => item.applicantID);
-
-    // Find all residents with matching applicant IDs
-    const residents = await Resident.find({
-      _id: { $in: applicantIDs },
-    }).lean();
-
-    // Add companyName to each resident object
-    const residentsWithCompany = residents.map((resident) => {
-      // Find the corresponding companyName for each resident
-      const matchingCompany = applicantData.find(
-        (item) => item.applicantID.toString() === resident._id.toString()
-      );
-      return {
-        ...resident,
-        companyName: matchingCompany ? matchingCompany.companyName : null,
-      };
-    });
-
-    return residentsWithCompany;
-  } catch (error) {
-    console.error("Error fetching residents with company:", error);
-    throw error; // Re-throw the error to handle it in the calling code
-  }
-};
-
-const createApplicantsReport = async (applicantData, selectedFields) => {
-  try {
-    const applicantIDs = applicantData.map((item) => item.applicantID);
-
-    // Always include _id for mapping, but remove it later if not requested
-    const includeID = selectedFields.includes("_id");
-    const fieldsToSelect = includeID
-      ? selectedFields
-      : [...selectedFields, "_id"];
-
-    // Find residents with only the selected fields
-    const residents = await Resident.find(
-      { _id: { $in: applicantIDs } },
-      fieldsToSelect.join(" ")
-    ).lean();
-
-    // Fetch dateApplied and companyName for each applicant
-    const jobData = await Jobs.aggregate([
-      { $unwind: "$applicants" }, // Flatten applicants array
-      { $match: { "applicants.resident_id": { $in: applicantIDs } } }, // Match applicant resident_id
-      {
-        $project: {
-          applicantID: "$applicants.resident_id",
-          companyName: 1,
-          dateApplied: "$applicants.dateApplied", // Extract dateApplied from the applicants array
-        },
-      },
-    ]);
-
-    // Map residents with companyName and dateApplied
-    const residentsWithDetails = residents.map((resident) => {
-      const matchingCompany = applicantData.find(
-        (item) => item.applicantID.toString() === resident._id.toString()
-      );
-
-      const matchingJob = jobData.find(
-        (job) => job.applicantID.toString() === resident._id.toString()
-      );
-
-      const residentWithDetails = {
-        ...resident,
-        companyName: matchingCompany ? matchingCompany.companyName : null,
-        dateApplied: matchingJob ? matchingJob.dateApplied : null, // Attach dateApplied
-      };
-
-      // Remove _id if it wasn't in the original selected fields
-      if (!includeID) {
-        delete residentWithDetails._id;
-      }
-
-      return residentWithDetails;
-    });
-
-    return residentsWithDetails;
-  } catch (error) {
-    console.error("Error fetching residents with details:", error);
-    throw error;
-  }
-};
+const { getUserNotifications } = require("../utils/notificationUtils");
 
 module.exports = {
   async dashboard(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
 
       const facility = req.session.user.facility;
 
@@ -200,6 +48,7 @@ module.exports = {
 
       res.render("facility_management/dashboard", {
         user: req.session.user,
+        notifications,
         caseLoad,
         applicants,
         interviews,
@@ -212,7 +61,14 @@ module.exports = {
 
   async helpDesk(req, res) {
     try {
-      res.render("facility_management/helpDesk", { user: req.session.user });
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+      res.render("facility_management/helpDesk", {
+        user: req.session.user,
+        notifications,
+      });
     } catch (err) {
       console.log(err);
     }
@@ -220,13 +76,24 @@ module.exports = {
 
   async contact(req, res) {
     try {
-      res.render("facility_management/contact", { user: req.session.user });
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+      res.render("facility_management/contact", {
+        user: req.session.user,
+        notifications,
+      });
     } catch (err) {
       console.log(err);
     }
   },
   async manageWorkForce(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const email = req.session.user.email;
       const facility = req.session.user.facility;
 
@@ -254,6 +121,7 @@ module.exports = {
 
       res.render("facility_management/manageWorkForce", {
         user: req.session.user,
+        notifications,
         applicants,
         interviews,
         employees,
@@ -264,6 +132,10 @@ module.exports = {
   },
   async manageClearance(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const email = req.session.user.email;
       const facility = req.session.user.facility;
       //find caseload specific to UTM
@@ -273,6 +145,7 @@ module.exports = {
 
       res.render("facility_management/manageClearance", {
         user: req.session.user,
+        notifications,
         caseLoad,
       });
     } catch (err) {
@@ -284,10 +157,15 @@ module.exports = {
   //===============================
   async residents(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const facility = req.session.user.facility;
       const caseLoad = await Resident.find({ facility }).lean();
       res.render("facility_management/tables/residents", {
         user: req.session.user,
+        notifications,
         caseLoad,
       });
     } catch (err) {
@@ -296,10 +174,15 @@ module.exports = {
   },
   async resumes(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const facility = req.session.user.facility;
       const caseLoad = await Resident.find({ facility }).lean();
       res.render("facility_management/tables/resumes", {
         user: req.session.user,
+        notifications,
         caseLoad,
       });
     } catch (err) {
@@ -308,10 +191,15 @@ module.exports = {
   },
   async clearance(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const facility = req.session.user.facility;
       const caseLoad = await Resident.find({ facility }).lean();
       res.render("facility_management/tables/clearance", {
         user: req.session.user,
+        notifications,
         caseLoad,
       });
     } catch (err) {
@@ -320,6 +208,10 @@ module.exports = {
   },
   async applicants(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const facility = req.session.user.facility;
 
       const caseLoad = await Resident.find({ facility }).lean();
@@ -333,6 +225,7 @@ module.exports = {
 
       res.render("facility_management/tables/applicants", {
         user: req.session.user,
+        notifications,
         applicants,
       });
     } catch (err) {
@@ -341,6 +234,10 @@ module.exports = {
   },
   async employees(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const facility = req.session.user.facility;
 
       const employees = await Resident.find({
@@ -350,6 +247,7 @@ module.exports = {
 
       res.render("facility_management/tables/employees", {
         user: req.session.user,
+        notifications,
         employees,
       });
     } catch (err) {
@@ -361,13 +259,24 @@ module.exports = {
   //===============================
   async reports(req, res) {
     try {
-      res.render("facility_management/reports", { user: req.session.user });
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+      res.render("facility_management/reports", {
+        user: req.session.user,
+        notifications,
+      });
     } catch (err) {
       console.log(err);
     }
   },
   async residentReport(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const facility = req.session.user.facility;
       const selectedFields = Object.keys(req.body);
 
@@ -375,6 +284,7 @@ module.exports = {
         const noData = true;
         return res.render("facility_management/reports", {
           user: req.session.user,
+          notifications,
           noData,
         });
       }
@@ -389,6 +299,7 @@ module.exports = {
         const noData = true;
         return res.render("facility_management/reports", {
           user: req.session.user,
+          notifications,
           noData,
         });
       }
@@ -413,6 +324,10 @@ module.exports = {
   },
   async employedResidentsReport(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const facility = req.session.user.facility;
       const selectedFields = Object.keys(req.body);
 
@@ -420,6 +335,7 @@ module.exports = {
         const noData = true;
         return res.render("facility_management/reports", {
           user: req.session.user,
+          notifications,
           noData,
         });
       }
@@ -434,6 +350,7 @@ module.exports = {
         const noData = true;
         return res.render("facility_management/reports", {
           user: req.session.user,
+          notifications,
           noData,
         });
       }
@@ -456,16 +373,20 @@ module.exports = {
       res.render("error/500");
     }
   },
-
   //Applicants Report
   async applicantsReport(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const selectedFields = Object.keys(req.body);
 
       if (selectedFields.length === 0) {
         const noData = true;
         return res.render("facility_management/reports", {
           user: req.session.user,
+          notifications,
           noData,
         });
       }
@@ -493,6 +414,7 @@ module.exports = {
         const noData = true;
         return res.render("facility_management/reports", {
           user: req.session.user,
+          notifications,
           noData,
         });
       }

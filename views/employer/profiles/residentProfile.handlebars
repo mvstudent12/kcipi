@@ -16,7 +16,7 @@
     <section class="section profile">
         <div class="row">
 
-            <div class="col-xl-4">
+            <div class="col-12">
                 <div class="card">
                     <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
                         <img src="/assets/img/avatar.png" alt="Profile" class="rounded-circle">
@@ -27,7 +27,7 @@
                 </div>
             </div>
 
-            <div class="col-xl-8">
+            <div class="col-12">
 
                 <div class="card">
                     <div class="card-body pt-3">
@@ -57,7 +57,8 @@
                                 <div class="row">
                                     <div class="col-lg-4 col-md-4 label ">Name</div>
                                     <div class="col-lg-8 col-md-8 text-capitalize">{{resident.firstName}}
-                                        {{resident.lastName}}</div>
+                                        {{resident.lastName}}
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-4 col-md-4 label">Resident ID</div>
@@ -236,46 +237,54 @@
                                 <div class="card">
                                     <div class="card-body pt-3">
                                         {{#if applications}}
-                                        <div class="row mt-3 mb-3">
-                                            <div class="col-lg-3 col-md-3 label text-muted">
-                                                Company</div>
-                                            <div class="col-lg-3 col-md-3 label text-muted">
-                                                Position</div>
-                                            <div class="col-lg-2 col-md-2 text-muted">
-                                                Pay</div>
-                                        </div>
-                                        {{#each applications}}
-                                        <div class="row mt-3">
-                                            <div class="col-lg-3 col-md-3 label text-capitalize">
-                                                {{this.companyName}}
+                                            <div class="row mt-3 mb-3">
+                                                <div class="col-lg-3 col-md-3 label text-muted">
+                                                    Company</div>
+                                                <div class="col-lg-3 col-md-3 label text-muted">
+                                                    Position</div>
+                                                <div class="col-lg-2 col-md-2 text-muted">
+                                                    Pay</div>
                                             </div>
-                                            <div class="col-lg-3 col-md-3 label text-capitalize">
-                                                {{this.position}}
-                                            </div>
-                                            <div class="col-lg-2 col-md-2">
-                                                ${{this.pay}} /hr</div>
-                                            <div class="col-lg-4 col-md-4">
-                                                <button class="btn btn-primary" type="button" data-bs-toggle="modal"
-                                                    data-bs-target="#{{this._id}}">
-                                                    Manage Hiring</button>
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        {{/each}}
+                                            {{#each applications}}
+                                                <div class="row mt-3">
+                                                    <div class="col-lg-3 col-md-3 label text-capitalize">
+                                                        {{this.companyName}}
+                                                    </div>
+                                                    <div class="col-lg-3 col-md-3 label text-capitalize">
+                                                        {{this.position}}
+                                                    </div>
+                                                    <div class="col-lg-2 col-md-2">
+                                                        ${{this.pay}} /hr</div>
+                                                    <div class="col-lg-4 col-md-4">
+                                                        <button class="btn btn-primary" type="button"
+                                                            data-bs-toggle="modal" data-bs-target="#{{this._id}}">
+                                                            Manage Hiring</button>
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                            {{/each}}
                                         {{else}}
-                                        {{#if resident.isHired}}
-                                        <span class="text-success">Resident is currently employed as of {{formatDate
+                                            {{#if resident.isHired}}
+                                                <span class="text-success">Resident is currently employed as of
+                                                    {{formatDate
                                             resident.dateHired}}
-                                        </span>
-                                        <hr>
-                                        <button class="btn btn-danger" type="button" data-bs-toggle="modal"
-                                            data-bs-target="#terminate">
-                                            Terminate Employment</button>
+                                                </span>
+                                                <hr>
+                                                {{#if resident.terminationRequest}}
+                                                    <p>Termination was requested on {{formatDate
+                                            resident.terminationRequest.requestDate}} for <span
+                                                            class="text-capitalize">{{resident.terminationRequest.terminationReason}}</span>
+                                                    </p>
+                                                {{else}}
+                                                    <button class="btn btn-danger" type="button" data-bs-toggle="modal"
+                                                        data-bs-target="#terminate">
+                                                        Terminate Employment</button>
+                                                {{/if}}
 
-                                        {{else}}
-                                        <span class="text-primary">Resident has completed no applications.
-                                        </span>
-                                        {{/if}}
+                                            {{else}}
+                                                <span class="text-primary">Resident has completed no applications.
+                                                </span>
+                                            {{/if}}
                                         {{/if}}
                                     </div>
                                 </div>
@@ -295,266 +304,258 @@
 
 
 {{#each applications}}
-{{!-- View Application Modal --}}
-<div class="modal fade" id="{{this._id}}" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content p-2">
-
-            <div class="modal-header row">
-
-                <div class="col-6">
-                    <h5 id="request-title" class="modal-title text-center text-capitalize">{{../resident.firstName}}
-                        {{../resident.lastName}}</h5>
-                </div>
-                {{#if (isResidentInInterviews ../resident.residentID this.interviews)}}
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                {{else}}
-                <div class="col-6">
-                    <button type="button" class="btn btn-info mx-2" data-bs-toggle="modal"
-                        data-bs-target="#{{this._id}}2">Request
-                        Interview</button>
-                </div>
-                {{/if}}
-
-            </div>
-
-            <div class="modal-body">
-
-                <div class="row mb-2">
-                    <div class="col-lg-4 col-md-4 label text-info">Resident ID:</div>
-                    <div class="col-lg-8 col-md-8">{{../resident.residentID}}</div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-lg-4 col-md-4 label text-info">Facility:</div>
-                    <div class="col-lg-8 col-md-8 text-capitalize">{{../resident.facility}}</div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-lg-4 col-md-4 label text-info">Custody Level:</div>
-                    <div class="col-lg-8 col-md-8 text-capitalize">{{../resident.custodyLevel}}</div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-lg-4 col-md-4 label text-info">Out Date:</div>
-                    <div class="col-lg-8 col-md-8 text-capitalize">{{formatDate ../resident.outDate}}</div>
-                </div>
-                <hr>
-                <div class="row mb-2">
-                    <div class="col-lg-4 col-md-4 label text-info">Company:</div>
-                    <div class="col-lg-8 col-md-8 text-capitalize">{{this.companyName}}</div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-lg-4 col-md-4 label text-info">Position:</div>
-                    <div class="col-lg-8 col-md-8 text-capitalize">{{this.position}}</div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-lg-4 col-md-4 label text-info">Pay:</div>
-                    <div class="col-lg-8 col-md-8 text-capitalize">${{this.pay}}/hr</div>
-                </div>
-                <hr>
-                <div class="row mb-2">
-                    <div class="col-lg-6 col-md-6 label text-info">Interview Requested On:</div>
-                    {{#getInterview ../resident.residentID this.interviews}}
-                    <div class="col-lg-6 col-md-6">{{formatDate dateRequested}}</div>
+    {{!-- View Application Modal --}}
+    <div class="modal fade" id="{{this._id}}" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content p-2">
+                <div class="modal-header row">
+                    <div class="col-6">
+                        <h5 id="request-title" class="modal-title text-center text-capitalize">{{../resident.firstName}}
+                            {{../resident.lastName}}
+                        </h5>
+                    </div>
+                    {{#if (isResidentInInterviews ../resident.residentID this.interviews)}}
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     {{else}}
-                    <div class="col-lg-6 col-md-6">No</div>
-                    {{/getInterview}}
-                </div>
-
-                <div class="row mb-2">
-                    <div class="col-lg-6 col-md-6 label text-info">Interview Scheduled For:</div>
-                    {{#getInterview ../resident.residentID this.interviews}}
-                    {{#if dateScheduled}}
-                    <div class="col-lg-6 col-md-6">{{formatDate dateScheduled}} &nbsp; @ &nbsp; {{time}}</div>
-                    {{else}}
-                    <div class="col-lg-6 col-md-6">No</div>
+                        <div class="col-6">
+                            <button type="button" class="btn btn-info mx-2" data-bs-toggle="modal"
+                                data-bs-target="#{{this._id}}2">Request
+                                Interview</button>
+                        </div>
                     {{/if}}
-                    {{else}}
-                    <div class="col-lg-6 col-md-6">No</div>
-                    {{/getInterview}}
-                </div>
-                <hr>
-                <div class="row mb-2">
-                    <div class="col-lg-6 col-md-6 label text-info">Employment Requested:</div>
-                    {{#getApplication ../resident._id this.applicants}}
-                    {{#if hireRequest}}
-                    <div class="col-lg-6 col-md-6">{{formatDate hireRequestDate}}</div>
-                    {{else}}
-                    <div class="col-lg-6 col-md-6">No</div>
-                    {{/if}}
-                    {{else}}
-                    <div class="col-lg-6 col-md-6">No</div>
-                    {{/getApplication}}
-                </div>
-
-
-
-            </div>
-            <div class="modal-footer">
-                <div class="col-12 d-flex justify-content-between">
-                    <a href="/employer/rejectHire/{{../resident._id}}/{{this._id}}"><button type="button"
-                            class="btn btn-danger mx-2">Reject Hire</button></a>
-                    {{#getApplication ../resident._id this.applicants}}
-                    {{#if hireRequest}}
-                    <p>Employment Requested</p>
-                    {{else}}
-                    <button type="button" data-bs-toggle="modal" data-bs-target="#{{../this._id}}3"
-                        class="btn btn-success mx-2">Request
-                        Hire</button>
-                    {{/if}}
-                    {{else}}
-                    <button type="button" data-bs-toggle="modal" data-bs-target="#{{../this._id}}3"
-                        class="btn btn-success mx-2">Request
-                        Hire</button>
-                    {{/getApplication}}
-
-
 
                 </div>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-{{!-- Request Interview Modal --}}
-<div class="modal fade" id="{{this._id}}2" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content p-2">
-
-            <div class="modal-header">
-
-                <h3 id="request-title" class="modal-title">
-                    Request Interview
-                </h3>
-
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form method="POST" action="/employer/requestInterview/{{this._id}}">
                 <div class="modal-body">
-
-                    <div class="row mb-3">
-                        <label for="name" class="col-sm-3 col-form-label">Resident</label>
-                        <div class="col-sm-9">
-                            <input required type="text" class="form-control text-capitalize" readonly
-                                value="{{../resident.firstName}} {{../resident.lastName}}">
-                        </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 label text-info">Resident ID:</div>
+                        <div class="col-lg-8 col-md-8">{{../resident.residentID}}</div>
                     </div>
-                    <div class="row mb-3">
-                        <label for="name" class="col-sm-3 col-form-label">Resident ID</label>
-                        <div class="col-sm-9">
-                            <input required type="text" class="form-control" name="residentID" readonly
-                                value="{{../resident.residentID}}">
-                        </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 label text-info">Facility:</div>
+                        <div class="col-lg-8 col-md-8 text-capitalize">{{../resident.facility}}</div>
                     </div>
-                    <div class="row mb-3">
-                        <label for="unitTeam" class="col-sm-3 col-form-label">Unit Team</label>
-                        <div class="col-sm-9">
-                            <input required type="text" class="form-control text-capitalize" name="unitTeam" readonly
-                                value="{{../resident.unitTeam}}">
-                        </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 label text-info">Custody Level:</div>
+                        <div class="col-lg-8 col-md-8 text-capitalize">{{../resident.custodyLevel}}</div>
                     </div>
-
-                    <input type="hidden" name="email" value="{{../resident.resume.unitTeam}}">
-
-                    <div class="row mt-3 mb-3">
-                        <label for="preferences" class="col-12 col-form-label">Time / Date / Place Preferences:</label>
-                        <div class="col-12">
-                            <textarea class="form-control" style="height: 100px" name="preferences"
-                                placeholder="Optional"></textarea>
-                        </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 label text-info">Out Date:</div>
+                        <div class="col-lg-8 col-md-8 text-capitalize">{{formatDate ../resident.outDate}}</div>
                     </div>
-                    <div class="row mt-3 mb-3">
-                        <label for="additionalNotes" class="col-12 col-form-label">Additional Information:</label>
-                        <div class="col-12">
-                            <textarea class="form-control" style="height: 100px" name="additionalNotes"
-                                placeholder="Optional"></textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <div class="col-12 d-flex justify-content-between">
-                        <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal"
-                            aria-label="Close">Cancel</button>
-                        <button type="submit" class="btn btn-info mx-2">Request</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-
-{{!-- Request Hire Modal --}}
-<div class="modal fade" id="{{this._id}}3" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content p-2">
-
-            <div class="modal-header">
-
-                <h3 id="request-title" class="modal-title">
-                    Request Employment
-                </h3>
-
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form method="POST" action="/employer/requestHire/{{this._id}}">
-                <div class="modal-body">
-                    <div class="row mb-3">
-                        {{!-- Resident Name --}}
-                        <label for="name" class="col-3 col-form-label">Resident</label>
-                        <div class="col-9">
-                            <input required type="text" class="form-control text-capitalize" readonly
-                                value="{{../resident.firstName}} {{../resident.lastName}}">
-                        </div>
-                    </div>
-                    {{!-- Resident ID # --}}
-                    <div class="row mb-3">
-                        <label for="name" class="col-3 col-form-label">ID #</label>
-                        <div class="col-9">
-                            <input required type="text" class="form-control" name="residentID" readonly
-                                value="{{../resident.residentID}}">
-                        </div>
-                    </div>
-                    {{!-- Resident Unit Team --}}
-                    <div class="row mb-3">
-                        <label for="name" class="col-3 col-form-label">Unit Team</label>
-                        <div class="col-9">
-                            <input required type="text" class="form-control text-capitalize" name="unitTeamName"
-                                readonly value="{{../resident.unitTeam}}">
-                        </div>
-                    </div>
-
                     <hr>
-
-                    <div class="row mb-3">
-                        <label for="hireRequestStartDate" class="col-12 col-form-label">Select Start Date</label>
-                        <div class="col-sm-12">
-                            <input required type="date" class="form-control" name="hireRequestStartDate">
-                        </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 label text-info">Company:</div>
+                        <div class="col-lg-8 col-md-8 text-capitalize">{{this.companyName}}</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 label text-info">Position:</div>
+                        <div class="col-lg-8 col-md-8 text-capitalize">{{this.position}}</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 label text-info">Pay:</div>
+                        <div class="col-lg-8 col-md-8 text-capitalize">${{this.pay}}/hr</div>
+                    </div>
+                    <hr>
+                    <div class="row mb-2">
+                        <div class="col-lg-6 col-md-6 label text-info">Interview Requested On:</div>
+                        {{#getInterview ../resident.residentID this.interviews}}
+                            <div class="col-lg-6 col-md-6">{{formatDate dateRequested}}</div>
+{{else}}
+    <div class="col-lg-6 col-md-6">No</div>
+                        {{/getInterview}}
                     </div>
 
-
-
-                    <input type="hidden" name="unitTeamEmail" value="{{../resident.resume.unitTeam}}">
-
-                    <div class="row mt-3 mb-3">
-                        <label for="hireRequestInfo" class="col-12 col-form-label">Additional Information:</label>
-                        <div class="col-12">
-                            <textarea class="form-control" style="height: 100px" name="hireRequestInfo"
-                                placeholder="Optional notes or comments."></textarea>
-                        </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-6 col-md-6 label text-info">Interview Scheduled For:</div>
+                        {{#getInterview ../resident.residentID this.interviews}}
+                            {{#if dateScheduled}}
+                                <div class="col-lg-6 col-md-6">{{formatDate dateScheduled}} &nbsp; @ &nbsp; {{time}}
+                                </div>
+                            {{else}}
+                                <div class="col-lg-6 col-md-6">No</div>
+                            {{/if}}
+{{else}}
+    <div class="col-lg-6 col-md-6">No</div>
+                        {{/getInterview}}
+                    </div>
+                    <hr>
+                    <div class="row mb-2">
+                        <div class="col-lg-6 col-md-6 label text-info">Employment Requested:</div>
+                        {{#getApplication ../resident._id this.applicants}}
+                            {{#if hireRequest}}
+                                <div class="col-lg-6 col-md-6">{{formatDate hireRequestDate}}</div>
+                            {{else}}
+                                <div class="col-lg-6 col-md-6">No</div>
+                            {{/if}}
+{{else}}
+    <div class="col-lg-6 col-md-6">No</div>
+                        {{/getApplication}}
                     </div>
                 </div>
                 <div class="modal-footer">
                     <div class="col-12 d-flex justify-content-between">
-                        <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal"
-                            aria-label="Close">Cancel</button>
-                        <button type="submit" class="btn btn-info mx-2">Request</button>
+                        <a href="/employer/rejectHire/{{../resident._id}}/{{this._id}}"><button type="button"
+                                class="btn btn-danger mx-2">Reject Hire</button></a>
+                        {{#getApplication ../resident._id this.applicants}}
+                            {{#if hireRequest}}
+                                <p>Employment Requested</p>
+                            {{else}}
+                                <button type="button" data-bs-toggle="modal" data-bs-target="#{{../this._id}}3"
+                                    class="btn btn-success mx-2">Request
+                                    Hire</button>
+                            {{/if}}
+{{else}}
+    <button type="button" data-bs-toggle="modal" data-bs-target="#{{../this._id}}3" class="btn btn-success mx-2">Request
+        Hire</button>
+                        {{/getApplication}}
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
-</div>
+
+    {{!-- Request Interview Modal --}}
+    <div class="modal fade" id="{{this._id}}2" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content p-2">
+
+                <div class="modal-header">
+
+                    <h3 id="request-title" class="modal-title">
+                        Request Interview
+                    </h3>
+
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="POST" action="/employer/requestInterview/{{this._id}}">
+                    <div class="modal-body">
+
+                        <div class="row mb-3">
+                            <label for="name" class="col-sm-3 col-form-label">Resident</label>
+                            <div class="col-sm-9">
+                                <input required type="text" class="form-control text-capitalize" readonly
+                                    value="{{../resident.firstName}} {{../resident.lastName}}">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="name" class="col-sm-3 col-form-label">Resident ID</label>
+                            <div class="col-sm-9">
+                                <input required type="text" class="form-control" name="residentID" readonly
+                                    value="{{../resident.residentID}}">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="unitTeam" class="col-sm-3 col-form-label">Unit Team</label>
+                            <div class="col-sm-9">
+                                <input required type="text" class="form-control text-capitalize" name="unitTeam"
+                                    readonly value="{{../resident.unitTeam}}">
+                            </div>
+                        </div>
+
+                        <input type="hidden" name="email" value="{{../resident.resume.unitTeam}}">
+
+
+                        <div class="row mt-3 mb-3">
+                            <label for="preferences" class="col-12 col-form-label">Time / Date / Place
+                                Preferences:</label>
+                            <div class="col-12">
+                                <textarea class="form-control" style="height: 100px" name="preferences"
+                                    placeholder="Optional"></textarea>
+                            </div>
+                        </div>
+                        <div class="row mt-3 mb-3">
+                            <label for="additionalNotes" class="col-12 col-form-label">Additional Information:</label>
+                            <div class="col-12">
+                                <textarea class="form-control" style="height: 100px" name="additionalNotes"
+                                    placeholder="Optional"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="col-12 d-flex justify-content-between">
+                            <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal"
+                                aria-label="Close">Cancel</button>
+                            <button type="submit" class="btn btn-info mx-2">Request</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    {{!-- Request Hire Modal --}}
+    <div class="modal fade" id="{{this._id}}3" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content p-2">
+
+                <div class="modal-header">
+
+                    <h3 id="request-title" class="modal-title">
+                        Request Employment
+                    </h3>
+
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="POST" action="/employer/requestHire/{{this._id}}/{{../resident._id}}">
+                    <div class="modal-body">
+                        <div class="row mb-3">
+                            {{!-- Resident Name --}}
+                            <label for="name" class="col-3 col-form-label">Resident</label>
+                            <div class="col-9">
+                                <input required type="text" class="form-control text-capitalize" readonly
+                                    value="{{../resident.firstName}} {{../resident.lastName}}">
+                            </div>
+                        </div>
+                        {{!-- Resident ID # --}}
+                        <div class="row mb-3">
+                            <label for="name" class="col-3 col-form-label">ID #</label>
+                            <div class="col-9">
+                                <input required type="text" class="form-control" name="residentID" readonly
+                                    value="{{../resident.residentID}}">
+                            </div>
+                        </div>
+                        {{!-- Resident Unit Team --}}
+                        <div class="row mb-3">
+                            <label for="name" class="col-3 col-form-label">Unit Team</label>
+                            <div class="col-9">
+                                <input required type="text" class="form-control text-capitalize" name="unitTeamName"
+                                    readonly value="{{../resident.unitTeam}}">
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="row mb-3">
+                            <label for="hireRequestStartDate" class="col-12 col-form-label">Select Start Date</label>
+                            <div class="col-sm-12">
+                                <input required type="date" class="form-control" name="hireRequestStartDate">
+                            </div>
+                        </div>
+
+
+
+                        <input type="hidden" name="unitTeamEmail" value="{{../resident.resume.unitTeam}}">
+
+                        <div class="row mt-3 mb-3">
+                            <label for="hireRequestInfo" class="col-12 col-form-label">Additional Information:</label>
+                            <div class="col-12">
+                                <textarea class="form-control" style="height: 100px" name="hireRequestInfo"
+                                    placeholder="Optional notes or comments."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="col-12 d-flex justify-content-between">
+                            <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal"
+                                aria-label="Close">Cancel</button>
+                            <button type="submit" class="btn btn-info mx-2">Request</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 {{/each}}
 
 
@@ -589,7 +590,8 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-sm-10">
-                            <textarea name="notes" class="form-control" placeholder="Additional notes and comments"
+                            <textarea required name="notes" class="form-control"
+                                placeholder="Provide details for termination request."
                                 style="height: 100px;"></textarea>
                         </div>
                     </div>

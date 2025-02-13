@@ -54,12 +54,7 @@
                                 </table>
                             </div>
                         </div>
-                        {{#if applicants}}
-                        <div class="text-center mb-3">
-                            <button onclick="exportToCSV({{json applicants}})" class="btn btn-info">Export
-                                Applicants</button>
-                        </div>
-                        {{/if}}
+
                     </div>
 
 
@@ -110,12 +105,7 @@
                                 </table>
                             </div>
                         </div>
-                        {{#if interviews}}
-                        <div class="text-center mb-3">
-                            <button onclick="exportToCSV({{json interviews}})" class="btn btn-info">Export
-                                Interviews</button>
-                        </div>
-                        {{/if}}
+
                     </div>
 
                     <!-- Employees Table -->
@@ -163,22 +153,12 @@
                                 </table>
                             </div>
                         </div>
-                        {{#if employees}}
-                        <div class="text-center mb-3">
-                            <button onclick="exportToCSV({{json employees}})" class="btn btn-info">Export
-                                Employees</button>
-                        </div>
+                        {{!-- End of Data Tables Section --}}
                     </div>
-                    {{/if}}
-
-                    {{!-- End of Data Tables Section --}}
                 </div>
             </div>
-        </div>
     </section>
 </main>
 <!-- ======= Footer ======= -->
 {{> footer}}
 {{> arrowUp}}
-
-<script type="text/javascript" src="/../assets/js/exportToCSV.js"></script>

@@ -9,6 +9,10 @@ const {
   requireRole,
 } = require("../middleware/authMiddleware");
 
+  //=============================
+  //   Employer Dashboard
+  //=============================
+
 employerRoutes.get(
   "/dashboard",
   checkUser,
@@ -17,13 +21,9 @@ employerRoutes.get(
   controller.dashboard
 );
 
-employerRoutes.get(
-  "/reports",
-  checkUser,
-  requireAuth,
-  requireRole(["employer"]),
-  controller.reports
-);
+  //=============================
+  //   Manage Positions
+  //=============================
 
 employerRoutes.get(
   "/managePositions",
@@ -77,6 +77,9 @@ employerRoutes.post(
   requireRole(["employer"]),
   controller.deletePosition
 );
+  //=============================
+  //   Manage Workforce
+  //=============================
 
 employerRoutes.get(
   "/manageWorkForce",
@@ -94,29 +97,10 @@ employerRoutes.get(
   controller.employees
 );
 
-employerRoutes.get(
-  "/contact",
-  checkUser,
-  requireAuth,
-  requireRole(["employer"]),
-  controller.contact
-);
 
-employerRoutes.get(
-  "/helpDesk",
-  checkUser,
-  requireAuth,
-  requireRole(["employer"]),
-  controller.helpDesk
-);
-
-employerRoutes.get(
-  "/cancelInterview/:interviewID",
-  checkUser,
-  requireAuth,
-  requireRole(["employer"]),
-  controller.cancelInterview
-);
+  //=============================
+  //   Resident Profile
+  //=============================
 
 employerRoutes.get(
   "/residentProfile/:residentID",
@@ -135,19 +119,19 @@ employerRoutes.post(
 );
 
 employerRoutes.post(
-  "/requestInterview/:jobID",
-  checkUser,
-  requireAuth,
-  requireRole(["employer"]),
-  controller.requestInterview
-);
-
-employerRoutes.post(
-  "/requestHire/:jobID",
+  "/requestHire/:jobID/:res_id",
   checkUser,
   requireAuth,
   requireRole(["employer"]),
   controller.requestHire
+);
+
+employerRoutes.post(
+  "/requestTermination/:res_id",
+  checkUser,
+  requireAuth,
+  requireRole(["employer"]),
+  controller.requestTermination
 );
 
 employerRoutes.get(
@@ -158,4 +142,56 @@ employerRoutes.get(
   controller.rejectHire
 );
 
+  //=============================
+  //   Reports
+  //=============================
+
+employerRoutes.get(
+  "/reports",
+  checkUser,
+  requireAuth,
+  requireRole(["employer"]),
+  controller.reports
+);
+employerRoutes.post(
+  "/interviewReport",
+  checkUser,
+  requireAuth,
+  requireRole(["employer"]),
+  controller.interviewReport
+);
+
+employerRoutes.post(
+  "/employedResidentsReport",
+  checkUser,
+  requireAuth,
+  requireRole(["employer"]),
+  controller.employedResidentsReport
+);
+
+employerRoutes.post(
+  "/applicantsReport",
+  checkUser,
+  requireAuth,
+  requireRole(["employer"]),
+  controller.applicantsReport
+);
+  //=============================
+  //   Basic Routes
+  //=============================
+employerRoutes.get(
+  "/contact",
+  checkUser,
+  requireAuth,
+  requireRole(["employer"]),
+  controller.contact
+);
+
+employerRoutes.get(
+  "/helpDesk",
+  checkUser,
+  requireAuth,
+  requireRole(["employer"]),
+  controller.helpDesk
+);
 module.exports = employerRoutes;

@@ -164,7 +164,7 @@ module.exports = {
     } catch (err) {
       console.log(err);
       logger.warn("Unable to find user: ", err);
-      res.render("errors/403");
+      res.render("error/403");
     }
   },
 

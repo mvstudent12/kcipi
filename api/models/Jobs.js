@@ -4,7 +4,6 @@ const Schema = mongoose.Schema;
 const applicantSchema = new Schema(
   {
     resident_id: { type: mongoose.Schema.Types.ObjectId, ref: "Resident" },
-    residentID: { type: String, trim: true },
     hireRequest: { type: Boolean, default: false },
     hireRequestDate: { type: Date, required: true },
     hireRequestStartDate: { type: Date, required: true },
@@ -25,6 +24,7 @@ const interviewSchema = new Schema(
     isRequested: { type: Boolean, default: false },
     preferredDate: { type: String, trim: true },
     employerInstructions: { type: String, trim: true },
+    requestedBy: { type: String, trim: true },
     dateRequested: { type: Date, required: true },
     residentID: {
       type: String,
@@ -47,7 +47,11 @@ const jobSchema = new Schema(
     companyName: { type: String, lowercase: true, trim: true },
     position: { type: String, lowercase: true, trim: true },
     facility: { type: String, lowercase: true, trim: true },
-    availablePositions: { type: Number, default: 0 },
+    availablePositions: {
+      type: Number,
+      default: 0,
+      min: [0, "Available positions cannot be negative"],
+    },
     description: { type: String, lowercase: true, trim: true },
     skillSet: { type: String, lowercase: true, trim: true },
     pay: { type: String, lowercase: true, trim: true },

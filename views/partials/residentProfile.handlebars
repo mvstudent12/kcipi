@@ -1,6 +1,5 @@
 <section class="section profile">
     <div class="row">
-
         <div class="col-12">
             <div class="card">
                 <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
@@ -9,12 +8,10 @@
                     <h2 class="text-capitalize mb-3">#{{resident.residentID}}</h2>
                     <h3>KDOC Resident</h3>
                 </div>
-
             </div>
         </div>
 
         <div class="col-12">
-
             <div class="card">
                 <div class="card-body pt-3">
                     <!--========= Tab Borders =======-->
@@ -49,38 +46,38 @@
                             <div class="card">
                                 <div class="card-body pt-3">
                                     {{#if resident.isHired}}
-                                    <div class="text-center">
-                                        <p class="text-success">This resident is working as of {{formatDate
+                                        <div class="text-center">
+                                            <p class="text-success">This resident is working as of {{formatDate
                                             resident.dateHired}}</p>
-                                    </div>
+                                        </div>
                                     {{else}}
-                                    {{#if (eq resident.workEligibility.status "approved")}}
-                                    <div class="text-center">
-                                        <p class="text-success">This resident is approved and eligible for
-                                            work.</p>
-                                    </div>
-                                    {{/if}}
+                                        {{#if (eq resident.workEligibility.status "approved")}}
+                                            <div class="text-center">
+                                                <p class="text-success">This resident is approved and eligible for
+                                                    work.</p>
+                                            </div>
+                                        {{/if}}
                                     {{/if}}
 
                                     {{#if (eq resident.workEligibility.status "none")}}
-                                    <div class="card">
-                                        <div class="text-center pt-3">
-                                            <p class="text-primary">This resident needs reviewed for clearance.</p>
-                                        </div>
+                                        <div class="card">
+                                            <div class="text-center pt-3">
+                                                <p class="text-primary">This resident needs reviewed for clearance.</p>
+                                            </div>
 
-                                    </div>
+                                        </div>
                                     {{/if}}
 
                                     {{#if (eq resident.workEligibility.status "restricted")}}
-                                    <div class="text-center">
-                                        <p class="text-danger">This resident is not eligible
-                                            to work due to restrictions.</p>
-                                    </div>
+                                        <div class="text-center">
+                                            <p class="text-danger">This resident is not eligible
+                                                to work due to restrictions.</p>
+                                        </div>
                                     {{/if}}
                                     {{#if (eq resident.workEligibility.status "pending")}}
-                                    <div class="text-center">
-                                        <p class="text-primary">This resident is in the clearance process.</p>
-                                    </div>
+                                        <div class="text-center">
+                                            <p class="text-primary">This resident is in the clearance process.</p>
+                                        </div>
                                     {{/if}}
 
 
@@ -88,7 +85,8 @@
                                     <div class="row">
                                         <div class="col-lg-4 col-md-4 label ">Full Name</div>
                                         <div class="col-lg-8 col-md-8 text-capitalize">{{resident.firstName}}
-                                            {{resident.lastName}}</div>
+                                            {{resident.lastName}}
+                                        </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-4 col-md-4 label">Resident ID</div>
@@ -120,25 +118,25 @@
                                     <div class="row">
                                         <div class="col-lg-4 col-md-4 label">UTM</div>
                                         {{#if resident.unitTeam}}
-                                        <div class="col-lg-8 col-md-8 text-capitalize">{{resident.unitTeam}}</div>
+                                            <div class="col-lg-8 col-md-8 text-capitalize">{{resident.unitTeam}}</div>
                                         {{else}}
-                                        <div class="col-lg-8 col-md-8">Not Assigned</div>
+                                            <div class="col-lg-8 col-md-8">Not Assigned</div>
                                         {{/if}}
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-4 col-md-4 label">Job Pool</div>
                                         {{#if resident.jobPool}}
-                                        <div class="col-lg-8 col-md-8 text-capitalize">{{resident.jobPool}}</div>
+                                            <div class="col-lg-8 col-md-8 text-capitalize">{{resident.jobPool}}</div>
                                         {{else}}
-                                        <div class="col-lg-8 col-md-8">Not Assigned</div>
+                                            <div class="col-lg-8 col-md-8">Not Assigned</div>
                                         {{/if}}
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-4 col-md-4 label">Status</div>
                                         {{#if resident.isActive}}
-                                        <div class="col-lg-8 col-md-8 text-capitalize">Active - Incarcerated</div>
+                                            <div class="col-lg-8 col-md-8 text-capitalize">Active - Incarcerated</div>
                                         {{else}}
-                                        <div class="col-lg-8 col-md-8">Inactive - Not Incarcerated</div>
+                                            <div class="col-lg-8 col-md-8">Inactive - Not Incarcerated</div>
                                         {{/if}}
                                     </div>
                                     <hr>
@@ -157,298 +155,331 @@
 
                                     <!--======== Resume  Form ========== -->
                                     {{#if resident.resumeRejectionReason}}
-                                    {{!-- if resume has been rejected, show the reason --}}
-                                    <div class="text-center">
-                                        <p class="text-danger">This resume has been rejected for being
-                                            {{resident.resumeRejectionReason}}.</p>
-                                    </div>
-                                    {{else}}
-                                    {{#if resident.resumeIsComplete}}
-                                    {{!-- if resident has completed their resume --}}
-                                    <form method="POST" action="/clearance/approveResume/{{resident.residentID}}">
-                                        {{#unless resident.resumeIsApproved}}
-                                        <div class="mb-3 text-center">
-                                            <p class="text-primary">Review resume and select job pool.</p>
-                                        </div>
-                                        {{else}}
-                                        <div class="mb-3 text-center card pt-3">
-                                            <p class="text-success">Resume approved by <span
-                                                    class="text-capitalize">{{resident.resumeApprovedBy}}</span> on
-                                                {{formatDate resident.resumeApprovalDate}}</p>
-                                        </div>
-                                        {{/unless}}
-                                        {{!-- Resident First Name --}}
-                                        <div class="row mb-3">
-                                            <label for="firstName" class="col-md-4 col-lg-3 col-form-label">First
-                                                Name</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <input name="firstName" type="text" class="form-control text-capitalize"
-                                                    id="firstName" value="{{resident.firstName}}" readonly>
-                                            </div>
-                                        </div>
-                                        {{!-- Resident Last Name --}}
-                                        <div class="row mb-3">
-                                            <label for="lastName" class="col-md-4 col-lg-3 col-form-label">Last
-                                                Name</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <input name="lastName" type="text" class="form-control text-capitalize"
-                                                    id="lastName" value="{{resident.lastName}}" readonly>
-                                            </div>
-                                        </div>
-                                        {{!-- Resident ID --}}
-                                        <div class="row mb-3">
-                                            <label for="residentID" class="col-md-4 col-lg-3 col-form-label">Resident
-                                                ID</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <input name="residentID" type="text"
-                                                    class="form-control text-capitalize" id="residentID"
-                                                    value="{{resident.residentID}}" readonly>
-                                            </div>
-                                        </div>
-                                        {{!-- Resident Custody Level --}}
-                                        <div class="row mb-3">
-                                            <label for="custodyLevel" class="col-md-4 col-lg-3 col-form-label">Custody
-                                                Level</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <input name="custodyLevel" type="text"
-                                                    class="form-control text-capitalize" id="custodyLevel"
-                                                    value="{{resident.custodyLevel}}" readonly>
-                                            </div>
-                                        </div>
-                                        {{!-- Resident Facility --}}
-                                        <div class="row mb-3">
-                                            <label for="facility"
-                                                class="col-md-4 col-lg-3 col-form-label">Facility</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <input name="facility" type="text" class="form-control text-capitalize"
-                                                    id="facility" value="{{resident.facility}}" readonly>
-                                            </div>
-                                        </div>
-                                        {{!-- Resident Out Date --}}
-                                        <div class="row mb-3">
-                                            <label for="outDate" class="col-md-4 col-lg-3 col-form-label">Out
-                                                Date</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <input name="outDate" type="text" class="form-control text-capitalize"
-                                                    id="outDate" value="{{formatDate resident.outDate}}" readonly>
-                                            </div>
-                                        </div>
-                                        {{!-- Unit Team Assigned --}}
-                                        <div class="row mb-3">
-                                            <label for="unitTeam" class="col-md-4 col-lg-3 col-form-label">Unit
-                                                Team</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <input name="unitTeam" type="text" class="form-control text-capitalize"
-                                                    id="unitTeam" value="{{resident.unitTeam}}" readonly>
-                                            </div>
-                                        </div>
-                                        {{!-- work history input --}}
-                                        <div class="row mb-3">
-                                            <label for="workHistory" class="col-md-4 col-lg-3 col-form-label">Work
-                                                History</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <textarea name="workHistory" class="form-control" id="workHistory"
-                                                    style="height: 100px"
-                                                    readonly>{{resident.resume.workHistory}}</textarea>
-                                            </div>
-                                        </div>
-                                        {{!-- Certifications & Licenses input --}}
-                                        <div class="row mb-3">
-                                            <label for="certifications"
-                                                class="col-md-4 col-lg-3 col-form-label">Certifications
-                                                &amp;
-                                                Licenses</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <textarea name="certifications" class="form-control" id="certifications"
-                                                    style="height: 100px"
-                                                    readonly>{{resident.resume.certifications}}</textarea>
-                                            </div>
-                                        </div>
-                                        {{!-- Higher Education --}}
-                                        <div class="row mb-3">
-                                            <label for="education" class="col-md-4 col-lg-3 col-form-label">Higher
-                                                Education</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <textarea name="education" class="form-control" id="education"
-                                                    style="height: 100px"
-                                                    readonly>{{resident.resume.education}}</textarea>
-                                            </div>
-                                        </div>
-                                        {{!-- Completed programs --}}
-                                        <div class="row mb-3">
-                                            <label for="programs" class="col-md-4 col-lg-3 col-form-label">Completed
-                                                Programs</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <textarea name="programs" class="form-control" id="programs"
-                                                    style="height: 100px"
-                                                    readonly>{{resident.resume.programs}}</textarea>
-                                            </div>
-                                        </div>
-                                        {{!-- US Citizen options --}}
-                                        <div class="row mb-3">
-                                            <label for="legalCitizen" class="col-md-4 col-lg-3 col-form-label">U.S.
-                                                Citizen</label>
-                                            <div class="col-sm-10">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="legalCitizen"
-                                                        id="legalCitizen1" value="true" {{#if
-                                                        resident.resume.legalCitizen}} checked{{/if}} readonly>
-                                                    <label class="form-check-label" for="legalCitizen1">
-                                                        Yes
-                                                    </label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="legalCitizen"
-                                                        id="legalCitizen2" value="false" {{#if (eq
-                                                        resident.resume.legalCitizen false)}}checked{{/if}} readonly>
-                                                    <label class="form-check-label" for="legalCitizen2">
-                                                        No
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {{!-- GED or diploma option --}}
-                                        <div class="row mb-3">
-                                            <label for="hsGraduate" class=" col-form-label">GED or High
-                                                School Diploma</label>
-                                            <div class="col-sm-10">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="hsGraduate"
-                                                        id="hsGraduate1" value="true" {{#if resident.resume.hsGraduate}}
-                                                        checked{{/if}} readonly>
-                                                    <label class="form-check-label" for="hsGraduate1">
-                                                        Yes
-                                                    </label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="hsGraduate"
-                                                        id="hsGraduate2" value="false" {{#if (eq
-                                                        resident.resume.hsGraduate false)}}checked{{/if}} readonly>
-                                                    <label class="form-check-label" for="hsGraduate2">
-                                                        No
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {{!-- Social Security card radio option --}}
-                                        <div class="row mb-3">
-                                            <label for="sscard" class=" col-form-label">Social Security Card on
-                                                file?</label>
-                                            <div class="col-sm-10">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="sscard"
-                                                        id="sscard1" value="true" {{#if resident.resume.sscard}}
-                                                        checked{{/if}} readonly>
-                                                    <label class="form-check-label" for="sscard1">
-                                                        Yes
-                                                    </label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="sscard"
-                                                        id="sscard2" value="false" {{#if (eq resident.resume.sscard
-                                                        false)}}checked{{/if}} readonly>
-                                                    <label class="form-check-label" for="sscard2">
-                                                        No
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {{!-- birth certificate radio option --}}
-                                        <div class="row mb-3">
-                                            <label for="birthCertificate" class=" col-form-label">Birth Certificate on
-                                                file?</label>
-                                            <div class="col-sm-10">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="birthCertificate"
-                                                        id="birthCertificate1" value="true" {{#if
-                                                        resident.resume.birthCertificate}} checked{{/if}} readonly>
-                                                    <label class="form-check-label" for="birthCertificate1">
-                                                        Yes
-                                                    </label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="birthCertificate"
-                                                        id="birthCertificate2" value="false" {{#if (eq
-                                                        resident.resume.birthCertificate false)}}checked{{/if}}
-                                                        readonly>
-                                                    <label class="form-check-label" for="birthCertificate2">
-                                                        No
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        {{!-- Resume Submit Button --}}
-                                        {{#if resident.resumeIsApproved}}
-                                        {{!-- if resume has already been approved, allow for rejection --}}
-                                        <div class="row mb-3">
-                                            <label for="jobPool" class="col-md-4 col-lg-3 col-form-label">Job
-                                                Pool</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <input name="jobPool" type="text" class="form-control text-capitalize"
-                                                    value="{{resident.jobPool}}" readonly required>
-                                            </div>
-                                        </div>
-                                        <hr class="mb-3">
+                                        {{!-- if resume has been rejected, show the reason --}}
                                         <div class="text-center">
-                                            <p class="text-success">Resume approved by <span
-                                                    class="text-capitalize">{{resident.resumeApprovedBy}}</span> on
-                                                {{formatDate resident.resumeApprovalDate}}</p>
-                                            <button type="button" class="btn btn-danger mx-2" data-bs-toggle="modal"
-                                                data-bs-target="#rejectResume">Reject Approval</button>
+                                            <p class="text-danger">This resume has been rejected for being
+                                                {{resident.resumeRejectionReason}}.
+                                            </p>
                                         </div>
-                                        {{else}}
-
-                                        {{!-- if resident needs to be approved, show job pool selection --}}
-                                        {{!-- Job Pool--}}
-                                        <div class="row mb-3">
-                                            <label for="jobPool"
-                                                class="col-md-4 col-lg-3 col-form-label text-primary">Job
-                                                Pool</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <select required name="jobPool" class="form-select"
-                                                    aria-label="Job Pool">
-                                                    <option value="">Select Job Pool</option>
-                                                    <option value="Male Minimum 1 (Off-Site)">Male Minimum 1
-                                                        &lpar;Off-Site&rpar;</option>
-                                                    <option value="Male Minimum 2 (On-Site)">Male Minimum 2
-                                                        &lpar;On-Site&rpar;
-                                                    </option>
-                                                    <option value="Male Medium/Maximum">Male Medium/Maximum</option>
-                                                    <option value="Female Minimum 1 (Off-Site)">Female Minimum 1
-                                                        &lpar;Off-Site&rpar;</option>
-                                                    <option value="Female Minimum 2 (On-Site)">Female Minimum 2
-                                                        &lpar;On-Site&rpar;</option>
-                                                    <option value="Female Medium/Maximum">Female Medium/Maximum</option>
-                                                    <option value="Not Eligible: Medical Lay-In / Disciplinary Lay-In">
-                                                        Not
-                                                        Eligible: Medical Lay-In / Disciplinary Lay-In
-                                                    </option>
-                                                    <option value="PIE Employed">PIE Employed</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-12 d-flex justify-content-between">
-                                                <button type="button" class="btn btn-danger mx-2" data-bs-toggle="modal"
-                                                    data-bs-target="#rejectResume">Reject Resume</button>
-                                                <button type="submit" class="btn btn-primary mx-2">Approve
-                                                    Resume</button>
-
-                                            </div>
-                                        </div>
-                                        {{/if}}
-                                    </form>
                                     {{else}}
-                                    <div class="text-center">
-                                        {{!-- if resident has not completed their resume --}}
-                                        <span class="text-center text-primary">This resident has not completed their
-                                            resume.
-                                        </span>
-                                    </div>
+                                        {{#if resident.resumeIsComplete}}
+                                            {{!-- if resident has completed their resume --}}
+                                            <form method="POST"
+                                                action="/clearance/approveResume/{{resident.residentID}}">
+                                                {{#unless resident.resumeIsApproved}}
+                                                    <div class="mb-3 text-center">
+                                                        <p class="text-primary">Review resume and select job pool.</p>
+                                                    </div>
+                                                {{else}}
+                                                    <div class="mb-3 text-center">
+                                                        <p class="text-success">Resume approved by <span
+                                                                class="text-capitalize">{{resident.resumeApprovedBy}}</span>
+                                                            on
+                                                            {{formatDate resident.resumeApprovalDate}}
+                                                        </p>
+                                                    </div>
+                                                {{/unless}}
+                                                {{!-- Resident First Name --}}
+                                                <div class="row mb-3">
+                                                    <label for="firstName"
+                                                        class="col-md-4 col-lg-3 col-form-label">First
+                                                        Name</label>
+                                                    <div class="col-md-8 col-lg-9">
+                                                        <input name="firstName" type="text"
+                                                            class="form-control text-capitalize" id="firstName"
+                                                            value="{{resident.firstName}}" readonly>
+                                                    </div>
+                                                </div>
+                                                {{!-- Resident Last Name --}}
+                                                <div class="row mb-3">
+                                                    <label for="lastName" class="col-md-4 col-lg-3 col-form-label">Last
+                                                        Name</label>
+                                                    <div class="col-md-8 col-lg-9">
+                                                        <input name="lastName" type="text"
+                                                            class="form-control text-capitalize" id="lastName"
+                                                            value="{{resident.lastName}}" readonly>
+                                                    </div>
+                                                </div>
+                                                {{!-- Resident ID --}}
+                                                <div class="row mb-3">
+                                                    <label for="residentID"
+                                                        class="col-md-4 col-lg-3 col-form-label">Resident
+                                                        ID</label>
+                                                    <div class="col-md-8 col-lg-9">
+                                                        <input name="residentID" type="text"
+                                                            class="form-control text-capitalize" id="residentID"
+                                                            value="{{resident.residentID}}" readonly>
+                                                    </div>
+                                                </div>
+                                                {{!-- Resident Custody Level --}}
+                                                <div class="row mb-3">
+                                                    <label for="custodyLevel"
+                                                        class="col-md-4 col-lg-3 col-form-label">Custody
+                                                        Level</label>
+                                                    <div class="col-md-8 col-lg-9">
+                                                        <input name="custodyLevel" type="text"
+                                                            class="form-control text-capitalize" id="custodyLevel"
+                                                            value="{{resident.custodyLevel}}" readonly>
+                                                    </div>
+                                                </div>
+                                                {{!-- Resident Facility --}}
+                                                <div class="row mb-3">
+                                                    <label for="facility"
+                                                        class="col-md-4 col-lg-3 col-form-label">Facility</label>
+                                                    <div class="col-md-8 col-lg-9">
+                                                        <input name="facility" type="text"
+                                                            class="form-control text-capitalize" id="facility"
+                                                            value="{{resident.facility}}" readonly>
+                                                    </div>
+                                                </div>
+                                                {{!-- Resident Out Date --}}
+                                                <div class="row mb-3">
+                                                    <label for="outDate" class="col-md-4 col-lg-3 col-form-label">Out
+                                                        Date</label>
+                                                    <div class="col-md-8 col-lg-9">
+                                                        <input name="outDate" type="text"
+                                                            class="form-control text-capitalize" id="outDate"
+                                                            value="{{formatDate resident.outDate}}" readonly>
+                                                    </div>
+                                                </div>
+                                                {{!-- Unit Team Assigned --}}
+                                                <div class="row mb-3">
+                                                    <label for="unitTeam" class="col-md-4 col-lg-3 col-form-label">Unit
+                                                        Team</label>
+                                                    <div class="col-md-8 col-lg-9">
+                                                        <input name="unitTeam" type="text"
+                                                            class="form-control text-capitalize" id="unitTeam"
+                                                            value="{{resident.unitTeam}}" readonly>
+                                                    </div>
+                                                </div>
+                                                {{!-- work history input --}}
+                                                <div class="row mb-3">
+                                                    <label for="workHistory"
+                                                        class="col-md-4 col-lg-3 col-form-label">Work
+                                                        History</label>
+                                                    <div class="col-md-8 col-lg-9">
+                                                        <textarea name="workHistory" class="form-control"
+                                                            id="workHistory" style="height: 100px"
+                                                            readonly>{{resident.resume.workHistory}}</textarea>
+                                                    </div>
+                                                </div>
+                                                {{!-- Certifications & Licenses input --}}
+                                                <div class="row mb-3">
+                                                    <label for="certifications"
+                                                        class="col-md-4 col-lg-3 col-form-label">Certifications
+                                                        &amp;
+                                                        Licenses</label>
+                                                    <div class="col-md-8 col-lg-9">
+                                                        <textarea name="certifications" class="form-control"
+                                                            id="certifications" style="height: 100px"
+                                                            readonly>{{resident.resume.certifications}}</textarea>
+                                                    </div>
+                                                </div>
+                                                {{!-- Higher Education --}}
+                                                <div class="row mb-3">
+                                                    <label for="education"
+                                                        class="col-md-4 col-lg-3 col-form-label">Higher
+                                                        Education</label>
+                                                    <div class="col-md-8 col-lg-9">
+                                                        <textarea name="education" class="form-control" id="education"
+                                                            style="height: 100px"
+                                                            readonly>{{resident.resume.education}}</textarea>
+                                                    </div>
+                                                </div>
+                                                {{!-- Completed programs --}}
+                                                <div class="row mb-3">
+                                                    <label for="programs"
+                                                        class="col-md-4 col-lg-3 col-form-label">Completed
+                                                        Programs</label>
+                                                    <div class="col-md-8 col-lg-9">
+                                                        <textarea name="programs" class="form-control" id="programs"
+                                                            style="height: 100px"
+                                                            readonly>{{resident.resume.programs}}</textarea>
+                                                    </div>
+                                                </div>
+                                                {{!-- US Citizen options --}}
+                                                <div class="row mb-3">
+                                                    <label for="legalCitizen"
+                                                        class="col-md-4 col-lg-3 col-form-label">U.S.
+                                                        Citizen</label>
+                                                    <div class="col-sm-10">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="radio"
+                                                                name="legalCitizen" id="legalCitizen1" value="true"
+                                                                {{#if resident.resume.legalCitizen}} checked{{/if}}
+                                                                readonly>
+                                                            <label class="form-check-label" for="legalCitizen1">
+                                                                Yes
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="radio"
+                                                                name="legalCitizen" id="legalCitizen2" value="false"
+                                                                {{#if (eq resident.resume.legalCitizen
+                                                                false)}}checked{{/if}} readonly>
+                                                            <label class="form-check-label" for="legalCitizen2">
+                                                                No
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {{!-- GED or diploma option --}}
+                                                <div class="row mb-3">
+                                                    <label for="hsGraduate" class=" col-form-label">GED or High
+                                                        School Diploma</label>
+                                                    <div class="col-sm-10">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="radio"
+                                                                name="hsGraduate" id="hsGraduate1" value="true" {{#if
+                                                                resident.resume.hsGraduate}} checked{{/if}} readonly>
+                                                            <label class="form-check-label" for="hsGraduate1">
+                                                                Yes
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="radio"
+                                                                name="hsGraduate" id="hsGraduate2" value="false" {{#if
+                                                                (eq resident.resume.hsGraduate false)}}checked{{/if}}
+                                                                readonly>
+                                                            <label class="form-check-label" for="hsGraduate2">
+                                                                No
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {{!-- Social Security card radio option --}}
+                                                <div class="row mb-3">
+                                                    <label for="sscard" class=" col-form-label">Social Security Card on
+                                                        file?</label>
+                                                    <div class="col-sm-10">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="radio" name="sscard"
+                                                                id="sscard1" value="true" {{#if resident.resume.sscard}}
+                                                                checked{{/if}} readonly>
+                                                            <label class="form-check-label" for="sscard1">
+                                                                Yes
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="radio" name="sscard"
+                                                                id="sscard2" value="false" {{#if (eq
+                                                                resident.resume.sscard false)}}checked{{/if}} readonly>
+                                                            <label class="form-check-label" for="sscard2">
+                                                                No
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {{!-- birth certificate radio option --}}
+                                                <div class="row mb-3">
+                                                    <label for="birthCertificate" class=" col-form-label">Birth
+                                                        Certificate on
+                                                        file?</label>
+                                                    <div class="col-sm-10">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="radio"
+                                                                name="birthCertificate" id="birthCertificate1"
+                                                                value="true" {{#if resident.resume.birthCertificate}}
+                                                                checked{{/if}} readonly>
+                                                            <label class="form-check-label" for="birthCertificate1">
+                                                                Yes
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="radio"
+                                                                name="birthCertificate" id="birthCertificate2"
+                                                                value="false" {{#if (eq resident.resume.birthCertificate
+                                                                false)}}checked{{/if}} readonly>
+                                                            <label class="form-check-label" for="birthCertificate2">
+                                                                No
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
-                                    {{/if}}
+                                                {{!-- Resume Submit Button --}}
+                                                {{#if resident.resumeIsApproved}}
+                                                    {{!-- if resume has already been approved, allow for rejection --}}
+                                                    <div class="row mb-3">
+                                                        <label for="jobPool"
+                                                            class="col-md-4 col-lg-3 col-form-label">Job
+                                                            Pool</label>
+                                                        <div class="col-md-8 col-lg-9">
+                                                            <input name="jobPool" type="text"
+                                                                class="form-control text-capitalize"
+                                                                value="{{resident.jobPool}}" readonly required>
+                                                        </div>
+                                                    </div>
+                                                    <hr class="mb-3">
+                                                    <div class="text-center">
+                                                        <p class="text-success">Resume approved by <span
+                                                                class="text-capitalize">{{resident.resumeApprovedBy}}</span>
+                                                            on
+                                                            {{formatDate resident.resumeApprovalDate}}
+                                                        </p>
+                                                        <button type="button" class="btn btn-danger mx-2"
+                                                            data-bs-toggle="modal" data-bs-target="#rejectResume">Reject
+                                                            Approval</button>
+                                                    </div>
+                                                {{else}}
+
+                                                    {{!-- if resident needs to be approved, show job pool selection --}}
+                                                    {{!-- Job Pool--}}
+                                                    <div class="row mb-3">
+                                                        <label for="jobPool"
+                                                            class="col-md-4 col-lg-3 col-form-label text-primary">Job
+                                                            Pool</label>
+                                                        <div class="col-md-8 col-lg-9">
+                                                            <select required name="jobPool" class="form-select"
+                                                                aria-label="Job Pool">
+                                                                <option value="">Select Job Pool</option>
+                                                                <option value="Male Minimum 1 (Off-Site)">Male Minimum 1
+                                                                    &lpar;Off-Site&rpar;</option>
+                                                                <option value="Male Minimum 2 (On-Site)">Male Minimum 2
+                                                                    &lpar;On-Site&rpar;
+                                                                </option>
+                                                                <option value="Male Medium/Maximum">Male Medium/Maximum
+                                                                </option>
+                                                                <option value="Female Minimum 1 (Off-Site)">Female
+                                                                    Minimum 1
+                                                                    &lpar;Off-Site&rpar;</option>
+                                                                <option value="Female Minimum 2 (On-Site)">Female
+                                                                    Minimum 2
+                                                                    &lpar;On-Site&rpar;</option>
+                                                                <option value="Female Medium/Maximum">Female
+                                                                    Medium/Maximum</option>
+                                                                <option
+                                                                    value="Not Eligible: Medical Lay-In / Disciplinary Lay-In">
+                                                                    Not
+                                                                    Eligible: Medical Lay-In / Disciplinary Lay-In
+                                                                </option>
+                                                                <option value="PIE Employed">PIE Employed</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                    <div class="row">
+                                                        <div class="col-12 d-flex justify-content-between">
+                                                            <button type="button" class="btn btn-danger mx-2"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#rejectResume">Reject Resume</button>
+                                                            <button type="submit" class="btn btn-primary mx-2">Approve
+                                                                Resume</button>
+
+                                                        </div>
+                                                    </div>
+                                                {{/if}}
+                                            </form>
+                                        {{else}}
+                                            <div class="text-center">
+                                                {{!-- if resident has not completed their resume --}}
+                                                <span class="text-center text-primary">This resident has not completed
+                                                    their
+                                                    resume.
+                                                </span>
+                                            </div>
+
+                                        {{/if}}
                                     {{/if}}
 
                                     <!--============================= End Resume Form=================================== -->
@@ -459,278 +490,378 @@
                         {{!-- ====== Clearance Tab ========= --}}
                         <div class="tab-pane fade {{#if (eq activeTab 'clearance')}}show active{{/if}} profile-overview pt-3"
                             id="profile-clearance">
-                            <div class="card">
+                            <div style="min-width: 570px;" class="card">
                                 <div class="card-body pt-3">
                                     {{#if resident.isHired}}
-                                    <div class="text-center">
-                                        <p class="text-success">This resident is working as of {{formatDate
+                                        <div class="text-center">
+                                            <p class="text-success">This resident is working as of {{formatDate
                                             resident.dateHired}}</p>
-                                    </div>
+                                        </div>
                                     {{else}}
-                                    {{#if (eq resident.workEligibility.status "approved")}}
-                                    <div class="text-center">
-                                        <p class="text-success">This resident is approved and eligible for
-                                            work.</p>
-                                    </div>
-                                    {{/if}}
+                                        {{#if (eq resident.workEligibility.status "approved")}}
+                                            <div class="text-center">
+                                                <p class="text-success">This resident is approved and eligible for
+                                                    work.</p>
+                                            </div>
+                                        {{/if}}
                                     {{/if}}
 
                                     {{#if (eq resident.workEligibility.status "restricted")}}
-                                    <div class="text-center">
-                                        <p class="text-danger">This resident is not eligible
-                                            to work due to restrictions.</p>
-                                    </div>
+                                        <div class="text-center">
+                                            <p class="text-danger">This resident is not eligible
+                                                to work due to restrictions.</p>
+                                        </div>
                                     {{/if}}
                                     {{#if resident.resumeIsApproved}}
 
-                                    <h5 class="card-title">Clearance Status</h5>
 
-                                    {{!-- MEDICAL --}}
-                                    <div class="row">
-                                        <div class="col-3 label ">Medical</div>
-                                        <div class="clearanceCheck col-3 text-capitalize">
-                                            {{resident.MedicalClearance.status}}</div>
-                                        <div class="col-2 d-flex justify-content-between">
-                                            <button type="submit" class="btn btn-info"
-                                                data-route="/notification/requestClearance/{{resident.residentID}}/Medical"
-                                                data-category="Medical" data-bs-toggle="modal"
-                                                data-bs-target="#clearanceModal">
-                                                Request</button>
-                                        </div>
-                                        <div class="col-2">
-                                            <button id="" type="submit" class="btn btn-warning ms-2"
-                                                data-route="/clearance/editClearance/{{resident.residentID}}/Medical"
-                                                data-category="Medical" data-bs-toggle="modal"
-                                                data-bs-target="#editModal">Edit</button>
-                                        </div>
-                                        <div class="col-2">
-                                            <button id="" type="submit" class="btn btn-secondary ms-2"
-                                                data-route="/clearance/addNotes/{{resident.residentID}}/Medical"
-                                                data-category="Medical" data-bs-toggle="modal"
-                                                data-residentID="{{resident.residentID}}" data-notes-category="Medical"
-                                                data-bs-target="#addNotes">Notes</button>
-                                        </div>
-                                    </div>
-                                    {{!-- EAI --}}
-                                    <div class="row">
-                                        <div class="col-3 label">EAI</div>
-                                        <div class="clearanceCheck col-3 text-capitalize">
-                                            {{resident.EAIClearance.status}}
-                                        </div>
-                                        <div class="col-2 d-flex justify-content-between">
-                                            <button type="submit" class="btn btn-info"
-                                                data-route="/notification/requestClearance/{{resident.residentID}}/EAI"
-                                                data-category="EAI" data-bs-toggle="modal"
-                                                data-bs-target="#clearanceModal">
-                                                Request</button>
-                                        </div>
-                                        <div class="col-2">
-                                            <button id="" type="submit" class="btn btn-warning ms-2"
-                                                data-route="/clearance/editClearance/{{resident.residentID}}/EAI"
-                                                data-category="EAI" data-bs-toggle="modal"
-                                                data-bs-target="#editModal">Edit</button>
-                                        </div>
-                                        <div class="col-2">
-                                            <button id="" type="submit" class="btn btn-secondary ms-2"
-                                                data-route="/clearance/addNotes/{{resident.residentID}}/EAI"
-                                                data-category="EAI" data-bs-toggle="modal"
-                                                data-residentID="{{resident.residentID}}" data-notes-category="EAI"
-                                                data-bs-target="#addNotes">Notes</button>
-                                        </div>
-                                    </div>
-                                    {{!-- SEX OFFENDER --}}
-                                    <div class="row">
-                                        <div class="col-3 label">Sex Offender</div>
-                                        <div class="clearanceCheck col-3 text-capitalize">
-                                            {{resident.sexOffenderClearance.status}}
-                                        </div>
-                                        <div class="col-2 d-flex justify-content-between">
-                                            <button type="submit" class="btn btn-info"
-                                                data-route="/notification/requestClearance/{{resident.residentID}}/Sex-Offender"
-                                                data-category="Sex-Offender" data-bs-toggle="modal"
-                                                data-bs-target="#clearanceModal">
-                                                Request</button>
-                                        </div>
-                                        <div class="col-2">
-                                            <button id="" type="submit" class="btn btn-warning ms-2"
-                                                data-route="/clearance/editClearance/{{resident.residentID}}/Sex-Offender"
-                                                data-category="Sex-Offender" data-bs-toggle="modal"
-                                                data-bs-target="#editModal">Edit</button>
-                                        </div>
-                                        <div class="col-2">
-                                            <button id="" type="submit" class="btn btn-secondary ms-2"
-                                                data-route="/clearance/addNotes/{{resident.residentID}}/Sex-Offender"
-                                                data-category="Sex-Offender" data-bs-toggle="modal"
-                                                data-residentID="{{resident.residentID}}"
-                                                data-notes-category="sexOffender"
-                                                data-bs-target="#addNotes">Notes</button>
-                                        </div>
-                                    </div>
-                                    {{!-- Victim Services --}}
-                                    <div class="row">
-                                        <div class="col-3 label">Victim Services</div>
-                                        <div class="clearanceCheck col-3 text-capitalize">
-                                            {{resident.victimServicesClearance.status}}
-                                        </div>
-                                        <div class="col-2 d-flex justify-content-between">
-                                            <button type="submit" class="btn btn-info"
-                                                data-route="/notification/requestClearance/{{resident.residentID}}/Victim-Services"
-                                                data-category="Victim-Services" data-bs-toggle="modal"
-                                                data-bs-target="#clearanceModal">
-                                                Request</button>
-                                        </div>
-                                        <div class="col-2">
-                                            <button id="" type="submit" class="btn btn-warning ms-2"
-                                                data-route="/clearance/editClearance/{{resident.residentID}}/Victim-Services"
-                                                data-category="Victim-Services" data-bs-toggle="modal"
-                                                data-bs-target="#editModal">Edit</button>
-                                        </div>
-                                        <div class="col-2">
-                                            <button id="" type="submit" class="btn btn-secondary ms-2"
-                                                data-route="/clearance/addNotes/{{resident.residentID}}/Victim-Services"
-                                                data-category="Victim-Services" data-bs-toggle="modal"
-                                                data-residentID="{{resident.residentID}}"
-                                                data-notes-category="victimServices"
-                                                data-bs-target="#addNotes">Notes</button>
-                                        </div>
-                                    </div>
-                                    {{!-- CLASSIFICATION --}}
-                                    <div class="row">
-                                        <div class="col-3 label">Classification</div>
-                                        <div class="clearanceCheck col-3 text-capitalize">
-                                            {{resident.ClassificationClearance.status}}
-                                        </div>
-                                        <div class="col-2 d-flex justify-content-between">
-                                            <button type="submit" class="btn btn-info"
-                                                data-route="/notification/requestClearance/{{resident.residentID}}/Classification"
-                                                data-category="Classification" data-bs-toggle="modal"
-                                                data-bs-target="#clearanceModal">
-                                                Request</button>
-                                        </div>
-                                        <div class="col-2">
-                                            <button id="" type="submit" class="btn btn-warning ms-2 
-                                                {{#if (eq user.role 'classification')}} 
-                                                d-block 
-                                                {{else}} 
-                                                {{#if (eq user.role 'facility_management' )}} 
-                                                d-block 
-                                                {{else}}
-                                                {{#if (eq user.role 'admin')}} 
-                                                d-block 
-                                                {{else}}
-                                                d-none 
-                                                {{/if}}
-                                                {{/if}}
-                                                {{/if}}"
-                                                data-route="/clearance/editClearance/{{resident.residentID}}/Classification"
-                                                data-category="Classification" data-bs-toggle="modal"
-                                                data-bs-target="#editModal">Edit</button>
-                                        </div>
-                                        <div class="col-2">
-                                            <button id="" type="submit" class="btn btn-secondary ms-2"
-                                                data-route="/clearance/addNotes/{{resident.residentID}}/Classification"
-                                                data-category="Classification" data-bs-toggle="modal"
-                                                data-residentID="{{resident.residentID}}"
-                                                data-notes-category="Classification"
-                                                data-bs-target="#addNotes">Notes</button>
-                                        </div>
-                                    </div>
-                                    {{!-- Deputy Warden --}}
-                                    <div class="row">
-                                        <div class="col-3 label">Deputy Warden</div>
-                                        <div class="clearanceCheck col-3 text-capitalize">
-                                            {{resident.DWClearance.status}}
-                                        </div>
-                                        <div class="col-2 d-flex justify-content-between">
-                                            <button type="submit" class="btn btn-info"
-                                                data-route="/notification/requestClearance/{{resident.residentID}}/Deputy-Warden"
-                                                data-category="Deputy-Warden" data-bs-toggle="modal"
-                                                data-bs-target="#clearanceModal">
-                                                Request</button>
-                                        </div>
-                                        <div class="col-2">
-                                            <button id="" type="submit" class="btn btn-warning ms-2 {{#if (eq user.role 'facility_management' )}} 
-                                                d-block 
-                                                {{else}}
-                                                {{#if (eq user.role 'admin')}} 
-                                                d-block 
-                                                {{else}}
-                                                d-none 
-                                                {{/if}}
-                                                {{/if}}"
-                                                data-route="/clearance/editClearance/{{resident.residentID}}/Deputy-Warden"
-                                                data-category="Deputy-Warden" data-bs-toggle="modal"
-                                                data-bs-target="#editModal">Edit</button>
-                                        </div>
-                                        <div class="col-2">
-                                            <button id="" type="submit" class="btn btn-secondary ms-2"
-                                                data-route="/clearance/addNotes/{{resident.residentID}}/Deputy-Warden"
-                                                data-category="Deputy-Warden" data-bs-toggle="modal"
-                                                data-residentID="{{resident.residentID}}" data-notes-category="DW"
-                                                data-bs-target="#addNotes">Notes</button>
-                                        </div>
-                                    </div>
-                                    {{!-- WARDEN --}}
-                                    <div class="row">
-                                        <div class="col-3 label">Warden</div>
-                                        <div class="clearanceCheck col-3 text-capitalize">
-                                            {{resident.WardenClearance.status}}</div>
-                                        <div class="col-2 d-flex justify-content-between">
-                                            <button type="submit" class="btn btn-info"
-                                                data-route="/notification/requestClearance/{{resident.residentID}}/Warden"
-                                                data-category="Warden" data-bs-toggle="modal"
-                                                data-bs-target="#clearanceModal">
-                                                Request</button>
-                                        </div>
-                                        <div class="col-2">
-                                            <button id="" type="submit" class="btn btn-warning ms-2 {{#if (eq user.role 'facility_management' )}} 
-                                                d-block 
-                                                {{else}}
-                                                {{#if (eq user.role 'admin')}} 
-                                                d-block 
-                                                {{else}}
-                                                d-none 
-                                                {{/if}}
-                                                {{/if}}"
-                                                data-route="/clearance/editClearance/{{resident.residentID}}/Warden"
-                                                data-category="Warden" data-bs-toggle="modal"
-                                                data-bs-target="#editModal">Edit</button>
-                                        </div>
-                                        <div class="col-2">
-                                            <button id="" type="submit" class="btn btn-secondary ms-2"
-                                                data-route="/clearance/addNotes/{{resident.residentID}}/Warden"
-                                                data-category="Warden" data-bs-toggle="modal"
-                                                data-residentID="{{resident.residentID}}" data-notes-category="Warden"
-                                                data-bs-target="#addNotes">Notes</button>
-                                        </div>
-                                    </div>
+                                        <h5 class="card-title">Clearance Status</h5>
 
-                                    <hr>
+                                        <!-- Clearance Status Contextual classes -->
+                                        <ul class="list-group">
+                                            <li class="list-group-item {{#if (eq resident.MedicalClearance.status 'none')}}list-group-item-secondary
+                                                        {{else}}
+                                                        {{#if (eq resident.MedicalClearance.status 'pending')}}
+                                                        list-group-item-warning
+                                                        {{else}}
+                                                        {{#if (eq resident.MedicalClearance.status 'restricted')}}
+                                                        list-group-item-danger
+                                                        {{else}}
+                                                        list-group-item-success
+                                                        {{/if}}
+                                                        {{/if}}
+                                                        {{/if}}">
+                                                {{!-- MEDICAL --}}
+                                                <div class="row pt-3 pt-3">
+                                                    <div class="col-3 label ">Medical</div>
+                                                    <div class="clearanceCheck col-3 text-capitalize ">
+                                                        {{resident.MedicalClearance.status}}
+                                                    </div>
+                                                    <div class="col-2  d-flex justify-content-between">
+                                                        <button type="submit" class="btn btn-info "
+                                                            data-route="/notification/requestClearance/{{resident.residentID}}/Medical"
+                                                            data-category="Medical" data-bs-toggle="modal"
+                                                            data-bs-target="#clearanceModal">
+                                                            Request</button>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <button id="" type="submit" class="btn btn-warning ms-2"
+                                                            data-route="/clearance/editClearance/{{resident.residentID}}/Medical"
+                                                            data-category="Medical" data-bs-toggle="modal"
+                                                            data-bs-target="#editModal">Edit</button>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <button id="" type="submit" class="btn btn-secondary ms-2"
+                                                            data-route="/clearance/addNotes/{{resident.residentID}}/Medical"
+                                                            data-category="Medical" data-bs-toggle="modal"
+                                                            data-residentID="{{resident.residentID}}"
+                                                            data-notes-category="Medical"
+                                                            data-bs-target="#addNotes">Notes</button>
+                                                    </div>
+                                                </div>
+                                            </li>
 
-                                    <div class="row d-flex justify-content-between">
-                                        {{#unless (eq resident.workEligibility.status "restricted")}}
-                                        <div class="col-auto">
-                                            <button type="button" class="btn btn-danger " data-bs-toggle="modal"
-                                                data-bs-target="#rejectResident">Restrict Resident</button>
-                                        </div>
-                                        {{/unless}}
+                                            <li class="list-group-item {{#if (eq resident.EAIClearance.status 'none')}}list-group-item-secondary
+                                                        {{else}}
+                                                        {{#if (eq resident.EAIClearance.status 'pending')}}
+                                                        list-group-item-warning
+                                                        {{else}}
+                                                        {{#if (eq resident.EAIClearance.status 'restricted')}}
+                                                        list-group-item-danger
+                                                        {{else}}
+                                                        list-group-item-success
+                                                        {{/if}}
+                                                        {{/if}}
+                                                        {{/if}}">
+                                                {{!-- EAI --}}
+                                                <div class="row pt-3">
+                                                    <div class="col-3 label">EAI</div>
+                                                    <div class="clearanceCheck col-3 text-capitalize">
+                                                        {{resident.EAIClearance.status}}
+                                                    </div>
+                                                    <div class="col-2 d-flex justify-content-between">
+                                                        <button type="submit" class="btn btn-info"
+                                                            data-route="/notification/requestClearance/{{resident.residentID}}/EAI"
+                                                            data-category="EAI" data-bs-toggle="modal"
+                                                            data-bs-target="#clearanceModal">
+                                                            Request</button>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <button id="" type="submit" class="btn btn-warning ms-2"
+                                                            data-route="/clearance/editClearance/{{resident.residentID}}/EAI"
+                                                            data-category="EAI" data-bs-toggle="modal"
+                                                            data-bs-target="#editModal">Edit</button>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <button id="" type="submit" class="btn btn-secondary ms-2"
+                                                            data-route="/clearance/addNotes/{{resident.residentID}}/EAI"
+                                                            data-category="EAI" data-bs-toggle="modal"
+                                                            data-residentID="{{resident.residentID}}"
+                                                            data-notes-category="EAI"
+                                                            data-bs-target="#addNotes">Notes</button>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item {{#if (eq resident.sexOffenderClearance.status 'none')}}list-group-item-secondary
+                                                        {{else}}
+                                                        {{#if (eq resident.sexOffenderClearance.status 'pending')}}
+                                                        list-group-item-warning
+                                                        {{else}}
+                                                        {{#if (eq resident.sexOffenderClearance.status 'restricted')}}
+                                                        list-group-item-danger
+                                                        {{else}}
+                                                        list-group-item-success
+                                                        {{/if}}  
+                                                        {{/if}}
+                                                        {{/if}}">
+                                                {{!-- SEX OFFENDER --}}
+                                                <div class="row pt-3">
+                                                    <div class="col-3 label">Sex Offender</div>
+                                                    <div class="clearanceCheck col-3 text-capitalize">
+                                                        {{resident.sexOffenderClearance.status}}
+                                                    </div>
+                                                    <div class="col-2 d-flex justify-content-between">
+                                                        <button type="submit" class="btn btn-info"
+                                                            data-route="/notification/requestClearance/{{resident.residentID}}/Sex-Offender"
+                                                            data-category="Sex-Offender" data-bs-toggle="modal"
+                                                            data-bs-target="#clearanceModal">
+                                                            Request</button>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <button id="" type="submit" class="btn btn-warning ms-2"
+                                                            data-route="/clearance/editClearance/{{resident.residentID}}/Sex-Offender"
+                                                            data-category="Sex-Offender" data-bs-toggle="modal"
+                                                            data-bs-target="#editModal">Edit</button>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <button id="" type="submit" class="btn btn-secondary ms-2"
+                                                            data-route="/clearance/addNotes/{{resident.residentID}}/Sex-Offender"
+                                                            data-category="Sex-Offender" data-bs-toggle="modal"
+                                                            data-residentID="{{resident.residentID}}"
+                                                            data-notes-category="sexOffender"
+                                                            data-bs-target="#addNotes">Notes</button>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item {{#if (eq resident.victimServicesClearance.status 'none')}}list-group-item-secondary
+                                                        {{else}}
+                                                        {{#if (eq resident.victimServicesClearance.status 'pending')}}
+                                                        list-group-item-warning
+                                                        {{else}}
+                                                        {{#if (eq resident.victimServicesClearance.status 'restricted')}}
+                                                        list-group-item-danger
+                                                        {{else}}
+                                                        list-group-item-success
+                                                        {{/if}}
+                                                        {{/if}}
+                                                        {{/if}}">
+                                                {{!-- Victim Services --}}
+                                                <div class="row pt-3">
+                                                    <div class="col-3 label">Victim Services</div>
+                                                    <div class="clearanceCheck col-3 text-capitalize">
+                                                        {{resident.victimServicesClearance.status}}
+                                                    </div>
+                                                    <div class="col-2 d-flex justify-content-between">
+                                                        <button type="submit" class="btn btn-info"
+                                                            data-route="/notification/requestClearance/{{resident.residentID}}/Victim-Services"
+                                                            data-category="Victim-Services" data-bs-toggle="modal"
+                                                            data-bs-target="#clearanceModal">
+                                                            Request</button>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <button id="" type="submit" class="btn btn-warning ms-2"
+                                                            data-route="/clearance/editClearance/{{resident.residentID}}/Victim-Services"
+                                                            data-category="Victim-Services" data-bs-toggle="modal"
+                                                            data-bs-target="#editModal">Edit</button>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <button id="" type="submit" class="btn btn-secondary ms-2"
+                                                            data-route="/clearance/addNotes/{{resident.residentID}}/Victim-Services"
+                                                            data-category="Victim-Services" data-bs-toggle="modal"
+                                                            data-residentID="{{resident.residentID}}"
+                                                            data-notes-category="victimServices"
+                                                            data-bs-target="#addNotes">Notes</button>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item {{#if (eq resident.ClassificationClearance.status 'none')}}list-group-item-secondary
+                                                        {{else}}
+                                                        {{#if (eq resident.ClassificationClearance.status 'pending')}}
+                                                        list-group-item-warning
+                                                        {{else}}
+                                                        {{#if (eq resident.ClassificationClearance.status 'restricted')}}
+                                                        list-group-item-danger
+                                                        {{else}}
+                                                        list-group-item-success
+                                                        {{/if}}
+                                                        {{/if}}
+                                                        {{/if}}">
+                                                {{!-- CLASSIFICATION --}}
+                                                <div class="row pt-3">
+                                                    <div class="col-3 label">Classification</div>
+                                                    <div class="clearanceCheck col-3 text-capitalize">
+                                                        {{resident.ClassificationClearance.status}}
+                                                    </div>
+                                                    <div class="col-2 d-flex justify-content-between">
+                                                        <button type="submit" class="btn btn-info"
+                                                            data-route="/notification/requestClearance/{{resident.residentID}}/Classification"
+                                                            data-category="Classification" data-bs-toggle="modal"
+                                                            data-bs-target="#clearanceModal">
+                                                            Request</button>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <button id="" type="submit" class="btn btn-warning ms-2 
+                                                                {{#if (eq user.role 'classification')}} 
+                                                                    d-block 
+                                                                {{else}} 
+                                                                {{#if (eq user.role 'facility_management' )}} 
+                                                                d-block 
+                                                                {{else}}
+                                                                {{#if (eq user.role 'admin')}} 
+                                                                d-block 
+                                                                {{else}}
+                                                                d-none 
+                                                                {{/if}}
+                                                                {{/if}}
+                                                                {{/if}}"
+                                                            data-route="/clearance/editClearance/{{resident.residentID}}/Classification"
+                                                            data-category="Classification" data-bs-toggle="modal"
+                                                            data-bs-target="#editModal">Edit</button>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <button id="" type="submit" class="btn btn-secondary ms-2"
+                                                            data-route="/clearance/addNotes/{{resident.residentID}}/Classification"
+                                                            data-category="Classification" data-bs-toggle="modal"
+                                                            data-residentID="{{resident.residentID}}"
+                                                            data-notes-category="Classification"
+                                                            data-bs-target="#addNotes">Notes</button>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item {{#if (eq resident.DWClearance.status 'none')}}list-group-item-secondary
+                                                        {{else}}
+                                                        {{#if (eq resident.DWClearance.status 'pending')}}
+                                                        list-group-item-warning
+                                                        {{else}}
+                                                        {{#if (eq resident.DWClearance.status 'restricted')}}
+                                                        list-group-item-danger
+                                                        {{else}}
+                                                        list-group-item-success
+                                                        {{/if}}
+                                                        {{/if}}
+                                                        {{/if}}">
+                                                {{!-- Deputy Warden --}}
+                                                <div class="row pt-3">
+                                                    <div class="col-3 label">Deputy Warden</div>
+                                                    <div class="clearanceCheck col-3 text-capitalize">
+                                                        {{resident.DWClearance.status}}
+                                                    </div>
+                                                    <div class="col-2 d-flex justify-content-between">
+                                                        <button type="submit" class="btn btn-info"
+                                                            data-route="/notification/requestClearance/{{resident.residentID}}/Deputy-Warden"
+                                                            data-category="Deputy-Warden" data-bs-toggle="modal"
+                                                            data-bs-target="#clearanceModal">
+                                                            Request</button>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <button id="" type="submit" class="btn btn-warning ms-2 {{#if (eq user.role 'facility_management' )}} 
+                                                                d-block 
+                                                                {{else}}
+                                                                {{#if (eq user.role 'admin')}} 
+                                                                d-block 
+                                                                {{else}}
+                                                                d-none 
+                                                                {{/if}}
+                                                                {{/if}}"
+                                                            data-route="/clearance/editClearance/{{resident.residentID}}/Deputy-Warden"
+                                                            data-category="Deputy-Warden" data-bs-toggle="modal"
+                                                            data-bs-target="#editModal">Edit</button>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <button id="" type="submit" class="btn btn-secondary ms-2"
+                                                            data-route="/clearance/addNotes/{{resident.residentID}}/Deputy-Warden"
+                                                            data-category="Deputy-Warden" data-bs-toggle="modal"
+                                                            data-residentID="{{resident.residentID}}"
+                                                            data-notes-category="DW"
+                                                            data-bs-target="#addNotes">Notes</button>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item {{#if (eq resident.WardenClearance.status 'none')}}list-group-item-secondary
+                                                        {{else}}
+                                                        {{#if (eq resident.WardenClearance.status 'pending')}}
+                                                        list-group-item-warning
+                                                        {{else}}
+                                                        {{#if (eq resident.WardenClearance.status 'restricted')}}
+                                                        list-group-item-danger
+                                                        {{else}}
+                                                        list-group-item-success
+                                                        {{/if}}
+                                                        {{/if}}
+                                                        {{/if}}">
+                                                {{!-- WARDEN --}}
+                                                <div class="row pt-3">
+                                                    <div class="col-3 label">Warden</div>
+                                                    <div class="clearanceCheck col-3 text-capitalize">
+                                                        {{resident.WardenClearance.status}}
+                                                    </div>
+                                                    <div class="col-2 d-flex justify-content-between">
+                                                        <button type="submit" class="btn btn-info"
+                                                            data-route="/notification/requestClearance/{{resident.residentID}}/Warden"
+                                                            data-category="Warden" data-bs-toggle="modal"
+                                                            data-bs-target="#clearanceModal">
+                                                            Request</button>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <button id="" type="submit" class="btn btn-warning ms-2 {{#if (eq user.role 'facility_management' )}} 
+                                                                     d-block 
+                                                                     {{else}}
+                                                                     {{#if (eq user.role 'admin')}} 
+                                                                     d-block 
+                                                                     {{else}}
+                                                                     d-none 
+                                                                     {{/if}}
+                                                                     {{/if}}"
+                                                            data-route="/clearance/editClearance/{{resident.residentID}}/Warden"
+                                                            data-category="Warden" data-bs-toggle="modal"
+                                                            data-bs-target="#editModal">Edit</button>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <button id="" type="submit" class="btn btn-secondary ms-2"
+                                                            data-route="/clearance/addNotes/{{resident.residentID}}/Warden"
+                                                            data-category="Warden" data-bs-toggle="modal"
+                                                            data-residentID="{{resident.residentID}}"
+                                                            data-notes-category="Warden"
+                                                            data-bs-target="#addNotes">Notes</button>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
 
-                                        <div class="col-auto">
-                                            {{#unless (eq resident.workEligibility.status "approved")}}
-                                            <button id="approveClearance" type="button" style="display: none;"
-                                                class="btn btn-success" data-bs-toggle="modal"
-                                                data-bs-target="#approveResident">Approve
-                                                Resident</button>
+                                        <div class="row d-flex justify-content-between mt-3">
+                                            {{#unless (eq resident.workEligibility.status "restricted")}}
+                                                <div class="col-auto">
+                                                    <button type="button" class="btn btn-danger " data-bs-toggle="modal"
+                                                        data-bs-target="#rejectResident">Restrict Resident</button>
+                                                </div>
                                             {{/unless}}
+
+                                            <div class="col-auto">
+                                                {{#unless (eq resident.workEligibility.status "approved")}}
+                                                    <button id="approveClearance" type="button" style="display: none;"
+                                                        class="btn btn-success" data-bs-toggle="modal"
+                                                        data-bs-target="#approveResident">Approve
+                                                        Resident</button>
+                                                {{/unless}}
+                                            </div>
                                         </div>
-                                    </div>
                                     {{else}}
-                                    <div class="text-center">
-                                        {{!-- If UTM has not approved resume --}}
-                                        <span class="text-primary">This resident does not have an approved
-                                            resume.
-                                        </span>
-                                    </div>
+                                        <div class="text-center">
+                                            {{!-- If UTM has not approved resume --}}
+                                            <span class="text-primary">This resident does not have an approved
+                                                resume.
+                                            </span>
+                                        </div>
                                     {{/if}}
                                 </div>
                             </div>
@@ -742,52 +873,52 @@
                                 <div class="card-body pt-3">
                                     {{#if applications}}
 
-                                    <div class="row mt-3 mb-3">
-                                        <div class="col-lg-3 col-md-3 label text-muted">
-                                            Company</div>
-                                        <div class="col-lg-3 col-md-3 label text-muted">
-                                            Position</div>
-                                        <div class="col-lg-2 col-md-2 text-muted">
-                                            Pay</div>
-                                    </div>
-                                    {{#each applications}}
+                                        <div class="row mt-3 mb-3">
+                                            <div class="col-lg-3 col-md-3 label text-muted">
+                                                Company</div>
+                                            <div class="col-lg-3 col-md-3 label text-muted">
+                                                Position</div>
+                                            <div class="col-lg-2 col-md-2 text-muted">
+                                                Pay</div>
+                                        </div>
+                                        {{#each applications}}
 
-                                    <div class="row mt-3">
-                                        <div class="col-lg-3 col-md-3 label text-capitalize">
-                                            {{this.companyName}}
-                                        </div>
-                                        <div class="col-lg-3 col-md-3 label text-capitalize">
-                                            {{this.position}}
-                                        </div>
-                                        <div class="col-lg-2 col-md-2">
-                                            ${{this.pay}} /hr</div>
-                                        <div class="col-lg-4 col-md-4">
-                                            <button class="btn btn-primary" type="button" data-bs-toggle="modal"
-                                                data-bs-target="#{{this.position}}">
-                                                Manage Hiring</button>
-                                        </div>
-                                    </div>
-                                    <hr>
+                                            <div class="row mt-3">
+                                                <div class="col-lg-3 col-md-3 label text-capitalize">
+                                                    {{this.companyName}}
+                                                </div>
+                                                <div class="col-lg-3 col-md-3 label text-capitalize">
+                                                    {{this.position}}
+                                                </div>
+                                                <div class="col-lg-2 col-md-2">
+                                                    ${{this.pay}} /hr</div>
+                                                <div class="col-lg-4 col-md-4">
+                                                    <button class="btn btn-primary" type="button" data-bs-toggle="modal"
+                                                        data-bs-target="#{{this.position}}">
+                                                        Manage Hiring</button>
+                                                </div>
+                                            </div>
+                                            <hr>
 
-                                    {{/each}}
+                                        {{/each}}
                                     {{else}}
-                                    {{#if resident.isHired}} <span class="text-success">
-                                        Resident is currently employed at <span
-                                            class="text-capitalize text-info">{{resident.companyName}}</span>
-                                        as of {{formatDate
+                                        {{#if resident.isHired}} <span class="text-success">
+                                                Resident is currently employed at <span
+                                                    class="text-capitalize text-info">{{resident.companyName}}</span>
+                                                as of {{formatDate
                                         resident.dateHired}}.
-                                    </span>
-                                    <hr>
-                                    <button class="btn btn-danger" type="button" data-bs-toggle="modal"
-                                        data-bs-target="#terminate">
-                                        Terminate Employment</button>
-                                    {{else}}
+                                            </span>
+                                            <hr>
+                                            <button class="btn btn-danger" type="button" data-bs-toggle="modal"
+                                                data-bs-target="#terminate">
+                                                Terminate Employment</button>
+                                        {{else}}
 
-                                    <div class="text-center">
-                                        <span class="text-primary">This resident has completed no applications.
-                                        </span>
-                                    </div>
-                                    {{/if}}
+                                            <div class="text-center">
+                                                <span class="text-primary">This resident has completed no applications.
+                                                </span>
+                                            </div>
+                                        {{/if}}
                                     {{/if}}
                                 </div>
                             </div>
@@ -799,47 +930,66 @@
                                 <div class="card-body pt-3">
 
                                     {{#if resident.workHistory}}
-                                    {{#if resident.isHired}}
-                                    <p>This resident is currently working at <span
-                                            class="text-capitalize">{{resident.companyName}}</span>.</p>
-                                    <p>Start date: {{formatDate resident.dateHired}}</p>
-                                    <hr>
+                                        {{#if resident.isHired}}
+                                            <p>This resident is currently working at <span
+                                                    class="text-capitalize">{{resident.companyName}}</span>.</p>
+                                            <p>Start date: {{formatDate resident.dateHired}}</p>
+                                            <hr>
+                                        {{else}}
+                                            <p>This resident is not currently working.</p>
+                                            <hr>
+                                        {{/if}}
+
+                                        {{#each resident.workHistory}}
+
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h5 class="card-title text-capitalize">Company -
+                                                        {{this.companyName}}
+                                                    </h5>
+
+                                                    <!-- List group with Advanced Contents -->
+                                                    <div class="list-group">
+
+                                                        <div class="d-flex w-100 justify-content-between">
+                                                            <h5 class="mb-1 ">Reason for leaving -
+                                                                {{this.reasonForLeaving}}
+                                                            </h5>
+                                                            {{!-- <small>3 days ago</small> --}}
+                                                        </div>
+                                                        <p class="mb-1">Start Date - {{formatDate this.startDate}}
+                                                        </p>
+                                                        <p class="mb-1">End Date - {{formatDate this.endDate}}</p>
+                                                        {{#if this.note}}
+                                                            <small>Notes - {{formatDate this.note.createdAt}} -
+                                                                <span
+                                                                    class="text-capitalize">{{this.note.createdBy}}</span>:
+                                                                {{this.note.note}}</small>
+                                                        {{/if}}
+                                                    </div><!-- End List group Advanced Content -->
+
+                                                </div>
+                                            </div>
+
+
+                                        {{/each}}
+
                                     {{else}}
-                                    <p>This resident is not currently working.</p>
-                                    <hr>
-                                    {{/if}}
-                                    {{#each resident.workHistory}}
+                                        {{#if resident.isHired}}
 
-                                    <p>Company - {{this.companyName}}</p>
-                                    <p>Start Date - {{formatDate this.startDate}}</p>
-                                    <p>End Date - {{formatDate this.endDate}}</p>
-                                    <p>Reason for leaving - {{this.reasonForLeaving}} </p>
+                                            <p class="text-center text-primary pt-3">This resident is currently
+                                                working at
+                                                <span class="text-capitalize">{{resident.companyName}}</span>.
+                                            </p>
+                                            <p>Start date: {{formatDate resident.dateHired}}</p>
+                                            <p>No further work history.</p>
 
-                                    {{#if this.note}}
-                                    <p class="text-capitalize">Notes - {{formatDate this.note.createdAt}} -
-                                        {{this.note.createdBy}}: {{this.note.note}}</p>
+                                        {{else}}
 
-                                    {{/if}}
+                                            <p class="text-center text-primary pt-3">This resident has no work
+                                                history and is not currently employed.</p>
 
-
-                                    <hr>
-                                    {{/each}}
-                                    {{else}}
-                                    {{#if resident.isHired}}
-                                    <div class="card">
-                                        <p class="text-center text-primary pt-3">This resident is currently working at
-                                            <span class="text-capitalize">{{resident.companyName}}</span>.
-                                        </p>
-                                        <p>Start date: {{formatDate resident.dateHired}}</p>
-                                        <p>No further work history.</p>
-                                    </div>
-                                    {{else}}
-                                    <div class="card">
-                                        <p class="text-center text-primary pt-3">This resident has no work history and
-                                            is
-                                            not currently employed.</p>
-                                    </div>
-                                    {{/if}}
+                                        {{/if}}
                                     {{/if}}
 
                                 </div>
@@ -935,14 +1085,14 @@
                                     <select required name="unitTeamInfo" id="unitTeamList"
                                         class="form-select text-capitalize" aria-label="Select Unit Team">
                                         {{#unless resident.resume.unitTeam}}
-                                        <option value="">Select Unit Team:</option>
+                                            <option value="">Select Unit Team:</option>
                                         {{/unless}}
                                         {{#each unitTeam}}
-                                        <option {{#if (eq resident.resume.unitTeam this.email)}}selected{{/if}}
-                                            class="text-capitalize"
-                                            value="{{this.email}}|{{this.firstName}} {{this.lastName}}">
-                                            {{this.firstName}} {{this.lastName}} - {{this.facility}}
-                                        </option>
+                                            <option {{#if (eq resident.resume.unitTeam this.email)}}selected{{/if}}
+                                                class="text-capitalize"
+                                                value="{{this.email}}|{{this.firstName}} {{this.lastName}}">
+                                                {{this.firstName}} {{this.lastName}} - {{this.facility}}
+                                            </option>
                                         {{/each}}
                                     </select>
                                 </div>
@@ -1130,7 +1280,8 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-sm-10">
-                            <textarea name="notes" class="form-control" placeholder="Additional notes and comments"
+                            <textarea required name="notes" class="form-control"
+                                placeholder="Additional notes and comments for resident's work history records."
                                 style="height: 100px;"></textarea>
                         </div>
                     </div>
@@ -1176,7 +1327,7 @@
                         <div class="row mb-3">
                             <div class="col-sm-10">
                                 <textarea name="comments" class="form-control"
-                                    placeholder="Additional instructions for recipient."
+                                    placeholder="Additional instructions or info for recipient."
                                     style="height: 100px;"></textarea>
                             </div>
                         </div>
@@ -1350,236 +1501,239 @@
 
 
 {{#each applications}}
-{{!-- View Application Modal --}}
-<div class="modal fade" id="{{this.position}}" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content p-2">
+    {{!-- View Application Modal --}}
+    <div class="modal fade" id="{{this.position}}" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content p-2">
 
-            <div class="modal-header row">
+                <div class="modal-header row">
 
-                <div class="col-6">
-                    <h3 class="modal-title text-center text-capitalize">{{../resident.firstName}}
-                        {{../resident.lastName}}</h3>
-                </div>
+                    <div class="col-6">
+                        <h3 class="modal-title text-center text-capitalize">{{../resident.firstName}}
+                            {{../resident.lastName}}
+                        </h3>
+                    </div>
 
-                {{#getInterview ../resident.residentID this.interviews}}
-                {{#if dateScheduled}}
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-
-                {{else}}
-                <div class="col-6">
-                    <button type="button" class="btn btn-info mx-2" data-bs-toggle="modal"
-                        data-bs-target="#{{../this.position}}2">Schedule
-                        Interview</button>
-                </div>
-                {{/if}}
-                {{else}}
-                <div class="col-6">
-                    <button type="button" class="btn btn-info mx-2" data-bs-toggle="modal"
-                        data-bs-target="#{{../this.position}}2">Schedule
-                        Interview</button>
-                </div>
-                {{/getInterview}}
-
-            </div>
-
-            <div class="modal-body">
-
-                <div class="row mb-2">
-                    <div class="col-lg-4 col-md-4 label text-info">Resident ID:</div>
-                    <div class="col-lg-8 col-md-8">{{../resident.residentID}}</div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-lg-4 col-md-4 label text-info">Facility:</div>
-                    <div class="col-lg-8 col-md-8 text-capitalize">{{../resident.facility}}</div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-lg-4 col-md-4 label text-info">Custody Level:</div>
-                    <div class="col-lg-8 col-md-8 text-capitalize">{{../resident.custodyLevel}}</div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-lg-4 col-md-4 label text-info">Out Date:</div>
-                    <div class="col-lg-8 col-md-8 text-capitalize">{{formatDate ../resident.outDate}}</div>
-                </div>
-                <hr>
-                <div class="row mb-2">
-                    <div class="col-lg-4 col-md-4 label text-info">Company:</div>
-                    <div class="col-lg-8 col-md-8 text-capitalize">{{this.companyName}}</div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-lg-4 col-md-4 label text-info">Position:</div>
-                    <div class="col-lg-8 col-md-8 text-capitalize">{{this.position}}</div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-lg-4 col-md-4 label text-info">Pay:</div>
-                    <div class="col-lg-8 col-md-8 text-capitalize">${{this.pay}}/hr</div>
-                </div>
-                <hr>
-                <div class="row mb-2">
-                    <div class="col-lg-6 col-md-6 label text-info">Interview Requested On:</div>
                     {{#getInterview ../resident.residentID this.interviews}}
-                    <div class="col-lg-6 col-md-6">{{formatDate dateRequested}}</div>
-                    {{else}}
-                    <div class="col-lg-6 col-md-6">No</div>
-                    {{/getInterview}}
-                </div>
+                        {{#if dateScheduled}}
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
-                <div class="row mb-2">
-                    <div class="col-lg-6 col-md-6 label text-info">Interview Scheduled For:</div>
-                    {{#getInterview ../resident.residentID this.interviews}}
-                    {{#if dateScheduled}}
-                    <div class="col-lg-6 col-md-6">{{formatDate dateScheduled}} &nbsp; @ &nbsp; {{time}}</div>
-                    {{else}}
-                    <div class="col-lg-6 col-md-6">No</div>
-                    {{/if}}
-                    {{else}}
-                    <div class="col-lg-6 col-md-6">No</div>
-                    {{/getInterview}}
-                </div>
-            </div>
-            <div class="modal-footer">
-                <div class="col-12 d-flex justify-content-between">
-                    <a href="/clearance/rejectHire/{{../resident._id}}/{{this._id}}"><button type="button"
-                            class="btn btn-danger mx-2">Reject Hire</button></a>
-                    <button type="button" data-bs-toggle="modal" data-bs-target="#{{this.position}}3"
-                        class="btn btn-success mx-2">Hire
-                        Resident</button>
-                </div>
-            </div>
-
-        </div>
+                        {{else}}
+                            <div class="col-6">
+                                <button type="button" class="btn btn-info mx-2" data-bs-toggle="modal"
+                                    data-bs-target="#{{../this.position}}2">Schedule
+                                    Interview</button>
+                            </div>
+                        {{/if}}
+{{else}}
+    <div class="col-6">
+        <button type="button" class="btn btn-info mx-2" data-bs-toggle="modal"
+            data-bs-target="#{{../this.position}}2">Schedule
+            Interview</button>
     </div>
-</div>
-
-{{!-- Schedule Interview Modal --}}
-<div class="modal fade" id="{{this.position}}2" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content p-2">
-
-            <div class="modal-header">
-
-                <h3 class="modal-title">
-                    Schedule Interview
-                </h3>
-
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form method="POST" action="/clearance/scheduleInterview/{{this._id}}">
-                <div class="modal-body">
-                    {{#getInterview ../resident.residentID this.interviews}}
-
-                    <input type="hidden" name="interviewID" value="{{_id}}">
-                    <p>Employer Preferences - Requested on {{formatDate dateRequested}}</p>
-                    <hr>
-                    <div class="row mb-3">
-                        <label for="instructions" class="col-12 col-form-label">Scheduling Preferences:</label>
-                        <div class="col-12">
-                            <textarea disabled class="form-control" style="height: 100px" name="instructions"
-                                placeholder="none">{{preferredDate}}</textarea>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label for="instructions" class="col-12 col-form-label">Instructions:</label>
-                        <div class="col-12">
-                            <textarea disabled class="form-control" style="height: 100px" name="instructions"
-                                placeholder="none">{{employerInstructions}}</textarea>
-                        </div>
-                    </div>
-                    <hr>
-                    {{else}}
-                    <div class="row mb-3">
-                        <p>No requests or preferences from employer.</p>
-                    </div>
-                    <hr>
                     {{/getInterview}}
 
-                    <div class="row mb-3">
-                        <label for="name" class="col-sm-2 col-form-label">Resident</label>
-                        <div class="col-sm-10">
-                            <input required type="text" class="form-control text-capitalize" readonly
-                                value="{{../resident.firstName}} {{../resident.lastName}}">
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label for="name" class="col-sm-2 col-form-label">ID #</label>
-                        <div class="col-sm-10">
-                            <input required type="text" class="form-control" name="residentID" readonly
-                                value="{{../resident.residentID}}">
-                        </div>
-                    </div>
+                </div>
 
+                <div class="modal-body">
 
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 label text-info">Resident ID:</div>
+                        <div class="col-lg-8 col-md-8">{{../resident.residentID}}</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 label text-info">Facility:</div>
+                        <div class="col-lg-8 col-md-8 text-capitalize">{{../resident.facility}}</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 label text-info">Custody Level:</div>
+                        <div class="col-lg-8 col-md-8 text-capitalize">{{../resident.custodyLevel}}</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 label text-info">Out Date:</div>
+                        <div class="col-lg-8 col-md-8 text-capitalize">{{formatDate ../resident.outDate}}</div>
+                    </div>
                     <hr>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 label text-info">Company:</div>
+                        <div class="col-lg-8 col-md-8 text-capitalize">{{this.companyName}}</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 label text-info">Position:</div>
+                        <div class="col-lg-8 col-md-8 text-capitalize">{{this.position}}</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 label text-info">Pay:</div>
+                        <div class="col-lg-8 col-md-8 text-capitalize">${{this.pay}}/hr</div>
+                    </div>
+                    <hr>
+                    <div class="row mb-2">
+                        <div class="col-lg-6 col-md-6 label text-info">Interview Requested On:</div>
+                        {{#getInterview ../resident.residentID this.interviews}}
+                            <div class="col-lg-6 col-md-6">{{formatDate dateRequested}}</div>
+{{else}}
+    <div class="col-lg-6 col-md-6">No</div>
+                        {{/getInterview}}
+                    </div>
 
-                    <div class="row mb-3">
-                        <label for="date" class="col-sm-2 col-form-label">Date</label>
-                        <div class="col-sm-10">
-                            <input required type="date" class="form-control" name="date">
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label for="time" class="col-sm-2 col-form-label">Time</label>
-                        <div class="col-sm-10">
-                            <input required type="time" class="form-control" name="time">
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label for="instructions" class="col-12 col-form-label">Additional Instructions for
-                            Resident:</label>
-                        <div class="col-12">
-                            <textarea class="form-control" style="height: 100px" name="instructions"
-                                placeholder="optional"></textarea>
-                        </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-6 col-md-6 label text-info">Interview Scheduled For:</div>
+                        {{#getInterview ../resident.residentID this.interviews}}
+                            {{#if dateScheduled}}
+                                <div class="col-lg-6 col-md-6">{{formatDate dateScheduled}} &nbsp; @ &nbsp; {{time}}
+                                </div>
+                            {{else}}
+                                <div class="col-lg-6 col-md-6">No</div>
+                            {{/if}}
+{{else}}
+    <div class="col-lg-6 col-md-6">No</div>
+                        {{/getInterview}}
                     </div>
                 </div>
                 <div class="modal-footer">
                     <div class="col-12 d-flex justify-content-between">
-                        <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal"
-                            aria-label="Close">Cancel</button>
-                        <button type="submit" class="btn btn-info mx-2">Schedule</button>
+                        <a href="/clearance/rejectHire/{{../resident._id}}/{{this._id}}"><button type="button"
+                                class="btn btn-danger mx-2">Reject Hire</button></a>
+
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#{{this.position}}3"
+                            class="btn btn-success mx-2">Hire
+                            Resident</button>
                     </div>
                 </div>
-            </form>
+
+            </div>
         </div>
     </div>
-</div>
 
-{{!-- Hire Resident Modal --}}
-<div class="modal fade" id="{{this.position}}3" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form method="post" action="/clearance/hireResident/{{../resident._id}}/{{this._id}}">
+    {{!-- Schedule Interview Modal --}}
+    <div class="modal fade" id="{{this.position}}2" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content p-2">
+
                 <div class="modal-header">
-                    <h5 class="modal-title">Employ Resident</h5>
+
+                    <h3 class="modal-title">
+                        Schedule Interview
+                    </h3>
+
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    <div class="row mb-3">
-                        <label for="startDate" class="col-form-label">Select Start Date:</label>
-                        <div class="col-sm-10">
-                            <input required type="date" class="form-control" name="startDate">
+                <form method="POST" action="/clearance/scheduleInterview/{{this._id}}">
+                    <div class="modal-body">
+                        {{#getInterview ../resident.residentID this.interviews}}
+
+                            <input type="hidden" name="interviewID" value="{{_id}}">
+                            <p>Employer Preferences - Requested on {{formatDate dateRequested}}</p>
+                            <hr>
+                            <div class="row mb-3">
+                                <label for="instructions" class="col-12 col-form-label">Scheduling Preferences:</label>
+                                <div class="col-12">
+                                    <textarea disabled class="form-control" style="height: 100px" name="instructions"
+                                        placeholder="none">{{preferredDate}}</textarea>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="instructions" class="col-12 col-form-label">Instructions:</label>
+                                <div class="col-12">
+                                    <textarea disabled class="form-control" style="height: 100px" name="instructions"
+                                        placeholder="none">{{employerInstructions}}</textarea>
+                                </div>
+                            </div>
+                            <hr>
+{{else}}
+    <div class="row mb-3">
+        <p>No requests or preferences from employer.</p>
+    </div>
+    <hr>
+                        {{/getInterview}}
+
+                        <div class="row mb-3">
+                            <label for="name" class="col-sm-2 col-form-label">Resident</label>
+                            <div class="col-sm-10">
+                                <input required type="text" class="form-control text-capitalize" readonly
+                                    value="{{../resident.firstName}} {{../resident.lastName}}">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="name" class="col-sm-2 col-form-label">ID #</label>
+                            <div class="col-sm-10">
+                                <input required type="text" class="form-control" name="residentID" readonly
+                                    value="{{../resident.residentID}}">
+                            </div>
+                        </div>
+
+
+                        <hr>
+
+                        <div class="row mb-3">
+                            <label for="date" class="col-sm-2 col-form-label">Date</label>
+                            <div class="col-sm-10">
+                                <input required type="date" class="form-control" name="date">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="time" class="col-sm-2 col-form-label">Time</label>
+                            <div class="col-sm-10">
+                                <input required type="time" class="form-control" name="time">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="instructions" class="col-12 col-form-label">Additional Instructions for
+                                Resident:</label>
+                            <div class="col-12">
+                                <textarea class="form-control" style="height: 100px" name="instructions"
+                                    placeholder="optional"></textarea>
+                            </div>
                         </div>
                     </div>
-                    {{!-- maybe provide this functionality later --}}
-                    {{!-- <div class="row mb-3">
+                    <div class="modal-footer">
+                        <div class="col-12 d-flex justify-content-between">
+                            <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal"
+                                aria-label="Close">Cancel</button>
+                            <button type="submit" class="btn btn-info mx-2">Schedule</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {{!-- Hire Resident Modal --}}
+    <div class="modal fade" id="{{this.position}}3" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="post" action="/clearance/hireResident/{{../resident._id}}/{{this._id}}">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Employ Resident</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row mb-3">
+                            <label for="startDate" class="col-form-label">Select Start Date:</label>
+                            <div class="col-sm-10">
+                                <input required type="date" class="form-control" name="startDate">
+                            </div>
+                        </div>
+                        {{!-- maybe provide this functionality later --}}
+                        {{!-- <div class="row mb-3">
                         <label for="notes" class="col-sm-10 col-form-label">Additional notes and comments:</label>
                         <div class="col-sm-10">
                             <textarea class="form-control" style="height: 100px" name="notes"
                                 placeholder="Optional notes"></textarea>
                         </div>
                     </div> --}}
-                </div>
-                <div class="modal-footer">
-                    <div class="col-12 d-flex justify-content-between">
-                        <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal"
-                            aria-label="Close">Cancel</button>
-                        <button type="submit" class="btn btn-success mx-2">Employ Resident</button>
                     </div>
-                </div>
-            </form>
+                    <div class="modal-footer">
+                        <div class="col-12 d-flex justify-content-between">
+                            <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal"
+                                aria-label="Close">Cancel</button>
+                            <button type="submit" class="btn btn-success mx-2">Employ Resident</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 {{/each}}
 
 

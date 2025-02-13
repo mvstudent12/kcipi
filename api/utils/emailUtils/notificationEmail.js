@@ -24,15 +24,25 @@ const sendReviewEmail = async (
   const mailOptions = {
     from: `${sender}`,
     to: `${recipient}`,
-    subject: `${department} Clearance for Private Industry: ${resident.lastName}, ${resident.firstName} #${resident.residentID}`,
-    text: `${department} clearance is needed for resident #${resident.residentID} and is awaiting approval from ${department}. Please review.`,
+    subject: `${department} Clearance for Private Industry: Resident #${resident.residentID}`,
+    text: `${department} Clearance for Private Industry: Resident #${resident.residentID}`,
     html: `
-      <h2 style="font-size: 24px; font-weight: bold; color: #333;">Resident #${resident.residentID} - ${resident.lastName}, ${resident.firstName}</h2>
-      <p style="font-size: 16px; color: #333;">We are awaiting approval to place this resident in a job.</p> 
-      <h4 style="font-size: 18px; font-weight: bold; color: #333;">Please approve or deny clearance for this resident.</h4>
-      <p style="color: blue; font-size: 14px; font-weight: bold;">${notes}</p>
-      <h4 style="font-size: 16px; font-weight: bold; color: #333;">Sent from: ${sender}</h4>
-      
+<h2 style="font-size: 24px; font-weight: bold; color: #333;">
+  Resident #${resident.residentID} - 
+  <span style="text-transform: uppercase;">${resident.lastName}, ${resident.firstName}</span>
+</h2>
+<p style="font-size: 16px; color: #333;">
+  We are awaiting approval to place this resident in a job.
+</p> 
+<h4 style="font-size: 18px; font-weight: bold; color: #333;">
+  Please approve or deny clearance for this resident.
+</h4>
+<p style="color: blue; font-size: 14px; font-weight: bold;">
+  ${notes}
+</p>
+<h4 style="font-size: 16px; font-weight: bold; color: #333;">
+  Sent from: ${sender}
+</h4>
       <p>
       
         <a href="http://${DOMAIN}/notification/reviewClearance/${department}/${resident.residentID}/${recipient}"
@@ -66,7 +76,7 @@ const sendHelpDeskEmail = async (name, subject, sender, message, recipient) => {
     html: ` 
     <p>Issue:</p>
     <hr>   
-    <p style="font-size: 16px;">${message}</p>
+    <p style="font-size: 16px;"><b>${message}</b></p>
     <hr>
     <p style="font-size: 16px; color: #333; text-transform: capitalize;">From ${name} at ${sender}</p>
 `,
@@ -149,7 +159,7 @@ const sendRequestHireEmail = async (
   companyName,
   recipient,
   sender,
-  jobID
+  applicationID
 ) => {
   const mailOptions = {
     from: `${sender}`,
@@ -164,7 +174,7 @@ const sendRequestHireEmail = async (
       
       <p>
       
-        <a href="http://${DOMAIN}/notification/reviewHireRequest/${jobID}/${resident.residentID}"
+        <a href="http://${DOMAIN}/notification/reviewHireRequest/${applicationID}/${resident._id}"
            style="display: inline-block; background-color: #4CAF50; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-size: 16px; text-align: center; font-weight: bold;">
           Manage Hiring
         </a>
@@ -172,7 +182,48 @@ const sendRequestHireEmail = async (
 
       <p style="font-size: 14px; color: #333;">If you are unable to click the button, please copy and paste the following link into your browser:</p>
       <p style="font-size: 14px; color: #333;">
-        <a href="http://${DOMAIN}/notification/reviewHireRequest/${jobID}/${resident.residentID}" 
+        <a href="http://${DOMAIN}/notification/reviewHireRequest/${applicationID}/${resident._id}" 
+           style="color: #007BFF; text-decoration: none;"><span style="text-transform: capitalize;">${companyName}</span> Review Link</a>
+      </p>
+    `,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log(`Email sent to ${recipient}`);
+  } catch (error) {
+    console.error("Error sending email: ", error);
+  }
+};
+
+const sendTerminationRequestEmail = async (
+  resident,
+  companyName,
+  recipient,
+  sender
+) => {
+  const mailOptions = {
+    from: `${sender}`,
+    to: `${recipient}`,
+    subject: `KCI PI Termination Request`,
+    text: `${companyName} is requesting the termination of #${resident.residentID}.`,
+    html: `
+      <h2 style="font-size: 24px; font-weight: bold; color: #333;">Resident #${resident.residentID} -<span style="text-transform: capitalize;">  ${resident.lastName}, ${resident.firstName}</span></h2>
+      <p style="font-size: 16px; color: #333;"><span style="text-transform: capitalize;">${companyName}</span> is requesting the termination of resident #${resident.residentID} - <span style="text-transform: capitalize;">${resident.lastName}, ${resident.firstName}.</span></p> 
+      <h4 style="font-size: 18px; font-weight: bold; color: #333;">Please review this request. Thank you.</h4>
+      <h4 style="font-size: 16px; font-weight: bold; color: #333;">Sent from: ${sender}</h4>
+      
+      <p>
+      
+        <a href="http://${DOMAIN}/notification/reviewTerminationRequest/${resident._id}"
+           style="display: inline-block; background-color: #4CAF50; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-size: 16px; text-align: center; font-weight: bold;">
+          Manage Termination
+        </a>
+      </p>
+
+      <p style="font-size: 14px; color: #333;">If you are unable to click the button, please copy and paste the following link into your browser:</p>
+      <p style="font-size: 14px; color: #333;">
+        <a href="http://${DOMAIN}/notification/reviewTerminationRequest/${resident._id}" 
            style="color: #007BFF; text-decoration: none;"><span style="text-transform: capitalize;">${companyName}</span> Review Link</a>
       </p>
     `,
@@ -192,4 +243,5 @@ module.exports = {
   sendContactEmail,
   sendRequestInterviewEmail,
   sendRequestHireEmail,
+  sendTerminationRequestEmail,
 };

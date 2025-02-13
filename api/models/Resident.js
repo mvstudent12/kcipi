@@ -1,6 +1,13 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+const terminationRequestSchema = new Schema({
+  companyName: { type: String, required: true },
+  requestDate: { type: Date, default: Date.now },
+  terminationReason: { type: String, required: true },
+  notes: { type: String, required: true },
+});
+
 const resumeSchema = new Schema({
   createdAt: { type: Date, default: Date.now },
   unitTeam: { type: String },
@@ -89,6 +96,7 @@ const residentSchema = new Schema({
   dateHired: { type: Date },
   companyName: { type: String, lowercase: true, default: "" },
   workHistory: [workHistorySchema],
+  terminationRequest: terminationRequestSchema,
 });
 
 //static method to find resident

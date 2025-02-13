@@ -123,7 +123,7 @@ const createApplicantsReport = async (applicantData, selectedFields) => {
       return residentWithDetails;
     });
 
-    console.log(residentsWithDetails);
+
     return residentsWithDetails;
   } catch (error) {
     console.error("Error fetching residents with details:", error);

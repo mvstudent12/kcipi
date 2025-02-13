@@ -12,6 +12,48 @@
 
     <nav class="header-nav ms-auto">
         <ul class="d-flex align-items-center">
+            <li class="nav-item dropdown">
+
+                <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+                    <i class="bi bi-bell"></i>
+                    {{#if notifications}}
+                        <span class="badge bg-primary badge-number">{{countArrayItems notifications}}</span>
+                    {{/if}}
+                </a><!-- End Notification Icon -->
+
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications overflow-auto"
+                    style="max-height: 400px;">
+                    <li class="dropdown-header">
+                        You have {{countArrayItems notifications}} new notifications
+                        <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+
+                    {{#each notifications}}
+                        {{#unless this.isRead}}
+                            <li class="notification-item">
+                                <i class="bi {{this.icon}}"></i>
+                                <div>
+                                    {{!-- <h4>Lorem Ipsum</h4> --}}
+                                    <p>{{this.message}}</p>
+                                    {{!-- <p>30 min. ago</p> --}}
+                                </div>
+                            </li>
+
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                        {{/unless}}
+                    {{/each}}
+                    <li class="dropdown-footer">
+                        <a href="#">Show all notifications</a>
+                    </li>
+
+                </ul><!-- End Notification Dropdown Items -->
+
+            </li><!-- End Notification Nav -->
             <li class="nav-item dropdown pe-3">
 
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
@@ -75,12 +117,12 @@
             </a>
         </li>
 
-        {{!-- <li class="nav-item">
+        <li class="nav-item">
             <a class="nav-link collapsed" href="/employer/employees">
                 <i class="bi bi-layout-text-window-reverse"></i>
-                <span>Employees</span>
+                <span>PI Employees</span>
             </a>
-        </li> --}}
+        </li>
         <li class="nav-item">
             <a class="nav-link collapsed" href="/employer/reports">
                 <i class="bi bi-card-list"></i>

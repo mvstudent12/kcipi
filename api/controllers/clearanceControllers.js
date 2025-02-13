@@ -8,23 +8,40 @@ const Jobs = require("../models/Jobs");
 
 const mongoose = require("mongoose");
 
+const {
+  getEmployeeEmails,
+  sendNotificationsToEmployers,
+} = require("../utils/clearanceUtils");
+
+const { getUserNotifications } = require("../utils/notificationUtils");
+
 module.exports = {
-  //serves non-resident dashboard from login portal portal
+  //serves non-resident dashboard from login portal
   async dashboard(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const residents = await Resident.find().lean();
 
       res.render(`${req.session.user.role}/dashboard`, {
         residents,
         user: req.session.user,
+        notifications,
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
   //serves resident profile with their resume
   async residentProfile(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const { residentID } = req.params;
 
       // Find the resident based on residentID
@@ -48,6 +65,7 @@ module.exports = {
       // Render the profile page
       res.render(`${req.session.user.role}/profiles/residentProfile`, {
         user: req.session.user,
+        notifications,
         resident,
         applications,
         activeTab,
@@ -55,12 +73,16 @@ module.exports = {
       });
     } catch (err) {
       console.error("Error fetching resident profile:", err);
-      res.render("error/500");
+      res.render("error/403");
     }
   },
   //edits resident information
   async editResident(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       let { residentID, custodyLevel, facility, unitTeamInfo, jobPool } =
         req.body;
 
@@ -92,6 +114,7 @@ module.exports = {
       const activeTab = "overview";
       res.render(`${req.session.user.role}/profiles/residentProfile`, {
         user: req.session.user,
+        notifications,
         resident,
         applications,
         activeTab,
@@ -99,14 +122,18 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
   //rejects resident resume
   async rejectResume(req, res) {
-    const residentID = req.params.id;
-    const rejectReason = req.body.rejectReason;
-
     try {
+      const residentID = req.params.id;
+      const rejectReason = req.body.rejectReason;
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       await Resident.updateOne(
         { residentID: residentID },
         {
@@ -124,6 +151,7 @@ module.exports = {
         resident,
         activeTab,
         user: req.session.user,
+        notifications,
       });
     } catch (err) {
       console.error(err);
@@ -131,11 +159,14 @@ module.exports = {
   },
   //approves resident resume
   async approveResume(req, res) {
-    const residentID = req.params.id;
-    const jobPool = req.body.jobPool;
-    const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
-
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+      const residentID = req.params.id;
+      const jobPool = req.body.jobPool;
+      const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
       await Resident.updateOne(
         { residentID: residentID },
         {
@@ -156,6 +187,7 @@ module.exports = {
         resident,
         activeTab,
         user: req.session.user,
+        notifications,
         saveMsg,
       });
     } catch (err) {
@@ -164,20 +196,24 @@ module.exports = {
   },
   //edits residents clearance values for eligibility
   async editClearance(req, res) {
-    let { residentID, dept } = req.params;
-    const { clearance, comments } = req.body;
-    const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
-
-    if (dept == "Sex-Offender") {
-      dept = "sexOffender";
-    }
-    if (dept == "Victim-Services") {
-      dept = "victimServices";
-    }
-    if (dept == "Deputy-Warden") {
-      dept = "DW";
-    }
     try {
+      let { residentID, dept } = req.params;
+      const { clearance, comments } = req.body;
+      const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+
+      if (dept == "Sex-Offender") {
+        dept = "sexOffender";
+      }
+      if (dept == "Victim-Services") {
+        dept = "victimServices";
+      }
+      if (dept == "Deputy-Warden") {
+        dept = "DW";
+      }
       if (clearance === "true") {
         const updateData = {
           $set: {
@@ -246,6 +282,7 @@ module.exports = {
         resident,
         activeTab,
         user: req.session.user,
+        notifications,
       });
     } catch (err) {
       console.error(err);
@@ -253,6 +290,11 @@ module.exports = {
   },
   async findNotes(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+
       const { residentID, dept } = req.params;
       // Find the resident by residentID
       const resident = await Resident.findOne({ residentID }).lean();
@@ -291,6 +333,11 @@ module.exports = {
     }
   },
   async addNotes(req, res) {
+    const notifications = await getUserNotifications(
+      req.session.user.email,
+      req.session.user.role
+    );
+
     try {
       const { residentID, dept } = req.params;
       const { notes } = req.body;
@@ -330,6 +377,7 @@ module.exports = {
       // Render the profile page
       res.render(`${req.session.user.role}/profiles/residentProfile`, {
         user: req.session.user,
+        notifications,
         resident,
         applications,
         activeTab,
@@ -341,14 +389,17 @@ module.exports = {
       return res.render("error/500");
     }
   },
-
   //approved resident's eligibility to work
   async approveEligibility(req, res) {
-    const { residentID } = req.params;
-
-    const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
-
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+
+      const { residentID } = req.params;
+
+      const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
       await Resident.updateOne(
         { residentID: residentID },
         {
@@ -379,19 +430,24 @@ module.exports = {
         resident,
         activeTab,
         user: req.session.user,
+        notifications,
         eligibleMsg,
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
   //denies resident's eligibility to work
   async rejectEligibility(req, res) {
-    const { residentID } = req.params;
-    const { rejectReason } = req.body;
-    const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
-
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+      const { residentID } = req.params;
+      const { rejectReason } = req.body;
+      const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
       await Resident.updateOne(
         { residentID: residentID },
         {
@@ -421,14 +477,20 @@ module.exports = {
         resident,
         activeTab,
         user: req.session.user,
+        notifications,
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
 
   async scheduleInterview(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const { jobID } = req.params;
       const { residentID, date, time, instructions } = req.body;
 
@@ -436,6 +498,7 @@ module.exports = {
       const id = resident._id;
       const name = `${resident.firstName} ${resident.lastName}`;
 
+      //if interview has already been requested by the employer for scheduling
       if (req.body.interviewID) {
         const { interviewID } = req.body;
         await Jobs.updateOne(
@@ -467,8 +530,7 @@ module.exports = {
                 instructions,
               },
             },
-          },
-          { new: true } // Returns the updated document (optional)
+          }
         );
       }
 
@@ -477,25 +539,43 @@ module.exports = {
         "applicants.resident_id": id, // Match the resident_id field inside the applicants array
       }).lean();
 
+      const job = await Jobs.findOne({ _id: jobID }).lean();
+      const companyName = job.companyName;
+
+      //send notification to all PI partners in that company
+      const employerEmails = await getEmployeeEmails(companyName);
+
+      await sendNotificationsToEmployers(
+        employerEmails,
+        "interview_scheduled",
+        `New interview scheduled for resident #${resident.residentID}.`
+      );
+
       const activeTab = "application";
       res.render(`${req.session.user.role}/profiles/residentProfile`, {
         user: req.session.user,
+        notifications,
         resident,
         activeTab,
         applications,
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
   //employs resident to company
   async hireResident(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const { id, jobID } = req.params;
       const position = await Jobs.findOne({ _id: jobID }).lean();
       const companyName = position.companyName;
       const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
-      const { startDate, notes } = req.body;
+      const { startDate } = req.body;
 
       //update resident object with hiring info
       await Resident.findByIdAndUpdate(id, {
@@ -508,7 +588,15 @@ module.exports = {
       const resident = await Resident.findById(id).lean();
       const residentID = resident.residentID;
 
-      // //remove user from applicants/ interviews add to workforce
+      //send notification to all PI partners in that company
+      const employerEmails = await getEmployeeEmails(companyName);
+      await sendNotificationsToEmployers(
+        employerEmails,
+        "resident_hired",
+        `Resident #${resident.residentID} is now employed with your company.`
+      );
+
+      //remove user from applicants/ interviews add to workforce
       await Jobs.findByIdAndUpdate(jobID, {
         $pull: {
           applicants: { resident_id: id }, // Remove resident from the applicants array
@@ -541,18 +629,73 @@ module.exports = {
       const activeTab = "application";
       res.render(`${req.session.user.role}/profiles/residentProfile`, {
         user: req.session.user,
+        notifications,
         resident,
         activeTab,
         applications,
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
+    }
+  },
+  //rejects resident application
+  async rejectHire(req, res) {
+    try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+      const { res_id, jobID } = req.params;
+
+      await Resident.findByIdAndUpdate(res_id, {
+        $set: {
+          isHired: false,
+          companyName: "",
+          dateHired: null,
+        },
+      });
+      const resident = await Resident.findById(res_id).lean();
+      const residentID = resident.residentID;
+
+      //remove user from applicants/ interviews
+      await Jobs.findByIdAndUpdate(
+        { _id: jobID },
+        {
+          $pull: {
+            applicants: { resident_id: res_id },
+            interviews: { residentID: residentID },
+          },
+        },
+        { new: true }
+      );
+
+      // Find positions the resident has applied for
+      const applications = await Jobs.find({
+        "applicants.resident_id": res_id, // Match applicants by resident ID in the applicants array
+      }).lean();
+
+      const activeTab = "application";
+      res.render(`${req.session.user.role}/profiles/residentProfile`, {
+        user: req.session.user,
+        notifications,
+        resident,
+        activeTab,
+        applications,
+      });
+    } catch (err) {
+      console.log(err);
+      res.render("error/500");
     }
   },
 
-  //fires resident
+  //terminates resident
   async terminateResident(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const { id } = req.params;
       const { terminationReason, workRestriction, notes } = req.body;
 
@@ -598,8 +741,19 @@ module.exports = {
       //remove employees from Jobs DB
       await Jobs.findOneAndUpdate(
         { employees: id }, // Find the job where id exists in employees
-        { $pull: { employees: id } } // Remove the residentID from the employees array
-      ).lean();
+        {
+          $pull: { employees: id }, // Remove the id from the employees array
+          $inc: { availablePositions: 1 }, // Increment availablePositions by 1
+        }
+      );
+
+      //send notification to all PI partners in that company
+      const employerEmails = await getEmployeeEmails(companyName);
+      await sendNotificationsToEmployers(
+        employerEmails,
+        "resident_terminated",
+        `Resident #${resident.residentID} has been terminated from your company.`
+      );
 
       // //find positions resident has applied for
       const applications = await Jobs.find({
@@ -609,12 +763,55 @@ module.exports = {
       const activeTab = "application";
       res.render(`${req.session.user.role}/profiles/residentProfile`, {
         user: req.session.user,
+        notifications,
         resident,
         activeTab,
         applications,
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
+    }
+  },
+  async cancelTerminationRequest(req, res) {
+    try {
+      const { res_id } = req.params;
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+
+      await Resident.updateOne(
+        { _id: res_id },
+
+        { $unset: { terminationRequest: "" } } // Remove the terminationRequest field
+      );
+
+      //send notification to all PI partners in that company
+      const resident = await Resident.findById(res_id).lean();
+      const companyName = resident.companyName;
+      const employerEmails = await getEmployeeEmails(companyName);
+      await sendNotificationsToEmployers(
+        employerEmails,
+        "termination_request_denied",
+        `The termination request for #${resident.residentID} has been denied.`
+      );
+
+      //find positions resident has applied for
+      const applications = await Jobs.find({
+        "applicants.resident_id": res_id, // Match the resident_id field inside the applicants array
+      }).lean();
+      const activeTab = "application";
+      res.render(`${req.session.user.role}/profiles/residentProfile`, {
+        user: req.session.user,
+        notifications,
+        resident,
+        activeTab,
+        applications,
+      });
+    } catch (err) {
+      console.log(err);
+      res.render("error/500");
     }
   },
 };
