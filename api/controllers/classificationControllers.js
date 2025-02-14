@@ -8,174 +8,34 @@ const Jobs = require("../models/Jobs");
 
 const { Parser } = require("json2csv");
 
-const findInterviews = async (residentIDs) => {
-  try {
-    const interviews = await Jobs.aggregate([
-      // Unwind the interviews array to separate each interview
-      { $unwind: "$interviews" },
+const {
+  getUserNotifications,
+  createNotification,
+} = require("../utils/notificationUtils");
 
-      // Match interviews where residentID is in the applicantIDs array
-      {
-        $match: {
-          "interviews.residentID": { $in: residentIDs },
-        },
-      },
-
-      // Optionally, project to return only the interview details
-      {
-        $project: {
-          _id: 0, // Exclude the job _id
-          interview: "$interviews", // Include the interview details
-          jobId: "$_id", // Include the job _id for context
-          companyName: "$companyName",
-        },
-      },
-    ]);
-    return interviews;
-  } catch (error) {
-    console.error("Error fetching interviews:", error);
-    throw error; // Re-throw the error to handle it in the calling code
-  }
-};
-
-const findApplicantIDsAndCompanyName = async (IDs) => {
-  try {
-    let applicantIDs = [];
-
-    // Aggregation pipeline to retrieve applicant IDs and associated companyName
-    const result = await Jobs.aggregate([
-      { $unwind: "$applicants" }, // Flatten the applicants array
-      { $match: { "applicants.resident_id": { $in: IDs } } }, // Filter applicants by residentID array
-      {
-        $project: {
-          applicantID: "$applicants.resident_id", // Renamed applicants to applicantID for clarity
-          companyName: 1, // Include the companyName field
-          dateCreated: 1,
-        },
-      },
-      {
-        $group: {
-          _id: null,
-          allApplicants: {
-            $push: {
-              applicantID: "$applicantID",
-              companyName: "$companyName",
-              dateCreated: "$dateCreated",
-            },
-          },
-        },
-      }, // Group by null to get all applicants
-    ]);
-
-    if (result.length > 0) {
-      applicantIDs = result[0].allApplicants;
-    }
-
-    return applicantIDs;
-  } catch (error) {
-    console.error("Error fetching applicantIDs:", error);
-    throw error; // Re-throw the error to handle it in the calling code
-  }
-};
-
-const findResidentsWithCompany = async (applicantData) => {
-  try {
-    // Extract all applicant IDs from the provided array
-    const applicantIDs = applicantData.map((item) => item.applicantID);
-
-    // Find all residents with matching applicant IDs
-    const residents = await Resident.find({
-      _id: { $in: applicantIDs },
-    }).lean();
-
-    // Add companyName to each resident object
-    const residentsWithCompany = residents.map((resident) => {
-      // Find the corresponding companyName for each resident
-      const matchingCompany = applicantData.find(
-        (item) => item.applicantID.toString() === resident._id.toString()
-      );
-      return {
-        ...resident,
-        companyName: matchingCompany ? matchingCompany.companyName : null,
-      };
-    });
-
-    return residentsWithCompany;
-  } catch (error) {
-    console.error("Error fetching residents with company:", error);
-    throw error; // Re-throw the error to handle it in the calling code
-  }
-};
-
-const createApplicantsReport = async (applicantData, selectedFields) => {
-  try {
-    const applicantIDs = applicantData.map((item) => item.applicantID);
-
-    // Always include _id for mapping, but remove it later if not requested
-    const includeID = selectedFields.includes("_id");
-    const fieldsToSelect = includeID
-      ? selectedFields
-      : [...selectedFields, "_id"];
-
-    // Find residents with only the selected fields
-    const residents = await Resident.find(
-      { _id: { $in: applicantIDs } },
-      fieldsToSelect.join(" ")
-    ).lean();
-
-    // Fetch dateApplied and companyName for each applicant
-    const jobData = await Jobs.aggregate([
-      { $unwind: "$applicants" }, // Flatten applicants array
-      { $match: { "applicants.resident_id": { $in: applicantIDs } } }, // Match applicant resident_id
-      {
-        $project: {
-          applicantID: "$applicants.resident_id",
-          companyName: 1,
-          dateApplied: "$applicants.dateApplied", // Extract dateApplied from the applicants array
-        },
-      },
-    ]);
-
-    // Map residents with companyName and dateApplied
-    const residentsWithDetails = residents.map((resident) => {
-      const matchingCompany = applicantData.find(
-        (item) => item.applicantID.toString() === resident._id.toString()
-      );
-
-      const matchingJob = jobData.find(
-        (job) => job.applicantID.toString() === resident._id.toString()
-      );
-
-      const residentWithDetails = {
-        ...resident,
-        companyName: matchingCompany ? matchingCompany.companyName : null,
-        dateApplied: matchingJob ? matchingJob.dateApplied : null, // Attach dateApplied
-      };
-
-      // Remove _id if it wasn't in the original selected fields
-      if (!includeID) {
-        delete residentWithDetails._id;
-      }
-
-      return residentWithDetails;
-    });
-
-    return residentsWithDetails;
-  } catch (error) {
-    console.error("Error fetching residents with details:", error);
-    throw error;
-  }
-};
+const {
+  findInterviews,
+  findApplicantIDsAndCompanyName,
+  findResidentsWithCompany,
+  createApplicantsReport,
+} = require("../utils/classificationUtils");
 
 module.exports = {
   async dashboard(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const facility = req.session.user.facility;
 
       //find caseload specific to UTM
       const caseLoad = await Resident.find({
         facility: facility,
-      }).lean();
+        isActive: true,
+      })
+        .sort({ lastName: 1 })
+        .lean();
 
       //make array of resident _id in caseload
       const IDs = caseLoad.flatMap((resident) => resident._id);
@@ -192,6 +52,7 @@ module.exports = {
       const employees = await Resident.find({
         facility: facility,
         isHired: true,
+        isActive: true,
       }).lean();
 
       //find all active interviews
@@ -199,6 +60,7 @@ module.exports = {
 
       res.render("classification/dashboard", {
         user: req.session.user,
+        notifications,
         caseLoad,
         applicants,
         interviews,
@@ -212,7 +74,14 @@ module.exports = {
 
   async helpDesk(req, res) {
     try {
-      res.render("classification/helpDesk", { user: req.session.user });
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+      res.render("classification/helpDesk", {
+        user: req.session.user,
+        notifications,
+      });
     } catch (err) {
       console.log(err);
       res.render("error/500");
@@ -221,7 +90,14 @@ module.exports = {
 
   async contact(req, res) {
     try {
-      res.render("classification/contact", { user: req.session.user });
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+      res.render("classification/contact", {
+        user: req.session.user,
+        notifications,
+      });
     } catch (err) {
       console.log(err);
       res.render("error/500");
@@ -229,11 +105,18 @@ module.exports = {
   },
   async manageWorkForce(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const facility = req.session.user.facility;
 
       const caseLoad = await Resident.find({
         facility: facility,
-      }).lean();
+        isActive: true,
+      })
+        .sort({ lastName: 1 })
+        .lean();
 
       //make array of resident _id in caseload
       const IDs = caseLoad.flatMap((resident) => resident._id);
@@ -251,10 +134,14 @@ module.exports = {
       const employees = await Resident.find({
         facility: facility,
         isHired: true,
-      }).lean();
+        isActive: true,
+      })
+        .sort({ lastName: 1 })
+        .lean();
 
       res.render("classification/manageWorkForce", {
         user: req.session.user,
+        notifications,
         applicants,
         interviews,
         employees,
@@ -266,14 +153,22 @@ module.exports = {
   },
   async manageClearance(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const facility = req.session.user.facility;
       //find caseload specific to UTM
       const caseLoad = await Resident.find({
         facility: facility,
-      }).lean();
+        isActive: true,
+      })
+        .sort({ lastName: 1 })
+        .lean();
 
       res.render("classification/manageClearance", {
         user: req.session.user,
+        notifications,
         caseLoad,
       });
     } catch (err) {
@@ -286,10 +181,17 @@ module.exports = {
   //===============================
   async residents(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const facility = req.session.user.facility;
-      const caseLoad = await Resident.find({ facility }).lean();
+      const caseLoad = await Resident.find({ facility, isActive: true })
+        .sort({ lastName: 1 })
+        .lean();
       res.render("classification/tables/residents", {
         user: req.session.user,
+        notifications,
         caseLoad,
       });
     } catch (err) {
@@ -299,10 +201,17 @@ module.exports = {
   },
   async resumes(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const facility = req.session.user.facility;
-      const caseLoad = await Resident.find({ facility }).lean();
+      const caseLoad = await Resident.find({ facility, isActive: true })
+        .sort({ lastName: 1 })
+        .lean();
       res.render("classification/tables/resumes", {
         user: req.session.user,
+        notifications,
         caseLoad,
       });
     } catch (err) {
@@ -312,10 +221,17 @@ module.exports = {
   },
   async clearance(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const facility = req.session.user.facility;
-      const caseLoad = await Resident.find({ facility }).lean();
+      const caseLoad = await Resident.find({ facility, isActive: true })
+        .sort({ lastName: 1 })
+        .lean();
       res.render("classification/tables/clearance", {
         user: req.session.user,
+        notifications,
         caseLoad,
       });
     } catch (err) {
@@ -325,9 +241,15 @@ module.exports = {
   },
   async applicants(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const facility = req.session.user.facility;
 
-      const caseLoad = await Resident.find({ facility }).lean();
+      const caseLoad = await Resident.find({ facility, isActive: true })
+        .sort({ lastName: 1 })
+        .lean();
 
       //make array of resident _id in caseload
       const IDs = caseLoad.flatMap((resident) => resident._id);
@@ -338,6 +260,7 @@ module.exports = {
 
       res.render("classification/tables/applicants", {
         user: req.session.user,
+        notifications,
         applicants,
       });
     } catch (err) {
@@ -347,15 +270,23 @@ module.exports = {
   },
   async employees(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const facility = req.session.user.facility;
 
       const employees = await Resident.find({
         facility: facility,
         isHired: true,
-      }).lean();
+        isActive: true,
+      })
+        .sort({ lastName: 1 })
+        .lean();
 
       res.render("classification/tables/employees", {
         user: req.session.user,
+        notifications,
         employees,
       });
     } catch (err) {
@@ -368,7 +299,14 @@ module.exports = {
   //===============================
   async reports(req, res) {
     try {
-      res.render("classification/reports", { user: req.session.user });
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+      res.render("classification/reports", {
+        user: req.session.user,
+        notifications,
+      });
     } catch (err) {
       console.log(err);
       res.render("error/500");
@@ -383,13 +321,14 @@ module.exports = {
         const noData = true;
         return res.render("classification/reports", {
           user: req.session.user,
+          notifications,
           noData,
         });
       }
 
       // Fetch data from MongoDB with only selected fields
       const residents = await Resident.find(
-        { facility: facility },
+        { facility: facility, isActive: true },
         selectedFields.join(" ")
       ).lean();
 
@@ -397,6 +336,7 @@ module.exports = {
         const noData = true;
         return res.render("classification/reports", {
           user: req.session.user,
+          notifications,
           noData,
         });
       }
@@ -428,13 +368,14 @@ module.exports = {
         const noData = true;
         return res.render("classification/reports", {
           user: req.session.user,
+          notifications,
           noData,
         });
       }
 
       // Fetch data from MongoDB with only selected fields
       const residents = await Resident.find(
-        { facility: facility, isHired: true },
+        { facility: facility, isHired: true, isActive: true },
         selectedFields.join(" ")
       ).lean();
 
@@ -442,6 +383,7 @@ module.exports = {
         const noData = true;
         return res.render("classification/reports", {
           user: req.session.user,
+          notifications,
           noData,
         });
       }
@@ -464,8 +406,6 @@ module.exports = {
       res.render("error/500");
     }
   },
-
-  //Applicants Report
   async applicantsReport(req, res) {
     try {
       const selectedFields = Object.keys(req.body);
@@ -474,6 +414,7 @@ module.exports = {
         const noData = true;
         return res.render("classification/reports", {
           user: req.session.user,
+          notifications,
           noData,
         });
       }
@@ -483,7 +424,10 @@ module.exports = {
       //find caseload specific to UTM
       const caseLoad = await Resident.find({
         facility: facility,
-      }).lean();
+        isActive: true,
+      })
+        .sort({ lastName: 1 })
+        .lean();
 
       //make array of resident _id in caseload
       const IDs = caseLoad.flatMap((resident) => resident._id);
@@ -500,6 +444,7 @@ module.exports = {
         const noData = true;
         return res.render("classification/reports", {
           user: req.session.user,
+          notifications,
           noData,
         });
       }

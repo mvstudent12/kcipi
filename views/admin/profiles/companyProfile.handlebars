@@ -14,7 +14,7 @@
 
     <section class="section profile">
         <div class="row">
-            <div class="col-xl-4">
+            <div class="col-12">
                 <div class="card">
                     <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
                         <img src="/assets/img/employer.png" alt="{{company.companyName}}" class="rounded-circle">
@@ -25,7 +25,7 @@
                 </div>
             </div>
 
-            <div class="col-xl-8">
+            <div class="col-12">
 
                 <div class="card">
                     <div class="card-body pt-3">
@@ -84,15 +84,15 @@
                                                 </thead>
                                                 <tbody>
                                                     {{#each positions}}
-                                                    <tr>
-                                                        <th scope="row">{{add @index 1}} </th>
-                                                        <td class="text-capitalize">{{this.position}}</td>
-                                                        <td class="text-capitalize">{{formatDate this.dateCreated}}
-                                                        </td>
-                                                        <td>${{this.pay}}
-                                                        </td>
-                                                        <td class="text-capitalize">{{this.jobPool}}</td>
-                                                    </tr>
+                                                        <tr>
+                                                            <th scope="row">{{add @index 1}} </th>
+                                                            <td class="text-capitalize">{{this.position}}</td>
+                                                            <td class="text-capitalize">{{formatDate this.dateCreated}}
+                                                            </td>
+                                                            <td>${{this.pay}}
+                                                            </td>
+                                                            <td class="text-capitalize">{{this.jobPool}}</td>
+                                                        </tr>
                                                     {{/each}}
                                                 </tbody>
                                             </table>
@@ -125,6 +125,15 @@
                                                 id="description" required>
                                         </div>
                                     </div>
+                                    {{!-- skillSet --}}
+                                    <div class="row mb-3">
+                                        <label for="skillSet" class="col-md-4 col-lg-4 col-form-label">Required
+                                            Skills</label>
+                                        <div class="col-md-8 col-lg-8">
+                                            <input name="skillSet" type="text" class="form-control text-capitalize"
+                                                id="skillSet" placeholder="optional">
+                                        </div>
+                                    </div>
                                     {{!-- Hourly Pay --}}
                                     <div class="row mb-3">
                                         <label for="pay" class="col-md-4 col-lg-4 col-form-label">Hourly Pay</label>
@@ -139,7 +148,7 @@
                                             class="col-md-4 col-lg-4 col-form-label">Positions Available</label>
                                         <div class="col-md-8 col-lg-8">
                                             <input name="availablePositions" type="number" min="0" class="form-control"
-                                                id="availablePositions" required>
+                                                id="availablePositions" placeholder="#" required>
                                         </div>
                                     </div>
                                     {{!-- Position Facility --}}

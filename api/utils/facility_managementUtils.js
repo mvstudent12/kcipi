@@ -121,7 +121,7 @@ const createApplicantsReport = async (applicantData, selectedFields) => {
 
     // Find residents with only the selected fields
     const residents = await Resident.find(
-      { _id: { $in: applicantIDs } },
+      { _id: { $in: applicantIDs }, isActive: true },
       fieldsToSelect.join(" ")
     ).lean();
 

@@ -1,10 +1,15 @@
 //=============================
 //    Global Imports
 //=============================
+const Admin = require("../models/Admin");
+const Facility_Management = require("../models/Facility_Management");
+const Classification = require("../models/Classification");
+const Employer = require("../models/Employer");
 const UnitTeam = require("../models/UnitTeam");
-const Notification = require("../models/Notification");
 const Resident = require("../models/Resident");
 const Jobs = require("../models/Jobs");
+
+const { createNotification } = require("./notificationUtils");
 
 //=============================
 //     Helper Functions
@@ -88,7 +93,10 @@ const findResidentsWithCompany = async (applicantData) => {
     // Find all residents with matching applicant IDs
     const residents = await Resident.find({
       _id: { $in: applicantIDs },
-    }).lean();
+      isActive: true,
+    })
+      .sort({ lastName: 1 })
+      .lean();
 
     // Add companyName to each resident object
     const residentsWithCompany = residents.map((resident) => {
@@ -169,19 +177,9 @@ const createApplicantsReport = async (applicantData, selectedFields) => {
   }
 };
 
-async function getUserNotifications(email, role) {
-  return await Notification.find({
-    recipient: email,
-    role: role,
-  })
-    .lean()
-    .sort({ createdAt: -1 });
-}
-
 module.exports = {
   findInterviews,
   findApplicantIDsAndCompanyName,
   findResidentsWithCompany,
   createApplicantsReport,
-  getUserNotifications,
 };

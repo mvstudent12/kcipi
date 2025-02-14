@@ -101,7 +101,7 @@ const residentSchema = new Schema({
 
 //static method to find resident
 residentSchema.statics.findResident = async function (residentID) {
-  const resident = await this.findOne({ residentID }).lean();
+  const resident = await this.findOne({ residentID, isActive: true }).lean();
   if (resident) {
     return resident;
   }

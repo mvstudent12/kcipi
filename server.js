@@ -90,7 +90,7 @@ const facility_managementRoutes = require("./api/routes/facility_managementRoute
 const classificationRoutes = require("./api/routes/classificationRoutes");
 const employerRoutes = require("./api/routes/employerRoutes");
 const clearanceRoutes = require("./api/routes/clearanceRoutes");
-const notificationRoutes = require("./api/routes/notificationRoutes");
+const requestRoutes = require("./api/routes/requestRoutes");
 
 //links database api
 require("./api/dbConfig/db");
@@ -120,7 +120,7 @@ app.use("/admin", adminRoutes);
 app.use("/facility_management", facility_managementRoutes);
 app.use("/classification", classificationRoutes);
 app.use("/employer", employerRoutes);
-app.use("/notification", notificationRoutes);
+app.use("/notification", requestRoutes);
 app.use("/clearance", clearanceRoutes);
 
 //404 route

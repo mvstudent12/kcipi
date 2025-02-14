@@ -24,7 +24,10 @@ module.exports = {
       //find caseload specific to UTM
       const caseLoad = await Resident.find({
         facility: facility,
-      }).lean();
+        isActive: true,
+      })
+        .sort({ lastName: 1 })
+        .lean();
 
       //make array of resident _id in caseload
       const IDs = caseLoad.flatMap((resident) => resident._id);
@@ -41,7 +44,10 @@ module.exports = {
       const employees = await Resident.find({
         facility: facility,
         isHired: true,
-      }).lean();
+        isActive: true,
+      })
+        .sort({ lastName: 1 })
+        .lean();
 
       //find all active interviews
       const interviews = await findInterviews(residentIDs);
@@ -99,7 +105,10 @@ module.exports = {
 
       const caseLoad = await Resident.find({
         facility: facility,
-      }).lean();
+        isActive: true,
+      })
+        .sort({ lastName: 1 })
+        .lean();
 
       //make array of resident _id in caseload
       const IDs = caseLoad.flatMap((resident) => resident._id);
@@ -117,7 +126,10 @@ module.exports = {
       const employees = await Resident.find({
         facility: facility,
         isHired: true,
-      }).lean();
+        isActive: true,
+      })
+        .sort({ lastName: 1 })
+        .lean();
 
       res.render("facility_management/manageWorkForce", {
         user: req.session.user,
@@ -141,7 +153,10 @@ module.exports = {
       //find caseload specific to UTM
       const caseLoad = await Resident.find({
         facility: facility,
-      }).lean();
+        isActive: true,
+      })
+        .sort({ lastName: 1 })
+        .lean();
 
       res.render("facility_management/manageClearance", {
         user: req.session.user,
@@ -162,7 +177,9 @@ module.exports = {
         req.session.user.role
       );
       const facility = req.session.user.facility;
-      const caseLoad = await Resident.find({ facility }).lean();
+      const caseLoad = await Resident.find({ facility, isActive: true })
+        .sort({ lastName: 1 })
+        .lean();
       res.render("facility_management/tables/residents", {
         user: req.session.user,
         notifications,
@@ -179,7 +196,9 @@ module.exports = {
         req.session.user.role
       );
       const facility = req.session.user.facility;
-      const caseLoad = await Resident.find({ facility }).lean();
+      const caseLoad = await Resident.find({ facility, isActive: true })
+        .sort({ lastName: 1 })
+        .lean();
       res.render("facility_management/tables/resumes", {
         user: req.session.user,
         notifications,
@@ -196,7 +215,9 @@ module.exports = {
         req.session.user.role
       );
       const facility = req.session.user.facility;
-      const caseLoad = await Resident.find({ facility }).lean();
+      const caseLoad = await Resident.find({ facility, isActive: true })
+        .sort({ lastName: 1 })
+        .lean();
       res.render("facility_management/tables/clearance", {
         user: req.session.user,
         notifications,
@@ -214,7 +235,9 @@ module.exports = {
       );
       const facility = req.session.user.facility;
 
-      const caseLoad = await Resident.find({ facility }).lean();
+      const caseLoad = await Resident.find({ facility, isActive: true })
+        .sort({ lastName: 1 })
+        .lean();
 
       //make array of resident _id in caseload
       const IDs = caseLoad.flatMap((resident) => resident._id);
@@ -243,7 +266,10 @@ module.exports = {
       const employees = await Resident.find({
         facility: facility,
         isHired: true,
-      }).lean();
+        isActive: true,
+      })
+        .sort({ lastName: 1 })
+        .lean();
 
       res.render("facility_management/tables/employees", {
         user: req.session.user,
@@ -291,9 +317,11 @@ module.exports = {
 
       // Fetch data from MongoDB with only selected fields
       const residents = await Resident.find(
-        { facility: facility },
+        { facility: facility, isActive: true },
         selectedFields.join(" ")
-      ).lean();
+      )
+        .sort({ lastName: 1 })
+        .lean();
 
       if (residents.length === 0) {
         const noData = true;
@@ -342,9 +370,11 @@ module.exports = {
 
       // Fetch data from MongoDB with only selected fields
       const residents = await Resident.find(
-        { facility: facility, isHired: true },
+        { facility: facility, isHired: true, isActive: true },
         selectedFields.join(" ")
-      ).lean();
+      )
+        .sort({ lastName: 1 })
+        .lean();
 
       if (residents.length === 0) {
         const noData = true;
@@ -397,7 +427,10 @@ module.exports = {
       //find caseload specific to UTM
       const caseLoad = await Resident.find({
         facility: facility,
-      }).lean();
+        isActive: true,
+      })
+        .sort({ lastName: 1 })
+        .lean();
 
       //make array of resident _id in caseload
       const IDs = caseLoad.flatMap((resident) => resident._id);

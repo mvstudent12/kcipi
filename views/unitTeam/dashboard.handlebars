@@ -105,49 +105,49 @@
                                     </thead>
                                     <tbody>
                                         {{#each caseLoad}}
-                                        <tr>
-                                            <th scope="row"><a
-                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
-                                            </th>
+                                            <tr>
+                                                <th scope="row"><a
+                                                        href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
+                                                </th>
 
-                                            <td class="text-capitalize"><a
-                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.firstName}}
-                                                    {{this.lastName}}</a></td>
-                                            <td class="text-capitalize">{{formatDate this.outDate}}</td>
-                                            {{#if this.resumeIsApproved}}
-                                            <td><span class="badge bg-success">Approved</span></td>
-                                            {{else}}
-                                            {{#if this.resumeRejectionReason}}
-                                            <td><span class="badge bg-danger">Rejected</span></td>
-                                            {{else}}
-                                            {{#if this.resumeIsComplete}}
-                                            <td><span class="badge bg-warning">Pending</span></td>
-                                            {{else}}
-                                            <td><span class="badge bg-info">None</span></td>
-                                            {{/if}}
-                                            {{/if}}
-                                            {{/if}}
+                                                <td class="text-capitalize"><a
+                                                        href="/clearance/residentProfile/{{this.residentID}}">
+                                                        {{this.lastName}}, {{this.firstName}}</a></td>
+                                                <td class="text-capitalize">{{formatDate this.outDate}}</td>
+                                                {{#if this.resumeIsApproved}}
+                                                    <td><span class="badge bg-success">Approved</span></td>
+                                                {{else}}
+                                                    {{#if this.resumeRejectionReason}}
+                                                        <td><span class="badge bg-danger">Rejected</span></td>
+                                                    {{else}}
+                                                        {{#if this.resumeIsComplete}}
+                                                            <td><span class="badge bg-warning">Pending</span></td>
+                                                        {{else}}
+                                                            <td><span class="badge bg-info">None</span></td>
+                                                        {{/if}}
+                                                    {{/if}}
+                                                {{/if}}
 
-                                            {{!-- work status --}}
-                                            {{#if this.isHired}}
-                                            <td><span class="badge bg-info">Hired</span></td>
-                                            {{else}}
-                                            {{#if (eq this.workEligibility.status "approved")}}
-                                            <td><span class="badge bg-success">Approved</span></td>
-                                            {{else}}
-                                            {{#if (eq this.workEligibility.status "restricted")}}
-                                            <td><span class="badge bg-danger">Restricted</span></td>
-                                            {{else}}
-                                            {{#if (eq this.workEligibility.status "pending")}}
-                                            <td><span class="badge bg-warning">Pending</span></td>
-                                            {{else}}
-                                            <td><span class="badge bg-secondary">None</span></td>
-                                            {{/if}}
-                                            {{/if}}
-                                            {{/if}}
-                                            {{/if}}
+                                                {{!-- work status --}}
+                                                {{#if this.isHired}}
+                                                    <td><span class="badge bg-info">Hired</span></td>
+                                                {{else}}
+                                                    {{#if (eq this.workEligibility.status "approved")}}
+                                                        <td><span class="badge bg-success">Approved</span></td>
+                                                    {{else}}
+                                                        {{#if (eq this.workEligibility.status "restricted")}}
+                                                            <td><span class="badge bg-danger">Restricted</span></td>
+                                                        {{else}}
+                                                            {{#if (eq this.workEligibility.status "pending")}}
+                                                                <td><span class="badge bg-warning">Pending</span></td>
+                                                            {{else}}
+                                                                <td><span class="badge bg-secondary">None</span></td>
+                                                            {{/if}}
+                                                        {{/if}}
+                                                    {{/if}}
+                                                {{/if}}
 
-                                        </tr>
+                                            </tr>
 
                                         {{/each}}
                                     </tbody>
@@ -173,30 +173,30 @@
                                     </thead>
                                     <tbody>
                                         {{#each caseLoad}}
-                                        {{#unless this.resumeIsApproved}}
-                                        {{#if this.resumeIsComplete}}
-                                        <tr>
-                                            <th scope="row"><a
-                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
-                                            </th>
+                                            {{#unless this.resumeIsApproved}}
+                                                {{#if this.resumeIsComplete}}
+                                                    <tr>
+                                                        <th scope="row"><a
+                                                                href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
+                                                        </th>
 
-                                            <td><a href="/clearance/residentProfile/{{this.residentID}}"
-                                                    class="text-primary text-capitalize">{{this.firstName}}
-                                                    {{this.lastName}}</a></td>
-                                            <td><a href="/clearance/residentProfile/{{this.residentID}}"
-                                                    class="text-primary text-capitalize">{{formatDate this.outDate}}</a>
-                                            </td>
+                                                        <td><a href="/clearance/residentProfile/{{this.residentID}}"
+                                                                class="text-primary text-capitalize">
+                                                                {{this.lastName}}, {{this.firstName}}</a></td>
+                                                        <td><a href="/clearance/residentProfile/{{this.residentID}}"
+                                                                class="text-primary text-capitalize">{{formatDate this.outDate}}</a>
+                                                        </td>
 
-                                            <td><a href="/clearance/residentProfile/{{this.residentID}}">{{formatDate
+                                                        <td><a href="/clearance/residentProfile/{{this.residentID}}">{{formatDate
                                                     this.resume.createdAt}}</a></td>
 
-                                            <td class="text-capitalize"><a
-                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.custodyLevel}}</a>
-                                            </td>
+                                                        <td class="text-capitalize"><a
+                                                                href="/clearance/residentProfile/{{this.residentID}}">{{this.custodyLevel}}</a>
+                                                        </td>
 
-                                        </tr>
-                                        {{/if}}
-                                        {{/unless}}
+                                                    </tr>
+                                                {{/if}}
+                                            {{/unless}}
                                         {{/each}}
                                     </tbody>
                                 </table>
@@ -226,102 +226,103 @@
                                     <tbody>
                                         {{#each caseLoad}}
 
-                                        {{#if this.resumeIsApproved}}
+                                            {{#if this.resumeIsApproved}}
 
-                                        {{#unless (eq this.workEligibility.status "approved")}}
-                                        {{#unless (eq this.workEligibility.status "restricted")}}
+                                                {{#unless (eq this.workEligibility.status "approved")}}
+                                                    {{#unless (eq this.workEligibility.status "restricted")}}
 
-                                        <tr>
-                                            <th scope="row"><a href="/clearance/residentProfile/{{this.residentID}}">
-                                                    {{this.residentID}}</a></th>
+                                                        <tr>
+                                                            <th scope="row"><a
+                                                                    href="/clearance/residentProfile/{{this.residentID}}">
+                                                                    {{this.residentID}}</a></th>
 
-                                            <td><a href="/clearance/residentProfile/{{this.residentID}}"
-                                                    class="text-primary text-capitalize">{{this.firstName}}
-                                                    {{this.lastName}}</a></td>
+                                                            <td><a href="/clearance/residentProfile/{{this.residentID}}"
+                                                                    class="text-primary text-capitalize">{{this.firstName}}
+                                                                    {{this.lastName}}</a></td>
 
 
-                                            {{#if (eq this.MedicalClearance.status "approved")}}
-                                            <td><span class="badge bg-success">Approved</span></td>
-                                            {{/if}}
-                                            {{#if (eq this.MedicalClearance.status "restricted")}}
-                                            <td><span class="badge bg-danger">Restricted</span></td>
-                                            {{/if}}
-                                            {{#if (eq this.MedicalClearance.status "pending")}}
-                                            <td><span class="badge bg-warning">Pending</span></td>
-                                            {{/if}}
-                                            {{#if (eq this.MedicalClearance.status "none")}}
-                                            <td><span class="badge bg-secondary">None</span></td>
-                                            {{/if}}
+                                                            {{#if (eq this.MedicalClearance.status "approved")}}
+                                                                <td><span class="badge bg-success">Approved</span></td>
+                                                            {{/if}}
+                                                            {{#if (eq this.MedicalClearance.status "restricted")}}
+                                                                <td><span class="badge bg-danger">Restricted</span></td>
+                                                            {{/if}}
+                                                            {{#if (eq this.MedicalClearance.status "pending")}}
+                                                                <td><span class="badge bg-warning">Pending</span></td>
+                                                            {{/if}}
+                                                            {{#if (eq this.MedicalClearance.status "none")}}
+                                                                <td><span class="badge bg-secondary">None</span></td>
+                                                            {{/if}}
 
-                                            {{#if (eq this.EAIClearance.status "approved")}}
-                                            <td><span class="badge bg-success">Approved</span></td>
-                                            {{/if}}
-                                            {{#if (eq this.EAIClearance.status "restricted")}}
-                                            <td><span class="badge bg-danger">Restricted</span></td>
-                                            {{/if}}
-                                            {{#if (eq this.EAIClearance.status "pending")}}
-                                            <td><span class="badge bg-warning">Pending</span></td>
-                                            {{/if}}
-                                            {{#if (eq this.EAIClearance.status "none")}}
-                                            <td><span class="badge bg-secondary">None</span></td>
-                                            {{/if}}
+                                                            {{#if (eq this.EAIClearance.status "approved")}}
+                                                                <td><span class="badge bg-success">Approved</span></td>
+                                                            {{/if}}
+                                                            {{#if (eq this.EAIClearance.status "restricted")}}
+                                                                <td><span class="badge bg-danger">Restricted</span></td>
+                                                            {{/if}}
+                                                            {{#if (eq this.EAIClearance.status "pending")}}
+                                                                <td><span class="badge bg-warning">Pending</span></td>
+                                                            {{/if}}
+                                                            {{#if (eq this.EAIClearance.status "none")}}
+                                                                <td><span class="badge bg-secondary">None</span></td>
+                                                            {{/if}}
 
-                                            {{#if (eq this.sexOffenderClearance.status "approved")}}
-                                            <td><span class="badge bg-success">Approved</span></td>
-                                            {{/if}}
-                                            {{#if (eq this.sexOffenderClearance.status "restricted")}}
-                                            <td><span class="badge bg-danger">Restricted</span></td>
-                                            {{/if}}
-                                            {{#if (eq this.sexOffenderClearance.status "pending")}}
-                                            <td><span class="badge bg-warning">Pending</span></td>
-                                            {{/if}}
-                                            {{#if (eq this.sexOffenderClearance.status "none")}}
-                                            <td><span class="badge bg-secondary">None</span></td>
-                                            {{/if}}
+                                                            {{#if (eq this.sexOffenderClearance.status "approved")}}
+                                                                <td><span class="badge bg-success">Approved</span></td>
+                                                            {{/if}}
+                                                            {{#if (eq this.sexOffenderClearance.status "restricted")}}
+                                                                <td><span class="badge bg-danger">Restricted</span></td>
+                                                            {{/if}}
+                                                            {{#if (eq this.sexOffenderClearance.status "pending")}}
+                                                                <td><span class="badge bg-warning">Pending</span></td>
+                                                            {{/if}}
+                                                            {{#if (eq this.sexOffenderClearance.status "none")}}
+                                                                <td><span class="badge bg-secondary">None</span></td>
+                                                            {{/if}}
 
-                                            {{#if (eq this.ClassificationClearance.status "approved")}}
-                                            <td><span class="badge bg-success">Approved</span></td>
-                                            {{/if}}
-                                            {{#if (eq this.ClassificationClearance.status "restricted")}}
-                                            <td><span class="badge bg-danger">Restricted</span></td>
-                                            {{/if}}
-                                            {{#if (eq this.ClassificationClearance.status "pending")}}
-                                            <td><span class="badge bg-warning">Pending</span></td>
-                                            {{/if}}
-                                            {{#if (eq this.ClassificationClearance.status "none")}}
-                                            <td><span class="badge bg-secondary">None</span></td>
-                                            {{/if}}
+                                                            {{#if (eq this.ClassificationClearance.status "approved")}}
+                                                                <td><span class="badge bg-success">Approved</span></td>
+                                                            {{/if}}
+                                                            {{#if (eq this.ClassificationClearance.status "restricted")}}
+                                                                <td><span class="badge bg-danger">Restricted</span></td>
+                                                            {{/if}}
+                                                            {{#if (eq this.ClassificationClearance.status "pending")}}
+                                                                <td><span class="badge bg-warning">Pending</span></td>
+                                                            {{/if}}
+                                                            {{#if (eq this.ClassificationClearance.status "none")}}
+                                                                <td><span class="badge bg-secondary">None</span></td>
+                                                            {{/if}}
 
-                                            {{#if (eq this.DWClearance.status "approved")}}
-                                            <td><span class="badge bg-success">Approved</span></td>
-                                            {{/if}}
-                                            {{#if (eq this.DWClearance.status "restricted")}}
-                                            <td><span class="badge bg-danger">Restricted</span></td>
-                                            {{/if}}
-                                            {{#if (eq this.DWClearance.status "pending")}}
-                                            <td><span class="badge bg-warning">Pending</span></td>
-                                            {{/if}}
-                                            {{#if (eq this.DWClearance.status "none")}}
-                                            <td><span class="badge bg-secondary">None</span></td>
-                                            {{/if}}
+                                                            {{#if (eq this.DWClearance.status "approved")}}
+                                                                <td><span class="badge bg-success">Approved</span></td>
+                                                            {{/if}}
+                                                            {{#if (eq this.DWClearance.status "restricted")}}
+                                                                <td><span class="badge bg-danger">Restricted</span></td>
+                                                            {{/if}}
+                                                            {{#if (eq this.DWClearance.status "pending")}}
+                                                                <td><span class="badge bg-warning">Pending</span></td>
+                                                            {{/if}}
+                                                            {{#if (eq this.DWClearance.status "none")}}
+                                                                <td><span class="badge bg-secondary">None</span></td>
+                                                            {{/if}}
 
-                                            {{#if (eq this.WardenClearance.status "approved")}}
-                                            <td><span class="badge bg-success">Approved</span></td>
-                                            {{/if}}
-                                            {{#if (eq this.WardenClearance.status "restricted")}}
-                                            <td><span class="badge bg-danger">Restricted</span></td>
-                                            {{/if}}
-                                            {{#if (eq this.WardenClearance.status "pending")}}
-                                            <td><span class="badge bg-warning">Pending</span></td>
-                                            {{/if}}
-                                            {{#if (eq this.WardenClearance.status "none")}}
-                                            <td><span class="badge bg-secondary">None</span></td>
-                                            {{/if}}
-                                        </tr>
-                                        {{/unless}}
-                                        {{/unless}}
+                                                            {{#if (eq this.WardenClearance.status "approved")}}
+                                                                <td><span class="badge bg-success">Approved</span></td>
+                                                            {{/if}}
+                                                            {{#if (eq this.WardenClearance.status "restricted")}}
+                                                                <td><span class="badge bg-danger">Restricted</span></td>
+                                                            {{/if}}
+                                                            {{#if (eq this.WardenClearance.status "pending")}}
+                                                                <td><span class="badge bg-warning">Pending</span></td>
+                                                            {{/if}}
+                                                            {{#if (eq this.WardenClearance.status "none")}}
+                                                                <td><span class="badge bg-secondary">None</span></td>
+                                                            {{/if}}
+                                                        </tr>
+                                                    {{/unless}}
+                                                {{/unless}}
 
-                                        {{/if}}
+                                            {{/if}}
                                         {{/each}}
                                     </tbody>
                                 </table>
@@ -346,27 +347,27 @@
                                     </thead>
                                     <tbody>
                                         {{#each applicants}}
-                                        <tr>
-                                            <th scope="row"><a
-                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
-                                            </th>
+                                            <tr>
+                                                <th scope="row"><a
+                                                        href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
+                                                </th>
 
 
-                                            <td><a href="/clearance/residentProfile/{{this.residentID}}"
-                                                    class="text-primary text-capitalize">{{this.firstName}}
-                                                    {{this.lastName}}</a></td>
+                                                <td><a href="/clearance/residentProfile/{{this.residentID}}"
+                                                        class="text-primary text-capitalize">
+                                                        {{this.lastName}}, {{this.firstName}}</a></td>
 
-                                            <td class="text-capitalize"><a
-                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.custodyLevel}}</a>
-                                            </td>
+                                                <td class="text-capitalize"><a
+                                                        href="/clearance/residentProfile/{{this.residentID}}">{{this.custodyLevel}}</a>
+                                                </td>
 
-                                            <td><a href="/clearance/residentProfile/{{this.residentID}}">{{formatDate
+                                                <td><a href="/clearance/residentProfile/{{this.residentID}}">{{formatDate
                                                     this.outDate}}</a></td>
 
-                                            <td class="text-capitalize"><a
-                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.companyName}}</a>
-                                            </td>
-                                        </tr>
+                                                <td class="text-capitalize"><a
+                                                        href="/clearance/residentProfile/{{this.residentID}}">{{this.companyName}}</a>
+                                                </td>
+                                            </tr>
                                         {{/each}}
                                     </tbody>
                                 </table>
@@ -391,34 +392,34 @@
                                     </thead>
                                     <tbody>
                                         {{#each interviews}}
-                                        <tr>
-                                            <th scope="row"><a
-                                                    href="/clearance/residentProfile/{{this.interview.residentID}}">{{this.interview.residentID}}</a>
-                                            </th>
-                                            <td class="text-capitalize"><a
-                                                    href="/clearance/residentProfile/{{this.interview.residentID}}">
-                                                    {{this.interview.name}}</a></td>
+                                            <tr>
+                                                <th scope="row"><a
+                                                        href="/clearance/residentProfile/{{this.interview.residentID}}">{{this.interview.residentID}}</a>
+                                                </th>
+                                                <td class="text-capitalize"><a
+                                                        href="/clearance/residentProfile/{{this.interview.residentID}}">
+                                                        {{this.interview.name}}</a></td>
 
-                                            <td class="text-capitalize">
-                                                <a href="/clearance/residentProfile/{{this.interview.residentID}}">
-                                                    {{this.companyName}}</a>
-                                            </td>
-                                            {{#if this.interview.isRequested}}
-                                            <td><span class="badge bg-success">{{formatDate
+                                                <td class="text-capitalize">
+                                                    <a href="/clearance/residentProfile/{{this.interview.residentID}}">
+                                                        {{this.companyName}}</a>
+                                                </td>
+                                                {{#if this.interview.isRequested}}
+                                                    <td><span class="badge bg-success">{{formatDate
                                                     this.interview.dateRequested}}</span></td>
-                                            {{else}}
-                                            <td>No</td>
-                                            {{/if}}
+                                                {{else}}
+                                                    <td>No</td>
+                                                {{/if}}
 
-                                            {{#if this.interview.dateScheduled}}
-                                            <td>{{formatDate this.interview.dateScheduled}}</td>
-                                            {{else}}
-                                            <td>No</td>
-                                            {{/if}}
+                                                {{#if this.interview.dateScheduled}}
+                                                    <td>{{formatDate this.interview.dateScheduled}}</td>
+                                                {{else}}
+                                                    <td>No</td>
+                                                {{/if}}
 
 
 
-                                        </tr>
+                                            </tr>
                                         {{/each}}
                                     </tbody>
                                 </table>
@@ -443,29 +444,29 @@
                                     </thead>
                                     <tbody>
                                         {{#each employees}}
-                                        <tr>
-                                            <th scope="row">
-                                                <a
-                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
-                                            </th>
+                                            <tr>
+                                                <th scope="row">
+                                                    <a
+                                                        href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
+                                                </th>
 
-                                            <td class="text-capitalize">
-                                                <a href="/clearance/residentProfile/{{this.residentID}}">{{this.firstName}}
-                                                    {{this.lastName}}</a>
-                                            </td>
-                                            <td class="text-capitalize">
-                                                <a href="/clearance/residentProfile/{{this.residentID}}">{{formatDate
+                                                <td class="text-capitalize">
+                                                    <a href="/clearance/residentProfile/{{this.residentID}}">{{this.firstName}}
+                                                        {{this.lastName}}</a>
+                                                </td>
+                                                <td class="text-capitalize">
+                                                    <a href="/clearance/residentProfile/{{this.residentID}}">{{formatDate
                                                     this.outDate}}</a>
-                                            </td>
-                                            <td class="text-capitalize">
-                                                <a href="/clearance/residentProfile/{{this.residentID}}">{{formatDate
+                                                </td>
+                                                <td class="text-capitalize">
+                                                    <a href="/clearance/residentProfile/{{this.residentID}}">{{formatDate
                                                     this.dateHired}}</a>
-                                            </td>
-                                            <td class="text-capitalize">
-                                                <a
-                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.companyName}}</a>
-                                            </td>
-                                        </tr>
+                                                </td>
+                                                <td class="text-capitalize">
+                                                    <a
+                                                        href="/clearance/residentProfile/{{this.residentID}}">{{this.companyName}}</a>
+                                                </td>
+                                            </tr>
 
                                         {{/each}}
                                     </tbody>

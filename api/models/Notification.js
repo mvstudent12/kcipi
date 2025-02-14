@@ -17,6 +17,7 @@ const notificationSchema = new mongoose.Schema({
   type: {
     type: String,
     enum: [
+      "position_created",
       "employment_request",
       "termination_request",
       "termination_request_denied",

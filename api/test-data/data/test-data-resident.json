@@ -1,15 +1,17 @@
 [
   {
-    "firstName": "Jessica",
-    "lastName": "Morrison",
+    "_id": "67af33d8a0ea3d74562909b5",
+    "role": "resident",
+    "isActive": true,
     "residentID": "7384920",
-    "facility": "Topeka",
-    "outDate": "2029-07-15",
+    "firstName": "jessica",
+    "lastName": "morrison",
+    "facility": "topeka",
+    "outDate": "2029-07-15T00:00:00.000Z",
     "custodyLevel": "minimum 1",
     "unitTeam": "kari johnson",
-    "resumeIsComplete": true,
-    "resumeIsApproved": false,
     "resume": {
+      "createdAt": "2025-01-17T12:25:47.327Z",
       "unitTeam": "kari.johnson@ks.gov",
       "legalCitizen": true,
       "hsGraduate": true,
@@ -20,17 +22,209 @@
       "education": "Washburn",
       "programs": "SARP",
       "skills": "Typing, driving",
-      "createdAt": "2025-01-17T12:25:47.327Z"
-    }
+      "_id": "67af33d8a0ea3d74562909b6"
+    },
+    "resumeIsComplete": true,
+    "resumeIsApproved": true,
+    "resumeRejectionReason": "",
+    "isHired": false,
+    "companyName": "",
+    "MedicalClearance": {
+      "status": "approved",
+      "_id": "67af33d8a0ea3d74562909b7",
+      "clearanceHistory": [
+        {
+          "action": "approved",
+          "performedBy": "alice johnson",
+          "reason": "clearance approved. ✅",
+          "_id": "67af340f1fbb8a674cdf9411",
+          "createdAt": "2025-02-14T12:16:15.913Z"
+        }
+      ],
+      "notes": [
+        {
+          "createdAt": "2025-02-14T12:16:15.910Z",
+          "createdBy": "alice johnson",
+          "note": "Approved clearance. ✅",
+          "_id": "67af340f1fbb8a674cdf9410"
+        }
+      ]
+    },
+    "EAIClearance": {
+      "status": "approved",
+      "_id": "67af33d8a0ea3d74562909b8",
+      "clearanceHistory": [
+        {
+          "action": "approved",
+          "performedBy": "alice johnson",
+          "reason": "clearance approved. ✅",
+          "_id": "67af34131fbb8a674cdf9417",
+          "createdAt": "2025-02-14T12:16:19.943Z"
+        }
+      ],
+      "notes": [
+        {
+          "createdAt": "2025-02-14T12:16:19.942Z",
+          "createdBy": "alice johnson",
+          "note": "Approved clearance. ✅",
+          "_id": "67af34131fbb8a674cdf9416"
+        }
+      ]
+    },
+    "ClassificationClearance": {
+      "status": "approved",
+      "_id": "67af33d8a0ea3d74562909b9",
+      "clearanceHistory": [
+        {
+          "action": "approved",
+          "performedBy": "alice johnson",
+          "reason": "clearance approved. ✅",
+          "_id": "67af34201fbb8a674cdf9429",
+          "createdAt": "2025-02-14T12:16:32.232Z"
+        }
+      ],
+      "notes": [
+        {
+          "createdAt": "2025-02-14T12:16:32.230Z",
+          "createdBy": "alice johnson",
+          "note": "Approved clearance. ✅",
+          "_id": "67af34201fbb8a674cdf9428"
+        }
+      ]
+    },
+    "DWClearance": {
+      "status": "approved",
+      "_id": "67af33d8a0ea3d74562909ba",
+      "clearanceHistory": [
+        {
+          "action": "approved",
+          "performedBy": "alice johnson",
+          "reason": "clearance approved. ✅",
+          "_id": "67af34271fbb8a674cdf942f",
+          "createdAt": "2025-02-14T12:16:39.460Z"
+        }
+      ],
+      "notes": [
+        {
+          "createdAt": "2025-02-14T12:16:39.459Z",
+          "createdBy": "alice johnson",
+          "note": "Approved clearance. ✅",
+          "_id": "67af34271fbb8a674cdf942e"
+        }
+      ]
+    },
+    "WardenClearance": {
+      "status": "approved",
+      "_id": "67af33d8a0ea3d74562909bb",
+      "clearanceHistory": [
+        {
+          "action": "approved",
+          "performedBy": "alice johnson",
+          "reason": "clearance approved. ✅",
+          "_id": "67af342b1fbb8a674cdf9435",
+          "createdAt": "2025-02-14T12:16:43.577Z"
+        }
+      ],
+      "notes": [
+        {
+          "createdAt": "2025-02-14T12:16:43.577Z",
+          "createdBy": "alice johnson",
+          "note": "Approved clearance. ✅",
+          "_id": "67af342b1fbb8a674cdf9434"
+        }
+      ]
+    },
+    "sexOffenderClearance": {
+      "status": "approved",
+      "_id": "67af33d8a0ea3d74562909bc",
+      "clearanceHistory": [
+        {
+          "action": "approved",
+          "performedBy": "alice johnson",
+          "reason": "clearance approved. ✅",
+          "_id": "67af34181fbb8a674cdf941d",
+          "createdAt": "2025-02-14T12:16:24.138Z"
+        }
+      ],
+      "notes": [
+        {
+          "createdAt": "2025-02-14T12:16:24.138Z",
+          "createdBy": "alice johnson",
+          "note": "Approved clearance. ✅",
+          "_id": "67af34181fbb8a674cdf941c"
+        }
+      ]
+    },
+    "victimServicesClearance": {
+      "status": "approved",
+      "_id": "67af33d8a0ea3d74562909bd",
+      "clearanceHistory": [
+        {
+          "action": "approved",
+          "performedBy": "alice johnson",
+          "reason": "clearance approved. ✅",
+          "_id": "67af341b1fbb8a674cdf9423",
+          "createdAt": "2025-02-14T12:16:27.988Z"
+        }
+      ],
+      "notes": [
+        {
+          "createdAt": "2025-02-14T12:16:27.987Z",
+          "createdBy": "alice johnson",
+          "note": "Approved clearance. ✅",
+          "_id": "67af341b1fbb8a674cdf9422"
+        }
+      ]
+    },
+    "workEligibility": {
+      "status": "approved",
+      "_id": "67af33d8a0ea3d74562909be",
+      "clearanceHistory": [
+        {
+          "action": "approved",
+          "performedBy": "alice johnson",
+          "reason": "eligibility approved to work",
+          "_id": "67af34311fbb8a674cdf943b",
+          "createdAt": "2025-02-14T12:16:49.057Z"
+        }
+      ],
+      "notes": [
+        {
+          "createdAt": "2025-02-14T12:16:49.056Z",
+          "createdBy": "alice johnson",
+          "note": "Work eligibility granted by alice johnson.",
+          "_id": "67af34311fbb8a674cdf943a"
+        }
+      ]
+    },
+    "workHistory": [],
+    "__v": 0,
+    "jobPool": "female minimum 1 (off-site)",
+    "resumeApprovalDate": "2025-02-14T12:16:10.103Z",
+    "resumeApprovedBy": "alice johnson"
   },
   {
     "firstName": "Aaron",
     "lastName": "Henderson",
     "residentID": "8253749",
     "custodyLevel": "medium",
-    "unitTeam": "",
+    "unitTeam": "john doe",
     "facility": "Lansing",
-    "outDate": "2032-03-22"
+    "outDate": "2032-03-22",
+    "resumeIsComplete": true,
+    "resumeIsApproved": false,
+    "resume": {
+      "unitTeam": "john.doe@ks.gov",
+      "legalCitizen": true,
+      "hsGraduate": true,
+      "sscard": true,
+      "birthCertificate": true,
+      "workHistory": "With over five years of experience in project management and customer relations, I have developed a strong ability to lead teams, streamline processes, and ensure client satisfaction. I have worked in diverse industries, including healthcare and technology, where I consistently contributed to business growth through effective communication, problem-solving, and attention to detail. My expertise in managing multiple projects simultaneously has equipped me with the skills to adapt and thrive in fast-paced environments.",
+      "certifications": "Fork Lift",
+      "education": "Washburn",
+      "programs": "SARP",
+      "skills": "Typing, driving"
+    }
   },
   {
     "firstName": "Emily",
@@ -88,7 +282,7 @@
     }
   },
   {
-    "firstName": "Oliver",
+    "firstName": "Samuel",
     "lastName": "Brown",
     "residentID": "3416789",
     "custodyLevel": "minimum 1",
@@ -294,7 +488,7 @@
     }
   },
   {
-    "firstName": "William",
+    "firstName": "Whitney",
     "lastName": "Green",
     "residentID": "1298476",
     "custodyLevel": "minimum 1",
@@ -321,7 +515,7 @@
     "outDate": "2039-01-02"
   },
   {
-    "firstName": "Daniel",
+    "firstName": "Ella",
     "lastName": "Morris",
     "residentID": "7648392",
     "facility": "Topeka",
@@ -329,7 +523,7 @@
     "custodyLevel": "minimum 1"
   },
   {
-    "firstName": "Ella",
+    "firstName": "Daniel",
     "lastName": "Mitchell",
     "residentID": "8473921",
     "facility": "Lansing",
@@ -338,7 +532,7 @@
     "unitTeam": ""
   },
   {
-    "firstName": "Liam",
+    "firstName": "Liza",
     "lastName": "Carter",
     "residentID": "9823745",
     "facility": "Topeka",
@@ -346,7 +540,7 @@
     "custodyLevel": "minimum 1"
   },
   {
-    "firstName": "Grace",
+    "firstName": "Gerald",
     "lastName": "Fisher",
     "residentID": "2847301",
     "facility": "Lansing",
@@ -355,7 +549,7 @@
     "unitTeam": ""
   },
   {
-    "firstName": "Jack",
+    "firstName": "Gina",
     "lastName": "Perry",
     "residentID": "4782039",
     "facility": "Topeka",
@@ -364,7 +558,7 @@
     "unitTeam": ""
   },
   {
-    "firstName": "Olivia",
+    "firstName": "Oliver",
     "lastName": "Hunter",
     "residentID": "3948127",
     "facility": "Lansing",
@@ -373,7 +567,7 @@
     "unitTeam": ""
   },
   {
-    "firstName": "Benjamin",
+    "firstName": "Brenda",
     "lastName": "Stone",
     "residentID": "5648293",
     "facility": "Topeka",
@@ -381,7 +575,7 @@
     "custodyLevel": "minimum 1"
   },
   {
-    "firstName": "Sophia",
+    "firstName": "Steward",
     "lastName": "Bell",
     "residentID": "7234891",
     "facility": "Lansing",
@@ -390,7 +584,7 @@
     "unitTeam": ""
   },
   {
-    "firstName": "Ethan",
+    "firstName": "Elain",
     "lastName": "Coleman",
     "residentID": "8392047",
     "facility": "Topeka",
@@ -398,7 +592,7 @@
     "custodyLevel": "minimum 1"
   },
   {
-    "firstName": "Mia",
+    "firstName": "Micah",
     "lastName": "Collins",
     "residentID": "4857612",
     "facility": "Lansing",
@@ -407,7 +601,7 @@
     "unitTeam": ""
   },
   {
-    "firstName": "Lucas",
+    "firstName": "Lucy",
     "lastName": "Ford",
     "residentID": "9403872",
     "facility": "Topeka",
@@ -416,7 +610,7 @@
     "unitTeam": ""
   },
   {
-    "firstName": "Avery",
+    "firstName": "Abe",
     "lastName": "Parker",
     "residentID": "8472903",
     "facility": "Lansing",
@@ -425,7 +619,7 @@
     "unitTeam": ""
   },
   {
-    "firstName": "Henry",
+    "firstName": "Hollie",
     "lastName": "Turner",
     "residentID": "2039481",
     "facility": "Topeka",
@@ -433,7 +627,7 @@
     "custodyLevel": "minimum 1"
   },
   {
-    "firstName": "Emma",
+    "firstName": "Emmerson",
     "lastName": "Anderson",
     "residentID": "4938021",
     "facility": "Lansing",
@@ -442,7 +636,7 @@
     "unitTeam": ""
   },
   {
-    "firstName": "Mason",
+    "firstName": "Marsh",
     "lastName": "Brooks",
     "residentID": "8472034",
     "facility": "Topeka",
@@ -460,7 +654,7 @@
     "unitTeam": ""
   },
   {
-    "firstName": "James",
+    "firstName": "Jamecia",
     "lastName": "Wright",
     "residentID": "5839274",
     "facility": "Topeka",
@@ -468,7 +662,7 @@
     "custodyLevel": "minimum 1"
   },
   {
-    "firstName": "Lily",
+    "firstName": "Larry",
     "lastName": "Evans",
     "residentID": "7482035",
     "facility": "Lansing",
@@ -486,7 +680,7 @@
     "unitTeam": ""
   },
   {
-    "firstName": "Scarlett",
+    "firstName": "Shane",
     "lastName": "King",
     "residentID": "4839207",
     "facility": "Lansing",

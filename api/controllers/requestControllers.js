@@ -1,8 +1,5 @@
 //database requests
-const Admin = require("../models/Admin");
-const Facility_Management = require("../models/Facility_Management");
-const Classification = require("../models/Classification");
-const Employer = require("../models/Employer");
+
 const UnitTeam = require("../models/UnitTeam");
 const Resident = require("../models/Resident");
 const Jobs = require("../models/Jobs");
@@ -31,35 +28,11 @@ const {
   sendNotificationsToEmployers,
 } = require("../utils/clearanceUtils");
 
-function getNameFromEmail(email) {
-  const regex = /^([a-z]+)\.([a-z]+)@/i; // Matches "first.last@" pattern
-  const match = email.match(regex);
-
-  if (match) {
-    const firstName = capitalize(match[1]);
-    const lastName = capitalize(match[2]);
-    return `${firstName} ${lastName}`;
-  }
-  return null;
-}
-
-function capitalize(name) {
-  return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
-}
-
-const getAllApplicantsByResidentID = async (jobID, resID) => {
-  try {
-    const job = await Jobs.findOne(
-      { _id: jobID },
-      { applicants: { $elemMatch: { resident_id: resID } } } // Returns all matching applicants
-    );
-
-    return job ? job.applicants : [];
-  } catch (error) {
-    console.error("Error fetching applicants:", error);
-    throw error;
-  }
-};
+const {
+  getNameFromEmail,
+  capitalize,
+  getAllApplicantsByResidentID,
+} = require("../utils/requestUtils");
 
 module.exports = {
   //===========================
@@ -68,10 +41,15 @@ module.exports = {
 
   //request clearance from Medical, eai etc through email
   async requestClearance(req, res) {
-    const { recipient, comments } = req.body;
-    let { residentID, dept } = req.params;
-    const sender = req.session.user.email;
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+      let { recipient, comments } = req.body;
+      let { residentID, dept } = req.params;
+      const sender = req.session.user.email;
+
       if (dept == "Sex-Offender") {
         dept = "sexOffender";
       }
@@ -81,6 +59,25 @@ module.exports = {
       if (dept == "Deputy-Warden") {
         dept = "DW";
       }
+      //send notification to facility_management
+      if (dept == "DW" || dept == "Warden") {
+        await createNotification(
+          recipient,
+          "facility_management",
+          "clearance_requested",
+          `Clearance is requested for resident #${residentID}.`
+        );
+      }
+      //send notifiaction to classification
+      if (dept == "Classification") {
+        await createNotification(
+          recipient,
+          "classification",
+          "clearance_requested",
+          `Clearance is requested for resident #${residentID}.`
+        );
+      }
+      //change residents clearance status to show as pending
       await Resident.updateOne(
         { residentID: residentID },
         {
@@ -108,36 +105,39 @@ module.exports = {
         resident,
         activeTab,
         user: req.session.user,
+        notifications,
       });
     } catch (err) {
       console.log(err);
-      //add more elegant error handling functionality later
-      //add const errors = handleErrors(err);
-      //res.status(400).json({ errors });
-      res.status(400).json({ message: "Request Failed" });
+      res.render("error/500");
     }
   },
   async reviewClearance(req, res) {
-    let { residentID, email, dept } = req.params;
-    if (dept == "Sex-Offender") {
-      dept = "sexOffender";
-    }
-    if (dept == "Victim-Services") {
-      dept = "victimServices";
-    }
-    if (dept == "Deputy-Warden") {
-      dept = "DW";
-    }
     try {
+      let { residentID, email, dept } = req.params;
+      if (dept == "Sex-Offender") {
+        dept = "sexOffender";
+      }
+      if (dept == "Victim-Services") {
+        dept = "victimServices";
+      }
+      if (dept == "Deputy-Warden") {
+        dept = "DW";
+      }
       const resident = await Resident.findOne({ residentID }).lean();
       const activeTab = "status";
 
-      res.render(`clearance/${dept}`, { resident, email, activeTab });
+      res.render(`clearance/${dept}`, {
+        resident,
+        email,
+        activeTab,
+      });
     } catch (err) {
-      console.error(err);
       console.log(err);
+      res.render("error/500");
     }
   },
+
   async next_notes(req, res) {
     const { residentID, email, category } = req.params;
 
@@ -153,14 +153,51 @@ module.exports = {
   },
 
   async sendNextNotification(req, res) {
-    const { residentID, email } = req.params;
-    const department = req.body.category;
-    const recipient = req.body.recipientEmail;
-    const notes = req.body.comments;
-    const resident = await Resident.findOne({ residentID }).lean();
+    try {
+      console.log(req.body);
 
-    sendReviewEmail(resident, department, recipient, email, notes);
-    res.render("clearance/thankYou", { resident, email });
+      const { residentID, email } = req.params;
+      const department = req.body.category;
+      const recipient = req.body.recipientEmail;
+      const notes = req.body.comments;
+      const resident = await Resident.findOne({ residentID }).lean();
+
+      let dept = department;
+      if (dept == "Sex-Offender") {
+        dept = "sexOffender";
+      }
+      if (dept == "Victim-Services") {
+        dept = "victimServices";
+      }
+      if (dept == "Deputy-Warden") {
+        dept = "DW";
+      }
+
+      //send notification to facility_management
+      if (dept == "DW" || dept == "Warden") {
+        await createNotification(
+          recipient,
+          "facility_management",
+          "clearance_requested",
+          `Clearance is requested for resident #${residentID}.`
+        );
+      }
+      //send notifiaction to classification
+      if (dept == "Classification") {
+        await createNotification(
+          recipient,
+          "classification",
+          "clearance_requested",
+          `Clearance is requested for resident #${residentID}.`
+        );
+      }
+
+      sendReviewEmail(resident, department, recipient, email, notes);
+      res.render("clearance/thankYou", { resident, email });
+    } catch (err) {
+      console.log(err);
+      res.render("error/500");
+    }
   },
 
   async reviewInterviewRequest(req, res) {

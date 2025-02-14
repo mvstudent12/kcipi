@@ -13,134 +13,43 @@ const path = require("path");
 const moment = require("moment");
 const csv = require("csv-parser");
 
-async function getAllInterviews() {
-  try {
-    const jobs = await Jobs.find(
-      {},
-      { companyName: 1, interviews: 1, _id: 0 }
-    ).lean();
-    const interviews = jobs.flatMap((job) =>
-      job.interviews.map((interview) => ({
-        companyName: job.companyName, // Attach companyName to each interview
-        ...interview, // Spread interview details
-      }))
-    ); // Flatten the array of arrays
+const {
+  getUserNotifications,
+  createNotification,
+} = require("../utils/notificationUtils");
 
-    return interviews;
-  } catch (error) {
-    console.error("Error fetching interviews:", error);
-  }
-}
-const findApplicantIDsAndCompanyName = async (IDs) => {
-  try {
-    let applicantIDs = [];
+const {
+  getEmployeeEmails,
+  sendNotificationsToEmployers,
+} = require("../utils/clearanceUtils");
 
-    // Aggregation pipeline to retrieve applicant IDs and associated companyName
-    await Jobs.aggregate([
-      { $unwind: "$applicants" }, // Flatten the applicants array
-      { $match: { "applicants.resident_id": { $in: IDs } } }, // Filter applicants by residentID array
-      {
-        $project: {
-          applicantID: "$applicants", // Rename applicants to applicantID for clarity
-          companyName: 1, // Include the companyName field
-          dateCreated: 1,
-        },
-      },
-      {
-        $group: {
-          _id: null,
-          allApplicants: {
-            $push: {
-              applicantID: "$applicantID",
-              companyName: "$companyName",
-              dateCreated: "$dateCreated",
-            },
-          },
-        },
-      }, // Group by null to get all applicants
-    ]).then((result) => {
-      if (result.length > 0) {
-        applicantIDs = result[0].allApplicants;
-      }
-    });
+const {
+  getAllInterviews,
+  findApplicantIDsAndCompanyName,
+  createApplicantsReport,
+  updateAdminPasswordById,
+} = require("../utils/adminUtils");
 
-    return applicantIDs;
-  } catch (error) {
-    console.error("Error fetching applicantIDs:", error);
-    throw error; // Re-throw the error to handle it in the calling code
-  }
-};
-const createApplicantsReport = async (applicantData, selectedFields) => {
-  try {
-    const applicantIDs = applicantData.map((item) => item.applicantID);
-
-    // Always include _id for mapping, but remove it later if not requested
-    const includeID = selectedFields.includes("_id");
-    const fieldsToSelect = includeID
-      ? selectedFields
-      : [...selectedFields, "_id"];
-
-    // Find residents with only the selected fields
-    const residents = await Resident.find(
-      { _id: { $in: applicantIDs } },
-      fieldsToSelect.join(" ")
-    ).lean();
-
-    // Fetch dateApplied and companyName for each applicant
-    const jobData = await Jobs.aggregate([
-      { $unwind: "$applicants" }, // Flatten applicants array
-      { $match: { "applicants.resident_id": { $in: applicantIDs } } }, // Match applicant resident_id
-      {
-        $project: {
-          applicantID: "$applicants.resident_id",
-          companyName: 1,
-          dateApplied: "$applicants.dateApplied", // Extract dateApplied from the applicants array
-        },
-      },
-    ]);
-
-    // Map residents with companyName and dateApplied
-    const residentsWithDetails = residents.map((resident) => {
-      const matchingCompany = applicantData.find(
-        (item) => item.applicantID.toString() === resident._id.toString()
-      );
-
-      const matchingJob = jobData.find(
-        (job) => job.applicantID.toString() === resident._id.toString()
-      );
-
-      const residentWithDetails = {
-        ...resident,
-        companyName: matchingCompany ? matchingCompany.companyName : null,
-        dateApplied: matchingJob ? matchingJob.dateApplied : null, // Attach dateApplied
-      };
-
-      // Remove _id if it wasn't in the original selected fields
-      if (!includeID) {
-        delete residentWithDetails._id;
-      }
-
-      return residentWithDetails;
-    });
-
-
-    return residentsWithDetails;
-  } catch (error) {
-    console.error("Error fetching residents with details:", error);
-    throw error;
-  }
-};
 module.exports = {
   //serves admin dashboard from admin portal
   async dashboard(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       //finds residents who need resumes approved
       const resumeNeedReview = await Resident.find({
+        isActive: true,
         resumeIsComplete: true,
         resumeIsApproved: false,
-      }).lean();
+      })
+        .sort({ lastName: 1 })
+        .lean();
       //find all residents in KDOC
-      const caseLoad = await Resident.find().lean();
+      const caseLoad = await Resident.find({ isActive: true })
+        .sort({ lastName: 1 })
+        .lean();
 
       //create object with all applicants
       let applicantIDs = [];
@@ -164,7 +73,7 @@ module.exports = {
       });
 
       const allJobApplicants = await Resident.find(
-        { _id: { $in: applicantIDs } },
+        { _id: { $in: applicantIDs }, isActive: true },
         "firstName lastName facility residentID custodyLevel"
       ).lean();
 
@@ -173,6 +82,7 @@ module.exports = {
         caseLoad,
         allJobApplicants,
         user: req.session.user,
+        notifications,
       });
     } catch (err) {
       console.log(err);
@@ -180,6 +90,10 @@ module.exports = {
   },
   async manageWorkForce(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const companyName = req.session.user.companyName;
 
       //create object with all applicants
@@ -204,16 +118,24 @@ module.exports = {
       });
 
       const applicants = await Resident.find(
-        { _id: { $in: applicantIDs } },
+        { _id: { $in: applicantIDs }, isActive: true },
         "firstName lastName facility residentID custodyLevel outDate"
-      ).lean();
+      )
+        .sort({ lastName: 1 })
+        .lean();
 
       let interviews = await getAllInterviews();
 
-      const employees = await Resident.find({ isHired: true }).lean();
+      const employees = await Resident.find({
+        isHired: true,
+        isActive: true,
+      })
+        .sort({ lastName: 1 })
+        .lean();
 
       res.render("admin/manageWorkForce", {
         user: req.session.user,
+        notifications,
         applicants,
         interviews,
         employees,
@@ -224,10 +146,18 @@ module.exports = {
   },
   async manageClearance(req, res) {
     try {
-      //find caseload specific to UTM
-      const caseLoad = await Resident.find({}).lean();
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+      //find all residents who are currently incarcerated
+      const caseLoad = await Resident.find({ isActive: true })
+        .sort({ lastName: 1 })
+        .lean();
+
       res.render("admin/manageClearance", {
         user: req.session.user,
+        notifications,
         caseLoad,
       });
     } catch (err) {
@@ -237,6 +167,10 @@ module.exports = {
 
   //serves help page from admin dashboard
   async helpDesk(req, res) {
+    const notifications = await getUserNotifications(
+      req.session.user.email,
+      req.session.user.role
+    );
     try {
       res.render("admin/helpDesk", { user: req.session.user });
     } catch (err) {
@@ -246,6 +180,10 @@ module.exports = {
 
   //serves contact page from admin dashboard
   async contact(req, res) {
+    const notifications = await getUserNotifications(
+      req.session.user.email,
+      req.session.user.role
+    );
     try {
       res.render("admin/contact", { user: req.session.user });
     } catch (err) {
@@ -258,6 +196,10 @@ module.exports = {
   // Serves logs from the admin dashboard
   async logs(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const logFileName = `logs/${moment().format("YYYY-MM-DD")}-app.log`; // Today's log file
       const logFilePath = path.join(__dirname, "../../", logFileName);
 
@@ -265,6 +207,7 @@ module.exports = {
         if (err) {
           return res.render("logs", {
             user: req.session.user,
+            notifications,
             logs: [`Error reading logs: ${err.message}`],
           });
         }
@@ -291,6 +234,7 @@ module.exports = {
 
         res.render("admin/logs", {
           user: req.session.user,
+          notifications,
           logs: logsArray.reverse(), // Reverse to show latest logs first
         });
       });
@@ -304,9 +248,16 @@ module.exports = {
   //serves residentTables page from admin dashboard
   async residentTables(req, res) {
     try {
-      const residents = await Resident.find().lean();
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+      const residents = await Resident.find({ isActive: true })
+        .sort({ lastName: 1 })
+        .lean();
       res.render("admin/tables/residentTables", {
         user: req.session.user,
+        notifications,
         residents,
       });
     } catch (err) {
@@ -316,9 +267,19 @@ module.exports = {
   //serves hiredResidents page from admin dashboard
   async employedResidents(req, res) {
     try {
-      const residents = await Resident.find({ isHired: true }).lean();
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+      const residents = await Resident.find({
+        isHired: true,
+        isActive: true,
+      })
+        .sort({ lastName: 1 })
+        .lean();
       res.render("admin/tables/hiredResidents", {
         user: req.session.user,
+        notifications,
         residents,
       });
     } catch (err) {
@@ -329,9 +290,14 @@ module.exports = {
   //serves unitTeamTables page from admin dashboard
   async unitTeamTables(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const unitTeam = await UnitTeam.find().lean();
       res.render("admin/tables/unitTeamTables", {
         user: req.session.user,
+        notifications,
         unitTeam,
       });
     } catch (err) {
@@ -342,9 +308,14 @@ module.exports = {
   //serves employerTables page from admin dashboard
   async employerTables(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const employers = await Employer.find().sort({ firstName: 1 }).lean();
       res.render("admin/tables/employerTables", {
         user: req.session.user,
+        notifications,
         employers,
       });
     } catch (err) {
@@ -355,9 +326,14 @@ module.exports = {
   //serves companyTables page from admin dashboard
   async companyTables(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const companies = await Company.find().sort({ firstName: 1 }).lean();
       res.render("admin/tables/companyTables", {
         user: req.session.user,
+        notifications,
         companies,
       });
     } catch (err) {
@@ -369,11 +345,16 @@ module.exports = {
   //=============================
   async employerProfile(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const id = req.params.id;
       const employer = await Employer.findById(id).lean();
       const activeTab = "overview";
       res.render("admin/profiles/employerProfile", {
         user: req.session.user,
+        notifications,
         employer,
         activeTab,
       });
@@ -383,12 +364,36 @@ module.exports = {
   },
   async unitTeamProfile(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const id = req.params.id;
       const unitTeam = await UnitTeam.findById(id).lean();
       const activeTab = "overview";
       res.render("admin/profiles/unitTeamProfile", {
         user: req.session.user,
+        notifications,
         unitTeam,
+        activeTab,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  async adminProfile(req, res) {
+    try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+      const id = req.params.id;
+      const admin = await Admin.findById(id).lean();
+      const activeTab = "overview";
+      res.render("admin/profiles/adminProfile", {
+        user: req.session.user,
+        notifications,
+        admin,
         activeTab,
       });
     } catch (err) {
@@ -397,13 +402,20 @@ module.exports = {
   },
   async companyProfile(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const id = req.params.id;
       const company = await Company.findById(id).lean();
       const companyName = company.companyName;
-      const positions = await Jobs.find({ companyName }).lean();
+      const positions = await Jobs.find({ companyName })
+        .sort({ lastName: 1 })
+        .lean();
       const activeTab = "overview";
       res.render("admin/profiles/companyProfile", {
         user: req.session.user,
+        notifications,
         company,
         activeTab,
         positions,
@@ -414,22 +426,28 @@ module.exports = {
   },
   async addNewPosition(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const {
         companyID,
         companyName,
         position,
         description,
+        skillSet,
         pay,
         jobPool,
         availablePositions,
         facility,
       } = req.body;
 
-      const newJob = await Jobs.create({
+      await Jobs.create({
         companyID,
         companyName,
         position,
         description,
+        skillSet,
         pay,
         availablePositions: Number(availablePositions), // Ensure this is a number
         jobPool,
@@ -439,11 +457,20 @@ module.exports = {
       const company = await Company.findOne({
         companyName: companyName,
       }).lean();
-      const positions = await Jobs.find({ companyID }).lean();
+      const positions = await Jobs.find({ companyID })
+        .sort({ lastName: 1 })
+        .lean();
+      const employerEmails = await getEmployeeEmails(companyName);
+      await sendNotificationsToEmployers(
+        employerEmails,
+        "position_created",
+        `New job position created by admin.`
+      );
 
       const activeTab = "positions";
       res.render("admin/profiles/companyProfile", {
         user: req.session.user,
+        notifications,
         company,
         activeTab,
         positions,
@@ -462,10 +489,15 @@ module.exports = {
   //serves companyDB page from admin dashboard
   async companyDB(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const companies = await Company.find().sort({ companyName: 1 }).lean();
       activeTab = "add";
       res.render("admin/db/companyDB", {
         user: req.session.user,
+        notifications,
         companies,
         activeTab,
       });
@@ -476,6 +508,10 @@ module.exports = {
   //adds new company to Company DB
   async addCompany(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const newCompany = req.body;
       const company = new Company(newCompany);
       const savedCompany = await company.save();
@@ -486,6 +522,7 @@ module.exports = {
       const addMsg = true;
       res.render("admin/db/companyDB", {
         user: req.session.user,
+        notifications,
         companies,
         activeTab,
         addMsg,
@@ -497,6 +534,10 @@ module.exports = {
   //searches for company by name
   async searchCompanyName(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const { companyID } = req.body;
       const companyFound = await Company.findById({ _id: companyID }).lean();
       const companies = await Company.find().sort({ companyName: 1 }).lean();
@@ -504,6 +545,7 @@ module.exports = {
 
       res.render("admin/db/companyDB", {
         user: req.session.user,
+        notifications,
         companies,
         companyFound,
         activeTab,
@@ -515,6 +557,10 @@ module.exports = {
   //save edits made to company
   async saveCompanyEdit(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const { companyName, facility, id } = req.body;
       await Company.updateOne(
         { _id: id },
@@ -531,6 +577,7 @@ module.exports = {
       activeTab = "edit";
       res.render("admin/db/companyDB", {
         user: req.session.user,
+        notifications,
         companies,
         saveMsg,
         activeTab,
@@ -545,11 +592,16 @@ module.exports = {
   //serves employerDB page from admin dashboard
   async employerDB(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const companies = await Company.find().sort({ companyName: 1 }).lean();
       const employers = await Employer.find().sort({ firstName: 1 }).lean();
       const activeTab = "add";
       res.render("admin/db/employerDB", {
         user: req.session.user,
+        notifications,
         companies,
         employers,
         activeTab,
@@ -561,6 +613,10 @@ module.exports = {
   //adds new employer to db
   async addEmployer(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const newEmployer = req.body;
       const employer = new Employer(newEmployer);
       await employer.save();
@@ -570,6 +626,7 @@ module.exports = {
       const addMsg = true;
       res.render("admin/db/employerDB", {
         user: req.session.user,
+        notifications,
         companies,
         employers,
         activeTab,
@@ -581,6 +638,10 @@ module.exports = {
   },
   async searchEmployerName(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const { employerID } = req.body;
       const employerFound = await Employer.findById({
         _id: employerID,
@@ -590,6 +651,7 @@ module.exports = {
       const activeTab = "edit";
       res.render("admin/db/employerDB", {
         user: req.session.user,
+        notifications,
         employerFound,
         companies,
         employers,
@@ -603,6 +665,10 @@ module.exports = {
   //save edits made to employer
   async saveEmployerEdit(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const { id, companyName, firstName, lastName, email, facility } =
         req.body;
 
@@ -624,6 +690,7 @@ module.exports = {
       activeTab = "edit";
       res.render("admin/db/employerDB", {
         user: req.session.user,
+        notifications,
         companies,
         saveMsg,
         activeTab,
@@ -638,10 +705,17 @@ module.exports = {
   //serves residentDB page from admin dashboard
   async residentDB(req, res) {
     try {
-      const residents = await Resident.find().lean();
-      const activeTab = "update";
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+      const residents = await Resident.find({ isActive: true })
+        .sort({ lastName: 1 })
+        .lean();
+      const activeTab = "add";
       res.render("admin/db/residentDB", {
         user: req.session.user,
+        notifications,
         activeTab,
         residents,
       });
@@ -649,109 +723,25 @@ module.exports = {
       console.log(err);
     }
   },
-  async updateAllResidentsDB(req, res) {
-    try {
-      const activeTab = "update";
-      const filePath = path.join(__dirname, "../../uploads", req.file.filename);
-
-      // Parse the CSV and populate the database
-      const results = [];
-      const requiredFields = [
-        "firstName",
-        "lastName",
-        "residentID",
-        "custodyLevel",
-        "outDate",
-        "facility",
-      ];
-      fs.createReadStream(filePath)
-        .pipe(csv())
-        .on("data", (data) => results.push(data))
-        .on("end", async () => {
-          try {
-            const errors = [];
-            //validate csv file fields
-            results.forEach((row, index) => {
-              requiredFields.forEach((field) => {
-                if (!row[field]) {
-                  errors.push(
-                    `Row ${index + 1}: Missing required field '${field}'`
-                  );
-                }
-              });
-              // Validate residentID format (assuming it's a 7-digit number)
-              if (row.residentID && !/^\d{7}$/.test(row.residentID)) {
-                errors.push(`Row ${index + 1}: Invalid residentID format.`);
-              }
-            });
-            //checks for errors
-            if (errors.length > 0) {
-              console.log(errors);
-              const dataMSG =
-                "This csv file is not formatted correctly. Please verify that it has the correct fields.";
-              res.render("admin/db/residentDB", {
-                user: req.session.user,
-                dataMSG,
-                activeTab,
-              });
-            } else {
-              // Update or insert residents based on residentID
-              for (const residentData of results) {
-                await Resident.findOneAndUpdate(
-                  { residentID: residentData.residentID }, // Find resident by residentID
-                  residentData, // Update with new data
-                  { upsert: true } // Create a new document if it doesn't exist
-                );
-              }
-              console.log(
-                "Resident data has been updated or inserted into the database."
-              );
-              // Update 'isActive' status for residents not in the CSV
-              const residentIDs = results.map((r) => r.residentID);
-              await Resident.updateMany(
-                { residentID: { $nin: residentIDs } }, // Residents not in the CSV
-                { $set: { isActive: false } } // Set 'isActive' to false
-              );
-
-              const dataMSG = "Residents successfully updated.";
-              const residents = await Resident.find().lean();
-
-              res.render("admin/db/residentDB", {
-                user: req.session.user,
-                dataMSG,
-                residents,
-                activeTab,
-              });
-            }
-          } catch (err) {
-            console.error("Error processing CSV:", err);
-            const dataMSG = "An error occurred while processing the CSV file.";
-            return res.render("admin/db/residentDB", {
-              user: req.session.user,
-              dataMSG,
-              activeTab,
-            });
-          } finally {
-            // Clean up the uploaded file
-            fs.unlinkSync(filePath);
-          }
-        });
-    } catch (err) {
-      console.error(err);
-    }
-  },
 
   //adds new employer to db
   async addResident(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const newResidentData = req.body;
       const newResident = new Resident(newResidentData);
       await newResident.save();
       const activeTab = "add";
       const addMsg = true;
-      const residents = await Resident.find().lean();
+      const residents = await Resident.find({ isActive: true })
+        .sort({ lastName: 1 })
+        .lean();
       res.render("admin/db/residentDB", {
         user: req.session.user,
+        notifications,
         activeTab,
         addMsg,
         residents,
@@ -776,10 +766,13 @@ module.exports = {
           unitTeam = null;
         }
         const activeTab = "edit";
-        const residents = await Resident.find().lean();
+        const residents = await Resident.find({ isActive: true })
+          .sort({ lastName: 1 })
+          .lean();
 
         res.render("admin/db/residentDB", {
           user: req.session.user,
+          notifications,
           residentFound,
           unitTeam,
           activeTab,
@@ -788,9 +781,12 @@ module.exports = {
       } else {
         const activeTab = "edit";
         const failedSearch = true;
-        const residents = await Resident.find().lean();
+        const residents = await Resident.find({ isActive: true })
+          .sort({ lastName: 1 })
+          .lean();
         res.render("admin/db/residentDB", {
           user: req.session.user,
+          notifications,
           failedSearch,
           activeTab,
           residents,
@@ -830,9 +826,12 @@ module.exports = {
 
       const activeTab = "edit";
       const saveMsg = true;
-      const residents = await Resident.find().lean();
+      const residents = await Resident.find({ isActive: true })
+        .sort({ lastName: 1 })
+        .lean();
       res.render("admin/db/residentDB", {
         user: req.session.user,
+        notifications,
         resident,
         saveMsg,
         activeTab,
@@ -848,10 +847,15 @@ module.exports = {
   //serves unitTeamDB page from admin dashboard
   async unitTeamDB(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const unitTeam = await UnitTeam.find().sort({ firstName: 1 }).lean();
       const activeTab = "add";
       res.render("admin/db/unitTeamDB", {
         user: req.session.user,
+        notifications,
         activeTab,
         unitTeam,
       });
@@ -861,6 +865,10 @@ module.exports = {
   },
   async searchUnitTeamName(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const { unitTeamID } = req.body;
       const unitTeamFound = await UnitTeam.findById({
         _id: unitTeamID,
@@ -870,6 +878,7 @@ module.exports = {
       const activeTab = "edit";
       res.render("admin/db/unitTeamDB", {
         user: req.session.user,
+        notifications,
         unitTeamFound,
         unitTeam,
         activeTab,
@@ -881,6 +890,10 @@ module.exports = {
   //adds new member to unit team DB
   async addUnitTeam(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const newUnitTeam = req.body;
       const newMember = new UnitTeam(newUnitTeam);
       const savedUnitTeam = await newMember.save();
@@ -891,6 +904,7 @@ module.exports = {
       const addMsg = true;
       res.render("admin/db/unitTeamDB", {
         user: req.session.user,
+        notifications,
         unitTeam,
         activeTab,
         addMsg,
@@ -902,6 +916,10 @@ module.exports = {
   //save edits made to unitTeam
   async saveUnitTeamEdit(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const { firstName, lastName, email, facility, id } = req.body;
 
       await UnitTeam.updateOne(
@@ -921,6 +939,7 @@ module.exports = {
       activeTab = "edit";
       res.render("admin/db/unitTeamDB", {
         user: req.session.user,
+        notifications,
         unitTeam,
         saveMsg,
         activeTab,
@@ -930,11 +949,192 @@ module.exports = {
     }
   },
   //==========================
+  //   Admin DB
+  //==========================
+  //serves adminDB page from admin dashboard
+  async adminDB(req, res) {
+    try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+      const admin = await Admin.find().sort({ lastName: 1 }).lean();
+      const activeTab = "add";
+      res.render("admin/db/adminDB", {
+        user: req.session.user,
+        notifications,
+        activeTab,
+        admin,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  async searchAdminName(req, res) {
+    try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+      const { adminID } = req.body;
+      const adminFound = await Admin.findById({
+        _id: adminID,
+      }).lean();
+
+      const admin = await Admin.find().sort({ lastName: 1 }).lean();
+      const activeTab = "edit";
+      res.render("admin/db/adminDB", {
+        user: req.session.user,
+        notifications,
+        adminFound,
+        admin,
+        activeTab,
+      });
+    } catch (err) {
+      console.log("Error found when search admin name: ", err);
+    }
+  },
+  //adds new member to unit team DB
+  async addAdmin(req, res) {
+    try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+      const newAdmin = req.body;
+      const newMember = new Admin(newAdmin);
+      await newMember.save();
+
+      const admin = await Admin.find().sort({ lastName: 1 }).lean();
+
+      const activeTab = "add";
+      const addMsg = true;
+      res.render("admin/db/adminDB", {
+        user: req.session.user,
+        notifications,
+        admin,
+        activeTab,
+        addMsg,
+      });
+    } catch (err) {
+      console.log("Error in creating admin: ", err);
+    }
+  },
+  //save edits made to admin
+  async saveAdminEdit(req, res) {
+    const notifications = await getUserNotifications(
+      req.session.user.email,
+      req.session.user.role
+    );
+    try {
+      const { firstName, lastName, email, facility, id } = req.body;
+
+      await Admin.updateOne(
+        { _id: id },
+        {
+          $set: {
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            facility: facility,
+          },
+        }
+      );
+
+      const admin = await Admin.find().sort({ lastName: 1 }).lean();
+      const saveMsg = true;
+      activeTab = "edit";
+      res.render("admin/db/adminDB", {
+        user: req.session.user,
+        notifications,
+        admin,
+        saveMsg,
+        activeTab,
+      });
+    } catch (err) {
+      console.log("Error in saving unit team edit: ", err);
+    }
+  },
+  async deleteAdmin(req, res) {
+    try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+      const { adminID } = req.params;
+      await Admin.deleteOne({ _id: adminID });
+
+      const admin = await Admin.find().sort({ lastName: 1 }).lean();
+
+      const activeTab = "all";
+      res.render("admin/db/adminDB", {
+        user: req.session.user,
+        notifications,
+        admin,
+        activeTab,
+      });
+    } catch (err) {
+      console.log(err);
+      res.render("error/500");
+    }
+  },
+  async resetPassword(req, res) {
+    try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+      const { password, confirmPassword } = req.body;
+      const { adminID } = req.params;
+      console.log(req.body);
+      if (password == confirmPassword) {
+        await updateAdminPasswordById(adminID, password);
+        const saved = true;
+        const admin = await Admin.find().sort({ lastName: 1 }).lean();
+        const adminFound = await Admin.findById({
+          _id: adminID,
+        }).lean();
+
+        const activeTab = "edit";
+        return res.render("admin/db/adminDB", {
+          user: req.session.user,
+          notifications,
+          admin,
+          activeTab,
+          saved,
+          adminFound,
+        });
+      }
+      const adminFound = await Admin.findById({
+        _id: adminID,
+      }).lean();
+      const savingError = true;
+      const admin = await Admin.find().sort({ lastName: 1 }).lean();
+
+      const activeTab = "edit";
+      res.render("admin/db/adminDB", {
+        user: req.session.user,
+        notifications,
+        admin,
+        activeTab,
+        savingError,
+        adminFound,
+      });
+    } catch (err) {
+      console.log(err);
+      res.render("error/500");
+    }
+  },
+  //==========================
   //   Reports
   //==========================
   //serves reports page from admin dashboard
   async reports(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       res.render("admin/reports", { user: req.session.user });
     } catch (err) {
       console.log(err);
@@ -942,26 +1142,34 @@ module.exports = {
   },
   async residentReport(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const selectedFields = Object.keys(req.body);
 
       if (selectedFields.length === 0) {
         const noData = true;
         return res.render("admin/reports", {
           user: req.session.user,
+          notifications,
           noData,
         });
       }
 
       // Fetch data from MongoDB with only selected fields
       const residents = await Resident.find(
-        {},
+        { isActive: true },
         selectedFields.join(" ")
-      ).lean();
+      )
+        .sort({ lastName: 1 })
+        .lean();
 
       if (residents.length === 0) {
         const noData = true;
         return res.render("admin/reports", {
           user: req.session.user,
+          notifications,
           noData,
         });
       }
@@ -986,26 +1194,34 @@ module.exports = {
   },
   async employedResidentsReport(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const selectedFields = Object.keys(req.body);
 
       if (selectedFields.length === 0) {
         const noData = true;
         return res.render("admin/reports", {
           user: req.session.user,
+          notifications,
           noData,
         });
       }
 
       // Fetch data from MongoDB with only selected fields
       const residents = await Resident.find(
-        { isHired: true },
+        { isHired: true, isActive: true },
         selectedFields.join(" ")
-      ).lean();
+      )
+        .sort({ lastName: 1 })
+        .lean();
 
       if (residents.length === 0) {
         const noData = true;
         return res.render("admin/reports", {
           user: req.session.user,
+          notifications,
           noData,
         });
       }
@@ -1032,20 +1248,27 @@ module.exports = {
   //Applicants Report
   async applicantsReport(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const selectedFields = Object.keys(req.body);
 
       if (selectedFields.length === 0) {
         const noData = true;
         return res.render("admin/reports", {
           user: req.session.user,
+          notifications,
           noData,
         });
       }
 
       const email = req.session.user.email;
 
-      //find caseload specific to UTM
-      const caseLoad = await Resident.find({}).lean();
+      //find all residents who are currently incarcerated
+      const caseLoad = await Resident.find({ isActive: true })
+        .sort({ lastName: 1 })
+        .lean();
 
       //make array of resident _id in caseload
       const IDs = caseLoad.flatMap((resident) => resident._id);
@@ -1062,6 +1285,7 @@ module.exports = {
         const noData = true;
         return res.render("admin/reports", {
           user: req.session.user,
+          notifications,
           noData,
         });
       }

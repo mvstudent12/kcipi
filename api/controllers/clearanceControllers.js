@@ -23,7 +23,9 @@ module.exports = {
         req.session.user.email,
         req.session.user.role
       );
-      const residents = await Resident.find().lean();
+      const residents = await Resident.find({ isActive: true })
+        .sort({ lastName: 1 })
+        .lean();
 
       res.render(`${req.session.user.role}/dashboard`, {
         residents,

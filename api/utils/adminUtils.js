@@ -1,56 +1,62 @@
 //=============================
 //    Global Imports
 //=============================
+const Admin = require("../models/Admin");
+const Facility_Management = require("../models/Facility_Management");
+const Classification = require("../models/Classification");
+const Employer = require("../models/Employer");
 const UnitTeam = require("../models/UnitTeam");
-const Notification = require("../models/Notification");
 const Resident = require("../models/Resident");
 const Jobs = require("../models/Jobs");
 
-//=============================
-//     Helper Functions
-//=============================
+const bcrypt = require("bcryptjs");
 
-const findInterviews = async (residentIDs) => {
-  try {
-    const interviews = await Jobs.aggregate([
-      // Unwind the interviews array to separate each interview
-      { $unwind: "$interviews" },
+const updateAdminPasswordById = async (adminID, newPassword) => {
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(newPassword, salt);
 
-      // Match interviews where residentID is in the applicantIDs array
-      {
-        $match: {
-          "interviews.residentID": { $in: residentIDs },
-        },
-      },
+  const result = await Admin.findByIdAndUpdate(
+    adminID, // Find the admin by adminID (_id)
+    { password: hashedPassword }, // Update the password
+    { new: true } // Return the updated document
+  );
 
-      // Optionally, project to return only the interview details
-      {
-        $project: {
-          _id: 0, // Exclude the job _id
-          interview: "$interviews", // Include the interview details
-          jobId: "$_id", // Include the job _id for context
-          companyName: "$companyName",
-        },
-      },
-    ]);
-    return interviews;
-  } catch (error) {
-    console.error("Error fetching interviews:", error);
-    throw error; // Re-throw the error to handle it in the calling code
+  if (result) {
+    return result;
+  } else {
+    throw Error("Admin not found");
   }
 };
 
+async function getAllInterviews() {
+  try {
+    const jobs = await Jobs.find(
+      {},
+      { companyName: 1, interviews: 1, _id: 0 }
+    ).lean();
+    const interviews = jobs.flatMap((job) =>
+      job.interviews.map((interview) => ({
+        companyName: job.companyName, // Attach companyName to each interview
+        ...interview, // Spread interview details
+      }))
+    ); // Flatten the array of arrays
+
+    return interviews;
+  } catch (error) {
+    console.error("Error fetching interviews:", error);
+  }
+}
 const findApplicantIDsAndCompanyName = async (IDs) => {
   try {
     let applicantIDs = [];
 
     // Aggregation pipeline to retrieve applicant IDs and associated companyName
-    const result = await Jobs.aggregate([
+    await Jobs.aggregate([
       { $unwind: "$applicants" }, // Flatten the applicants array
       { $match: { "applicants.resident_id": { $in: IDs } } }, // Filter applicants by residentID array
       {
         $project: {
-          applicantID: "$applicants.resident_id", // Renamed applicants to applicantID for clarity
+          applicantID: "$applicants", // Rename applicants to applicantID for clarity
           companyName: 1, // Include the companyName field
           dateCreated: 1,
         },
@@ -67,11 +73,11 @@ const findApplicantIDsAndCompanyName = async (IDs) => {
           },
         },
       }, // Group by null to get all applicants
-    ]);
-
-    if (result.length > 0) {
-      applicantIDs = result[0].allApplicants;
-    }
+    ]).then((result) => {
+      if (result.length > 0) {
+        applicantIDs = result[0].allApplicants;
+      }
+    });
 
     return applicantIDs;
   } catch (error) {
@@ -79,36 +85,6 @@ const findApplicantIDsAndCompanyName = async (IDs) => {
     throw error; // Re-throw the error to handle it in the calling code
   }
 };
-
-const findResidentsWithCompany = async (applicantData) => {
-  try {
-    // Extract all applicant IDs from the provided array
-    const applicantIDs = applicantData.map((item) => item.applicantID);
-
-    // Find all residents with matching applicant IDs
-    const residents = await Resident.find({
-      _id: { $in: applicantIDs },
-    }).lean();
-
-    // Add companyName to each resident object
-    const residentsWithCompany = residents.map((resident) => {
-      // Find the corresponding companyName for each resident
-      const matchingCompany = applicantData.find(
-        (item) => item.applicantID.toString() === resident._id.toString()
-      );
-      return {
-        ...resident,
-        companyName: matchingCompany ? matchingCompany.companyName : null,
-      };
-    });
-
-    return residentsWithCompany;
-  } catch (error) {
-    console.error("Error fetching residents with company:", error);
-    throw error; // Re-throw the error to handle it in the calling code
-  }
-};
-
 const createApplicantsReport = async (applicantData, selectedFields) => {
   try {
     const applicantIDs = applicantData.map((item) => item.applicantID);
@@ -169,19 +145,9 @@ const createApplicantsReport = async (applicantData, selectedFields) => {
   }
 };
 
-async function getUserNotifications(email, role) {
-  return await Notification.find({
-    recipient: email,
-    role: role,
-  })
-    .lean()
-    .sort({ createdAt: -1 });
-}
-
 module.exports = {
-  findInterviews,
+  getAllInterviews,
   findApplicantIDsAndCompanyName,
-  findResidentsWithCompany,
   createApplicantsReport,
-  getUserNotifications,
+  updateAdminPasswordById,
 };

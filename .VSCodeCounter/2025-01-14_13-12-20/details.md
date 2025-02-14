@@ -18,7 +18,7 @@ Total : 519 files, 588954 codes, 62747 comments, 14085 blanks, all 665786 lines
 | [api/controllers/authControllers.js](/api/controllers/authControllers.js)                                                                               | JavaScript |    106 |      18 |    20 |    144 |
 | [api/controllers/clearanceControllers.js](/api/controllers/clearanceControllers.js)                                                                     | JavaScript |    190 |       2 |    16 |    208 |
 | [api/controllers/employerControllers.js](/api/controllers/employerControllers.js)                                                                       | JavaScript |    224 |      21 |    24 |    269 |
-| [api/controllers/notificationControllers.js](/api/controllers/notificationControllers.js)                                                               | JavaScript |    748 |      32 |    25 |    805 |
+| [api/controllers/requestControllers.js](/api/controllers/requestControllers.js)                                                                         | JavaScript |    748 |      32 |    25 |    805 |
 | [api/controllers/residentControllers.js](/api/controllers/residentControllers.js)                                                                       | JavaScript |    261 |       5 |    19 |    285 |
 | [api/controllers/unitTeamControllers.js](/api/controllers/unitTeamControllers.js)                                                                       | JavaScript |     67 |       1 |     5 |     73 |
 | [api/dbConfig/db.js](/api/dbConfig/db.js)                                                                                                               | JavaScript |     35 |       4 |     7 |     46 |
@@ -492,7 +492,7 @@ Total : 519 files, 588954 codes, 62747 comments, 14085 blanks, all 665786 lines
 | [views/admin/profiles/unitTeamProfile.handlebars](/views/admin/profiles/unitTeamProfile.handlebars)                                                     | Handlebars |     96 |       3 |    17 |    116 |
 | [views/admin/tables/companyTables.handlebars](/views/admin/tables/companyTables.handlebars)                                                             | Handlebars |     59 |       3 |     5 |     67 |
 | [views/admin/tables/employerTables.handlebars](/views/admin/tables/employerTables.handlebars)                                                           | Handlebars |     58 |       2 |     6 |     66 |
-| [views/admin/tables/residents.handlebars](/views/admin/tables/residentTables.handlebars)                                                                     | Handlebars |     71 |       2 |    17 |     90 |
+| [views/admin/tables/residents.handlebars](/views/admin/tables/residentTables.handlebars)                                                                | Handlebars |     71 |       2 |    17 |     90 |
 | [views/admin/tables/unitTeamTables.handlebars](/views/admin/tables/unitTeamTables.handlebars)                                                           | Handlebars |     60 |       2 |     5 |     67 |
 | [views/auth/login.handlebars](/views/auth/login.handlebars)                                                                                             | Handlebars |     58 |       5 |    18 |     81 |
 | [views/auth/residentLogin.handlebars](/views/auth/residentLogin.handlebars)                                                                             | Handlebars |     48 |       0 |     5 |     53 |

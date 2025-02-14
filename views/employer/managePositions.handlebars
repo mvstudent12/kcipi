@@ -62,31 +62,32 @@
                                                     </thead>
                                                     <tbody>
                                                         {{#each jobs}}
-                                                        <tr>
-                                                            <th scope="row">{{this.availablePositions}}</th>
-                                                            <td><a href="/employer/jobProfile/{{this._id}}"
-                                                                    class="text-primary text-capitalize">{{this.position}}</a>
-                                                            </td>
-                                                            <td class="text-capitalize"><a
-                                                                    href="/employer/jobProfile/{{this._id}}"
-                                                                    class="text-primary">{{this.jobPool}}</a>
-                                                            </td>
-                                                            <td>{{formatDate this.dateCreated}}</td>
-                                                            {{#if (eq this.applicants '')}}
-                                                            <td><span class="badge bg-danger">none</span></td>
-                                                            {{else}}
-                                                            <td><span class="badge bg-success">
-                                                                    &nbsp;&nbsp;{{countArrayItems this.applicants}}
-                                                                    &nbsp;&nbsp;</span>
-                                                            </td>
-                                                            {{/if}}
-                                                        </tr>
+                                                            <tr>
+                                                                <th scope="row">{{this.availablePositions}}</th>
+                                                                <td><a href="/employer/jobProfile/{{this._id}}"
+                                                                        class="text-primary text-capitalize">{{this.position}}</a>
+                                                                </td>
+                                                                <td class="text-capitalize"><a
+                                                                        href="/employer/jobProfile/{{this._id}}"
+                                                                        class="text-primary">{{this.jobPool}}</a>
+                                                                </td>
+                                                                <td>{{formatDate this.dateCreated}}</td>
+                                                                {{#if (eq this.applicants '')}}
+                                                                    <td><span class="badge bg-danger">none</span></td>
+                                                                {{else}}
+                                                                    <td><span class="badge bg-success">
+                                                                            &nbsp;&nbsp;{{countArrayItems
+                                                                            this.applicants}}
+                                                                            &nbsp;&nbsp;</span>
+                                                                    </td>
+                                                                {{/if}}
+                                                            </tr>
                                                         {{/each}}
                                                     </tbody>
                                                 </table>
                                                 <hr>
                                                 {{#if addPositionMSG}}
-                                                <h5 class="text-primary text-sm">New job position added.</h5>
+                                                    <h5 class="text-primary text-sm">New job position added.</h5>
                                                 {{/if}}
                                             </div>
                                         </div>
@@ -225,9 +226,10 @@
                                                                 <option selected value="">Select position to edit:
                                                                 </option>
                                                                 {{#each jobs}}
-                                                                <option class="text-capitalize" value="{{this._id}}">
-                                                                    {{this.position}}
-                                                                </option>
+                                                                    <option class="text-capitalize"
+                                                                        value="{{this._id}}">
+                                                                        {{this.position}}
+                                                                    </option>
                                                                 {{/each}}
                                                             </select>
                                                             <!-- Search Button -->
@@ -240,182 +242,196 @@
                                                 </div>
                                             </div>
                                             {{#if positionFound}}
-                                            <div>
-                                                <hr>
-                                                <p class="text-primary">Edit Position Details Below:</p>
-                                                <form method="POST"
-                                                    action="/employer/editSearchedPosition/{{positionFound._id}}">
-                                                    <input type="hidden" name="id" value="{{positionFound._id}}">
-                                                    {{!-- Position Title --}}
-                                                    <div class="row mb-3">
-                                                        <label for="editPosition"
-                                                            class="col-md-4 col-lg-4 col-form-label">Position
-                                                            Title</label>
-                                                        <div class="col-md-8 col-lg-8">
-                                                            <input name="editPosition" type="text"
-                                                                class="form-control text-capitalize" id="editPosition"
-                                                                required value="{{positionFound.position}}">
-                                                        </div>
-                                                    </div>
-                                                    {{!-- Description --}}
-                                                    <div class="row mb-3">
-                                                        <label for="description"
-                                                            class="col-md-4 col-lg-4 col-form-label">Description</label>
-                                                        <div class="col-md-8 col-lg-8">
-                                                            <input name="description" type="text"
-                                                                class="form-control text-capitalize" id="description"
-                                                                required value="{{positionFound.description}}">
-                                                        </div>
-                                                    </div>
-                                                    {{!-- Skill Set --}}
-                                                    <div class="row mb-3">
-                                                        <label for="skillSet"
-                                                            class="col-md-4 col-lg-4 col-form-label">Required
-                                                            Skill Set</label>
-                                                        <div class="col-md-8 col-lg-8">
-                                                            <input name="skillSet" type="text"
-                                                                class="form-control text-capitalize" id="skillSet"
-                                                                placeholder="Optional"
-                                                                value="{{positionFound.skillSet}}">
-                                                        </div>
-                                                    </div>
-                                                    {{!-- Hourly Pay --}}
-                                                    <div class="row mb-3">
-                                                        <label for="pay" class="col-md-4 col-lg-4 col-form-label">Hourly
-                                                            Pay</label>
-                                                        <div class="col-md-8 col-lg-8">
-                                                            <input name="pay" min="0" placeholder="per hour"
-                                                                type="number" min="0" placeholder="per hour"
-                                                                class="form-control" id="pay" required
-                                                                value="{{positionFound.pay}}">
-                                                        </div>
-                                                    </div>
-                                                    {{!-- Positions Available --}}
-                                                    <div class="row mb-3">
-                                                        <label for="availablePositions"
-                                                            class="col-md-4 col-lg-4 col-form-label">Positions
-                                                            Available</label>
-                                                        <div class="col-md-8 col-lg-8">
-                                                            <input name="availablePositions" type="number" min="0"
-                                                                class="form-control" id="availablePositions" required
-                                                                value="{{positionFound.availablePositions}}">
-                                                        </div>
-                                                    </div>
-
-                                                    {{!-- Job Available --}}
-                                                    <div class="row mb-3">
-                                                        <label for="availablePositions"
-                                                            class="col-md-4 col-lg-4 col-form-label">Available</label>
-                                                        <div class="col-md-8 col-lg-8">
-
-                                                            <select required name="isAvailable" class="form-select"
-                                                                aria-label="Available">
-                                                                <option {{#if (eq positionFound.isAvailable "true" )
-                                                                    }}selected{{/if}} value="true">Position is Available
-                                                                </option>
-                                                                <option {{#if (eq positionFound.isAvailable "false" )
-                                                                    }}selected{{/if}} value="false">Position is Not
-                                                                    Available
-                                                                </option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    {{!-- Position Facility --}}
-                                                    <div class="row mb-3">
-                                                        <label for="facility"
-                                                            class="col-md-4 col-lg-4 col-form-label">Facility</label>
-                                                        <div class="col-md-8 col-lg-8">
-                                                            <select required name="facility" id="facilityEdit"
-                                                                class="form-select" aria-label="Facility Options">
-                                                                <option {{#if (eq positionFound.facility "El Dorado" )
-                                                                    }}selected{{/if}} value="El Dorado">El Dorado
-                                                                </option>
-                                                                <option {{#if (eq positionFound.facility "Ellsworth" )
-                                                                    }}selected{{/if}} value="Ellsworth">Ellsworth
-                                                                </option>
-                                                                <option {{#if (eq positionFound.facility "Hutchinson" )
-                                                                    }}selected{{/if}} value="Hutchinson">Hutchinson
-                                                                </option>
-                                                                <option {{#if (eq positionFound.facility "Lansing" )
-                                                                    }}selected{{/if}} value="Lansing">Lansing</option>
-                                                                <option {{#if (eq positionFound.facility "Larned" )
-                                                                    }}selected{{/if}} value="Larned">Larned</option>
-                                                                <option {{#if (eq positionFound.facility "Norton" )
-                                                                    }}selected{{/if}} value="Norton">Norton</option>
-                                                                <option {{#if (eq positionFound.facility "Topeka" )
-                                                                    }}selected{{/if}} value="Topeka">Topeka</option>
-                                                                <option {{#if (eq positionFound.facility "Winfield" )
-                                                                    }}selected{{/if}} value="Winfield">Winfield</option>
-                                                                <option {{#if (eq positionFound.facility "Wichita" )
-                                                                    }}selected{{/if}} value="Wichita">Wichita</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-
-                                                    {{!-- Job Pool--}}
-                                                    <div class="row mb-3">
-                                                        <label for="jobPool"
-                                                            class="col-md-4 col-lg-4 col-form-label">Job
-                                                            Pool</label>
-                                                        <div class="col-md-8 col-lg-8">
-                                                            <select required name="jobPool" class="form-select"
-                                                                aria-label="Job Pool">
-                                                                <option {{#if (eq
-                                                                    positionFound.jobPool "Male Minimum 1 (Off-Site)" )
-                                                                    }}selected{{/if}} value="Male Minimum 1 (Off-Site)">
-                                                                    Male
-                                                                    Minimum 1
-                                                                    &lpar;Off-Site&rpar;
-                                                                </option>
-                                                                <option {{#if (eq
-                                                                    positionFound.jobPool "Male Minimum 2 (On-Site)" )
-                                                                    }}selected{{/if}} value="Male Minimum 2 (On-Site)">
-                                                                    Male
-                                                                    Minimum 2
-                                                                    &lpar;On-Site&rpar;
-                                                                </option>
-                                                                <option {{#if (eq
-                                                                    positionFound.jobPool "Male Medium/Maximum" )
-                                                                    }}selected{{/if}} value="Male Medium/Maximum">Male
-                                                                    Medium/Maximum
-                                                                </option>
-                                                                <option {{#if (eq
-                                                                    positionFound.jobPool "Female Minimum 1 (Off-Site)"
-                                                                    ) }}selected{{/if}}
-                                                                    value="Female Minimum 1 (Off-Site)">
-                                                                    Female Minimum
-                                                                    1
-                                                                    &lpar;Off-Site&rpar;
-                                                                </option>
-                                                                <option {{#if (eq
-                                                                    positionFound.jobPool "Female Minimum 2 (On-Site)" )
-                                                                    }}selected{{/if}}
-                                                                    value="Female Minimum 2 (On-Site)">
-                                                                    Female Minimum
-                                                                    2
-                                                                    &lpar;On-Site&rpar;
-                                                                </option>
-                                                                <option {{#if (eq
-                                                                    positionFound.jobPool "Female Medium/Maximum" )
-                                                                    }}selected{{/if}} value="Female Medium/Maximum">
-                                                                    Female
-                                                                    Medium/Maximum
-                                                                </option>
-                                                            </select>
-
-                                                        </div>
-                                                    </div>
-                                                    {{!-- Save Button & Delete Buttons--}}
+                                                <div>
                                                     <hr>
-                                                    <div class="d-flex justify-content-between">
-                                                        <button data-bs-toggle="modal" data-bs-target="#deletePosition"
-                                                            type="button" class="btn btn-danger mx-2">Delete
-                                                            Position</button>
-                                                        <button type="submit" class="btn btn-primary mx-2">Save
-                                                            Edit</button>
-                                                    </div>
-                                                </form>
-                                            </div>
+                                                    <p class="text-primary">Edit Position Details Below:</p>
+                                                    <form method="POST"
+                                                        action="/employer/editSearchedPosition/{{positionFound._id}}">
+                                                        <input type="hidden" name="id" value="{{positionFound._id}}">
+                                                        {{!-- Position Title --}}
+                                                        <div class="row mb-3">
+                                                            <label for="editPosition"
+                                                                class="col-md-4 col-lg-4 col-form-label">Position
+                                                                Title</label>
+                                                            <div class="col-md-8 col-lg-8">
+                                                                <input name="editPosition" type="text"
+                                                                    class="form-control text-capitalize"
+                                                                    id="editPosition" required
+                                                                    value="{{positionFound.position}}">
+                                                            </div>
+                                                        </div>
+                                                        {{!-- Description --}}
+                                                        <div class="row mb-3">
+                                                            <label for="description"
+                                                                class="col-md-4 col-lg-4 col-form-label">Description</label>
+                                                            <div class="col-md-8 col-lg-8">
+                                                                <input name="description" type="text"
+                                                                    class="form-control text-capitalize"
+                                                                    id="description" required
+                                                                    value="{{positionFound.description}}">
+                                                            </div>
+                                                        </div>
+                                                        {{!-- Skill Set --}}
+                                                        <div class="row mb-3">
+                                                            <label for="skillSet"
+                                                                class="col-md-4 col-lg-4 col-form-label">Required
+                                                                Skills</label>
+                                                            <div class="col-md-8 col-lg-8">
+                                                                <input name="skillSet" type="text"
+                                                                    class="form-control text-capitalize" id="skillSet"
+                                                                    placeholder="Optional"
+                                                                    value="{{positionFound.skillSet}}">
+                                                            </div>
+                                                        </div>
+                                                        {{!-- Hourly Pay --}}
+                                                        <div class="row mb-3">
+                                                            <label for="pay"
+                                                                class="col-md-4 col-lg-4 col-form-label">Hourly
+                                                                Pay</label>
+                                                            <div class="col-md-8 col-lg-8">
+                                                                <input name="pay" min="0" placeholder="per hour"
+                                                                    type="number" min="0" placeholder="per hour"
+                                                                    class="form-control" id="pay" required
+                                                                    value="{{positionFound.pay}}">
+                                                            </div>
+                                                        </div>
+                                                        {{!-- Positions Available --}}
+                                                        <div class="row mb-3">
+                                                            <label for="availablePositions"
+                                                                class="col-md-4 col-lg-4 col-form-label">Positions
+                                                                Available</label>
+                                                            <div class="col-md-8 col-lg-8">
+                                                                <input name="availablePositions" type="number" min="0"
+                                                                    class="form-control" id="availablePositions"
+                                                                    required
+                                                                    value="{{positionFound.availablePositions}}">
+                                                            </div>
+                                                        </div>
+
+                                                        {{!-- Job Available --}}
+                                                        <div class="row mb-3">
+                                                            <label for="availablePositions"
+                                                                class="col-md-4 col-lg-4 col-form-label">Available</label>
+                                                            <div class="col-md-8 col-lg-8">
+
+                                                                <select required name="isAvailable" class="form-select"
+                                                                    aria-label="Available">
+                                                                    <option {{#if (eq positionFound.isAvailable "true" )
+                                                                        }}selected{{/if}} value="true">Position is
+                                                                        Available
+                                                                    </option>
+                                                                    <option {{#if (eq positionFound.isAvailable "false"
+                                                                        ) }}selected{{/if}} value="false">Position is
+                                                                        Not
+                                                                        Available
+                                                                    </option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        {{!-- Position Facility --}}
+                                                        <div class="row mb-3">
+                                                            <label for="facility"
+                                                                class="col-md-4 col-lg-4 col-form-label">Facility</label>
+                                                            <div class="col-md-8 col-lg-8">
+                                                                <select required name="facility" id="facilityEdit"
+                                                                    class="form-select" aria-label="Facility Options">
+                                                                    <option {{#if (eq positionFound.facility "El Dorado"
+                                                                        ) }}selected{{/if}} value="El Dorado">El Dorado
+                                                                    </option>
+                                                                    <option {{#if (eq positionFound.facility "Ellsworth"
+                                                                        ) }}selected{{/if}} value="Ellsworth">Ellsworth
+                                                                    </option>
+                                                                    <option {{#if (eq
+                                                                        positionFound.facility "Hutchinson" )
+                                                                        }}selected{{/if}} value="Hutchinson">Hutchinson
+                                                                    </option>
+                                                                    <option {{#if (eq positionFound.facility "Lansing" )
+                                                                        }}selected{{/if}} value="Lansing">Lansing
+                                                                    </option>
+                                                                    <option {{#if (eq positionFound.facility "Larned" )
+                                                                        }}selected{{/if}} value="Larned">Larned</option>
+                                                                    <option {{#if (eq positionFound.facility "Norton" )
+                                                                        }}selected{{/if}} value="Norton">Norton</option>
+                                                                    <option {{#if (eq positionFound.facility "Topeka" )
+                                                                        }}selected{{/if}} value="Topeka">Topeka</option>
+                                                                    <option {{#if (eq positionFound.facility "Winfield"
+                                                                        ) }}selected{{/if}} value="Winfield">Winfield
+                                                                    </option>
+                                                                    <option {{#if (eq positionFound.facility "Wichita" )
+                                                                        }}selected{{/if}} value="Wichita">Wichita
+                                                                    </option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        {{!-- Job Pool--}}
+                                                        <div class="row mb-3">
+                                                            <label for="jobPool"
+                                                                class="col-md-4 col-lg-4 col-form-label">Job
+                                                                Pool</label>
+                                                            <div class="col-md-8 col-lg-8">
+                                                                <select required name="jobPool" class="form-select"
+                                                                    aria-label="Job Pool">
+                                                                    <option {{#if (eq
+                                                                        positionFound.jobPool "Male Minimum 1 (Off-Site)"
+                                                                        ) }}selected{{/if}}
+                                                                        value="Male Minimum 1 (Off-Site)">
+                                                                        Male
+                                                                        Minimum 1
+                                                                        &lpar;Off-Site&rpar;
+                                                                    </option>
+                                                                    <option {{#if (eq
+                                                                        positionFound.jobPool "Male Minimum 2 (On-Site)"
+                                                                        ) }}selected{{/if}}
+                                                                        value="Male Minimum 2 (On-Site)">
+                                                                        Male
+                                                                        Minimum 2
+                                                                        &lpar;On-Site&rpar;
+                                                                    </option>
+                                                                    <option {{#if (eq
+                                                                        positionFound.jobPool "Male Medium/Maximum" )
+                                                                        }}selected{{/if}} value="Male Medium/Maximum">
+                                                                        Male
+                                                                        Medium/Maximum
+                                                                    </option>
+                                                                    <option {{#if (eq
+                                                                        positionFound.jobPool "Female Minimum 1 (Off-Site)"
+                                                                        ) }}selected{{/if}}
+                                                                        value="Female Minimum 1 (Off-Site)">
+                                                                        Female Minimum
+                                                                        1
+                                                                        &lpar;Off-Site&rpar;
+                                                                    </option>
+                                                                    <option {{#if (eq
+                                                                        positionFound.jobPool "Female Minimum 2 (On-Site)"
+                                                                        ) }}selected{{/if}}
+                                                                        value="Female Minimum 2 (On-Site)">
+                                                                        Female Minimum
+                                                                        2
+                                                                        &lpar;On-Site&rpar;
+                                                                    </option>
+                                                                    <option {{#if (eq
+                                                                        positionFound.jobPool "Female Medium/Maximum" )
+                                                                        }}selected{{/if}} value="Female Medium/Maximum">
+                                                                        Female
+                                                                        Medium/Maximum
+                                                                    </option>
+                                                                </select>
+
+                                                            </div>
+                                                        </div>
+                                                        {{!-- Save Button & Delete Buttons--}}
+                                                        <hr>
+                                                        <div class="d-flex justify-content-between">
+                                                            <button data-bs-toggle="modal"
+                                                                data-bs-target="#deletePosition" type="button"
+                                                                class="btn btn-danger mx-2">Delete
+                                                                Position</button>
+                                                            <button type="submit" class="btn btn-primary mx-2">Save
+                                                                Edit</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
                                         </div>
                                         {{/if}}
                                     </div>

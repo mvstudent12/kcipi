@@ -1,0 +1,362 @@
+{{> adminTemplate}}
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Admin Database</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="admin/dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item active">Admin Database</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section profile">
+        <div class="row">
+            {{!-- <div class="col-xl-4">
+                <div class="card">
+                    <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+                        <img src="/assets/img/employer.png" alt="Profile" class="rounded-circle">
+                        <h2 class="text-capitalize mb-3">UTM Database</h2>
+                        <h3>KDOC Employees</h3>
+
+                    </div>
+                </div>
+            </div> --}}
+
+            <div class="col-12">
+
+                <div class="card">
+                    <div class="card-body pt-3">
+                        <!-- Bordered Tabs -->
+                        <ul class="nav nav-tabs nav-tabs-bordered">
+                            <li class="nav-item">
+                                <button class="nav-link {{#if (eq activeTab 'add')}}active{{/if}}" data-bs-toggle="tab"
+                                    data-bs-target="#add-admin">Add
+                                    Admin</button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-link {{#if (eq activeTab 'edit')}}active{{/if}}" data-bs-toggle="tab"
+                                    data-bs-target="#edit-admin">Edit
+                                    Admin</button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-link {{#if (eq activeTab 'all')}}active{{/if}}" data-bs-toggle="tab"
+                                    data-bs-target="#all-admin">All
+                                    Admin</button>
+                            </li>
+
+                        </ul>
+
+                        <div class="tab-content pt-2">
+                            {{!-- Add Admin Tab --}}
+                            <div class="tab-pane fade {{#if (eq activeTab 'add')}}show active{{/if}} add-admin pt-3"
+                                id="add-admin">
+                                <div class="card">
+                                    <div class="card-body pt-3">
+                                        <form method="POST" action="/admin/addAdmin">
+
+                                            {{!-- admin first name --}}
+                                            <div class="row mb-3">
+                                                <label for="firstName" class="col-md-3 col-lg-3 col-form-label">First
+                                                    Name</label>
+                                                <div class="col-md-8 col-lg-8">
+                                                    <input required name="firstName" type="text"
+                                                        class="form-control text-capitalize" id="firstName">
+                                                </div>
+                                            </div>
+                                            {{!-- admin last name--}}
+                                            <div class="row mb-3">
+                                                <label for="lastName" class="col-md-3 col-lg-3 col-form-label">Last
+                                                    Name</label>
+                                                <div class="col-md-8 col-lg-8">
+                                                    <input required name="lastName" type="text"
+                                                        class="form-control text-capitalize" id="lastName">
+                                                </div>
+                                            </div>
+
+                                            {{!-- admin email --}}
+                                            <div class="row mb-3">
+                                                <label for="email"
+                                                    class="col-md-3 col-lg-3 col-form-label">Email</label>
+                                                <div class="col-md-8 col-lg-8">
+                                                    <input required name="email" type="email" class="form-control"
+                                                        id="email">
+                                                </div>
+                                            </div>
+
+                                            {{!-- admin Password --}}
+                                            <div class="row mb-3">
+                                                <label for="password"
+                                                    class="col-md-3 col-lg-3 col-form-label">Password</label>
+                                                <div class="col-md-8 col-lg-8">
+                                                    <input required name="password" type="text" class="form-control"
+                                                        id="password">
+                                                </div>
+                                            </div>
+
+
+                                            {{!-- Save Button --}}
+                                            <hr>
+                                            <div class="text-center">
+                                                <button type="submit" class="btn btn-primary mx-2">Add Admin</button>
+                                            </div>
+                                        </form>
+                                        {{#if addMsg}}
+                                            <hr>
+                                            <p class="text-success text-center fst-italic mt-3">New Admin added
+                                                successfully.</p>
+                                        {{/if}}
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{!-- Edit Existing Admin Tab --}}
+                            <div class="tab-pane fade {{#if (eq activeTab 'edit')}}show active{{/if}} edit-admin pt-3"
+                                id="edit-admin">
+                                <div class="card">
+                                    <div class="card-body pt-3">
+
+                                        {{!-- Admin Search Bar --}}
+                                        <div class="row mb-3">
+                                            <label for="adminList" class="col-md-4 col-lg-4 col-form-label">Search
+                                                Admin:</label>
+                                            <div class="col-md-8 col-lg-8">
+                                                <div class="search-bar">
+                                                    <form class="search-form d-flex align-items-center" method="POST"
+                                                        action="/admin/searchAdminName">
+
+                                                        <div class="input-group">
+                                                            <select required name="adminID" id="adminList"
+                                                                class="form-select text-capitalize"
+                                                                aria-label="Select Admin">
+                                                                <option selected value="">Select Admin:
+                                                                </option>
+                                                                {{#each admin}}
+                                                                    <option class="text-capitalize"
+                                                                        value="{{this._id}}">
+                                                                        {{this.firstName}} {{this.lastName}}
+                                                                    </option>
+                                                                {{/each}}
+                                                            </select>
+                                                            <!-- Search Button -->
+                                                            <button class="btn btn-primary" type="submit"
+                                                                id="searchButton" title="Search">
+                                                                <i class="bi bi-search"></i>
+                                                                <!-- Bootstrap Search Icon -->
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div><!-- End Search Bar -->
+
+
+                                        {{#if adminFound}}
+                                            <!--=============== Edit Admin Form =========================== -->
+                                            <hr>
+                                            <form method="POST" action="/admin/saveAdminEdit">
+                                                <input type="hidden" name="id" value="{{adminFound._id}}">
+                                                {{!-- admin firstName --}}
+                                                <div class="row mb-3">
+                                                    <label for="firstName"
+                                                        class="col-md-4 col-lg-4 col-form-label">First
+                                                        Name</label>
+                                                    <div class="col-md-8 col-lg-8">
+                                                        <input name="firstName" type="text"
+                                                            class="form-control text-capitalize" id="editfirstName"
+                                                            value="{{adminFound.firstName}}">
+                                                    </div>
+                                                </div>
+                                                {{!-- admin lastName --}}
+                                                <div class="row mb-3">
+                                                    <label for="lastName" class="col-md-4 col-lg-4 col-form-label">Last
+                                                        Name</label>
+                                                    <div class="col-md-8 col-lg-8">
+                                                        <input name="lastName" type="text"
+                                                            class="form-control text-capitalize" id="editLastName"
+                                                            value="{{adminFound.lastName}}">
+                                                    </div>
+                                                </div>
+
+
+                                                {{!-- admin email --}}
+                                                <div class="row mb-3">
+                                                    <label for="email" class="col-md-4 col-lg-4 col-form-label">
+                                                        Email</label>
+                                                    <div class="col-md-8 col-lg-8">
+                                                        <input name="email" type="text" class="form-control" id="email"
+                                                            value="{{adminFound.email}}">
+                                                    </div>
+                                                </div>
+
+
+
+                                                <hr>
+
+                                                <div class="d-flex justify-content-between mt-3">
+                                                    <button data-bs-toggle="modal" data-bs-target="#deleteAdmin"
+                                                        type="button" class="btn btn-danger mx-2">Delete
+                                                        Admin</button>
+
+                                                    <button data-bs-toggle="modal" data-bs-target="#resetPassword"
+                                                        type="button" class="btn btn-warning mx-2">Reset
+                                                        Password</button>
+
+                                                    <button type="submit" class="btn btn-primary mx-2">Save
+                                                        Edit</button>
+                                                </div>
+                                            </form>
+
+                                        {{/if}}
+                                        {{#if saveMsg}}
+                                            <hr>
+                                            <p class="text-success text-center fst-italic mt-3">Your edits have been
+                                                saved
+                                                successfully.
+                                            </p>
+                                        {{/if}}
+                                        {{#if saved}}
+                                            <hr>
+                                            <p class="text-success text-center fst-italic mt-3">Password successfully
+                                                reset.
+                                            </p>
+                                        {{/if}}
+                                        {{#if savingError}}
+                                            <hr>
+                                            <p class="text-warning text-center fst-italic mt-3">There was an error in
+                                                trying to reset this password. Please try again.
+                                            </p>
+                                        {{/if}}
+                                        <!--=============== Edit admin Form============================ -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{!-- All Admin tab --}}
+                            <div class="tab-pane fade {{#if (eq activeTab 'all')}}show active{{/if}} all-admin pt-3"
+                                id="all-admin">
+                                <!-- Admin Table -->
+                                <div class="col-12">
+                                    <div class="card recent-sales overflow-auto">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Admin <span>| All KDOC</span></h5>
+                                            <table class="table table-borderless table-striped datatable">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">#</th>
+                                                        <th scope="col">First Name</th>
+                                                        <th scope="col">Last Name</th>
+                                                        <th scope="col">Email</th>
+                                                        <th scope="col">Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {{#each admin}}
+                                                        <tr>
+                                                            <th scope="row"><a
+                                                                    href="/admin/adminProfile/{{this._id}}">{{add
+                                                                @index 1}}</a>
+                                                            </th>
+                                                            <td class="text-capitalize"><a
+                                                                    href="/admin/adminProfile/{{this._id}}">{{this.firstName}}</a>
+                                                            </td>
+                                                            <td class="text-capitalize"><a
+                                                                    href="/admin/adminProfile/{{this._id}}">{{this.lastName}}</a>
+                                                            </td>
+                                                            <td><a
+                                                                    href="/admin/adminProfile/{{this._id}}">{{this.email}}</a>
+                                                            </td>
+                                                            <td><span class="badge bg-success">Active</span></td>
+                                                        </tr>
+                                                    {{/each}}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div><!-- End Bordered Tabs -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+{{> footer}}
+
+{{> arrowUp}}
+
+
+{{!-- MODAL FOR Delete Admin --}}
+<div class="modal fade" id="deleteAdmin" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" action="/admin/deleteAdmin/{{adminFound._id}}">
+                <div class="modal-header">
+                    <h5 class="modal-title text-capitalize">Delete Admin: {{adminFound.firstName}}
+                        {{adminFound.lastName}}
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3 mt-3">
+                        <p>Are you sure you want to delete this admin?</p>
+                        <p class="text-danger">This action is permanent and will delete all information connected to
+                            this account.</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-12 d-flex justify-content-between">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button id="" type="submit" class="btn btn-danger">Delete Admin</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{{!-- MODAL FOR Reset Password --}}
+<div class="modal fade" id="resetPassword" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" action="/admin/resetPassword/{{adminFound._id}}">
+                <div class="modal-header">
+                    <h5 class="modal-title text-capitalize">Admin: {{adminFound.firstName}}
+                        {{adminFound.lastName}}
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3 mt-3">
+                        <label for="password" class="col-md-5 col-lg-5 col-form-label">New Password:</label>
+                        <div class="col-md-7 col-lg-7">
+                            <input required name="password" type="password" class="form-control" id="password">
+                        </div>
+                    </div>
+                    <div class="row mb-3 mt-3">
+                        <label for="confirmPassword" class="col-md-5 col-lg-5 col-form-label">Confirm
+                            Password:</label>
+                        <div class="col-md-7 col-lg-7">
+                            <input required name="confirmPassword" type="password" class="form-control"
+                                id="confirmPassword">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-12 d-flex justify-content-between">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button id="" type="submit" class="btn btn-warning">Reset Password</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

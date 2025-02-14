@@ -121,7 +121,13 @@ adminRoutes.get(
   requireRole(["admin"]),
   controller.unitTeamProfile
 );
-
+adminRoutes.get(
+  "/adminProfile/:id",
+  checkUser,
+  requireAuth,
+  requireRole(["admin"]),
+  controller.adminProfile
+);
 //=============================
 //   DB Routes
 //=============================
@@ -167,15 +173,6 @@ adminRoutes.get(
   requireAuth,
   requireRole(["admin"]),
   controller.residentDB
-);
-
-adminRoutes.post(
-  "/updateAllResidentsDB",
-  upload.single("csvfile"),
-  checkUser,
-  requireAuth,
-  requireRole(["admin"]),
-  controller.updateAllResidentsDB
 );
 
 adminRoutes.post(
@@ -273,6 +270,48 @@ adminRoutes.post(
   requireAuth,
   requireRole(["admin"]),
   controller.saveUnitTeamEdit
+);
+//adminDB ===================
+adminRoutes.get(
+  "/adminDB",
+  checkUser,
+  requireAuth,
+  requireRole(["admin"]),
+  controller.adminDB
+);
+
+adminRoutes.post(
+  "/searchAdminName",
+  checkUser,
+  requireAuth,
+  requireRole(["admin"]),
+  controller.searchAdminName
+);
+
+adminRoutes.post(
+  "/addAdmin",
+  requireAuth,
+  requireRole(["admin"]),
+  controller.addAdmin
+);
+
+adminRoutes.post(
+  "/saveAdminEdit",
+  requireAuth,
+  requireRole(["admin"]),
+  controller.saveAdminEdit
+);
+adminRoutes.post(
+  "/deleteAdmin/:adminID",
+  requireAuth,
+  requireRole(["admin"]),
+  controller.deleteAdmin
+);
+adminRoutes.post(
+  "/resetPassword/:adminID",
+  requireAuth,
+  requireRole(["admin"]),
+  controller.resetPassword
 );
 //=============================
 //   Reports

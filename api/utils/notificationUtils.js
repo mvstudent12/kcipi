@@ -13,16 +13,19 @@ async function createNotification(email, role, type, message, data = {}) {
   try {
     // Define icon mapping based on notification type
     const iconMapping = {
+      position_created: "bi-check-circle",
       employment_request: "bi-exclamation-circle",
       termination_request: "bi-x-circle",
       termination_request_denied: "bi-x-circle",
       resident_hired: "bi-check-circle",
+      resident_rejected: "bi-x-circle",
       resident_terminated: "bi-x-circle",
       clearance_approved: "bi-check-circle",
       clearance_denied: "bi-x-circle",
       clearance_requested: "bi-exclamation-circle",
       interview_request: "bi-exclamation-circle",
       interview_scheduled: "bi-check-circle",
+      interview_cancelled: "bi-x-circle",
     };
 
     const notification = new Notification({

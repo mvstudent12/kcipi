@@ -23,7 +23,7 @@ module.exports = {
             $match: {
               jobPool: jobPool, // Match jobs with the same jobPool as the resident
               facility: facility,
-              availablePositions: { $gt: 0 }
+              availablePositions: { $gt: 0 },
             },
           },
           {
@@ -34,7 +34,7 @@ module.exports = {
                   {
                     $size: {
                       $filter: {
-                        input: "$applicants",// The array to filter
+                        input: "$applicants", // The array to filter
                         as: "applicant",
                         cond: {
                           $eq: [
@@ -45,8 +45,8 @@ module.exports = {
                       },
                     },
                   },
-                  0,// Returns true if at least one match is found
-                ], 
+                  0, // Returns true if at least one match is found
+                ],
               },
             },
           },

@@ -21,10 +21,7 @@
                     <div class="card-body pt-3">
                         <!-- Bordered Tabs -->
                         <ul class="nav nav-tabs nav-tabs-bordered">
-                            <li class="nav-item">
-                                <button class="nav-link {{#if (eq activeTab 'update')}}active{{/if}}"
-                                    data-bs-toggle="tab" data-bs-target="#update-db">Update Database</button>
-                            </li>
+
                             <li class="nav-item">
                                 <button class="nav-link {{#if (eq activeTab 'add')}}active{{/if}}" data-bs-toggle="tab"
                                     data-bs-target="#add-resident">Add Resident</button>
@@ -42,34 +39,7 @@
                         </ul>
 
                         <div class="tab-content pt-2">
-                            {{!-- Update DB Tab --}}
-                            <div class="tab-pane fade {{#if (eq activeTab 'update')}}show active{{/if}} update-db pt-3"
-                                id="update-db">
-                                <div class="card">
-                                    <div class="card-body pt-3">
 
-                                        <h4 class="text-capitalize text-muted mb-3">Update KDOC Resident Database</h4>
-                                        <hr class="mb-3">
-                                        {{!-- <h5 class="text-muted">All KDOC Residents</h5> --}}
-                                        {{!-- UPDATE ALL RESIDENTS IN DB FORM --}}
-                                        <div class="row mb-3 mt-3">
-                                            <form action="/admin/updateAllResidentsDB" method="POST"
-                                                enctype="multipart/form-data">
-                                                <label class="col-form-label" for="csvfile">Choose a CSV File to
-                                                    Upload:</label>
-                                                <input class="form-control mb-3" type="file" name="csvfile" id="csvfile"
-                                                    accept=".csv" required>
-                                                <hr>
-                                                <button class="btn btn-primary" type="submit">Update Database</button>
-                                                {{#if dataMSG}}
-                                                <hr>
-                                                <p class="text-success mt-3">{{dataMSG}}</p>
-                                                {{/if}}
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
                             {{!-- Add resident tab --}}
                             <div class="tab-pane fade {{#if (eq activeTab 'add')}}show active{{/if}} add-resident pt-3"
@@ -153,9 +123,9 @@
                                             </div>
                                         </form>
                                         {{#if addMsg}}
-                                        <hr>
-                                        <p class="text-success text-center fst-italic mt-3">New resident added
-                                            successfully.</p>
+                                            <hr>
+                                            <p class="text-success text-center fst-italic mt-3">New resident added
+                                                successfully.</p>
                                         {{/if}}
 
                                     </div>
@@ -195,162 +165,171 @@
                                         </div><!-- End Search Bar -->
 
                                         {{#if failedSearch}}
-                                        <p class="text-danger">No residents found with this number.</p>
-                                        <p class="text-danger">Make sure to enter a seven digit number.</p>
+                                            <p class="text-danger">No residents found with this number.</p>
+                                            <p class="text-danger">Make sure to enter a seven digit number.</p>
                                         {{/if}}
 
                                         {{#if residentFound}}
-                                        <!--=============== Edit Existing Resident Form =========================== -->
-                                        <hr>
-                                        <form method="POST" action="/admin/editExistingResident">
-                                            {{!-- Resident First Name --}}
-                                            <div class="row mb-3">
-                                                <label for="firstName" class="col-md-4 col-lg-3 col-form-label">First
-                                                    Name</label>
-                                                <div class="col-md-8 col-lg-9">
-                                                    <input name="firstName" type="text"
-                                                        class="form-control text-capitalize" id="firstName"
-                                                        value="{{residentFound.firstName}}">
-                                                </div>
-                                            </div>
-                                            {{!-- Resident Last Name --}}
-                                            <div class="row mb-3">
-                                                <label for="lastName" class="col-md-4 col-lg-3 col-form-label">Last
-                                                    Name</label>
-                                                <div class="col-md-8 col-lg-9">
-                                                    <input name="lastName" type="text"
-                                                        class="form-control text-capitalize" id="lastName"
-                                                        value="{{residentFound.lastName}}">
-                                                </div>
-                                            </div>
-                                            {{!-- Resident ID --}}
-                                            <div class="row mb-3">
-                                                <label for="residentID"
-                                                    class="col-md-4 col-lg-3 col-form-label">Resident
-                                                    ID</label>
-                                                <div class="col-md-8 col-lg-9">
-                                                    <input name="residentID" type="text"
-                                                        class="form-control text-capitalize" id="residentID"
-                                                        value="{{residentFound.residentID}}">
-                                                </div>
-                                            </div>
-
-
-                                            {{!-- Resident Custody Level --}}
-                                            <div class="row mb-3">
-                                                <label for="custodyLevel"
-                                                    class="col-md-4 col-lg-3 col-form-label">Custody
-                                                    Level</label>
-                                                <div class="col-md-8 col-lg-9">
-                                                    <select required name="custodyLevel" class="form-select"
-                                                        id="custodyLevel">
-
-                                                        <option value="Minimum 1" {{#if (eq
-                                                            residentFound.custodyLevel "minimum 1" ) }}selected{{/if}}>
-                                                            Minimum 1
-                                                        </option>
-                                                        <option value="Minimum 2" {{#if (eq
-                                                            residentFound.custodyLevel "minimum 2" ) }}selected{{/if}}>
-                                                            Minimum 2
-                                                        </option>
-                                                        <option value="Medium" {{#if (eq
-                                                            residentFound.custodyLevel "medium" ) }}selected{{/if}}>
-                                                            Medium</option>
-                                                        <option value="Maximum" {{#if (eq
-                                                            residentFound.custodyLevel "maximum" ) }}selected{{/if}}>
-                                                            Maximum
-                                                        </option>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            {{!-- Resident Facility --}}
-                                            <div class="row mb-3">
-                                                <label for="facility"
-                                                    class="col-md-4 col-lg-3 col-form-label">Facility</label>
-                                                <div class="col-md-8 col-lg-9">
-                                                    <select required name="facility" id="facilityEdit"
-                                                        class="form-select" aria-label="Facility Options">
-                                                        <option {{#if (eq residentFound.facility "El Dorado" )
-                                                            }}selected{{/if}} value="El Dorado">El Dorado</option>
-                                                        <option {{#if (eq residentFound.facility "Ellsworth" )
-                                                            }}selected{{/if}} value="Ellsworth">Ellsworth</option>
-                                                        <option {{#if (eq residentFound.facility "Hutchinson" )
-                                                            }}selected{{/if}} value="Hutchinson">Hutchinson</option>
-                                                        <option {{#if (eq residentFound.facility "Lansing" )
-                                                            }}selected{{/if}} value="Lansing">Lansing</option>
-                                                        <option {{#if (eq residentFound.facility "Larned" )
-                                                            }}selected{{/if}} value="Larned">Larned</option>
-                                                        <option {{#if (eq residentFound.facility "Norton" )
-                                                            }}selected{{/if}} value="Norton">Norton</option>
-                                                        <option {{#if (eq residentFound.facility "Topeka" )
-                                                            }}selected{{/if}} value="Topeka">Topeka</option>
-                                                        <option {{#if (eq residentFound.facility "Winfield" )
-                                                            }}selected{{/if}} value="Winfield">Winfield</option>
-                                                        <option {{#if (eq residentFound.facility "Wichita" )
-                                                            }}selected{{/if}} value="Wichita">Wichita</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            {{!-- Unit Team Assigned --}}
-                                            <div class="row mb-3">
-                                                <label for="unitTeam" class="col-md-4 col-lg-3 col-form-label">Unit
-                                                    Team</label>
-                                                <div class="col-md-8 col-lg-9">
-                                                    <select required name="unitTeam" id="unitTeamList"
-                                                        class="form-select text-capitalize"
-                                                        aria-label="Select Unit Team">
-                                                        <option {{#unless residentFound.resume.unitTeam}} selected
-                                                            {{/unless}}value="">Select Unit Team:
-                                                        </option>
-                                                        {{#each unitTeam}}
-                                                        <option {{#if (eq ../residentFound.resume.unitTeam this.email)}}
-                                                            selected {{/if}}class="text-capitalize"
-                                                            value="{{this.firstName}} {{this.lastName}}">
-                                                            {{this.firstName}} {{this.lastName}} - {{this.facility}}
-                                                        </option>
-                                                        {{/each}}
-
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            {{!-- Active Status --}}
-                                            <div class="row mb-3">
-                                                <label for="isActive"
-                                                    class="col-md-4 col-lg-3 col-form-label">Status</label>
-                                                <div class="col-md-8 col-lg-9">
-                                                    <select required name="isActive" id="isActiveList"
-                                                        class="form-select text-capitalize" aria-label="Select Status">
-                                                        <option {{#if residentFound.isActive}} selected
-                                                            {{/if}}class="text-capitalize"
-                                                            value="{{residentFound.isActive}}">
-                                                            Active - Incarcerated
-                                                        </option>
-                                                        <option {{#unless residentFound.isActive}} selected
-                                                            {{/unless}}class="text-capitalize"
-                                                            value="{{residentFound.isActive}}">
-                                                            Inactive - Not Incarcerated
-                                                        </option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            {{!-- Save Button --}}
+                                            <!--=============== Edit Existing Resident Form =========================== -->
                                             <hr>
-                                            <div class="">
-                                                <button type="submit" class="btn btn-primary mx-2">Save Edit</button>
-                                            </div>
-                                        </form>
+                                            <form method="POST" action="/admin/editExistingResident">
+                                                {{!-- Resident First Name --}}
+                                                <div class="row mb-3">
+                                                    <label for="firstName"
+                                                        class="col-md-4 col-lg-3 col-form-label">First
+                                                        Name</label>
+                                                    <div class="col-md-8 col-lg-9">
+                                                        <input name="firstName" type="text"
+                                                            class="form-control text-capitalize" id="firstName"
+                                                            value="{{residentFound.firstName}}">
+                                                    </div>
+                                                </div>
+                                                {{!-- Resident Last Name --}}
+                                                <div class="row mb-3">
+                                                    <label for="lastName" class="col-md-4 col-lg-3 col-form-label">Last
+                                                        Name</label>
+                                                    <div class="col-md-8 col-lg-9">
+                                                        <input name="lastName" type="text"
+                                                            class="form-control text-capitalize" id="lastName"
+                                                            value="{{residentFound.lastName}}">
+                                                    </div>
+                                                </div>
+                                                {{!-- Resident ID --}}
+                                                <div class="row mb-3">
+                                                    <label for="residentID"
+                                                        class="col-md-4 col-lg-3 col-form-label">Resident
+                                                        ID</label>
+                                                    <div class="col-md-8 col-lg-9">
+                                                        <input name="residentID" type="text"
+                                                            class="form-control text-capitalize" id="residentID"
+                                                            value="{{residentFound.residentID}}">
+                                                    </div>
+                                                </div>
+
+
+                                                {{!-- Resident Custody Level --}}
+                                                <div class="row mb-3">
+                                                    <label for="custodyLevel"
+                                                        class="col-md-4 col-lg-3 col-form-label">Custody
+                                                        Level</label>
+                                                    <div class="col-md-8 col-lg-9">
+                                                        <select required name="custodyLevel" class="form-select"
+                                                            id="custodyLevel">
+
+                                                            <option value="Minimum 1" {{#if (eq
+                                                                residentFound.custodyLevel "minimum 1" )
+                                                                }}selected{{/if}}>
+                                                                Minimum 1
+                                                            </option>
+                                                            <option value="Minimum 2" {{#if (eq
+                                                                residentFound.custodyLevel "minimum 2" )
+                                                                }}selected{{/if}}>
+                                                                Minimum 2
+                                                            </option>
+                                                            <option value="Medium" {{#if (eq
+                                                                residentFound.custodyLevel "medium" ) }}selected{{/if}}>
+                                                                Medium</option>
+                                                            <option value="Maximum" {{#if (eq
+                                                                residentFound.custodyLevel "maximum" )
+                                                                }}selected{{/if}}>
+                                                                Maximum
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                {{!-- Resident Facility --}}
+                                                <div class="row mb-3">
+                                                    <label for="facility"
+                                                        class="col-md-4 col-lg-3 col-form-label">Facility</label>
+                                                    <div class="col-md-8 col-lg-9">
+                                                        <select required name="facility" id="facilityEdit"
+                                                            class="form-select" aria-label="Facility Options">
+                                                            <option {{#if (eq residentFound.facility "El Dorado" )
+                                                                }}selected{{/if}} value="El Dorado">El Dorado</option>
+                                                            <option {{#if (eq residentFound.facility "Ellsworth" )
+                                                                }}selected{{/if}} value="Ellsworth">Ellsworth</option>
+                                                            <option {{#if (eq residentFound.facility "Hutchinson" )
+                                                                }}selected{{/if}} value="Hutchinson">Hutchinson</option>
+                                                            <option {{#if (eq residentFound.facility "Lansing" )
+                                                                }}selected{{/if}} value="Lansing">Lansing</option>
+                                                            <option {{#if (eq residentFound.facility "Larned" )
+                                                                }}selected{{/if}} value="Larned">Larned</option>
+                                                            <option {{#if (eq residentFound.facility "Norton" )
+                                                                }}selected{{/if}} value="Norton">Norton</option>
+                                                            <option {{#if (eq residentFound.facility "Topeka" )
+                                                                }}selected{{/if}} value="Topeka">Topeka</option>
+                                                            <option {{#if (eq residentFound.facility "Winfield" )
+                                                                }}selected{{/if}} value="Winfield">Winfield</option>
+                                                            <option {{#if (eq residentFound.facility "Wichita" )
+                                                                }}selected{{/if}} value="Wichita">Wichita</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                {{!-- Unit Team Assigned --}}
+                                                <div class="row mb-3">
+                                                    <label for="unitTeam" class="col-md-4 col-lg-3 col-form-label">Unit
+                                                        Team</label>
+                                                    <div class="col-md-8 col-lg-9">
+                                                        <select required name="unitTeam" id="unitTeamList"
+                                                            class="form-select text-capitalize"
+                                                            aria-label="Select Unit Team">
+                                                            <option {{#unless residentFound.resume.unitTeam}} selected
+                                                                {{/unless}}value="">Select Unit Team:
+                                                            </option>
+                                                            {{#each unitTeam}}
+                                                                <option {{#if (eq ../residentFound.resume.unitTeam
+                                                                    this.email)}} selected
+                                                                    {{/if}}class="text-capitalize"
+                                                                    value="{{this.firstName}} {{this.lastName}}">
+                                                                    {{this.firstName}} {{this.lastName}} -
+                                                                    {{this.facility}}
+                                                                </option>
+                                                            {{/each}}
+
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                {{!-- Active Status --}}
+                                                <div class="row mb-3">
+                                                    <label for="isActive"
+                                                        class="col-md-4 col-lg-3 col-form-label">Status</label>
+                                                    <div class="col-md-8 col-lg-9">
+                                                        <select required name="isActive" id="isActiveList"
+                                                            class="form-select text-capitalize"
+                                                            aria-label="Select Status">
+                                                            <option {{#if residentFound.isActive}} selected
+                                                                {{/if}}class="text-capitalize"
+                                                                value="{{residentFound.isActive}}">
+                                                                Active - Incarcerated
+                                                            </option>
+                                                            <option {{#unless residentFound.isActive}} selected
+                                                                {{/unless}}class="text-capitalize"
+                                                                value="{{residentFound.isActive}}">
+                                                                Inactive - Not Incarcerated
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                {{!-- Save Button --}}
+                                                <hr>
+                                                <div class="">
+                                                    <button type="submit" class="btn btn-primary mx-2">Save
+                                                        Edit</button>
+                                                </div>
+                                            </form>
                                         {{else}}
-                                        <p class="text-primary text-center mt-5">Search for a specific resident by
-                                            entering
-                                            their seven digit resident ID number.</p>
+                                            <p class="text-primary text-center mt-5">Search for a specific resident by
+                                                entering
+                                                their seven digit resident ID number.</p>
                                         {{/if}}
                                         {{#if saveMsg}}
-                                        <hr>
-                                        <p class="text-success text-center fst-italic mt-3">Your edits have been saved
-                                            successfully.
-                                        </p>
+                                            <hr>
+                                            <p class="text-success text-center fst-italic mt-3">Your edits have been
+                                                saved
+                                                successfully.
+                                            </p>
                                         {{/if}}
 
                                     </div>
@@ -378,19 +357,20 @@
                                                 </thead>
                                                 <tbody>
                                                     {{#each residents}}
-                                                    <tr>
-                                                        <th scope="row"><a
-                                                                href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
-                                                        </th>
-                                                        <td class="text-capitalize">{{this.facility}}</td>
-                                                        <td class="text-capitalize"><a
-                                                                href="/clearance/residentProfile/{{this.residentID}}">{{this.firstName}}
-                                                                {{this.lastName}}</a></td>
+                                                        <tr>
+                                                            <th scope="row"><a
+                                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
+                                                            </th>
+                                                            <td class="text-capitalize">{{this.facility}}</td>
+                                                            <td class="text-capitalize"><a
+                                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.firstName}}
+                                                                    {{this.lastName}}</a></td>
 
-                                                        <td class="text-capitalize">{{formatDate this.outDate}}</td>
-                                                        <td><span class="text-capitalize">{{this.custodyLevel}}</span>
-                                                        </td>
-                                                    </tr>
+                                                            <td class="text-capitalize">{{formatDate this.outDate}}</td>
+                                                            <td><span
+                                                                    class="text-capitalize">{{this.custodyLevel}}</span>
+                                                            </td>
+                                                        </tr>
                                                     {{/each}}
                                                 </tbody>
                                             </table>

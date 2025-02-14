@@ -33,38 +33,38 @@
                                     </thead>
                                     <tbody>
                                         {{#each residents}}
-                                        <tr>
-                                            <th scope="row"><a
-                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
-                                            </th>
-                                            <td class="text-capitalize">{{this.facility}}</td>
-                                            <td class="text-capitalize"><a
-                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.firstName}}
-                                                    {{this.lastName}}</a></td>
-                                            {{#if this.unitTeam}}
-                                            <td class="text-capitalize">{{this.unitTeam}}</td>
-                                            {{else}}
-                                            <td class="text-capitalize">Not Assigned</td>
-                                            {{/if}}
+                                            <tr>
+                                                <th scope="row"><a
+                                                        href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
+                                                </th>
+                                                <td class="text-capitalize">{{this.facility}}</td>
+                                                <td class="text-capitalize"><a
+                                                        href="/clearance/residentProfile/{{this.residentID}}">
+                                                        {{this.lastName}}, {{this.firstName}}</a></td>
+                                                {{#if this.unitTeam}}
+                                                    <td class="text-capitalize">{{this.unitTeam}}</td>
+                                                {{else}}
+                                                    <td class="text-capitalize">Not Assigned</td>
+                                                {{/if}}
 
-                                            {{#if this.isHired}}
-                                            <td><span class="badge bg-info">Hired</span></td>
-                                            {{else}}
-                                            {{#if (eq this.workEligibility.status "approved")}}
-                                            <td><span class="badge bg-success">Approved</span></td>
-                                            {{else}}
-                                            {{#if (eq this.workEligibility.status "restricted")}}
-                                            <td><span class="badge bg-danger">Restricted</span></td>
-                                            {{else}}
-                                            {{#if (eq this.workEligibility.status "pending")}}
-                                            <td><span class="badge bg-warning">Pending</span></td>
-                                            {{else}}
-                                            <td><span class="badge bg-secondary">None</span></td>
-                                            {{/if}}
-                                            {{/if}}
-                                            {{/if}}
-                                            {{/if}}
-                                        </tr>
+                                                {{#if this.isHired}}
+                                                    <td><span class="badge bg-info">Hired</span></td>
+                                                {{else}}
+                                                    {{#if (eq this.workEligibility.status "approved")}}
+                                                        <td><span class="badge bg-success">Approved</span></td>
+                                                    {{else}}
+                                                        {{#if (eq this.workEligibility.status "restricted")}}
+                                                            <td><span class="badge bg-danger">Restricted</span></td>
+                                                        {{else}}
+                                                            {{#if (eq this.workEligibility.status "pending")}}
+                                                                <td><span class="badge bg-warning">Pending</span></td>
+                                                            {{else}}
+                                                                <td><span class="badge bg-secondary">None</span></td>
+                                                            {{/if}}
+                                                        {{/if}}
+                                                    {{/if}}
+                                                {{/if}}
+                                            </tr>
 
                                         {{/each}}
                                     </tbody>
