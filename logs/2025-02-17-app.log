@@ -193,3 +193,5 @@
 {"level":"info","message":"User logged out: jameson.smith@ks.gov","timestamp":"2025-02-17 13:59:12"}
 {"level":"info","message":"User logged in: alice.johnson@ks.gov","timestamp":"2025-02-17 13:59:16"}
 {"level":"info","message":"2025-02-17T19:59:16.347Z [INFO] : ::ffff:127.0.0.1 /login 200 169.541 ms","timestamp":"2025-02-17 13:59:16"}
+{"level":"info","message":"User logged in: alice.johnson@ks.gov","timestamp":"2025-02-17 14:09:54"}
+{"level":"info","message":"2025-02-17T20:09:54.422Z [INFO] : ::ffff:127.0.0.1 /login 200 429.007 ms","timestamp":"2025-02-17 14:09:54"}

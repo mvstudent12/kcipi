@@ -8,6 +8,8 @@ const Resident = require("../models/Resident");
 const Jobs = require("../models/Jobs");
 const ActivityLog = require("../models/ActivityLog");
 
+const mongoose = require("mongoose");
+
 const { Parser } = require("json2csv");
 
 //csv file upload requirements
@@ -408,14 +410,23 @@ module.exports = {
         req.session.user.email,
         req.session.user.role
       );
-      const id = req.params.id;
-      const admin = await Admin.findById(id).lean();
+      const { id } = req.params;
+
+      const admin = await Admin.findOne({ _id: id }).lean();
+
+      const activities = await ActivityLog.find({ userID: id })
+        .sort({ timestamp: -1 })
+        .limit(10)
+        .lean();
+      console.log(activities);
+
       const activeTab = "overview";
       res.render("admin/profiles/adminProfile", {
         user: req.session.user,
         notifications,
         admin,
         activeTab,
+        activities,
       });
     } catch (err) {
       console.log(err);
