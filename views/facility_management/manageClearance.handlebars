@@ -193,6 +193,174 @@
                         </div>
                     </div>
 
+                    <!-- PI Cleared Table -->
+                    <div class="col-12">
+                        <div class="card recent-sales overflow-auto">
+                            <div class="card-body">
+                                <h5 class="card-title">PI Cleared <span>| Cleared To Work</span></h5>
+                                <table class="table table-borderless table-striped datatable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">ID #</th>
+                                            <th scope="col">Resident</th>
+                                            <th scope="col">Out Date</th>
+                                            <th scope="col">Job Pool</th>
+                                            <th scope="col">Unit Team</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each caseLoad}}
+                                            {{#if (eq this.workEligibility.status "approved")}}
+
+                                                <tr>
+                                                    <th scope="row"><a
+                                                            href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
+                                                    </th>
+
+                                                    <td><a href="/clearance/residentProfile/{{this.residentID}}"
+                                                            class="text-primary text-capitalize">
+                                                            {{this.lastName}}, {{this.firstName}}</a></td>
+                                                    <td><a href="/clearance/residentProfile/{{this.residentID}}"
+                                                            class="text-primary text-capitalize">{{formatDate this.outDate}}</a>
+                                                    </td>
+
+                                                    <td><a href="/clearance/residentProfile/{{this.residentID}}"
+                                                            class="text-primary text-capitalize">{{this.jobPool}}</a>
+                                                    </td>
+                                                    <td class="text-capitalize"><a
+                                                            href="/clearance/residentProfile/{{this.residentID}}"
+                                                            class="text-primary text-capitalize">{{this.unitTeam}}</a>
+                                                    </td>
+
+                                                </tr>
+                                            {{/if}}
+
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PI Restricted Table -->
+                    <div class="col-12">
+                        <div class="card recent-sales overflow-auto">
+                            <div class="card-body">
+                                <h5 class="card-title">PI Restricted <span>| Restricted From Work</span></h5>
+                                <table class="table table-borderless table-striped datatable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">ID #</th>
+                                            <th scope="col">Resident</th>
+                                            <th scope="col">Med.</th>
+                                            <th scope="col">E.A.I.</th>
+                                            <th scope="col">S.O.</th>
+                                            <th scope="col">C.A.</th>
+                                            <th scope="col">D.W.</th>
+                                            <th scope="col">Warden</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each caseLoad}}
+                                            {{#if (eq this.workEligibility.status "restricted")}}
+                                                <tr>
+                                                    <th scope="row"><a
+                                                            href="/clearance/residentProfile/{{this.residentID}}">
+                                                            {{this.residentID}}</a></th>
+
+                                                    <td><a href="/clearance/residentProfile/{{this.residentID}}"
+                                                            class="text-primary text-capitalize">{{this.firstName}}
+                                                            {{this.lastName}}</a></td>
+
+                                                    {{#if (eq this.MedicalClearance.status "approved")}}
+                                                        <td><span class="badge bg-success">Approved</span></td>
+                                                    {{/if}}
+                                                    {{#if (eq this.MedicalClearance.status "restricted")}}
+                                                        <td><span class="badge bg-danger">Restricted</span></td>
+                                                    {{/if}}
+                                                    {{#if (eq this.MedicalClearance.status "pending")}}
+                                                        <td><span class="badge bg-warning">Pending</span></td>
+                                                    {{/if}}
+                                                    {{#if (eq this.MedicalClearance.status "none")}}
+                                                        <td><span class="badge bg-secondary">None</span></td>
+                                                    {{/if}}
+
+                                                    {{#if (eq this.EAIClearance.status "approved")}}
+                                                        <td><span class="badge bg-success">Approved</span></td>
+                                                    {{/if}}
+                                                    {{#if (eq this.EAIClearance.status "restricted")}}
+                                                        <td><span class="badge bg-danger">Restricted</span></td>
+                                                    {{/if}}
+                                                    {{#if (eq this.EAIClearance.status "pending")}}
+                                                        <td><span class="badge bg-warning">Pending</span></td>
+                                                    {{/if}}
+                                                    {{#if (eq this.EAIClearance.status "none")}}
+                                                        <td><span class="badge bg-secondary">None</span></td>
+                                                    {{/if}}
+
+                                                    {{#if (eq this.sexOffenderClearance.status "approved")}}
+                                                        <td><span class="badge bg-success">Approved</span></td>
+                                                    {{/if}}
+                                                    {{#if (eq this.sexOffenderClearance.status "restricted")}}
+                                                        <td><span class="badge bg-danger">Restricted</span></td>
+                                                    {{/if}}
+                                                    {{#if (eq this.sexOffenderClearance.status "pending")}}
+                                                        <td><span class="badge bg-warning">Pending</span></td>
+                                                    {{/if}}
+                                                    {{#if (eq this.sexOffenderClearance.status "none")}}
+                                                        <td><span class="badge bg-secondary">None</span></td>
+                                                    {{/if}}
+
+                                                    {{#if (eq this.ClassificationClearance.status "approved")}}
+                                                        <td><span class="badge bg-success">Approved</span></td>
+                                                    {{/if}}
+                                                    {{#if (eq this.ClassificationClearance.status "restricted")}}
+                                                        <td><span class="badge bg-danger">Restricted</span></td>
+                                                    {{/if}}
+                                                    {{#if (eq this.ClassificationClearance.status "pending")}}
+                                                        <td><span class="badge bg-warning">Pending</span></td>
+                                                    {{/if}}
+                                                    {{#if (eq this.ClassificationClearance.status "none")}}
+                                                        <td><span class="badge bg-secondary">None</span></td>
+                                                    {{/if}}
+
+                                                    {{#if (eq this.DWClearance.status "approved")}}
+                                                        <td><span class="badge bg-success">Approved</span></td>
+                                                    {{/if}}
+                                                    {{#if (eq this.DWClearance.status "restricted")}}
+                                                        <td><span class="badge bg-danger">Restricted</span></td>
+                                                    {{/if}}
+                                                    {{#if (eq this.DWClearance.status "pending")}}
+                                                        <td><span class="badge bg-warning">Pending</span></td>
+                                                    {{/if}}
+                                                    {{#if (eq this.DWClearance.status "none")}}
+                                                        <td><span class="badge bg-secondary">None</span></td>
+                                                    {{/if}}
+
+                                                    {{#if (eq this.WardenClearance.status "approved")}}
+                                                        <td><span class="badge bg-success">Approved</span></td>
+                                                    {{/if}}
+                                                    {{#if (eq this.WardenClearance.status "restricted")}}
+                                                        <td><span class="badge bg-danger">Restricted</span></td>
+                                                    {{/if}}
+                                                    {{#if (eq this.WardenClearance.status "pending")}}
+                                                        <td><span class="badge bg-warning">Pending</span></td>
+                                                    {{/if}}
+                                                    {{#if (eq this.WardenClearance.status "none")}}
+                                                        <td><span class="badge bg-secondary">None</span></td>
+                                                    {{/if}}
+                                                </tr>
+
+
+                                            {{/if}}
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
 
                 </div>
             </div>

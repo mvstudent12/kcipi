@@ -1,4 +1,5 @@
 const Resident = require("../models/Resident");
+const ActivityLog = require("../models/ActivityLog");
 
 const { Parser } = require("json2csv");
 

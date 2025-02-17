@@ -1,4 +1,5 @@
 const Resident = require("../models/Resident");
+const ActivityLog = require("../models/ActivityLog");
 
 const { Parser } = require("json2csv");
 
@@ -66,6 +67,7 @@ module.exports = {
       res.render("error/500");
     }
   },
+
   //===============================
   //       Manage
   //===============================
@@ -116,6 +118,7 @@ module.exports = {
       res.render("error/500");
     }
   },
+
   async manageClearance(req, res) {
     try {
       const notifications = await getUserNotifications(

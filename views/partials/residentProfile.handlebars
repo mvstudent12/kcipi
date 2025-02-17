@@ -60,12 +60,12 @@
                                     {{/if}}
 
                                     {{#if (eq resident.workEligibility.status "none")}}
-                                        <div class="card">
-                                            <div class="text-center pt-3">
-                                                <p class="text-primary">This resident needs reviewed for clearance.</p>
-                                            </div>
 
+                                        <div class="text-center pt-3">
+                                            <p class="text-primary">This resident needs reviewed for clearance.</p>
                                         </div>
+
+
                                     {{/if}}
 
                                     {{#if (eq resident.workEligibility.status "restricted")}}
@@ -894,7 +894,7 @@
                                                     ${{this.pay}} /hr</div>
                                                 <div class="col-lg-4 col-md-4">
                                                     <button class="btn btn-primary" type="button" data-bs-toggle="modal"
-                                                        data-bs-target="#{{this.position}}">
+                                                        data-bs-target="#{{this._id}}">
                                                         Manage Hiring</button>
                                                 </div>
                                             </div>
@@ -1080,7 +1080,7 @@
 
                             {{!-- Unit Team Assigned --}}
                             <div class="row mb-3">
-                                <label for="unitTeam" class="col-md-4 col-lg-3 col-form-label">Unit Team</label>
+                                <label for="unitTeam" class="col-md-4 col-lg-3 col-form-label">Unit Team </label>
                                 <div class="col-md-8 col-lg-9">
                                     <select required name="unitTeamInfo" id="unitTeamList"
                                         class="form-select text-capitalize" aria-label="Select Unit Team">
@@ -1088,7 +1088,7 @@
                                             <option value="">Select Unit Team:</option>
                                         {{/unless}}
                                         {{#each unitTeam}}
-                                            <option {{#if (eq resident.resume.unitTeam this.email)}}selected{{/if}}
+                                            <option {{#if (eq ../resident.resume.unitTeam this.email)}}selected{{/if}}
                                                 class="text-capitalize"
                                                 value="{{this.email}}|{{this.firstName}} {{this.lastName}}">
                                                 {{this.firstName}} {{this.lastName}} - {{this.facility}}
@@ -1502,7 +1502,7 @@
 
 {{#each applications}}
     {{!-- View Application Modal --}}
-    <div class="modal fade" id="{{this.position}}" tabindex="-1">
+    <div class="modal fade" id="{{this._id}}" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content p-2">
 
@@ -1521,14 +1521,14 @@
                         {{else}}
                             <div class="col-6">
                                 <button type="button" class="btn btn-info mx-2" data-bs-toggle="modal"
-                                    data-bs-target="#{{../this.position}}2">Schedule
+                                    data-bs-target="#{{../this._id}}2">Schedule
                                     Interview</button>
                             </div>
                         {{/if}}
 {{else}}
     <div class="col-6">
         <button type="button" class="btn btn-info mx-2" data-bs-toggle="modal"
-            data-bs-target="#{{../this.position}}2">Schedule
+            data-bs-target="#{{../this._id}}2">Schedule
             Interview</button>
     </div>
                     {{/getInterview}}
@@ -1595,7 +1595,7 @@
                         <a href="/clearance/rejectHire/{{../resident._id}}/{{this._id}}"><button type="button"
                                 class="btn btn-danger mx-2">Reject Hire</button></a>
 
-                        <button type="button" data-bs-toggle="modal" data-bs-target="#{{this.position}}3"
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#{{this._id}}3"
                             class="btn btn-success mx-2">Hire
                             Resident</button>
                     </div>
@@ -1606,7 +1606,7 @@
     </div>
 
     {{!-- Schedule Interview Modal --}}
-    <div class="modal fade" id="{{this.position}}2" tabindex="-1">
+    <div class="modal fade" id="{{this._id}}2" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content p-2">
 
@@ -1699,7 +1699,7 @@
     </div>
 
     {{!-- Hire Resident Modal --}}
-    <div class="modal fade" id="{{this.position}}3" tabindex="-1">
+    <div class="modal fade" id="{{this._id}}3" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <form method="post" action="/clearance/hireResident/{{../resident._id}}/{{this._id}}">

@@ -103,6 +103,14 @@ clearanceRoutes.post(
 );
 
 clearanceRoutes.get(
+  "/recentActivities",
+  checkUser,
+  requireAuth,
+  requireRole(["unitTeam", "facility_management", "classification", "admin"]),
+  controller.recentActivities
+);
+
+clearanceRoutes.get(
   "/findNotes/:residentID/:dept",
   checkUser,
   requireAuth,

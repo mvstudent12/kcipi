@@ -3,6 +3,7 @@
 //=============================
 //database models
 const Notification = require("../models/Notification");
+const ActivityLog = require("../models/ActivityLog");
 const Resident = require("../models/Resident");
 const Company = require("../models/Company");
 const Jobs = require("../models/Jobs");

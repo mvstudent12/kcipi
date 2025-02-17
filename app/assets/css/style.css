@@ -840,11 +840,11 @@ h6 {
 }
 
 /* Activity */
-.dashboard .activity {
+.activity {
   font-size: 14px;
 }
 
-.dashboard .activity .activity-item .activite-label {
+.activity .activity-item .activite-label {
   color: #888;
   position: relative;
   flex-shrink: 0;
@@ -852,7 +852,7 @@ h6 {
   min-width: 64px;
 }
 
-.dashboard .activity .activity-item .activite-label::before {
+.activity .activity-item .activite-label::before {
   content: "";
   position: absolute;
   right: -11px;
@@ -862,7 +862,7 @@ h6 {
   background-color: #eceefe;
 }
 
-.dashboard .activity .activity-item .activity-badge {
+.activity .activity-item .activity-badge {
   margin-top: 3px;
   z-index: 1;
   font-size: 11px;
@@ -873,16 +873,16 @@ h6 {
   flex-grow: 0;
 }
 
-.dashboard .activity .activity-item .activity-content {
+.activity .activity-item .activity-content {
   padding-left: 10px;
   padding-bottom: 20px;
 }
 
-.dashboard .activity .activity-item:first-child .activite-label::before {
+.activity .activity-item:first-child .activite-label::before {
   top: 5px;
 }
 
-.dashboard .activity .activity-item:last-child .activity-content {
+.activity .activity-item:last-child .activity-content {
   padding-bottom: 0;
 }
 

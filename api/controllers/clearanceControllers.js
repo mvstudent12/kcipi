@@ -5,6 +5,7 @@ const Employer = require("../models/Employer");
 const UnitTeam = require("../models/UnitTeam");
 const Resident = require("../models/Resident");
 const Jobs = require("../models/Jobs");
+const ActivityLog = require("../models/ActivityLog");
 
 const mongoose = require("mongoose");
 
@@ -14,6 +15,7 @@ const {
 } = require("../utils/clearanceUtils");
 
 const { getUserNotifications } = require("../utils/notificationUtils");
+const { createActivityLog } = require("../utils/activityLogUtils");
 
 module.exports = {
   //serves non-resident dashboard from login portal
@@ -31,6 +33,30 @@ module.exports = {
         residents,
         user: req.session.user,
         notifications,
+      });
+    } catch (err) {
+      console.log(err);
+      res.render("error/500");
+    }
+  },
+  async recentActivities(req, res) {
+    try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+      const id = req.session.user._id.toString();
+
+      const activities = await ActivityLog.find({ userID: id })
+        .sort({ timestamp: -1 })
+        .limit(20)
+        .lean();
+
+      console.log(activities);
+      res.render(`${req.session.user.role}/recentActivities`, {
+        user: req.session.user,
+        notifications,
+        activities,
       });
     } catch (err) {
       console.log(err);
@@ -111,8 +137,13 @@ module.exports = {
         "applicants.resident_id": id, // Match the resident_id field inside the applicants array
       }).lean();
 
-      const unitTeam = await UnitTeam.find({}).sort({ firstName: 1 }).lean();
+      await createActivityLog(
+        req.session.user._id.toString(),
+        "edited_resident",
+        `Edited resident #${residentID}.`
+      );
 
+      const unitTeam = await UnitTeam.find({}).sort({ firstName: 1 }).lean();
       const activeTab = "overview";
       res.render(`${req.session.user.role}/profiles/residentProfile`, {
         user: req.session.user,
@@ -147,8 +178,14 @@ module.exports = {
         }
       );
       const resident = await Resident.findOne({ residentID }).lean();
-      const activeTab = "resume";
 
+      await createActivityLog(
+        req.session.user._id.toString(),
+        "resume_rejected",
+        `Rejected resume for resident #${residentID} for being ${rejectReason}.`
+      );
+
+      const activeTab = "resume";
       res.render(`${req.session.user.role}/profiles/residentProfile`, {
         resident,
         activeTab,
@@ -185,6 +222,12 @@ module.exports = {
       const resident = await Resident.findOne({ residentID }).lean();
       const activeTab = "resume";
 
+      await createActivityLog(
+        req.session.user._id.toString(),
+        "resume_approved",
+        `Approved resume for resident #${residentID}.`
+      );
+
       res.render(`${req.session.user.role}/profiles/residentProfile`, {
         resident,
         activeTab,
@@ -206,6 +249,7 @@ module.exports = {
         req.session.user.email,
         req.session.user.role
       );
+      const category = dept;
 
       if (dept == "Sex-Offender") {
         dept = "sexOffender";
@@ -217,6 +261,12 @@ module.exports = {
         dept = "DW";
       }
       if (clearance === "true") {
+        await createActivityLog(
+          req.session.user._id.toString(),
+          "clearance_approved",
+          `Approved ${category} clearance for resident #${residentID}.`
+        );
+
         const updateData = {
           $set: {
             [`${dept}Clearance.status`]: "approved",
@@ -246,6 +296,12 @@ module.exports = {
         }
         await Resident.updateOne({ residentID: residentID }, updateData);
       } else if (clearance === "false") {
+        await createActivityLog(
+          req.session.user._id.toString(),
+          "clearance_restricted",
+          `Restricted ${category} clearance for resident #${residentID}.`
+        );
+
         const updateData = {
           $set: {
             [`${dept}Clearance.status`]: "restricted",
@@ -376,6 +432,12 @@ module.exports = {
 
       const activeTab = "clearance"; // Set the active tab for the profile
 
+      await createActivityLog(
+        req.session.user._id.toString(),
+        "note_added",
+        `Added note to resident #${residentID} clearance notes.`
+      );
+
       // Render the profile page
       res.render(`${req.session.user.role}/profiles/residentProfile`, {
         user: req.session.user,
@@ -428,6 +490,12 @@ module.exports = {
       const eligibleMsg = "This resident is approved and eligible for work.";
       const activeTab = "clearance";
 
+      await createActivityLog(
+        req.session.user._id.toString(),
+        "approve_work_eligibility",
+        `Approved work eligiblity for resident #${residentID}.`
+      );
+
       res.render(`${req.session.user.role}/profiles/residentProfile`, {
         resident,
         activeTab,
@@ -474,6 +542,12 @@ module.exports = {
       const resident = await Resident.findOne({ residentID }).lean();
 
       const activeTab = "clearance";
+
+      await createActivityLog(
+        req.session.user._id.toString(),
+        "restrict_work_eligibility",
+        `Restricted work eligiblity for resident #${residentID} for ${rejectReason}.`
+      );
 
       res.render(`${req.session.user.role}/profiles/residentProfile`, {
         resident,
@@ -553,6 +627,12 @@ module.exports = {
         `New interview scheduled for resident #${resident.residentID}.`
       );
 
+      await createActivityLog(
+        req.session.user._id.toString(),
+        "interview_scheduled",
+        `Scheduled ${companyName} interview for resident #${residentID}.`
+      );
+
       const activeTab = "application";
       res.render(`${req.session.user.role}/profiles/residentProfile`, {
         user: req.session.user,
@@ -629,6 +709,12 @@ module.exports = {
       }).lean();
 
       const activeTab = "application";
+
+      await createActivityLog(
+        req.session.user._id.toString(),
+        "resident_hired",
+        `Employed resident #${residentID} at ${companyName}.`
+      );
       res.render(`${req.session.user.role}/profiles/residentProfile`, {
         user: req.session.user,
         notifications,
@@ -676,6 +762,12 @@ module.exports = {
       const applications = await Jobs.find({
         "applicants.resident_id": res_id, // Match applicants by resident ID in the applicants array
       }).lean();
+
+      await createActivityLog(
+        req.session.user._id.toString(),
+        "application_rejected",
+        `Rejected ${companyName} application from resident #${resident.residentID}.`
+      );
 
       const activeTab = "application";
       res.render(`${req.session.user.role}/profiles/residentProfile`, {
@@ -762,6 +854,12 @@ module.exports = {
         "applicants.resident_id": id, // Match the resident_id field inside the applicants array
       }).lean();
 
+      await createActivityLog(
+        req.session.user._id.toString(),
+        "resident_terminated",
+        `Terminated resident #${resident.residentID} from ${companyName}.`
+      );
+
       const activeTab = "application";
       res.render(`${req.session.user.role}/profiles/residentProfile`, {
         user: req.session.user,
@@ -797,6 +895,12 @@ module.exports = {
         employerEmails,
         "termination_request_denied",
         `The termination request for #${resident.residentID} has been denied.`
+      );
+
+      await createActivityLog(
+        req.session.user._id.toString(),
+        "termination_request_denied",
+        `Denied termination request from ${companyName} for resident #${resident.residentID}.`
       );
 
       //find positions resident has applied for
