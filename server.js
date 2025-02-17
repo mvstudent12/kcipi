@@ -27,9 +27,15 @@ morgan.format(
 // Morgan middleware to log non-asset requests
 app.use(
   morgan("custom", {
-    skip: (req) => assetExtensions.test(req.url), // Skip logging assets
+    skip: (req, res) => {
+      const logRoutes = ["/login", "/logout"];
+      return (
+        assetExtensions.test(req.url) || // Skip asset requests
+        (!logRoutes.includes(req.path) && res.statusCode < 400) // Skip other routes unless an error occurs
+      );
+    },
     stream: {
-      write: (message) => logger.info(message.trim()), // Log only non-asset requests
+      write: (message) => logger.info(message.trim()),
     },
   })
 );

@@ -15,7 +15,7 @@
 
     <section class="section profile">
         <div class="row">
-            <div class="col-xl-4">
+            <div class="col-12">
                 <div class="card">
                     <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
                         <img src="/assets/img/avatar.png" alt="Profile" class="rounded-circle">
@@ -26,46 +26,48 @@
                 </div>
             </div>
 
-            <div class="col-xl-8">
+            <div class="col-12">
                 <div class="card p-4">
                     <form action="/notification/helpDesk" method="post" class="">
                         {{#if sentMsg}}
-                        <div class="row gy-4">
-                            <div class="col-md-12 p-4">
-                                <p>Thank you for reaching out to the KCI Private Industries
-                                    support team. We have received your
-                                    help desk ticket and are reviewing it. </p>
-                                <p>Our team is dedicated to resolving your issue
-                                    as quickly as possible.</p>
-                                <p>You can expect a response within 48 hours.</p>
-                                <p>Thank you for your patience.</p>
+                            <div class="row gy-4">
+                                <div class="col-md-12 p-4">
+                                    <p>Thank you for reaching out to the KCI Private Industries
+                                        support team. We have received your
+                                        help desk ticket and are reviewing it. </p>
+                                    <p>Our team is dedicated to resolving your issue
+                                        as quickly as possible.</p>
+                                    <p>You can expect a response within 48 hours.</p>
+                                    <p>Thank you for your patience.</p>
+                                </div>
                             </div>
-                        </div>
                         {{else}}
-                        <div class="row gy-4">
-                            <h3 class="text-center text-info">Need Assistance? We're Here to Help!</h3>
-                            <p class="text-center">Fill out the form below with detailed information about your issue.
-                            </p>
-                            <div class="col-md-6">
-                                <input type="text" name="name" value="{{user.firstName}} {{user.lastName}}"
-                                    class="form-control text-capitalize"
-                                    placeholder="{{user.firstName}} {{user.lastName}}" readonly>
+                            <div class="row gy-4">
+                                <h3 class="text-center text-info">Need Assistance? We're Here to Help!</h3>
+                                <p class="text-center">Fill out the form below with detailed information about your
+                                    issue.
+                                </p>
+                                <div class="col-md-6">
+                                    <input type="text" name="name" value="{{user.firstName}} {{user.lastName}}"
+                                        class="form-control text-capitalize"
+                                        placeholder="{{user.firstName}} {{user.lastName}}" readonly>
+                                </div>
+                                <div class="col-md-6 ">
+                                    <input type="email" class="form-control" name="email" placeholder="{{user.email}}"
+                                        value="{{user.email}}" readonly>
+                                </div>
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" name="subject" placeholder="Subject"
+                                        required>
+                                </div>
+                                <div class="col-md-12">
+                                    <textarea class="form-control" name="message" rows="6" placeholder="Message"
+                                        required></textarea>
+                                </div>
+                                <div class="col-md-12 text-center">
+                                    <button class="btn btn-primary" type="submit">Send</button>
+                                </div>
                             </div>
-                            <div class="col-md-6 ">
-                                <input type="email" class="form-control" name="email" placeholder="{{user.email}}"
-                                    value="{{user.email}}" readonly>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="subject" placeholder="Subject" required>
-                            </div>
-                            <div class="col-md-12">
-                                <textarea class="form-control" name="message" rows="6" placeholder="Message"
-                                    required></textarea>
-                            </div>
-                            <div class="col-md-12 text-center">
-                                <button class="btn btn-primary" type="submit">Send</button>
-                            </div>
-                        </div>
                         {{/if}}
                     </form>
                 </div>

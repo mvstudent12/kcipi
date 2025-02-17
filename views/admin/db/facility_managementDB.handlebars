@@ -3,11 +3,11 @@
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Unit Team Database</h1>
+        <h1>Facility Management Database</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
-                <li class="breadcrumb-item active">Unit Team Database</li>
+                <li class="breadcrumb-item"><a href="admin/dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item active">Facility Management Database</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -18,7 +18,7 @@
                 <div class="card">
                     <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
                         <img src="/assets/img/employer.png" alt="Profile" class="rounded-circle">
-                        <h2 class="text-capitalize mb-3">Unit Team Database</h2>
+                        <h2 class="text-capitalize mb-3">Facility Management Database</h2>
                         <h3>KDOC Employees</h3>
 
                     </div>
@@ -33,31 +33,31 @@
                         <ul class="nav nav-tabs nav-tabs-bordered">
                             <li class="nav-item">
                                 <button class="nav-link {{#if (eq activeTab 'add')}}active{{/if}}" data-bs-toggle="tab"
-                                    data-bs-target="#add-unitTeam">Add
+                                    data-bs-target="#add-facility_management">Add
                                     Member</button>
                             </li>
                             <li class="nav-item">
                                 <button class="nav-link {{#if (eq activeTab 'edit')}}active{{/if}}" data-bs-toggle="tab"
-                                    data-bs-target="#edit-unitTeam">Edit
+                                    data-bs-target="#edit-facility_management">Edit
                                     Member</button>
                             </li>
                             <li class="nav-item">
                                 <button class="nav-link {{#if (eq activeTab 'all')}}active{{/if}}" data-bs-toggle="tab"
-                                    data-bs-target="#all-unitTeam">All
-                                    Unit Team</button>
+                                    data-bs-target="#all-facility_management">All
+                                    Members</button>
                             </li>
 
                         </ul>
 
                         <div class="tab-content pt-2">
-                            {{!-- Add Unit Team Tab --}}
-                            <div class="tab-pane fade {{#if (eq activeTab 'add')}}show active{{/if}} add-unitTeam pt-3"
-                                id="add-unitTeam">
+                            {{!-- Add Facility_Management Tab --}}
+                            <div class="tab-pane fade {{#if (eq activeTab 'add')}}show active{{/if}} add-facility_management pt-3"
+                                id="add-facility_management">
                                 <div class="card">
                                     <div class="card-body pt-3">
-                                        <form method="POST" action="/admin/addUnitTeam">
+                                        <form method="POST" action="/admin/addFacility_Management">
 
-                                            {{!-- unitTeam first name --}}
+                                            {{!-- facility_management first name --}}
                                             <div class="row mb-3">
                                                 <label for="firstName" class="col-md-3 col-lg-3 col-form-label">First
                                                     Name</label>
@@ -66,7 +66,7 @@
                                                         class="form-control text-capitalize" id="firstName">
                                                 </div>
                                             </div>
-                                            {{!-- unitTeam last name--}}
+                                            {{!-- facility_management last name--}}
                                             <div class="row mb-3">
                                                 <label for="lastName" class="col-md-3 col-lg-3 col-form-label">Last
                                                     Name</label>
@@ -75,27 +75,7 @@
                                                         class="form-control text-capitalize" id="lastName">
                                                 </div>
                                             </div>
-
-                                            {{!-- unitTeam email --}}
-                                            <div class="row mb-3">
-                                                <label for="email"
-                                                    class="col-md-3 col-lg-3 col-form-label">Email</label>
-                                                <div class="col-md-8 col-lg-8">
-                                                    <input required name="email" type="email" class="form-control"
-                                                        id="email">
-                                                </div>
-                                            </div>
-
-                                            {{!-- unitTeam Password --}}
-                                            <div class="row mb-3">
-                                                <label for="password"
-                                                    class="col-md-3 col-lg-3 col-form-label">Password</label>
-                                                <div class="col-md-8 col-lg-8">
-                                                    <input required name="password" type="password" class="form-control"
-                                                        id="password">
-                                                </div>
-                                            </div>
-                                            {{!-- unitTeam Facility --}}
+                                            {{!--  facility--}}
                                             <div class="row mb-3">
                                                 <label for="facility"
                                                     class="col-md-3 col-lg-3 col-form-label">Facility</label>
@@ -118,47 +98,71 @@
                                                 </div>
                                             </div>
 
+                                            {{!-- facility_management email --}}
+                                            <div class="row mb-3">
+                                                <label for="email"
+                                                    class="col-md-3 col-lg-3 col-form-label">Email</label>
+                                                <div class="col-md-8 col-lg-8">
+                                                    <input required name="email" type="email" class="form-control"
+                                                        id="email">
+                                                </div>
+                                            </div>
+
+                                            {{!-- facility_management Password --}}
+                                            <div class="row mb-3">
+                                                <label for="password"
+                                                    class="col-md-3 col-lg-3 col-form-label">Password</label>
+                                                <div class="col-md-8 col-lg-8">
+                                                    <input required name="password" type="password" class="form-control"
+                                                        id="password">
+                                                </div>
+                                            </div>
+
+
                                             {{!-- Save Button --}}
                                             <hr>
                                             <div class="text-center">
-                                                <button type="submit" class="btn btn-primary mx-2">Add Member</button>
+                                                <button type="submit" class="btn btn-primary mx-2">Add
+                                                    Member</button>
                                             </div>
                                         </form>
                                         {{#if addMsg}}
                                             <hr>
-                                            <p class="text-success text-center fst-italic mt-3">New member added
+                                            <p class="text-success text-center fst-italic mt-3">New Member
+                                                added
                                                 successfully.</p>
                                         {{/if}}
                                     </div>
                                 </div>
                             </div>
 
-                            {{!-- Edit Existing Unit Team Tab --}}
-                            <div class="tab-pane fade {{#if (eq activeTab 'edit')}}show active{{/if}} edit-unitTeam pt-3"
-                                id="edit-unitTeam">
+                            {{!-- Edit Existing Facility_Management Tab --}}
+                            <div class="tab-pane fade {{#if (eq activeTab 'edit')}}show active{{/if}} edit-facility_management pt-3"
+                                id="edit-facility_management">
                                 <div class="card">
                                     <div class="card-body pt-3">
 
-                                        {{!-- Unit Team Search Bar --}}
+                                        {{!-- Facility_Management Search Bar --}}
                                         <div class="row mb-3">
-                                            <label for="unitTeamList" class="col-md-4 col-lg-4 col-form-label">Unit Team
-                                                Name</label>
+                                            <label for="facility_managementList"
+                                                class="col-md-4 col-lg-4 col-form-label">Search
+                                                Members:</label>
                                             <div class="col-md-8 col-lg-8">
                                                 <div class="search-bar">
                                                     <form class="search-form d-flex align-items-center" method="POST"
-                                                        action="/admin/searchUnitTeamName">
+                                                        action="/admin/searchFacility_ManagementName">
 
                                                         <div class="input-group">
-                                                            <select required name="unitTeamID" id="unitTeamList"
+                                                            <select required name="facility_managementID"
+                                                                id="facility_managementList"
                                                                 class="form-select text-capitalize"
-                                                                aria-label="Select Unit Team">
-                                                                <option selected value="">Select Unit Team:
+                                                                aria-label="Select Facility_Management">
+                                                                <option selected value="">Select Facility Management:
                                                                 </option>
-                                                                {{#each unitTeam}}
+                                                                {{#each facility_management}}
                                                                     <option class="text-capitalize"
                                                                         value="{{this._id}}">
-                                                                        {{this.firstName}} {{this.lastName}} -
-                                                                        {{this.facility}}
+                                                                        {{this.firstName}} {{this.lastName}}
                                                                     </option>
                                                                 {{/each}}
                                                             </select>
@@ -175,12 +179,12 @@
                                         </div><!-- End Search Bar -->
 
 
-                                        {{#if unitTeamFound}}
-                                            <!--=============== Edit Unit Team Form =========================== -->
+                                        {{#if facility_managementFound}}
+                                            <!--=============== Edit Facility_Management Form =========================== -->
                                             <hr>
-                                            <form method="POST" action="/admin/saveUnitTeamEdit">
-                                                <input type="hidden" name="id" value="{{unitTeamFound._id}}">
-                                                {{!-- unitTeam firstName --}}
+                                            <form method="POST" action="/admin/saveFacility_ManagementEdit">
+                                                <input type="hidden" name="id" value="{{facility_managementFound._id}}">
+                                                {{!-- facility_management firstName --}}
                                                 <div class="row mb-3">
                                                     <label for="firstName"
                                                         class="col-md-4 col-lg-4 col-form-label">First
@@ -188,40 +192,21 @@
                                                     <div class="col-md-8 col-lg-8">
                                                         <input name="firstName" type="text"
                                                             class="form-control text-capitalize" id="editfirstName"
-                                                            value="{{unitTeamFound.firstName}}">
+                                                            value="{{facility_managementFound.firstName}}">
                                                     </div>
                                                 </div>
-                                                {{!-- unitTeam lastName --}}
+                                                {{!-- facility_management lastName --}}
                                                 <div class="row mb-3">
                                                     <label for="lastName" class="col-md-4 col-lg-4 col-form-label">Last
                                                         Name</label>
                                                     <div class="col-md-8 col-lg-8">
                                                         <input name="lastName" type="text"
                                                             class="form-control text-capitalize" id="editLastName"
-                                                            value="{{unitTeamFound.lastName}}">
+                                                            value="{{facility_managementFound.lastName}}">
                                                     </div>
                                                 </div>
-                                                {{!-- !!!!!Create a password change functionality later!!!!! --}}
-                                                {{!-- unitTeam password --}}
-                                                {{!-- <div class="row mb-3">
-                                                <label for="password"
-                                                    class="col-md-4 col-lg-4 col-form-label">Password</label>
-                                                <div class="col-md-8 col-lg-8">
-                                                    <input name="password" type="text"
-                                                        class="form-control text-capitalize" id="editPassword">
-                                                </div>
-                                            </div> --}}
 
-                                                {{!-- unitTeam email --}}
-                                                <div class="row mb-3">
-                                                    <label for="email" class="col-md-4 col-lg-4 col-form-label">
-                                                        Email</label>
-                                                    <div class="col-md-8 col-lg-8">
-                                                        <input name="email" type="text" class="form-control" id="email"
-                                                            value="{{unitTeamFound.email}}">
-                                                    </div>
-                                                </div>
-                                                {{!-- unitTeam Facility --}}
+                                                {{!--  facility--}}
                                                 <div class="row mb-3">
                                                     <label for="facility"
                                                         class="col-md-4 col-lg-4 col-form-label">Facility</label>
@@ -229,33 +214,58 @@
 
                                                         <select required name="facility" id="facilityEdit"
                                                             class="form-select" aria-label="Facility Options">
-                                                            <option {{#if (eq unitTeamFound.facility "El Dorado" )
-                                                                }}selected{{/if}} value="El Dorado">El Dorado</option>
-                                                            <option {{#if (eq unitTeamFound.facility "Ellsworth" )
-                                                                }}selected{{/if}} value="Ellsworth">Ellsworth</option>
-                                                            <option {{#if (eq unitTeamFound.facility "Hutchinson" )
-                                                                }}selected{{/if}} value="Hutchinson">Hutchinson</option>
-                                                            <option {{#if (eq unitTeamFound.facility "Lansing" )
-                                                                }}selected{{/if}} value="Lansing">Lansing</option>
-                                                            <option {{#if (eq unitTeamFound.facility "Larned" )
-                                                                }}selected{{/if}} value="Larned">Larned</option>
-                                                            <option {{#if (eq unitTeamFound.facility "Norton" )
-                                                                }}selected{{/if}} value="Norton">Norton</option>
-                                                            <option {{#if (eq unitTeamFound.facility "Topeka" )
-                                                                }}selected{{/if}} value="Topeka">Topeka</option>
-                                                            <option {{#if (eq unitTeamFound.facility "Winfield" )
-                                                                }}selected{{/if}} value="Winfield">Winfield</option>
-                                                            <option {{#if (eq unitTeamFound.facility "Wichita" )
-                                                                }}selected{{/if}} value="Wichita">Wichita</option>
+                                                            <option {{#if (eq
+                                                                facility_managementFound.facility "El Dorado" )
+                                                                }}selected{{/if}} value="El Dorado">El Dorado
+                                                            </option>
+                                                            <option {{#if (eq
+                                                                facility_managementFound.facility "Ellsworth" )
+                                                                }}selected{{/if}} value="Ellsworth">Ellsworth
+                                                            </option>
+                                                            <option {{#if (eq
+                                                                facility_managementFound.facility "Hutchinson" )
+                                                                }}selected{{/if}} value="Hutchinson">
+                                                                Hutchinson
+                                                            </option>
+                                                            <option {{#if (eq
+                                                                facility_managementFound.facility "Lansing" )
+                                                                }}selected{{/if}} value="Lansing">Lansing
+                                                            </option>
+                                                            <option {{#if (eq facility_managementFound.facility "Larned"
+                                                                ) }}selected{{/if}} value="Larned">Larned</option>
+                                                            <option {{#if (eq facility_managementFound.facility "Norton"
+                                                                ) }}selected{{/if}} value="Norton">Norton</option>
+                                                            <option {{#if (eq facility_managementFound.facility "Topeka"
+                                                                ) }}selected{{/if}} value="Topeka">Topeka</option>
+                                                            <option {{#if (eq
+                                                                facility_managementFound.facility "Winfield" )
+                                                                }}selected{{/if}} value="Winfield">Winfield
+                                                            </option>
+                                                            <option {{#if (eq
+                                                                facility_managementFound.facility "Wichita" )
+                                                                }}selected{{/if}} value="Wichita">Wichita
+                                                            </option>
                                                         </select>
                                                     </div>
                                                 </div>
+                                                {{!-- facility_management email --}}
+                                                <div class="row mb-3">
+                                                    <label for="email" class="col-md-4 col-lg-4 col-form-label">
+                                                        Email</label>
+                                                    <div class="col-md-8 col-lg-8">
+                                                        <input name="email" type="text" class="form-control" id="email"
+                                                            value="{{facility_managementFound.email}}">
+                                                    </div>
+                                                </div>
 
-                                                {{!-- Save Button --}}
+
+
                                                 <hr>
+
                                                 <div class="d-flex justify-content-between mt-3">
-                                                    <button data-bs-toggle="modal" data-bs-target="#deleteUnitTeam"
-                                                        type="button" class="btn btn-danger mx-2">Delete
+                                                    <button data-bs-toggle="modal"
+                                                        data-bs-target="#deleteFacility_Management" type="button"
+                                                        class="btn btn-danger mx-2">Delete
                                                         Member</button>
 
                                                     <button data-bs-toggle="modal" data-bs-target="#resetPassword"
@@ -275,47 +285,60 @@
                                                 successfully.
                                             </p>
                                         {{/if}}
-
-
-                                        <!--=============== Edit unitTeam Form============================ -->
+                                        {{#if saved}}
+                                            <hr>
+                                            <p class="text-success text-center fst-italic mt-3">Password successfully
+                                                reset.
+                                            </p>
+                                        {{/if}}
+                                        {{#if savingError}}
+                                            <hr>
+                                            <p class="text-warning text-center fst-italic mt-3">There was an error in
+                                                trying to reset this password. Please try again.
+                                            </p>
+                                        {{/if}}
+                                        <!--=============== Edit facility_management Form============================ -->
                                     </div>
                                 </div>
                             </div>
 
-                            {{!-- All Unit Team tab --}}
-                            <div class="tab-pane fade {{#if (eq activeTab 'all')}}show active{{/if}} all-unitTeam pt-3"
-                                id="all-unitTeam">
-                                <!-- Unit Team Table -->
+                            {{!-- All Facility_Management tab --}}
+                            <div class="tab-pane fade {{#if (eq activeTab 'all')}}show active{{/if}} all-facility_management pt-3"
+                                id="all-facility_management">
+                                <!-- Facility_Management Table -->
                                 <div class="col-12">
                                     <div class="card recent-sales overflow-auto">
                                         <div class="card-body">
-                                            <h5 class="card-title">Unit Team <span>| All KDOC</span></h5>
+                                            <h5 class="card-title">Facility Management <span>| All KDOC</span></h5>
                                             <table class="table table-borderless table-striped datatable">
                                                 <thead>
                                                     <tr>
                                                         <th scope="col">#</th>
-                                                        <th scope="col">Facility</th>
-                                                        <th scope="col">Name</th>
+                                                        <th scope="col">First Name</th>
+                                                        <th scope="col">Last Name</th>
                                                         <th scope="col">Email</th>
-                                                        <th scope="col">Status</th>
+                                                        <th scope="col">facility</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {{#each unitTeam}}
+                                                    {{#each facility_management}}
                                                         <tr>
                                                             <th scope="row"><a
-                                                                    href="/admin/adminProfile/{{this._id}}">{{add
+                                                                    href="/admin/facility_managementProfile/{{this._id}}">{{add
                                                                 @index 1}}</a>
                                                             </th>
-                                                            <td class="text-capitalize">{{this.facility}}</td>
                                                             <td class="text-capitalize"><a
-                                                                    href="/admin/adminProfile/{{this._id}}">
-                                                                    {{this.firstName}} {{this.lastName}}</a>
+                                                                    href="/admin/facility_managementProfile/{{this._id}}">{{this.firstName}}</a>
+                                                            </td>
+                                                            <td class="text-capitalize"><a
+                                                                    href="/admin/facility_managementProfile/{{this._id}}">{{this.lastName}}</a>
                                                             </td>
                                                             <td><a
-                                                                    href="/admin/adminProfile/{{this._id}}">{{this.email}}</a>
+                                                                    href="/admin/facility_managementProfile/{{this._id}}">{{this.email}}</a>
                                                             </td>
-                                                            <td><span class="badge bg-success">Active</span></td>
+                                                            <td class="text-capitalize"><a
+                                                                    href="/admin/facility_managementProfile/{{this._id}}">{{this.facility}}</a>
+                                                            </td>
                                                         </tr>
                                                     {{/each}}
                                                 </tbody>
@@ -339,20 +362,21 @@
 
 {{> arrowUp}}
 
-{{!-- MODAL FOR Delete Unit Team --}}
-<div class="modal fade" id="deleteUnitTeam" tabindex="-1">
+
+{{!-- MODAL FOR Delete Facility_Management --}}
+<div class="modal fade" id="deleteFacility_Management" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method="post" action="/admin/deleteUnitTeam/{{unitTeamFound._id}}">
+            <form method="post" action="/admin/deleteFacility_Management/{{facility_managementFound._id}}">
                 <div class="modal-header">
-                    <h5 class="modal-title text-capitalize">Delete Unit Team: {{unitTeamFound.firstName}}
-                        {{unitTeamFound.lastName}}
+                    <h5 class="modal-title text-capitalize">Delete Member: {{facility_managementFound.firstName}}
+                        {{facility_managementFound.lastName}}
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="row mb-3 mt-3">
-                        <p>Are you sure you want to delete this member?</p>
+                        <p>Are you sure you want to delete this facility management member?</p>
                         <p class="text-danger">This action is permanent and will delete all information connected to
                             this account.</p>
                     </div>
@@ -360,7 +384,7 @@
                 <div class="modal-footer">
                     <div class="col-12 d-flex justify-content-between">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button id="" type="submit" class="btn btn-danger">Delete Unit Team</button>
+                        <button id="" type="submit" class="btn btn-danger">Delete member</button>
                     </div>
                 </div>
             </form>
@@ -368,14 +392,15 @@
     </div>
 </div>
 
+
 {{!-- MODAL FOR Reset Password --}}
 <div class="modal fade" id="resetPassword" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method="post" action="/admin/resetUnitTeamPassword/{{unitTeamFound._id}}">
+            <form method="post" action="/admin/resetFacility_ManagementPassword/{{facility_managementFound._id}}">
                 <div class="modal-header">
-                    <h5 class="modal-title text-capitalize">Unit Team: {{unitTeamFound.firstName}}
-                        {{unitTeamFound.lastName}}
+                    <h5 class="modal-title text-capitalize">Facility Management: {{facility_managementFound.firstName}}
+                        {{facility_managementFound.lastName}}
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>

@@ -6,7 +6,7 @@
         <h1>PI Partner Database</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="admin/dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
                 <li class="breadcrumb-item active">PI Partner Database</li>
             </ol>
         </nav>
@@ -14,9 +14,18 @@
 
     <section class="section profile">
         <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+                        <img src="/assets/img/employer.png" alt="Profile" class="rounded-circle">
+                        <h2 class="text-capitalize mb-3">PI Partner Database</h2>
+                        <h3>Private Industry Partners</h3>
+
+                    </div>
+                </div>
+            </div>
 
             <div class="col-12">
-
                 <div class="card">
                     <div class="card-body pt-3">
                         <!-- Bordered Tabs -->
@@ -89,9 +98,10 @@
                                             </div>
                                         </form>
                                         {{#if addMsg}}
-                                        <hr>
-                                        <p class="text-success text-center fst-italic mt-3">Company successfully added.
-                                        </p>
+                                            <hr>
+                                            <p class="text-success text-center fst-italic mt-3">Company successfully
+                                                added.
+                                            </p>
                                         {{/if}}
                                     </div>
                                 </div>
@@ -119,8 +129,10 @@
                                                                 <option selected value="">Select Company:
                                                                 </option>
                                                                 {{#each companies}}
-                                                                <option class="text-capitalize" value="{{this._id}}">
-                                                                    {{this.companyName}}</option>
+                                                                    <option class="text-capitalize"
+                                                                        value="{{this._id}}">
+                                                                        {{this.companyName}}
+                                                                    </option>
                                                                 {{/each}}
                                                             </select>
                                                             <!-- Search Button -->
@@ -135,69 +147,74 @@
                                             </div>
                                         </div><!-- End Search Bar -->
                                         {{#if saveMsg}}
-                                        <hr>
-                                        <p class="text-success text-center fst-italic mt-3">Your edits have been saved
-                                            successfully.
-                                        </p>
+                                            <hr>
+                                            <p class="text-success text-center fst-italic mt-3">Your edits have been
+                                                saved
+                                                successfully.
+                                            </p>
                                         {{/if}}
 
 
                                         {{#if companyFound}}
-                                        <!--=============== Edit Company Form =========================== -->
-                                        <hr>
-                                        <form method="POST" action="/admin/saveCompanyEdit">
-                                            {{!-- Company First Name --}}
-                                            <div class="row mb-3">
-                                                <label for="companyName"
-                                                    class="col-md-4 col-lg-3 col-form-label">Company
-                                                    Name</label>
-                                                <div class="col-md-8 col-lg-9">
-                                                    <input name="companyName" type="text"
-                                                        class="form-control text-capitalize" id="companyName"
-                                                        value="{{companyFound.companyName}}">
-                                                </div>
-                                            </div>
-                                            <input type="hidden" name="id" value="{{companyFound._id}}">
-
-                                            {{!-- Company Facility --}}
-                                            <div class="row mb-3">
-                                                <label for="facility"
-                                                    class="col-md-4 col-lg-3 col-form-label">Facility</label>
-                                                <div class="col-md-8 col-lg-9">
-                                                    <select required name="facility" id="facilityEdit"
-                                                        class="form-select" aria-label="Facility Options">
-                                                        <option {{#if (eq companyFound.facility "El Dorado" )
-                                                            }}selected{{/if}} value="El Dorado">El Dorado</option>
-                                                        <option {{#if (eq companyFound.facility "Ellsworth" )
-                                                            }}selected{{/if}} value="Ellsworth">Ellsworth</option>
-                                                        <option {{#if (eq companyFound.facility "Hutchinson" )
-                                                            }}selected{{/if}} value="Hutchinson">Hutchinson</option>
-                                                        <option {{#if (eq companyFound.facility "Lansing" )
-                                                            }}selected{{/if}} value="Lansing">Lansing</option>
-                                                        <option {{#if (eq companyFound.facility "Larned" )
-                                                            }}selected{{/if}} value="Larned">Larned</option>
-                                                        <option {{#if (eq companyFound.facility "Norton" )
-                                                            }}selected{{/if}} value="Norton">Norton</option>
-                                                        <option {{#if (eq companyFound.facility "Topeka" )
-                                                            }}selected{{/if}} value="Topeka">Topeka</option>
-                                                        <option {{#if (eq companyFound.facility "Winfield" )
-                                                            }}selected{{/if}} value="Winfield">Winfield</option>
-                                                        <option {{#if (eq companyFound.facility "Wichita" )
-                                                            }}selected{{/if}} value="Wichita">Wichita</option>
-                                                    </select>
-                                                </div>
-                                            </div>
+                                            <!--=============== Edit Company Form =========================== -->
                                             <hr>
-                                            <div class="d-flex justify-content-between mt-3">
-                                                <!-- Save Button (Left) -->
-                                                <button type="button" class="btn btn-danger mx-2">Delete
-                                                    Company</button>
+                                            <form method="POST" action="/admin/saveCompanyEdit">
+                                                {{!-- Company First Name --}}
+                                                <div class="row mb-3">
+                                                    <label for="companyName"
+                                                        class="col-md-4 col-lg-3 col-form-label">Company
+                                                        Name</label>
+                                                    <div class="col-md-8 col-lg-9">
+                                                        <input name="companyName" type="text"
+                                                            class="form-control text-capitalize" id="companyName"
+                                                            value="{{companyFound.companyName}}">
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" name="id" value="{{companyFound._id}}">
 
-                                                <!-- Edit Button (Right) -->
-                                                <button type="submit" class="btn btn-primary mx-2">Save Edit</button>
-                                            </div>
+                                                {{!-- Company Facility --}}
+                                                <div class="row mb-3">
+                                                    <label for="facility"
+                                                        class="col-md-4 col-lg-3 col-form-label">Facility</label>
+                                                    <div class="col-md-8 col-lg-9">
+                                                        <select required name="facility" id="facilityEdit"
+                                                            class="form-select" aria-label="Facility Options">
+                                                            <option {{#if (eq companyFound.facility "El Dorado" )
+                                                                }}selected{{/if}} value="El Dorado">El Dorado</option>
+                                                            <option {{#if (eq companyFound.facility "Ellsworth" )
+                                                                }}selected{{/if}} value="Ellsworth">Ellsworth</option>
+                                                            <option {{#if (eq companyFound.facility "Hutchinson" )
+                                                                }}selected{{/if}} value="Hutchinson">Hutchinson</option>
+                                                            <option {{#if (eq companyFound.facility "Lansing" )
+                                                                }}selected{{/if}} value="Lansing">Lansing</option>
+                                                            <option {{#if (eq companyFound.facility "Larned" )
+                                                                }}selected{{/if}} value="Larned">Larned</option>
+                                                            <option {{#if (eq companyFound.facility "Norton" )
+                                                                }}selected{{/if}} value="Norton">Norton</option>
+                                                            <option {{#if (eq companyFound.facility "Topeka" )
+                                                                }}selected{{/if}} value="Topeka">Topeka</option>
+                                                            <option {{#if (eq companyFound.facility "Winfield" )
+                                                                }}selected{{/if}} value="Winfield">Winfield</option>
+                                                            <option {{#if (eq companyFound.facility "Wichita" )
+                                                                }}selected{{/if}} value="Wichita">Wichita</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                                <div class="d-flex justify-content-between mt-3">
+                                                    <button data-bs-toggle="modal" data-bs-target="#deleteCompany"
+                                                        type="button" class="btn btn-danger mx-2">Delete
+                                                        Company</button>
 
-                                        </form>
+                                                    <button data-bs-toggle="modal" data-bs-target="#resetPassword"
+                                                        type="button" class="btn btn-warning mx-2">Reset
+                                                        Password</button>
+
+                                                    <button type="submit" class="btn btn-primary mx-2">Save
+                                                        Edit</button>
+                                                </div>
+
+                                            </form>
                                         {{/if}}
 
 
@@ -226,21 +243,21 @@
                                                 </thead>
                                                 <tbody>
                                                     {{#each companies}}
-                                                    <tr>
-                                                        <th scope="row"><a
-                                                                href="/admin/companyProfile/{{this._id}}">{{add
+                                                        <tr>
+                                                            <th scope="row"><a
+                                                                    href="/admin/adminProfile/{{this._id}}">{{add
                                                                 @index 1}}</a>
-                                                        </th>
-                                                        <td class="text-capitalize">{{this.facility}}</td>
-                                                        <td class="text-capitalize"><a
-                                                                href="/admin/companyProfile/{{this._id}}">
-                                                                {{this.companyName}}</a>
-                                                        </td>
-                                                        {{!-- !!!!!!!!MAKE THIS REAL!!!!!1!! --}}
-                                                        <td>12/31/24
-                                                        </td>
-                                                        <td><span class="badge bg-success">Active</span></td>
-                                                    </tr>
+                                                            </th>
+                                                            <td class="text-capitalize">{{this.facility}}</td>
+                                                            <td class="text-capitalize"><a
+                                                                    href="/admin/adminProfile/{{this._id}}">
+                                                                    {{this.companyName}}</a>
+                                                            </td>
+                                                            {{!-- !!!!!!!!MAKE THIS REAL!!!!!1!! --}}
+                                                            <td>12/31/24
+                                                            </td>
+                                                            <td><span class="badge bg-success">Active</span></td>
+                                                        </tr>
                                                     {{/each}}
                                                 </tbody>
                                             </table>
@@ -262,3 +279,70 @@
 {{> footer}}
 
 {{> arrowUp}}
+
+{{!-- MODAL FOR Delete Company --}}
+<div class="modal fade" id="deleteCompany" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" action="/admin/deleteCompany/{{companyFound._id}}">
+                <div class="modal-header">
+                    <h5 class="modal-title text-capitalize">Delete Company: {{companyFound.firstName}}
+                        {{companyFound.lastName}}
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3 mt-3">
+                        <p>Are you sure you want to delete this company?</p>
+                        <p class="text-danger">This action is permanent and will delete all information connected to
+                            this account.</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-12 d-flex justify-content-between">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button id="" type="submit" class="btn btn-danger">Delete Company</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{{!-- MODAL FOR Reset Password --}}
+<div class="modal fade" id="resetPassword" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" action="/admin/resetCompanyPassword/{{companyFound._id}}">
+                <div class="modal-header">
+                    <h5 class="modal-title text-capitalize">Company: {{companyFound.firstName}}
+                        {{companyFound.lastName}}
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3 mt-3">
+                        <label for="password" class="col-md-5 col-lg-5 col-form-label">New Password:</label>
+                        <div class="col-md-7 col-lg-7">
+                            <input required name="password" type="password" class="form-control" id="password">
+                        </div>
+                    </div>
+                    <div class="row mb-3 mt-3">
+                        <label for="confirmPassword" class="col-md-5 col-lg-5 col-form-label">Confirm
+                            Password:</label>
+                        <div class="col-md-7 col-lg-7">
+                            <input required name="confirmPassword" type="password" class="form-control"
+                                id="confirmPassword">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-12 d-flex justify-content-between">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button id="" type="submit" class="btn btn-warning">Reset Password</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

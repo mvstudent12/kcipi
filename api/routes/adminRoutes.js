@@ -131,6 +131,96 @@ adminRoutes.get(
 //=============================
 //   DB Routes
 //=============================
+//facility_managementDB =====================
+
+adminRoutes.get(
+  "/facility_managementDB",
+  checkUser,
+  requireAuth,
+  requireRole(["admin"]),
+  controller.facility_managementDB
+);
+
+adminRoutes.post(
+  "/addFacility_Management",
+  checkUser,
+  requireAuth,
+  requireRole(["admin"]),
+  controller.addFacility_Management
+);
+
+adminRoutes.post(
+  "/searchFacility_ManagementName",
+  checkUser,
+  requireAuth,
+  requireRole(["admin"]),
+  controller.searchFacility_ManagementName
+);
+
+adminRoutes.post(
+  "/saveFacility_ManagementEdit",
+  checkUser,
+  requireAuth,
+  requireRole(["admin"]),
+  controller.saveFacility_ManagementEdit
+);
+adminRoutes.post(
+  "/deleteFacility_Management/:facility_managementID",
+  requireAuth,
+  requireRole(["admin"]),
+  controller.deleteFacility_Management
+);
+adminRoutes.post(
+  "/resetFacility_ManagementPassword/:facility_managementID",
+  requireAuth,
+  requireRole(["admin"]),
+  controller.resetFacility_ManagementPassword
+);
+//classificationDB =====================
+
+adminRoutes.get(
+  "/classificationDB",
+  checkUser,
+  requireAuth,
+  requireRole(["admin"]),
+  controller.classificationDB
+);
+
+adminRoutes.post(
+  "/addClassification",
+  checkUser,
+  requireAuth,
+  requireRole(["admin"]),
+  controller.addClassification
+);
+
+adminRoutes.post(
+  "/searchClassificationName",
+  checkUser,
+  requireAuth,
+  requireRole(["admin"]),
+  controller.searchClassificationName
+);
+
+adminRoutes.post(
+  "/saveClassificationEdit",
+  checkUser,
+  requireAuth,
+  requireRole(["admin"]),
+  controller.saveClassificationEdit
+);
+adminRoutes.post(
+  "/deleteClassification/:classificationID",
+  requireAuth,
+  requireRole(["admin"]),
+  controller.deleteClassification
+);
+adminRoutes.post(
+  "/resetClassificationPassword/:classificationID",
+  requireAuth,
+  requireRole(["admin"]),
+  controller.resetClassificationPassword
+);
 //employerDB =====================
 
 adminRoutes.get(
@@ -163,6 +253,18 @@ adminRoutes.post(
   requireAuth,
   requireRole(["admin"]),
   controller.saveEmployerEdit
+);
+adminRoutes.post(
+  "/deleteEmployer/:employerID",
+  requireAuth,
+  requireRole(["admin"]),
+  controller.deleteEmployer
+);
+adminRoutes.post(
+  "/resetEmployerPassword/:employerID",
+  requireAuth,
+  requireRole(["admin"]),
+  controller.resetEmployerPassword
 );
 
 //residentsDB =====================
@@ -240,6 +342,18 @@ adminRoutes.post(
   requireRole(["admin"]),
   controller.addNewPosition
 );
+adminRoutes.post(
+  "/deleteCompany/:companyID",
+  requireAuth,
+  requireRole(["admin"]),
+  controller.deleteCompany
+);
+adminRoutes.post(
+  "/resetCompanyPassword/:companyID",
+  requireAuth,
+  requireRole(["admin"]),
+  controller.resetCompanyPassword
+);
 
 //unitTeamDB ===================
 adminRoutes.get(
@@ -270,6 +384,18 @@ adminRoutes.post(
   requireAuth,
   requireRole(["admin"]),
   controller.saveUnitTeamEdit
+);
+adminRoutes.post(
+  "/deleteUnitTeam/:unitTeamID",
+  requireAuth,
+  requireRole(["admin"]),
+  controller.deleteUnitTeam
+);
+adminRoutes.post(
+  "/resetUnitTeamPassword/:unitTeamID",
+  requireAuth,
+  requireRole(["admin"]),
+  controller.resetUnitTeamPassword
 );
 //adminDB ===================
 adminRoutes.get(
@@ -308,10 +434,10 @@ adminRoutes.post(
   controller.deleteAdmin
 );
 adminRoutes.post(
-  "/resetPassword/:adminID",
+  "/resetAdminPassword/:adminID",
   requireAuth,
   requireRole(["admin"]),
-  controller.resetPassword
+  controller.resetAdminPassword
 );
 //=============================
 //   Reports

@@ -3,11 +3,11 @@
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Unit Team Database</h1>
+        <h1>Classification Database</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
-                <li class="breadcrumb-item active">Unit Team Database</li>
+                <li class="breadcrumb-item active">Classification Database</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -18,7 +18,7 @@
                 <div class="card">
                     <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
                         <img src="/assets/img/employer.png" alt="Profile" class="rounded-circle">
-                        <h2 class="text-capitalize mb-3">Unit Team Database</h2>
+                        <h2 class="text-capitalize mb-3">Classification Database</h2>
                         <h3>KDOC Employees</h3>
 
                     </div>
@@ -33,31 +33,31 @@
                         <ul class="nav nav-tabs nav-tabs-bordered">
                             <li class="nav-item">
                                 <button class="nav-link {{#if (eq activeTab 'add')}}active{{/if}}" data-bs-toggle="tab"
-                                    data-bs-target="#add-unitTeam">Add
+                                    data-bs-target="#add-classification">Add
                                     Member</button>
                             </li>
                             <li class="nav-item">
                                 <button class="nav-link {{#if (eq activeTab 'edit')}}active{{/if}}" data-bs-toggle="tab"
-                                    data-bs-target="#edit-unitTeam">Edit
+                                    data-bs-target="#edit-classification">Edit
                                     Member</button>
                             </li>
                             <li class="nav-item">
                                 <button class="nav-link {{#if (eq activeTab 'all')}}active{{/if}}" data-bs-toggle="tab"
-                                    data-bs-target="#all-unitTeam">All
-                                    Unit Team</button>
+                                    data-bs-target="#all-classification">All
+                                    Members</button>
                             </li>
 
                         </ul>
 
                         <div class="tab-content pt-2">
-                            {{!-- Add Unit Team Tab --}}
-                            <div class="tab-pane fade {{#if (eq activeTab 'add')}}show active{{/if}} add-unitTeam pt-3"
-                                id="add-unitTeam">
+                            {{!-- Add Classification Tab --}}
+                            <div class="tab-pane fade {{#if (eq activeTab 'add')}}show active{{/if}} add-classification pt-3"
+                                id="add-classification">
                                 <div class="card">
                                     <div class="card-body pt-3">
-                                        <form method="POST" action="/admin/addUnitTeam">
+                                        <form method="POST" action="/admin/addClassification">
 
-                                            {{!-- unitTeam first name --}}
+                                            {{!-- classification first name --}}
                                             <div class="row mb-3">
                                                 <label for="firstName" class="col-md-3 col-lg-3 col-form-label">First
                                                     Name</label>
@@ -66,7 +66,7 @@
                                                         class="form-control text-capitalize" id="firstName">
                                                 </div>
                                             </div>
-                                            {{!-- unitTeam last name--}}
+                                            {{!-- classification last name--}}
                                             <div class="row mb-3">
                                                 <label for="lastName" class="col-md-3 col-lg-3 col-form-label">Last
                                                     Name</label>
@@ -76,26 +76,7 @@
                                                 </div>
                                             </div>
 
-                                            {{!-- unitTeam email --}}
-                                            <div class="row mb-3">
-                                                <label for="email"
-                                                    class="col-md-3 col-lg-3 col-form-label">Email</label>
-                                                <div class="col-md-8 col-lg-8">
-                                                    <input required name="email" type="email" class="form-control"
-                                                        id="email">
-                                                </div>
-                                            </div>
-
-                                            {{!-- unitTeam Password --}}
-                                            <div class="row mb-3">
-                                                <label for="password"
-                                                    class="col-md-3 col-lg-3 col-form-label">Password</label>
-                                                <div class="col-md-8 col-lg-8">
-                                                    <input required name="password" type="password" class="form-control"
-                                                        id="password">
-                                                </div>
-                                            </div>
-                                            {{!-- unitTeam Facility --}}
+                                            {{!-- classification facility--}}
                                             <div class="row mb-3">
                                                 <label for="facility"
                                                     class="col-md-3 col-lg-3 col-form-label">Facility</label>
@@ -118,47 +99,72 @@
                                                 </div>
                                             </div>
 
+
+                                            {{!-- classification email --}}
+                                            <div class="row mb-3">
+                                                <label for="email"
+                                                    class="col-md-3 col-lg-3 col-form-label">Email</label>
+                                                <div class="col-md-8 col-lg-8">
+                                                    <input required name="email" type="email" class="form-control"
+                                                        id="email">
+                                                </div>
+                                            </div>
+
+                                            {{!-- classification Password --}}
+                                            <div class="row mb-3">
+                                                <label for="password"
+                                                    class="col-md-3 col-lg-3 col-form-label">Password</label>
+                                                <div class="col-md-8 col-lg-8">
+                                                    <input required name="password" type="password" class="form-control"
+                                                        id="password">
+                                                </div>
+                                            </div>
+
+
                                             {{!-- Save Button --}}
                                             <hr>
                                             <div class="text-center">
-                                                <button type="submit" class="btn btn-primary mx-2">Add Member</button>
+                                                <button type="submit" class="btn btn-primary mx-2">Add
+                                                    Member</button>
                                             </div>
                                         </form>
                                         {{#if addMsg}}
                                             <hr>
-                                            <p class="text-success text-center fst-italic mt-3">New member added
+                                            <p class="text-success text-center fst-italic mt-3">New Classification
+                                                member added
                                                 successfully.</p>
                                         {{/if}}
                                     </div>
                                 </div>
                             </div>
 
-                            {{!-- Edit Existing Unit Team Tab --}}
-                            <div class="tab-pane fade {{#if (eq activeTab 'edit')}}show active{{/if}} edit-unitTeam pt-3"
-                                id="edit-unitTeam">
+                            {{!-- Edit Existing Classification Tab --}}
+                            <div class="tab-pane fade {{#if (eq activeTab 'edit')}}show active{{/if}} edit-classification pt-3"
+                                id="edit-classification">
                                 <div class="card">
                                     <div class="card-body pt-3">
 
-                                        {{!-- Unit Team Search Bar --}}
+                                        {{!-- Classification Search Bar --}}
                                         <div class="row mb-3">
-                                            <label for="unitTeamList" class="col-md-4 col-lg-4 col-form-label">Unit Team
-                                                Name</label>
+                                            <label for="classificationList"
+                                                class="col-md-4 col-lg-4 col-form-label">Search
+                                                Classification:</label>
                                             <div class="col-md-8 col-lg-8">
                                                 <div class="search-bar">
                                                     <form class="search-form d-flex align-items-center" method="POST"
-                                                        action="/admin/searchUnitTeamName">
+                                                        action="/admin/searchClassificationName">
 
                                                         <div class="input-group">
-                                                            <select required name="unitTeamID" id="unitTeamList"
+                                                            <select required name="classificationID"
+                                                                id="classificationList"
                                                                 class="form-select text-capitalize"
-                                                                aria-label="Select Unit Team">
-                                                                <option selected value="">Select Unit Team:
+                                                                aria-label="Select Classification">
+                                                                <option selected value="">Select Member:
                                                                 </option>
-                                                                {{#each unitTeam}}
+                                                                {{#each classification}}
                                                                     <option class="text-capitalize"
                                                                         value="{{this._id}}">
-                                                                        {{this.firstName}} {{this.lastName}} -
-                                                                        {{this.facility}}
+                                                                        {{this.firstName}} {{this.lastName}}
                                                                     </option>
                                                                 {{/each}}
                                                             </select>
@@ -175,12 +181,12 @@
                                         </div><!-- End Search Bar -->
 
 
-                                        {{#if unitTeamFound}}
-                                            <!--=============== Edit Unit Team Form =========================== -->
+                                        {{#if classificationFound}}
+                                            <!--=============== Edit Classification Form =========================== -->
                                             <hr>
-                                            <form method="POST" action="/admin/saveUnitTeamEdit">
-                                                <input type="hidden" name="id" value="{{unitTeamFound._id}}">
-                                                {{!-- unitTeam firstName --}}
+                                            <form method="POST" action="/admin/saveClassificationEdit">
+                                                <input type="hidden" name="id" value="{{classificationFound._id}}">
+                                                {{!-- classification firstName --}}
                                                 <div class="row mb-3">
                                                     <label for="firstName"
                                                         class="col-md-4 col-lg-4 col-form-label">First
@@ -188,40 +194,22 @@
                                                     <div class="col-md-8 col-lg-8">
                                                         <input name="firstName" type="text"
                                                             class="form-control text-capitalize" id="editfirstName"
-                                                            value="{{unitTeamFound.firstName}}">
+                                                            value="{{classificationFound.firstName}}">
                                                     </div>
                                                 </div>
-                                                {{!-- unitTeam lastName --}}
+                                                {{!-- classification lastName --}}
                                                 <div class="row mb-3">
-                                                    <label for="lastName" class="col-md-4 col-lg-4 col-form-label">Last
+                                                    <label for="editLastName"
+                                                        class="col-md-4 col-lg-4 col-form-label">Last
                                                         Name</label>
                                                     <div class="col-md-8 col-lg-8">
                                                         <input name="lastName" type="text"
                                                             class="form-control text-capitalize" id="editLastName"
-                                                            value="{{unitTeamFound.lastName}}">
+                                                            value="{{classificationFound.lastName}}">
                                                     </div>
                                                 </div>
-                                                {{!-- !!!!!Create a password change functionality later!!!!! --}}
-                                                {{!-- unitTeam password --}}
-                                                {{!-- <div class="row mb-3">
-                                                <label for="password"
-                                                    class="col-md-4 col-lg-4 col-form-label">Password</label>
-                                                <div class="col-md-8 col-lg-8">
-                                                    <input name="password" type="text"
-                                                        class="form-control text-capitalize" id="editPassword">
-                                                </div>
-                                            </div> --}}
 
-                                                {{!-- unitTeam email --}}
-                                                <div class="row mb-3">
-                                                    <label for="email" class="col-md-4 col-lg-4 col-form-label">
-                                                        Email</label>
-                                                    <div class="col-md-8 col-lg-8">
-                                                        <input name="email" type="text" class="form-control" id="email"
-                                                            value="{{unitTeamFound.email}}">
-                                                    </div>
-                                                </div>
-                                                {{!-- unitTeam Facility --}}
+                                                {{!-- classification facility--}}
                                                 <div class="row mb-3">
                                                     <label for="facility"
                                                         class="col-md-4 col-lg-4 col-form-label">Facility</label>
@@ -229,33 +217,50 @@
 
                                                         <select required name="facility" id="facilityEdit"
                                                             class="form-select" aria-label="Facility Options">
-                                                            <option {{#if (eq unitTeamFound.facility "El Dorado" )
-                                                                }}selected{{/if}} value="El Dorado">El Dorado</option>
-                                                            <option {{#if (eq unitTeamFound.facility "Ellsworth" )
-                                                                }}selected{{/if}} value="Ellsworth">Ellsworth</option>
-                                                            <option {{#if (eq unitTeamFound.facility "Hutchinson" )
-                                                                }}selected{{/if}} value="Hutchinson">Hutchinson</option>
-                                                            <option {{#if (eq unitTeamFound.facility "Lansing" )
+                                                            <option {{#if (eq classificationFound.facility "El Dorado" )
+                                                                }}selected{{/if}} value="El Dorado">El Dorado
+                                                            </option>
+                                                            <option {{#if (eq classificationFound.facility "Ellsworth" )
+                                                                }}selected{{/if}} value="Ellsworth">Ellsworth
+                                                            </option>
+                                                            <option {{#if (eq classificationFound.facility "Hutchinson"
+                                                                ) }}selected{{/if}} value="Hutchinson">Hutchinson
+                                                            </option>
+                                                            <option {{#if (eq classificationFound.facility "Lansing" )
                                                                 }}selected{{/if}} value="Lansing">Lansing</option>
-                                                            <option {{#if (eq unitTeamFound.facility "Larned" )
+                                                            <option {{#if (eq classificationFound.facility "Larned" )
                                                                 }}selected{{/if}} value="Larned">Larned</option>
-                                                            <option {{#if (eq unitTeamFound.facility "Norton" )
+                                                            <option {{#if (eq classificationFound.facility "Norton" )
                                                                 }}selected{{/if}} value="Norton">Norton</option>
-                                                            <option {{#if (eq unitTeamFound.facility "Topeka" )
+                                                            <option {{#if (eq classificationFound.facility "Topeka" )
                                                                 }}selected{{/if}} value="Topeka">Topeka</option>
-                                                            <option {{#if (eq unitTeamFound.facility "Winfield" )
+                                                            <option {{#if (eq classificationFound.facility "Winfield" )
                                                                 }}selected{{/if}} value="Winfield">Winfield</option>
-                                                            <option {{#if (eq unitTeamFound.facility "Wichita" )
+                                                            <option {{#if (eq classificationFound.facility "Wichita" )
                                                                 }}selected{{/if}} value="Wichita">Wichita</option>
                                                         </select>
                                                     </div>
                                                 </div>
 
-                                                {{!-- Save Button --}}
+
+                                                {{!-- classification email --}}
+                                                <div class="row mb-3">
+                                                    <label for="email" class="col-md-4 col-lg-4 col-form-label">
+                                                        Email</label>
+                                                    <div class="col-md-8 col-lg-8">
+                                                        <input name="email" type="text" class="form-control" id="email"
+                                                            value="{{classificationFound.email}}">
+                                                    </div>
+                                                </div>
+
+
+
                                                 <hr>
+
                                                 <div class="d-flex justify-content-between mt-3">
-                                                    <button data-bs-toggle="modal" data-bs-target="#deleteUnitTeam"
-                                                        type="button" class="btn btn-danger mx-2">Delete
+                                                    <button data-bs-toggle="modal"
+                                                        data-bs-target="#deleteClassification" type="button"
+                                                        class="btn btn-danger mx-2">Delete
                                                         Member</button>
 
                                                     <button data-bs-toggle="modal" data-bs-target="#resetPassword"
@@ -275,47 +280,60 @@
                                                 successfully.
                                             </p>
                                         {{/if}}
-
-
-                                        <!--=============== Edit unitTeam Form============================ -->
+                                        {{#if saved}}
+                                            <hr>
+                                            <p class="text-success text-center fst-italic mt-3">Password successfully
+                                                reset.
+                                            </p>
+                                        {{/if}}
+                                        {{#if savingError}}
+                                            <hr>
+                                            <p class="text-warning text-center fst-italic mt-3">There was an error in
+                                                trying to reset this password. Please try again.
+                                            </p>
+                                        {{/if}}
+                                        <!--=============== Edit classification Form============================ -->
                                     </div>
                                 </div>
                             </div>
 
-                            {{!-- All Unit Team tab --}}
-                            <div class="tab-pane fade {{#if (eq activeTab 'all')}}show active{{/if}} all-unitTeam pt-3"
-                                id="all-unitTeam">
-                                <!-- Unit Team Table -->
+                            {{!-- All Classification tab --}}
+                            <div class="tab-pane fade {{#if (eq activeTab 'all')}}show active{{/if}} all-classification pt-3"
+                                id="all-classification">
+                                <!-- Classification Table -->
                                 <div class="col-12">
                                     <div class="card recent-sales overflow-auto">
                                         <div class="card-body">
-                                            <h5 class="card-title">Unit Team <span>| All KDOC</span></h5>
+                                            <h5 class="card-title">Classification <span>| All KDOC</span></h5>
                                             <table class="table table-borderless table-striped datatable">
                                                 <thead>
                                                     <tr>
                                                         <th scope="col">#</th>
-                                                        <th scope="col">Facility</th>
-                                                        <th scope="col">Name</th>
+                                                        <th scope="col">First Name</th>
+                                                        <th scope="col">Last Name</th>
                                                         <th scope="col">Email</th>
-                                                        <th scope="col">Status</th>
+                                                        <th scope="col">Facility</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {{#each unitTeam}}
+                                                    {{#each classification}}
                                                         <tr>
                                                             <th scope="row"><a
-                                                                    href="/admin/adminProfile/{{this._id}}">{{add
+                                                                    href="/admin/classificationProfile/{{this._id}}">{{add
                                                                 @index 1}}</a>
                                                             </th>
-                                                            <td class="text-capitalize">{{this.facility}}</td>
                                                             <td class="text-capitalize"><a
-                                                                    href="/admin/adminProfile/{{this._id}}">
-                                                                    {{this.firstName}} {{this.lastName}}</a>
+                                                                    href="/admin/classificationProfile/{{this._id}}">{{this.firstName}}</a>
+                                                            </td>
+                                                            <td class="text-capitalize"><a
+                                                                    href="/admin/classificationProfile/{{this._id}}">{{this.lastName}}</a>
                                                             </td>
                                                             <td><a
-                                                                    href="/admin/adminProfile/{{this._id}}">{{this.email}}</a>
+                                                                    href="/admin/classificationProfile/{{this._id}}">{{this.email}}</a>
                                                             </td>
-                                                            <td><span class="badge bg-success">Active</span></td>
+                                                            <td class="text-capitalize"><a
+                                                                    href="/admin/classificationProfile/{{this._id}}">{{this.facility}}</a>
+                                                            </td>
                                                         </tr>
                                                     {{/each}}
                                                 </tbody>
@@ -339,14 +357,16 @@
 
 {{> arrowUp}}
 
-{{!-- MODAL FOR Delete Unit Team --}}
-<div class="modal fade" id="deleteUnitTeam" tabindex="-1">
+
+{{!-- MODAL FOR Delete Classification --}}
+<div class="modal fade" id="deleteClassification" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method="post" action="/admin/deleteUnitTeam/{{unitTeamFound._id}}">
+            <form method="post" action="/admin/deleteClassification/{{classificationFound._id}}">
                 <div class="modal-header">
-                    <h5 class="modal-title text-capitalize">Delete Unit Team: {{unitTeamFound.firstName}}
-                        {{unitTeamFound.lastName}}
+                    <h5 class="modal-title text-capitalize">Delete Classification Member:
+                        {{classificationFound.firstName}}
+                        {{classificationFound.lastName}}
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -360,7 +380,7 @@
                 <div class="modal-footer">
                     <div class="col-12 d-flex justify-content-between">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button id="" type="submit" class="btn btn-danger">Delete Unit Team</button>
+                        <button id="" type="submit" class="btn btn-danger">Delete Member</button>
                     </div>
                 </div>
             </form>
@@ -368,14 +388,15 @@
     </div>
 </div>
 
+
 {{!-- MODAL FOR Reset Password --}}
 <div class="modal fade" id="resetPassword" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method="post" action="/admin/resetUnitTeamPassword/{{unitTeamFound._id}}">
+            <form method="post" action="/admin/resetClassificationPassword/{{classificationFound._id}}">
                 <div class="modal-header">
-                    <h5 class="modal-title text-capitalize">Unit Team: {{unitTeamFound.firstName}}
-                        {{unitTeamFound.lastName}}
+                    <h5 class="modal-title text-capitalize">Classification: {{classificationFound.firstName}}
+                        {{classificationFound.lastName}}
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>

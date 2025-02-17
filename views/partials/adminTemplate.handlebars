@@ -24,8 +24,9 @@
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications overflow-auto"
                     style="max-height: 400px;">
                     <li class="dropdown-header">
-                        You have {{countArrayItems notifications}} new notifications
-                        <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+                        You have {{countArrayItems notifications}} new
+                        {{#if (eq (countArrayItems notifications) 1)}}notification{{else}}notifications{{/if}}
+                            <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
                     </li>
                     <li>
                         <hr class="dropdown-divider">
@@ -165,6 +166,16 @@
                 <li>
                     <a href="/admin/unitTeamDB">
                         <i class="bi bi-circle"></i><span>Unit Team</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/admin/classificationDB">
+                        <i class="bi bi-circle"></i><span>Classification</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/admin/facility_managementDB">
+                        <i class="bi bi-circle"></i><span>Facility Management</span>
                     </a>
                 </li>
                 <li>

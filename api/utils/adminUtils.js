@@ -28,6 +28,97 @@ const updateAdminPasswordById = async (adminID, newPassword) => {
   }
 };
 
+const updateUnitTeamPasswordById = async (unitTeamID, newPassword) => {
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+  const result = await UnitTeam.findByIdAndUpdate(
+    unitTeamID, // Find the unitTeam by unitTeamID (_id)
+    { password: hashedPassword }, // Update the password
+    { new: true } // Return the updated document
+  );
+
+  if (result) {
+    return result;
+  } else {
+    throw Error("Unit Team Member not found");
+  }
+};
+
+const updateEmployerPasswordById = async (employerID, newPassword) => {
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+  const result = await Employer.findByIdAndUpdate(
+    employerID, // Find the employer by employerID (_id)
+    { password: hashedPassword }, // Update the password
+    { new: true } // Return the updated document
+  );
+
+  if (result) {
+    return result;
+  } else {
+    throw Error("Employer not found");
+  }
+};
+
+const updateCompanyPasswordById = async (companyID, newPassword) => {
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+  const result = await Company.findByIdAndUpdate(
+    companyID, // Find the company by companyID (_id)
+    { password: hashedPassword }, // Update the password
+    { new: true } // Return the updated document
+  );
+
+  if (result) {
+    return result;
+  } else {
+    throw Error("No company found");
+  }
+};
+
+const updateClassificationPasswordById = async (
+  classificationID,
+  newPassword
+) => {
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+  const result = await Classification.findByIdAndUpdate(
+    classificationID, // Find the classification by classificationID (_id)
+    { password: hashedPassword }, // Update the password
+    { new: true } // Return the updated document
+  );
+
+  if (result) {
+    return result;
+  } else {
+    throw Error("No classification member found");
+  }
+};
+
+const updateFacility_ManagementPasswordById = async (
+  facility_managementID,
+  newPassword
+) => {
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+  const result = await Facility_Management.findByIdAndUpdate(
+    facility_managementID, // Find the facility_management by facility_managementID (_id)
+    { password: hashedPassword }, // Update the password
+    { new: true } // Return the updated document
+  );
+
+  if (result) {
+    return result;
+  } else {
+    throw Error("No facility_management member found");
+  }
+};
+
 async function getAllInterviews() {
   try {
     const jobs = await Jobs.find(
@@ -150,4 +241,9 @@ module.exports = {
   findApplicantIDsAndCompanyName,
   createApplicantsReport,
   updateAdminPasswordById,
+  updateEmployerPasswordById,
+  updateUnitTeamPasswordById,
+  updateCompanyPasswordById,
+  updateClassificationPasswordById,
+  updateFacility_ManagementPasswordById,
 };

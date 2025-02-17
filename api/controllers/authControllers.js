@@ -53,7 +53,7 @@ module.exports = {
   async residentLogOut(req, res) {
     // Log user logout
     logger.info(
-      `User logged out: ${req.session.resident.residentID} ${req.session.resident.lastName}`
+      `User logged out: #${req.session.resident.residentID}: ${req.session.resident.firstName} ${req.session.resident.lastName} `
     );
 
     req.session.destroy((err) => {

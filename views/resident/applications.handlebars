@@ -14,7 +14,7 @@
 
     <section class="section profile">
         <div class="row">
-            <div class="col-xl-4">
+            <div class="col-12">
                 <div class="card">
                     <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
                         <img src="/assets/img/avatar.png" alt="Profile Avatar" class="rounded-circle">
@@ -26,7 +26,7 @@
                 </div>
             </div>
 
-            <div class="col-xl-8">
+            <div class="col-12">
 
                 <div class="card">
                     <div class="card-body pt-3">
@@ -42,32 +42,33 @@
                             <div class="tab-pane fade show active profile-overview" id="profile-overview"
                                 role="tabpanel" aria-labelledby="profile-overview-tab">
                                 {{#if appliedJobs}}
-                                <div class="row mt-3">
-                                    <div class="col-lg-4 col-md-4 label text-muted" aria-hidden="true">
-                                        Company</div>
-                                    <div class="col-lg-4 col-md-4 label text-muted" aria-hidden="true">
-                                        Position</div>
-                                    <div class="col-lg-4 col-md-4 label text-muted" aria-hidden="true">
-                                        Date Applied</div>
-                                </div>
-                                {{#each appliedJobs}}
-                                <div class="row mt-3">
-                                    <div class="col-lg-4 col-md-4 label text-capitalize">
-                                        {{this.companyName}}
+                                    <div class="row mt-3">
+                                        <div class="col-lg-4 col-md-4 label text-muted" aria-hidden="true">
+                                            Company</div>
+                                        <div class="col-lg-4 col-md-4 label text-muted" aria-hidden="true">
+                                            Position</div>
+                                        <div class="col-lg-4 col-md-4 label text-muted" aria-hidden="true">
+                                            Date Applied</div>
                                     </div>
-                                    <div class="col-lg-4 col-md-4 text-capitalize">{{this.position}}</div>
-                                    <div class="col-lg-4 col-md-4 text-capitalize">{{formatDate this.dateApplied}}</div>
-                                </div>
-                                <hr>
-                                {{/each}}
+                                    {{#each appliedJobs}}
+                                        <div class="row mt-3">
+                                            <div class="col-lg-4 col-md-4 label text-capitalize">
+                                                {{this.companyName}}
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 text-capitalize">{{this.position}}</div>
+                                            <div class="col-lg-4 col-md-4 text-capitalize">
+                                                {{formatDate this.dateApplied}}</div>
+                                        </div>
+                                        <hr>
+                                    {{/each}}
                                 {{else}}
-                                {{#if user.isHired}}
-                                <p class="text-success mt-3">You are currently working.
-                                </p>
-                                {{else}}
-                                <p class="text-primary mt-3">You have not submitted any applications yet.
-                                </p>
-                                {{/if}}
+                                    {{#if user.isHired}}
+                                        <p class="text-success mt-3">You are currently working.
+                                        </p>
+                                    {{else}}
+                                        <p class="text-primary mt-3">You have not submitted any applications yet.
+                                        </p>
+                                    {{/if}}
                                 {{/if}}
                             </div>
                         </div><!-- End Bordered Tabs -->

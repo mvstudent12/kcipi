@@ -1,6 +1,8 @@
 const Admin = require("../models/Admin");
 const Employer = require("../models/Employer");
 const Company = require("../models/Company");
+const Classification = require("../models/Classification");
+const Facility_Management = require("../models/Facility_Management");
 const UnitTeam = require("../models/UnitTeam");
 const Resident = require("../models/Resident");
 const Jobs = require("../models/Jobs");
@@ -28,6 +30,11 @@ const {
   findApplicantIDsAndCompanyName,
   createApplicantsReport,
   updateAdminPasswordById,
+  updateEmployerPasswordById,
+  updateUnitTeamPasswordById,
+  updateCompanyPasswordById,
+  updateClassificationPasswordById,
+  updateFacility_ManagementPasswordById,
 } = require("../utils/adminUtils");
 
 module.exports = {
@@ -86,6 +93,7 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
   async manageWorkForce(req, res) {
@@ -142,6 +150,7 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
   async manageClearance(req, res) {
@@ -162,6 +171,7 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
 
@@ -172,9 +182,10 @@ module.exports = {
       req.session.user.role
     );
     try {
-      res.render("admin/helpDesk", { user: req.session.user });
+      res.render("admin/helpDesk", { user: req.session.user, notifications });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
 
@@ -185,9 +196,10 @@ module.exports = {
       req.session.user.role
     );
     try {
-      res.render("admin/contact", { user: req.session.user });
+      res.render("admin/contact", { user: req.session.user, notifications });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
   //=============================
@@ -240,6 +252,7 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
   //=============================
@@ -262,6 +275,7 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
   //serves hiredResidents page from admin dashboard
@@ -284,6 +298,7 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
 
@@ -302,6 +317,7 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
 
@@ -312,7 +328,7 @@ module.exports = {
         req.session.user.email,
         req.session.user.role
       );
-      const employers = await Employer.find().sort({ firstName: 1 }).lean();
+      const employers = await Employer.find().sort({ lastName: 1 }).lean();
       res.render("admin/tables/employerTables", {
         user: req.session.user,
         notifications,
@@ -320,6 +336,7 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
 
@@ -330,7 +347,7 @@ module.exports = {
         req.session.user.email,
         req.session.user.role
       );
-      const companies = await Company.find().sort({ firstName: 1 }).lean();
+      const companies = await Company.find().sort({ companyName: 1 }).lean();
       res.render("admin/tables/companyTables", {
         user: req.session.user,
         notifications,
@@ -338,6 +355,7 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
   //=============================
@@ -360,6 +378,7 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
   async unitTeamProfile(req, res) {
@@ -379,6 +398,7 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
   async adminProfile(req, res) {
@@ -398,6 +418,7 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
   async companyProfile(req, res) {
@@ -422,6 +443,7 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
   async addNewPosition(req, res) {
@@ -477,6 +499,7 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
 
@@ -503,6 +526,7 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
   //adds new company to Company DB
@@ -514,7 +538,7 @@ module.exports = {
       );
       const newCompany = req.body;
       const company = new Company(newCompany);
-      const savedCompany = await company.save();
+      await company.save();
 
       const companies = await Company.find().sort({ companyName: 1 }).lean();
 
@@ -552,6 +576,7 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
   //save edits made to company
@@ -586,6 +611,76 @@ module.exports = {
       console.log("Error in saving company edit: ", err);
     }
   },
+  async deleteCompany(req, res) {
+    try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+      const { companyID } = req.params;
+      await Company.deleteOne({ _id: companyID });
+
+      const company = await Company.find().sort({ companyName: 1 }).lean();
+
+      const activeTab = "all";
+      res.render("admin/db/companyDB", {
+        user: req.session.user,
+        notifications,
+        company,
+        activeTab,
+      });
+    } catch (err) {
+      console.log(err);
+      res.render("error/500");
+    }
+  },
+  async resetCompanyPassword(req, res) {
+    try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+      const { password, confirmPassword } = req.body;
+      const { companyID } = req.params;
+
+      if (password == confirmPassword) {
+        await updateCompanyPasswordById(companyID, password);
+        const saved = true;
+        const company = await Company.find().sort({ companyName: 1 }).lean();
+        const companyFound = await Company.findById({
+          _id: companyID,
+        }).lean();
+
+        const activeTab = "edit";
+        return res.render("admin/db/companyDB", {
+          user: req.session.user,
+          notifications,
+          company,
+          activeTab,
+          saved,
+          companyFound,
+        });
+      }
+      const companyFound = await Company.findById({
+        _id: companyID,
+      }).lean();
+      const savingError = true;
+      const company = await Company.find().sort({ companyName: 1 }).lean();
+
+      const activeTab = "edit";
+      res.render("admin/db/companyDB", {
+        user: req.session.user,
+        notifications,
+        company,
+        activeTab,
+        savingError,
+        companyFound,
+      });
+    } catch (err) {
+      console.log(err);
+      res.render("error/500");
+    }
+  },
   //==========================
   //   Employer DB
   //==========================
@@ -597,7 +692,7 @@ module.exports = {
         req.session.user.role
       );
       const companies = await Company.find().sort({ companyName: 1 }).lean();
-      const employers = await Employer.find().sort({ firstName: 1 }).lean();
+      const employers = await Employer.find().sort({ lastName: 1 }).lean();
       const activeTab = "add";
       res.render("admin/db/employerDB", {
         user: req.session.user,
@@ -608,6 +703,7 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
   //adds new employer to db
@@ -621,7 +717,7 @@ module.exports = {
       const employer = new Employer(newEmployer);
       await employer.save();
       const companies = await Company.find().sort({ companyName: 1 }).lean();
-      const employers = await Employer.find().sort({ firstName: 1 }).lean();
+      const employers = await Employer.find().sort({ lastName: 1 }).lean();
       const activeTab = "add";
       const addMsg = true;
       res.render("admin/db/employerDB", {
@@ -634,6 +730,7 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
   async searchEmployerName(req, res) {
@@ -647,7 +744,7 @@ module.exports = {
         _id: employerID,
       }).lean();
       const companies = await Company.find().sort({ companyName: 1 }).lean();
-      const employers = await Employer.find().sort({ firstName: 1 }).lean();
+      const employers = await Employer.find().sort({ lastName: 1 }).lean();
       const activeTab = "edit";
       res.render("admin/db/employerDB", {
         user: req.session.user,
@@ -699,6 +796,76 @@ module.exports = {
       console.log("Error in saving company edit: ", err);
     }
   },
+  async deleteEmployer(req, res) {
+    try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+      const { employerID } = req.params;
+      await Employer.deleteOne({ _id: employerID });
+
+      const employer = await Employer.find().sort({ lastName: 1 }).lean();
+
+      const activeTab = "all";
+      res.render("admin/db/employerDB", {
+        user: req.session.user,
+        notifications,
+        employer,
+        activeTab,
+      });
+    } catch (err) {
+      console.log(err);
+      res.render("error/500");
+    }
+  },
+  async resetEmployerPassword(req, res) {
+    try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+      const { password, confirmPassword } = req.body;
+      const { employerID } = req.params;
+
+      if (password == confirmPassword) {
+        await updateEmployerPasswordById(employerID, password);
+        const saved = true;
+        const employer = await Employer.find().sort({ lastName: 1 }).lean();
+        const employerFound = await Employer.findById({
+          _id: employerID,
+        }).lean();
+
+        const activeTab = "edit";
+        return res.render("admin/db/employerDB", {
+          user: req.session.user,
+          notifications,
+          employer,
+          activeTab,
+          saved,
+          employerFound,
+        });
+      }
+      const employerFound = await Employer.findById({
+        _id: employerID,
+      }).lean();
+      const savingError = true;
+      const employer = await Employer.find().sort({ lastName: 1 }).lean();
+
+      const activeTab = "edit";
+      res.render("admin/db/employerDB", {
+        user: req.session.user,
+        notifications,
+        employer,
+        activeTab,
+        savingError,
+        employerFound,
+      });
+    } catch (err) {
+      console.log(err);
+      res.render("error/500");
+    }
+  },
   //==========================
   //   Resident DB
   //==========================
@@ -721,6 +888,7 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
 
@@ -748,19 +916,23 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
   async searchResidentID(req, res) {
-    const { residentID } = req.body;
-
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+      const { residentID } = req.body;
       const residentFound = await Resident.findOne({ residentID }).lean();
 
       if (residentFound) {
         const unitTeam = await UnitTeam.find({
           facility: residentFound.facility,
         })
-          .sort({ firstName: 1 })
+          .sort({ lastName: 1 })
           .lean();
         if (unitTeam.length === 0) {
           unitTeam = null;
@@ -794,6 +966,7 @@ module.exports = {
       }
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
 
@@ -819,6 +992,7 @@ module.exports = {
             residentID,
             custodyLevel,
             unitTeam,
+            facility,
           },
         }
       );
@@ -839,6 +1013,7 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
   //==========================
@@ -851,7 +1026,7 @@ module.exports = {
         req.session.user.email,
         req.session.user.role
       );
-      const unitTeam = await UnitTeam.find().sort({ firstName: 1 }).lean();
+      const unitTeam = await UnitTeam.find().sort({ lastName: 1 }).lean();
       const activeTab = "add";
       res.render("admin/db/unitTeamDB", {
         user: req.session.user,
@@ -861,6 +1036,7 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
   async searchUnitTeamName(req, res) {
@@ -874,7 +1050,7 @@ module.exports = {
         _id: unitTeamID,
       }).lean();
 
-      const unitTeam = await UnitTeam.find().sort({ firstName: 1 }).lean();
+      const unitTeam = await UnitTeam.find().sort({ lastName: 1 }).lean();
       const activeTab = "edit";
       res.render("admin/db/unitTeamDB", {
         user: req.session.user,
@@ -934,7 +1110,7 @@ module.exports = {
         }
       );
 
-      const unitTeam = await UnitTeam.find().sort({ firstName: 1 }).lean();
+      const unitTeam = await UnitTeam.find().sort({ lastName: 1 }).lean();
       const saveMsg = true;
       activeTab = "edit";
       res.render("admin/db/unitTeamDB", {
@@ -948,6 +1124,77 @@ module.exports = {
       console.log("Error in saving unit team edit: ", err);
     }
   },
+  async deleteUnitTeam(req, res) {
+    try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+      const { unitTeamID } = req.params;
+      await UnitTeam.deleteOne({ _id: unitTeamID });
+
+      const unitTeam = await UnitTeam.find().sort({ lastName: 1 }).lean();
+
+      const activeTab = "all";
+      res.render("admin/db/unitTeamDB", {
+        user: req.session.user,
+        notifications,
+        unitTeam,
+        activeTab,
+      });
+    } catch (err) {
+      console.log(err);
+      res.render("error/500");
+    }
+  },
+  async resetUnitTeamPassword(req, res) {
+    try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+      const { password, confirmPassword } = req.body;
+      const { unitTeamID } = req.params;
+
+      if (password == confirmPassword) {
+        await updateUnitTeamPasswordById(unitTeamID, password);
+        const saved = true;
+        const unitTeam = await UnitTeam.find().sort({ lastName: 1 }).lean();
+        const unitTeamFound = await UnitTeam.findById({
+          _id: unitTeamID,
+        }).lean();
+
+        const activeTab = "edit";
+        return res.render("admin/db/unitTeamDB", {
+          user: req.session.user,
+          notifications,
+          unitTeam,
+          activeTab,
+          saved,
+          unitTeamFound,
+        });
+      }
+      const unitTeamFound = await UnitTeam.findById({
+        _id: unitTeamID,
+      }).lean();
+      const savingError = true;
+      const unitTeam = await UnitTeam.find().sort({ lastName: 1 }).lean();
+
+      const activeTab = "edit";
+      res.render("admin/db/unitTeamDB", {
+        user: req.session.user,
+        notifications,
+        unitTeam,
+        activeTab,
+        savingError,
+        unitTeamFound,
+      });
+    } catch (err) {
+      console.log(err);
+      res.render("error/500");
+    }
+  },
+
   //==========================
   //   Admin DB
   //==========================
@@ -968,6 +1215,7 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
   async searchAdminName(req, res) {
@@ -1078,7 +1326,7 @@ module.exports = {
       res.render("error/500");
     }
   },
-  async resetPassword(req, res) {
+  async resetAdminPassword(req, res) {
     try {
       const notifications = await getUserNotifications(
         req.session.user.email,
@@ -1086,7 +1334,7 @@ module.exports = {
       );
       const { password, confirmPassword } = req.body;
       const { adminID } = req.params;
-      console.log(req.body);
+
       if (password == confirmPassword) {
         await updateAdminPasswordById(adminID, password);
         const saved = true;
@@ -1126,6 +1374,395 @@ module.exports = {
     }
   },
   //==========================
+  //  Classification DB
+  //==========================
+  //serves classificationDB page from classification dashboard
+  async classificationDB(req, res) {
+    try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+      const classification = await Classification.find()
+        .sort({ lastName: 1 })
+        .lean();
+      const activeTab = "add";
+      res.render("admin/db/classificationDB", {
+        user: req.session.user,
+        notifications,
+        activeTab,
+        classification,
+      });
+    } catch (err) {
+      console.log(err);
+      res.render("error/500");
+    }
+  },
+  async searchClassificationName(req, res) {
+    try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+      const { classificationID } = req.body;
+      const classificationFound = await Classification.findById({
+        _id: classificationID,
+      }).lean();
+
+      const classification = await Classification.find()
+        .sort({ lastName: 1 })
+        .lean();
+      const activeTab = "edit";
+      res.render("admin/db/classificationDB", {
+        user: req.session.user,
+        notifications,
+        classificationFound,
+        classification,
+        activeTab,
+      });
+    } catch (err) {
+      console.log("Error found when search classification name: ", err);
+    }
+  },
+  //adds new member to unit team DB
+  async addClassification(req, res) {
+    try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+      const newClassification = req.body;
+      const newMember = new Classification(newClassification);
+      await newMember.save();
+
+      const classification = await Classification.find()
+        .sort({ lastName: 1 })
+        .lean();
+
+      const activeTab = "add";
+      const addMsg = true;
+      res.render("admin/db/classificationDB", {
+        user: req.session.user,
+        notifications,
+        classification,
+        activeTab,
+        addMsg,
+      });
+    } catch (err) {
+      console.log("Error in creating classification: ", err);
+    }
+  },
+  //save edits made to classification
+  async saveClassificationEdit(req, res) {
+    const notifications = await getUserNotifications(
+      req.session.user.email,
+      req.session.user.role
+    );
+    try {
+      const { firstName, lastName, email, facility, id } = req.body;
+
+      await Classification.updateOne(
+        { _id: id },
+        {
+          $set: {
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            facility: facility,
+          },
+        }
+      );
+
+      const classification = await Classification.find()
+        .sort({ lastName: 1 })
+        .lean();
+      const saveMsg = true;
+      activeTab = "edit";
+      res.render("admin/db/classificationDB", {
+        user: req.session.user,
+        notifications,
+        classification,
+        saveMsg,
+        activeTab,
+      });
+    } catch (err) {
+      console.log("Error in saving unit team edit: ", err);
+    }
+  },
+  async deleteClassification(req, res) {
+    try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+      const { classificationID } = req.params;
+      await Classification.deleteOne({ _id: classificationID });
+
+      const classification = await Classification.find()
+        .sort({ lastName: 1 })
+        .lean();
+
+      const activeTab = "all";
+      res.render("admin/db/classificationDB", {
+        user: req.session.user,
+        notifications,
+        classification,
+        activeTab,
+      });
+    } catch (err) {
+      console.log(err);
+      res.render("error/500");
+    }
+  },
+  async resetClassificationPassword(req, res) {
+    try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+      const { password, confirmPassword } = req.body;
+      const { classificationID } = req.params;
+
+      if (password == confirmPassword) {
+        await updateClassificationPasswordById(classificationID, password);
+        const saved = true;
+        const classification = await Classification.find()
+          .sort({ lastName: 1 })
+          .lean();
+        const classificationFound = await Classification.findById({
+          _id: classificationID,
+        }).lean();
+
+        const activeTab = "edit";
+        return res.render("admin/db/classificationDB", {
+          user: req.session.user,
+          notifications,
+          classification,
+          activeTab,
+          saved,
+          classificationFound,
+        });
+      }
+      const classificationFound = await Classification.findById({
+        _id: classificationID,
+      }).lean();
+      const savingError = true;
+      const classification = await Classification.find()
+        .sort({ lastName: 1 })
+        .lean();
+
+      const activeTab = "edit";
+      res.render("admin/db/classificationDB", {
+        user: req.session.user,
+        notifications,
+        classification,
+        activeTab,
+        savingError,
+        classificationFound,
+      });
+    } catch (err) {
+      console.log(err);
+      res.render("error/500");
+    }
+  },
+
+  //==========================
+  //  Facility_Management DB
+  //==========================
+  //serves facility_managementDB page from facility_management dashboard
+  async facility_managementDB(req, res) {
+    try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+      const facility_management = await Facility_Management.find()
+        .sort({ lastName: 1 })
+        .lean();
+      const activeTab = "add";
+      res.render("admin/db/facility_managementDB", {
+        user: req.session.user,
+        notifications,
+        activeTab,
+        facility_management,
+      });
+    } catch (err) {
+      console.log(err);
+      res.render("error/500");
+    }
+  },
+  async searchFacility_ManagementName(req, res) {
+    try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+      const { facility_managementID } = req.body;
+      const facility_managementFound = await Facility_Management.findById({
+        _id: facility_managementID,
+      }).lean();
+
+      const facility_management = await Facility_Management.find()
+        .sort({ lastName: 1 })
+        .lean();
+      const activeTab = "edit";
+      res.render("admin/db/facility_managementDB", {
+        user: req.session.user,
+        notifications,
+        facility_managementFound,
+        facility_management,
+        activeTab,
+      });
+    } catch (err) {
+      console.log("Error found when search facility_management name: ", err);
+    }
+  },
+  //adds new member to unit team DB
+  async addFacility_Management(req, res) {
+    try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+      const newFacility_Management = req.body;
+      const newMember = new Facility_Management(newFacility_Management);
+      await newMember.save();
+
+      const facility_management = await Facility_Management.find()
+        .sort({ lastName: 1 })
+        .lean();
+
+      const activeTab = "add";
+      const addMsg = true;
+      res.render("admin/db/facility_managementDB", {
+        user: req.session.user,
+        notifications,
+        facility_management,
+        activeTab,
+        addMsg,
+      });
+    } catch (err) {
+      console.log("Error in creating facility_management: ", err);
+    }
+  },
+  //save edits made to facility_management
+  async saveFacility_ManagementEdit(req, res) {
+    try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+      const { firstName, lastName, email, facility, id } = req.body;
+
+      await Facility_Management.updateOne(
+        { _id: id },
+        {
+          $set: {
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            facility: facility,
+          },
+        }
+      );
+
+      const facility_management = await Facility_Management.find()
+        .sort({ lastName: 1 })
+        .lean();
+      const saveMsg = true;
+      activeTab = "edit";
+      res.render("admin/db/facility_managementDB", {
+        user: req.session.user,
+        notifications,
+        facility_management,
+        saveMsg,
+        activeTab,
+      });
+    } catch (err) {
+      console.log("Error in saving unit team edit: ", err);
+    }
+  },
+  async deleteFacility_Management(req, res) {
+    try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+      const { facility_managementID } = req.params;
+      await Facility_Management.deleteOne({ _id: facility_managementID });
+
+      const facility_management = await Facility_Management.find()
+        .sort({ lastName: 1 })
+        .lean();
+
+      const activeTab = "all";
+      res.render("admin/db/facility_managementDB", {
+        user: req.session.user,
+        notifications,
+        facility_management,
+        activeTab,
+      });
+    } catch (err) {
+      console.log(err);
+      res.render("error/500");
+    }
+  },
+  async resetFacility_ManagementPassword(req, res) {
+    try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+      const { password, confirmPassword } = req.body;
+      const { facility_managementID } = req.params;
+
+      if (password == confirmPassword) {
+        await updateFacility_ManagementPasswordById(
+          facility_managementID,
+          password
+        );
+        const saved = true;
+        const facility_management = await Facility_Management.find()
+          .sort({ lastName: 1 })
+          .lean();
+        const facility_managementFound = await Facility_Management.findById({
+          _id: facility_managementID,
+        }).lean();
+
+        const activeTab = "edit";
+        return res.render("admin/db/facility_managementDB", {
+          user: req.session.user,
+          notifications,
+          facility_management,
+          activeTab,
+          saved,
+          facility_managementFound,
+        });
+      }
+      const facility_managementFound = await Facility_Management.findById({
+        _id: facility_managementID,
+      }).lean();
+      const savingError = true;
+      const facility_management = await Facility_Management.find()
+        .sort({ lastName: 1 })
+        .lean();
+
+      const activeTab = "edit";
+      res.render("admin/db/facility_managementDB", {
+        user: req.session.user,
+        notifications,
+        facility_management,
+        activeTab,
+        savingError,
+        facility_managementFound,
+      });
+    } catch (err) {
+      console.log(err);
+      res.render("error/500");
+    }
+  },
+
+  //==========================
   //   Reports
   //==========================
   //serves reports page from admin dashboard
@@ -1135,9 +1772,10 @@ module.exports = {
         req.session.user.email,
         req.session.user.role
       );
-      res.render("admin/reports", { user: req.session.user });
+      res.render("admin/reports", { user: req.session.user, notifications });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
   async residentReport(req, res) {
