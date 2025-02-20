@@ -39,14 +39,18 @@
                                 <button class="nav-link {{#if (eq activeTab 'contact')}}active{{/if}}"
                                     data-bs-toggle="tab" data-bs-target="#contact-employer">Contact</button>
                             </li>
+                            <li class="nav-item">
+                                <button class="nav-link {{#if (eq activeTab 'activities')}}active{{/if}}"
+                                    data-bs-toggle="tab" data-bs-target="#activities-employer">Activity Log</button>
+                            </li>
 
                         </ul>
 
                         <div class="tab-content pt-2">
-                            {{!-- Add Employers Tab --}}
+                            {{!-- Overview Tab --}}
                             <div class="tab-pane fade {{#if (eq activeTab 'overview')}}show active{{/if}} profile-overview pt-3"
                                 id="profile-overview">
-                                <h5 class="card-title">Employer Information</h5>
+                                <h5 class="card-title">PI Contact Info:</h5>
                                 <div class="row">
 
                                     <div class="col-lg-4 col-md-4 label">Company</div>
@@ -80,7 +84,7 @@
                                         <h3 class="text-center text-info text-capitalize">Contact {{employer.firstName}}
                                             {{employer.lastName}}
                                         </h3>
-                                        <p class="text-center">Fill out the form below to contact this employer.
+                                        <p class="text-center">Fill out the form below to contact this PI Employer.
                                         </p>
                                         <div class="col-md-6">
                                             <input type="text" name="name" value="{{user.firstName}} {{user.lastName}}"
@@ -109,6 +113,33 @@
 
 
                                 <!--=============== Edit employer Form============================ -->
+                            </div>
+                            {{!-- Activity Log --}}
+                            <div class="tab-pane fade {{#if (eq activeTab 'activities')}}show active{{/if}} activities-employer pt-3"
+                                id="activities-employer">
+                                <div class="activity">
+                                    <div class="card">
+                                        <div class="card-body mt-3">
+                                            {{#if activities}}
+                                                {{#each activities}}
+                                                    <div class="activity-item d-flex">
+                                                        <div class="activite-label">{{formatDate this.timestamp}}</div>
+                                                        <i
+                                                            class='bi bi-circle-fill activity-badge {{this.color}} align-self-start'></i>
+                                                        <div class="activity-content">
+                                                            {{this.details}}
+                                                        </div>
+                                                    </div><!-- End activity item-->
+
+                                                {{/each}}
+                                            {{else}}
+                                                <h5 class="text-center pt-3">This PI Contact has not yet completed any
+                                                    activities.
+                                                </h5>
+                                            {{/if}}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                         </div><!-- End Bordered Tabs -->

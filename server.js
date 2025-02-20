@@ -135,6 +135,9 @@ app.get("*", (req, res) => {
   logger.warn(`Page not found: ${req.originalUrl}`); // Log 404 errors
 });
 
+// interview cleanup
+require("./api/cron/interviewCleanup");
+
 //initialize server
 const PORT = process.env.PORT || 5999;
 app.listen(PORT, function () {

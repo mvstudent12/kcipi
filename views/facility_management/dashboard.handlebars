@@ -52,7 +52,7 @@
                                             <i class="bi bi-clipboard-check"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6>{{countPendingItems caseLoad "resumeIsComplete" "resumeIsApproved"}}
+                                            <h6>{{pendingResumes}}
                                             </h6>
                                         </div>
                                     </div>
@@ -115,38 +115,42 @@
                                                         href="/clearance/residentProfile/{{this.residentID}}">
                                                         {{this.lastName}}, {{this.firstName}}</a></td>
                                                 <td class="text-capitalize">{{formatDate this.outDate}}</td>
-                                                {{#if this.resumeIsApproved}}
+
+                                                {{#if (eq this.resume.status "pending")}}
+                                            <tr>
+                                                <th scope="row"><a
+                                                        href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
+                                                </th>
+                                                <td><a href="/clearance/residentProfile/{{this.residentID}}"
+                                                        class="text-primary text-capitalize">
+                                                        {{this.lastName}}, {{this.firstName}}</a></td>
+                                                <td><a href="/clearance/residentProfile/{{this.residentID}}"
+                                                        class="text-primary text-capitalize">{{formatDate this.outDate}}</a>
+                                                </td>
+
+                                                <td>{{formatDate this.resume.createdAt}}</td>
+                                                <td class="text-capitalize">{{this.unitTeam}}</td>
+                                            </tr>
+                                            {{/if}}
+
+                                            {{!-- work status --}}
+                                            {{#if this.isHired}}
+                                                <td><span class="badge bg-info">Hired</span></td>
+                                            {{else}}
+                                                {{#if (eq this.workEligibility.status "approved")}}
                                                     <td><span class="badge bg-success">Approved</span></td>
                                                 {{else}}
-                                                    {{#if this.resumeRejectionReason}}
-                                                        <td><span class="badge bg-danger">Rejected</span></td>
+                                                    {{#if (eq this.workEligibility.status "restricted")}}
+                                                        <td><span class="badge bg-danger">Restricted</span></td>
                                                     {{else}}
-                                                        {{#if this.resumeIsComplete}}
+                                                        {{#if (eq this.workEligibility.status "pending")}}
                                                             <td><span class="badge bg-warning">Pending</span></td>
                                                         {{else}}
-                                                            <td><span class="badge bg-info">None</span></td>
+                                                            <td><span class="badge bg-secondary">None</span></td>
                                                         {{/if}}
                                                     {{/if}}
                                                 {{/if}}
-
-                                                {{!-- work status --}}
-                                                {{#if this.isHired}}
-                                                    <td><span class="badge bg-info">Hired</span></td>
-                                                {{else}}
-                                                    {{#if (eq this.workEligibility.status "approved")}}
-                                                        <td><span class="badge bg-success">Approved</span></td>
-                                                    {{else}}
-                                                        {{#if (eq this.workEligibility.status "restricted")}}
-                                                            <td><span class="badge bg-danger">Restricted</span></td>
-                                                        {{else}}
-                                                            {{#if (eq this.workEligibility.status "pending")}}
-                                                                <td><span class="badge bg-warning">Pending</span></td>
-                                                            {{else}}
-                                                                <td><span class="badge bg-secondary">None</span></td>
-                                                            {{/if}}
-                                                        {{/if}}
-                                                    {{/if}}
-                                                {{/if}}
+                                            {{/if}}
 
                                             </tr>
 
@@ -174,30 +178,29 @@
                                     </thead>
                                     <tbody>
                                         {{#each caseLoad}}
-                                            {{#unless this.resumeIsApproved}}
-                                                {{#if this.resumeIsComplete}}
-                                                    <tr>
-                                                        <th scope="row"><a
-                                                                href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
-                                                        </th>
+                                            {{#if (eq this.resume.status "pending")}}
+                                                <tr>
+                                                    <th scope="row"><a
+                                                            href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
+                                                    </th>
 
-                                                        <td><a href="/clearance/residentProfile/{{this.residentID}}"
-                                                                class="text-primary text-capitalize">
-                                                                {{this.lastName}}, {{this.firstName}}</a></td>
-                                                        <td><a href="/clearance/residentProfile/{{this.residentID}}"
-                                                                class="text-primary text-capitalize">{{formatDate this.outDate}}</a>
-                                                        </td>
+                                                    <td><a href="/clearance/residentProfile/{{this.residentID}}"
+                                                            class="text-primary text-capitalize">
+                                                            {{this.lastName}}, {{this.firstName}}</a></td>
+                                                    <td><a href="/clearance/residentProfile/{{this.residentID}}"
+                                                            class="text-primary text-capitalize">{{formatDate this.outDate}}</a>
+                                                    </td>
 
-                                                        <td><a href="/clearance/residentProfile/{{this.residentID}}">{{formatDate
+                                                    <td><a href="/clearance/residentProfile/{{this.residentID}}">{{formatDate
                                                     this.resume.createdAt}}</a></td>
 
-                                                        <td class="text-capitalize"><a
-                                                                href="/clearance/residentProfile/{{this.residentID}}">{{this.custodyLevel}}</a>
-                                                        </td>
+                                                    <td class="text-capitalize"><a
+                                                            href="/clearance/residentProfile/{{this.residentID}}">{{this.custodyLevel}}</a>
+                                                    </td>
 
-                                                    </tr>
-                                                {{/if}}
-                                            {{/unless}}
+                                                </tr>
+                                            {{/if}}
+
                                         {{/each}}
                                     </tbody>
                                 </table>
@@ -227,7 +230,7 @@
                                     <tbody>
                                         {{#each caseLoad}}
 
-                                            {{#if this.resumeIsApproved}}
+                                            {{#if (eq this.resume.status "approved")}}
 
                                                 {{#unless (eq this.workEligibility.status "approved")}}
                                                     {{#unless (eq this.workEligibility.status "restricted")}}

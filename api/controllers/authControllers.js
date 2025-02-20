@@ -35,7 +35,6 @@ module.exports = {
     try {
       const user = await Resident.findResident(residentID);
       req.session.resident = user;
-      //console.log("resident login session " + req.session.resident);
 
       // Log successful login-- create better error handling for this
       logger.info(
@@ -45,6 +44,7 @@ module.exports = {
     } catch (err) {
       console.log(err);
       const errors = handleErrors(err);
+      //handles errors on front end
       res.status(400).json({ errors });
     }
   },

@@ -24,7 +24,27 @@ adminRoutes.get(
   requireRole(["admin"]),
   controller.dashboard
 );
-
+adminRoutes.get(
+  "/analytics",
+  checkUser,
+  requireAuth,
+  requireRole(["admin"]),
+  controller.analytics
+);
+adminRoutes.get(
+  "/chartData",
+  checkUser,
+  requireAuth,
+  requireRole(["admin"]),
+  controller.chartData
+);
+adminRoutes.get(
+  "/employmentData",
+  checkUser,
+  requireAuth,
+  requireRole(["admin"]),
+  controller.employmentData
+);
 adminRoutes.get(
   "/helpDesk",
   checkUser,
@@ -87,6 +107,20 @@ adminRoutes.get(
   requireRole(["admin"]),
   controller.unitTeamTables
 );
+adminRoutes.get(
+  "/classificationTables",
+  checkUser,
+  requireAuth,
+  requireRole(["admin"]),
+  controller.classificationTables
+);
+adminRoutes.get(
+  "/facility_managementTables",
+  checkUser,
+  requireAuth,
+  requireRole(["admin"]),
+  controller.facility_managementTables
+);
 
 adminRoutes.get(
   "/employerTables",
@@ -122,6 +156,20 @@ adminRoutes.get(
   controller.unitTeamProfile
 );
 adminRoutes.get(
+  "/classificationProfile/:id",
+  checkUser,
+  requireAuth,
+  requireRole(["admin"]),
+  controller.classificationProfile
+);
+adminRoutes.get(
+  "/facility_managementProfile/:id",
+  checkUser,
+  requireAuth,
+  requireRole(["admin"]),
+  controller.facility_managementProfile
+);
+adminRoutes.get(
   "/adminProfile/:id",
   checkUser,
   requireAuth,
@@ -131,7 +179,7 @@ adminRoutes.get(
 //=============================
 //   DB Routes
 //=============================
-//facility_managementDB =====================
+//facility_managementDB =======
 
 adminRoutes.get(
   "/facility_managementDB",
@@ -347,12 +395,6 @@ adminRoutes.post(
   requireAuth,
   requireRole(["admin"]),
   controller.deleteCompany
-);
-adminRoutes.post(
-  "/resetCompanyPassword/:companyID",
-  requireAuth,
-  requireRole(["admin"]),
-  controller.resetCompanyPassword
 );
 
 //unitTeamDB ===================

@@ -51,18 +51,20 @@
                                                 {{/if}}
 
                                                 {{!-- Resume Conditional --}}
-                                                {{#if this.resumeIsApproved}}
-                                                    <td><span class="badge bg-success">Approved</span></td>
-                                                {{else}}
-                                                    {{#if this.resumeRejectionReason}}
-                                                        <td><span class="badge bg-danger">Rejected</span></td>
-                                                    {{else}}
-                                                        {{#if this.resumeIsComplete}}
-                                                            <td><span class="badge bg-warning">Pending</span></td>
-                                                        {{else}}
-                                                            <td><span class="badge bg-secondary">None</span></td>
-                                                        {{/if}}
+                                                {{#if this.resumeIsComplete}}
+                                                    {{#if (eq this.resume.status "approved")}}
+                                                        <td><span class="badge bg-success">Approved</span></td>
                                                     {{/if}}
+
+                                                    {{#if (eq this.resume.status "rejected")}}
+                                                        <td><span class="badge bg-danger">Rejected</span></td>
+                                                    {{/if}}
+                                                    {{#if (eq this.resume.status "pending")}}
+                                                        <td><span class="badge bg-warning">Pending</span></td>
+                                                    {{/if}}
+                                                {{else}}
+                                                    <td><span class="badge bg-secondary">None</span></td>
+
                                                 {{/if}}
 
                                                 {{!-- work status --}}

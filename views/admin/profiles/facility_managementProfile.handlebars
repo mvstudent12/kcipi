@@ -1,0 +1,153 @@
+{{> adminTemplate}}
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1 class="text-capitalize">{{facility_management.firstName}} {{facility_management.lastName}}</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="admin/dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item active">Facility Management Profile</li>
+            </ol>
+        </nav>
+    </div>
+
+    <section class="section profile">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+                        <img src="/assets/img/employer.png" alt="Profile" class="rounded-circle">
+                        <h2 class="text-capitalize mb-3">{{facility_management.firstName}}
+                            {{facility_management.lastName}}
+                        </h2>
+                        <h3>Facility Management Member</h3>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+
+                <div class="card">
+                    <div class="card-body pt-3">
+                        <!-- Bordered Tabs -->
+                        <ul class="nav nav-tabs nav-tabs-bordered">
+                            <li class="nav-item">
+                                <button class="nav-link {{#if (eq activeTab 'overview')}}active{{/if}}"
+                                    data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-link {{#if (eq activeTab 'contact')}}active{{/if}}"
+                                    data-bs-toggle="tab" data-bs-target="#contact-facility_management">Contact</button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-link {{#if (eq activeTab 'activities')}}active{{/if}}"
+                                    data-bs-toggle="tab" data-bs-target="#activities-facility_management">Activity
+                                    Log</button>
+                            </li>
+
+                        </ul>
+
+                        <div class="tab-content pt-2">
+                            {{!-- Overview --}}
+                            <div class="tab-pane fade {{#if (eq activeTab 'overview')}}show active{{/if}} profile-overview pt-3"
+                                id="profile-overview">
+                                <h5 class="card-title">Member Information:</h5>
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 label ">Full Name</div>
+                                    <div class="col-lg-8 col-md-8 text-capitalize">{{facility_management.firstName}}
+                                        {{facility_management.lastName}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 label">Facility</div>
+                                    <div class="col-lg-8 col-md-8 text-capitalize">{{facility_management.facility}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 label">Email</div>
+                                    <div class="col-lg-8 col-md-8 ">{{facility_management.email}}</div>
+                                </div>
+                            </div>
+
+                            {{!-- Contact Facility Management --}}
+                            <div class="tab-pane fade {{#if (eq activeTab 'contact')}}show active{{/if}} contact-facility_management pt-3"
+                                id="contact-facility_management">
+
+                                {{!-- DO THIS FUNCTIONALITY LATER --}}
+                                <form method="POST" action="#">
+                                    <div class="row gy-4">
+                                        <h3 class="text-center text-info text-capitalize">Contact
+                                            {{facility_management.firstName}}
+                                            {{facility_management.lastName}}
+                                        </h3>
+                                        <p class="text-center">Fill out the form below to contact this Facility
+                                            Management member.
+                                        </p>
+                                        <div class="col-md-6">
+                                            <input type="text" name="name" value="{{user.firstName}} {{user.lastName}}"
+                                                class="form-control text-capitalize"
+                                                placeholder="{{user.firstName}} {{user.lastName}}" readonly>
+                                        </div>
+                                        <div class="col-md-6 ">
+                                            <input type="email" class="form-control" name="email"
+                                                placeholder="{{user.email}}" value="{{user.email}}" readonly>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control" name="subject" placeholder="Subject"
+                                                required>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <textarea class="form-control" name="message" rows="6" placeholder="Message"
+                                                required></textarea>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <button class="btn btn-primary" type="submit">Send</button>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+
+                            <div class="tab-pane fade {{#if (eq activeTab 'activities')}}show active{{/if}} activities-facility_management pt-3"
+                                id="activities-facility_management">
+                                <div class="activity">
+                                    <div class="card">
+                                        <div class="card-body mt-3">
+                                            {{#if activities}}
+                                                {{#each activities}}
+                                                    <div class="activity-item d-flex">
+                                                        <div class="activite-label">{{formatDate this.timestamp}}</div>
+                                                        <i
+                                                            class='bi bi-circle-fill activity-badge {{this.color}} align-self-start'></i>
+                                                        <div class="activity-content">
+                                                            {{this.details}}
+                                                        </div>
+                                                    </div>
+
+                                                {{/each}}
+                                            {{else}}
+                                                <h5 class="text-center pt-3">This Facility Management member has not yet
+                                                    completed
+                                                    any
+                                                    activities.
+                                                </h5>
+                                            {{/if}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div><!-- End Bordered Tabs -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+{{> footer}}
+
+{{> arrowUp}}

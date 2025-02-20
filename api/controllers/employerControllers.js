@@ -385,6 +385,24 @@ module.exports = {
         jobPool,
       } = req.body;
 
+      // Ensure isAvailable is treated as a proper boolean (true or false)
+      let isAvailableBool =
+        isAvailable === true || isAvailable === "true" ? true : false;
+
+      // Ensure availablePositions is a valid number
+      let updatedAvailablePositions = parseInt(availablePositions, 10) || 0;
+
+      // Enforce the rules:
+      // If isAvailable is true, availablePositions must be at least 1
+      if (isAvailableBool && updatedAvailablePositions <= 0) {
+        updatedAvailablePositions = 1;
+      }
+
+      // If availablePositions is 0, isAvailable must be false
+      if (updatedAvailablePositions === 0) {
+        isAvailableBool = false;
+      }
+
       await Jobs.findOneAndUpdate(
         { _id: jobID },
         {
@@ -393,14 +411,16 @@ module.exports = {
             description: description,
             skillSet: skillSet,
             pay: pay,
-            availablePositions: availablePositions,
-            isAvailable: isAvailable,
+            availablePositions: updatedAvailablePositions,
+            isAvailable: isAvailableBool,
             facility: facility,
             jobPool: jobPool,
           },
         }
       );
+
       const position = await Jobs.findById(jobID).lean();
+
       const companyID = position.companyID;
       const company = await Company.findById(companyID).lean();
       // Query jobs with the specified companyID
@@ -451,7 +471,7 @@ module.exports = {
         skillSet = "None";
       }
 
-      const newJob = await Jobs.create({
+      await Jobs.create({
         companyID,
         companyName,
         position,
@@ -480,7 +500,6 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
-      console.log(err);
       logger.warn(
         "An error occurred while adding a new company position: ",
         err
@@ -507,6 +526,12 @@ module.exports = {
         jobPool,
       } = req.body;
 
+      // Ensure availablePositions is a valid number
+      let updatedAvailablePositions = parseInt(availablePositions, 10) || 0;
+
+      // Automatically set isAvailable based on availablePositions
+      let isAvailableBool = updatedAvailablePositions > 0;
+
       await Jobs.findOneAndUpdate(
         { _id: jobID },
         {
@@ -515,17 +540,19 @@ module.exports = {
             description: description,
             skillSet: skillSet,
             pay: pay,
-            availablePositions: availablePositions,
-            isAvailable: isAvailable,
+            availablePositions: updatedAvailablePositions,
+            isAvailable: isAvailableBool,
             facility: facility,
             jobPool: jobPool,
           },
         }
       );
+
       const position = await Jobs.findById(jobID).lean();
       if (!position) {
         throw new Error("Job not found");
       }
+
       const companyID = position.companyID;
       // Extract `resident_id` from applicants array
       const applicantIds = position.applicants.map(
@@ -550,7 +577,6 @@ module.exports = {
         applicants,
       });
     } catch (err) {
-      console.log(err);
       console.log(err);
       logger.warn("An error occurred while editing a company position: ", err);
       return res.render("error/500");
@@ -897,6 +923,7 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
   //=============================

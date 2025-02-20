@@ -1,5 +1,6 @@
 const Resident = require("../models/Resident");
 const ActivityLog = require("../models/ActivityLog");
+const Jobs = require("../models/Jobs");
 
 const { Parser } = require("json2csv");
 
@@ -11,6 +12,8 @@ const {
 } = require("../utils/unitTeamUtils");
 
 const { getUserNotifications } = require("../utils/notificationUtils");
+
+const { getTotalAvailablePositions } = require("../utils/employerUtils");
 
 module.exports = {
   //===============================
@@ -54,6 +57,11 @@ module.exports = {
       //find all active interviews
       const interviews = await findInterviews(residentIDs);
 
+      //count pending resumes
+      const pendingResumes = await Resident.countDocuments({
+        "resume.status": { $ne: "approved" },
+      });
+
       res.render("unitTeam/dashboard", {
         user: req.session.user,
         notifications,
@@ -61,6 +69,7 @@ module.exports = {
         applicants,
         interviews,
         employees,
+        pendingResumes
       });
     } catch (err) {
       console.log(err);
@@ -106,12 +115,20 @@ module.exports = {
         .sort({ lastName: 1 })
         .lean();
 
+      const jobs = await Jobs.find({
+        facility: req.session.user.facility,
+        isAvailable: true,
+      }).lean();
+
+      let positionsAvailable = getTotalAvailablePositions(jobs);
       res.render("unitTeam/manageWorkForce", {
         user: req.session.user,
         notifications,
         applicants,
         interviews,
         employees,
+        jobs,
+        positionsAvailable,
       });
     } catch (err) {
       console.log(err);

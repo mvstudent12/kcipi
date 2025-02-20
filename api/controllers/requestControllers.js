@@ -154,8 +154,6 @@ module.exports = {
 
   async sendNextNotification(req, res) {
     try {
-      console.log(req.body);
-
       const { residentID, email } = req.params;
       const department = req.body.category;
       const recipient = req.body.recipientEmail;
@@ -519,6 +517,7 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
   //========================
@@ -535,7 +534,7 @@ module.exports = {
         sentMsg,
       });
     } catch (err) {
-      console.log(err);
+      res.render("error/500");
     }
   },
   //========================

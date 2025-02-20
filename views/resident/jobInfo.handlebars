@@ -42,40 +42,47 @@
                         <div class="tab-content pt-2">
 
                             <div class="tab-pane fade show active profile-overview" id="profile-overview">
-                                {{#if saveMsg}}
-                                    <span class="fst-italic text-success">Your application has been sent to Unit
-                                        Team for approval.</span>
-                                {{/if}}
-                                <h5 class="card-title">Position Information</h5>
-                                <div class="row">
-                                    <div class="col-lg-4 col-md-4 label ">Company</div>
-                                    <div class="col-lg-8 col-md-8 text-capitalize">{{position.companyName}}</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-4 col-md-4 label">Facility</div>
-                                    <div class="col-lg-8 col-md-8 text-capitalize">{{position.facility}}</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-4 col-md-4 label">Position Title</div>
-                                    <div class="col-lg-8 col-md-8 text-capitalize">{{position.position}}</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-4 col-md-4 label">Description</div>
-                                    <div class="col-lg-8 col-md-8 text-capitalize">{{position.description}}</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-4 col-md-4 label">Required Skills</div>
-                                    <div class="col-lg-8 col-md-8 text-capitalize">{{position.skillSet}}</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-4 col-md-4 label">Available Positions</div>
-                                    <div class="col-lg-8 col-md-8 text-capitalize">{{position.availablePositions}}</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-4 col-md-4 label">Hourly Pay</div>
-                                    <div class="col-lg-8 col-md-8">${{position.pay}} /hr</div>
-                                </div>
+                                <div class="card">
+                                    <div class="card-body pt-3">
+                                        {{#if saveMsg}}
+                                            <span class="fst-italic text-success">Your application has been sent to Unit
+                                                Team for approval.</span>
+                                        {{/if}}
+                                        <h5 class="card-title">Position Information</h5>
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 label ">Company</div>
+                                            <div class="col-lg-8 col-md-8 text-capitalize">{{position.companyName}}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 label">Facility</div>
+                                            <div class="col-lg-8 col-md-8 text-capitalize">{{position.facility}}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 label">Position Title</div>
+                                            <div class="col-lg-8 col-md-8 text-capitalize">{{position.position}}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 label">Description</div>
+                                            <div class="col-lg-8 col-md-8 text-capitalize">{{position.description}}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 label">Required Skills</div>
+                                            <div class="col-lg-8 col-md-8 text-capitalize">{{position.skillSet}}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 label">Available Positions</div>
+                                            <div class="col-lg-8 col-md-8 text-capitalize">
+                                                {{position.availablePositions}}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 label">Hourly Pay</div>
+                                            <div class="col-lg-8 col-md-8">${{position.pay}} /hr</div>
+                                        </div>
 
+                                    </div>
+                                </div>
                             </div>
 
                             <!--==================== Application  Form ===========================-->

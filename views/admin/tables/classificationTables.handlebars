@@ -1,0 +1,64 @@
+{{> adminTemplate}}
+
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Classification Roster</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active"><a href="/admin/dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item active">Classification Roster</li>
+            </ol>
+        </nav>
+    </div>
+    <section class="section dashboard">
+        <div class="row">
+
+            <div class="col-lg-12">
+                <div class="row">
+                    <!-- Classification Table -->
+                    <div class="col-12">
+                        <div class="card recent-sales overflow-auto">
+                            <div class="card-body">
+                                <h5 class="card-title">Classification Members<span>| All KDOC</span></h5>
+                                <table class="table table-borderless table-striped datatable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Facility</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Email</th>
+                                            <th scope="col">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each classification}}
+                                            <tr>
+                                                <th scope="row"><a
+                                                        href="/admin/classificationProfile/{{this._id}}">{{add
+                                                    @index 1}}</a>
+                                                </th>
+                                                <td class="text-capitalize">{{this.facility}}</td>
+                                                <td class="text-capitalize"><a
+                                                        href="/admin/classificationProfile/{{this._id}}">
+                                                        {{this.firstName}} {{this.lastName}}</a>
+                                                </td>
+                                                <td><a
+                                                        href="/admin/classificationProfile/{{this._id}}">{{this.email}}</a>
+                                                </td>
+                                                <td><span class="badge bg-success">Active</span></td>
+                                            </tr>
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+{{> footer}}
+{{> arrowUp}}

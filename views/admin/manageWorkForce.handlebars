@@ -17,6 +17,72 @@
 
             <div class="col-lg-12">
                 <div class="row">
+                    <!-- Applicants Card -->
+                    <div class="col-xxl-4 col-md-4">
+                        <div class="card info-card customers-card">
+                            <a href="#">
+                                <div class="card-body">
+                                    <h5 class="card-title">Applicants <span>| Eligible</span></h5>
+                                    <div class="d-flex align-items-center">
+                                        <div
+                                            class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                            <i class="bi bi-people"></i>
+                                        </div>
+                                        <div class="ps-3">
+                                            <h6>{{countItems applicants}}</h6>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Interviews Card -->
+                    <div class="col-xxl-4 col-md-4">
+                        <div class="card info-card sales-card">
+                            <a href="#resumeTable">
+                                <div class="card-body">
+                                    <h5 class="card-title">Interviews <span>| Pending</span></h5>
+
+                                    <div class="d-flex align-items-center">
+                                        <div
+                                            class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                            <i class="bi bi-clipboard-check"></i>
+                                        </div>
+                                        <div class="ps-3">
+                                            <h6>
+                                                {{countItems interviews}}
+                                            </h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Positions Card -->
+                    <div class="col-xxl-4 col-md-4">
+                        <div class="card info-card revenue-card">
+                            <a href="#applicantTable">
+
+                                <div class="card-body">
+                                    <h5 class="card-title">Positions <span>| To Fill</span></h5>
+
+                                    <div class="d-flex align-items-center">
+                                        <div
+                                            class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                            <i class="bi bi-card-list"></i>
+                                        </div>
+                                        <div class="ps-3">
+                                            <h6>{{positionsAvailable}}</h6>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
 
                     <!-- Applicants Table -->
                     <div class="col-12">
@@ -107,6 +173,49 @@
                                 </table>
                             </div>
                         </div>
+                    </div>
+                    {{!-- Positions table --}}
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <div class="card recent-sales overflow-auto">
+                                <div class="card-body">
+                                    <h5 class="card-title">Job Positions <span>| Available</span></h5>
+                                    <table class="table table-borderless table-striped datatable">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col"># Available</th>
+                                                <th scope="col">Position</th>
+                                                <th scope="col">Job Pool</th>
+                                                <th scope="col">Date Created</th>
+                                                <th scope="col">Applicants</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {{#each jobs}}
+                                                <tr>
+                                                    <th scope="row">{{this.availablePositions}}</th>
+                                                    <td class="text-capitalize">
+                                                        {{this.position}}
+                                                    </td>
+                                                    <td class=" text-capitalize">{{this.jobPool}}
+                                                    </td>
+                                                    <td>{{formatDate this.dateCreated}}</td>
+                                                    {{#if (eq this.applicants '')}}
+                                                        <td><span class="badge bg-danger">none</span></td>
+                                                    {{else}}
+                                                        <td><span class="badge bg-success">
+                                                                &nbsp;&nbsp;{{countArrayItems
+                                                                this.applicants}}
+                                                                &nbsp;&nbsp;</span>
+                                                        </td>
+                                                    {{/if}}
+                                                </tr>
+                                            {{/each}}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div><!-- End Job Positions Table -->
                     </div>
                     <!-- Employees Table -->
                     <div class="col-12">

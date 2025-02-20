@@ -1,18 +1,9 @@
-const Admin = require("../models/Admin");
-const Facility_Management = require("../models/Facility_Management");
-const Classification = require("../models/Classification");
-const Employer = require("../models/Employer");
-const UnitTeam = require("../models/UnitTeam");
 const Resident = require("../models/Resident");
 const Jobs = require("../models/Jobs");
-const ActivityLog = require("../models/ActivityLog");
 
 const { Parser } = require("json2csv");
 
-const {
-  getUserNotifications,
-  createNotification,
-} = require("../utils/notificationUtils");
+const { getUserNotifications } = require("../utils/notificationUtils");
 
 const {
   findInterviews,
@@ -20,6 +11,8 @@ const {
   findResidentsWithCompany,
   createApplicantsReport,
 } = require("../utils/classificationUtils");
+
+const { getTotalAvailablePositions } = require("../utils/employerUtils");
 
 module.exports = {
   async dashboard(req, res) {
@@ -59,6 +52,11 @@ module.exports = {
       //find all active interviews
       const interviews = await findInterviews(residentIDs);
 
+      //count pending resumes
+      const pendingResumes = await Resident.countDocuments({
+        "resume.status": { $ne: "approved" },
+      });
+
       res.render("classification/dashboard", {
         user: req.session.user,
         notifications,
@@ -66,13 +64,13 @@ module.exports = {
         applicants,
         interviews,
         employees,
+        pendingResumes,
       });
     } catch (err) {
       console.log(err);
       res.render("error/500");
     }
   },
-
   async helpDesk(req, res) {
     try {
       const notifications = await getUserNotifications(
@@ -88,7 +86,6 @@ module.exports = {
       res.render("error/500");
     }
   },
-
   async contact(req, res) {
     try {
       const notifications = await getUserNotifications(
@@ -140,12 +137,21 @@ module.exports = {
         .sort({ lastName: 1 })
         .lean();
 
+      const jobs = await Jobs.find({
+        facility: req.session.user.facility,
+        isAvailable: true,
+      }).lean();
+
+      let positionsAvailable = getTotalAvailablePositions(jobs);
+
       res.render("classification/manageWorkForce", {
         user: req.session.user,
         notifications,
         applicants,
         interviews,
         employees,
+        jobs,
+        positionsAvailable,
       });
     } catch (err) {
       console.log(err);

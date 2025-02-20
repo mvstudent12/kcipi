@@ -3,20 +3,20 @@
 <main id="main" class="main">
 
     <div class="pagetitle">
-
         <h1>Dashboard</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item active">Dashboard</li>
             </ol>
         </nav>
-    </div><!-- End Page Title -->
+    </div>
 
     <section class="section dashboard">
         <div class="row">
             <!-- Left side columns -->
             <div class="col-lg-12">
                 <div class="row">
+
                     <!-- Eligible Jobs -->
                     <div class="col-xxl-4 col-md-4">
                         <div class="card info-card sales-card">
@@ -28,13 +28,13 @@
                                         <i class="bi bi-briefcase-fill"></i>
                                     </div>
                                     {{#if user.isHired}}
-                                    <div class="ps-3">
-                                        <h6>0</h6>
-                                    </div>
+                                        <div class="ps-3">
+                                            <h6>0</h6>
+                                        </div>
                                     {{else}}
-                                    <div class="ps-3">
-                                        <h6>{{countArrayItems jobs}}</h6>
-                                    </div>
+                                        <div class="ps-3">
+                                            <h6>{{countArrayItems jobs}}</h6>
+                                        </div>
                                     {{/if}}
                                 </div>
                             </div>
@@ -59,7 +59,7 @@
                                 </div>
                             </a>
                         </div>
-                    </div><!-- End Revenue Card -->
+                    </div>
 
                     <!-- My Resume Status Card -->
                     <div class="col-xxl-4 col-md-4">
@@ -74,48 +74,39 @@
                                         </div>
 
                                         <div class="ps-3">
-                                            {{#if user.resumeRejectionReason}}
-                                            <h6 class="resumeStatus">Rejected</h6>
-                                            {{else}}
-                                            {{#if user.resumeIsApproved}}
-                                            <h6 class="resumeStatus">Approved</h6>
-                                            {{else}}
                                             {{#if user.resumeIsComplete}}
-                                            <h6 class="resumeStatus">Pending</h6>
+                                                <h6 class="resumeStatus text-capitalize">{{user.resume.status}}
                                             {{else}}
-                                            <h6 class="resumeStatus">Incomplete</h6>
-                                            {{/if}}
-                                            {{/if}}
+                                                <h6 class="resumeStatus">Incomplete</h6>
                                             {{/if}}
                                         </div>
-
                                     </div>
                                 </div>
                             </a>
                         </div>
-                    </div><!-- End Customers Card -->
+                    </div>
 
                     {{#each interviews}}
-                    {{#if this.interviews.dateScheduled}}
+                        {{#if this.interviews.dateScheduled}}
 
-                    <div class="col-12">
-                        <div class="card recent-sales overflow-auto">
-                            <div class="card-body p-5 text-center">
-                                <h3 class="text-primary mb-3">You have an interview scheduled.</h3>
-                                <div>
-                                    <p> Please be ready for your interview with <span
-                                            class="text-capitalize text-info">{{this.companyName}}</span> at <span
-                                            class="text-success">{{this.interviews.time}}</span> on <span
-                                            class="text-success">{{formatDate this.interviews.dateScheduled}}.</span>
-                                    </p>
-                                    {{#if this.interviews.instructions}}
-                                    <p>Additional Instructions: {{this.interviews.instructions}}</p>
-                                    {{/if}}
+                            <div class="col-12">
+                                <div class="card recent-sales overflow-auto">
+                                    <div class="card-body p-5 text-center">
+                                        <h3 class="text-primary mb-3">You have an interview scheduled.</h3>
+                                        <div>
+                                            <p> Please be ready for your interview with <span
+                                                    class="text-capitalize text-info">{{this.companyName}}</span> at
+                                                <span class="text-success">{{this.interviews.time}}</span> on <span
+                                                    class="text-success">{{formatDate this.interviews.dateScheduled}}.</span>
+                                            </p>
+                                            {{#if this.interviews.instructions}}
+                                                <p>Additional Instructions: {{this.interviews.instructions}}</p>
+                                            {{/if}}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    {{/if}}
+                        {{/if}}
                     {{/each}}
 
 
@@ -126,52 +117,57 @@
                             <div class="card-body">
                                 <h5 class="card-title">All Available Jobs</h5>
                                 {{#if user.isHired}}
-                                <p class="text-success mt-3">You are currently working as of {{formatDate
+                                    <p class="text-success mt-3">You are currently working as of {{formatDate
                                     user.dateHired}}.</p>
-                                <p>You are not eligible to complete any applications while you are employed.</p>
+                                    <p>You are not eligible to complete any applications while you are employed.</p>
                                 {{else}}
-                                <table class="table table-borderless table-striped datatable">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col">Company</th>
-                                            <th scope="col">Position</th>
-                                            <th scope="col">Date</th>
-                                            <th scope="col">Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {{#each jobs}}
-                                        <tr>
-                                            <th scope="row"><a href="/resident/jobInfo/{{this._id}}">{{add @index
-                                                    1}}</a></th>
-                                            <td class="text-capitalize"><a
-                                                    href="/resident/jobInfo/{{this._id}}">{{this.companyName}}</a></td>
-                                            <td class="text-capitalize"><a href="/resident/jobInfo/{{this._id}}"
-                                                    class="text-primary">{{this.position}}</a></td>
-                                            <td class="text-capitalize">{{formatDate this.dateCreated}}</td>
-                                            {{#if this.residentInApplicants}}
-                                            <td><span class="badge bg-warning">Applied</span></td>
-                                            {{else}}
-                                            <td><span class="badge bg-success">Available</span></td>
-                                            {{/if}}
-                                        </tr>
-                                        {{/each}}
-                                    </tbody>
-                                </table>
+                                    {{#if jobs}}
+                                        <table class="table table-borderless table-striped">
+                                            <thead>
+                                                <tr>
+
+                                                    <th scope="col">Company</th>
+                                                    <th scope="col">Position</th>
+                                                    <th scope="col">Pay</th>
+                                                    <th scope="col">Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {{#each jobs}}
+                                                    <tr>
+                                                        <th class="text-capitalize" scope="row"><a
+                                                                href="/resident/jobInfo/{{this._id}}">{{this.companyName}}</a>
+                                                        </th>
+
+                                                        <td class="text-capitalize"><a
+                                                                href="/resident/jobInfo/{{this._id}}"
+                                                                class="text-primary">{{this.position}}</a></td>
+                                                        <td class="text-capitalize">${{this.pay}}/hr</td>
+                                                        {{#if this.residentInApplicants}}
+                                                            <td><span class="badge bg-warning">Applied</span></td>
+                                                        {{else}}
+                                                            <td><span class="badge bg-success">Available</span></td>
+                                                        {{/if}}
+                                                    </tr>
+                                                {{/each}}
+                                            </tbody>
+                                        </table>
+                                    {{else}}
+                                        <p>There are no available jobs for you at this time.</p>
+                                    {{/if}}
                                 {{/if}}
                             </div>
 
                         </div>
-                    </div><!-- End Recent Sales -->
+                    </div>
 
                 </div>
-            </div><!-- End Left side columns -->
+            </div>
 
         </div>
     </section>
 
-</main><!-- End #main -->
+</main>
 
 <!-- ======= Footer ======= -->
 <footer id="footer" class="footer">
@@ -181,6 +177,6 @@
     <div class="credits">
         Created by <a href="#">KCI Software Solutions</a>
     </div>
-</footer><!-- End Footer -->
+</footer>
 
 {{> arrowUp}}

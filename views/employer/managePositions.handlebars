@@ -117,14 +117,14 @@
                                                     class="col-md-4 col-lg-4 col-form-label">Description</label>
                                                 <div class="col-md-8 col-lg-8">
                                                     <input name="description" type="text"
-                                                        class="form-control text-capitalize" id="description" required>
+                                                        class="form-control text-capitalize" id="description"
+                                                        maxlength="16" required>
                                                 </div>
                                             </div>
                                             {{!-- Skill Set --}}
                                             <div class="row mb-3">
                                                 <label for="skillSet" class="col-md-4 col-lg-4 col-form-label">Required
-                                                    Skill
-                                                    Set</label>
+                                                    Skills</label>
                                                 <div class="col-md-8 col-lg-8">
                                                     <input name="skillSet" type="text"
                                                         class="form-control text-capitalize" id="skillSet"
@@ -308,26 +308,7 @@
                                                             </div>
                                                         </div>
 
-                                                        {{!-- Job Available --}}
-                                                        <div class="row mb-3">
-                                                            <label for="availablePositions"
-                                                                class="col-md-4 col-lg-4 col-form-label">Available</label>
-                                                            <div class="col-md-8 col-lg-8">
 
-                                                                <select required name="isAvailable" class="form-select"
-                                                                    aria-label="Available">
-                                                                    <option {{#if (eq positionFound.isAvailable "true" )
-                                                                        }}selected{{/if}} value="true">Position is
-                                                                        Available
-                                                                    </option>
-                                                                    <option {{#if (eq positionFound.isAvailable "false"
-                                                                        ) }}selected{{/if}} value="false">Position is
-                                                                        Not
-                                                                        Available
-                                                                    </option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
                                                         {{!-- Position Facility --}}
                                                         <div class="row mb-3">
                                                             <label for="facility"

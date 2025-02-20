@@ -35,30 +35,29 @@
                                     </thead>
                                     <tbody>
                                         {{#each caseLoad}}
-                                            {{#unless this.resumeIsApproved}}
-                                                {{#if this.resumeIsComplete}}
-                                                    <tr>
-                                                        <th scope="row"><a
-                                                                href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
-                                                        </th>
+                                            {{#if (eq this.resume.status "pending")}}
+                                                <tr>
+                                                    <th scope="row"><a
+                                                            href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
+                                                    </th>
 
-                                                        <td><a href="/clearance/residentProfile/{{this.residentID}}"
-                                                                class="text-primary text-capitalize">
-                                                                {{this.lastName}}, {{this.firstName}}</a></td>
-                                                        <td><a href="/clearance/residentProfile/{{this.residentID}}"
-                                                                class="text-primary text-capitalize">{{formatDate this.outDate}}</a>
-                                                        </td>
+                                                    <td><a href="/clearance/residentProfile/{{this.residentID}}"
+                                                            class="text-primary text-capitalize">
+                                                            {{this.lastName}}, {{this.firstName}}</a></td>
+                                                    <td><a href="/clearance/residentProfile/{{this.residentID}}"
+                                                            class="text-primary text-capitalize">{{formatDate this.outDate}}</a>
+                                                    </td>
 
-                                                        <td><a href="/clearance/residentProfile/{{this.residentID}}">{{formatDate
+                                                    <td><a href="/clearance/residentProfile/{{this.residentID}}">{{formatDate
                                                     this.resume.createdAt}}</a></td>
 
-                                                        <td class="text-capitalize"><a
-                                                                href="/clearance/residentProfile/{{this.residentID}}">{{this.custodyLevel}}</a>
-                                                        </td>
+                                                    <td class="text-capitalize"><a
+                                                            href="/clearance/residentProfile/{{this.residentID}}">{{this.custodyLevel}}</a>
+                                                    </td>
 
-                                                    </tr>
-                                                {{/if}}
-                                            {{/unless}}
+                                                </tr>
+                                            {{/if}}
+
                                         {{/each}}
                                     </tbody>
                                 </table>
@@ -89,7 +88,7 @@
                                     <tbody>
                                         {{#each caseLoad}}
 
-                                            {{#if this.resumeIsApproved}}
+                                            {{#if (eq this.resume.status "approved")}}
 
                                                 {{#unless (eq this.workEligibility.status "approved")}}
                                                     {{#unless (eq this.workEligibility.status "restricted")}}

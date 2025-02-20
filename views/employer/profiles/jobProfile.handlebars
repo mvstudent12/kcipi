@@ -65,9 +65,10 @@
                                         <div class="row">
                                             <div class="col-lg-4 col-md-4 label">Required Skills:</div>
                                             {{#if position.skillSet}}
-                                            <div class="col-lg-8 col-md-8 text-capitalize">{{position.skillSet}}</div>
+                                                <div class="col-lg-8 col-md-8 text-capitalize">{{position.skillSet}}
+                                                </div>
                                             {{else}}
-                                            <div class="col-lg-8 col-md-8 text-capitalize">None</div>
+                                                <div class="col-lg-8 col-md-8 text-capitalize">None</div>
                                             {{/if}}
                                         </div>
                                         <div class="row">
@@ -76,13 +77,20 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-lg-4 col-md-4 label">Available:</div>
-                                            <div class="col-lg-8 col-md-8 text-capitalize">{{position.isAvailable}}
+                                            <div class="col-lg-8 col-md-8 text-capitalize">
+                                                {{#if (eq position.isAvailable true )}}
+                                                    Position is Available
+                                                {{else}}
+                                                    Position is Not Available
+                                                {{/if}}
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-lg-4 col-md-4 label">Available Positions:</div>
                                             <div class="col-lg-8 col-md-8 text-capitalize">
-                                                {{position.availablePositions}}</div>
+
+                                                {{position.availablePositions}}
+                                            </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-lg-4 col-md-4 label">Facility:</div>
@@ -94,10 +102,10 @@
                                         </div>
                                         {{!-- save msg from edit position --}}
                                         {{#if saveMsg}}
-                                        <hr>
-                                        <p class="text-success text-center fst-italic mt-3">Position successfully
-                                            updated.
-                                        </p>
+                                            <hr>
+                                            <p class="text-success text-center fst-italic mt-3">Position successfully
+                                                updated.
+                                            </p>
 
                                         {{/if}}
                                     </div>
@@ -162,23 +170,7 @@
                                                 </div>
                                             </div>
 
-                                            {{!-- Job Available --}}
-                                            <div class="row mb-3">
-                                                <label for="availablePositions"
-                                                    class="col-md-4 col-lg-4 col-form-label">Available</label>
-                                                <div class="col-md-8 col-lg-8">
 
-                                                    <select required name="isAvailable" class="form-select"
-                                                        aria-label="Available">
-                                                        <option {{#if (eq position.isAvailable "true" )
-                                                            }}selected{{/if}} value="true">Position is Available
-                                                        </option>
-                                                        <option {{#if (eq position.isAvailable "false" )
-                                                            }}selected{{/if}} value="false">Position is Not Available
-                                                        </option>
-                                                    </select>
-                                                </div>
-                                            </div>
                                             {{!-- Position Facility --}}
                                             <div class="row mb-3">
                                                 <label for="facility"
@@ -281,25 +273,25 @@
                                                 </thead>
                                                 <tbody>
                                                     {{#each applicants}}
-                                                    <tr>
-                                                        <th scope="row">
-                                                            <a
-                                                                href="/employer/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
-                                                        </th>
-                                                        <td class="text-capitalize"><a
-                                                                href="/employer/residentProfile/{{this.residentID}}">{{this.facility}}</a>
-                                                        </td>
-                                                        <td><a href="/employer/residentProfile/{{this.residentID}}"
-                                                                class="text-primary text-capitalize">{{this.firstName}}
-                                                                {{this.lastName}}</a></td>
-                                                        <td><a href="/employer/residentProfile/{{this.residentID}}"
-                                                                class="text-primary text-capitalize">{{formatDate
+                                                        <tr>
+                                                            <th scope="row">
+                                                                <a
+                                                                    href="/employer/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
+                                                            </th>
+                                                            <td class="text-capitalize"><a
+                                                                    href="/employer/residentProfile/{{this.residentID}}">{{this.facility}}</a>
+                                                            </td>
+                                                            <td><a href="/employer/residentProfile/{{this.residentID}}"
+                                                                    class="text-primary text-capitalize">{{this.firstName}}
+                                                                    {{this.lastName}}</a></td>
+                                                            <td><a href="/employer/residentProfile/{{this.residentID}}"
+                                                                    class="text-primary text-capitalize">{{formatDate
                                                                 this.outDate}}</a></td>
-                                                        <td class="text-capitalize">
-                                                            <a
-                                                                href="/employer/residentProfile/{{this.residentID}}">{{this.custodyLevel}}</a>
-                                                        </td>
-                                                    </tr>
+                                                            <td class="text-capitalize">
+                                                                <a
+                                                                    href="/employer/residentProfile/{{this.residentID}}">{{this.custodyLevel}}</a>
+                                                            </td>
+                                                        </tr>
                                                     {{/each}}
                                                 </tbody>
                                             </table>

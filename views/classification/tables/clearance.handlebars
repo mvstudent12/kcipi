@@ -40,7 +40,7 @@
                                     <tbody>
                                         {{#each caseLoad}}
 
-                                            {{#if this.resumeIsApproved}}
+                                            {{#if (eq this.resume.status "approved")}}
 
                                                 {{#unless (eq this.workEligibility.status "approved")}}
                                                     {{#unless (eq this.workEligibility.status "restricted")}}

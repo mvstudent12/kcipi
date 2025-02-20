@@ -62,23 +62,6 @@ const updateEmployerPasswordById = async (employerID, newPassword) => {
   }
 };
 
-const updateCompanyPasswordById = async (companyID, newPassword) => {
-  const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(newPassword, salt);
-
-  const result = await Company.findByIdAndUpdate(
-    companyID, // Find the company by companyID (_id)
-    { password: hashedPassword }, // Update the password
-    { new: true } // Return the updated document
-  );
-
-  if (result) {
-    return result;
-  } else {
-    throw Error("No company found");
-  }
-};
-
 const updateClassificationPasswordById = async (
   classificationID,
   newPassword
@@ -243,7 +226,6 @@ module.exports = {
   updateAdminPasswordById,
   updateEmployerPasswordById,
   updateUnitTeamPasswordById,
-  updateCompanyPasswordById,
   updateClassificationPasswordById,
   updateFacility_ManagementPasswordById,
 };

@@ -1,10 +1,7 @@
 //=============================
 //    Global Imports
 //=============================
-const UnitTeam = require("../models/UnitTeam");
-const Notification = require("../models/Notification");
-const Resident = require("../models/Resident");
-const Jobs = require("../models/Jobs");
+
 const ActivityLog = require("../models/ActivityLog");
 
 //=============================
@@ -20,9 +17,10 @@ async function createActivityLog(userID, action, details) {
       approve_work_eligibility: "text-success",
       resume_approved: "text-success",
       resume_rejected: "text-danger",
-      edited_resident: "text-primary",
+      submitted_resume: "text-success",
+      submitted_application: "text-success",
       resident_hired: "text-info",
-      resident_terminated: "text-warning",
+      resident_terminated: "text-danger",
       application_rejected: "text-muted",
       interview_requested: "text-secondary",
       termination_requested: "text-dark",
@@ -31,6 +29,10 @@ async function createActivityLog(userID, action, details) {
       clearance_approved: "text-success",
       clearance_restricted: "text-danger",
       note_added: "text-info",
+      added_user: "text-info",
+      edited_user: "text-warning",
+      deleted_user: "text-danger",
+      changed_password: "text-warning",
     };
 
     const activity = new ActivityLog({

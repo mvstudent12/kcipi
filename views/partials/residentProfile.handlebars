@@ -1,7 +1,7 @@
 <section class="section profile">
     <div class="row">
         <div class="col-12">
-            <div class="card">
+            <div class="card" style="min-width: 720px;">
                 <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
                     <img src="/assets/img/avatar.png" alt="Profile" class="rounded-circle">
                     <h2 class="text-capitalize">{{resident.firstName}} {{resident.lastName}}</h2>
@@ -12,7 +12,7 @@
         </div>
 
         <div class="col-12">
-            <div class="card">
+            <div class="card" style="min-width: 720px;">
                 <div class="card-body pt-3">
                     <!--========= Tab Borders =======-->
                     <ul class="nav nav-tabs nav-tabs-bordered">
@@ -36,6 +36,10 @@
                         <li class="nav-item">
                             <button class="nav-link {{#if (eq activeTab 'work-history')}}active{{/if}}"
                                 data-bs-toggle="tab" data-bs-target="#profile-work-history">Work History</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link {{#if (eq activeTab 'activities')}}active{{/if}}"
+                                data-bs-toggle="tab" data-bs-target="#profile-activities">Activity Log</button>
                         </li>
                     </ul>
                     {{!--===== TABS =====--}}
@@ -110,11 +114,13 @@
                                         <div class="col-lg-8 col-md-8 text-capitalize">{{resident.resumeIsComplete}}
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-lg-4 col-md-4 label">Resume Approved</div>
-                                        <div class="col-lg-8 col-md-8 text-capitalize">{{resident.resumeIsApproved}}
+                                    {{#if resident.resume.status}}
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 label">Resume Status</div>
+                                            <div class="col-lg-8 col-md-8 text-capitalize">{{resident.resume.status}}
+                                            </div>
                                         </div>
-                                    </div>
+                                    {{/if}}
                                     <div class="row">
                                         <div class="col-lg-4 col-md-4 label">UTM</div>
                                         {{#if resident.unitTeam}}
@@ -154,11 +160,11 @@
 
 
                                     <!--======== Resume  Form ========== -->
-                                    {{#if resident.resumeRejectionReason}}
+                                    {{#if resident.resume.rejectionReason}}
                                         {{!-- if resume has been rejected, show the reason --}}
                                         <div class="text-center">
                                             <p class="text-danger">This resume has been rejected for being
-                                                {{resident.resumeRejectionReason}}.
+                                                {{resident.resume.rejectionReason}}.
                                             </p>
                                         </div>
                                     {{else}}
@@ -166,16 +172,17 @@
                                             {{!-- if resident has completed their resume --}}
                                             <form method="POST"
                                                 action="/clearance/approveResume/{{resident.residentID}}">
-                                                {{#unless resident.resumeIsApproved}}
+                                                {{#unless (eq resident.resume.status "approved")}}
+
                                                     <div class="mb-3 text-center">
                                                         <p class="text-primary">Review resume and select job pool.</p>
                                                     </div>
                                                 {{else}}
                                                     <div class="mb-3 text-center">
                                                         <p class="text-success">Resume approved by <span
-                                                                class="text-capitalize">{{resident.resumeApprovedBy}}</span>
+                                                                class="text-capitalize">{{resident.resume.approvedBy}}</span>
                                                             on
-                                                            {{formatDate resident.resumeApprovalDate}}
+                                                            {{formatDate resident.resume.approvalDate}}
                                                         </p>
                                                     </div>
                                                 {{/unless}}
@@ -398,7 +405,8 @@
                                                 </div>
 
                                                 {{!-- Resume Submit Button --}}
-                                                {{#if resident.resumeIsApproved}}
+
+                                                {{#if (eq resident.resume.status "approved")}}
                                                     {{!-- if resume has already been approved, allow for rejection --}}
                                                     <div class="row mb-3">
                                                         <label for="jobPool"
@@ -413,9 +421,9 @@
                                                     <hr class="mb-3">
                                                     <div class="text-center">
                                                         <p class="text-success">Resume approved by <span
-                                                                class="text-capitalize">{{resident.resumeApprovedBy}}</span>
+                                                                class="text-capitalize">{{resident.resume.approvedBy}}</span>
                                                             on
-                                                            {{formatDate resident.resumeApprovalDate}}
+                                                            {{formatDate resident.resume.approvalDate}}
                                                         </p>
                                                         <button type="button" class="btn btn-danger mx-2"
                                                             data-bs-toggle="modal" data-bs-target="#rejectResume">Reject
@@ -512,7 +520,7 @@
                                                 to work due to restrictions.</p>
                                         </div>
                                     {{/if}}
-                                    {{#if resident.resumeIsApproved}}
+                                    {{#if (eq resident.resume.status "approved")}}
 
 
                                         <h5 class="card-title">Clearance Status</h5>
@@ -923,7 +931,7 @@
                                 </div>
                             </div>
                         </div>
-                        {{!--======== Applications TAB ========--}}
+                        {{!--======== Work history TAB ========--}}
                         <div class="tab-pane fade {{#if (eq activeTab 'work-history')}}show active{{/if}} profile-work-history pt-3"
                             id="profile-work-history">
                             <div class="card">
@@ -995,6 +1003,35 @@
                                 </div>
                             </div>
                         </div>
+                        {{!-- Activity Log Tab --}}
+                        <div class="tab-pane fade {{#if (eq activeTab 'activities')}}show active{{/if}} profile-activities pt-3"
+                            id="profile-activities">
+                            <div class="activity">
+                                <div class="card">
+                                    <div class="card-body mt-3">
+                                        {{#if activities}}
+                                            {{#each activities}}
+                                                <div class="activity-item d-flex">
+                                                    <div class="activite-label">{{formatDate this.timestamp}}</div>
+                                                    <i
+                                                        class='bi bi-circle-fill activity-badge {{this.color}} align-self-start'></i>
+                                                    <div class="activity-content">
+                                                        {{this.details}}
+                                                    </div>
+                                                </div><!-- End activity item-->
+
+                                            {{/each}}
+                                        {{else}}
+                                            <p class="text-center text-primary pt-3">This resident has not yet completed
+                                                any
+                                                activities.
+                                            </p>
+                                        {{/if}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div><!-- End Bordered Tabs -->
                 </div>
             </div>

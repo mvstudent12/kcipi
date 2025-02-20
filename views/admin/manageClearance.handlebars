@@ -35,28 +35,23 @@
                                     </thead>
                                     <tbody>
                                         {{#each caseLoad}}
-                                            {{#unless this.resumeIsApproved}}
-                                                {{#if this.resumeIsComplete}}
-                                                    <tr>
-                                                        <th scope="row"><a
-                                                                href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
-                                                        </th>
-                                                        <td class="text-capitalize">{{this.facility}}</td>
-                                                        <td><a href="/clearance/residentProfile/{{this.residentID}}"
-                                                                class="text-primary text-capitalize">
-                                                                {{this.lastName}}, {{this.firstName}}</a></td>
-                                                        <td><a href="/clearance/residentProfile/{{this.residentID}}"
-                                                                class="text-primary text-capitalize">{{formatDate this.outDate}}</a>
-                                                        </td>
+                                            {{#if (eq this.resume.status "pending")}}
+                                                <tr>
+                                                    <th scope="row"><a
+                                                            href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
+                                                    </th>
+                                                    <td class="text-capitalize">{{this.facility}}</td>
+                                                    <td><a href="/clearance/residentProfile/{{this.residentID}}"
+                                                            class="text-primary text-capitalize">
+                                                            {{this.lastName}}, {{this.firstName}}</a></td>
+                                                    <td><a href="/clearance/residentProfile/{{this.residentID}}"
+                                                            class="text-primary text-capitalize">{{formatDate this.outDate}}</a>
+                                                    </td>
 
-                                                        <td>{{formatDate this.resume.createdAt}}</td>
+                                                    <td>{{formatDate this.resume.createdAt}}</td>
 
-
-
-
-                                                    </tr>
-                                                {{/if}}
-                                            {{/unless}}
+                                                </tr>
+                                            {{/if}}
                                         {{/each}}
                                     </tbody>
                                 </table>
@@ -86,7 +81,7 @@
                                     <tbody>
                                         {{#each caseLoad}}
 
-                                            {{#if this.resumeIsApproved}}
+                                            {{#if (eq this.resume.status "approved")}}
 
                                                 {{#unless (eq this.workEligibility.status "approved")}}
                                                     {{#unless (eq this.workEligibility.status "restricted")}}

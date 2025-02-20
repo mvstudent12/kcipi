@@ -3,8 +3,11 @@ const Resident = require("../models/Resident");
 const Employer = require("../models/Employer");
 const Company = require("../models/Company");
 const Jobs = require("../models/Jobs");
+const ActivityLog = require("../models/ActivityLog");
 
 const mongoose = require("mongoose");
+
+const { createActivityLog } = require("../utils/activityLogUtils");
 
 module.exports = {
   async dashboard(req, res) {
@@ -125,25 +128,53 @@ module.exports = {
     }
   },
   async saveResume(req, res) {
-    const email = req.body.unitTeam;
-    const id = req.session.resident._id.toString();
     try {
-      const unitTeam = await UnitTeam.findOne({ email }).lean();
+      const res_id = req.session.resident._id.toString();
+      const {
+        unitTeam,
+        legalCitizen,
+        hsGraduate,
+        sscard,
+        birthCertificate,
+        workHistory,
+        certifications,
+        education,
+        programs,
+        skills,
+      } = req.body;
+      const unitTeamMember = await UnitTeam.findOne({ email: unitTeam }).lean();
+      const unitTeamName = `${unitTeamMember.firstName} ${unitTeamMember.lastName}`;
 
-      const unitTeamName = `${unitTeam.firstName} ${unitTeam.lastName}`;
       await Resident.updateOne(
-        { _id: id },
+        { _id: res_id },
         {
           $set: {
             resumeIsComplete: true,
-            resume: req.body,
+            "resume.unitTeam": unitTeam,
+            "resume.legalCitizen": legalCitizen,
+            "resume.hsGraduate": hsGraduate,
+            "resume.sscard": sscard,
+            "resume.birthCertificate": birthCertificate,
+            "resume.workHistory": workHistory,
+            "resume.certifications": certifications,
+            "resume.education": education,
+            "resume.programs": programs,
+            "resume.skills": skills,
+            "resume.status": "pending",
+            "resume.createdAt": new Date(),
+            "resume.rejectionReason": "",
             unitTeam: unitTeamName,
-            resumeRejectionReason: "",
           },
         }
       );
 
-      let resident = await Resident.findOne({ _id: id }).lean();
+      await createActivityLog(
+        res_id,
+        "submitted_resume",
+        `Submitted resume to Unit Team.`
+      );
+
+      let resident = await Resident.findOne({ _id: res_id }).lean();
       req.session.resident = resident;
       res.render("resident/profile", { user: req.session.resident });
     } catch (err) {
@@ -166,7 +197,7 @@ module.exports = {
         },
         {
           $project: {
-            _id: 0, // Optionally exclude the job's _id from the result
+            _id: 1, // Optionally exclude the job's _id from the result
             companyName: "$companyName", // Include company name
             pay: "$pay", // Include pay details
             position: "$position", // Include the job position
@@ -187,8 +218,9 @@ module.exports = {
   async jobInfo(req, res) {
     try {
       const { jobID } = req.params;
-      const id = req.session.resident._id;
+      const res_id = req.session.resident._id;
 
+      // fetch job
       let position = await Jobs.aggregate([
         {
           $match: {
@@ -200,7 +232,10 @@ module.exports = {
             residentInApplicants: {
               $cond: {
                 if: {
-                  $in: [new mongoose.Types.ObjectId(id), "$applicants"],
+                  $in: [
+                    new mongoose.Types.ObjectId(res_id),
+                    "$applicants.resident_id", // Adjusted to check inside the applicants array
+                  ],
                 },
                 then: true,
                 else: false,
@@ -242,7 +277,7 @@ module.exports = {
 
       if (!job) {
         // Add resident to the applicants array with additional fields
-        await Jobs.findByIdAndUpdate(
+        const updatedJob = await Jobs.findByIdAndUpdate(
           jobID,
           {
             $addToSet: {
@@ -254,6 +289,11 @@ module.exports = {
             },
           },
           { new: true }
+        );
+        await createActivityLog(
+          res_id,
+          "submitted_application",
+          `Submitted application to ${updatedJob.companyName}.`
         );
       }
 
@@ -294,10 +334,27 @@ module.exports = {
       res.render("error/500");
     }
   },
-
   async faq(req, res) {
     try {
       res.render("resident/faq", { user: req.session.resident });
+    } catch (err) {
+      console.log(err);
+      res.render("error/500");
+    }
+  },
+  async recentActivities(req, res) {
+    try {
+      const res_id = req.session.resident._id.toString();
+
+      const activities = await ActivityLog.find({ userID: res_id })
+        .sort({ timestamp: -1 })
+        .limit(20)
+        .lean();
+
+      res.render(`resident/recentActivities`, {
+        user: req.session.resident,
+        activities,
+      });
     } catch (err) {
       console.log(err);
       res.render("error/500");

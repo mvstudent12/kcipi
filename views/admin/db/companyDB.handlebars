@@ -206,10 +206,6 @@
                                                         type="button" class="btn btn-danger mx-2">Delete
                                                         Company</button>
 
-                                                    <button data-bs-toggle="modal" data-bs-target="#resetPassword"
-                                                        type="button" class="btn btn-warning mx-2">Reset
-                                                        Password</button>
-
                                                     <button type="submit" class="btn btn-primary mx-2">Save
                                                         Edit</button>
                                                 </div>
@@ -302,44 +298,6 @@
                     <div class="col-12 d-flex justify-content-between">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                         <button id="" type="submit" class="btn btn-danger">Delete Company</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-{{!-- MODAL FOR Reset Password --}}
-<div class="modal fade" id="resetPassword" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form method="post" action="/admin/resetCompanyPassword/{{companyFound._id}}">
-                <div class="modal-header">
-                    <h5 class="modal-title text-capitalize">Company: {{companyFound.firstName}}
-                        {{companyFound.lastName}}
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row mb-3 mt-3">
-                        <label for="password" class="col-md-5 col-lg-5 col-form-label">New Password:</label>
-                        <div class="col-md-7 col-lg-7">
-                            <input required name="password" type="password" class="form-control" id="password">
-                        </div>
-                    </div>
-                    <div class="row mb-3 mt-3">
-                        <label for="confirmPassword" class="col-md-5 col-lg-5 col-form-label">Confirm
-                            Password:</label>
-                        <div class="col-md-7 col-lg-7">
-                            <input required name="confirmPassword" type="password" class="form-control"
-                                id="confirmPassword">
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <div class="col-12 d-flex justify-content-between">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button id="" type="submit" class="btn btn-warning">Reset Password</button>
                     </div>
                 </div>
             </form>

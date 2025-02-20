@@ -1,5 +1,5 @@
 const Resident = require("../models/Resident");
-const ActivityLog = require("../models/ActivityLog");
+const Jobs = require("../models/Jobs");
 
 const { Parser } = require("json2csv");
 
@@ -11,6 +11,8 @@ const {
 } = require("../utils/facility_managementUtils");
 
 const { getUserNotifications } = require("../utils/notificationUtils");
+
+const { getTotalAvailablePositions } = require("../utils/employerUtils");
 
 module.exports = {
   async dashboard(req, res) {
@@ -53,6 +55,11 @@ module.exports = {
       //find all active interviews
       const interviews = await findInterviews(residentIDs);
 
+      //count pending resumes
+      const pendingResumes = await Resident.countDocuments({
+        "resume.status": { $ne: "approved" },
+      });
+
       res.render("facility_management/dashboard", {
         user: req.session.user,
         notifications,
@@ -60,12 +67,13 @@ module.exports = {
         applicants,
         interviews,
         employees,
+        pendingResumes,
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
-
   async helpDesk(req, res) {
     try {
       const notifications = await getUserNotifications(
@@ -78,9 +86,9 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
-
   async contact(req, res) {
     try {
       const notifications = await getUserNotifications(
@@ -93,6 +101,7 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
   async manageWorkForce(req, res) {
@@ -131,16 +140,23 @@ module.exports = {
       })
         .sort({ lastName: 1 })
         .lean();
-
+      const jobs = await Jobs.find({
+        facility: req.session.user.facility,
+        isAvailable: true,
+      }).lean();
+      let positionsAvailable = getTotalAvailablePositions(jobs);
       res.render("facility_management/manageWorkForce", {
         user: req.session.user,
         notifications,
         applicants,
         interviews,
         employees,
+        jobs,
+        positionsAvailable,
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
   async manageClearance(req, res) {
@@ -166,6 +182,7 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
   //===============================
@@ -188,6 +205,7 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
   async resumes(req, res) {
@@ -207,6 +225,7 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
   async clearance(req, res) {
@@ -226,6 +245,7 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
   async applicants(req, res) {
@@ -254,6 +274,7 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
   async employees(req, res) {
@@ -279,6 +300,7 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
   //===============================
@@ -296,6 +318,7 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
+      res.render("error/500");
     }
   },
   async residentReport(req, res) {

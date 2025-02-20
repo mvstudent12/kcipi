@@ -33,7 +33,6 @@ form.addEventListener("submit", async (e) => {
       }
     }
     if (data.user) {
-
       location.assign("/user/dashboard/" + data.user);
       emailErr.classList.remove("d-block");
       emailErr.classList.add("d-none");
@@ -42,6 +41,7 @@ form.addEventListener("submit", async (e) => {
     }
   } catch (err) {
     console.log(err);
+    // add error rendering page?
   }
 });
 

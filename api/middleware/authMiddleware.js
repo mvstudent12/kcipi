@@ -56,7 +56,39 @@ function requireRole(allowedRoles) {
     }
   };
 }
+// Middleware to check if the user is a resident
+function requireResidentRole(allowedRoles) {
+  return async (req, res, next) => {
+    if (!req.session.resident) {
+      return res.redirect("/"); // Redirect if no user session
+    }
 
+    try {
+      // Fetch user details if not already in session
+      let user = req.session.resident;
+      if (!user.role) {
+        user = await findUserById(user._id); // Get user from database
+        if (!user) {
+          req.session.resident = null;
+          return res.redirect("/");
+        }
+        req.session.resident = user; // Store updated user in session
+      }
+
+      // Check if user has an allowed role
+      if (!allowedRoles.includes(user.role)) {
+        logger.warn(`Role check error:: ${user.role}::Access denied.`);
+        return res.render("error/403");
+      }
+
+      next();
+    } catch (err) {
+      console.error("Role check error:", err.message);
+      logger.warn(`Role check error:: ${err.message}`);
+      res.render("error/500");
+    }
+  };
+}
 // Middleware to store user details in session
 const checkUser = async (req, res, next) => {
   if (!req.session.user) {
@@ -109,6 +141,7 @@ module.exports = {
   requireAuth,
   requireResidentAuth,
   requireRole,
+  requireResidentRole,
   checkUser,
   checkResident,
 };

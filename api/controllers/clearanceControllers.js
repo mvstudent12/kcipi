@@ -1,7 +1,3 @@
-const Admin = require("../models/Admin");
-const Facility_Management = require("../models/Facility_Management");
-const Classification = require("../models/Classification");
-const Employer = require("../models/Employer");
 const UnitTeam = require("../models/UnitTeam");
 const Resident = require("../models/Resident");
 const Jobs = require("../models/Jobs");
@@ -52,7 +48,6 @@ module.exports = {
         .limit(20)
         .lean();
 
-      console.log(activities);
       res.render(`${req.session.user.role}/recentActivities`, {
         user: req.session.user,
         notifications,
@@ -88,9 +83,13 @@ module.exports = {
       // Fetch the unit team, sorted by firstName
       const unitTeam = await UnitTeam.find({}).sort({ firstName: 1 }).lean();
 
-      const activeTab = "overview"; // Set the active tab for the profile
+      const res_id = resident._id.toString();
 
-      // Render the profile page
+      const activities = await ActivityLog.find({
+        userID: res_id,
+      }).lean();
+
+      const activeTab = "overview"; // Set the active tab for the profile
       res.render(`${req.session.user.role}/profiles/residentProfile`, {
         user: req.session.user,
         notifications,
@@ -98,6 +97,7 @@ module.exports = {
         applications,
         activeTab,
         unitTeam,
+        activities,
       });
     } catch (err) {
       console.error("Error fetching resident profile:", err);
@@ -139,11 +139,12 @@ module.exports = {
 
       await createActivityLog(
         req.session.user._id.toString(),
-        "edited_resident",
+        "edited_user",
         `Edited resident #${residentID}.`
       );
 
       const unitTeam = await UnitTeam.find({}).sort({ firstName: 1 }).lean();
+
       const activeTab = "overview";
       res.render(`${req.session.user.role}/profiles/residentProfile`, {
         user: req.session.user,
@@ -171,18 +172,25 @@ module.exports = {
         { residentID: residentID },
         {
           $set: {
-            resumeIsApproved: false,
+            "resume.status": "rejected",
+            "resume.rejectionReason": rejectReason,
             resumeIsComplete: false,
-            resumeRejectionReason: rejectReason,
           },
         }
       );
+
       const resident = await Resident.findOne({ residentID }).lean();
 
       await createActivityLog(
         req.session.user._id.toString(),
         "resume_rejected",
         `Rejected resume for resident #${residentID} for being ${rejectReason}.`
+      );
+
+      await createActivityLog(
+        resident._id.toString(),
+        "resume_rejected",
+        `Resume rejected by Unit Team for being ${rejectReason}.`
       );
 
       const activeTab = "resume";
@@ -210,9 +218,9 @@ module.exports = {
         { residentID: residentID },
         {
           $set: {
-            resumeIsApproved: true,
-            resumeApprovedBy: name,
-            resumeApprovalDate: new Date(),
+            "resume.status": "approved",
+            "resume.approvedBy": name,
+            "resume.approvalDate": new Date(),
             jobPool: jobPool,
           },
         }
@@ -226,6 +234,11 @@ module.exports = {
         req.session.user._id.toString(),
         "resume_approved",
         `Approved resume for resident #${residentID}.`
+      );
+      await createActivityLog(
+        resident._id.toString(),
+        "resume_approved",
+        `Resume approved by Unit Team.`
       );
 
       res.render(`${req.session.user.role}/profiles/residentProfile`, {
@@ -633,6 +646,12 @@ module.exports = {
         `Scheduled ${companyName} interview for resident #${residentID}.`
       );
 
+      await createActivityLog(
+        resident._id.toString(),
+        "interview_scheduled",
+        `Interview scheduled for ${companyName} on ${date}.`
+      );
+
       const activeTab = "application";
       res.render(`${req.session.user.role}/profiles/residentProfile`, {
         user: req.session.user,
@@ -715,6 +734,12 @@ module.exports = {
         "resident_hired",
         `Employed resident #${residentID} at ${companyName}.`
       );
+
+      await createActivityLog(
+        resident._id.toString(),
+        "resident_hired",
+        `Employed at ${companyName} on ${startDate}.`
+      );
       res.render(`${req.session.user.role}/profiles/residentProfile`, {
         user: req.session.user,
         notifications,
@@ -747,7 +772,7 @@ module.exports = {
       const residentID = resident.residentID;
 
       //remove user from applicants/ interviews
-      await Jobs.findByIdAndUpdate(
+      const updatedJob = await Jobs.findByIdAndUpdate(
         { _id: jobID },
         {
           $pull: {
@@ -766,7 +791,7 @@ module.exports = {
       await createActivityLog(
         req.session.user._id.toString(),
         "application_rejected",
-        `Rejected ${companyName} application from resident #${resident.residentID}.`
+        `Rejected ${updatedJob.companyName} application from resident #${resident.residentID}.`
       );
 
       const activeTab = "application";
@@ -782,7 +807,6 @@ module.exports = {
       res.render("error/500");
     }
   },
-
   //terminates resident
   async terminateResident(req, res) {
     try {
@@ -858,6 +882,12 @@ module.exports = {
         req.session.user._id.toString(),
         "resident_terminated",
         `Terminated resident #${resident.residentID} from ${companyName}.`
+      );
+
+      await createActivityLog(
+        resident._id.toString(),
+        "resident_terminated",
+        `Terminated from ${companyName}.`
       );
 
       const activeTab = "application";

@@ -86,7 +86,6 @@ const helpers = {
       );
 
       if (application) {
-        console.log(application);
         return options.fn(application); // Return the application to the template
       }
     }
