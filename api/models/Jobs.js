@@ -26,16 +26,10 @@ const interviewSchema = new Schema(
     employerInstructions: { type: String, trim: true },
     requestedBy: { type: String, trim: true },
     dateRequested: { type: Date, required: true },
-    residentID: {
-      type: String,
-      required: true,
-    },
-    name: {
-      type: String,
-      required: true,
-    },
+    residentID: { type: String, required: true },
+    name: { type: String, required: true },
     dateScheduled: { type: Date, required: true },
-    time: { type: String, required: true }, // Store time as a string in HH:mm or other formats
+    time: { type: String, required: true },
     instructions: { type: String, trim: true },
   },
   { timestamps: true }
@@ -64,6 +58,14 @@ const jobSchema = new Schema(
   },
   { timestamps: true }
 );
+
+// **Pre-Save Middleware to Prevent Negative Values**
+jobSchema.pre("save", function (next) {
+  if (this.availablePositions < 0) {
+    return next(new Error("Available positions cannot be negative"));
+  }
+  next();
+});
 
 const Jobs = mongoose.model("jobs", jobSchema);
 module.exports = Jobs;

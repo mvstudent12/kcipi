@@ -8,6 +8,7 @@ const Employer = require("../models/Employer");
 const UnitTeam = require("../models/UnitTeam");
 const Resident = require("../models/Resident");
 const Jobs = require("../models/Jobs");
+const ActivityLog = require("../models/ActivityLog");
 
 const { createNotification } = require("./notificationUtils");
 
@@ -53,7 +54,36 @@ async function sendNotificationsToEmployers(
   }
 }
 
+async function getResidentProfileInfo(residentID) {
+  try {
+    // Find the resident based on residentID
+    const resident = await Resident.findOne({ residentID }).lean();
+    if (!resident) {
+      return res.status(404).send("Resident not found"); // Handling case when resident is not found
+    }
+
+    const res_id = resident._id;
+
+    // Find positions the resident has applied for
+    const applications = await Jobs.find({
+      "applicants.resident_id": res_id, // Match applicants by resident ID in the applicants array
+    }).lean();
+
+    // Fetch the unit team, sorted by firstName
+    const unitTeam = await UnitTeam.find({ facility: resident.facility })
+      .sort({ firstName: 1 })
+      .lean();
+    const activities = await ActivityLog.find({
+      userID: res_id.toString(),
+    }).lean();
+    return { resident, applications, unitTeam, activities, res_id };
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 module.exports = {
   getEmployeeEmails,
   sendNotificationsToEmployers,
+  getResidentProfileInfo,
 };

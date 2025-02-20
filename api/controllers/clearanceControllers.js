@@ -8,6 +8,7 @@ const mongoose = require("mongoose");
 const {
   getEmployeeEmails,
   sendNotificationsToEmployers,
+  getResidentProfileInfo,
 } = require("../utils/clearanceUtils");
 
 const { getUserNotifications } = require("../utils/notificationUtils");
@@ -67,27 +68,8 @@ module.exports = {
       );
       const { residentID } = req.params;
 
-      // Find the resident based on residentID
-      const resident = await Resident.findOne({ residentID }).lean();
-      if (!resident) {
-        return res.status(404).send("Resident not found"); // Handling case when resident is not found
-      }
-
-      const id = resident._id;
-
-      // Find positions the resident has applied for
-      const applications = await Jobs.find({
-        "applicants.resident_id": id, // Match applicants by resident ID in the applicants array
-      }).lean();
-
-      // Fetch the unit team, sorted by firstName
-      const unitTeam = await UnitTeam.find({}).sort({ firstName: 1 }).lean();
-
-      const res_id = resident._id.toString();
-
-      const activities = await ActivityLog.find({
-        userID: res_id,
-      }).lean();
+      const { resident, applications, unitTeam, activities } =
+        await getResidentProfileInfo(residentID);
 
       const activeTab = "overview"; // Set the active tab for the profile
       res.render(`${req.session.user.role}/profiles/residentProfile`, {
@@ -128,22 +110,15 @@ module.exports = {
           },
         }
       );
-      const resident = await Resident.findOne({ residentID }).lean();
 
-      const id = resident._id;
-
-      //find positions resident has applied for
-      const applications = await Jobs.find({
-        "applicants.resident_id": id, // Match the resident_id field inside the applicants array
-      }).lean();
+      const { resident, applications, unitTeam, activities, res_id } =
+        await getResidentProfileInfo(residentID);
 
       await createActivityLog(
         req.session.user._id.toString(),
         "edited_user",
         `Edited resident #${residentID}.`
       );
-
-      const unitTeam = await UnitTeam.find({}).sort({ firstName: 1 }).lean();
 
       const activeTab = "overview";
       res.render(`${req.session.user.role}/profiles/residentProfile`, {
@@ -153,6 +128,7 @@ module.exports = {
         applications,
         activeTab,
         unitTeam,
+        activities,
       });
     } catch (err) {
       console.log(err);
@@ -162,8 +138,9 @@ module.exports = {
   //rejects resident resume
   async rejectResume(req, res) {
     try {
-      const residentID = req.params.id;
-      const rejectReason = req.body.rejectReason;
+      const { residentID } = req.params;
+      const { rejectReason } = req.body;
+
       const notifications = await getUserNotifications(
         req.session.user.email,
         req.session.user.role
@@ -179,7 +156,8 @@ module.exports = {
         }
       );
 
-      const resident = await Resident.findOne({ residentID }).lean();
+      const { resident, applications, unitTeam, activities, res_id } =
+        await getResidentProfileInfo(residentID);
 
       await createActivityLog(
         req.session.user._id.toString(),
@@ -188,7 +166,7 @@ module.exports = {
       );
 
       await createActivityLog(
-        resident._id.toString(),
+        res_id.toString(),
         "resume_rejected",
         `Resume rejected by Unit Team for being ${rejectReason}.`
       );
@@ -199,6 +177,9 @@ module.exports = {
         activeTab,
         user: req.session.user,
         notifications,
+        unitTeam,
+        activities,
+        applications,
       });
     } catch (err) {
       console.error(err);
@@ -211,11 +192,12 @@ module.exports = {
         req.session.user.email,
         req.session.user.role
       );
-      const residentID = req.params.id;
-      const jobPool = req.body.jobPool;
+      const { residentID } = req.params;
+      const { jobPool } = req.body;
       const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
+
       await Resident.updateOne(
-        { residentID: residentID },
+        { residentID },
         {
           $set: {
             "resume.status": "approved",
@@ -226,9 +208,8 @@ module.exports = {
         }
       );
 
-      const saveMsg = "This resume has been approved.";
-      const resident = await Resident.findOne({ residentID }).lean();
-      const activeTab = "resume";
+      const { resident, applications, unitTeam, activities, res_id } =
+        await getResidentProfileInfo(residentID);
 
       await createActivityLog(
         req.session.user._id.toString(),
@@ -236,17 +217,22 @@ module.exports = {
         `Approved resume for resident #${residentID}.`
       );
       await createActivityLog(
-        resident._id.toString(),
+        res_id.toString(),
         "resume_approved",
         `Resume approved by Unit Team.`
       );
 
+      const saveMsg = "This resume has been approved.";
+      const activeTab = "resume";
       res.render(`${req.session.user.role}/profiles/residentProfile`, {
         resident,
         activeTab,
         user: req.session.user,
         notifications,
         saveMsg,
+        unitTeam,
+        activities,
+        applications,
       });
     } catch (err) {
       console.error(err);
@@ -258,6 +244,7 @@ module.exports = {
       let { residentID, dept } = req.params;
       const { clearance, comments } = req.body;
       const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
+
       const notifications = await getUserNotifications(
         req.session.user.email,
         req.session.user.role
@@ -345,15 +332,19 @@ module.exports = {
 
         await Resident.updateOne({ residentID: residentID }, updateData);
       }
-      const resident = await Resident.findOne({ residentID }).lean();
+
+      const { resident, applications, unitTeam, activities, res_id } =
+        await getResidentProfileInfo(residentID);
 
       const activeTab = "clearance";
-
       res.render(`${req.session.user.role}/profiles/residentProfile`, {
         resident,
         activeTab,
         user: req.session.user,
         notifications,
+        activities,
+        applications,
+        unitTeam,
       });
     } catch (err) {
       console.error(err);
@@ -361,13 +352,8 @@ module.exports = {
   },
   async findNotes(req, res) {
     try {
-      const notifications = await getUserNotifications(
-        req.session.user.email,
-        req.session.user.role
-      );
-
       const { residentID, dept } = req.params;
-      // Find the resident by residentID
+
       const resident = await Resident.findOne({ residentID }).lean();
 
       if (!resident) {
@@ -384,18 +370,11 @@ module.exports = {
           .json({ message: `${dept} clearance not found.` }); // Handle case where the clearance field does not exist
       }
 
-      // Check if there are notes in the clearance field
       const clearance = resident[clearanceKey];
-      // if (!clearance.notes || clearance.notes.length === 0) {
-      //   return res
-      //     .status(404)
-      //     .json({ message: `No notes found for ${dept} clearance.` }); // Handle case where no notes exist for the department
-      // }
 
       // Retrieve the notes from the clearance field
       const notes = clearance.notes;
 
-      // Send the notes in the response as JSON
       return res.status(200).json({ notes }); // Return the notes in the response body
     } catch (err) {
       console.error(err); // Log the error for debugging
@@ -404,15 +383,15 @@ module.exports = {
     }
   },
   async addNotes(req, res) {
-    const notifications = await getUserNotifications(
-      req.session.user.email,
-      req.session.user.role
-    );
-
     try {
       const { residentID, dept } = req.params;
       const { notes } = req.body;
       const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
+
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
 
       await Resident.updateOne(
         { residentID: residentID },
@@ -426,24 +405,8 @@ module.exports = {
           },
         }
       );
-
-      // Find the resident based on residentID
-      const resident = await Resident.findOne({ residentID }).lean();
-      if (!resident) {
-        return res.status(404).send("Resident not found"); // Handling case when resident is not found
-      }
-
-      const id = resident._id;
-
-      // Find positions the resident has applied for
-      const applications = await Jobs.find({
-        "applicants.resident_id": id, // Match applicants by resident ID in the applicants array
-      }).lean();
-
-      // Fetch the unit team, sorted by firstName
-      const unitTeam = await UnitTeam.find({}).sort({ firstName: 1 }).lean();
-
-      const activeTab = "clearance"; // Set the active tab for the profile
+      const { resident, applications, unitTeam, activities, res_id } =
+        await getResidentProfileInfo(residentID);
 
       await createActivityLog(
         req.session.user._id.toString(),
@@ -451,7 +414,7 @@ module.exports = {
         `Added note to resident #${residentID} clearance notes.`
       );
 
-      // Render the profile page
+      const activeTab = "clearance";
       res.render(`${req.session.user.role}/profiles/residentProfile`, {
         user: req.session.user,
         notifications,
@@ -459,9 +422,10 @@ module.exports = {
         applications,
         activeTab,
         unitTeam,
+        activities,
       });
     } catch (err) {
-      console.error(err); // Log the error for debugging
+      console.error(err);
       logger.warn("An error occurred while fetching the notes: " + err);
       return res.render("error/500");
     }
@@ -477,6 +441,7 @@ module.exports = {
       const { residentID } = req.params;
 
       const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
+
       await Resident.updateOne(
         { residentID: residentID },
         {
@@ -497,11 +462,8 @@ module.exports = {
           },
         }
       );
-
-      const resident = await Resident.findOne({ residentID }).lean();
-
-      const eligibleMsg = "This resident is approved and eligible for work.";
-      const activeTab = "clearance";
+      const { resident, applications, unitTeam, activities, res_id } =
+        await getResidentProfileInfo(residentID);
 
       await createActivityLog(
         req.session.user._id.toString(),
@@ -509,12 +471,17 @@ module.exports = {
         `Approved work eligiblity for resident #${residentID}.`
       );
 
+      const eligibleMsg = "This resident is approved and eligible for work.";
+      const activeTab = "clearance";
       res.render(`${req.session.user.role}/profiles/residentProfile`, {
         resident,
         activeTab,
         user: req.session.user,
         notifications,
         eligibleMsg,
+        applications,
+        unitTeam,
+        activities,
       });
     } catch (err) {
       console.log(err);
@@ -531,6 +498,7 @@ module.exports = {
       const { residentID } = req.params;
       const { rejectReason } = req.body;
       const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
+
       await Resident.updateOne(
         { residentID: residentID },
         {
@@ -552,21 +520,23 @@ module.exports = {
         }
       );
 
-      const resident = await Resident.findOne({ residentID }).lean();
-
-      const activeTab = "clearance";
+      const { resident, applications, unitTeam, activities, res_id } =
+        await getResidentProfileInfo(residentID);
 
       await createActivityLog(
         req.session.user._id.toString(),
         "restrict_work_eligibility",
         `Restricted work eligiblity for resident #${residentID} for ${rejectReason}.`
       );
-
+      const activeTab = "clearance";
       res.render(`${req.session.user.role}/profiles/residentProfile`, {
         resident,
         activeTab,
         user: req.session.user,
         notifications,
+        applications,
+        unitTeam,
+        activities,
       });
     } catch (err) {
       console.log(err);
@@ -583,9 +553,9 @@ module.exports = {
       const { jobID } = req.params;
       const { residentID, date, time, instructions } = req.body;
 
-      const resident = await Resident.findOne({ residentID }).lean();
-      const id = resident._id;
-      const name = `${resident.firstName} ${resident.lastName}`;
+      const res = await Resident.findOne({ residentID }).lean();
+
+      const name = `${res.firstName} ${res.lastName}`;
 
       //if interview has already been requested by the employer for scheduling
       if (req.body.interviewID) {
@@ -623,10 +593,8 @@ module.exports = {
         );
       }
 
-      //find positions resident has applied for
-      const applications = await Jobs.find({
-        "applicants.resident_id": id, // Match the resident_id field inside the applicants array
-      }).lean();
+      const { resident, applications, unitTeam, activities, res_id } =
+        await getResidentProfileInfo(residentID);
 
       const job = await Jobs.findOne({ _id: jobID }).lean();
       const companyName = job.companyName;
@@ -659,6 +627,8 @@ module.exports = {
         resident,
         activeTab,
         applications,
+        unitTeam,
+        activities,
       });
     } catch (err) {
       console.log(err);
@@ -672,39 +642,39 @@ module.exports = {
         req.session.user.email,
         req.session.user.role
       );
-      const { id, jobID } = req.params;
+      const { res_id, jobID } = req.params;
       const position = await Jobs.findOne({ _id: jobID }).lean();
       const companyName = position.companyName;
-      const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
+
       const { startDate } = req.body;
 
       //update resident object with hiring info
-      await Resident.findByIdAndUpdate(id, {
+      await Resident.findByIdAndUpdate(res_id, {
         $set: {
           isHired: true,
           dateHired: startDate,
           companyName,
         },
       });
-      const resident = await Resident.findById(id).lean();
-      const residentID = resident.residentID;
+      const resInfo = await Resident.findById(res_id).lean();
+      const residentID = resInfo.residentID;
 
       //send notification to all PI partners in that company
       const employerEmails = await getEmployeeEmails(companyName);
       await sendNotificationsToEmployers(
         employerEmails,
         "resident_hired",
-        `Resident #${resident.residentID} is now employed with your company.`
+        `Resident #${residentID} is now employed with your company.`
       );
 
       //remove user from applicants/ interviews add to workforce
       await Jobs.findByIdAndUpdate(jobID, {
         $pull: {
-          applicants: { resident_id: id }, // Remove resident from the applicants array
+          applicants: { resident_id: res_id }, // Remove resident from the applicants array
           interviews: { residentID: residentID }, // Remove interview with the given residentID
         },
         $push: {
-          employees: id, // Add the resident to the employees array
+          employees: res_id, // Add the resident to the employees array
         },
         $inc: {
           availablePositions: -1, // Subtract 1 from availablePositions
@@ -716,18 +686,14 @@ module.exports = {
         {}, // This empty filter matches all documents
         {
           $pull: {
-            applicants: { resident_id: id }, // Remove resident_id from the applicants array
+            applicants: { resident_id: res_id }, // Remove resident_id from the applicants array
             interviews: { residentID: residentID }, // Remove interview with the given residentID
           },
         }
       );
 
-      // //find positions resident has applied for
-      const applications = await Jobs.find({
-        "applicants.resident_id": id, // Match the resident_id field inside the applicants array
-      }).lean();
-
-      const activeTab = "application";
+      const { resident, applications, unitTeam, activities } =
+        await getResidentProfileInfo(residentID);
 
       await createActivityLog(
         req.session.user._id.toString(),
@@ -736,19 +702,23 @@ module.exports = {
       );
 
       await createActivityLog(
-        resident._id.toString(),
+        res_id.toString(),
         "resident_hired",
         `Employed at ${companyName} on ${startDate}.`
       );
+
+      const activeTab = "application";
       res.render(`${req.session.user.role}/profiles/residentProfile`, {
         user: req.session.user,
         notifications,
         resident,
         activeTab,
         applications,
+        unitTeam,
+        activities,
       });
     } catch (err) {
-      console.log(err);
+      console.log("Error in hiring resident: ", err);
       res.render("error/500");
     }
   },
@@ -759,6 +729,7 @@ module.exports = {
         req.session.user.email,
         req.session.user.role
       );
+
       const { res_id, jobID } = req.params;
 
       await Resident.findByIdAndUpdate(res_id, {
@@ -768,8 +739,8 @@ module.exports = {
           dateHired: null,
         },
       });
-      const resident = await Resident.findById(res_id).lean();
-      const residentID = resident.residentID;
+      const res = await Resident.findById(res_id).lean();
+      const residentID = res.residentID;
 
       //remove user from applicants/ interviews
       const updatedJob = await Jobs.findByIdAndUpdate(
@@ -783,10 +754,8 @@ module.exports = {
         { new: true }
       );
 
-      // Find positions the resident has applied for
-      const applications = await Jobs.find({
-        "applicants.resident_id": res_id, // Match applicants by resident ID in the applicants array
-      }).lean();
+      const { resident, applications, unitTeam, activities } =
+        await getResidentProfileInfo(residentID);
 
       await createActivityLog(
         req.session.user._id.toString(),
@@ -801,6 +770,8 @@ module.exports = {
         resident,
         activeTab,
         applications,
+        unitTeam,
+        activities,
       });
     } catch (err) {
       console.log(err);
@@ -814,12 +785,14 @@ module.exports = {
         req.session.user.email,
         req.session.user.role
       );
-      const { id } = req.params;
+      const { res_id } = req.params;
       const { terminationReason, workRestriction, notes } = req.body;
 
-      const resInfo = await Resident.findById(id).lean();
+      const resInfo = await Resident.findById(res_id).lean();
+      console.log(resInfo);
       const dateHired = resInfo.dateHired;
       const companyName = resInfo.companyName;
+
       const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
 
       const updateData = {
@@ -852,31 +825,33 @@ module.exports = {
       updateData.$push = { workHistory: workHistoryEntry };
 
       // Perform the update
-      await Resident.updateOne({ _id: id }, updateData);
+      await Resident.updateOne({ _id: res_id }, updateData);
 
-      const resident = await Resident.findById(id).lean();
-
+      const resident = await Resident.findById(res_id).lean();
+      const residentID = resident.residentID;
       //remove employees from Jobs DB
       await Jobs.findOneAndUpdate(
-        { employees: id }, // Find the job where id exists in employees
+        { employees: res_id }, // Find the job where res_id exists in employees
         {
-          $pull: { employees: id }, // Remove the id from the employees array
+          $pull: { employees: res_id }, // Remove the res_id from the employees array
           $inc: { availablePositions: 1 }, // Increment availablePositions by 1
         }
       );
 
+      const { applications, unitTeam, activities } =
+        await getResidentProfileInfo(residentID);
+
+      console.log(companyName);
+
       //send notification to all PI partners in that company
       const employerEmails = await getEmployeeEmails(companyName);
+      console.log(employerEmails);
+
       await sendNotificationsToEmployers(
         employerEmails,
         "resident_terminated",
         `Resident #${resident.residentID} has been terminated from your company.`
       );
-
-      // //find positions resident has applied for
-      const applications = await Jobs.find({
-        "applicants.resident_id": id, // Match the resident_id field inside the applicants array
-      }).lean();
 
       await createActivityLog(
         req.session.user._id.toString(),
@@ -885,7 +860,7 @@ module.exports = {
       );
 
       await createActivityLog(
-        resident._id.toString(),
+        res_id.toString(),
         "resident_terminated",
         `Terminated from ${companyName}.`
       );
@@ -897,6 +872,8 @@ module.exports = {
         resident,
         activeTab,
         applications,
+        unitTeam,
+        activities,
       });
     } catch (err) {
       console.log(err);

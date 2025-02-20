@@ -21,7 +21,7 @@ clearanceRoutes.get(
 );
 
 clearanceRoutes.post(
-  "/rejectResume/:id",
+  "/rejectResume/:residentID",
   checkUser,
   requireAuth,
   requireRole(["unitTeam", "facility_management", "classification", "admin"]),
@@ -29,7 +29,7 @@ clearanceRoutes.post(
 );
 
 clearanceRoutes.post(
-  "/approveResume/:id",
+  "/approveResume/:residentID",
   checkUser,
   requireAuth,
   requireRole(["unitTeam", "facility_management", "classification", "admin"]),
@@ -65,7 +65,7 @@ clearanceRoutes.post(
   controller.scheduleInterview
 );
 clearanceRoutes.post(
-  "/hireResident/:id/:jobID",
+  "/hireResident/:res_id/:jobID",
   checkUser,
   requireAuth,
   requireRole(["unitTeam", "facility_management", "classification", "admin"]),
@@ -79,7 +79,7 @@ clearanceRoutes.get(
   controller.rejectHire
 );
 clearanceRoutes.post(
-  "/terminateResident/:id",
+  "/terminateResident/:res_id",
   checkUser,
   requireAuth,
   requireRole(["unitTeam", "facility_management", "classification", "admin"]),
