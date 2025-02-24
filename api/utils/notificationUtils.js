@@ -26,6 +26,10 @@ async function createNotification(email, role, type, message, data = {}) {
       interview_request: "bi-exclamation-circle",
       interview_scheduled: "bi-check-circle",
       interview_cancelled: "bi-x-circle",
+      resume_rejected: "bi-x-circle",
+      resume_approved: "bi-check-circle",
+      restrict_work_eligibility: "bi-x-circle",
+      approve_work_eligibility: "bi-check-circle",
     };
 
     const notification = new Notification({

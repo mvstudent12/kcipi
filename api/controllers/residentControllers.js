@@ -149,7 +149,6 @@ module.exports = {
         { _id: res_id },
         {
           $set: {
-            resumeIsComplete: true,
             "resume.unitTeam": unitTeam,
             "resume.legalCitizen": legalCitizen,
             "resume.hsGraduate": hsGraduate,
@@ -350,6 +349,7 @@ module.exports = {
         .sort({ timestamp: -1 })
         .limit(20)
         .lean();
+      console.log(activities);
 
       res.render(`resident/recentActivities`, {
         user: req.session.resident,

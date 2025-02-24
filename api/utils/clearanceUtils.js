@@ -71,6 +71,7 @@ async function getResidentProfileInfo(residentID) {
     const activities = await ActivityLog.find({
       userID: res_id.toString(),
     }).lean();
+
     return { resident, applications, unitTeam, activities, res_id };
   } catch (err) {
     console.log(err);

@@ -49,7 +49,6 @@ module.exports = {
       //finds residents who need resumes approved
       const resumeNeedReview = await Resident.find({
         isActive: true,
-        resumeIsComplete: true,
         "resume.status": "pending",
       })
         .sort({ lastName: 1 })

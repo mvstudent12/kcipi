@@ -24,26 +24,25 @@
                                 <div class="card-body mt-3">
 
                                     <h5 class="card-title"><span>All Notifications</span></h5>
+                                    {{#if allNotifications}}
+                                        <div class="list-group">
+                                            {{#each allNotifications}}
+                                                <a href="#"
+                                                    class="list-group-item list-group-item-action {{#unless this.isRead}}active{{/unless}} mb-1"
+                                                    aria-current="true" data-id="{{this._id}}"
+                                                    onclick="markAsRead(event, '{{this._id}}')">
 
-                                    <!-- List group with Advanced Contents -->
+                                                    <div class="d-flex w-100 justify-content-between pt-3 pb-3 ">
+                                                        <h5 class="mb-1">{{this.message}}</h5>
+                                                        <small>{{formatDate this.createdAt}}</small>
+                                                    </div>
 
-                                    <div class="list-group">
-                                        {{#each allNotifications}}
-                                            <a href="#"
-                                                class="list-group-item list-group-item-action {{#unless this.isRead}}active{{/unless}} mb-1"
-                                                aria-current="true" data-id="{{this._id}}"
-                                                onclick="markAsRead(event, '{{this._id}}')">
-
-                                                <div class="d-flex w-100 justify-content-between pt-3 pb-3">
-                                                    <h5 class="mb-1">{{this.message}}</h5>
-                                                    <small>{{formatDate this.createdAt}}</small>
-                                                </div>
-
-                                            </a>
-                                        {{/each}}
-
-
-                                    </div><!-- End List group Advanced Content -->
+                                                </a>
+                                            {{/each}}
+                                        </div>
+                                    {{else}}
+                                        <p>You have not received any notifications yet.</p>
+                                    {{/if}}
 
 
                                 </div>

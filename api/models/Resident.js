@@ -103,7 +103,6 @@ const residentSchema = new Schema({
   },
 
   resume: resumeSchema,
-  resumeIsComplete: { type: Boolean, default: false },
 
   MedicalClearance: { type: clearanceSchema, default: () => ({}) },
   EAIClearance: { type: clearanceSchema, default: () => ({}) },

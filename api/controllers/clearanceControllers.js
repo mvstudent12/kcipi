@@ -76,6 +76,8 @@ module.exports = {
       const { resident, applications, unitTeam, activities } =
         await getResidentProfileInfo(residentID);
 
+      console.log(activities);
+
       const activeTab = "overview"; // Set the active tab for the profile
       res.render(`${req.session.user.role}/profiles/residentProfile`, {
         user: req.session.user,
@@ -160,7 +162,6 @@ module.exports = {
           $set: {
             "resume.status": "rejected",
             "resume.rejectionReason": rejectReason,
-            resumeIsComplete: false,
           },
         }
       );
@@ -180,6 +181,15 @@ module.exports = {
         "resume_rejected",
         `Resume rejected by Unit Team for being ${rejectReason}.`
       );
+
+      if (resident.resume.unitTeam != req.session.user.email) {
+        await createNotification(
+          resident.resume.unitTeam,
+          "unitTeam",
+          "resume_rejected",
+          `Resume rejected for resident #${resident.residentID} by ${req.session.user.email}.`
+        );
+      }
 
       const activeTab = "resume";
       res.render(`${req.session.user.role}/profiles/residentProfile`, {
@@ -232,6 +242,16 @@ module.exports = {
         "resume_approved",
         `Resume approved by Unit Team.`
       );
+
+      //send notification if action was taken outside of caseload
+      if (resident.resume.unitTeam != req.session.user.email) {
+        await createNotification(
+          resident.resume.unitTeam,
+          "unitTeam",
+          "resume_approved",
+          `Resume approved for resident #${resident.residentID} by ${req.session.user.email}.`
+        );
+      }
 
       const saveMsg = "This resume has been approved.";
       const activeTab = "resume";
@@ -346,6 +366,26 @@ module.exports = {
 
       const { resident, applications, unitTeam, activities, res_id } =
         await getResidentProfileInfo(residentID);
+
+      //send notification if action was taken outside of caseload
+      if (resident.resume.unitTeam != req.session.user.email) {
+        if (clearance === "true") {
+          await createNotification(
+            resident.resume.unitTeam,
+            "unitTeam",
+            "clearance_approved",
+            `${category} clearance approved for resident #${resident.residentID} by ${req.session.user.email}.`
+          );
+        }
+        if (clearance === "false") {
+          await createNotification(
+            resident.resume.unitTeam,
+            "unitTeam",
+            "clearance_denied",
+            `${category} clearance denied for resident #${resident.residentID} by ${req.session.user.email}.`
+          );
+        }
+      }
 
       const activeTab = "clearance";
       res.render(`${req.session.user.role}/profiles/residentProfile`, {
@@ -484,6 +524,16 @@ module.exports = {
         "approve_work_eligibility",
         `Approved work eligiblity for resident #${residentID}.`
       );
+
+      //send notice if approved outside of caseload
+      if (resident.resume.unitTeam != req.session.user.email) {
+        await createNotification(
+          resident.resume.unitTeam,
+          "unitTeam",
+          "approve_work_eligibility",
+          `Work eligibility approved for resident #${resident.residentID} by ${req.session.user.email}.`
+        );
+      }
 
       const eligibleMsg = "This resident is approved and eligible for work.";
       const activeTab = "clearance";
