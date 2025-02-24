@@ -12,7 +12,10 @@ const {
   createApplicantsReport,
 } = require("../utils/unitTeamUtils");
 
-const { getUserNotifications } = require("../utils/notificationUtils");
+const {
+  getAllUserNotifications,
+  getUserNotifications,
+} = require("../utils/notificationUtils");
 
 const { getTotalAvailablePositions } = require("../utils/employerUtils");
 

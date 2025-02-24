@@ -26,25 +26,23 @@
                                     <h5 class="card-title"><span>All Notifications</span></h5>
 
                                     <!-- List group with Advanced Contents -->
-                                    <div class="list-group">
-                                        <a href="#" class="list-group-item list-group-item-action active"
-                                            aria-current="true">
-                                            <div class="d-flex w-100 justify-content-between">
-                                                <h5 class="mb-1">List group item heading</h5>
-                                                <small>3 days ago</small>
-                                            </div>
-                                            <p class="mb-1">Some placeholder content in a paragraph.</p>
-                                            <small>And some small print.</small>
-                                        </a>
 
-                                        <a href="#" class="list-group-item list-group-item-action">
-                                            <div class="d-flex w-100 justify-content-between">
-                                                <h5 class="mb-1">List group item heading</h5>
-                                                <small class="text-muted">3 days ago</small>
-                                            </div>
-                                            <p class="mb-1">Some placeholder content in a paragraph.</p>
-                                            <small class="text-muted">And some muted small print.</small>
-                                        </a>
+                                    <div class="list-group">
+                                        {{#each allNotifications}}
+                                            <a href="#"
+                                                class="list-group-item list-group-item-action {{#unless this.isRead}}active{{/unless}} mb-1"
+                                                aria-current="true" data-id="{{this._id}}"
+                                                onclick="markAsRead(event, '{{this._id}}')">
+
+                                                <div class="d-flex w-100 justify-content-between pt-3 pb-3 ">
+                                                    <h5 class="mb-1">{{this.message}}</h5>
+                                                    <small>{{formatDate this.createdAt}}</small>
+                                                </div>
+
+                                            </a>
+                                        {{/each}}
+
+
                                     </div><!-- End List group Advanced Content -->
 
 
@@ -65,3 +63,35 @@
 {{> footer}}
 
 {{> arrowUp}}
+
+
+<script>
+    // Function to mark a notification as read
+    async function markAsRead(event, notificationId) {
+        try {
+            // Prevent default action of the anchor tag (if it's a link)
+            event.preventDefault();
+
+            // Send a request to the server to mark this notification as read
+            const response = await fetch(`/notification/markAsRead/${notificationId}`, {
+                method: 'PATCH', // Assuming you're using PATCH method for marking as read
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            console.log(response)
+
+            // Handle server response
+            if (response.ok) {
+                // Update the UI to mark the notification as read (remove "active" class)
+                const notificationElement = event.target.closest('.list-group-item');
+                notificationElement.classList.remove('active');
+            } else {
+                console.error('Failed to mark notification as read');
+            }
+        } catch (error) {
+            console.error('Error marking notification as read:', error);
+        }
+    }
+
+</script>

@@ -13,14 +13,27 @@ notificationRoutes.get(
   "/notifications",
   checkUser,
   requireAuth,
-  requireRole(["unitTeam", "facility_management", "classification", "admin"]),
+  requireRole([
+    "unitTeam",
+    "facility_management",
+    "classification",
+    "admin",
+    "employer",
+  ]),
   controller.notifications
 );
+
 notificationRoutes.patch(
-  "/notifications/markAsRead/:notificationId",
+  "/markAsRead/:notificationId",
   checkUser,
   requireAuth,
-
+  requireRole([
+    "unitTeam",
+    "facility_management",
+    "classification",
+    "admin",
+    "employer",
+  ]),
   controller.markNotificationAsRead
 );
 

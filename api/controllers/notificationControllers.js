@@ -2,8 +2,6 @@ const Resident = require("../models/Resident");
 const Jobs = require("../models/Jobs");
 const ActivityLog = require("../models/ActivityLog");
 
-const mongoose = require("mongoose");
-
 const {
   getEmployeeEmails,
   sendNotificationsToEmployers,
@@ -12,21 +10,20 @@ const {
 
 const {
   getUserNotifications,
-  getUnreadNotifications,
+  getAllUserNotifications,
   createNotification,
   notificationIsRead,
-  markAllNotificationsAsRead,
 } = require("../utils/notificationUtils");
 const { createActivityLog } = require("../utils/activityLogUtils");
 
 module.exports = {
   async notifications(req, res) {
     try {
-      const notifications = await getUnreadNotifications(
+      const notifications = await getUserNotifications(
         req.session.user.email,
         req.session.user.role
       );
-      const allNotifications = await getUserNotifications(
+      const allNotifications = await getAllUserNotifications(
         req.session.user.email,
         req.session.user.role
       );
@@ -44,9 +41,8 @@ module.exports = {
   // Controller function to mark a notification as read
   async markNotificationAsRead(req, res) {
     try {
-      console.log("connected");
       const { notificationId } = req.params;
-      console.log(notificationId);
+
       await notificationIsRead(notificationId);
       res.status(200).send("Notification marked as read");
     } catch (error) {

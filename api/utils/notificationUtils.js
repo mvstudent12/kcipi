@@ -1,10 +1,8 @@
 //=============================
 //    Global Imports
 //=============================
-const UnitTeam = require("../models/UnitTeam");
+
 const Notification = require("../models/Notification");
-const Resident = require("../models/Resident");
-const Jobs = require("../models/Jobs");
 
 //=============================
 //     Helper Functions
@@ -48,14 +46,15 @@ async function createNotification(email, role, type, message, data = {}) {
 }
 
 // Function to fetch user notifications by email and role
-async function getUserNotifications(email, role) {
+async function getAllUserNotifications(email, role) {
   try {
     return await Notification.find({
       recipient: email,
       role: role,
     })
       .lean()
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: -1 })
+      .limit(30); // Limit the result to 30 notifications;
   } catch (error) {
     console.error("Error fetching user notifications:", error);
     throw new Error("Failed to fetch notifications");
@@ -63,7 +62,7 @@ async function getUserNotifications(email, role) {
 }
 
 // Function to fetch unread notifications for a user by email and role
-async function getUnreadNotifications(email, role) {
+async function getUserNotifications(email, role) {
   try {
     return await Notification.find({
       recipient: email,
@@ -71,7 +70,8 @@ async function getUnreadNotifications(email, role) {
       isRead: false,
     })
       .lean()
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: -1 })
+      .limit(30); // Limit the result to 30 notifications
   } catch (error) {
     console.error("Error fetching unread notifications:", error);
     throw new Error("Failed to fetch unread notifications");
@@ -89,23 +89,9 @@ async function notificationIsRead(notificationId) {
   }
 }
 
-// Function to mark all notifications for a user as read
-async function markAllNotificationsAsRead(email, role) {
-  try {
-    await Notification.updateMany(
-      { recipient: email, role: role, isRead: false },
-      { isRead: true }
-    );
-  } catch (error) {
-    console.error("Error marking all notifications as read:", error);
-    throw new Error("Failed to mark all notifications as read");
-  }
-}
-
 module.exports = {
+  getAllUserNotifications,
   getUserNotifications,
-  getUnreadNotifications,
   createNotification,
   notificationIsRead,
-  markAllNotificationsAsRead,
 };

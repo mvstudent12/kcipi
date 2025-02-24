@@ -12,18 +12,17 @@ const {
 
 const {
   getUserNotifications,
-  getUnreadNotifications,
   createNotification,
-  markNotificationAsRead,
-  markAllNotificationsAsRead,
 } = require("../utils/notificationUtils");
 const { createActivityLog } = require("../utils/activityLogUtils");
+
+const { validateResidentID } = require("../utils/validationUtils");
 
 module.exports = {
   //serves non-resident dashboard from login portal
   async dashboard(req, res) {
     try {
-      const notifications = await getUnreadNotifications(
+      const notifications = await getUserNotifications(
         req.session.user.email,
         req.session.user.role
       );
@@ -43,7 +42,7 @@ module.exports = {
   },
   async recentActivities(req, res) {
     try {
-      const notifications = await getUnreadNotifications(
+      const notifications = await getUserNotifications(
         req.session.user.email,
         req.session.user.role
       );
@@ -64,11 +63,10 @@ module.exports = {
       res.render("error/500");
     }
   },
- 
-  //serves resident profile with their resume
+
   async residentProfile(req, res) {
     try {
-      const notifications = await getUnreadNotifications(
+      const notifications = await getUserNotifications(
         req.session.user.email,
         req.session.user.role
       );
@@ -93,7 +91,7 @@ module.exports = {
       res.render("error/403");
     }
   },
-  //edits resident information
+  //allos editing of resident info from residentProfile page
   async editResident(req, res) {
     let { residentID, custodyLevel, facility, unitTeamInfo, jobPool } =
       req.body;
@@ -107,7 +105,7 @@ module.exports = {
       }
 
       // Update the resident information
-      const updatedResident = await Resident.findOneAndUpdate(
+      await Resident.findOneAndUpdate(
         { residentID: residentID },
         {
           $set: {
@@ -117,12 +115,11 @@ module.exports = {
             jobPool: jobPool,
             "resume.unitTeam": unitTeamEmail,
           },
-        },
-        { new: true } // Get the updated resident
+        }
       );
 
       // Get updated resident profile data
-      const { resident, applications, unitTeam, activities, res_id } =
+      const { resident, applications, unitTeam, activities } =
         await getResidentProfileInfo(residentID);
 
       // Log activity
@@ -148,13 +145,12 @@ module.exports = {
     }
   },
 
-  //rejects resident resume
   async rejectResume(req, res) {
+    const { residentID } = req.params;
+    const { rejectReason } = req.body;
     try {
-      const { residentID } = req.params;
-      const { rejectReason } = req.body;
       validateResidentID(residentID);
-      const notifications = await getUnreadNotifications(
+      const notifications = await getUserNotifications(
         req.session.user.email,
         req.session.user.role
       );
@@ -168,10 +164,11 @@ module.exports = {
           },
         }
       );
-
+      //find updated resident data
       const { resident, applications, unitTeam, activities, res_id } =
         await getResidentProfileInfo(residentID);
 
+      //log activities
       await createActivityLog(
         req.session.user._id.toString(),
         "resume_rejected",
@@ -198,10 +195,9 @@ module.exports = {
       console.error(err);
     }
   },
-  //approves resident resume
   async approveResume(req, res) {
     try {
-      const notifications = await getUnreadNotifications(
+      const notifications = await getUserNotifications(
         req.session.user.email,
         req.session.user.role
       );
@@ -253,7 +249,6 @@ module.exports = {
       console.error(err);
     }
   },
-  //edits residents clearance values for eligibility
   async editClearance(req, res) {
     try {
       let { residentID, dept } = req.params;
@@ -261,7 +256,7 @@ module.exports = {
       const { clearance, comments } = req.body;
       const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
 
-      const notifications = await getUnreadNotifications(
+      const notifications = await getUserNotifications(
         req.session.user.email,
         req.session.user.role
       );
@@ -406,7 +401,7 @@ module.exports = {
       const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
       validateResidentID(residentID);
 
-      const notifications = await getUnreadNotifications(
+      const notifications = await getUserNotifications(
         req.session.user.email,
         req.session.user.role
       );
@@ -451,7 +446,7 @@ module.exports = {
   //approved resident's eligibility to work
   async approveEligibility(req, res) {
     try {
-      const notifications = await getUnreadNotifications(
+      const notifications = await getUserNotifications(
         req.session.user.email,
         req.session.user.role
       );
@@ -510,7 +505,7 @@ module.exports = {
   //denies resident's eligibility to work
   async rejectEligibility(req, res) {
     try {
-      const notifications = await getUnreadNotifications(
+      const notifications = await getUserNotifications(
         req.session.user.email,
         req.session.user.role
       );
@@ -564,10 +559,9 @@ module.exports = {
       res.render("error/500");
     }
   },
-
   async scheduleInterview(req, res) {
     try {
-      const notifications = await getUnreadNotifications(
+      const notifications = await getUserNotifications(
         req.session.user.email,
         req.session.user.role
       );
@@ -661,7 +655,7 @@ module.exports = {
   //employs resident to company
   async hireResident(req, res) {
     try {
-      const notifications = await getUnreadNotifications(
+      const notifications = await getUserNotifications(
         req.session.user.email,
         req.session.user.role
       );
@@ -749,7 +743,7 @@ module.exports = {
   //rejects resident application
   async rejectHire(req, res) {
     try {
-      const notifications = await getUnreadNotifications(
+      const notifications = await getUserNotifications(
         req.session.user.email,
         req.session.user.role
       );
@@ -806,7 +800,7 @@ module.exports = {
   //terminates resident
   async terminateResident(req, res) {
     try {
-      const notifications = await getUnreadNotifications(
+      const notifications = await getUserNotifications(
         req.session.user.email,
         req.session.user.role
       );
@@ -910,7 +904,7 @@ module.exports = {
   async cancelTerminationRequest(req, res) {
     try {
       const { res_id } = req.params;
-      const notifications = await getUnreadNotifications(
+      const notifications = await getUserNotifications(
         req.session.user.email,
         req.session.user.role
       );
