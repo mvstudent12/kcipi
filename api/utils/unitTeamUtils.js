@@ -10,6 +10,21 @@ const Jobs = require("../models/Jobs");
 //     Helper Functions
 //=============================
 
+const findCaseload = async (email) => {
+  try {
+    const caseLoad = await Resident.find({
+      "resume.unitTeam": email,
+      isActive: true,
+    })
+      .sort({ lastName: 1 })
+      .lean();
+    return caseLoad;
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
 const findInterviews = async (residentIDs) => {
   try {
     const interviews = await Jobs.aggregate([
@@ -169,19 +184,10 @@ const createApplicantsReport = async (applicantData, selectedFields) => {
   }
 };
 
-async function getUserNotifications(email, role) {
-  return await Notification.find({
-    recipient: email,
-    role: role,
-  })
-    .lean()
-    .sort({ createdAt: -1 });
-}
-
 module.exports = {
+  findCaseload,
   findInterviews,
   findApplicantIDsAndCompanyName,
   findResidentsWithCompany,
   createApplicantsReport,
-  getUserNotifications,
 };

@@ -15,10 +15,10 @@ const employerSchema = new Schema({
   },
   email: {
     type: String,
-    unique: true,
+    unique: true, // Ensures no duplicates
     required: [true, "Please enter email"],
     lowercase: true,
-    index: true,
+    index: true, // Index is good if querying often by email
   },
   password: {
     type: String,
@@ -34,21 +34,19 @@ const employerSchema = new Schema({
     lowercase: true,
     trim: true,
     required: true,
-    index: true,
+    index: true, // Index for facility
   },
-
   companyName: {
     type: String,
     lowercase: true,
     trim: true,
     required: true,
-    index: true,
+    index: true, // Index for faster querying by companyName
   },
 });
 
 // Hash the password before saving
 employerSchema.pre("save", async function (next) {
-  // Hash password if it's new or modified
   if (this.isModified("password")) {
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
@@ -57,5 +55,7 @@ employerSchema.pre("save", async function (next) {
   next();
 });
 
-const Employer = mongoose.model("employer", employerSchema);
+// Create the model with the correct capitalization
+const Employer = mongoose.model("Employer", employerSchema);
+
 module.exports = Employer;

@@ -5,6 +5,7 @@ const Jobs = require("../models/Jobs");
 const { Parser } = require("json2csv");
 
 const {
+  findCaseload,
   findInterviews,
   findApplicantIDsAndCompanyName,
   findResidentsWithCompany,
@@ -27,17 +28,12 @@ module.exports = {
       );
 
       //find caseload specific to UTM
-      const caseLoad = await Resident.find({
-        "resume.unitTeam": req.session.user.email,
-        isActive: true,
-      })
-        .sort({ lastName: 1 })
-        .lean();
+      const caseLoad = await findCaseload(req.session.user.email);
 
       //make array of resident _id in caseload
       const IDs = caseLoad.flatMap((resident) => resident._id);
 
-      //make array of resident _id in caseload
+      //make array of residentIDs in caseload
       const residentIDs = caseLoad.flatMap((resident) => resident.residentID);
 
       let applicantIDs = await findApplicantIDsAndCompanyName(IDs);
@@ -57,9 +53,11 @@ module.exports = {
       //find all active interviews
       const interviews = await findInterviews(residentIDs);
 
-      //count pending resumes
+      //count pending resumes for this member
       const pendingResumes = await Resident.countDocuments({
-        "resume.status": { $ne: "approved" },
+        "resume.status": "pending",
+        "resume.unitTeam": req.session.user.email,
+        isActive: true,
       });
 
       res.render("unitTeam/dashboard", {
@@ -69,7 +67,7 @@ module.exports = {
         applicants,
         interviews,
         employees,
-        pendingResumes
+        pendingResumes,
       });
     } catch (err) {
       console.log(err);
@@ -87,12 +85,8 @@ module.exports = {
         req.session.user.role
       );
       const email = req.session.user.email;
-      const caseLoad = await Resident.find({
-        "resume.unitTeam": email,
-        isActive: true,
-      })
-        .sort({ lastName: 1 })
-        .lean();
+
+      const caseLoad = await findCaseload(email);
 
       //make array of resident _id in caseload
       const IDs = caseLoad.flatMap((resident) => resident._id);
@@ -142,15 +136,9 @@ module.exports = {
         req.session.user.email,
         req.session.user.role
       );
-      const email = req.session.user.email;
 
       //find caseload specific to UTM
-      const caseLoad = await Resident.find({
-        "resume.unitTeam": email,
-        isActive: true,
-      })
-        .sort({ lastName: 1 })
-        .lean();
+      const caseLoad = await findCaseload(req.session.user.email);
 
       res.render("unitTeam/manageClearance", {
         user: req.session.user,
@@ -172,9 +160,11 @@ module.exports = {
         req.session.user.role
       );
       const facility = req.session.user.facility;
+      //find all residents in this Unit Team's facility
       const caseLoad = await Resident.find({ facility, isActive: true })
         .sort({ lastName: 1 })
         .lean();
+
       res.render("unitTeam/tables/residents", {
         user: req.session.user,
         notifications,
@@ -414,15 +404,8 @@ module.exports = {
         });
       }
 
-      const email = req.session.user.email;
-
       //find caseload specific to UTM
-      const caseLoad = await Resident.find({
-        "resume.unitTeam": email,
-        isActive: true,
-      })
-        .sort({ lastName: 1 })
-        .lean();
+      const caseLoad = await findCaseload(req.session.user.email);
 
       //make array of resident _id in caseload
       const IDs = caseLoad.flatMap((resident) => resident._id);

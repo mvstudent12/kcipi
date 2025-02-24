@@ -54,7 +54,8 @@ module.exports = {
 
       //count pending resumes
       const pendingResumes = await Resident.countDocuments({
-        "resume.status": { $ne: "approved" },
+        "resume.status": "pending",
+        facility,
       });
 
       res.render("classification/dashboard", {

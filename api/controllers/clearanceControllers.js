@@ -1,4 +1,3 @@
-const UnitTeam = require("../models/UnitTeam");
 const Resident = require("../models/Resident");
 const Jobs = require("../models/Jobs");
 const ActivityLog = require("../models/ActivityLog");
@@ -11,14 +10,20 @@ const {
   getResidentProfileInfo,
 } = require("../utils/clearanceUtils");
 
-const { getUserNotifications } = require("../utils/notificationUtils");
+const {
+  getUserNotifications,
+  getUnreadNotifications,
+  createNotification,
+  markNotificationAsRead,
+  markAllNotificationsAsRead,
+} = require("../utils/notificationUtils");
 const { createActivityLog } = require("../utils/activityLogUtils");
 
 module.exports = {
   //serves non-resident dashboard from login portal
   async dashboard(req, res) {
     try {
-      const notifications = await getUserNotifications(
+      const notifications = await getUnreadNotifications(
         req.session.user.email,
         req.session.user.role
       );
@@ -38,7 +43,7 @@ module.exports = {
   },
   async recentActivities(req, res) {
     try {
-      const notifications = await getUserNotifications(
+      const notifications = await getUnreadNotifications(
         req.session.user.email,
         req.session.user.role
       );
@@ -59,14 +64,16 @@ module.exports = {
       res.render("error/500");
     }
   },
+ 
   //serves resident profile with their resume
   async residentProfile(req, res) {
     try {
-      const notifications = await getUserNotifications(
+      const notifications = await getUnreadNotifications(
         req.session.user.email,
         req.session.user.role
       );
       const { residentID } = req.params;
+      validateResidentID(residentID);
 
       const { resident, applications, unitTeam, activities } =
         await getResidentProfileInfo(residentID);
@@ -88,18 +95,20 @@ module.exports = {
   },
   //edits resident information
   async editResident(req, res) {
+    let { residentID, custodyLevel, facility, unitTeamInfo, jobPool } =
+      req.body;
     try {
-      const notifications = await getUserNotifications(
-        req.session.user.email,
-        req.session.user.role
-      );
-      let { residentID, custodyLevel, facility, unitTeamInfo, jobPool } =
-        req.body;
+      validateResidentID(residentID);
 
+      // Split unitTeamInfo (ensure it's in the expected format)
       let [unitTeamEmail, unitTeamName] = unitTeamInfo.split("|");
+      if (!unitTeamEmail || !unitTeamName) {
+        throw new Error("Invalid unit team information.");
+      }
 
-      await Resident.updateOne(
-        { residentID: residentID }, // Find the resident by ID
+      // Update the resident information
+      const updatedResident = await Resident.findOneAndUpdate(
+        { residentID: residentID },
         {
           $set: {
             facility: facility,
@@ -108,12 +117,15 @@ module.exports = {
             jobPool: jobPool,
             "resume.unitTeam": unitTeamEmail,
           },
-        }
+        },
+        { new: true } // Get the updated resident
       );
 
+      // Get updated resident profile data
       const { resident, applications, unitTeam, activities, res_id } =
         await getResidentProfileInfo(residentID);
 
+      // Log activity
       await createActivityLog(
         req.session.user._id.toString(),
         "edited_user",
@@ -131,17 +143,18 @@ module.exports = {
         activities,
       });
     } catch (err) {
-      console.log(err);
+      console.error(err); // Log more detailed error information
       res.render("error/500");
     }
   },
+
   //rejects resident resume
   async rejectResume(req, res) {
     try {
       const { residentID } = req.params;
       const { rejectReason } = req.body;
-
-      const notifications = await getUserNotifications(
+      validateResidentID(residentID);
+      const notifications = await getUnreadNotifications(
         req.session.user.email,
         req.session.user.role
       );
@@ -188,13 +201,15 @@ module.exports = {
   //approves resident resume
   async approveResume(req, res) {
     try {
-      const notifications = await getUserNotifications(
+      const notifications = await getUnreadNotifications(
         req.session.user.email,
         req.session.user.role
       );
       const { residentID } = req.params;
       const { jobPool } = req.body;
       const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
+
+      validateResidentID(residentID);
 
       await Resident.updateOne(
         { residentID },
@@ -242,10 +257,11 @@ module.exports = {
   async editClearance(req, res) {
     try {
       let { residentID, dept } = req.params;
+      validateResidentID(residentID);
       const { clearance, comments } = req.body;
       const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
 
-      const notifications = await getUserNotifications(
+      const notifications = await getUnreadNotifications(
         req.session.user.email,
         req.session.user.role
       );
@@ -353,6 +369,7 @@ module.exports = {
   async findNotes(req, res) {
     try {
       const { residentID, dept } = req.params;
+      validateResidentID(residentID);
 
       const resident = await Resident.findOne({ residentID }).lean();
 
@@ -387,8 +404,9 @@ module.exports = {
       const { residentID, dept } = req.params;
       const { notes } = req.body;
       const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
+      validateResidentID(residentID);
 
-      const notifications = await getUserNotifications(
+      const notifications = await getUnreadNotifications(
         req.session.user.email,
         req.session.user.role
       );
@@ -433,12 +451,13 @@ module.exports = {
   //approved resident's eligibility to work
   async approveEligibility(req, res) {
     try {
-      const notifications = await getUserNotifications(
+      const notifications = await getUnreadNotifications(
         req.session.user.email,
         req.session.user.role
       );
 
       const { residentID } = req.params;
+      validateResidentID(residentID);
 
       const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
 
@@ -491,13 +510,15 @@ module.exports = {
   //denies resident's eligibility to work
   async rejectEligibility(req, res) {
     try {
-      const notifications = await getUserNotifications(
+      const notifications = await getUnreadNotifications(
         req.session.user.email,
         req.session.user.role
       );
       const { residentID } = req.params;
       const { rejectReason } = req.body;
       const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
+
+      validateResidentID(residentID);
 
       await Resident.updateOne(
         { residentID: residentID },
@@ -546,16 +567,18 @@ module.exports = {
 
   async scheduleInterview(req, res) {
     try {
-      const notifications = await getUserNotifications(
+      const notifications = await getUnreadNotifications(
         req.session.user.email,
         req.session.user.role
       );
       const { jobID } = req.params;
       const { residentID, date, time, instructions } = req.body;
 
-      const res = await Resident.findOne({ residentID }).lean();
+      validateResidentID(residentID);
 
-      const name = `${res.firstName} ${res.lastName}`;
+      const resInfo = await Resident.findOne({ residentID }).lean();
+
+      const name = `${resInfo.firstName} ${resInfo.lastName}`;
 
       //if interview has already been requested by the employer for scheduling
       if (req.body.interviewID) {
@@ -638,7 +661,7 @@ module.exports = {
   //employs resident to company
   async hireResident(req, res) {
     try {
-      const notifications = await getUserNotifications(
+      const notifications = await getUnreadNotifications(
         req.session.user.email,
         req.session.user.role
       );
@@ -658,6 +681,7 @@ module.exports = {
       });
       const resInfo = await Resident.findById(res_id).lean();
       const residentID = resInfo.residentID;
+      validateResidentID(residentID);
 
       //send notification to all PI partners in that company
       const employerEmails = await getEmployeeEmails(companyName);
@@ -725,7 +749,7 @@ module.exports = {
   //rejects resident application
   async rejectHire(req, res) {
     try {
-      const notifications = await getUserNotifications(
+      const notifications = await getUnreadNotifications(
         req.session.user.email,
         req.session.user.role
       );
@@ -739,8 +763,9 @@ module.exports = {
           dateHired: null,
         },
       });
-      const res = await Resident.findById(res_id).lean();
-      const residentID = res.residentID;
+      const resInfo = await Resident.findById(res_id).lean();
+      const residentID = resInfo.residentID;
+      validateResidentID(residentID);
 
       //remove user from applicants/ interviews
       const updatedJob = await Jobs.findByIdAndUpdate(
@@ -781,7 +806,7 @@ module.exports = {
   //terminates resident
   async terminateResident(req, res) {
     try {
-      const notifications = await getUserNotifications(
+      const notifications = await getUnreadNotifications(
         req.session.user.email,
         req.session.user.role
       );
@@ -789,7 +814,7 @@ module.exports = {
       const { terminationReason, workRestriction, notes } = req.body;
 
       const resInfo = await Resident.findById(res_id).lean();
-      console.log(resInfo);
+
       const dateHired = resInfo.dateHired;
       const companyName = resInfo.companyName;
 
@@ -829,6 +854,8 @@ module.exports = {
 
       const resident = await Resident.findById(res_id).lean();
       const residentID = resident.residentID;
+
+      validateResidentID(residentID);
       //remove employees from Jobs DB
       await Jobs.findOneAndUpdate(
         { employees: res_id }, // Find the job where res_id exists in employees
@@ -883,7 +910,7 @@ module.exports = {
   async cancelTerminationRequest(req, res) {
     try {
       const { res_id } = req.params;
-      const notifications = await getUserNotifications(
+      const notifications = await getUnreadNotifications(
         req.session.user.email,
         req.session.user.role
       );

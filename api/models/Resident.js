@@ -75,7 +75,12 @@ const workHistorySchema = new Schema({
 const residentSchema = new Schema({
   role: { type: String, default: "resident" },
   isActive: { type: Boolean, default: true },
-  residentID: { type: String, unique: true, required: true, lowercase: true },
+  residentID: {
+    type: String,
+    unique: true,
+    required: true,
+    match: [/^\d{7}$/, "Resident ID must be exactly 7 digits"],
+  },
   firstName: { type: String, lowercase: true, required: true },
   lastName: { type: String, lowercase: true, required: true },
   facility: { type: String, lowercase: true, required: true },

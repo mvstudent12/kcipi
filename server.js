@@ -1,5 +1,7 @@
 require("dotenv").config(); //holds env variables
-const dbURI = process.env.DB_URI || "mongodb://localhost/kcipi";
+//const dbURI = process.env.DB_URI || "mongodb://localhost/kcipi";
+
+const dbURI = process.env.DB_URI;
 
 const path = require("path");
 const express = require("express"); //initializes express api
@@ -97,6 +99,7 @@ const classificationRoutes = require("./api/routes/classificationRoutes");
 const employerRoutes = require("./api/routes/employerRoutes");
 const clearanceRoutes = require("./api/routes/clearanceRoutes");
 const requestRoutes = require("./api/routes/requestRoutes");
+const notificationRoutes = require("./api/routes/notificationRoutes");
 
 //links database api
 require("./api/dbConfig/db");
@@ -128,6 +131,7 @@ app.use("/classification", classificationRoutes);
 app.use("/employer", employerRoutes);
 app.use("/notification", requestRoutes);
 app.use("/clearance", clearanceRoutes);
+app.use("/notification", notificationRoutes);
 
 //404 route
 app.get("*", (req, res) => {

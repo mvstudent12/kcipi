@@ -26,7 +26,9 @@
                     <li class="dropdown-header">
                         You have {{countArrayItems notifications}} new
                         {{#if (eq (countArrayItems notifications) 1)}}notification{{else}}notifications{{/if}}
-                            <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+                            <a href="/notification/notifications"><span
+                                    class="badge rounded-pill bg-primary p-2 ms-2">View
+                                    all</span></a>
                     </li>
                     <li>
                         <hr class="dropdown-divider">
@@ -49,7 +51,7 @@
                         {{/unless}}
                     {{/each}}
                     <li class="dropdown-footer">
-                        <a href="#">Show all notifications</a>
+                        <a href="/notification/notifications">Show all notifications</a>
                     </li>
 
                 </ul><!-- End Notification Dropdown Items -->
@@ -104,6 +106,12 @@
                 <span>Dashboard</span>
             </a>
         </li><!-- End Dashboard Nav -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="/notification/notifications">
+                <i class="bi bi-bell"></i>
+                <span>Notifications</span>
+            </a>
+        </li>
         <li class="nav-item">
             <a class="nav-link collapsed" href="/employer/managePositions">
                 <i class="bi bi-menu-button-wide"></i>

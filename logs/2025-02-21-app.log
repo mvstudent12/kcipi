@@ -1,0 +1,100 @@
+{"level":"info","message":"User logged in: kari.johnson@ks.gov","timestamp":"2025-02-21 06:30:11"}
+{"level":"info","message":"2025-02-21T12:30:11.214Z [INFO] : ::ffff:127.0.0.1 /login 200 202.403 ms","timestamp":"2025-02-21 06:30:11"}
+{"level":"warn","message":"Page not found: /unitTeam/notifications","timestamp":"2025-02-21 06:45:22"}
+{"level":"warn","message":"Page not found: /unitTeam/notifications","timestamp":"2025-02-21 06:56:54"}
+{"level":"info","message":"User logged out: kari.johnson@ks.gov","timestamp":"2025-02-21 06:57:15"}
+{"level":"info","message":"User logged in: alice.johnson@ks.gov","timestamp":"2025-02-21 06:57:19"}
+{"level":"info","message":"2025-02-21T12:57:19.798Z [INFO] : ::ffff:127.0.0.1 /login 200 171.282 ms","timestamp":"2025-02-21 06:57:19"}
+{"level":"info","message":"User logged in: alice.johnson@ks.gov","timestamp":"2025-02-21 06:57:31"}
+{"level":"info","message":"2025-02-21T12:57:32.063Z [INFO] : ::ffff:127.0.0.1 /login 200 239.623 ms","timestamp":"2025-02-21 06:57:32"}
+{"level":"info","message":"User logged in: alice.johnson@ks.gov","timestamp":"2025-02-21 06:57:32"}
+{"level":"info","message":"2025-02-21T12:57:33.006Z [INFO] : ::ffff:127.0.0.1 /login 200 252.572 ms","timestamp":"2025-02-21 06:57:33"}
+{"level":"info","message":"User logged in: alice.johnson@ks.gov","timestamp":"2025-02-21 06:57:33"}
+{"level":"info","message":"2025-02-21T12:57:33.434Z [INFO] : ::ffff:127.0.0.1 /login 200 240.748 ms","timestamp":"2025-02-21 06:57:33"}
+{"level":"info","message":"User logged in: alice.johnson@ks.gov","timestamp":"2025-02-21 06:57:36"}
+{"level":"info","message":"2025-02-21T12:57:36.741Z [INFO] : ::ffff:127.0.0.1 /login 200 237.887 ms","timestamp":"2025-02-21 06:57:36"}
+{"level":"info","message":"User logged in: alice.johnson@ks.gov","timestamp":"2025-02-21 06:57:45"}
+{"level":"info","message":"2025-02-21T12:57:46.005Z [INFO] : ::ffff:127.0.0.1 /login 200 2996.180 ms","timestamp":"2025-02-21 06:57:46"}
+{"level":"info","message":"2025-02-21T12:57:46.263Z [INFO] : ::ffff:127.0.0.1 /login - - ms","timestamp":"2025-02-21 06:57:46"}
+{"level":"info","message":"User logged in: alice.johnson@ks.gov","timestamp":"2025-02-21 06:57:46"}
+{"level":"info","message":"User logged in: alice.johnson@ks.gov","timestamp":"2025-02-21 06:57:49"}
+{"level":"info","message":"2025-02-21T12:57:49.908Z [INFO] : ::ffff:127.0.0.1 /login 200 162.272 ms","timestamp":"2025-02-21 06:57:49"}
+{"level":"info","message":"User logged in: alice.johnson@ks.gov","timestamp":"2025-02-21 06:57:51"}
+{"level":"info","message":"2025-02-21T12:57:51.597Z [INFO] : ::ffff:127.0.0.1 /login 200 241.385 ms","timestamp":"2025-02-21 06:57:51"}
+{"level":"info","message":"User logged in: alice.johnson@ks.gov","timestamp":"2025-02-21 06:57:52"}
+{"level":"info","message":"2025-02-21T12:57:52.184Z [INFO] : ::ffff:127.0.0.1 /login 200 240.438 ms","timestamp":"2025-02-21 06:57:52"}
+{"level":"info","message":"User logged in: alice.johnson@ks.gov","timestamp":"2025-02-21 06:57:52"}
+{"level":"info","message":"2025-02-21T12:57:52.553Z [INFO] : ::ffff:127.0.0.1 /login 200 242.671 ms","timestamp":"2025-02-21 06:57:52"}
+{"level":"info","message":"User logged in: chloe.miller@ks.gov","timestamp":"2025-02-21 06:58:03"}
+{"level":"info","message":"2025-02-21T12:58:03.325Z [INFO] : ::ffff:127.0.0.1 /login 200 244.963 ms","timestamp":"2025-02-21 06:58:03"}
+{"level":"info","message":"User logged in: chloe.miller@ks.gov","timestamp":"2025-02-21 06:58:03"}
+{"level":"info","message":"2025-02-21T12:58:04.060Z [INFO] : ::ffff:127.0.0.1 /login 200 242.089 ms","timestamp":"2025-02-21 06:58:04"}
+{"level":"info","message":"User logged in: chloe.miller@ks.gov","timestamp":"2025-02-21 06:58:04"}
+{"level":"info","message":"2025-02-21T12:58:04.236Z [INFO] : ::ffff:127.0.0.1 /login 200 246.468 ms","timestamp":"2025-02-21 06:58:04"}
+{"level":"info","message":"User logged in: alice.johnson@ks.gov","timestamp":"2025-02-21 06:58:15"}
+{"level":"info","message":"2025-02-21T12:58:15.988Z [INFO] : ::ffff:127.0.0.1 /login 200 160.747 ms","timestamp":"2025-02-21 06:58:15"}
+{"level":"info","message":"User logged in: alice.johnson@ks.gov","timestamp":"2025-02-21 06:58:23"}
+{"level":"info","message":"2025-02-21T12:58:23.330Z [INFO] : ::ffff:127.0.0.1 /login 200 242.394 ms","timestamp":"2025-02-21 06:58:23"}
+{"level":"info","message":"User logged in: alice.johnson@ks.gov","timestamp":"2025-02-21 06:58:23"}
+{"level":"info","message":"2025-02-21T12:58:23.757Z [INFO] : ::ffff:127.0.0.1 /login 200 252.372 ms","timestamp":"2025-02-21 06:58:23"}
+{"level":"info","message":"User logged in: alice.johnson@ks.gov","timestamp":"2025-02-21 06:58:23"}
+{"level":"info","message":"2025-02-21T12:58:24.087Z [INFO] : ::ffff:127.0.0.1 /login 200 267.034 ms","timestamp":"2025-02-21 06:58:24"}
+{"level":"info","message":"User logged in: alice.johnson@ks.gov","timestamp":"2025-02-21 07:03:19"}
+{"level":"info","message":"2025-02-21T13:03:19.106Z [INFO] : ::ffff:127.0.0.1 /login 200 281.459 ms","timestamp":"2025-02-21 07:03:19"}
+{"level":"info","message":"User logged in: alice.johnson@ks.gov","timestamp":"2025-02-21 07:03:29"}
+{"level":"info","message":"2025-02-21T13:03:29.724Z [INFO] : ::ffff:127.0.0.1 /login 200 186.726 ms","timestamp":"2025-02-21 07:03:29"}
+{"level":"warn","message":"Page not found: /admin/notifications","timestamp":"2025-02-21 07:10:01"}
+{"level":"warn","message":"Page not found: /admin/notifications","timestamp":"2025-02-21 07:11:15"}
+{"level":"warn","message":"Page not found: /admin/notifications","timestamp":"2025-02-21 07:12:07"}
+{"level":"info","message":"User logged in: alice.johnson@ks.gov","timestamp":"2025-02-21 08:24:39"}
+{"level":"info","message":"2025-02-21T14:24:39.412Z [INFO] : ::ffff:127.0.0.1 /login 200 183.350 ms","timestamp":"2025-02-21 08:24:39"}
+{"level":"info","message":"User logged out: alice.johnson@ks.gov","timestamp":"2025-02-21 08:25:46"}
+{"level":"info","message":"User logged in: kari.johnson@ks.gov","timestamp":"2025-02-21 08:25:51"}
+{"level":"info","message":"2025-02-21T14:25:51.437Z [INFO] : ::ffff:127.0.0.1 /login 200 165.063 ms","timestamp":"2025-02-21 08:25:51"}
+{"level":"warn","message":"Page not found: /unitTeam/notifications","timestamp":"2025-02-21 08:28:36"}
+{"level":"info","message":"2025-02-21T14:35:40.785Z [INFO] : ::ffff:127.0.0.1 /notification/notifications 500 2663.563 ms","timestamp":"2025-02-21 08:35:40"}
+{"level":"info","message":"2025-02-21T15:00:38.144Z [INFO] : ::ffff:127.0.0.1 /notifications/mark-as-read/67b88c6dc03844b311bac828 404 88.932 ms","timestamp":"2025-02-21 09:00:38"}
+{"level":"info","message":"2025-02-21T15:00:39.035Z [INFO] : ::ffff:127.0.0.1 /notifications/mark-as-read/67b88c6dc03844b311bac828 404 86.108 ms","timestamp":"2025-02-21 09:00:39"}
+{"level":"info","message":"2025-02-21T15:00:39.308Z [INFO] : ::ffff:127.0.0.1 /notifications/mark-as-read/67b88c6dc03844b311bac828 404 85.142 ms","timestamp":"2025-02-21 09:00:39"}
+{"level":"info","message":"2025-02-21T15:00:39.546Z [INFO] : ::ffff:127.0.0.1 /notifications/mark-as-read/67b88c6dc03844b311bac828 404 87.323 ms","timestamp":"2025-02-21 09:00:39"}
+{"level":"info","message":"2025-02-21T15:00:40.144Z [INFO] : ::ffff:127.0.0.1 /notifications/mark-as-read/67b88c6dc03844b311bac828 404 83.647 ms","timestamp":"2025-02-21 09:00:40"}
+{"level":"info","message":"2025-02-21T15:00:40.602Z [INFO] : ::ffff:127.0.0.1 /notifications/mark-as-read/67b88c6dc03844b311bac828 404 86.112 ms","timestamp":"2025-02-21 09:00:40"}
+{"level":"info","message":"2025-02-21T15:01:55.221Z [INFO] : ::ffff:127.0.0.1 /notifications/mark-as-read/67b88c6dc03844b311bac828 404 602.439 ms","timestamp":"2025-02-21 09:01:55"}
+{"level":"info","message":"2025-02-21T15:01:57.645Z [INFO] : ::ffff:127.0.0.1 /notifications/mark-as-read/67b88c6dc03844b311bac828 404 83.637 ms","timestamp":"2025-02-21 09:01:57"}
+{"level":"info","message":"2025-02-21T15:04:59.207Z [INFO] : ::ffff:127.0.0.1 /notifications/mark-as-read/67b88c6dc03844b311bac828 404 3817.832 ms","timestamp":"2025-02-21 09:04:59"}
+{"level":"info","message":"2025-02-21T15:04:59.298Z [INFO] : ::ffff:127.0.0.1 /notifications/mark-as-read/67b88c6dc03844b311bac828 404 876.616 ms","timestamp":"2025-02-21 09:04:59"}
+{"level":"info","message":"2025-02-21T15:04:59.313Z [INFO] : ::ffff:127.0.0.1 /notifications/mark-as-read/67b88c6dc03844b311bac828 404 726.334 ms","timestamp":"2025-02-21 09:04:59"}
+{"level":"info","message":"2025-02-21T15:04:59.338Z [INFO] : ::ffff:127.0.0.1 /notifications/mark-as-read/67b88c6dc03844b311bac828 404 561.953 ms","timestamp":"2025-02-21 09:04:59"}
+{"level":"info","message":"2025-02-21T15:04:59.385Z [INFO] : ::ffff:127.0.0.1 /notifications/mark-as-read/67b88c6dc03844b311bac828 404 1561.146 ms","timestamp":"2025-02-21 09:04:59"}
+{"level":"info","message":"2025-02-21T15:04:59.404Z [INFO] : ::ffff:127.0.0.1 /notifications/mark-as-read/67b88c6dc03844b311bac828 404 2268.738 ms","timestamp":"2025-02-21 09:04:59"}
+{"level":"info","message":"2025-02-21T15:04:59.697Z [INFO] : ::ffff:127.0.0.1 /notifications/mark-as-read/67b88c6dc03844b311bac828 404 995.248 ms","timestamp":"2025-02-21 09:04:59"}
+{"level":"info","message":"2025-02-21T15:04:59.764Z [INFO] : ::ffff:127.0.0.1 /notifications/mark-as-read/67b88c6dc03844b311bac828 404 871.891 ms","timestamp":"2025-02-21 09:04:59"}
+{"level":"info","message":"2025-02-21T15:05:02.744Z [INFO] : ::ffff:127.0.0.1 /notifications/mark-as-read/67b88c6dc03844b311bac828 404 83.377 ms","timestamp":"2025-02-21 09:05:02"}
+{"level":"info","message":"2025-02-21T15:05:15.556Z [INFO] : ::ffff:127.0.0.1 /notifications/mark-as-read/67b88c6dc03844b311bac828 404 2457.616 ms","timestamp":"2025-02-21 09:05:15"}
+{"level":"info","message":"2025-02-21T15:05:15.728Z [INFO] : ::ffff:127.0.0.1 /notifications/mark-as-read/67b88c6dc03844b311bac828 404 555.929 ms","timestamp":"2025-02-21 09:05:15"}
+{"level":"warn","message":"Page not found: /notification/notifications","timestamp":"2025-02-21 09:13:01"}
+{"level":"info","message":"2025-02-21T15:13:23.657Z [INFO] : ::ffff:127.0.0.1 /notifications/mark-as-read/67b88c6dc03844b311bac828 404 88.502 ms","timestamp":"2025-02-21 09:13:23"}
+{"level":"info","message":"2025-02-21T15:14:37.574Z [INFO] : ::ffff:127.0.0.1 /notifications/mark-as-read/67b88c6dc03844b311bac828 404 93.191 ms","timestamp":"2025-02-21 09:14:37"}
+{"level":"info","message":"2025-02-21T15:14:38.851Z [INFO] : ::ffff:127.0.0.1 /notifications/mark-as-read/67b88c6dc03844b311bac828 404 94.848 ms","timestamp":"2025-02-21 09:14:38"}
+{"level":"info","message":"2025-02-21T15:14:39.528Z [INFO] : ::ffff:127.0.0.1 /notifications/mark-as-read/67b88c6dc03844b311bac828 404 96.245 ms","timestamp":"2025-02-21 09:14:39"}
+{"level":"info","message":"2025-02-21T15:14:40.358Z [INFO] : ::ffff:127.0.0.1 /notifications/mark-as-read/67b88c6dc03844b311bac828 404 84.406 ms","timestamp":"2025-02-21 09:14:40"}
+{"level":"info","message":"2025-02-21T15:15:28.826Z [INFO] : ::ffff:127.0.0.1 /notifications/mark-as-read/67b88c6dc03844b311bac828 404 370.625 ms","timestamp":"2025-02-21 09:15:28"}
+{"level":"info","message":"2025-02-21T15:15:28.946Z [INFO] : ::ffff:127.0.0.1 /notifications/mark-as-read/67b88c6dc03844b311bac828 404 1475.345 ms","timestamp":"2025-02-21 09:15:28"}
+{"level":"info","message":"2025-02-21T15:15:29.001Z [INFO] : ::ffff:127.0.0.1 /notifications/mark-as-read/67b88c6dc03844b311bac828 404 1048.753 ms","timestamp":"2025-02-21 09:15:29"}
+{"level":"info","message":"2025-02-21T15:15:29.318Z [INFO] : ::ffff:127.0.0.1 /notifications/mark-as-read/67b88c6dc03844b311bac828 404 259.678 ms","timestamp":"2025-02-21 09:15:29"}
+{"level":"info","message":"2025-02-21T15:15:30.085Z [INFO] : ::ffff:127.0.0.1 /notifications/mark-as-read/67b88c6dc03844b311bac828 404 82.574 ms","timestamp":"2025-02-21 09:15:30"}
+{"level":"info","message":"2025-02-21T15:15:30.694Z [INFO] : ::ffff:127.0.0.1 /notifications/mark-as-read/67b88c6dc03844b311bac828 404 84.397 ms","timestamp":"2025-02-21 09:15:30"}
+{"level":"info","message":"2025-02-21T15:17:31.820Z [INFO] : ::ffff:127.0.0.1 /notifications/mark-as-read/67b88c6dc03844b311bac828 404 98.442 ms","timestamp":"2025-02-21 09:17:31"}
+{"level":"info","message":"2025-02-21T15:17:39.077Z [INFO] : ::ffff:127.0.0.1 /notifications/mark-as-read/67b88c6dc03844b311bac828 404 1722.504 ms","timestamp":"2025-02-21 09:17:39"}
+{"level":"info","message":"2025-02-21T15:17:39.083Z [INFO] : ::ffff:127.0.0.1 /notifications/mark-as-read/67b88c6dc03844b311bac828 404 2988.144 ms","timestamp":"2025-02-21 09:17:39"}
+{"level":"info","message":"2025-02-21T15:17:40.640Z [INFO] : ::ffff:127.0.0.1 /notifications/mark-as-read/67b88c6dc03844b311bac828 404 82.382 ms","timestamp":"2025-02-21 09:17:40"}
+{"level":"info","message":"2025-02-21T15:20:28.060Z [INFO] : ::ffff:127.0.0.1 /notifications/mark-as-read/67b88c6dc03844b311bac828 500 906.075 ms","timestamp":"2025-02-21 09:20:28"}
+{"level":"info","message":"2025-02-21T15:20:28.063Z [INFO] : ::ffff:127.0.0.1 /notifications/mark-as-read/67b88c6dc03844b311bac828 500 483.467 ms","timestamp":"2025-02-21 09:20:28"}
+{"level":"info","message":"2025-02-21T15:20:28.064Z [INFO] : ::ffff:127.0.0.1 /notifications/mark-as-read/67b88c6dc03844b311bac828 500 319.694 ms","timestamp":"2025-02-21 09:20:28"}
+{"level":"info","message":"2025-02-21T15:20:28.064Z [INFO] : ::ffff:127.0.0.1 /notifications/mark-as-read/67b88c6dc03844b311bac828 500 108.243 ms","timestamp":"2025-02-21 09:20:28"}
+{"level":"info","message":"2025-02-21T15:20:28.140Z [INFO] : ::ffff:127.0.0.1 /notifications/mark-as-read/67b88c6dc03844b311bac828 500 0.549 ms","timestamp":"2025-02-21 09:20:28"}
+{"level":"info","message":"2025-02-21T15:20:28.319Z [INFO] : ::ffff:127.0.0.1 /notifications/mark-as-read/67b88c6dc03844b311bac828 500 0.492 ms","timestamp":"2025-02-21 09:20:28"}
+{"level":"info","message":"2025-02-21T15:21:11.430Z [INFO] : ::ffff:127.0.0.1 /notification/notifications 500 0.877 ms","timestamp":"2025-02-21 09:21:11"}
+{"level":"info","message":"2025-02-21T15:23:07.320Z [INFO] : ::1 /resident 500 7386.508 ms","timestamp":"2025-02-21 09:23:07"}
+{"level":"info","message":"2025-02-21T15:23:07.329Z [INFO] : ::1 /resident 500 0.933 ms","timestamp":"2025-02-21 09:23:07"}
+{"level":"info","message":"2025-02-21T15:30:58.250Z [INFO] : ::1 /resident 500 0.454 ms","timestamp":"2025-02-21 09:30:58"}

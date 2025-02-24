@@ -1,0 +1,97 @@
+{{> unitTeamTemplate}}
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1 class="text-capitalize">Notifications</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/unitTeam/dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item active text-capitalize">Notifications</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section profile">
+        <div class="row">
+            <div class="col-12">
+
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="activity">
+                            <div class="card mt-3">
+                                <div class="card-body mt-3">
+
+                                    <h5 class="card-title"><span>All Notifications</span></h5>
+
+                                    <!-- List group with Advanced Contents -->
+
+                                    <div class="list-group">
+                                        {{#each allNotifications}}
+                                            <a href="#"
+                                                class="list-group-item list-group-item-action {{#unless this.isRead}}active{{/unless}}"
+                                                aria-current="true" data-id="{{this._id}}"
+                                                onclick="markAsRead(event, '{{this._id}}')">
+
+                                                <div class="d-flex w-100 justify-content-between pt-3 pb-3">
+                                                    <h5 class="mb-1">{{this.message}}</h5>
+                                                    <small>{{formatDate this.createdAt}}</small>
+                                                </div>
+
+                                            </a>
+                                        {{/each}}
+
+
+                                    </div><!-- End List group Advanced Content -->
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        </div>
+    </section>
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+{{> footer}}
+
+{{> arrowUp}}
+
+
+<script>
+    // Function to mark a notification as read
+    async function markAsRead(event, notificationId) {
+        try {
+            // Prevent default action of the anchor tag (if it's a link)
+            event.preventDefault();
+
+            // Send a request to the server to mark this notification as read
+            const response = await fetch(`/notifications/markAsRead/${notificationId}`, {
+                method: 'PATCH', // Assuming you're using PATCH method for marking as read
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            console.log(response)
+
+            // Handle server response
+            if (response.ok) {
+                // Update the UI to mark the notification as read (remove "active" class)
+                const notificationElement = event.target.closest('.list-group-item');
+                notificationElement.classList.remove('active');
+            } else {
+                console.error('Failed to mark notification as read');
+            }
+        } catch (error) {
+            console.error('Error marking notification as read:', error);
+        }
+    }
+
+</script>

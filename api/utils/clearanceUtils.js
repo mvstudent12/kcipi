@@ -1,9 +1,7 @@
 //=============================
 //    Global Imports
 //=============================
-const Admin = require("../models/Admin");
-const Facility_Management = require("../models/Facility_Management");
-const Classification = require("../models/Classification");
+
 const Employer = require("../models/Employer");
 const UnitTeam = require("../models/UnitTeam");
 const Resident = require("../models/Resident");
@@ -11,6 +9,8 @@ const Jobs = require("../models/Jobs");
 const ActivityLog = require("../models/ActivityLog");
 
 const { createNotification } = require("./notificationUtils");
+
+const { validateResidentID } = require("./validationUtils");
 
 //=============================
 //     Helper Functions
@@ -32,23 +32,18 @@ async function getEmployeeEmails(companyName) {
   }
 }
 
-async function sendNotificationsToEmployers(
+async function sendNotificationsToEmployers( //add better error handling
   employerEmails,
   notification_type,
   msg
 ) {
   try {
-    // Iterate over the array of employer emails
-    for (const email of employerEmails) {
-      // Send the notification for each employer email
-      await createNotification(
-        email, // Send to the employer email
-        "employer", // Role of the recipient
-        notification_type, // Notification type
-        msg // Notification message
-      );
-      console.log(`Notification sent to: ${email}`);
-    }
+    await Promise.all(
+      employerEmails.map((email) =>
+        createNotification(email, "employer", notification_type, msg)
+      )
+    );
+    console.log("Notifications sent successfully.");
   } catch (err) {
     console.error("Error sending notifications:", err);
   }
@@ -56,11 +51,11 @@ async function sendNotificationsToEmployers(
 
 async function getResidentProfileInfo(residentID) {
   try {
+    validateResidentID(residentID);
+
     // Find the resident based on residentID
     const resident = await Resident.findOne({ residentID }).lean();
-    if (!resident) {
-      return res.status(404).send("Resident not found"); // Handling case when resident is not found
-    }
+    if (!resident) return null;
 
     const res_id = resident._id;
 
