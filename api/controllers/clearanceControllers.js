@@ -101,6 +101,10 @@ module.exports = {
     let { residentID, custodyLevel, facility, unitTeamInfo, jobPool } =
       req.body;
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       validateResidentID(residentID);
 
       // Split unitTeamInfo (ensure it's in the expected format)

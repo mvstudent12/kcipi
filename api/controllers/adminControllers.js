@@ -384,7 +384,7 @@ module.exports = {
         req.session.user.email,
         req.session.user.role
       );
-      const unitTeam = await UnitTeam.find().lean();
+      const unitTeam = await UnitTeam.find().sort({ lastName: 1 }).lean();
       res.render("admin/tables/unitTeam", {
         user: req.session.user,
         notifications,

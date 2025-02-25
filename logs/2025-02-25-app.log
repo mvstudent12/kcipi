@@ -74,3 +74,39 @@
 {"level":"error","message":"checkUser error:: TypeError: Cannot read properties of undefined (reading 'undefined')\n    at findUserById (C:\\Users\\KCTCodingIm12\\Desktop\\KCI PI Beta 3.0\\api\\middleware\\authMiddleware.js:137:16)\n    at checkUser (C:\\Users\\KCTCodingIm12\\Desktop\\KCI PI Beta 3.0\\api\\middleware\\authMiddleware.js:102:24)\n    at Layer.handle [as handle_request] (C:\\Users\\KCTCodingIm12\\Desktop\\KCI PI Beta 3.0\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\KCTCodingIm12\\Desktop\\KCI PI Beta 3.0\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at Route.dispatch (C:\\Users\\KCTCodingIm12\\Desktop\\KCI PI Beta 3.0\\node_modules\\express\\lib\\router\\route.js:119:3)\n    at Layer.handle [as handle_request] (C:\\Users\\KCTCodingIm12\\Desktop\\KCI PI Beta 3.0\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at C:\\Users\\KCTCodingIm12\\Desktop\\KCI PI Beta 3.0\\node_modules\\express\\lib\\router\\index.js:284:15\n    at param (C:\\Users\\KCTCodingIm12\\Desktop\\KCI PI Beta 3.0\\node_modules\\express\\lib\\router\\index.js:365:14)\n    at param (C:\\Users\\KCTCodingIm12\\Desktop\\KCI PI Beta 3.0\\node_modules\\express\\lib\\router\\index.js:376:14)\n    at Function.process_params (C:\\Users\\KCTCodingIm12\\Desktop\\KCI PI Beta 3.0\\node_modules\\express\\lib\\router\\index.js:421:3)","timestamp":"2025-02-25 10:34:38"}
 {"level":"info","message":"User logged in: alice.johnson@ks.gov","timestamp":"2025-02-25 10:35:15"}
 {"level":"info","message":"2025-02-25T16:35:15.748Z [INFO] : ::ffff:127.0.0.1 /login 200 188.060 ms","timestamp":"2025-02-25 10:35:15"}
+{"level":"info","message":"User attempted login: ethan.martinez@example.com: wrong email","timestamp":"2025-02-25 11:48:40"}
+{"level":"info","message":"2025-02-25T17:48:40.421Z [INFO] : ::ffff:127.0.0.1 /login 400 32.146 ms","timestamp":"2025-02-25 11:48:40"}
+{"level":"info","message":"User logged in: michael.williams@ks.gov","timestamp":"2025-02-25 11:48:51"}
+{"level":"info","message":"2025-02-25T17:48:51.935Z [INFO] : ::ffff:127.0.0.1 /login 200 173.411 ms","timestamp":"2025-02-25 11:48:51"}
+{"level":"info","message":"Non-Resident logged out: michael.williams@ks.gov","timestamp":"2025-02-25 11:49:48"}
+{"level":"info","message":"User attempted login: liam.anderson@ks.gov: wrong password","timestamp":"2025-02-25 11:49:55"}
+{"level":"info","message":"2025-02-25T17:49:55.172Z [INFO] : ::ffff:127.0.0.1 /login 400 102.881 ms","timestamp":"2025-02-25 11:49:55"}
+{"level":"info","message":"User logged in: liam.anderson@ks.gov","timestamp":"2025-02-25 11:49:59"}
+{"level":"info","message":"2025-02-25T17:49:59.055Z [INFO] : ::ffff:127.0.0.1 /login 200 154.278 ms","timestamp":"2025-02-25 11:49:59"}
+{"level":"info","message":"Role check error:: employer::Access denied.","timestamp":"2025-02-25 11:50:02"}
+{"level":"info","message":"Role check error:: err is not defined","timestamp":"2025-02-25 11:50:02"}
+{"level":"error","message":"Role check error:: ReferenceError: err is not defined\n    at C:\\Users\\KCTCodingIm12\\Desktop\\KCI PI Beta 3.0\\api\\middleware\\authMiddleware.js:48:44\n    at Layer.handle [as handle_request] (C:\\Users\\KCTCodingIm12\\Desktop\\KCI PI Beta 3.0\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\KCTCodingIm12\\Desktop\\KCI PI Beta 3.0\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at module.exports (C:\\Users\\KCTCodingIm12\\Desktop\\KCI PI Beta 3.0\\api\\middleware\\sessionSecurity.js:10:3)\n    at Layer.handle [as handle_request] (C:\\Users\\KCTCodingIm12\\Desktop\\KCI PI Beta 3.0\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\KCTCodingIm12\\Desktop\\KCI PI Beta 3.0\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at requireAuth (C:\\Users\\KCTCodingIm12\\Desktop\\KCI PI Beta 3.0\\api\\middleware\\authMiddleware.js:15:3)\n    at Layer.handle [as handle_request] (C:\\Users\\KCTCodingIm12\\Desktop\\KCI PI Beta 3.0\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\KCTCodingIm12\\Desktop\\KCI PI Beta 3.0\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at checkUser (C:\\Users\\KCTCodingIm12\\Desktop\\KCI PI Beta 3.0\\api\\middleware\\authMiddleware.js:104:5)","timestamp":"2025-02-25 11:50:02"}
+{"level":"info","message":"Role check error:: employer::Access denied.","timestamp":"2025-02-25 11:50:52"}
+{"level":"info","message":"Non-Resident logged out: liam.anderson@ks.gov","timestamp":"2025-02-25 11:51:06"}
+{"level":"info","message":"User logged in: kari.johnson@ks.gov","timestamp":"2025-02-25 11:51:11"}
+{"level":"info","message":"2025-02-25T17:51:11.149Z [INFO] : ::ffff:127.0.0.1 /login 200 184.778 ms","timestamp":"2025-02-25 11:51:11"}
+{"level":"info","message":"Non-Resident logged out: kari.johnson@ks.gov","timestamp":"2025-02-25 11:51:18"}
+{"level":"info","message":"User attempted login: laim.anderson@ks.gov: wrong email","timestamp":"2025-02-25 11:51:24"}
+{"level":"info","message":"2025-02-25T17:51:24.648Z [INFO] : ::ffff:127.0.0.1 /login 400 12.031 ms","timestamp":"2025-02-25 11:51:24"}
+{"level":"info","message":"User attempted login: laim.anderson@ks.gov: wrong email","timestamp":"2025-02-25 11:51:27"}
+{"level":"info","message":"2025-02-25T17:51:27.865Z [INFO] : ::ffff:127.0.0.1 /login 400 5.062 ms","timestamp":"2025-02-25 11:51:27"}
+{"level":"info","message":"User logged in: liam.anderson@ks.gov","timestamp":"2025-02-25 11:51:34"}
+{"level":"info","message":"2025-02-25T17:51:34.898Z [INFO] : ::ffff:127.0.0.1 /login 200 155.309 ms","timestamp":"2025-02-25 11:51:34"}
+{"level":"info","message":"Role check error:: employer::Access denied.","timestamp":"2025-02-25 11:51:36"}
+{"level":"info","message":"Non-Resident logged out: liam.anderson@ks.gov","timestamp":"2025-02-25 11:52:21"}
+{"level":"info","message":"User logged in: chloe.miller@ks.gov","timestamp":"2025-02-25 11:52:25"}
+{"level":"info","message":"2025-02-25T17:52:25.816Z [INFO] : ::ffff:127.0.0.1 /login 200 156.188 ms","timestamp":"2025-02-25 11:52:25"}
+{"level":"info","message":"Role check error:: employer::Access denied.","timestamp":"2025-02-25 11:52:27"}
+{"level":"warn","message":"Page not found: /clearance/recentActivities","timestamp":"2025-02-25 11:53:34"}
+{"level":"warn","message":"Page not found: /clearance/recentActivities","timestamp":"2025-02-25 11:54:02"}
+{"level":"info","message":"Non-Resident logged out: chloe.miller@ks.gov","timestamp":"2025-02-25 11:55:07"}
+{"level":"info","message":"User logged in: kari.johnson@ks.gov","timestamp":"2025-02-25 11:55:11"}
+{"level":"info","message":"2025-02-25T17:55:11.595Z [INFO] : ::ffff:127.0.0.1 /login 200 183.450 ms","timestamp":"2025-02-25 11:55:11"}
+{"level":"info","message":"Non-Resident logged out: kari.johnson@ks.gov","timestamp":"2025-02-25 12:03:47"}
+{"level":"info","message":"User logged in: chloe.miller@ks.gov","timestamp":"2025-02-25 12:03:51"}
+{"level":"info","message":"2025-02-25T18:03:51.347Z [INFO] : ::ffff:127.0.0.1 /login 200 176.544 ms","timestamp":"2025-02-25 12:03:51"}

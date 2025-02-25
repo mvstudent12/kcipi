@@ -75,7 +75,16 @@ clearanceRoutes.post("/editResident", authMiddleware, controller.editResident);
 
 clearanceRoutes.get(
   "/recentActivities",
-  authMiddleware,
+  checkUser,
+  requireAuth,
+  sessionSecurity,
+  requireRole([
+    "unitTeam",
+    "facility_management",
+    "classification",
+    "admin",
+    "employer",
+  ]),
   controller.recentActivities
 );
 

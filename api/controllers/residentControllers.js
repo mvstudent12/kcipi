@@ -117,7 +117,9 @@ module.exports = {
     try {
       const unitTeam = await UnitTeam.find({
         facility: req.session.resident.facility,
-      }).lean();
+      })
+        .sort({ lastName: 1 })
+        .lean();
       res.render("resident/profile", {
         unitTeam,
         user: req.session.resident,

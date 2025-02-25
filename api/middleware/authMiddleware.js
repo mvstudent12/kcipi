@@ -45,7 +45,6 @@ function requireRole(allowedRoles) {
       // Check if user has an allowed role
       if (!allowedRoles.includes(user.role)) {
         logger.info(`Role check error:: ${user.role}::Access denied.`);
-        logger.error(`Role check error:: ${err.stack}`);
         return res.render("error/403");
       }
 

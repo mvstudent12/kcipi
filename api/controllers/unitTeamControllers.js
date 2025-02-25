@@ -280,6 +280,10 @@ module.exports = {
   //===============================
   async reports(req, res) {
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       res.render("unitTeam/reports", { user: req.session.user, notifications });
     } catch (err) {
       console.log(err);

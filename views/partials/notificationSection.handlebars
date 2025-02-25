@@ -1,0 +1,45 @@
+<section class="section profile">
+    <div class="row">
+        <div class="col-12">
+
+            <div class="card">
+                <div class="card-body">
+
+                    <div class="activity">
+                        <div class="card mt-3">
+                            <div class="card-body mt-3">
+
+                                <h5 class="card-title">All Notifications <span>| Click to Mark as Read</span> </h5>
+
+                                {{#if allNotifications}}
+                                    <div class="list-group">
+                                        {{#each allNotifications}}
+                                            <a href="#"
+                                                class="list-group-item list-group-item-action {{#unless this.isRead}}active{{/unless}} mb-1"
+                                                aria-current="true" data-id="{{this._id}}"
+                                                onclick="markAsRead(event, '{{this._id}}')">
+
+                                                <div class="d-flex w-100 justify-content-between pt-3 pb-3 ">
+                                                    <p class="mb-1">{{this.message}}</p>
+                                                    <small>{{formatDate this.createdAt}}</small>
+                                                </div>
+
+                                            </a>
+                                        {{/each}}
+                                    </div>
+                                {{else}}
+                                    <p>You have not received any notifications yet.</p>
+                                {{/if}}
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+</section>
