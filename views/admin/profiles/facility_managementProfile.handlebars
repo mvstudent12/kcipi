@@ -37,10 +37,7 @@
                                 <button class="nav-link {{#if (eq activeTab 'overview')}}active{{/if}}"
                                     data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
                             </li>
-                            <li class="nav-item">
-                                <button class="nav-link {{#if (eq activeTab 'contact')}}active{{/if}}"
-                                    data-bs-toggle="tab" data-bs-target="#contact-facility_management">Contact</button>
-                            </li>
+
                             <li class="nav-item">
                                 <button class="nav-link {{#if (eq activeTab 'activities')}}active{{/if}}"
                                     data-bs-toggle="tab" data-bs-target="#activities-facility_management">Activity
@@ -71,44 +68,6 @@
                                 </div>
                             </div>
 
-                            {{!-- Contact Facility Management --}}
-                            <div class="tab-pane fade {{#if (eq activeTab 'contact')}}show active{{/if}} contact-facility_management pt-3"
-                                id="contact-facility_management">
-
-                                {{!-- DO THIS FUNCTIONALITY LATER --}}
-                                <form method="POST" action="#">
-                                    <div class="row gy-4">
-                                        <h3 class="text-center text-info text-capitalize">Contact
-                                            {{facility_management.firstName}}
-                                            {{facility_management.lastName}}
-                                        </h3>
-                                        <p class="text-center">Fill out the form below to contact this Facility
-                                            Management member.
-                                        </p>
-                                        <div class="col-md-6">
-                                            <input type="text" name="name" value="{{user.firstName}} {{user.lastName}}"
-                                                class="form-control text-capitalize"
-                                                placeholder="{{user.firstName}} {{user.lastName}}" readonly>
-                                        </div>
-                                        <div class="col-md-6 ">
-                                            <input type="email" class="form-control" name="email"
-                                                placeholder="{{user.email}}" value="{{user.email}}" readonly>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <input type="text" class="form-control" name="subject" placeholder="Subject"
-                                                required>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <textarea class="form-control" name="message" rows="6" placeholder="Message"
-                                                required></textarea>
-                                        </div>
-                                        <div class="col-md-12 text-center">
-                                            <button class="btn btn-primary" type="submit">Send</button>
-                                        </div>
-                                    </div>
-
-                                </form>
-                            </div>
 
                             <div class="tab-pane fade {{#if (eq activeTab 'activities')}}show active{{/if}} activities-facility_management pt-3"
                                 id="activities-facility_management">

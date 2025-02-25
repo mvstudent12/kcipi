@@ -86,17 +86,18 @@ addNotesButtons.forEach((button) => {
         let notesContent = ""; // Build notes content as a string
 
         if (data.notes.length > 0) {
+          // Sort notes by createdAt in descending order (newest first)
+          data.notes.sort(
+            (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+          );
+
           data.notes.forEach((note) => {
             notesContent += `
-              <span>${new Date(
-                note.createdAt
-              ).toLocaleString()}</span> - <span class="text-capitalize">${
-              note.createdBy
-            }</span>
-
-              <p class="text-primary first-letter">${note.note}</p>
-              <hr>
-            `;
+      <span>${new Date(note.createdAt).toLocaleString()}</span> - 
+      <span class="text-capitalize">${note.createdBy}</span>
+      <p class="text-primary first-letter">${note.note}</p>
+      <hr>
+    `;
           });
         } else {
           notesContent = "<p><i>There has been no documentation yet.</i></p>";
@@ -107,8 +108,7 @@ addNotesButtons.forEach((button) => {
       })
       .catch((error) => {
         console.error("Error fetching notes:", error);
-        previousNotes.innerHTML =
-          "<p><i>Error fetching notes. Please try again later.</i></p>";
+        previousNotes.innerHTML = "<p><i>Error fetching notes.</i></p>";
       });
   });
 });

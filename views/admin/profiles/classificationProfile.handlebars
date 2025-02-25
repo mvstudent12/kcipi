@@ -34,10 +34,7 @@
                                 <button class="nav-link {{#if (eq activeTab 'overview')}}active{{/if}}"
                                     data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
                             </li>
-                            <li class="nav-item">
-                                <button class="nav-link {{#if (eq activeTab 'contact')}}active{{/if}}"
-                                    data-bs-toggle="tab" data-bs-target="#contact-classification">Contact</button>
-                            </li>
+
                             <li class="nav-item">
                                 <button class="nav-link {{#if (eq activeTab 'activities')}}active{{/if}}"
                                     data-bs-toggle="tab" data-bs-target="#activities-classification">Activity
@@ -65,44 +62,6 @@
                                     <div class="col-lg-4 col-md-4 label">Email</div>
                                     <div class="col-lg-8 col-md-8 ">{{classification.email}}</div>
                                 </div>
-                            </div>
-
-                            {{!-- Contact Classification --}}
-                            <div class="tab-pane fade {{#if (eq activeTab 'contact')}}show active{{/if}} contact-classification pt-3"
-                                id="contact-classification">
-                                {{!-- DO THIS FUNCTIONALITY LATER --}}
-                                <form method="POST" action="#">
-
-                                    <div class="row gy-4">
-                                        <h3 class="text-center text-info text-capitalize">Contact
-                                            {{classification.firstName}}
-                                            {{classification.lastName}}
-                                        </h3>
-                                        <p class="text-center">Fill out the form below to contact this Classification
-                                            member.
-                                        </p>
-                                        <div class="col-md-6">
-                                            <input type="text" name="name" value="{{user.firstName}} {{user.lastName}}"
-                                                class="form-control text-capitalize"
-                                                placeholder="{{user.firstName}} {{user.lastName}}" readonly>
-                                        </div>
-                                        <div class="col-md-6 ">
-                                            <input type="email" class="form-control" name="email"
-                                                placeholder="{{user.email}}" value="{{user.email}}" readonly>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <input type="text" class="form-control" name="subject" placeholder="Subject"
-                                                required>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <textarea class="form-control" name="message" rows="6" placeholder="Message"
-                                                required></textarea>
-                                        </div>
-                                        <div class="col-md-12 text-center">
-                                            <button class="btn btn-primary" type="submit">Send</button>
-                                        </div>
-                                    </div>
-                                </form>
                             </div>
 
                             <div class="tab-pane fade {{#if (eq activeTab 'activities')}}show active{{/if}} activities-classification pt-3"

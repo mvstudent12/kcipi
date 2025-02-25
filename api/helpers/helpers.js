@@ -9,35 +9,11 @@ const helpers = {
     }
     return array.length;
   },
-  countPendingItems: (array, x, y) => {
-    let count = 0;
-    array.forEach((item) => {
-      const condition1 = item[x];
-      const condition2 = item[y];
 
-      if ((condition1 && !condition2) || (!condition1 && condition2)) {
-        count++;
-      }
-    });
-
-    return count;
-  },
   add: (value, increment) => {
     return value + increment;
   },
-  countNestedTrue: (array, key) => {
-    if (!Array.isArray(array)) return 0;
-    return array.filter(
-      (item) =>
-        item[key] === true ||
-        item[key] === "inappropriate" ||
-        item[key] === "inaccurate"
-    ).length;
-  },
-  countNestedFalse: (array, key) => {
-    if (!Array.isArray(array)) return 0;
-    return array.filter((item) => item[key] === false).length;
-  },
+
   countItems: (array) => {
     return Array.isArray(array) ? array.length : 0;
   },

@@ -36,7 +36,11 @@ module.exports = {
       const user = await Resident.findResident(residentID);
       req.session.resident = user;
 
-      // Log successful login-- create better error handling for this
+      // Store IP and User-Agent after successful login
+      req.session.ip = req.ip;
+      req.session.userAgent = req.get("User-Agent");
+
+      // Log successful login
       logger.info(
         `User logged in: #${req.session.resident.residentID}: ${req.session.resident.firstName}, ${req.session.resident.lastName}`
       );
@@ -44,7 +48,7 @@ module.exports = {
     } catch (err) {
       console.log(err);
       const errors = handleErrors(err);
-      //handles errors on front end
+      // Handles errors on front end
       res.status(400).json({ errors });
     }
   },
@@ -53,7 +57,7 @@ module.exports = {
   async residentLogOut(req, res) {
     // Log user logout
     logger.info(
-      `User logged out: #${req.session.resident.residentID}: ${req.session.resident.firstName} ${req.session.resident.lastName} `
+      `Resident logged out: #${req.session.resident.residentID}: ${req.session.resident.firstName} ${req.session.resident.lastName} `
     );
 
     req.session.destroy((err) => {
@@ -90,7 +94,7 @@ module.exports = {
   async login(req, res) {
     const { email, password } = req.body;
     try {
-      //check if the user exists in various schemas
+      // Check if the user exists in various schemas
       let user = await Employer.findOne({ email });
       if (!user) {
         user = await UnitTeam.findOne({ email });
@@ -104,13 +108,17 @@ module.exports = {
       if (!user) {
         user = await Classification.findOne({ email });
       }
-      //check if user password matches
+
+      // Check if user password matches
       if (user) {
-        const userID = user._id.toString();
         const auth = await bcrypt.compare(password, user.password);
 
         if (auth) {
           req.session.user = user;
+
+          // Store IP and User-Agent after successful login
+          req.session.ip = req.ip;
+          req.session.userAgent = req.get("User-Agent");
 
           req.session.save((err) => {
             if (err) {
@@ -118,19 +126,16 @@ module.exports = {
             }
             // Log successful login
             logger.info(`User logged in: ${email}`);
-
-            res.status(200).json({ user: userID });
+            res.status(200).json({ user: user._id.toString() });
           });
         } else {
-          // Log error
+          // Log error for wrong password
           logger.info(`User attempted login: ${email}: wrong password`);
-          //if password does not match
           throw Error("incorrect password");
         }
       } else {
-        // Log error
+        // Log error for non-existing email
         logger.info(`User attempted login: ${email}: wrong email`);
-        //if no user found
         throw Error("This email does not exist");
       }
     } catch (err) {
@@ -139,7 +144,6 @@ module.exports = {
       res.status(400).json({ errors });
     }
   },
-
   //serves non-resident user dashboard
   async userDashboard(req, res) {
     const id = req.params.id;
@@ -171,7 +175,7 @@ module.exports = {
   //logs out non resident users
   async logOut(req, res) {
     // Log user logout
-    logger.info(`User logged out: ${req.session.user.email}`);
+    logger.info(`Non-Resident logged out: ${req.session.user.email}`);
     req.session.destroy((err) => {
       if (err) {
         logger.warn("Failed to logout: " + err);

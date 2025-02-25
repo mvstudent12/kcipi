@@ -112,36 +112,38 @@ const residentSchema = new Schema({
   sexOffenderClearance: { type: clearanceSchema, default: () => ({}) },
   victimServicesClearance: { type: clearanceSchema, default: () => ({}) },
 
-  workEligibility: { type: clearanceSchema, default: () => ({}) },
+  workEligibility: {
+    type: {
+      status: {
+        type: String,
+        enum: ["approved", "pending", "restricted", "none"],
+        required: true,
+        default: "none",
+      },
+    },
+    default: {}, // Ensures the workEligibility object always exists
+  },
 
   isHired: { type: Boolean, default: false },
   dateHired: { type: Date },
   companyName: { type: String, lowercase: true, default: "" },
-  workHistory: [workHistorySchema],
+  workHistory: { type: [workHistorySchema], default: [] },
   terminationRequest: terminationRequestSchema,
 });
 
-// Pre-save hook to ensure that the resume status is "incomplete" if not provided for new residents
+// Pre-save hook to ensure the resume status is "incomplete" if not provided
 residentSchema.pre("save", function (next) {
-  // Check if resume exists, if not, initialize it
   if (this.isNew) {
-    if (!this.resume) {
-      this.resume = {}; // Initialize resume object if not present
-    }
-    if (!this.resume.status) {
-      this.resume.status = "incomplete"; // Set default status if not provided
-    }
+    this.resume ??= {};
+    this.resume.status ??= "incomplete";
   }
   next();
 });
-
-// Static method to find resident
+// Static method to find a resident
 residentSchema.statics.findResident = async function (residentID) {
   const resident = await this.findOne({ residentID, isActive: true }).lean();
-  if (resident) {
-    return resident;
-  }
-  throw Error("residentID does not exist");
+  if (resident) return resident;
+  throw new Error("residentID does not exist");
 };
 
 const Resident = mongoose.model("resident", residentSchema);

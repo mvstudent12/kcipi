@@ -44,6 +44,7 @@
                     </ul>
                     {{!--===== TABS =====--}}
                     <div class="tab-content pt-2">
+
                         {{!--===== Resident Overview Tab =====--}}
                         <div class="tab-pane fade {{#if (eq activeTab 'overview')}}show active{{/if}} profile-overview pt-3"
                             id="profile-overview">
@@ -66,7 +67,7 @@
                                     {{#if (eq resident.workEligibility.status "none")}}
 
                                         <div class="text-center pt-3">
-                                            <p class="text-primary">This resident needs reviewed for clearance.</p>
+                                            <p class="text-primary">This resident needs their resume reviewed.</p>
                                         </div>
 
 
@@ -759,7 +760,7 @@
 
                                         <h5 class="card-title">Clearance Status</h5>
 
-                                        <!-- Clearance Status Contextual classes -->
+                                        <!-- Clearance Status Categories -->
                                         <ul class="list-group">
                                             <li class="list-group-item {{#if (eq resident.MedicalClearance.status 'none')}}list-group-item-secondary
                                                         {{else}}
@@ -781,7 +782,7 @@
                                                     </div>
                                                     <div class="col-2  d-flex justify-content-between">
                                                         <button type="submit" class="btn btn-info "
-                                                            data-route="/notification/requestClearance/{{resident.residentID}}/Medical"
+                                                            data-route="/request/requestClearance/{{resident.residentID}}/Medical"
                                                             data-category="Medical" data-bs-toggle="modal"
                                                             data-bs-target="#clearanceModal">
                                                             Request</button>
@@ -823,7 +824,7 @@
                                                     </div>
                                                     <div class="col-2 d-flex justify-content-between">
                                                         <button type="submit" class="btn btn-info"
-                                                            data-route="/notification/requestClearance/{{resident.residentID}}/EAI"
+                                                            data-route="/request/requestClearance/{{resident.residentID}}/EAI"
                                                             data-category="EAI" data-bs-toggle="modal"
                                                             data-bs-target="#clearanceModal">
                                                             Request</button>
@@ -864,7 +865,7 @@
                                                     </div>
                                                     <div class="col-2 d-flex justify-content-between">
                                                         <button type="submit" class="btn btn-info"
-                                                            data-route="/notification/requestClearance/{{resident.residentID}}/Sex-Offender"
+                                                            data-route="/request/requestClearance/{{resident.residentID}}/Sex-Offender"
                                                             data-category="Sex-Offender" data-bs-toggle="modal"
                                                             data-bs-target="#clearanceModal">
                                                             Request</button>
@@ -905,7 +906,7 @@
                                                     </div>
                                                     <div class="col-2 d-flex justify-content-between">
                                                         <button type="submit" class="btn btn-info"
-                                                            data-route="/notification/requestClearance/{{resident.residentID}}/Victim-Services"
+                                                            data-route="/request/requestClearance/{{resident.residentID}}/Victim-Services"
                                                             data-category="Victim-Services" data-bs-toggle="modal"
                                                             data-bs-target="#clearanceModal">
                                                             Request</button>
@@ -946,7 +947,7 @@
                                                     </div>
                                                     <div class="col-2 d-flex justify-content-between">
                                                         <button type="submit" class="btn btn-info"
-                                                            data-route="/notification/requestClearance/{{resident.residentID}}/Classification"
+                                                            data-route="/request/requestClearance/{{resident.residentID}}/Classification"
                                                             data-category="Classification" data-bs-toggle="modal"
                                                             data-bs-target="#clearanceModal">
                                                             Request</button>
@@ -1000,7 +1001,7 @@
                                                     </div>
                                                     <div class="col-2 d-flex justify-content-between">
                                                         <button type="submit" class="btn btn-info"
-                                                            data-route="/notification/requestClearance/{{resident.residentID}}/Deputy-Warden"
+                                                            data-route="/request/requestClearance/{{resident.residentID}}/Deputy-Warden"
                                                             data-category="Deputy-Warden" data-bs-toggle="modal"
                                                             data-bs-target="#clearanceModal">
                                                             Request</button>
@@ -1049,7 +1050,7 @@
                                                     </div>
                                                     <div class="col-2 d-flex justify-content-between">
                                                         <button type="submit" class="btn btn-info"
-                                                            data-route="/notification/requestClearance/{{resident.residentID}}/Warden"
+                                                            data-route="/request/requestClearance/{{resident.residentID}}/Warden"
                                                             data-category="Warden" data-bs-toggle="modal"
                                                             data-bs-target="#clearanceModal">
                                                             Request</button>
@@ -1079,16 +1080,10 @@
                                                 </div>
                                             </li>
                                         </ul>
+                                        {{!-- 
+                                        <div class="row mt-3">
 
-                                        <div class="row d-flex justify-content-between mt-3">
-                                            {{#unless (eq resident.workEligibility.status "restricted")}}
-                                                <div class="col-auto">
-                                                    <button type="button" class="btn btn-danger " data-bs-toggle="modal"
-                                                        data-bs-target="#rejectResident">Restrict Resident</button>
-                                                </div>
-                                            {{/unless}}
-
-                                            <div class="col-auto">
+                                            <div class="col-12 d-flex justify-content-end">
                                                 {{#unless (eq resident.workEligibility.status "approved")}}
                                                     <button id="approveClearance" type="button" style="display: none;"
                                                         class="btn btn-success" data-bs-toggle="modal"
@@ -1096,10 +1091,10 @@
                                                         Resident</button>
                                                 {{/unless}}
                                             </div>
-                                        </div>
+                                        </div> --}}
                                     {{else}}
                                         <div class="text-center">
-                                            {{!-- If UTM has not approved resume --}}
+                                            {{!-- If unit team has not approved resume --}}
                                             <span class="text-primary">This resident does not have an approved
                                                 resume.
                                             </span>
@@ -1670,7 +1665,7 @@
 </div>
 
 {{!-- Approve Resident Work Eligibility Modal --}}
-<div class="modal fade" id="approveResident" tabindex="-1">
+{{!-- <div class="modal fade" id="approveResident" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <form method="post" action="/clearance/approveEligibility/{{resident.residentID}}">
@@ -1729,10 +1724,10 @@
             </form>
         </div>
     </div>
-</div>
+</div> --}}
 
 {{!-- Reject Resident Work Eligibility Modal --}}
-<div class="modal fade" id="rejectResident" tabindex="-1">
+{{!-- <div class="modal fade" id="rejectResident" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <form method="post" action="/clearance/rejectEligibility/{{resident.residentID}}">
@@ -1767,7 +1762,7 @@
             </form>
         </div>
     </div>
-</div>
+</div> --}}
 
 
 
@@ -1985,14 +1980,7 @@
                                 <input required type="date" class="form-control" name="startDate">
                             </div>
                         </div>
-                        {{!-- maybe provide this functionality later --}}
-                        {{!-- <div class="row mb-3">
-                        <label for="notes" class="col-sm-10 col-form-label">Additional notes and comments:</label>
-                        <div class="col-sm-10">
-                            <textarea class="form-control" style="height: 100px" name="notes"
-                                placeholder="Optional notes"></textarea>
-                        </div>
-                    </div> --}}
+
                     </div>
                     <div class="modal-footer">
                         <div class="col-12 d-flex justify-content-between">

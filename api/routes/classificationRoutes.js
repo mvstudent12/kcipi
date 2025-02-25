@@ -2,6 +2,8 @@ const express = require("express");
 const classificationRoutes = express.Router();
 const controller = require("../controllers/classificationControllers");
 
+const sessionSecurity = require("../middleware/sessionSecurity");
+
 //authentication middleware
 const {
   requireAuth,
@@ -9,120 +11,63 @@ const {
   requireRole,
 } = require("../middleware/authMiddleware");
 
-classificationRoutes.get(
-  "/dashboard",
+const authMiddleware = [
   checkUser,
   requireAuth,
+  sessionSecurity,
   requireRole(["classification"]),
-  controller.dashboard
-);
+];
 
-classificationRoutes.get(
-  "/helpDesk",
-  checkUser,
-  requireAuth,
-  requireRole(["classification"]),
-  controller.helpDesk
-);
+classificationRoutes.get("/dashboard", authMiddleware, controller.dashboard);
 
-classificationRoutes.get(
-  "/contact",
-  checkUser,
-  requireAuth,
-  requireRole(["classification"]),
-  controller.contact
-);
+classificationRoutes.get("/helpDesk", authMiddleware, controller.helpDesk);
+
+classificationRoutes.get("/contact", authMiddleware, controller.contact);
 
 classificationRoutes.get(
   "/manageWorkForce",
-  checkUser,
-  requireAuth,
-  requireRole(["classification"]),
+  authMiddleware,
   controller.manageWorkForce
 );
 
 classificationRoutes.get(
   "/manageClearance",
-  checkUser,
-  requireAuth,
-  requireRole(["classification"]),
+  authMiddleware,
   controller.manageClearance
 );
 //=========================
 // ROSTERS
 //=========================
 
-classificationRoutes.get(
-  "/residents",
-  checkUser,
-  requireAuth,
-  requireRole(["classification"]),
-  controller.residents
-);
+classificationRoutes.get("/residents", authMiddleware, controller.residents);
 
-classificationRoutes.get(
-  "/resumes",
-  checkUser,
-  requireAuth,
-  requireRole(["classification"]),
-  controller.resumes
-);
+classificationRoutes.get("/resumes", authMiddleware, controller.resumes);
 
-classificationRoutes.get(
-  "/clearance",
-  checkUser,
-  requireAuth,
-  requireRole(["classification"]),
-  controller.clearance
-);
+classificationRoutes.get("/clearance", authMiddleware, controller.clearance);
 
-classificationRoutes.get(
-  "/applicants",
-  checkUser,
-  requireAuth,
-  requireRole(["classification"]),
-  controller.applicants
-);
+classificationRoutes.get("/applicants", authMiddleware, controller.applicants);
 
-classificationRoutes.get(
-  "/employees",
-  checkUser,
-  requireAuth,
-  requireRole(["classification"]),
-  controller.employees
-);
+classificationRoutes.get("/employees", authMiddleware, controller.employees);
 //=========================
 // Reports
 //=========================
 
-classificationRoutes.get(
-  "/reports",
-  checkUser,
-  requireAuth,
-  requireRole(["classification"]),
-  controller.reports
-);
+classificationRoutes.get("/reports", authMiddleware, controller.reports);
 classificationRoutes.post(
   "/residentReport",
-  checkUser,
-  requireAuth,
-  requireRole(["classification"]),
+  authMiddleware,
   controller.residentReport
 );
 
 classificationRoutes.post(
   "/employedResidentsReport",
-  checkUser,
-  requireAuth,
-  requireRole(["classification"]),
+  authMiddleware,
   controller.employedResidentsReport
 );
 
 classificationRoutes.post(
   "/applicantsReport",
-  checkUser,
-  requireAuth,
-  requireRole(["classification"]),
+  authMiddleware,
   controller.applicantsReport
 );
 

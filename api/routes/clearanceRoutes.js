@@ -2,6 +2,8 @@ const express = require("express");
 const clearanceRoutes = express.Router();
 const controller = require("../controllers/clearanceControllers");
 
+const sessionSecurity = require("../middleware/sessionSecurity");
+
 //authentication middleware
 const {
   requireAuth,
@@ -9,119 +11,82 @@ const {
   requireRole,
 } = require("../middleware/authMiddleware");
 
-clearanceRoutes.get("/dashboard", checkUser, requireAuth, controller.dashboard);
+const authMiddleware = [
+  checkUser,
+  requireAuth,
+  sessionSecurity,
+  requireRole(["unitTeam", "facility_management", "classification", "admin"]),
+];
+
+clearanceRoutes.get("/dashboard", authMiddleware, controller.dashboard);
 
 //serves resident clearance profile to admin and unit team
 clearanceRoutes.get(
   "/residentProfile/:residentID",
-  checkUser,
-  requireAuth,
-  requireRole(["unitTeam", "facility_management", "classification", "admin"]),
+  authMiddleware,
   controller.residentProfile
 );
 
 clearanceRoutes.post(
   "/rejectResume/:residentID",
-  checkUser,
-  requireAuth,
-  requireRole(["unitTeam", "facility_management", "classification", "admin"]),
+  authMiddleware,
   controller.rejectResume
 );
 
 clearanceRoutes.post(
   "/approveResume/:residentID",
-  checkUser,
-  requireAuth,
-  requireRole(["unitTeam", "facility_management", "classification", "admin"]),
+  authMiddleware,
   controller.approveResume
 );
 clearanceRoutes.post(
   "/editClearance/:residentID/:dept",
-  checkUser,
-  requireAuth,
-  requireRole(["unitTeam", "facility_management", "classification", "admin"]),
+  authMiddleware,
   controller.editClearance
-);
-clearanceRoutes.post(
-  "/approveEligibility/:residentID",
-  checkUser,
-  requireAuth,
-  requireRole(["unitTeam", "facility_management", "classification", "admin"]),
-  controller.approveEligibility
-);
-clearanceRoutes.post(
-  "/rejectEligibility/:residentID",
-  checkUser,
-  requireAuth,
-  requireRole(["unitTeam", "facility_management", "classification", "admin"]),
-  controller.rejectEligibility
 );
 
 clearanceRoutes.post(
   "/scheduleInterview/:jobID",
-  checkUser,
-  requireAuth,
-  requireRole(["unitTeam", "facility_management", "classification", "admin"]),
+  authMiddleware,
   controller.scheduleInterview
 );
 clearanceRoutes.post(
   "/hireResident/:res_id/:jobID",
-  checkUser,
-  requireAuth,
-  requireRole(["unitTeam", "facility_management", "classification", "admin"]),
+  authMiddleware,
   controller.hireResident
 );
 clearanceRoutes.get(
   "/rejectHire/:res_id/:jobID",
-  checkUser,
-  requireAuth,
-  requireRole(["unitTeam", "facility_management", "classification", "admin"]),
+  authMiddleware,
   controller.rejectHire
 );
 clearanceRoutes.post(
   "/terminateResident/:res_id",
-  checkUser,
-  requireAuth,
-  requireRole(["unitTeam", "facility_management", "classification", "admin"]),
+  authMiddleware,
   controller.terminateResident
 );
 
 clearanceRoutes.get(
   "/cancelTerminationRequest/:res_id",
-  checkUser,
-  requireAuth,
-  requireRole(["unitTeam", "facility_management", "classification", "admin"]),
+  authMiddleware,
   controller.cancelTerminationRequest
 );
 
-clearanceRoutes.post(
-  "/editResident",
-  checkUser,
-  requireAuth,
-  requireRole(["unitTeam", "facility_management", "classification", "admin"]),
-  controller.editResident
-);
+clearanceRoutes.post("/editResident", authMiddleware, controller.editResident);
 
 clearanceRoutes.get(
   "/recentActivities",
-  checkUser,
-  requireAuth,
-  requireRole(["unitTeam", "facility_management", "classification", "admin"]),
+  authMiddleware,
   controller.recentActivities
 );
 
 clearanceRoutes.get(
   "/findNotes/:residentID/:dept",
-  checkUser,
-  requireAuth,
-  requireRole(["unitTeam", "facility_management", "classification", "admin"]),
+  authMiddleware,
   controller.findNotes
 );
 clearanceRoutes.post(
   "/addNotes/:residentID/:dept",
-  checkUser,
-  requireAuth,
-  requireRole(["unitTeam", "facility_management", "classification", "admin"]),
+  authMiddleware,
   controller.addNotes
 );
 

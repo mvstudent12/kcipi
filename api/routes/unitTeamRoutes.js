@@ -2,6 +2,8 @@ const express = require("express");
 const unitTeamRoutes = express.Router();
 const controller = require("../controllers/unitTeamControllers");
 
+const sessionSecurity = require("../middleware/sessionSecurity");
+
 //authentication middleware
 const {
   requireAuth,
@@ -9,120 +11,63 @@ const {
   requireRole,
 } = require("../middleware/authMiddleware");
 
-unitTeamRoutes.get(
-  "/dashboard",
+const authMiddleware = [
   checkUser,
   requireAuth,
+  sessionSecurity,
   requireRole(["unitTeam"]),
-  controller.dashboard
-);
+];
 
-unitTeamRoutes.get(
-  "/helpDesk",
-  checkUser,
-  requireAuth,
-  requireRole(["unitTeam"]),
-  controller.helpDesk
-);
+unitTeamRoutes.get("/dashboard", authMiddleware, controller.dashboard);
 
-unitTeamRoutes.get(
-  "/contact",
-  checkUser,
-  requireAuth,
-  requireRole(["unitTeam"]),
-  controller.contact
-);
+unitTeamRoutes.get("/helpDesk", authMiddleware, controller.helpDesk);
+
+unitTeamRoutes.get("/contact", authMiddleware, controller.contact);
 
 unitTeamRoutes.get(
   "/manageWorkForce",
-  checkUser,
-  requireAuth,
-  requireRole(["unitTeam"]),
+  authMiddleware,
   controller.manageWorkForce
 );
 
 unitTeamRoutes.get(
   "/manageClearance",
-  checkUser,
-  requireAuth,
-  requireRole(["unitTeam"]),
+  authMiddleware,
   controller.manageClearance
 );
 //=========================
 // ROSTERS
 //=========================
 
-unitTeamRoutes.get(
-  "/residents",
-  checkUser,
-  requireAuth,
-  requireRole(["unitTeam"]),
-  controller.residents
-);
+unitTeamRoutes.get("/residents", authMiddleware, controller.residents);
 
-unitTeamRoutes.get(
-  "/resumes",
-  checkUser,
-  requireAuth,
-  requireRole(["unitTeam"]),
-  controller.resumes
-);
+unitTeamRoutes.get("/resumes", authMiddleware, controller.resumes);
 
-unitTeamRoutes.get(
-  "/clearance",
-  checkUser,
-  requireAuth,
-  requireRole(["unitTeam"]),
-  controller.clearance
-);
+unitTeamRoutes.get("/clearance", authMiddleware, controller.clearance);
 
-unitTeamRoutes.get(
-  "/applicants",
-  checkUser,
-  requireAuth,
-  requireRole(["unitTeam"]),
-  controller.applicants
-);
+unitTeamRoutes.get("/applicants", authMiddleware, controller.applicants);
 
-unitTeamRoutes.get(
-  "/employees",
-  checkUser,
-  requireAuth,
-  requireRole(["unitTeam"]),
-  controller.employees
-);
+unitTeamRoutes.get("/employees", authMiddleware, controller.employees);
 //=========================
 // Reports
 //=========================
 
-unitTeamRoutes.get(
-  "/reports",
-  checkUser,
-  requireAuth,
-  requireRole(["unitTeam"]),
-  controller.reports
-);
+unitTeamRoutes.get("/reports", authMiddleware, controller.reports);
 unitTeamRoutes.post(
   "/residentReport",
-  checkUser,
-  requireAuth,
-  requireRole(["unitTeam"]),
+  authMiddleware,
   controller.residentReport
 );
 
 unitTeamRoutes.post(
   "/employedResidentsReport",
-  checkUser,
-  requireAuth,
-  requireRole(["unitTeam"]),
+  authMiddleware,
   controller.employedResidentsReport
 );
 
 unitTeamRoutes.post(
   "/applicantsReport",
-  checkUser,
-  requireAuth,
-  requireRole(["unitTeam"]),
+  authMiddleware,
   controller.applicantsReport
 );
 

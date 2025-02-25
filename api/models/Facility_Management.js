@@ -24,6 +24,10 @@ const facility_managementSchema = new Schema({
     unique: true,
     required: [true, "Please enter email"],
     lowercase: true,
+    validate: {
+      validator: (v) => /^\S+@\S+\.\S+$/.test(v),
+      message: "Please enter a valid email",
+    },
   },
   password: {
     type: String,

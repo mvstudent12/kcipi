@@ -44,14 +44,15 @@ function requireRole(allowedRoles) {
 
       // Check if user has an allowed role
       if (!allowedRoles.includes(user.role)) {
-        logger.warn(`Role check error:: ${user.role}::Access denied.`);
+        logger.info(`Role check error:: ${user.role}::Access denied.`);
+        logger.error(`Role check error:: ${err.stack}`);
         return res.render("error/403");
       }
 
       next();
     } catch (err) {
-      console.error("Role check error:", err.message);
-      logger.warn(`Role check error:: ${err.message}`);
+      logger.info(`Role check error:: ${err.message}`);
+      logger.error(`Role check error:: ${err.stack}`);
       res.render("error/500");
     }
   };
@@ -77,14 +78,15 @@ function requireResidentRole(allowedRoles) {
 
       // Check if user has an allowed role
       if (!allowedRoles.includes(user.role)) {
-        logger.warn(`Role check error:: ${user.role}::Access denied.`);
+        logger.info(`Role check error:: ${user.role}::Access denied.`);
+        logger.error(`Role check error:: ${err.stack}`);
         return res.render("error/403");
       }
 
       next();
     } catch (err) {
-      console.error("Role check error:", err.message);
-      logger.warn(`Role check error:: ${err.message}`);
+      logger.info(`Role check error:: ${err.message}`);
+      logger.error(`Role check error:: ${err.stack}`);
       res.render("error/500");
     }
   };
@@ -101,7 +103,8 @@ const checkUser = async (req, res, next) => {
     req.session.user = user || null;
     next();
   } catch (err) {
-    console.error("checkUser error:", err.message);
+    logger.info("checkUser error:", err.message);
+    logger.error(`checkUser error:: ${err.stack}`);
     req.session.user = null;
     next();
   }
@@ -119,7 +122,8 @@ const checkResident = async (req, res, next) => {
     req.session.resident = resident || null;
     next();
   } catch (err) {
-    console.error("checkResident error:", err.message);
+    logger.info("checkResident error:", err.message);
+    logger.error(`checkResident error:: ${err.stack}`);
     req.session.resident = null;
     next();
   }

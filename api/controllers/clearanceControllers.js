@@ -4,10 +4,13 @@ const ActivityLog = require("../models/ActivityLog");
 
 const mongoose = require("mongoose");
 
+const logger = require("../utils/logger");
+
 const {
   getEmployeeEmails,
   sendNotificationsToEmployers,
   getResidentProfileInfo,
+  checkClearanceStatus,
 } = require("../utils/clearanceUtils");
 
 const {
@@ -17,6 +20,8 @@ const {
 const { createActivityLog } = require("../utils/activityLogUtils");
 
 const { validateResidentID } = require("../utils/validationUtils");
+
+const { mapDepartmentName } = require("../utils/requestUtils.js");
 
 module.exports = {
   //serves non-resident dashboard from login portal
@@ -76,8 +81,6 @@ module.exports = {
       const { resident, applications, unitTeam, activities } =
         await getResidentProfileInfo(residentID);
 
-      console.log(activities);
-
       const activeTab = "overview"; // Set the active tab for the profile
       res.render(`${req.session.user.role}/profiles/residentProfile`, {
         user: req.session.user,
@@ -93,7 +96,7 @@ module.exports = {
       res.render("error/403");
     }
   },
-  //allos editing of resident info from residentProfile page
+  //allows editing of resident data from residentProfile page
   async editResident(req, res) {
     let { residentID, custodyLevel, facility, unitTeamInfo, jobPool } =
       req.body;
@@ -225,6 +228,7 @@ module.exports = {
             "resume.approvedBy": name,
             "resume.approvalDate": new Date(),
             jobPool: jobPool,
+            "workEligibility.status": "pending",
           },
         }
       );
@@ -269,29 +273,23 @@ module.exports = {
       console.error(err);
     }
   },
+  //edit resident work eligibility based on category
   async editClearance(req, res) {
+    let { residentID, dept } = req.params;
+    const { clearance, comments } = req.body;
+    const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
     try {
-      let { residentID, dept } = req.params;
       validateResidentID(residentID);
-      const { clearance, comments } = req.body;
-      const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
 
       const notifications = await getUserNotifications(
         req.session.user.email,
         req.session.user.role
       );
       const category = dept;
+      dept = mapDepartmentName(dept);
 
-      if (dept == "Sex-Offender") {
-        dept = "sexOffender";
-      }
-      if (dept == "Victim-Services") {
-        dept = "victimServices";
-      }
-      if (dept == "Deputy-Warden") {
-        dept = "DW";
-      }
       if (clearance === "true") {
+        //if clearance is approved
         await createActivityLog(
           req.session.user._id.toString(),
           "clearance_approved",
@@ -301,7 +299,6 @@ module.exports = {
         const updateData = {
           $set: {
             [`${dept}Clearance.status`]: "approved",
-            "workEligibility.status": "pending",
           },
           $push: {
             [`${dept}Clearance.clearanceHistory`]: {
@@ -327,6 +324,7 @@ module.exports = {
         }
         await Resident.updateOne({ residentID: residentID }, updateData);
       } else if (clearance === "false") {
+        //is clearance is denied
         await createActivityLog(
           req.session.user._id.toString(),
           "clearance_restricted",
@@ -363,6 +361,17 @@ module.exports = {
 
         await Resident.updateOne({ residentID: residentID }, updateData);
       }
+
+      //update resident workStatus
+      const workStatus = await checkClearanceStatus(residentID);
+      await Resident.updateOne(
+        { residentID },
+        {
+          $set: {
+            "workEligibility.status": workStatus,
+          },
+        }
+      );
 
       const { resident, applications, unitTeam, activities, res_id } =
         await getResidentProfileInfo(residentID);
@@ -425,7 +434,7 @@ module.exports = {
       const clearance = resident[clearanceKey];
 
       // Retrieve the notes from the clearance field
-      const notes = clearance.notes;
+      let notes = clearance.notes;
 
       return res.status(200).json({ notes }); // Return the notes in the response body
     } catch (err) {
@@ -435,9 +444,9 @@ module.exports = {
     }
   },
   async addNotes(req, res) {
+    let { residentID, dept } = req.params;
+    const { notes } = req.body;
     try {
-      const { residentID, dept } = req.params;
-      const { notes } = req.body;
       const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
       validateResidentID(residentID);
 
@@ -445,7 +454,7 @@ module.exports = {
         req.session.user.email,
         req.session.user.role
       );
-
+      dept = mapDepartmentName(dept);
       await Resident.updateOne(
         { residentID: residentID },
         {
@@ -458,7 +467,7 @@ module.exports = {
           },
         }
       );
-      const { resident, applications, unitTeam, activities, res_id } =
+      const { resident, applications, unitTeam, activities } =
         await getResidentProfileInfo(residentID);
 
       await createActivityLog(
@@ -483,132 +492,7 @@ module.exports = {
       return res.render("error/500");
     }
   },
-  //approved resident's eligibility to work
-  async approveEligibility(req, res) {
-    try {
-      const notifications = await getUserNotifications(
-        req.session.user.email,
-        req.session.user.role
-      );
 
-      const { residentID } = req.params;
-      validateResidentID(residentID);
-
-      const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
-
-      await Resident.updateOne(
-        { residentID: residentID },
-        {
-          $set: {
-            "workEligibility.status": "approved", // Setting the status to approved
-          },
-          $push: {
-            "workEligibility.clearanceHistory": {
-              action: "approved",
-              performedBy: name,
-              reason: "Eligibility approved to work",
-            },
-            "workEligibility.notes": {
-              note: `Work eligibility granted by ${name}.`,
-              createdAt: new Date(),
-              createdBy: name,
-            },
-          },
-        }
-      );
-      const { resident, applications, unitTeam, activities, res_id } =
-        await getResidentProfileInfo(residentID);
-
-      await createActivityLog(
-        req.session.user._id.toString(),
-        "approve_work_eligibility",
-        `Approved work eligiblity for resident #${residentID}.`
-      );
-
-      //send notice if approved outside of caseload
-      if (resident.resume.unitTeam != req.session.user.email) {
-        await createNotification(
-          resident.resume.unitTeam,
-          "unitTeam",
-          "approve_work_eligibility",
-          `Work eligibility approved for resident #${resident.residentID} by ${req.session.user.email}.`
-        );
-      }
-
-      const eligibleMsg = "This resident is approved and eligible for work.";
-      const activeTab = "clearance";
-      res.render(`${req.session.user.role}/profiles/residentProfile`, {
-        resident,
-        activeTab,
-        user: req.session.user,
-        notifications,
-        eligibleMsg,
-        applications,
-        unitTeam,
-        activities,
-      });
-    } catch (err) {
-      console.log(err);
-      res.render("error/500");
-    }
-  },
-  //denies resident's eligibility to work
-  async rejectEligibility(req, res) {
-    try {
-      const notifications = await getUserNotifications(
-        req.session.user.email,
-        req.session.user.role
-      );
-      const { residentID } = req.params;
-      const { rejectReason } = req.body;
-      const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
-
-      validateResidentID(residentID);
-
-      await Resident.updateOne(
-        { residentID: residentID },
-        {
-          $set: {
-            "workEligibility.status": "restricted", // Setting the status to restricted
-          },
-          $push: {
-            "workEligibility.clearanceHistory": {
-              action: "restricted",
-              performedBy: name,
-              reason: rejectReason,
-            },
-            "workEligibility.notes": {
-              note: `Work eligibility restricted by ${name} for ${rejectReason}`,
-              createdAt: new Date(),
-              createdBy: name,
-            },
-          },
-        }
-      );
-
-      const { resident, applications, unitTeam, activities, res_id } =
-        await getResidentProfileInfo(residentID);
-
-      await createActivityLog(
-        req.session.user._id.toString(),
-        "restrict_work_eligibility",
-        `Restricted work eligiblity for resident #${residentID} for ${rejectReason}.`
-      );
-      const activeTab = "clearance";
-      res.render(`${req.session.user.role}/profiles/residentProfile`, {
-        resident,
-        activeTab,
-        user: req.session.user,
-        notifications,
-        applications,
-        unitTeam,
-        activities,
-      });
-    } catch (err) {
-      console.log(err);
-      res.render("error/500");
-    }
-  },
   async scheduleInterview(req, res) {
     try {
       const notifications = await getUserNotifications(
@@ -912,11 +796,8 @@ module.exports = {
       const { applications, unitTeam, activities } =
         await getResidentProfileInfo(residentID);
 
-      console.log(companyName);
-
       //send notification to all PI partners in that company
       const employerEmails = await getEmployeeEmails(companyName);
-      console.log(employerEmails);
 
       await sendNotificationsToEmployers(
         employerEmails,

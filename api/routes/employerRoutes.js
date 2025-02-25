@@ -2,6 +2,8 @@ const express = require("express");
 const employerRoutes = express.Router();
 const controller = require("../controllers/employerControllers");
 
+const sessionSecurity = require("../middleware/sessionSecurity");
+
 //authentication middleware
 const {
   requireAuth,
@@ -9,189 +11,130 @@ const {
   requireRole,
 } = require("../middleware/authMiddleware");
 
-  //=============================
-  //   Employer Dashboard
-  //=============================
-
-employerRoutes.get(
-  "/dashboard",
+const authMiddleware = [
   checkUser,
   requireAuth,
+  sessionSecurity,
   requireRole(["employer"]),
-  controller.dashboard
-);
+];
 
-  //=============================
-  //   Manage Positions
-  //=============================
+//=============================
+//   Employer Dashboard
+//=============================
+
+employerRoutes.get("/dashboard", authMiddleware, controller.dashboard);
+
+//=============================
+//   Manage Positions
+//=============================
 
 employerRoutes.get(
   "/managePositions",
-  checkUser,
-  requireAuth,
-  requireRole(["employer"]),
+  authMiddleware,
   controller.managePositions
 );
 employerRoutes.post(
   "/searchPosition",
-  checkUser,
-  requireAuth,
-  requireRole(["employer"]),
+  authMiddleware,
   controller.searchPosition
 );
 employerRoutes.post(
   "/editSearchedPosition/:jobID",
-  checkUser,
-  requireAuth,
-  requireRole(["employer"]),
+  authMiddleware,
   controller.editSearchedPosition
 );
 employerRoutes.post(
   "/addNewPosition",
-  checkUser,
-  requireAuth,
-  requireRole(["employer"]),
+  authMiddleware,
   controller.addNewPosition
 );
 
-employerRoutes.get(
-  "/jobProfile/:jobID",
-  checkUser,
-  requireAuth,
-  requireRole(["employer"]),
-  controller.jobProfile
-);
+employerRoutes.get("/jobProfile/:jobID", authMiddleware, controller.jobProfile);
 
 employerRoutes.post(
   "/editPosition/:jobID",
-  checkUser,
-  requireAuth,
-  requireRole(["employer"]),
+  authMiddleware,
   controller.editPosition
 );
 
 employerRoutes.post(
   "/deletePosition/:jobID",
-  checkUser,
-  requireAuth,
-  requireRole(["employer"]),
+  authMiddleware,
   controller.deletePosition
 );
-  //=============================
-  //   Manage Workforce
-  //=============================
+//=============================
+//   Manage Workforce
+//=============================
 
 employerRoutes.get(
   "/manageWorkForce",
-  checkUser,
-  requireAuth,
-  requireRole(["employer"]),
+  authMiddleware,
   controller.manageWorkForce
 );
 
-employerRoutes.get(
-  "/employees",
-  checkUser,
-  requireAuth,
-  requireRole(["employer"]),
-  controller.employees
-);
+employerRoutes.get("/employees", authMiddleware, controller.employees);
 
-
-  //=============================
-  //   Resident Profile
-  //=============================
+//=============================
+//   Resident Profile
+//=============================
 
 employerRoutes.get(
   "/residentProfile/:residentID",
-  checkUser,
-  requireAuth,
-  requireRole(["employer"]),
+  authMiddleware,
   controller.residentProfile
 );
 
 employerRoutes.post(
   "/requestInterview/:jobID",
-  checkUser,
-  requireAuth,
-  requireRole(["employer"]),
+  authMiddleware,
   controller.requestInterview
 );
 
 employerRoutes.post(
   "/requestHire/:jobID/:res_id",
-  checkUser,
-  requireAuth,
-  requireRole(["employer"]),
+  authMiddleware,
   controller.requestHire
 );
 
 employerRoutes.post(
   "/requestTermination/:res_id",
-  checkUser,
-  requireAuth,
-  requireRole(["employer"]),
+  authMiddleware,
   controller.requestTermination
 );
 
 employerRoutes.get(
   "/rejectHire/:id/:jobID",
-  checkUser,
-  requireAuth,
-  requireRole(["employer"]),
+  authMiddleware,
   controller.rejectHire
 );
 
-  //=============================
-  //   Reports
-  //=============================
+//=============================
+//   Reports
+//=============================
 
-employerRoutes.get(
-  "/reports",
-  checkUser,
-  requireAuth,
-  requireRole(["employer"]),
-  controller.reports
-);
+employerRoutes.get("/reports", authMiddleware, controller.reports);
 employerRoutes.post(
   "/interviewReport",
-  checkUser,
-  requireAuth,
-  requireRole(["employer"]),
+  authMiddleware,
   controller.interviewReport
 );
 
 employerRoutes.post(
   "/employedResidentsReport",
-  checkUser,
-  requireAuth,
-  requireRole(["employer"]),
+  authMiddleware,
   controller.employedResidentsReport
 );
 
 employerRoutes.post(
   "/applicantsReport",
-  checkUser,
-  requireAuth,
-  requireRole(["employer"]),
+  authMiddleware,
   controller.applicantsReport
 );
-  //=============================
-  //   Basic Routes
-  //=============================
-employerRoutes.get(
-  "/contact",
-  checkUser,
-  requireAuth,
-  requireRole(["employer"]),
-  controller.contact
-);
+//=============================
+//   Basic Routes
+//=============================
+employerRoutes.get("/contact", authMiddleware, controller.contact);
 
-employerRoutes.get(
-  "/helpDesk",
-  checkUser,
-  requireAuth,
-  requireRole(["employer"]),
-  controller.helpDesk
-);
+employerRoutes.get("/helpDesk", authMiddleware, controller.helpDesk);
+
 module.exports = employerRoutes;

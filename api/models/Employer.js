@@ -18,6 +18,10 @@ const employerSchema = new Schema({
     unique: true, // Ensures no duplicates
     required: [true, "Please enter email"],
     lowercase: true,
+    validate: {
+      validator: (v) => /^\S+@\S+\.\S+$/.test(v),
+      message: "Please enter a valid email",
+    },
     index: true, // Index is good if querying often by email
   },
   password: {

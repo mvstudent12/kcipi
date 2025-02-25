@@ -1,19 +1,19 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-//const dbURI =
+const dbURI =
 ("mongodb+srv://kcicodingdev:WWsgMyk4wiBt3Vze@kcipi.vkftg.mongodb.net/?retryWrites=true&w=majority&appName=kcipi"); //for updating dummy data to atlas
 
 //const dbURI = process.env.DB_URI; //for production
 
-const dbURI = "mongodb://localhost/kcipi"; //use for development
+..const dbURI = "mongodb://localhost/kcipi"; //use for development
 
 mongoose
   .connect(dbURI, {
     //comment these three out in localhost development vvv
-    // ssl: true, // Ensure SSL is enabled -comment out in development/localhost all three lines
-    // tls: true, // Force TLS connection
-    // tlsInsecure: false, // Optionally, enforce secure connection (recommended)
+    ssl: true, // Ensure SSL is enabled -comment out in development/localhost all three lines
+    tls: true, // Force TLS connection
+    tlsInsecure: false, // Optionally, enforce secure connection (recommended)
   })
   .then(() => console.log("Connected to MongoDB Atlas"))
   .catch((err) => console.error("Error connecting to MongoDB Atlas:", err));

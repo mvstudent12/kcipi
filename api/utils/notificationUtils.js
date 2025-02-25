@@ -85,7 +85,6 @@ async function getUserNotifications(email, role) {
 // Function to mark a single notification as read
 async function notificationIsRead(notificationId) {
   try {
-    console.log(notificationId);
     await Notification.findByIdAndUpdate(notificationId, { isRead: true });
   } catch (error) {
     console.error("Error marking notification as read:", error);

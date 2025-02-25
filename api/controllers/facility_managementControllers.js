@@ -3,6 +3,8 @@ const Jobs = require("../models/Jobs");
 
 const { Parser } = require("json2csv");
 
+const logger = require("../utils/logger");
+
 const {
   findInterviews,
   findApplicantIDsAndCompanyName,

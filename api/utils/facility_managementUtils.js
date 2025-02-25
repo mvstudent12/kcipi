@@ -113,7 +113,6 @@ const createApplicantsReport = async (applicantData, selectedFields) => {
   try {
     const applicantIDs = applicantData.map((item) => item.applicantID);
 
-    // Always include _id for mapping, but remove it later if not requested
     const includeID = selectedFields.includes("_id");
     const fieldsToSelect = includeID
       ? selectedFields

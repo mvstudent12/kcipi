@@ -9,9 +9,9 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const DOMAIN = "localhost:5999";
+//const DOMAIN = "localhost:5999";
 
-//const DOMAIN = "kcipi.onrender.com";
+const DOMAIN = "kcipi.onrender.com";
 
 // Send an email notification to the next department
 const sendReviewEmail = async (
@@ -45,7 +45,7 @@ const sendReviewEmail = async (
 </h4>
       <p>
       
-        <a href="http://${DOMAIN}/notification/reviewClearance/${department}/${resident.residentID}/${recipient}"
+        <a href="http://${DOMAIN}/request/reviewClearance/${department}/${resident.residentID}/${recipient}"
            style="display: inline-block; background-color: #4CAF50; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-size: 16px; text-align: center; font-weight: bold;">
           Review ${department} Clearance
         </a>
@@ -53,7 +53,7 @@ const sendReviewEmail = async (
 
       <p style="font-size: 14px; color: #333;">If you are unable to click the button, please copy and paste the following link into your browser:</p>
       <p style="font-size: 14px; color: #333;">
-        <a href="http://${DOMAIN}/notification/reviewClearance/${department}/${resident.residentID}/${recipient}" 
+        <a href="http://${DOMAIN}/request/reviewClearance/${department}/${resident.residentID}/${recipient}" 
            style="color: #007BFF; text-decoration: none;">${department} Review Link</a>
       </p>
     `,
@@ -132,7 +132,7 @@ const sendRequestInterviewEmail = async (
       
       <p>
       
-        <a href="http://${DOMAIN}/notification/reviewInterviewRequest/${interviewID}"
+        <a href="http://${DOMAIN}/request/reviewInterviewRequest/${interviewID}"
            style="display: inline-block; background-color: #4CAF50; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-size: 16px; text-align: center; font-weight: bold;">
           Schedule Interview
         </a>
@@ -140,7 +140,7 @@ const sendRequestInterviewEmail = async (
 
       <p style="font-size: 14px; color: #333;">If you are unable to click the button, please copy and paste the following link into your browser:</p>
       <p style="font-size: 14px; color: #333;">
-        <a href="http://${DOMAIN}/notification/reviewInterviewRequest/${interviewID}" 
+        <a href="http://${DOMAIN}/request/reviewInterviewRequest/${interviewID}" 
            style="color: #007BFF; text-decoration: none;"><span style="text-transform: capitalize;">${companyName}</span> Review Link</a>
       </p>
     `,
@@ -174,7 +174,7 @@ const sendRequestHireEmail = async (
       
       <p>
       
-        <a href="http://${DOMAIN}/notification/reviewHireRequest/${applicationID}/${resident._id}"
+        <a href="http://${DOMAIN}/request/reviewHireRequest/${applicationID}/${resident._id}"
            style="display: inline-block; background-color: #4CAF50; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-size: 16px; text-align: center; font-weight: bold;">
           Manage Hiring
         </a>
@@ -182,7 +182,7 @@ const sendRequestHireEmail = async (
 
       <p style="font-size: 14px; color: #333;">If you are unable to click the button, please copy and paste the following link into your browser:</p>
       <p style="font-size: 14px; color: #333;">
-        <a href="http://${DOMAIN}/notification/reviewHireRequest/${applicationID}/${resident._id}" 
+        <a href="http://${DOMAIN}/request/reviewHireRequest/${applicationID}/${resident._id}" 
            style="color: #007BFF; text-decoration: none;"><span style="text-transform: capitalize;">${companyName}</span> Review Link</a>
       </p>
     `,
@@ -215,7 +215,7 @@ const sendTerminationRequestEmail = async (
       
       <p>
       
-        <a href="http://${DOMAIN}/notification/reviewTerminationRequest/${resident._id}"
+        <a href="http://${DOMAIN}/request/reviewTerminationRequest/${resident._id}"
            style="display: inline-block; background-color: #4CAF50; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-size: 16px; text-align: center; font-weight: bold;">
           Manage Termination
         </a>
@@ -223,7 +223,7 @@ const sendTerminationRequestEmail = async (
 
       <p style="font-size: 14px; color: #333;">If you are unable to click the button, please copy and paste the following link into your browser:</p>
       <p style="font-size: 14px; color: #333;">
-        <a href="http://${DOMAIN}/notification/reviewTerminationRequest/${resident._id}" 
+        <a href="http://${DOMAIN}/request/reviewTerminationRequest/${resident._id}" 
            style="color: #007BFF; text-decoration: none;"><span style="text-transform: capitalize;">${companyName}</span> Review Link</a>
       </p>
     `,

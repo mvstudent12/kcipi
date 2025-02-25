@@ -89,8 +89,13 @@ const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true })); //for form submissions
 app.use(bodyParser.json()); //for JSON requests
 
+// Import xss-clean and use it globally
+const xss = require("xss-clean");
+app.use(xss()); // This will sanitize the request body, query, and params globally
+
 //import routes
 const authRoutes = require("./api/routes/authRoutes");
+
 const residentRoutes = require("./api/routes/residentRoutes");
 const unitTeamRoutes = require("./api/routes/unitTeamRoutes");
 const adminRoutes = require("./api/routes/adminRoutes");
@@ -123,13 +128,14 @@ app.enable("view cache");
 
 // Routes
 app.use("/", authRoutes);
+
 app.use("/resident", residentRoutes);
 app.use("/unitTeam", unitTeamRoutes);
 app.use("/admin", adminRoutes);
 app.use("/facility_management", facility_managementRoutes);
 app.use("/classification", classificationRoutes);
 app.use("/employer", employerRoutes);
-app.use("/notification", requestRoutes);
+app.use("/request", requestRoutes);
 app.use("/clearance", clearanceRoutes);
 app.use("/notification", notificationRoutes);
 

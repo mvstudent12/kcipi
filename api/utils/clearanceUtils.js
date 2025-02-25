@@ -78,8 +78,61 @@ async function getResidentProfileInfo(residentID) {
   }
 }
 
+const checkClearanceStatus = async (residentID) => {
+  const deptList = [
+    "Medical",
+    "EAI",
+    "Classification",
+    "DW",
+    "Warden",
+    "sexOffender",
+    "victimServices",
+  ];
+
+  try {
+    const resident = await Resident.findOne({ residentID }).lean();
+
+    if (!resident) {
+      throw new Error("Resident not found");
+    }
+
+    let restrictedFound = false;
+    let pendingFound = false;
+    let allApproved = true;
+
+    // Loop through each department to check their clearance status
+    for (const dept of deptList) {
+      const status = resident[`${dept}Clearance`]?.status;
+
+      if (status === "restricted") {
+        restrictedFound = true;
+        break; // No need to continue if we find "restricted"
+      } else if (status === "pending") {
+        pendingFound = true;
+      } else if (status !== "approved") {
+        allApproved = false; // If it's neither "approved" nor "restricted" nor "pending"
+      }
+    }
+
+    // Return based on the findings
+    if (restrictedFound) {
+      return "restricted";
+    } else if (pendingFound) {
+      return "pending";
+    } else if (allApproved) {
+      return "approved";
+    } else {
+      return "none"; // Handle any other cases where it's not approved or pending
+    }
+  } catch (error) {
+    console.error("Error checking clearances:", error);
+    return "error"; // In case of error, return an error status
+  }
+};
+
 module.exports = {
   getEmployeeEmails,
   sendNotificationsToEmployers,
   getResidentProfileInfo,
+  checkClearanceStatus,
 };

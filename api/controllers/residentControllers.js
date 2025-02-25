@@ -349,7 +349,6 @@ module.exports = {
         .sort({ timestamp: -1 })
         .limit(20)
         .lean();
-      console.log(activities);
 
       res.render(`resident/recentActivities`, {
         user: req.session.resident,

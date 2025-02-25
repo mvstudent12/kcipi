@@ -2,6 +2,8 @@ const express = require("express");
 const facility_managementRoutes = express.Router();
 const controller = require("../controllers/facility_managementControllers");
 
+const sessionSecurity = require("../middleware/sessionSecurity");
+
 //authentication middleware
 const {
   requireAuth,
@@ -9,43 +11,32 @@ const {
   requireRole,
 } = require("../middleware/authMiddleware");
 
-facility_managementRoutes.get(
-  "/dashboard",
+const authMiddleware = [
   checkUser,
   requireAuth,
+  sessionSecurity,
   requireRole(["facility_management"]),
+];
+
+facility_managementRoutes.get(
+  "/dashboard",
+  authMiddleware,
   controller.dashboard
 );
 
-facility_managementRoutes.get(
-  "/helpDesk",
-  checkUser,
-  requireAuth,
-  requireRole(["facility_management"]),
-  controller.helpDesk
-);
+facility_managementRoutes.get("/helpDesk", authMiddleware, controller.helpDesk);
 
-facility_managementRoutes.get(
-  "/contact",
-  checkUser,
-  requireAuth,
-  requireRole(["facility_management"]),
-  controller.contact
-);
+facility_managementRoutes.get("/contact", authMiddleware, controller.contact);
 
 facility_managementRoutes.get(
   "/manageWorkForce",
-  checkUser,
-  requireAuth,
-  requireRole(["facility_management"]),
+  authMiddleware,
   controller.manageWorkForce
 );
 
 facility_managementRoutes.get(
   "/manageClearance",
-  checkUser,
-  requireAuth,
-  requireRole(["facility_management"]),
+  authMiddleware,
   controller.manageClearance
 );
 //=========================
@@ -54,75 +45,49 @@ facility_managementRoutes.get(
 
 facility_managementRoutes.get(
   "/residents",
-  checkUser,
-  requireAuth,
-  requireRole(["facility_management"]),
+  authMiddleware,
   controller.residents
 );
 
-facility_managementRoutes.get(
-  "/resumes",
-  checkUser,
-  requireAuth,
-  requireRole(["facility_management"]),
-  controller.resumes
-);
+facility_managementRoutes.get("/resumes", authMiddleware, controller.resumes);
 
 facility_managementRoutes.get(
   "/clearance",
-  checkUser,
-  requireAuth,
-  requireRole(["facility_management"]),
+  authMiddleware,
   controller.clearance
 );
 
 facility_managementRoutes.get(
   "/applicants",
-  checkUser,
-  requireAuth,
-  requireRole(["facility_management"]),
+  authMiddleware,
   controller.applicants
 );
 
 facility_managementRoutes.get(
   "/employees",
-  checkUser,
-  requireAuth,
-  requireRole(["facility_management"]),
+  authMiddleware,
   controller.employees
 );
 //=========================
 // Reports
 //=========================
 
-facility_managementRoutes.get(
-  "/reports",
-  checkUser,
-  requireAuth,
-  requireRole(["facility_management"]),
-  controller.reports
-);
+facility_managementRoutes.get("/reports", authMiddleware, controller.reports);
 facility_managementRoutes.post(
   "/residentReport",
-  checkUser,
-  requireAuth,
-  requireRole(["facility_management"]),
+  authMiddleware,
   controller.residentReport
 );
 
 facility_managementRoutes.post(
   "/employedResidentsReport",
-  checkUser,
-  requireAuth,
-  requireRole(["facility_management"]),
+  authMiddleware,
   controller.employedResidentsReport
 );
 
 facility_managementRoutes.post(
   "/applicantsReport",
-  checkUser,
-  requireAuth,
-  requireRole(["facility_management"]),
+  authMiddleware,
   controller.applicantsReport
 );
 

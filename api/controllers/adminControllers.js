@@ -10,6 +10,8 @@ const ActivityLog = require("../models/ActivityLog");
 
 const { Parser } = require("json2csv");
 
+const logger = require("../utils/logger");
+
 //csv file upload requirements
 const fs = require("fs");
 const path = require("path");
@@ -344,7 +346,7 @@ module.exports = {
       const residents = await Resident.find({ isActive: true })
         .sort({ lastName: 1 })
         .lean();
-      res.render("admin/tables/residentTables", {
+      res.render("admin/tables/resident", {
         user: req.session.user,
         notifications,
         residents,
@@ -383,7 +385,7 @@ module.exports = {
         req.session.user.role
       );
       const unitTeam = await UnitTeam.find().lean();
-      res.render("admin/tables/unitTeamTables", {
+      res.render("admin/tables/unitTeam", {
         user: req.session.user,
         notifications,
         unitTeam,
@@ -400,7 +402,7 @@ module.exports = {
         req.session.user.role
       );
       const classification = await Classification.find().lean();
-      res.render("admin/tables/classificationTables", {
+      res.render("admin/tables/classification", {
         user: req.session.user,
         notifications,
         classification,
@@ -417,7 +419,7 @@ module.exports = {
         req.session.user.role
       );
       const facility_management = await Facility_Management.find().lean();
-      res.render("admin/tables/facility_managementTables", {
+      res.render("admin/tables/facility_management", {
         user: req.session.user,
         notifications,
         facility_management,
@@ -434,7 +436,7 @@ module.exports = {
         req.session.user.role
       );
       const employers = await Employer.find().sort({ lastName: 1 }).lean();
-      res.render("admin/tables/employerTables", {
+      res.render("admin/tables/employer", {
         user: req.session.user,
         notifications,
         employers,
@@ -451,7 +453,7 @@ module.exports = {
         req.session.user.role
       );
       const companies = await Company.find().sort({ companyName: 1 }).lean();
-      res.render("admin/tables/companyTables", {
+      res.render("admin/tables/company", {
         user: req.session.user,
         notifications,
         companies,

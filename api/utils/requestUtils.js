@@ -39,8 +39,22 @@ const getAllApplicantsByResidentID = async (jobID, resID) => {
     throw error;
   }
 };
+
+const mapDepartmentName = (dept) => {
+  switch (dept) {
+    case "Sex-Offender":
+      return "sexOffender";
+    case "Victim-Services":
+      return "victimServices";
+    case "Deputy-Warden":
+      return "DW";
+    default:
+      return dept; // If no match, return the original value
+  }
+};
 module.exports = {
   getNameFromEmail,
   capitalize,
   getAllApplicantsByResidentID,
+  mapDepartmentName,
 };

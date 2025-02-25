@@ -6,6 +6,8 @@ const Jobs = require("../models/Jobs");
 
 const mongoose = require("mongoose");
 
+const logger = require("../utils/logger");
+
 const {
   sendReviewEmail,
   sendHelpDeskEmail,
@@ -34,6 +36,8 @@ const {
   getAllApplicantsByResidentID,
 } = require("../utils/requestUtils");
 
+const { mapDepartmentName } = require("../utils/requestUtils.js");
+
 module.exports = {
   //===========================
   //     All Notifications
@@ -41,24 +45,17 @@ module.exports = {
 
   //request clearance from Medical, eai etc through email
   async requestClearance(req, res) {
+    let { recipient, comments } = req.body;
+    let { residentID, dept } = req.params;
+    const sender = req.session.user.email;
     try {
       const notifications = await getUserNotifications(
         req.session.user.email,
         req.session.user.role
       );
-      let { recipient, comments } = req.body;
-      let { residentID, dept } = req.params;
-      const sender = req.session.user.email;
+      const department = dept;
+      dept = mapDepartmentName(dept);
 
-      if (dept == "Sex-Offender") {
-        dept = "sexOffender";
-      }
-      if (dept == "Victim-Services") {
-        dept = "victimServices";
-      }
-      if (dept == "Deputy-Warden") {
-        dept = "DW";
-      }
       //send notification to facility_management
       if (dept == "DW" || dept == "Warden") {
         await createNotification(
@@ -77,29 +74,27 @@ module.exports = {
           `Clearance is requested for resident #${residentID}.`
         );
       }
+      const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
       //change residents clearance status to show as pending
       await Resident.updateOne(
         { residentID: residentID },
         {
           $set: {
             [`${dept}Clearance.status`]: "pending",
-            "workEligibility.status": "pending",
+          },
+          $push: {
+            [`${dept}Clearance.notes`]: {
+              createdAt: new Date(),
+              createdBy: name,
+              note: `Clearance request sent to ${recipient}.`,
+            },
           },
         }
       );
       const resident = await Resident.findOne({ residentID }).lean();
-      if (dept == "sexOffender") {
-        dept = "Sex-Offender";
-      }
-      if (dept == "victimServices") {
-        dept = "Victim-Services";
-      }
-      if (dept == "DW") {
-        dept = "Deputy-Warden";
-      }
 
-      sendReviewEmail(resident, dept, recipient, sender, comments);
-      dept = req.params.dept;
+      sendReviewEmail(resident, department, recipient, sender, comments);
+
       const activeTab = "clearance";
       res.render(`${req.session.user.role}/profiles/residentProfile`, {
         resident,
@@ -113,20 +108,12 @@ module.exports = {
     }
   },
   async reviewClearance(req, res) {
+    let { residentID, email, dept } = req.params;
     try {
-      let { residentID, email, dept } = req.params;
-      if (dept == "Sex-Offender") {
-        dept = "sexOffender";
-      }
-      if (dept == "Victim-Services") {
-        dept = "victimServices";
-      }
-      if (dept == "Deputy-Warden") {
-        dept = "DW";
-      }
+      dept = mapDepartmentName(dept);
       const resident = await Resident.findOne({ residentID }).lean();
-      const activeTab = "status";
 
+      const activeTab = "status";
       res.render(`clearance/${dept}`, {
         resident,
         email,
@@ -140,41 +127,39 @@ module.exports = {
 
   async next_notes(req, res) {
     const { residentID, email, category } = req.params;
-
-    const resident = await Resident.findOne({ residentID }).lean();
-    const activeTab = "notes";
-    res.render(`clearance/${category}`, { resident, email, activeTab });
+    try {
+      const resident = await Resident.findOne({ residentID }).lean();
+      const activeTab = "notes";
+      res.render(`clearance/${category}`, { resident, email, activeTab });
+    } catch (err) {
+      console.log(err);
+      res.render("error/500");
+    }
   },
   async next_notify(req, res) {
     const { residentID, email, category } = req.params;
-    const resident = await Resident.findOne({ residentID }).lean();
-    const activeTab = "notify";
-    res.render(`clearance/${category}`, { resident, email, activeTab });
+    try {
+      const resident = await Resident.findOne({ residentID }).lean();
+      const activeTab = "notify";
+      res.render(`clearance/${category}`, { resident, email, activeTab });
+    } catch (err) {
+      console.log(err);
+      res.render("error/500");
+    }
   },
 
   async sendNextNotification(req, res) {
+    const { residentID, email } = req.params;
+    let { category, recipientEmail, comments } = req.body;
     try {
-      const { residentID, email } = req.params;
-      const department = req.body.category;
-      const recipient = req.body.recipientEmail;
-      const notes = req.body.comments;
       const resident = await Resident.findOne({ residentID }).lean();
 
-      let dept = department;
-      if (dept == "Sex-Offender") {
-        dept = "sexOffender";
-      }
-      if (dept == "Victim-Services") {
-        dept = "victimServices";
-      }
-      if (dept == "Deputy-Warden") {
-        dept = "DW";
-      }
+      let dept = mapDepartmentName(category);
 
       //send notification to facility_management
       if (dept == "DW" || dept == "Warden") {
         await createNotification(
-          recipient,
+          recipientEmail,
           "facility_management",
           "clearance_requested",
           `Clearance is requested for resident #${residentID}.`
@@ -183,14 +168,14 @@ module.exports = {
       //send notifiaction to classification
       if (dept == "Classification") {
         await createNotification(
-          recipient,
+          recipientEmail,
           "classification",
           "clearance_requested",
           `Clearance is requested for resident #${residentID}.`
         );
       }
 
-      sendReviewEmail(resident, department, recipient, email, notes);
+      sendReviewEmail(resident, category, recipientEmail, email, comments);
       res.render("clearance/thankYou", { resident, email });
     } catch (err) {
       console.log(err);
@@ -199,9 +184,8 @@ module.exports = {
   },
 
   async reviewInterviewRequest(req, res) {
+    const { interviewID } = req.params;
     try {
-      const { interviewID } = req.params;
-
       let interview = await Jobs.aggregate([
         // Unwind the interviews array to make each interview a separate document
         { $unwind: "$interviews" },
@@ -240,10 +224,9 @@ module.exports = {
     }
   }, //schedule interview from email notification
   async scheduleInterview(req, res) {
+    const { interviewID, jobID } = req.params;
+    const { date, time, instructions, residentID } = req.body;
     try {
-      const { interviewID, jobID } = req.params;
-      const { date, time, instructions, residentID } = req.body;
-
       // Convert interviewID to ObjectId
       const interviewObjectId = new mongoose.Types.ObjectId(interviewID);
 
@@ -289,9 +272,8 @@ module.exports = {
     }
   },
   async reviewHireRequest(req, res) {
+    const { jobID, res_id } = req.params;
     try {
-      const { jobID, res_id } = req.params;
-
       let application = await Jobs.findOne(
         {
           _id: jobID, // Match the job by jobID
@@ -323,9 +305,8 @@ module.exports = {
     }
   },
   async reviewTerminationRequest(req, res) {
+    const { res_id } = req.params;
     try {
-      const { res_id } = req.params;
-
       const resident = await Resident.findOne({ _id: res_id }).lean();
       const unitTeam = await UnitTeam.findOne({
         email: resident.resume.unitTeam,
@@ -347,26 +328,15 @@ module.exports = {
   async approveClearance(req, res) {
     let { residentID, email, dept } = req.params;
 
-    const notifyDept = dept;
-
-    if (dept == "Sex-Offender") {
-      dept = "sexOffender";
-    }
-    if (dept == "Victim-Services") {
-      dept = "victimServices";
-    }
-    if (dept == "Deputy-Warden") {
-      dept = "DW";
-    }
-    const name = getNameFromEmail(email);
-
     try {
+      dept = mapDepartmentName(dept);
+      const name = getNameFromEmail(email);
+
       await Resident.updateOne(
         { residentID: residentID },
         {
           $set: {
             [`${dept}Clearance.status`]: "approved",
-            "workEligibility.status": "pending",
           },
           $push: {
             [`${dept}Clearance.clearanceHistory`]: {
@@ -382,38 +352,32 @@ module.exports = {
           },
         }
       );
+
+      const resident = await Resident.findOne({ residentID }).lean();
+      const notifyDept = dept;
+
+      //send notification to unit team of this interview request on their dashboard
+      await createNotification(
+        resident.resume.unitTeam,
+        "unitTeam",
+        "clearance_approved",
+        `${notifyDept} clearance approved for resident #${resident.residentID}.`
+      );
+
+      activeTab = "status";
+      res.render(`clearance/${dept}`, { resident, email, activeTab });
     } catch (err) {
       console.log(err);
       res.render("error/500");
     }
-    const resident = await Resident.findOne({ residentID }).lean();
-    //send notification to unit team of this interview request on their dashboard
-    await createNotification(
-      resident.resume.unitTeam,
-      "unitTeam",
-      "clearance_approved",
-      `${notifyDept} clearance approved for resident #${resident.residentID}.`
-    );
-
-    activeTab = "status";
-    res.render(`clearance/${dept}`, { resident, email, activeTab });
   },
   async restrictClearance(req, res) {
+    let { residentID, email, dept } = req.params;
     try {
-      let { residentID, email, dept } = req.params;
       const name = getNameFromEmail(email);
-
       const notifyDept = dept;
 
-      if (dept == "Sex-Offender") {
-        dept = "sexOffender";
-      }
-      if (dept == "Victim-Services") {
-        dept = "victimServices";
-      }
-      if (dept == "Deputy-Warden") {
-        dept = "DW";
-      }
+      dept = mapDepartmentName(dept);
 
       try {
         await Resident.updateOne(
@@ -457,19 +421,12 @@ module.exports = {
     }
   },
   async saveNotes(req, res) {
+    let { residentID, email, dept } = req.params;
+    const { notes } = req.body;
     try {
-      let { residentID, email, dept } = req.params;
+      dept = mapDepartmentName(dept);
+      console.log(dept);
 
-      if (dept == "Sex-Offender") {
-        dept = "sexOffender";
-      }
-      if (dept == "Victim-Services") {
-        dept = "victimServices";
-      }
-      if (dept == "Deputy-Warden") {
-        dept = "DW";
-      }
-      const { notes } = req.body;
       let name = getNameFromEmail(email);
 
       if (!name) {
@@ -506,9 +463,9 @@ module.exports = {
   //   Help Desk
   //========================
   async helpDesk(req, res) {
+    const { name, email, subject, message } = req.body;
     try {
-      const { name, email, subject, message } = req.body;
-      const recipient = "kcicodingdev@gmail.com";
+      const recipient = "kcicodingdev@gmail.com"; //-->development only
       sendHelpDeskEmail(name, subject, email, message, recipient);
       const sentMsg = true;
       res.render(`${req.session.user.role}/helpDesk`, {
@@ -524,8 +481,8 @@ module.exports = {
   //   Contact
   //========================
   async contact(req, res) {
+    const { name, email, subject, message } = req.body;
     try {
-      const { name, email, subject, message } = req.body;
       const recipient = "kcicodingdev@gmail.com"; //-->development only
       sendContactEmail(name, subject, email, message, recipient);
       const sentMsg = true;
@@ -541,6 +498,10 @@ module.exports = {
   //   Thank you
   //========================
   async thankYou(req, res) {
-    res.render("clearance/thankYou");
+    try {
+      res.render("clearance/thankYou");
+    } catch (err) {
+      res.render("error/500");
+    }
   },
 };
