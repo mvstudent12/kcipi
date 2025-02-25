@@ -6,7 +6,7 @@ const dbURI =
 
 //const dbURI = process.env.DB_URI; //for production
 
-const dbURI = "mongodb://localhost/kcipi"; //use for development
+//const dbURI = "mongodb://localhost/kcipi"; //use for development
 
 mongoose
   .connect(dbURI, {
