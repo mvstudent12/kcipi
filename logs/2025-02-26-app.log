@@ -1,0 +1,13 @@
+{"level":"info","message":"User logged in: alice.johnson@ks.gov","timestamp":"2025-02-26 09:25:38"}
+{"level":"info","message":"2025-02-26T15:25:38.757Z [INFO] : ::ffff:127.0.0.1 /login 200 444.092 ms","timestamp":"2025-02-26 09:25:38"}
+{"level":"info","message":"Non-Resident logged out: alice.johnson@ks.gov","timestamp":"2025-02-26 09:32:28"}
+{"level":"info","message":"User logged in: roy.rogers@ks.gov","timestamp":"2025-02-26 09:32:37"}
+{"level":"info","message":"2025-02-26T15:32:37.489Z [INFO] : ::ffff:127.0.0.1 /login 200 249.178 ms","timestamp":"2025-02-26 09:32:37"}
+{"level":"info","message":"Non-Resident logged out: roy.rogers@ks.gov","timestamp":"2025-02-26 10:20:27"}
+{"level":"info","message":"User logged in: alice.johnson@ks.gov","timestamp":"2025-02-26 10:20:32"}
+{"level":"info","message":"2025-02-26T16:20:32.959Z [INFO] : ::ffff:127.0.0.1 /login 200 432.661 ms","timestamp":"2025-02-26 10:20:32"}
+{"level":"warn","message":"Page not found: /companyProfile/67bdf78c73f5ace1ce4d6dbe?activeTab=position","timestamp":"2025-02-26 10:33:29"}
+{"level":"warn","message":"Page not found: /companyProfile/67bdf78c73f5ace1ce4d6dbe?activeTab=position","timestamp":"2025-02-26 10:34:44"}
+{"level":"info","message":"2025-02-26T17:51:38.347Z [INFO] : ::ffff:127.0.0.1 /admin/residentDB 500 4687.130 ms","timestamp":"2025-02-26 11:51:38"}
+{"level":"warn","message":"Page not found: /admin/classification?activeTab=add&addErr=true","timestamp":"2025-02-26 12:48:15"}
+{"level":"warn","message":"Page not found: /admin/classification?activeTab=add&addErr=true","timestamp":"2025-02-26 12:48:41"}

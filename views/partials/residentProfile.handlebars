@@ -64,14 +64,11 @@
                                         {{/if}}
                                     {{/if}}
 
-                                    {{#if (eq resident.workEligibility.status "none")}}
-
+                                    {{#unless (eq resident.resume.status "approved")}}
                                         <div class="text-center pt-3">
                                             <p class="text-primary">This resident needs their resume reviewed.</p>
                                         </div>
-
-
-                                    {{/if}}
+                                    {{/unless}}
 
                                     {{#if (eq resident.workEligibility.status "restricted")}}
                                         <div class="text-center">
@@ -82,6 +79,13 @@
                                     {{#if (eq resident.workEligibility.status "pending")}}
                                         <div class="text-center">
                                             <p class="text-primary">This resident is in the clearance process.</p>
+                                        </div>
+                                    {{/if}}
+
+                                    {{#if (eq resident.workEligibility.status "none")}}
+                                        <div class="text-center">
+                                            <p class="text-primary">This resident needs to be reviewed for clearance.
+                                            </p>
                                         </div>
                                     {{/if}}
 
@@ -403,7 +407,7 @@
                                                 </p>
                                                 <button type="button" class="btn btn-danger mx-2" data-bs-toggle="modal"
                                                     data-bs-target="#rejectResume">Reject
-                                                    Approval</button>
+                                                    Resume</button>
                                             </div>
 
 
@@ -457,6 +461,10 @@
 
                                     <!--======== Pending Resume Form ========== -->
                                     {{#if (eq resident.resume.status "pending")}}
+                                        <div class="text-center">
+                                            <p class="text-info">Please review resident's resume.
+                                            </p>
+                                        </div>
                                         <form method="POST" action="/clearance/approveResume/{{resident.residentID}}">
 
                                             {{!-- Resident First Name --}}

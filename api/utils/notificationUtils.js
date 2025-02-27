@@ -28,6 +28,7 @@ async function createNotification(email, role, type, message, data = {}) {
       interview_cancelled: "bi-x-circle",
       resume_rejected: "bi-x-circle",
       resume_approved: "bi-check-circle",
+      application_submitted: "bi-exclamation-circle",
       restrict_work_eligibility: "bi-x-circle",
       approve_work_eligibility: "bi-check-circle",
     };
@@ -49,22 +50,6 @@ async function createNotification(email, role, type, message, data = {}) {
   }
 }
 
-// Function to fetch user notifications by email and role
-async function getAllUserNotifications(email, role) {
-  try {
-    return await Notification.find({
-      recipient: email,
-      role: role,
-    })
-      .lean()
-      .sort({ createdAt: -1 })
-      .limit(30); // Limit the result to 30 notifications;
-  } catch (error) {
-    console.error("Error fetching user notifications:", error);
-    throw new Error("Failed to fetch notifications");
-  }
-}
-
 // Function to fetch unread notifications for a user by email and role
 async function getUserNotifications(email, role) {
   try {
@@ -75,7 +60,7 @@ async function getUserNotifications(email, role) {
     })
       .lean()
       .sort({ createdAt: -1 })
-      .limit(30); // Limit the result to 30 notifications
+      .limit(20); // Limit the result to 20 notifications
   } catch (error) {
     console.error("Error fetching unread notifications:", error);
     throw new Error("Failed to fetch unread notifications");
@@ -85,15 +70,21 @@ async function getUserNotifications(email, role) {
 // Function to mark a single notification as read
 async function notificationIsRead(notificationId) {
   try {
-    await Notification.findByIdAndUpdate(notificationId, { isRead: true });
+    console.log(notificationId);
+    const notification = await Notification.findByIdAndUpdate(
+      notificationId,
+      { $set: { isRead: true } },
+      { new: true }
+    );
+
+    console.log(notification);
   } catch (error) {
     console.error("Error marking notification as read:", error);
-    throw new Error("Failed to mark notification as read");
+    throw new Error("Failed to mark notification as read from server");
   }
 }
 
 module.exports = {
-  getAllUserNotifications,
   getUserNotifications,
   createNotification,
   notificationIsRead,

@@ -2,8 +2,6 @@
 //    Global Imports
 //=============================
 //database models
-const Notification = require("../models/Notification");
-const ActivityLog = require("../models/ActivityLog");
 const Resident = require("../models/Resident");
 const Company = require("../models/Company");
 const Jobs = require("../models/Jobs");
@@ -35,6 +33,8 @@ const {
   getUserNotifications,
   createNotification,
 } = require("../utils/notificationUtils");
+
+const { createActivityLog } = require("../utils/activityLogUtils");
 
 module.exports = {
   //serves dashboard page for PI Employers
@@ -140,50 +140,7 @@ module.exports = {
       res.render("error/505");
     }
   },
-  //serves job profile info for specific job
-  async jobProfile(req, res) {
-    try {
-      const notifications = await getUserNotifications(
-        req.session.user.email,
-        req.session.user.role
-      );
-      const { jobID } = req.params;
-      const position = await Jobs.findById(jobID).lean();
 
-      if (!position) {
-        throw new Error("Job not found");
-      }
-      const companyID = position.companyID;
-
-      // Extract `resident_id` from applicants array
-      const applicantIds = position.applicants.map(
-        (applicant) => applicant.resident_id
-      );
-
-      const applicants = await Resident.find({
-        _id: { $in: applicantIds },
-      }).lean();
-
-      const company = await Company.findById(companyID).lean();
-      const activeTab = "overview";
-
-      res.render("employer/profiles/jobProfile", {
-        user: req.session.user,
-        notifications,
-        position,
-        company,
-        activeTab,
-        applicants,
-      });
-    } catch (err) {
-      console.log(err);
-      logger.warn("Error serving job profile page: ", err);
-      res.render("error/505");
-    }
-  },
-  //=============================
-  //     Manage Workforce
-  //=============================
   //serves manageWorkForce page for employers
   async manageWorkForce(req, res) {
     try {
@@ -214,7 +171,7 @@ module.exports = {
       if (result.length > 0) {
         applicantIDS = result[0].allResidents;
       } else {
-        console.log("No matching jobs found");
+        console.log("No matching jobs found for applicants");
       }
 
       // Query the Resident model to find residents matching these IDs who applied for jobs
@@ -299,11 +256,11 @@ module.exports = {
     }
   },
 
-  //serves managePositions page from employer dashboard
   //=============================
   //     Manage Positions
   //=============================
   async managePositions(req, res) {
+    let { activeTab, addMsg, deleteErr, editMsg } = req.query;
     try {
       const notifications = await getUserNotifications(
         req.session.user.email,
@@ -317,13 +274,16 @@ module.exports = {
 
       // Query jobs with the specified companyID
       const jobs = await Jobs.find({ companyID }).lean();
-      const activeTab = "all";
+      if (!activeTab) activeTab = "all";
       res.render("employer/managePositions", {
         user: req.session.user,
         notifications,
         company,
         jobs,
         activeTab,
+        addMsg,
+        deleteErr,
+        editMsg,
       });
     } catch (err) {
       console.log(err);
@@ -368,23 +328,18 @@ module.exports = {
   },
   //allows editing the data found when position was searched
   async editSearchedPosition(req, res) {
+    const { jobID } = req.params;
+    const {
+      editPosition,
+      description,
+      skillSet,
+      pay,
+      availablePositions,
+      isAvailable,
+      facility,
+      jobPool,
+    } = req.body;
     try {
-      const notifications = await getUserNotifications(
-        req.session.user.email,
-        req.session.user.role
-      );
-      const { jobID } = req.params;
-      const {
-        editPosition,
-        description,
-        skillSet,
-        pay,
-        availablePositions,
-        isAvailable,
-        facility,
-        jobPool,
-      } = req.body;
-
       // Ensure isAvailable is treated as a proper boolean (true or false)
       let isAvailableBool =
         isAvailable === true || isAvailable === "true" ? true : false;
@@ -419,24 +374,14 @@ module.exports = {
         }
       );
 
-      const position = await Jobs.findById(jobID).lean();
+      // Log activity
+      await createActivityLog(
+        req.session.user._id.toString(),
+        "edited_position",
+        `Edited job position: ${editPosition}.`
+      );
 
-      const companyID = position.companyID;
-      const company = await Company.findById(companyID).lean();
-      // Query jobs with the specified companyID
-      const jobs = await Jobs.find({ companyID }).lean();
-      const activeTab = "all";
-
-      const saveMsg = true;
-      res.render("employer/managePositions", {
-        user: req.session.user,
-        notifications,
-        position,
-        company,
-        jobs,
-        activeTab,
-        saveMsg,
-      });
+      res.redirect(`/employer/managePositions?activeTab=all&editMsg=true`);
     } catch (err) {
       console.log(err);
       logger.warn("An error occurred while editing company position: ", err);
@@ -445,23 +390,18 @@ module.exports = {
   },
   //adds new position to company db
   async addNewPosition(req, res) {
+    let {
+      companyID,
+      companyName,
+      position,
+      description,
+      skillSet,
+      pay,
+      jobPool,
+      availablePositions,
+      facility,
+    } = req.body;
     try {
-      const notifications = await getUserNotifications(
-        req.session.user.email,
-        req.session.user.role
-      );
-      let {
-        companyID,
-        companyName,
-        position,
-        description,
-        skillSet,
-        pay,
-        jobPool,
-        availablePositions,
-        facility,
-      } = req.body;
-
       // Ensure `companyID` is a valid ObjectId
       if (!mongoose.Types.ObjectId.isValid(companyID)) {
         console.log("Invalid company ID from managePositions Form");
@@ -483,21 +423,14 @@ module.exports = {
         facility,
       });
 
-      const company = await Company.findOne({
-        companyName: companyName,
-      }).lean();
-      const jobs = await Jobs.find({ companyID }).lean();
-      const addPositionMSG = true;
+      // Log activity
+      await createActivityLog(
+        req.session.user._id.toString(),
+        "added_position",
+        `Created new job position: ${position}.`
+      );
 
-      const activeTab = "all";
-      res.render("employer/managePositions", {
-        user: req.session.user,
-        notifications,
-        company,
-        addPositionMSG,
-        jobs,
-        activeTab,
-      });
+      res.redirect(`/employer/managePositions?activeTab=all&addMsg=true`);
     } catch (err) {
       console.log(err);
       logger.warn(
@@ -507,25 +440,104 @@ module.exports = {
       return res.render("error/500");
     }
   },
-  //edits existing position on jobProfile
-  async editPosition(req, res) {
+  //delete position from db - permanent
+  async deletePosition(req, res) {
+    const { jobID } = req.params;
+    try {
+      //check to see if position curerntly has employees
+
+      const jobHasEmployees = await Jobs.findOne(
+        { _id: jobID, employees: { $exists: true, $not: { $size: 0 } } },
+        { _id: 1 }
+      );
+
+      if (!jobHasEmployees) {
+        // Deleting position by ID
+        await Jobs.deleteOne({ _id: jobID })
+          .then((result) => {
+            console.log("Delete Result:", result);
+          })
+          .catch((error) => {
+            console.error("Error deleting document:", error);
+          });
+        // Log activity
+        await createActivityLog(
+          req.session.user._id.toString(),
+          "deleted_position",
+          `Deleted job position.`
+        );
+
+        res.redirect(`/employer/managePositions?activeTab=all`);
+      } else {
+        res.redirect(`/employer/managePositions?activeTab=all&deleteErr=true`);
+      }
+    } catch (err) {
+      console.log(err);
+      logger.warn("An error occurred while deleting company position: ", err);
+      return res.render("error/500");
+    }
+  },
+  //=============================
+  //    Job Profile
+  //=============================
+  //serves job profile info for specific job
+  async jobProfile(req, res) {
+    let { activeTab, saveMsg } = req.query;
+    const { jobID } = req.params;
     try {
       const notifications = await getUserNotifications(
         req.session.user.email,
         req.session.user.role
       );
-      const { jobID } = req.params;
-      const {
-        editPosition,
-        description,
-        skillSet,
-        pay,
-        availablePositions,
-        isAvailable,
-        facility,
-        jobPool,
-      } = req.body;
 
+      const position = await Jobs.findById(jobID).lean();
+
+      if (!position) {
+        throw new Error("Job not found");
+      }
+      const companyID = position.companyID;
+
+      // Extract `resident_id` from applicants array
+      const applicantIds = position.applicants.map(
+        (applicant) => applicant.resident_id
+      );
+
+      const applicants = await Resident.find({
+        _id: { $in: applicantIds },
+      }).lean();
+
+      const company = await Company.findById(companyID).lean();
+      if (!activeTab) activeTab = "overview";
+
+      res.render("employer/profiles/jobProfile", {
+        user: req.session.user,
+        notifications,
+        position,
+        company,
+        activeTab,
+        applicants,
+        saveMsg,
+      });
+    } catch (err) {
+      console.log(err);
+      logger.warn("Error serving job profile page: ", err);
+      res.render("error/505");
+    }
+  },
+  //edits existing position on jobProfile
+  async editPosition(req, res) {
+    const { jobID } = req.params;
+    const {
+      editPosition,
+      description,
+      skillSet,
+      pay,
+      availablePositions,
+      isAvailable,
+      facility,
+      jobPool,
+    } = req.body;
+    try {
       // Ensure availablePositions is a valid number
       let updatedAvailablePositions = parseInt(availablePositions, 10) || 0;
 
@@ -547,81 +559,23 @@ module.exports = {
           },
         }
       );
-
-      const position = await Jobs.findById(jobID).lean();
-      if (!position) {
-        throw new Error("Job not found");
-      }
-
-      const companyID = position.companyID;
-      // Extract `resident_id` from applicants array
-      const applicantIds = position.applicants.map(
-        (applicant) => applicant.resident_id
+      // Log activity
+      await createActivityLog(
+        req.session.user._id.toString(),
+        "edited_position",
+        `Edited job position: ${editPosition}.`
       );
 
-      const applicants = await Resident.find({
-        _id: { $in: applicantIds },
-      }).lean();
-
-      const company = await Company.findById(companyID).lean();
-      const activeTab = "overview";
-
-      const saveMsg = true;
-      res.render("employer/profiles/jobProfile", {
-        user: req.session.user,
-        notifications,
-        position,
-        company,
-        activeTab,
-        saveMsg,
-        applicants,
-      });
+      res.redirect(
+        `/employer/jobProfile/${jobID}?activeTab=overview&saveMsg=true`
+      );
     } catch (err) {
       console.log(err);
       logger.warn("An error occurred while editing a company position: ", err);
       return res.render("error/500");
     }
   },
-  //delete position from db - permanent
-  async deletePosition(req, res) {
-    try {
-      const notifications = await getUserNotifications(
-        req.session.user.email,
-        req.session.user.role
-      );
-      const { jobID } = req.params;
 
-      // Deleting position by ID
-      await Jobs.deleteOne({ _id: jobID })
-        .then((result) => {
-          console.log("Delete Result:", result);
-        })
-        .catch((error) => {
-          console.error("Error deleting document:", error);
-        });
-
-      const companyName = req.session.user.companyName;
-      const company = await Company.findOne({
-        companyName: companyName,
-      }).lean();
-      const companyID = company._id;
-      // Query jobs with the specified companyID
-      const jobs = await Jobs.find({ companyID }).lean();
-      const activeTab = "all";
-
-      res.render("employer/managePositions", {
-        user: req.session.user,
-        notifications,
-        company,
-        jobs,
-        activeTab,
-      });
-    } catch (err) {
-      console.log(err);
-      logger.warn("An error occurred while deleting company position: ", err);
-      return res.render("error/500");
-    }
-  },
   //=============================
   //     Resident Profile
   //=============================
@@ -660,17 +614,10 @@ module.exports = {
   },
   //send resident interview request to unit team
   async requestInterview(req, res) {
+    let { residentID, preferences, additionalNotes } = req.body;
+    const { jobID } = req.params;
     try {
-      const notifications = await getUserNotifications(
-        req.session.user.email,
-        req.session.user.role
-      );
-      let { residentID, preferences, additionalNotes } = req.body;
-      const { jobID } = req.params;
-
       const resident = await findResident(residentID);
-
-      const res_id = resident._id; // MongoDB ObjectId
 
       const name = `${resident.firstName} ${resident.lastName}`;
       const companyName = req.session.user.companyName;
@@ -700,23 +647,15 @@ module.exports = {
       const interviewID =
         updatedJob.interviews[updatedJob.interviews.length - 1]._id;
 
-      const companyID = await findCompanyID(req.session.user.companyName);
-
-      //find applications specific to this company
-      const applications = await getResidentApplications(companyID, res_id);
-
       // Send notification email to unit team
-
       //const recipient = resident.resume.unitTeam -->only in production
-
       const recipient = "kcicodingdev@gmail.com"; //--> only for development
       sendRequestInterviewEmail(
         resident,
         companyName,
         recipient, // Change to production email
         req.session.user.email,
-        interviewID,
-
+        interviewID
       );
 
       //send notification to unit team of this interview request on their dashboard
@@ -724,17 +663,19 @@ module.exports = {
         resident.resume.unitTeam,
         "unitTeam",
         "interview_request",
-        `New interview request for resident #${resident.residentID}.`
+        `New interview request for resident #${residentID}.`
       );
 
-      const activeTab = "application"; // Render the resident's profile page
-      res.render("employer/profiles/residentProfile", {
-        user: req.session.user,
-        notifications,
-        resident,
-        activeTab,
-        applications,
-      });
+      // Log activity
+      await createActivityLog(
+        req.session.user._id.toString(),
+        "interview_requested",
+        `Requested interview with resident #${residentID}.`
+      );
+
+      res.redirect(
+        `/employer/residentProfile/${residentID}?activeTab=application`
+      );
     } catch (err) {
       console.error("Error requesting interview:", err.stack);
       logger.warn(
@@ -746,21 +687,15 @@ module.exports = {
   },
   //send hiring request to unit team
   async requestHire(req, res) {
+    const { jobID, res_id } = req.params;
+    const {
+      residentID,
+      unitTeamName,
+      hireRequestStartDate,
+      unitTeamEmail,
+      hireRequestInfo,
+    } = req.body;
     try {
-      const notifications = await getUserNotifications(
-        req.session.user.email,
-        req.session.user.role
-      );
-      const { jobID, res_id } = req.params;
-
-      const {
-        residentID,
-        unitTeamName,
-        hireRequestStartDate,
-        unitTeamEmail,
-        hireRequestInfo,
-      } = req.body;
-
       const resident = await Resident.findOne({ residentID }).lean();
 
       const companyName = req.session.user.companyName;
@@ -787,11 +722,6 @@ module.exports = {
         }
       );
 
-      const companyID = await findCompanyID(req.session.user.companyName);
-
-      //find applications specific to this company
-      const applications = await getResidentApplications(companyID, res_id);
-
       //send notification to unit team of this request
       await createNotification(
         resident.resume.unitTeam,
@@ -800,14 +730,16 @@ module.exports = {
         `New ${req.session.user.companyName} employment request for resident #${resident.residentID}.`
       );
 
-      const activeTab = "application";
-      res.render(`employer/profiles/residentProfile`, {
-        user: req.session.user,
-        notifications,
-        resident,
-        activeTab,
-        applications,
-      });
+      // Log activity
+      await createActivityLog(
+        req.session.user._id.toString(),
+        "employment_requested",
+        `Requested employment for resident #${residentID}.`
+      );
+
+      res.redirect(
+        `/employer/residentProfile/${residentID}?activeTab=application`
+      );
     } catch (err) {
       console.log("Error requesting resident employment: ", err);
       logger.warn("Error fetching resident profile:", err);
@@ -816,13 +748,9 @@ module.exports = {
   },
   //send termination request to unit team
   async requestTermination(req, res) {
+    const { res_id } = req.params;
+    const { terminationReason, notes } = req.body;
     try {
-      const notifications = await getUserNotifications(
-        req.session.user.email,
-        req.session.user.role
-      );
-      const { res_id } = req.params;
-      const { terminationReason, notes } = req.body;
       //update resident termination request
       await Resident.updateOne(
         { _id: res_id },
@@ -837,10 +765,8 @@ module.exports = {
       );
 
       const resident = await Resident.findOne({ _id: res_id }).lean();
-      const companyID = await findCompanyID(req.session.user.companyName);
 
       //const recipient = resident.resume.unitTeam  -->for production
-
       const recipient = "kcicodingdev@gmail.com"; //--> for development
 
       //send termination request email
@@ -858,16 +784,16 @@ module.exports = {
         `Termination request for resident #${resident.residentID}.`
       );
 
-      //find applications specific to this company
-      const applications = await getResidentApplications(companyID, res_id);
-      const activeTab = "application";
-      res.render(`employer/profiles/residentProfile`, {
-        user: req.session.user,
-        notifications,
-        resident,
-        activeTab,
-        applications,
-      });
+      // Log activity
+      await createActivityLog(
+        req.session.user._id.toString(),
+        "termination_requested",
+        `Requested termination for resident #${resident.residentID}.`
+      );
+
+      res.redirect(
+        `/employer/residentProfile/${resident.residentID}?activeTab=application`
+      );
     } catch (err) {
       console.log(
         "There was an error in termination request to unit team: ",
@@ -878,50 +804,46 @@ module.exports = {
   },
   //rejects resident application
   async rejectHire(req, res) {
-    try {
-      const notifications = await getUserNotifications(
-        req.session.user.email,
-        req.session.user.role
-      );
-      const { id, jobID } = req.params;
+    const { res_id, jobID } = req.params;
 
-      await Resident.findByIdAndUpdate(id, {
-        $set: {
-          isHired: false,
-        },
-      });
-      const resident = await Resident.findById(id).lean();
+    try {
+      const resident = await Resident.findById(res_id).lean();
       const residentID = resident.residentID;
-      const res_id = resident._id;
 
       //remove user from applicants/ interviews
-      await Jobs.findByIdAndUpdate(jobID, {
-        $pull: {
-          applicants: { resident_id: id },
-          interviews: { residentID: residentID },
+      const updatedJob = await Jobs.findByIdAndUpdate(
+        jobID,
+        {
+          $pull: {
+            applicants: { resident_id: res_id },
+            interviews: { residentID: residentID },
+          },
         },
-      });
-
-      const companyID = await findCompanyID(req.session.user.companyName);
-
-      //find applications specific to this company
-      const applications = await getResidentApplications(companyID, res_id);
+        { new: true }
+      );
 
       await createNotification(
         resident.resume.unitTeam,
         "unitTeam",
         "resident_rejected",
-        `Resident #${resident.residentID} rejected for hiring by ${req.session.user.companyName}.`
+        `Resident #${residentID} rejected for hiring by ${req.session.user.companyName}.`
       );
 
-      const activeTab = "application";
-      res.render(`employer/profiles/residentProfile`, {
-        user: req.session.user,
-        notifications,
-        resident,
-        activeTab,
-        applications,
-      });
+      // Log activity
+      await createActivityLog(
+        req.session.user._id.toString(),
+        "application_rejected",
+        `Rejected application for resident #${residentID}.`
+      );
+      await createActivityLog(
+        resident._id.toString(),
+        "application_rejected",
+        `Application for ${updatedJob.companyName} not accepted at this time.`
+      );
+
+      res.redirect(
+        `/employer/residentProfile/${residentID}?activeTab=application`
+      );
     } catch (err) {
       console.log(err);
       res.render("error/500");
@@ -937,7 +859,7 @@ module.exports = {
         req.session.user.email,
         req.session.user.role
       );
-      res.render("employer/reports", { user: req.session.user });
+      res.render("employer/reports", { user: req.session.user, notifications });
     } catch (err) {
       console.log(err);
       logger.warn("Error serving reports page: ", err);

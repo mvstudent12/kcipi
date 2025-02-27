@@ -29,7 +29,7 @@
             event.preventDefault();
 
             // Send a request to the server to mark this notification as read
-            const response = await fetch(`/request/markAsRead/${notificationId}`, {
+            const response = await fetch(`/notification/markAsRead/${notificationId}`, {
                 method: 'PATCH', // Assuming you're using PATCH method for marking as read
                 headers: {
                     'Content-Type': 'application/json',

@@ -1,0 +1,39 @@
+{"level":"warn","message":"Page not found: /admin/profiles/residentProfile?activeTab=overview","timestamp":"2025-02-27 06:17:45"}
+{"level":"warn","message":"Page not found: /clearance/admin/profiles/residentProfile?activeTab=overview","timestamp":"2025-02-27 06:18:22"}
+{"level":"warn","message":"Page not found: /clearance/admin/profiles/residentProfile?activeTab=overview","timestamp":"2025-02-27 06:19:06"}
+{"level":"warn","message":"Page not found: /admin/profiles/residentProfile?activeTab=overview","timestamp":"2025-02-27 06:19:08"}
+{"level":"warn","message":"Page not found: /residentProfile/:residentID?activeTab=overview","timestamp":"2025-02-27 06:20:11"}
+{"level":"warn","message":"Page not found: /residentProfile/:residentID?activeTab=overview","timestamp":"2025-02-27 06:21:00"}
+{"level":"info","message":"User logged in: #1111225: joseph, adams","timestamp":"2025-02-27 06:26:23"}
+{"level":"info","message":"Resident logged out: #1111225: joseph adams ","timestamp":"2025-02-27 06:27:03"}
+{"level":"info","message":"User logged in: #1111186: christian, allen","timestamp":"2025-02-27 06:27:05"}
+{"level":"info","message":"User logged in: tommy.lee@ks.gov","timestamp":"2025-02-27 06:55:03"}
+{"level":"info","message":"2025-02-27T12:55:03.843Z [INFO] : ::1 /login 200 246.427 ms","timestamp":"2025-02-27 06:55:03"}
+{"level":"info","message":"Non-Resident logged out: alice.johnson@ks.gov","timestamp":"2025-02-27 07:12:36"}
+{"level":"info","message":"User logged in: john.allen@ks.gov","timestamp":"2025-02-27 07:12:45"}
+{"level":"info","message":"2025-02-27T13:12:45.565Z [INFO] : ::ffff:127.0.0.1 /login 200 339.276 ms","timestamp":"2025-02-27 07:12:45"}
+{"level":"info","message":"Non-Resident logged out: tommy.lee@ks.gov","timestamp":"2025-02-27 07:54:55"}
+{"level":"info","message":"User logged in: tommy.lee@ks.gov","timestamp":"2025-02-27 07:54:58"}
+{"level":"info","message":"2025-02-27T13:54:58.023Z [INFO] : ::1 /login 200 265.198 ms","timestamp":"2025-02-27 07:54:58"}
+{"level":"info","message":"Resident logged out: #1111186: christian allen ","timestamp":"2025-02-27 08:29:16"}
+{"level":"info","message":"User logged in: #1111173: james, adams","timestamp":"2025-02-27 08:29:18"}
+{"level":"info","message":"2025-02-27T14:36:52.062Z [INFO] : ::1 /resident/dashboard 500 990.234 ms","timestamp":"2025-02-27 08:36:52"}
+{"level":"info","message":"Resident logged out: #1111173: james adams ","timestamp":"2025-02-27 08:38:19"}
+{"level":"info","message":"User logged in: #1111173: james, adams","timestamp":"2025-02-27 08:38:28"}
+{"level":"info","message":"2025-02-27T14:52:37.767Z [INFO] : ::1 /resident/dashboard 500 963.526 ms","timestamp":"2025-02-27 08:52:37"}
+{"level":"warn","message":"Page not found: /residentProfile/1111173?activeTab=application","timestamp":"2025-02-27 08:57:36"}
+{"level":"info","message":"Resident logged out: #1111173: james adams ","timestamp":"2025-02-27 09:21:14"}
+{"level":"info","message":"User logged in: #1111184: matthew, baker","timestamp":"2025-02-27 09:21:17"}
+{"level":"info","message":"Resident logged out: #1111184: matthew baker ","timestamp":"2025-02-27 09:40:29"}
+{"level":"info","message":"User logged in: #1111173: james, adams","timestamp":"2025-02-27 09:40:32"}
+{"level":"warn","message":"Page not found: /resident/jobInfo?residentHasApplied=true","timestamp":"2025-02-27 09:41:17"}
+{"level":"warn","message":"Page not found: /resident/jobInfo?residentHasApplied=true","timestamp":"2025-02-27 09:41:21"}
+{"level":"info","message":"2025-02-27T16:05:50.075Z [INFO] : ::1 /request/markAsRead/67c06550b29fddd1730b0297 404 89.968 ms","timestamp":"2025-02-27 10:05:50"}
+{"level":"info","message":"2025-02-27T16:05:51.938Z [INFO] : ::1 /request/markAsRead/67c06550b29fddd1730b0297 404 83.249 ms","timestamp":"2025-02-27 10:05:51"}
+{"level":"info","message":"2025-02-27T16:06:13.422Z [INFO] : ::1 /request/markAsRead/67c06550b29fddd1730b0297 404 82.140 ms","timestamp":"2025-02-27 10:06:13"}
+{"level":"info","message":"2025-02-27T16:06:14.310Z [INFO] : ::1 /request/markAsRead/67c06531f2e61ac1cf12cea7 404 80.863 ms","timestamp":"2025-02-27 10:06:14"}
+{"level":"info","message":"Non-Resident logged out: john.allen@ks.gov","timestamp":"2025-02-27 10:08:53"}
+{"level":"info","message":"User logged in: kari.johnson@ks.gov","timestamp":"2025-02-27 10:08:58"}
+{"level":"info","message":"2025-02-27T16:08:58.691Z [INFO] : ::ffff:127.0.0.1 /login 200 347.070 ms","timestamp":"2025-02-27 10:08:58"}
+{"level":"info","message":"2025-02-27T16:22:16.648Z [INFO] : ::ffff:127.0.0.1 /markAsRead/67bdff1f45a7b062ca08eeb9 500 3268.505 ms","timestamp":"2025-02-27 10:22:16"}
+{"level":"info","message":"2025-02-27T16:23:24.381Z [INFO] : ::ffff:127.0.0.1 /markAsRead/67bdff1f45a7b062ca08eeb9 500 3767.756 ms","timestamp":"2025-02-27 10:23:24"}

@@ -110,3 +110,5 @@
 {"level":"info","message":"Non-Resident logged out: kari.johnson@ks.gov","timestamp":"2025-02-25 12:03:47"}
 {"level":"info","message":"User logged in: chloe.miller@ks.gov","timestamp":"2025-02-25 12:03:51"}
 {"level":"info","message":"2025-02-25T18:03:51.347Z [INFO] : ::ffff:127.0.0.1 /login 200 176.544 ms","timestamp":"2025-02-25 12:03:51"}
+{"level":"info","message":"User logged in: alice.johnson@ks.gov","timestamp":"2025-02-25 12:18:35"}
+{"level":"info","message":"2025-02-25T18:18:35.138Z [INFO] : ::ffff:127.0.0.1 /login 200 426.248 ms","timestamp":"2025-02-25 12:18:35"}

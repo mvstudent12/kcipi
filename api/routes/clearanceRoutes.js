@@ -2,9 +2,9 @@ const express = require("express");
 const clearanceRoutes = express.Router();
 const controller = require("../controllers/clearanceControllers");
 
+//authentication middleware
 const sessionSecurity = require("../middleware/sessionSecurity");
 
-//authentication middleware
 const {
   requireAuth,
   checkUser,
@@ -74,6 +74,17 @@ clearanceRoutes.get(
 clearanceRoutes.post("/editResident", authMiddleware, controller.editResident);
 
 clearanceRoutes.get(
+  "/findNotes/:residentID/:dept",
+  authMiddleware,
+  controller.findNotes
+);
+clearanceRoutes.post(
+  "/addNotes/:residentID/:dept",
+  authMiddleware,
+  controller.addNotes
+);
+
+clearanceRoutes.get(
   "/recentActivities",
   checkUser,
   requireAuth,
@@ -86,17 +97,6 @@ clearanceRoutes.get(
     "employer",
   ]),
   controller.recentActivities
-);
-
-clearanceRoutes.get(
-  "/findNotes/:residentID/:dept",
-  authMiddleware,
-  controller.findNotes
-);
-clearanceRoutes.post(
-  "/addNotes/:residentID/:dept",
-  authMiddleware,
-  controller.addNotes
 );
 
 module.exports = clearanceRoutes;

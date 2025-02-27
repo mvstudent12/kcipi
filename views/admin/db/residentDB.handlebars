@@ -147,6 +147,12 @@
                                                 successfully.</p>
                                         {{/if}}
 
+                                        {{#if addErr}}
+                                            <hr>
+                                            <p class="text-danger text-center fst-italic mt-3">This resident already
+                                                exists.</p>
+                                        {{/if}}
+
                                     </div>
                                 </div>
                             </div>
@@ -221,7 +227,7 @@
                                                     <div class="col-md-8 col-lg-9">
                                                         <input name="residentID" type="text"
                                                             class="form-control text-capitalize" id="residentID"
-                                                            value="{{residentFound.residentID}}">
+                                                            value="{{residentFound.residentID}}" readonly>
                                                     </div>
                                                 </div>
 
@@ -293,9 +299,10 @@
                                                         <select required name="unitTeam" id="unitTeamList"
                                                             class="form-select text-capitalize"
                                                             aria-label="Select Unit Team">
-                                                            <option {{#unless residentFound.resume.unitTeam}} selected
-                                                                {{/unless}}value="">Select Unit Team:
-                                                            </option>
+                                                            {{#unless residentFound.unitTeam}}
+                                                                <option selected value="">Select Unit Team:
+                                                                </option>
+                                                            {{/unless}}
                                                             {{#each unitTeam}}
                                                                 <option {{#if (eq ../residentFound.resume.unitTeam
                                                                     this.email)}} selected

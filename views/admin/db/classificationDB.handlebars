@@ -130,9 +130,16 @@
                                         </form>
                                         {{#if addMsg}}
                                             <hr>
-                                            <p class="text-success text-center fst-italic mt-3">New Classification
+                                            <p class="text-success text-center fst-italic mt-3">New classification
                                                 member added
                                                 successfully.</p>
+                                        {{/if}}
+                                        {{#if addErr}}
+                                            <hr>
+                                            <p class="text-danger text-center fst-italic mt-3">This classification
+                                                member
+                                                already
+                                                exists.</p>
                                         {{/if}}
                                     </div>
                                 </div>
@@ -249,7 +256,7 @@
                                                         Email</label>
                                                     <div class="col-md-8 col-lg-8">
                                                         <input name="email" type="text" class="form-control" id="email"
-                                                            value="{{classificationFound.email}}">
+                                                            value="{{classificationFound.email}}" readonly>
                                                     </div>
                                                 </div>
 
@@ -278,6 +285,12 @@
                                             <p class="text-success text-center fst-italic mt-3">Your edits have been
                                                 saved
                                                 successfully.
+                                            </p>
+                                        {{/if}}
+                                        {{#if deleteMsg}}
+                                            <hr>
+                                            <p class="text-danger text-center fst-italic mt-3">Classification memeber
+                                                succesfully deleted.
                                             </p>
                                         {{/if}}
                                         {{#if saved}}

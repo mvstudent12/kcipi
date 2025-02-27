@@ -1,5 +1,4 @@
 const Resident = require("../models/Resident");
-const ActivityLog = require("../models/ActivityLog");
 const Jobs = require("../models/Jobs");
 
 const { Parser } = require("json2csv");
@@ -14,10 +13,7 @@ const {
   createApplicantsReport,
 } = require("../utils/unitTeamUtils");
 
-const {
-  getAllUserNotifications,
-  getUserNotifications,
-} = require("../utils/notificationUtils");
+const { getUserNotifications } = require("../utils/notificationUtils");
 
 const { getTotalAvailablePositions } = require("../utils/employerUtils");
 

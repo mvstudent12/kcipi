@@ -103,7 +103,7 @@ employerRoutes.post(
 );
 
 employerRoutes.get(
-  "/rejectHire/:id/:jobID",
+  "/rejectHire/:res_id/:jobID",
   authMiddleware,
   controller.rejectHire
 );

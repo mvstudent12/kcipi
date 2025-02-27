@@ -10,11 +10,8 @@ const {
 
 const {
   getUserNotifications,
-  getAllUserNotifications,
-  createNotification,
   notificationIsRead,
 } = require("../utils/notificationUtils");
-const { createActivityLog } = require("../utils/activityLogUtils");
 
 module.exports = {
   async notifications(req, res) {
@@ -23,15 +20,11 @@ module.exports = {
         req.session.user.email,
         req.session.user.role
       );
-      const allNotifications = await getAllUserNotifications(
-        req.session.user.email,
-        req.session.user.role
-      );
+      console.log(notifications);
 
       res.render(`${req.session.user.role}/notifications`, {
         user: req.session.user,
         notifications,
-        allNotifications,
       });
     } catch (err) {
       console.log(err);

@@ -9,6 +9,8 @@ const mongoose = require("mongoose");
 
 const { createActivityLog } = require("../utils/activityLogUtils");
 
+const { createNotification } = require("../utils/notificationUtils");
+
 module.exports = {
   async dashboard(req, res) {
     try {
@@ -130,24 +132,24 @@ module.exports = {
     }
   },
   async saveResume(req, res) {
+    const res_id = req.session.resident._id.toString();
+    const {
+      unitTeam,
+      legalCitizen,
+      hsGraduate,
+      sscard,
+      birthCertificate,
+      workHistory,
+      certifications,
+      education,
+      programs,
+      skills,
+    } = req.body;
     try {
-      const res_id = req.session.resident._id.toString();
-      const {
-        unitTeam,
-        legalCitizen,
-        hsGraduate,
-        sscard,
-        birthCertificate,
-        workHistory,
-        certifications,
-        education,
-        programs,
-        skills,
-      } = req.body;
       const unitTeamMember = await UnitTeam.findOne({ email: unitTeam }).lean();
       const unitTeamName = `${unitTeamMember.firstName} ${unitTeamMember.lastName}`;
 
-      await Resident.updateOne(
+      await Resident.findOneAndUpdate(
         { _id: res_id },
         {
           $set: {
@@ -175,9 +177,7 @@ module.exports = {
         `Submitted resume to Unit Team.`
       );
 
-      let resident = await Resident.findOne({ _id: res_id }).lean();
-      req.session.resident = resident;
-      res.render("resident/profile", { user: req.session.resident });
+      res.redirect(`/resident/profile`);
     } catch (err) {
       console.log(err);
       res.render("error/500");
@@ -217,10 +217,9 @@ module.exports = {
     }
   },
   async jobInfo(req, res) {
+    const { jobID } = req.params;
+    const res_id = req.session.resident._id;
     try {
-      const { jobID } = req.params;
-      const res_id = req.session.resident._id;
-
       // fetch job
       let position = await Jobs.aggregate([
         {
@@ -246,9 +245,8 @@ module.exports = {
         },
       ]);
       position = position[0];
-
+      const residentHasApplied = true;
       if (position.residentInApplicants) {
-        const residentHasApplied = true;
         res.render("resident/jobInfo", {
           user: req.session.resident,
           position,
@@ -266,8 +264,8 @@ module.exports = {
     }
   },
   async saveApplication(req, res) {
+    const { jobID } = req.params;
     try {
-      const { jobID } = req.params;
       const res_id = req.session.resident._id;
 
       // Check if the resident has already applied
@@ -298,38 +296,7 @@ module.exports = {
         );
       }
 
-      // Re-fetch job with the updated data
-      let position = await Jobs.aggregate([
-        {
-          $match: {
-            _id: new mongoose.Types.ObjectId(jobID),
-          },
-        },
-        {
-          $addFields: {
-            residentInApplicants: {
-              $cond: {
-                if: {
-                  $in: [
-                    new mongoose.Types.ObjectId(res_id),
-                    "$applicants.resident_id", // Adjusted to check inside the applicants array
-                  ],
-                },
-                then: true,
-                else: false,
-              },
-            },
-          },
-        },
-      ]);
-      position = position[0];
-
-      const residentHasApplied = true;
-      res.render("resident/jobInfo", {
-        user: req.session.resident,
-        position,
-        residentHasApplied,
-      });
+      res.redirect(`/resident/jobInfo/${jobID}`);
     } catch (err) {
       console.log(err);
       res.render("error/500");
@@ -346,7 +313,6 @@ module.exports = {
   async recentActivities(req, res) {
     try {
       const res_id = req.session.resident._id.toString();
-
       const activities = await ActivityLog.find({ userID: res_id })
         .sort({ timestamp: -1 })
         .limit(20)

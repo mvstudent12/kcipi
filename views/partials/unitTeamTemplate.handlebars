@@ -34,20 +34,17 @@
                         <hr class="dropdown-divider">
                     </li>
                     {{#each notifications}}
-                        {{#unless this.isRead}}
-                            <li class="notification-item">
-                                <i class="bi {{this.icon}}"></i>
-                                <div>
-                                    {{!-- <h4>Lorem Ipsum</h4> --}}
-                                    <p>{{this.message}}</p>
-                                    {{!-- <p>30 min. ago</p> --}}
-                                </div>
-                            </li>
+                        <li class="notification-item">
+                            <i class="bi {{this.icon}}"></i>
+                            <div>
+                                <p>{{this.message}}</p>
 
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                        {{/unless}}
+                            </div>
+                        </li>
+
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
                     {{/each}}
                     <li class="dropdown-footer">
                         <a href="/notification/notifications">Show all notifications</a>

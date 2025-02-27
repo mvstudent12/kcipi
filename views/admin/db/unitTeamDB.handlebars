@@ -129,6 +129,12 @@
                                             <p class="text-success text-center fst-italic mt-3">New member added
                                                 successfully.</p>
                                         {{/if}}
+                                        {{#if addErr}}
+                                            <hr>
+                                            <p class="text-danger text-center fst-italic mt-3">This unit team member
+                                                already
+                                                exists.</p>
+                                        {{/if}}
                                     </div>
                                 </div>
                             </div>
@@ -208,7 +214,7 @@
                                                         Email</label>
                                                     <div class="col-md-8 col-lg-8">
                                                         <input name="email" type="text" class="form-control" id="email"
-                                                            value="{{unitTeamFound.email}}">
+                                                            value="{{unitTeamFound.email}}" readonly>
                                                     </div>
                                                 </div>
                                                 {{!-- unitTeam Facility --}}
@@ -263,6 +269,24 @@
                                             <p class="text-success text-center fst-italic mt-3">Your edits have been
                                                 saved
                                                 successfully.
+                                            </p>
+                                        {{/if}}
+                                        {{#if deleteMsg}}
+                                            <hr>
+                                            <p class="text-danger text-center fst-italic mt-3">Unit Team member
+                                                succesfully deleted.
+                                            </p>
+                                        {{/if}}
+                                        {{#if saved}}
+                                            <hr>
+                                            <p class="text-success text-center fst-italic mt-3">Password
+                                                successfully updated.
+                                            </p>
+                                        {{/if}}
+                                        {{#if savingErr}}
+                                            <hr>
+                                            <p class="text-danger text-center fst-italic mt-3">These passwords do not
+                                                match. Please try again.
                                             </p>
                                         {{/if}}
 

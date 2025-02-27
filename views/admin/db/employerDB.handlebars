@@ -3,11 +3,11 @@
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Employer Contacts Database</h1>
+        <h1>PI Contacts Database</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
-                <li class="breadcrumb-item active">Employer Contacts Database</li>
+                <li class="breadcrumb-item active">PI Contacts Database</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -70,7 +70,8 @@
                                                         <option selected value="">Select Company:
                                                         </option>
                                                         {{#each companies}}
-                                                            <option class="text-capitalize" value="{{this._id}}">
+                                                            <option class="text-capitalize"
+                                                                value="{{this.companyName}}">
                                                                 {{this.companyName}}
                                                             </option>
                                                         {{/each}}
@@ -150,18 +151,23 @@
                                             <p class="text-success text-center fst-italic mt-3">New employer added
                                                 successfully.</p>
                                         {{/if}}
+                                        {{#if addErr}}
+                                            <hr>
+                                            <p class="text-danger text-center fst-italic mt-3">An employee already
+                                                exists with this email.</p>
+                                        {{/if}}
                                     </div>
                                 </div>
                             </div>
 
-                            {{!-- Edit Existing Employer Tab --}}
+                            {{!-- Edit Existing PI Contact Tab --}}
                             <div class="tab-pane fade {{#if (eq activeTab 'edit')}}show active{{/if}} edit-employer pt-3"
                                 id="edit-employer">
                                 <div class="card">
                                     <div class="card-body pt-3">
-                                        {{!-- Employer Search Bar --}}
+                                        {{!-- PI Contact Search Bar --}}
                                         <div class="row mb-3">
-                                            <label for="employerList" class="col-md-4 col-lg-4 col-form-label">Employer
+                                            <label for="employerList" class="col-md-4 col-lg-4 col-form-label">Contact
                                                 Name</label>
                                             <div class="col-md-8 col-lg-8">
                                                 <div class="search-bar">
@@ -172,7 +178,7 @@
                                                             <select required name="employerID" id="employerList"
                                                                 class="form-select text-capitalize"
                                                                 aria-label="Select Employer">
-                                                                <option selected value="">Select Employer:
+                                                                <option selected value="">Select PI Contact:
                                                                 </option>
                                                                 {{#each employers}}
                                                                     <option class="text-capitalize"
@@ -196,7 +202,7 @@
 
 
                                         {{#if employerFound}}
-                                            <!--=============== Edit Employer Form =========================== -->
+                                            <!--=============== Edit PI Contact Form =========================== -->
                                             <hr>
                                             <form method="POST" action="/admin/saveEmployerEdit">
                                                 <input type="hidden" name="id" value="{{employerFound._id}}">
@@ -236,11 +242,11 @@
 
                                                 {{!-- employer email --}}
                                                 <div class="row mb-3">
-                                                    <label for="email" class="col-md-4 col-lg-4 col-form-label">Employer
-                                                        Email</label>
+                                                    <label for="email"
+                                                        class="col-md-4 col-lg-4 col-form-label">Email</label>
                                                     <div class="col-md-8 col-lg-8">
                                                         <input name="email" type="text" class="form-control" id="email"
-                                                            value="{{employerFound.email}}">
+                                                            value="{{employerFound.email}}" readonly>
                                                     </div>
                                                 </div>
                                                 {{!-- employer Facility --}}
@@ -277,7 +283,7 @@
                                                 <div class="d-flex justify-content-between mt-3">
                                                     <button data-bs-toggle="modal" data-bs-target="#deleteEmployer"
                                                         type="button" class="btn btn-danger mx-2">Delete
-                                                        Employer</button>
+                                                        Contact</button>
 
                                                     <button data-bs-toggle="modal" data-bs-target="#resetPassword"
                                                         type="button" class="btn btn-warning mx-2">Reset
@@ -289,11 +295,30 @@
                                             </form>
 
                                         {{/if}}
+
                                         {{#if saveMsg}}
                                             <hr>
                                             <p class="text-success text-center fst-italic mt-3">Your edits have been
                                                 saved
                                                 successfully.
+                                            </p>
+                                        {{/if}}
+                                        {{#if deleteMsg}}
+                                            <hr>
+                                            <p class="text-danger text-center fst-italic mt-3">PI Contact successfully
+                                                deleted.
+                                            </p>
+                                        {{/if}}
+                                        {{#if saved}}
+                                            <hr>
+                                            <p class="text-success text-center fst-italic mt-3">PI Contact password
+                                                succesfully updated.
+                                            </p>
+                                        {{/if}}
+                                        {{#if savingError}}
+                                            <hr>
+                                            <p class="text-danger text-center fst-italic mt-3">These passwords do not
+                                                match. Please try again.
                                             </p>
                                         {{/if}}
 
@@ -310,7 +335,7 @@
                                 <div class="col-12">
                                     <div class="card recent-sales overflow-auto">
                                         <div class="card-body">
-                                            <h5 class="card-title">Employer Contacts <span>| All PI Contacts</span></h5>
+                                            <h5 class="card-title">PI Contacts <span>| All Contacts</span></h5>
                                             <table class="table table-borderless table-striped datatable">
                                                 <thead>
                                                     <tr>
@@ -359,13 +384,13 @@
 {{> footer}}
 
 {{> arrowUp}}
-{{!-- MODAL FOR Delete Employer --}}
+{{!-- MODAL FOR Delete PI Contact --}}
 <div class="modal fade" id="deleteEmployer" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <form method="post" action="/admin/deleteEmployer/{{employerFound._id}}">
                 <div class="modal-header">
-                    <h5 class="modal-title text-capitalize">Delete Employer: {{employerFound.firstName}}
+                    <h5 class="modal-title text-capitalize">Delete Contact: {{employerFound.firstName}}
                         {{employerFound.lastName}}
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -380,7 +405,7 @@
                 <div class="modal-footer">
                     <div class="col-12 d-flex justify-content-between">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button id="" type="submit" class="btn btn-danger">Delete Employer</button>
+                        <button id="" type="submit" class="btn btn-danger">Delete Contact</button>
                     </div>
                 </div>
             </form>
@@ -394,7 +419,7 @@
         <div class="modal-content">
             <form method="post" action="/admin/resetEmployerPassword/{{employerFound._id}}">
                 <div class="modal-header">
-                    <h5 class="modal-title text-capitalize">Employer: {{employerFound.firstName}}
+                    <h5 class="modal-title text-capitalize">PI Contact: {{employerFound.firstName}}
                         {{employerFound.lastName}}
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

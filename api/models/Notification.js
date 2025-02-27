@@ -34,6 +34,7 @@ const notificationSchema = new mongoose.Schema({
       "resume_approved",
       "restrict_work_eligibility",
       "approve_work_eligibility",
+      "application_submitted",
     ],
     required: true,
   },

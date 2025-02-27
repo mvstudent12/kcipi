@@ -44,6 +44,16 @@
                             {{!-- All Positions TAB --}}
                             <div class="tab-pane fade {{#if (eq activeTab 'all')}}show active{{/if}} position-all pt-3"
                                 id="position-all">
+                                {{#if addMsg}}
+                                    <h5 class="text-primary text-center text-sm">New job position added.</h5>
+                                {{/if}}
+                                {{#if editMsg}}
+                                    <h5 class="text-primary text-center text-sm">Position succefully edited.</h5>
+                                {{/if}}
+                                {{#if deleteErr}}
+                                    <h5 class="text-danger text-center text-sm">This position has active
+                                        employees. You may not delete it.</h5>
+                                {{/if}}
                                 {{!-- Positions table --}}
                                 <div class="row mb-3">
                                     <div class="col-12">
@@ -85,10 +95,7 @@
                                                         {{/each}}
                                                     </tbody>
                                                 </table>
-                                                <hr>
-                                                {{#if addPositionMSG}}
-                                                    <h5 class="text-primary text-sm">New job position added.</h5>
-                                                {{/if}}
+
                                             </div>
                                         </div>
                                     </div><!-- End Job Positions Table -->

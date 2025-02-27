@@ -25,7 +25,7 @@ async function getEmployeeEmails(companyName) {
       const emails = employers.map((employer) => employer.email); // Extract emails from the results
       return emails;
     } else {
-      console.log("No employers found for this company");
+      return;
     }
   } catch (err) {
     console.error("Error fetching employers:", err);
@@ -43,7 +43,6 @@ async function sendNotificationsToEmployers( //add better error handling
         createNotification(email, "employer", notification_type, msg)
       )
     );
-    console.log("Notifications sent successfully.");
   } catch (err) {
     console.error("Error sending notifications:", err);
   }
@@ -68,9 +67,10 @@ async function getResidentProfileInfo(residentID) {
     const unitTeam = await UnitTeam.find({ facility: resident.facility })
       .sort({ firstName: 1 })
       .lean();
-    const activities = await ActivityLog.find({
-      userID: res_id.toString(),
-    }).lean();
+    const activities = await ActivityLog.find({ userID: res_id.toString() })
+      .sort({ timestamp: -1 })
+      .limit(20)
+      .lean();
 
     return { resident, applications, unitTeam, activities, res_id };
   } catch (err) {

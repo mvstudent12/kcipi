@@ -11,9 +11,9 @@
 
                                 <h5 class="card-title">All Notifications <span>| Click to Mark as Read</span> </h5>
 
-                                {{#if allNotifications}}
+                                {{#if notifications}}
                                     <div class="list-group">
-                                        {{#each allNotifications}}
+                                        {{#each notifications}}
                                             <a href="#"
                                                 class="list-group-item list-group-item-action {{#unless this.isRead}}active{{/unless}} mb-1"
                                                 aria-current="true" data-id="{{this._id}}"

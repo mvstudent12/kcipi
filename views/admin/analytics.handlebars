@@ -16,13 +16,9 @@
             <div class="col-lg-12">
                 <div class="row">
 
-                    <div id="chart"></div>
+                    <div id="employmentChart"></div>
 
-                    <canvas id="resumeStatus"></canvas>
-
-
-
-
+                    <div id="resumeChart"></div>
 
 
 
@@ -40,68 +36,7 @@
 
 
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-{{!-- Resumes Chart --}}
-<script>
-    // Fetch the data from the server
-    fetch('/admin/chartData')
-        .then(response => response.json())
-        .then(data => {
 
-            // Prepare the chart data
-            const chartData = {
-                labels: ['Incomplete', 'Pending', 'Approved', 'Rejected'],
-                datasets: [{
-                    label: 'Resumes in Process',
-                    data: [
-                        data.incomplete,
-                        data.pending,
-                        data.approved,
-                        data.rejected
-                    ],
-                    backgroundColor: ['#FF6347', '#FFD700', '#32CD32', '#808080'],
-                    borderColor: ['#FF6347', '#FFD700', '#32CD32', '#808080'],
-                    borderWidth: 1
-                }]
-            };
-
-            // Create the chart
-            const ctx = document.getElementById('resumeStatus').getContext('2d');
-            new Chart(ctx, {
-                type: 'bar',
-                data: chartData,
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                font: {
-                                    size: 16 // Increase y-axis font size
-                                }
-                            },
-                        }, x: {
-                            ticks: {
-                                font: {
-                                    size: 16 // Increase x-axis font size
-                                }
-                            }
-                        }
-                    }, plugins: {
-                        legend: {
-                            labels: {
-                                font: {
-                                    size: 16 // Increase legend font size
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        })
-        .catch(error => {
-            console.error('Error fetching Resume data:', error);
-        });
-</script>
 
 {{!-- Employment Chart --}}
 <script>
@@ -208,10 +143,98 @@
                 }
             };
 
-            var chart = new ApexCharts(document.querySelector("#chart"), options);
+            var chart = new ApexCharts(document.querySelector("#employmentChart"), options);
             chart.render();
         }).catch(error => {
             console.error('Error fetching Employment data:', error);
+        });
+
+</script>
+
+{{!-- resume Chart --}}
+<script>
+    fetch('/admin/resumeData')
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+
+            let options = {
+                series: [
+                    {
+                        name: "Count",
+                        data: [
+                            data.incomplete,
+                            data.pending,
+                            data.approved,
+                            data.rejected
+                        ]
+                    }
+                ],
+                chart: {
+                    type: 'bar',
+                    height: 350,
+                    stacked: false
+                },
+                plotOptions: {
+                    bar: {
+                        horizontal: true,
+                        dataLabels: {
+                            total: {
+                                enabled: true,
+                                offsetX: 0,
+                                style: {
+                                    fontSize: '20px',
+                                    fontWeight: 600
+                                }
+                            }
+                        }
+                    }
+                },
+                stroke: {
+                    width: 1,
+                    colors: ['#fff']
+                },
+                title: {
+                    text: 'Resume Status Overview',
+                    style: {
+                        fontSize: '16px',
+                        fontWeight: 'bold'
+                    }
+                },
+                xaxis: {
+                    categories: ["Incomplete", "Pending", "Approved", "Rejected"],
+                    labels: {
+                        style: {
+                            fontSize: '16px'
+                        }
+                    }
+                },
+                yaxis: {
+                    title: {
+                        text: undefined
+                    }
+                },
+                tooltip: {
+                    y: {
+                        formatter: function (val) {
+                            return val;
+                        }
+                    }
+                },
+                fill: {
+                    opacity: 1
+                },
+                legend: {
+                    position: 'top',
+                    horizontalAlign: 'left',
+                    offsetX: 40
+                }
+            };
+
+            var chart = new ApexCharts(document.querySelector("#resumeChart"), options);
+            chart.render();
+        }).catch(error => {
+            console.error('Error fetching resume data:', error);
         });
 
 </script>

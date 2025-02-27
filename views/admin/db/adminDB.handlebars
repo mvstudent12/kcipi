@@ -108,6 +108,12 @@
                                             <p class="text-success text-center fst-italic mt-3">New Admin added
                                                 successfully.</p>
                                         {{/if}}
+                                        {{#if addErr}}
+                                            <hr>
+                                            <p class="text-danger text-center fst-italic mt-3">This admin
+                                                already
+                                                exists.</p>
+                                        {{/if}}
                                     </div>
                                 </div>
                             </div>
@@ -187,7 +193,7 @@
                                                         Email</label>
                                                     <div class="col-md-8 col-lg-8">
                                                         <input name="email" type="text" class="form-control" id="email"
-                                                            value="{{adminFound.email}}">
+                                                            value="{{adminFound.email}}" readonly>
                                                     </div>
                                                 </div>
 
@@ -217,12 +223,19 @@
                                                 successfully.
                                             </p>
                                         {{/if}}
+                                        {{#if deleteMsg}}
+                                            <hr>
+                                            <p class="text-danger text-center fst-italic mt-3">Admin
+                                                succesfully deleted.
+                                            </p>
+                                        {{/if}}
                                         {{#if saved}}
                                             <hr>
                                             <p class="text-success text-center fst-italic mt-3">Password successfully
                                                 reset.
                                             </p>
                                         {{/if}}
+
                                         {{#if savingError}}
                                             <hr>
                                             <p class="text-warning text-center fst-italic mt-3">There was an error in

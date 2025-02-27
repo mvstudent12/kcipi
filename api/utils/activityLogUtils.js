@@ -17,13 +17,14 @@ async function createActivityLog(userID, action, details) {
       approve_work_eligibility: "text-success",
       resume_approved: "text-success",
       resume_rejected: "text-danger",
-      submitted_resume: "text-success",
+      submitted_resume: "text-info",
       submitted_application: "text-success",
       resident_hired: "text-info",
       resident_terminated: "text-danger",
       application_rejected: "text-muted",
       interview_requested: "text-secondary",
-      termination_requested: "text-dark",
+      employment_requested: "text-success",
+      termination_requested: "text-danger",
       interview_scheduled: "text-primary",
       clearance_requested: "text-warning",
       clearance_approved: "text-success",
@@ -33,12 +34,16 @@ async function createActivityLog(userID, action, details) {
       edited_user: "text-warning",
       deleted_user: "text-danger",
       changed_password: "text-warning",
+      edited_position: "text-info",
+      added_position: "text-success",
+      deleted_position: "text-warning",
     };
 
     const activity = new ActivityLog({
       userID,
       action,
       details,
+      timestamp: new Date(),
       color: actionColorMap[action] || "text-success", // Default color if type is missing
     });
 

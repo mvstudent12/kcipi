@@ -31,11 +31,18 @@
                                         <div class="ps-3">
                                             <h6>0</h6>
                                         </div>
-                                    {{else}}
+                                    {{/if}}
+                                    {{#if (eq user.resume.status "approved")}}
                                         <div class="ps-3">
                                             <h6>{{countArrayItems jobs}}</h6>
                                         </div>
+                                    {{else}}
+                                        <div class="ps-3">
+                                            <h6>0</h6>
+                                        </div>
+
                                     {{/if}}
+
                                 </div>
                             </div>
                         </div>
@@ -119,40 +126,47 @@
                                     user.dateHired}}.</p>
                                     <p>You are not eligible to complete any applications while you are employed.</p>
                                 {{else}}
-                                    {{#if jobs}}
-                                        <table class="table table-borderless table-striped">
-                                            <thead>
-                                                <tr>
-
-                                                    <th scope="col">Company</th>
-                                                    <th scope="col">Position</th>
-                                                    <th scope="col">Pay</th>
-                                                    <th scope="col">Status</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {{#each jobs}}
-                                                    <tr>
-                                                        <th class="text-capitalize" scope="row"><a
-                                                                href="/resident/jobInfo/{{this._id}}">{{this.companyName}}</a>
-                                                        </th>
-
-                                                        <td class="text-capitalize"><a
-                                                                href="/resident/jobInfo/{{this._id}}"
-                                                                class="text-primary">{{this.position}}</a></td>
-                                                        <td class="text-capitalize">${{this.pay}}/hr</td>
-                                                        {{#if this.residentInApplicants}}
-                                                            <td><span class="badge bg-warning">Applied</span></td>
-                                                        {{else}}
-                                                            <td><span class="badge bg-success">Available</span></td>
-                                                        {{/if}}
-                                                    </tr>
-                                                {{/each}}
-                                            </tbody>
-                                        </table>
-                                    {{else}}
+                                    {{#if (eq user.resume.status "rejected")}}
                                         <p>There are no available jobs for you at this time.</p>
+                                    {{else}}
+                                        {{#if jobs}}
+                                            <table class="table table-borderless table-striped">
+                                                <thead>
+                                                    <tr>
+
+                                                        <th scope="col">Company</th>
+                                                        <th scope="col">Position</th>
+                                                        <th scope="col">Pay</th>
+                                                        <th scope="col">Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {{#each jobs}}
+                                                        <tr>
+                                                            <th class="text-capitalize" scope="row"><a
+                                                                    href="/resident/jobInfo/{{this._id}}">{{this.companyName}}</a>
+                                                            </th>
+
+                                                            <td class="text-capitalize"><a
+                                                                    href="/resident/jobInfo/{{this._id}}"
+                                                                    class="text-primary">{{this.position}}</a></td>
+                                                            <td class="text-capitalize">${{this.pay}}/hr</td>
+                                                            {{#if this.residentInApplicants}}
+                                                                <td><span class="badge bg-warning">Applied</span></td>
+                                                            {{else}}
+                                                                <td><span class="badge bg-success">Available</span></td>
+                                                            {{/if}}
+                                                        </tr>
+                                                    {{/each}}
+                                                </tbody>
+                                            </table>
+                                        {{else}}
+                                            <p>There are no available jobs for you at this time.</p>
+                                        {{/if}}
                                     {{/if}}
+
+
+
                                 {{/if}}
                             </div>
 
