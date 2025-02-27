@@ -1031,12 +1031,13 @@ module.exports = {
   //=============================
   //serves contact page for employers
   async contact(req, res) {
+        const { sentMsg } = req.query;
     try {
       const notifications = await getUserNotifications(
         req.session.user.email,
         req.session.user.role
       );
-      res.render("employer/contact", { user: req.session.user, notifications });
+      res.render("employer/contact", { user: req.session.user, notifications,sentMsg });
     } catch (err) {
       console.log(err);
       logger.warn("Error serving contact page: ", err);
@@ -1045,6 +1046,7 @@ module.exports = {
   },
   //serves help desk page for employers
   async helpDesk(req, res) {
+     const { sentMsg } = req.query;
     try {
       const notifications = await getUserNotifications(
         req.session.user.email,
@@ -1053,6 +1055,7 @@ module.exports = {
       res.render("employer/helpDesk", {
         user: req.session.user,
         notifications,
+        sentMsg
       });
     } catch (err) {
       console.log(err);

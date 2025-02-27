@@ -70,10 +70,6 @@ module.exports = {
     res.redirect("/resident");
   },
 
-  async thankYou(req, res) {
-    res.render("clearance/thankYou");
-  },
-
   //===============================================
   //======  Non-Resident Auth Routes    ===========
   //===============================================

@@ -78,6 +78,7 @@ module.exports = {
     }
   },
   async helpDesk(req, res) {
+    const { sentMsg } = req.query;
     try {
       const notifications = await getUserNotifications(
         req.session.user.email,
@@ -86,6 +87,7 @@ module.exports = {
       res.render("facility_management/helpDesk", {
         user: req.session.user,
         notifications,
+        sentMsg,
       });
     } catch (err) {
       console.log(err);
@@ -93,6 +95,7 @@ module.exports = {
     }
   },
   async contact(req, res) {
+    const { sentMsg } = req.query;
     try {
       const notifications = await getUserNotifications(
         req.session.user.email,
@@ -101,6 +104,7 @@ module.exports = {
       res.render("facility_management/contact", {
         user: req.session.user,
         notifications,
+        sentMsg,
       });
     } catch (err) {
       console.log(err);

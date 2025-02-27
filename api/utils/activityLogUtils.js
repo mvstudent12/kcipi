@@ -18,7 +18,7 @@ async function createActivityLog(userID, action, details) {
       resume_approved: "text-success",
       resume_rejected: "text-danger",
       submitted_resume: "text-info",
-      submitted_application: "text-success",
+      submitted_application: "text-info",
       resident_hired: "text-info",
       resident_terminated: "text-danger",
       application_rejected: "text-muted",

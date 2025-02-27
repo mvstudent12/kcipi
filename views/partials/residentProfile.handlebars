@@ -1672,106 +1672,6 @@
     </div>
 </div>
 
-{{!-- Approve Resident Work Eligibility Modal --}}
-{{!-- <div class="modal fade" id="approveResident" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form method="post" action="/clearance/approveEligibility/{{resident.residentID}}">
-                <div class="modal-header">
-                    <h5 class="modal-title">Approve Work Eligibility</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row mb-3">
-                        <legend class="col-form-label ">Eligibility Requirements:</legend>
-                        <div class="">
-
-
-                            <div class="form-check">
-                                <input required name="medCheck" class="form-check-input" type="checkbox"
-                                    id="gridCheck1">
-                                <label class="form-check-label" for="gridCheck1">
-                                    Medically cleared?
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input required name="EAICheck" class="form-check-input" type="checkbox"
-                                    id="gridCheck2">
-                                <label class="form-check-label" for="gridCheck2">
-                                    EAI cleared?
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input required name="classCheck" class="form-check-input" type="checkbox"
-                                    id="gridCheck3">
-                                <label class="form-check-label" for="gridCheck3">
-                                    Classification determined?
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input required name="sexOffenderCheck" class="form-check-input" type="checkbox"
-                                    id="gridCheck4">
-                                <label class="form-check-label" for="gridCheck4">
-                                    Sex-Offender status determined?
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input required name="victimServicesCheck" class="form-check-input" type="checkbox"
-                                    id="gridCheck5">
-                                <label class="form-check-label" for="gridCheck5">
-                                    Victim-Services cleared?
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer d-flex justify-content-between">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-success">Approve</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div> --}}
-
-{{!-- Reject Resident Work Eligibility Modal --}}
-{{!-- <div class="modal fade" id="rejectResident" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form method="post" action="/clearance/rejectEligibility/{{resident.residentID}}">
-                <div class="modal-header">
-                    <h5 class="modal-title">Restrict Work Eligibility</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row mb-3">
-                        <div class="col-sm-10">
-                            <select required name="rejectReason" id="rejectReason" class="form-select"
-                                aria-label="Rejection reason">
-                                <option selected value="">Select reason for restriction:
-                                </option>
-                                <option value="Classification Hold">Classification Hold
-                                </option>
-                                <option value="Facility Security">Facility Security</option>
-                                <option value="Sex Offender Hold">Sex Offender
-                                </option>
-                                <option value="Citizenship Issues">Citizenship Issues
-                                </option>
-                                <option value="Medical Restrictions">Medical Restrictions
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button id="" type="submit" class="btn btn-danger">Restrict</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div> --}}
-
 
 
 {{#each applications}}
@@ -1779,9 +1679,7 @@
     <div class="modal fade" id="{{this._id}}" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content p-2">
-
                 <div class="modal-header row">
-
                     <div class="col-6">
                         <h3 class="modal-title text-center text-capitalize">{{../resident.firstName}}
                             {{../resident.lastName}}
@@ -1806,11 +1704,9 @@
             Interview</button>
     </div>
                     {{/getInterview}}
-
                 </div>
 
                 <div class="modal-body">
-
                     <div class="row mb-2">
                         <div class="col-lg-4 col-md-4 label text-info">Resident ID:</div>
                         <div class="col-lg-8 col-md-8">{{../resident.residentID}}</div>

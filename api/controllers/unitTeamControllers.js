@@ -455,6 +455,7 @@ module.exports = {
   //===============================
 
   async helpDesk(req, res) {
+    const { sentMsg } = req.query;
     try {
       const notifications = await getUserNotifications(
         req.session.user.email,
@@ -463,6 +464,7 @@ module.exports = {
       res.render("unitTeam/helpDesk", {
         user: req.session.user,
         notifications,
+        sentMsg,
       });
     } catch (err) {
       console.log(err);
@@ -471,12 +473,17 @@ module.exports = {
   },
 
   async contact(req, res) {
+    const { sentMsg } = req.query;
     try {
       const notifications = await getUserNotifications(
         req.session.user.email,
         req.session.user.role
       );
-      res.render("unitTeam/contact", { user: req.session.user, notifications });
+      res.render("unitTeam/contact", {
+        user: req.session.user,
+        notifications,
+        sentMsg,
+      });
     } catch (err) {
       console.log(err);
       res.render("error/500");

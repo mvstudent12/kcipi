@@ -259,24 +259,27 @@ module.exports = {
     }
   },
   async helpDesk(req, res) {
+    const {sentMsg} = req.query
     const notifications = await getUserNotifications(
       req.session.user.email,
       req.session.user.role
     );
     try {
-      res.render("admin/helpDesk", { user: req.session.user, notifications });
+      res.render("admin/helpDesk", { user: req.session.user, notifications,sentMsg });
     } catch (err) {
       console.log("Error fetching help desk:", err);
       res.render("error/403");
     }
   },
   async contact(req, res) {
-    const notifications = await getUserNotifications(
-      req.session.user.email,
-      req.session.user.role
-    );
+    const { sentMsg } = req.query;
+
     try {
-      res.render("admin/contact", { user: req.session.user, notifications });
+          const notifications = await getUserNotifications(
+            req.session.user.email,
+            req.session.user.role
+          );
+      res.render("admin/contact", { user: req.session.user, notifications,sentMsg });
     } catch (err) {
       console.log("Error fetching contact page:", err);
       res.render("error/403");

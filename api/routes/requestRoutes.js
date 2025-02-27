@@ -30,7 +30,7 @@ requestRoutes.get(
 //============================
 requestRoutes.get("/thankYou", controller.thankYou);
 
-requestRoutes.post("/helpDesk", controller.helpDesk);
+requestRoutes.post("/requestHelp", controller.requestHelp);
 
 requestRoutes.post("/contact", controller.contact);
 
@@ -64,11 +64,11 @@ requestRoutes.get(
 );
 
 requestRoutes.get(
-  "/next_notes/:residentID/:email/:category",
+  "/next_notes/:residentID/:email/:dept",
   controller.next_notes
 );
 requestRoutes.get(
-  "/next_notify/:residentID/:email/:category",
+  "/next_notify/:residentID/:email/:dept",
   controller.next_notify
 );
 requestRoutes.post(

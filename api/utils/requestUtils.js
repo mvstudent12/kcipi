@@ -52,9 +52,24 @@ const mapDepartmentName = (dept) => {
       return dept; // If no match, return the original value
   }
 };
+
+const mapDepartmentNameReverse = (dept) => {
+  switch (dept) {
+    case "sexOffender":
+      return "Sex-Offender";
+    case "victimServices":
+      return "Victim-Services";
+    case "DW":
+      return "Deputy-Warden";
+    default:
+      return dept; // If no match, return the original value
+  }
+};
+
 module.exports = {
   getNameFromEmail,
   capitalize,
   getAllApplicantsByResidentID,
   mapDepartmentName,
+  mapDepartmentNameReverse,
 };

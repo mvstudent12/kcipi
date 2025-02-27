@@ -44,6 +44,7 @@ module.exports = {
       res.render("error/500");
     }
   },
+
   async recentActivities(req, res) {
     try {
       const notifications = await getUserNotifications(

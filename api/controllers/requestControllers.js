@@ -30,32 +30,49 @@ const {
   sendNotificationsToEmployers,
 } = require("../utils/clearanceUtils");
 
-const {
-  getNameFromEmail,
-  capitalize,
-  getAllApplicantsByResidentID,
-} = require("../utils/requestUtils");
+const { createActivityLog } = require("../utils/activityLogUtils");
 
-const { mapDepartmentName } = require("../utils/requestUtils.js");
+const { getNameFromEmail } = require("../utils/requestUtils");
+
+const {
+  mapDepartmentName,
+  mapDepartmentNameReverse,
+} = require("../utils/requestUtils.js");
 
 module.exports = {
   //===========================
-  //     All Notifications
+  //     Clearance Requests
   //===========================
 
-  //request clearance from Medical, eai etc through email
   async requestClearance(req, res) {
     let { recipient, comments } = req.body;
     let { residentID, dept } = req.params;
-    const sender = req.session.user.email;
+
     try {
-      const notifications = await getUserNotifications(
-        req.session.user.email,
-        req.session.user.role
-      );
+      const sender = req.session.user.email;
       const department = dept;
       dept = mapDepartmentName(dept);
+      const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
 
+      //change residents clearance status to show as pending
+      const resident = await Resident.findOneAndUpdate(
+        { residentID: residentID },
+        {
+          $set: {
+            [`${dept}Clearance.status`]: "pending",
+          },
+          $push: {
+            [`${dept}Clearance.notes`]: {
+              createdAt: new Date(),
+              createdBy: name,
+              note: `Clearance request sent to ${recipient}.`,
+            },
+          },
+        },
+        { new: true }
+      );
+
+      sendReviewEmail(resident, department, recipient, sender, comments);
       //send notification to facility_management
       if (dept == "DW" || dept == "Warden") {
         await createNotification(
@@ -74,46 +91,37 @@ module.exports = {
           `Clearance is requested for resident #${residentID}.`
         );
       }
-      const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
-      //change residents clearance status to show as pending
-      await Resident.updateOne(
-        { residentID: residentID },
-        {
-          $set: {
-            [`${dept}Clearance.status`]: "pending",
-          },
-          $push: {
-            [`${dept}Clearance.notes`]: {
-              createdAt: new Date(),
-              createdBy: name,
-              note: `Clearance request sent to ${recipient}.`,
-            },
-          },
-        }
+
+      // Log activity
+      await createActivityLog(
+        req.session.user._id.toString(),
+        "clearance_requested",
+        `Requested ${department} clearance for #${residentID}.`
       );
-      const resident = await Resident.findOne({ residentID }).lean();
 
-      sendReviewEmail(resident, department, recipient, sender, comments);
-
-      const activeTab = "clearance";
-      res.render(`${req.session.user.role}/profiles/residentProfile`, {
-        resident,
-        activeTab,
-        user: req.session.user,
-        notifications,
-      });
+      res.redirect(
+        `/clearance/residentProfile/${residentID}?activeTab=clearance`
+      );
     } catch (err) {
-      console.log(err);
+      console.log(
+        "An error occurred when trying to request clearance approval via email: ",
+        err
+      );
       res.render("error/500");
     }
   },
   async reviewClearance(req, res) {
+    let { activeTab } = req.query;
     let { residentID, email, dept } = req.params;
     try {
       dept = mapDepartmentName(dept);
       const resident = await Resident.findOne({ residentID }).lean();
 
-      const activeTab = "status";
+      resident[`${dept}Clearance`].notes.sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      );
+
+      if (!activeTab) activeTab = "status";
       res.render(`clearance/${dept}`, {
         resident,
         email,
@@ -124,24 +132,142 @@ module.exports = {
       res.render("error/500");
     }
   },
+  async approveClearance(req, res) {
+    const { residentID, email, dept } = req.params;
+    try {
+      const deptName = mapDepartmentNameReverse(dept);
+      const name = getNameFromEmail(email);
+
+      await Resident.updateOne(
+        { residentID: residentID },
+        {
+          $set: {
+            [`${dept}Clearance.status`]: "approved",
+          },
+          $push: {
+            [`${dept}Clearance.clearanceHistory`]: {
+              action: "approved",
+              performedBy: name,
+              reason: "Clearance approved. ✅",
+            },
+            [`${dept}Clearance.notes`]: {
+              createdAt: new Date(),
+              createdBy: name,
+              note: `Approved clearance. ✅`,
+            },
+          },
+        }
+      );
+      const resident = await Resident.findOne({ residentID }).lean();
+
+      //send notification to unit team
+      await createNotification(
+        resident.resume.unitTeam,
+        "unitTeam",
+        "clearance_approved",
+        `${deptName} clearance approved for resident #${residentID} by ${name}.`
+      );
+
+      res.redirect(
+        `/request/reviewClearance/${dept}/${residentID}/${email}?activeTab=status`
+      );
+    } catch (err) {
+      console.log("Error approving clearance from email link: ", err);
+      res.render("error/500");
+    }
+  },
+  async restrictClearance(req, res) {
+    let { residentID, email, dept } = req.params;
+
+    try {
+      const name = getNameFromEmail(email);
+      const deptName = mapDepartmentNameReverse(dept);
+
+      await Resident.updateOne(
+        { residentID: residentID },
+        {
+          $set: {
+            [`${dept}Clearance.status`]: "restricted",
+            "workEligibility.status": "restricted",
+          },
+          $push: {
+            [`${dept}Clearance.clearanceHistory`]: {
+              action: "restricted",
+              performedBy: name,
+              reason: "Restrictions added. ❌",
+            },
+            [`${dept}Clearance.notes`]: {
+              createdAt: new Date(),
+              createdBy: name,
+              note: `Restricted clearance. ❌`,
+            },
+          },
+        }
+      );
+
+      const resident = await Resident.findOne({ residentID }).lean();
+
+      //send notification to unit team
+      await createNotification(
+        resident.resume.unitTeam,
+        "unitTeam",
+        "clearance_denied",
+        `${deptName} clearance restricted for resident #${resident.residentID} by ${name}.`
+      );
+
+      res.redirect(
+        `/request/reviewClearance/${dept}/${residentID}/${email}?activeTab=status`
+      );
+    } catch (err) {
+      console.log(err);
+      res.render("error/500");
+    }
+  },
+  async saveNotes(req, res) {
+    let { residentID, email, dept } = req.params;
+    const { notes } = req.body;
+
+    try {
+      const name = getNameFromEmail(email);
+
+      await Resident.updateOne(
+        { residentID: residentID },
+        {
+          $push: {
+            [`${dept}Clearance.notes`]: {
+              createdAt: new Date(),
+              createdBy: name,
+              note: notes,
+            },
+          },
+        }
+      );
+      res.redirect(
+        `/request/reviewClearance/${dept}/${residentID}/${email}?activeTab=notes`
+      );
+    } catch (err) {
+      console.log(err);
+      res.render("error/500");
+    }
+  },
 
   async next_notes(req, res) {
-    const { residentID, email, category } = req.params;
+    const { residentID, email, dept } = req.params;
     try {
-      const resident = await Resident.findOne({ residentID }).lean();
-      const activeTab = "notes";
-      res.render(`clearance/${category}`, { resident, email, activeTab });
+      res.redirect(
+        `/request/reviewClearance/${dept}/${residentID}/${email}?activeTab=notes`
+      );
     } catch (err) {
       console.log(err);
       res.render("error/500");
     }
   },
   async next_notify(req, res) {
-    const { residentID, email, category } = req.params;
+    const { residentID, email, dept } = req.params;
     try {
-      const resident = await Resident.findOne({ residentID }).lean();
-      const activeTab = "notify";
-      res.render(`clearance/${category}`, { resident, email, activeTab });
+      res.redirect(
+        `/request/reviewClearance/${dept}/${residentID}/${email}?activeTab=notify`
+      );
     } catch (err) {
       console.log(err);
       res.render("error/500");
@@ -151,10 +277,11 @@ module.exports = {
   async sendNextNotification(req, res) {
     const { residentID, email } = req.params;
     let { category, recipientEmail, comments } = req.body;
+
     try {
       const resident = await Resident.findOne({ residentID }).lean();
 
-      let dept = mapDepartmentName(category);
+      const dept = mapDepartmentName(category);
 
       //send notification to facility_management
       if (dept == "DW" || dept == "Warden") {
@@ -182,7 +309,9 @@ module.exports = {
       res.render("error/500");
     }
   },
-
+  //===========================
+  //     Interview Requests
+  //===========================
   async reviewInterviewRequest(req, res) {
     const { interviewID } = req.params;
     try {
@@ -213,7 +342,6 @@ module.exports = {
       const resident = await Resident.findOne({
         residentID: residentID,
       }).lean();
-
       res.render("clearance/requestInterview", {
         interview,
         resident,
@@ -271,6 +399,9 @@ module.exports = {
       res.render("error/500");
     }
   },
+  //===========================
+  //     Hiring Requests
+  //===========================
   async reviewHireRequest(req, res) {
     const { jobID, res_id } = req.params;
     try {
@@ -304,6 +435,9 @@ module.exports = {
       res.render("error/500");
     }
   },
+  //===========================
+  //     Hiring Requests
+  //===========================
   async reviewTerminationRequest(req, res) {
     const { res_id } = req.params;
     try {
@@ -322,156 +456,17 @@ module.exports = {
       res.render("error/500");
     }
   },
-  //========================
-  //   Clearance Functions
-  //========================
-  async approveClearance(req, res) {
-    let { residentID, email, dept } = req.params;
-
-    try {
-      dept = mapDepartmentName(dept);
-      const name = getNameFromEmail(email);
-
-      await Resident.updateOne(
-        { residentID: residentID },
-        {
-          $set: {
-            [`${dept}Clearance.status`]: "approved",
-          },
-          $push: {
-            [`${dept}Clearance.clearanceHistory`]: {
-              action: "approved",
-              performedBy: name,
-              reason: "Clearance approved. ✅",
-            },
-            [`${dept}Clearance.notes`]: {
-              createdAt: new Date(),
-              createdBy: name,
-              note: `Approved clearance. ✅`,
-            },
-          },
-        }
-      );
-
-      const resident = await Resident.findOne({ residentID }).lean();
-      const notifyDept = dept;
-
-      //send notification to unit team of this interview request on their dashboard
-      await createNotification(
-        resident.resume.unitTeam,
-        "unitTeam",
-        "clearance_approved",
-        `${notifyDept} clearance approved for resident #${resident.residentID}.`
-      );
-
-      activeTab = "status";
-      res.render(`clearance/${dept}`, { resident, email, activeTab });
-    } catch (err) {
-      console.log(err);
-      res.render("error/500");
-    }
-  },
-  async restrictClearance(req, res) {
-    let { residentID, email, dept } = req.params;
-    try {
-      const name = getNameFromEmail(email);
-      const notifyDept = dept;
-
-      dept = mapDepartmentName(dept);
-
-      try {
-        await Resident.updateOne(
-          { residentID: residentID },
-          {
-            $set: {
-              [`${dept}Clearance.status`]: "restricted",
-              "workEligibility.status": "restricted",
-            },
-            $push: {
-              [`${dept}Clearance.clearanceHistory`]: {
-                action: "restricted",
-                performedBy: name,
-                reason: "Restrictions added. ❌",
-              },
-              [`${dept}Clearance.notes`]: {
-                createdAt: new Date(),
-                createdBy: name,
-                note: `Restricted clearance. ❌`,
-              },
-            },
-          }
-        );
-      } catch (err) {
-        console.log(err);
-        res.render("error/500");
-      }
-      const resident = await Resident.findOne({ residentID }).lean();
-      //send notification to unit team of this interview request on their dashboard
-      await createNotification(
-        resident.resume.unitTeam,
-        "unitTeam",
-        "clearance_denied",
-        `${notifyDept} clearance restricted for resident #${resident.residentID}.`
-      );
-      activeTab = "status";
-      res.render(`clearance/${dept}`, { resident, email, activeTab });
-    } catch (err) {
-      console.log(err);
-      res.render("error/500");
-    }
-  },
-  async saveNotes(req, res) {
-    let { residentID, email, dept } = req.params;
-    const { notes } = req.body;
-    try {
-      dept = mapDepartmentName(dept);
-      console.log(dept);
-
-      let name = getNameFromEmail(email);
-
-      if (!name) {
-        name = email;
-      }
-
-      try {
-        await Resident.updateOne(
-          { residentID: residentID },
-          {
-            $push: {
-              [`${dept}Clearance.notes`]: {
-                createdAt: new Date(),
-                createdBy: name,
-                note: notes,
-              },
-            },
-          }
-        );
-      } catch (err) {
-        console.log(err);
-        res.render("error/500");
-      }
-      const activeTab = "notes";
-      const resident = await Resident.findOne({ residentID }).lean();
-      res.render(`clearance/${dept}`, { resident, email, activeTab });
-    } catch (err) {
-      console.log(err);
-      res.render("error/500");
-    }
-  },
 
   //========================
   //   Help Desk
   //========================
-  async helpDesk(req, res) {
+
+  async requestHelp(req, res) {
     const { name, email, subject, message } = req.body;
     try {
       const recipient = "kcicodingdev@gmail.com"; //-->development only
       sendHelpDeskEmail(name, subject, email, message, recipient);
-      const sentMsg = true;
-      res.render(`${req.session.user.role}/helpDesk`, {
-        user: req.session.user,
-        sentMsg,
-      });
+      res.redirect(`/${req.session.user.role}/helpDesk?sentMsg=true`);
     } catch (err) {
       console.log(err);
       res.render("error/500");
@@ -485,11 +480,8 @@ module.exports = {
     try {
       const recipient = "kcicodingdev@gmail.com"; //-->development only
       sendContactEmail(name, subject, email, message, recipient);
-      const sentMsg = true;
-      res.render(`${req.session.user.role}/contact`, {
-        user: req.session.user,
-        sentMsg,
-      });
+
+      res.redirect(`/${req.session.user.role}/contact?sentMsg=true`);
     } catch (err) {
       res.render("error/500");
     }
