@@ -161,7 +161,10 @@ const findApplicantIDsAndCompanyName = async (IDs) => {
 };
 const createApplicantsReport = async (applicantData, selectedFields) => {
   try {
-    const applicantIDs = applicantData.map((item) => item.applicantID);
+    const residentIDs = applicantData.map(
+      (item) => item.applicantID.resident_id
+    );
+    console.log(residentIDs);
 
     const includeID = selectedFields.includes("_id");
     const fieldsToSelect = includeID
@@ -170,14 +173,14 @@ const createApplicantsReport = async (applicantData, selectedFields) => {
 
     // Find residents with only the selected fields
     const residents = await Resident.find(
-      { _id: { $in: applicantIDs }, isActive: true },
+      { _id: { $in: residentIDs }, isActive: true },
       fieldsToSelect.join(" ")
     ).lean();
 
     // Fetch dateApplied and companyName for each applicant
     const jobData = await Jobs.aggregate([
       { $unwind: "$applicants" }, // Flatten applicants array
-      { $match: { "applicants.resident_id": { $in: applicantIDs } } }, // Match applicant resident_id
+      { $match: { "applicants.resident_id": { $in: residentIDs } } }, // Match applicant resident_id
       {
         $project: {
           applicantID: "$applicants.resident_id",

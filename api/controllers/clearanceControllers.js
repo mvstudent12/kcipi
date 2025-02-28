@@ -329,8 +329,6 @@ module.exports = {
       //update resident workStatus
       const workStatus = await checkClearanceStatus(residentID);
 
-      console.log(workStatus);
-
       await Resident.updateOne(
         { residentID },
         {

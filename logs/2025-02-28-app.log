@@ -14,3 +14,9 @@
 {"level":"info","message":"User logged in: #4782635: sophia, clark","timestamp":"2025-02-28 07:26:30"}
 {"level":"info","message":"User logged in: alice.johnson@ks.gov","timestamp":"2025-02-28 08:26:11"}
 {"level":"info","message":"2025-02-28T14:26:11.480Z [INFO] : ::ffff:127.0.0.1 /login 200 441.945 ms","timestamp":"2025-02-28 08:26:11"}
+{"level":"info","message":"User logged in: alice.johnson@ks.gov","timestamp":"2025-02-28 10:30:59"}
+{"level":"info","message":"2025-02-28T16:30:59.155Z [INFO] : ::ffff:127.0.0.1 /login 200 187.820 ms","timestamp":"2025-02-28 10:30:59"}
+{"level":"info","message":"User logged in: #4872930: charlotte, adams","timestamp":"2025-02-28 10:31:12"}
+{"level":"info","message":"Resident logged out: #4872930: charlotte adams ","timestamp":"2025-02-28 10:40:45"}
+{"level":"info","message":"User logged in: #1029384: lily, garcia","timestamp":"2025-02-28 10:40:47"}
+{"level":"warn","message":"Error generating applicants report: ReferenceError: applicantIDs is not defined","timestamp":"2025-02-28 11:00:01"}

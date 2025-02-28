@@ -31,18 +31,18 @@
                                         <div class="ps-3">
                                             <h6>0</h6>
                                         </div>
-                                    {{/if}}
-                                    {{#if (eq user.resume.status "approved")}}
-                                        <div class="ps-3">
-                                            <h6>{{countArrayItems jobs}}</h6>
-                                        </div>
                                     {{else}}
-                                        <div class="ps-3">
-                                            <h6>0</h6>
-                                        </div>
+                                        {{#if (eq user.resume.status "approved")}}
+                                            <div class="ps-3">
+                                                <h6>{{countArrayItems jobs}}</h6>
+                                            </div>
+                                        {{else}}
+                                            <div class="ps-3">
+                                                <h6>0</h6>
+                                            </div>
 
+                                        {{/if}}
                                     {{/if}}
-
                                 </div>
                             </div>
                         </div>
