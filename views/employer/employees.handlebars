@@ -3,11 +3,11 @@
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Current Workforce</h1>
+        <h1>Current Workforce <span class="text-capitalize text-muted small">| {{user.companyName}}</span></h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item active"><a href="/employer/dashboard">Dashboard</a></li>
-                <li class="breadcrumb-item active">Current Workforce</li>
+                <li class="breadcrumb-item active">PI Employees</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -36,30 +36,30 @@
                                     </thead>
                                     <tbody>
                                         {{#each allEmployees}}
-                                        <tr>
-                                            <th scope="row">
-                                                <a
-                                                    href="/employer/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
-                                            </th>
-                                            <td class="text-capitalize">
-                                                <a
-                                                    href="/employer/residentProfile/{{this.residentID}}">{{this.facility}}</a>
-                                            </td>
-                                            <td class="text-capitalize">
-                                                <a href="/employer/residentProfile/{{this.residentID}}">{{this.firstName}}
-                                                    {{this.lastName}}</a>
-                                            </td>
-                                            <td class="text-capitalize">
-                                                <a href="/employer/residentProfile/{{this.residentID}}">{{formatDate
+                                            <tr>
+                                                <th scope="row">
+                                                    <a
+                                                        href="/employer/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
+                                                </th>
+                                                <td class="text-capitalize">
+                                                    <a
+                                                        href="/employer/residentProfile/{{this.residentID}}">{{this.facility}}</a>
+                                                </td>
+                                                <td class="text-capitalize">
+                                                    <a href="/employer/residentProfile/{{this.residentID}}">{{this.firstName}}
+                                                        {{this.lastName}}</a>
+                                                </td>
+                                                <td class="text-capitalize">
+                                                    <a href="/employer/residentProfile/{{this.residentID}}">{{formatDate
                                                     this.outDate}}</a>
-                                            </td>
-                                            <td class="text-capitalize">
-                                                <a
-                                                    href="/employer/residentProfile/{{this.residentID}}">{{this.unitTeam}}</a>
-                                            </td>
+                                                </td>
+                                                <td class="text-capitalize">
+                                                    <a
+                                                        href="/employer/residentProfile/{{this.residentID}}">{{this.unitTeam}}</a>
+                                                </td>
 
 
-                                        </tr>
+                                            </tr>
 
                                         {{/each}}
                                     </tbody>

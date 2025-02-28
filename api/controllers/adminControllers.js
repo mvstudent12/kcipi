@@ -259,13 +259,17 @@ module.exports = {
     }
   },
   async helpDesk(req, res) {
-    const {sentMsg} = req.query
+    const { sentMsg } = req.query;
     const notifications = await getUserNotifications(
       req.session.user.email,
       req.session.user.role
     );
     try {
-      res.render("admin/helpDesk", { user: req.session.user, notifications,sentMsg });
+      res.render("admin/helpDesk", {
+        user: req.session.user,
+        notifications,
+        sentMsg,
+      });
     } catch (err) {
       console.log("Error fetching help desk:", err);
       res.render("error/403");
@@ -275,11 +279,15 @@ module.exports = {
     const { sentMsg } = req.query;
 
     try {
-          const notifications = await getUserNotifications(
-            req.session.user.email,
-            req.session.user.role
-          );
-      res.render("admin/contact", { user: req.session.user, notifications,sentMsg });
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+      res.render("admin/contact", {
+        user: req.session.user,
+        notifications,
+        sentMsg,
+      });
     } catch (err) {
       console.log("Error fetching contact page:", err);
       res.render("error/403");
@@ -618,14 +626,22 @@ module.exports = {
         .sort({ lastName: 1 })
         .lean();
 
-      if (!activeTab) activeTab = "overview";
+      const employees = await Resident.find({
+        companyName: companyName,
+        isHired: true,
+        isActive: true,
+      })
+        .sort({ lastName: 1 })
+        .lean();
 
+      if (!activeTab) activeTab = "overview";
       res.render("admin/profiles/companyProfile", {
         user: req.session.user,
         notifications,
         company,
         activeTab,
         positions,
+        employees,
       });
     } catch (err) {
       console.log(err);

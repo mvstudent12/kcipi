@@ -104,7 +104,7 @@ module.exports = {
       }
     } catch (err) {
       console.log(err);
-      logger.warn("Error serving Employer Dashboard: ", err);
+      logger.warn("Error serving PI Contact Dashboard: ", err);
       res.render("error/500");
     }
   },
@@ -293,12 +293,12 @@ module.exports = {
   },
   //find position to edit
   async searchPosition(req, res) {
+    const { jobID } = req.body;
     try {
       const notifications = await getUserNotifications(
         req.session.user.email,
         req.session.user.role
       );
-      const { jobID } = req.body;
 
       const companyName = req.session.user.companyName;
       const company = await Company.findOne({
@@ -1031,13 +1031,17 @@ module.exports = {
   //=============================
   //serves contact page for employers
   async contact(req, res) {
-        const { sentMsg } = req.query;
+    const { sentMsg } = req.query;
     try {
       const notifications = await getUserNotifications(
         req.session.user.email,
         req.session.user.role
       );
-      res.render("employer/contact", { user: req.session.user, notifications,sentMsg });
+      res.render("employer/contact", {
+        user: req.session.user,
+        notifications,
+        sentMsg,
+      });
     } catch (err) {
       console.log(err);
       logger.warn("Error serving contact page: ", err);
@@ -1046,7 +1050,7 @@ module.exports = {
   },
   //serves help desk page for employers
   async helpDesk(req, res) {
-     const { sentMsg } = req.query;
+    const { sentMsg } = req.query;
     try {
       const notifications = await getUserNotifications(
         req.session.user.email,
@@ -1055,7 +1059,7 @@ module.exports = {
       res.render("employer/helpDesk", {
         user: req.session.user,
         notifications,
-        sentMsg
+        sentMsg,
       });
     } catch (err) {
       console.log(err);

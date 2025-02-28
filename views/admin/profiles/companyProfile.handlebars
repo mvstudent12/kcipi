@@ -43,6 +43,10 @@
                                 <button class="nav-link {{#if (eq activeTab 'addPosition')}}active{{/if}}"
                                     data-bs-toggle="tab" data-bs-target="#add-position">Add Position</button>
                             </li>
+                            <li class="nav-item">
+                                <button class="nav-link {{#if (eq activeTab 'workforce')}}active{{/if}}"
+                                    data-bs-toggle="tab" data-bs-target="#workforce">Workforce</button>
+                            </li>
                         </ul>
 
                         <div class="tab-content pt-2">
@@ -200,6 +204,60 @@
                                         <button type="submit" class="btn btn-primary mx-2">Add Position</button>
                                     </div>
                                 </form>
+                            </div>
+
+                            {{!-- workforce tab --}}
+                            <div class="tab-pane fade {{#if (eq activeTab 'workforce')}}show active{{/if}} workforce pt-3"
+                                id="workforce">
+                                <!-- workforce Table -->
+
+                                <div class="col-12">
+                                    <div class="card recent-sales overflow-auto">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Workforce <span>| PI Employees</span></h5>
+                                            <table class="table table-borderless table-striped datatable">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">ID #</th>
+                                                        <th scope="col">Facility</th>
+                                                        <th scope="col">Name</th>
+                                                        <th scope="col">Out Date</th>
+                                                        <th scope="col">Date Hired</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {{#each employees}}
+                                                        <tr>
+                                                            <th scope="row">
+                                                                <a
+                                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
+                                                            </th>
+                                                            <td class="text-capitalize">
+                                                                <a
+                                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.facility}}</a>
+                                                            </td>
+                                                            <td class="text-capitalize">
+                                                                <a
+                                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.firstName}}
+                                                                    {{this.lastName}}</a>
+                                                            </td>
+                                                            <td class="text-capitalize">
+                                                                <a
+                                                                    href="/clearance/residentProfile/{{this.residentID}}">{{formatDate
+                                                                        this.outDate}}</a>
+                                                            </td>
+                                                            <td class="text-capitalize">
+                                                                <a
+                                                                    href="/clearance/residentProfile/{{this.residentID}}">{{formatDate this.dateHired}}</a>
+                                                            </td>
+                                                        </tr>
+
+                                                    {{/each}}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 

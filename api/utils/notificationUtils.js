@@ -50,6 +50,22 @@ async function createNotification(email, role, type, message, data = {}) {
   }
 }
 
+// Function to fetch user notifications by email and role
+async function getAllUserNotifications(email, role) {
+  try {
+    return await Notification.find({
+      recipient: email,
+      role: role,
+    })
+      .lean()
+      .sort({ createdAt: -1 })
+      .limit(20); // Limit the result to 20 notifications;
+  } catch (error) {
+    console.error("Error fetching user notifications:", error);
+    throw new Error("Failed to fetch notifications");
+  }
+}
+
 // Function to fetch unread notifications for a user by email and role
 async function getUserNotifications(email, role) {
   try {
@@ -70,21 +86,17 @@ async function getUserNotifications(email, role) {
 // Function to mark a single notification as read
 async function notificationIsRead(notificationId) {
   try {
-    console.log(notificationId);
-    const notification = await Notification.findByIdAndUpdate(
-      notificationId,
-      { $set: { isRead: true } },
-      { new: true }
-    );
-
-    console.log(notification);
+    return await Notification.findByIdAndUpdate(notificationId, {
+      isRead: true,
+    });
   } catch (error) {
     console.error("Error marking notification as read:", error);
-    throw new Error("Failed to mark notification as read from server");
+    throw new Error("Failed to mark notification as read");
   }
 }
 
 module.exports = {
+  getAllUserNotifications,
   getUserNotifications,
   createNotification,
   notificationIsRead,

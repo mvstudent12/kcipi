@@ -78,7 +78,7 @@ app.use(
 
 //serves static assets
 // ##Serve static files first, so they don't trigger session checks or redirects
-app.use(express.static("./app"));
+app.use(express.static("./app", { maxage: "1d" }));
 
 //initializes cookie parser
 const cookieParser = require("cookie-parser");

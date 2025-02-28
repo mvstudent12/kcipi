@@ -59,3 +59,4 @@
 {"level":"info","message":"2025-02-27T18:48:39.765Z [INFO] : ::ffff:127.0.0.1 /login 200 183.687 ms","timestamp":"2025-02-27 12:48:39"}
 {"level":"info","message":"User logged in: kari.johnson@ks.gov","timestamp":"2025-02-27 13:13:48"}
 {"level":"info","message":"2025-02-27T19:13:48.134Z [INFO] : ::ffff:127.0.0.1 /login 200 196.869 ms","timestamp":"2025-02-27 13:13:48"}
+{"level":"info","message":"2025-02-27T19:59:05.666Z [INFO] : ::ffff:127.0.0.1 /markAsRead/67c0c40472b607f479b3c1b2 500 92.887 ms","timestamp":"2025-02-27 13:59:05"}

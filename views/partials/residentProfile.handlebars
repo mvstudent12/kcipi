@@ -68,6 +68,14 @@
                                         <div class="text-center pt-3">
                                             <p class="text-primary">This resident needs their resume reviewed.</p>
                                         </div>
+                                    {{else}}
+                                        {{#if (eq resident.workEligibility.status "none")}}
+                                            <div class="text-center">
+                                                <p class="text-primary">This resident needs to be reviewed for
+                                                    clearance.
+                                                </p>
+                                            </div>
+                                        {{/if}}
                                     {{/unless}}
 
                                     {{#if (eq resident.workEligibility.status "restricted")}}
@@ -79,13 +87,6 @@
                                     {{#if (eq resident.workEligibility.status "pending")}}
                                         <div class="text-center">
                                             <p class="text-primary">This resident is in the clearance process.</p>
-                                        </div>
-                                    {{/if}}
-
-                                    {{#if (eq resident.workEligibility.status "none")}}
-                                        <div class="text-center">
-                                            <p class="text-primary">This resident needs to be reviewed for clearance.
-                                            </p>
                                         </div>
                                     {{/if}}
 
@@ -764,6 +765,18 @@
                                                 to work due to restrictions.</p>
                                         </div>
                                     {{/if}}
+                                    {{#if (eq resident.workEligibility.status "pending")}}
+                                        <div class="text-center">
+                                            <p class="text-primary">This resident needs to be reviewed for clearance.
+                                            </p>
+                                        </div>
+                                    {{/if}}
+                                    {{#if (eq resident.workEligibility.status "none")}}
+                                        <div class="text-center">
+                                            <p class="text-primary">This resident needs to be reviewed for clearance.
+                                            </p>
+                                        </div>
+                                    {{/if}}
                                     {{#if (eq resident.resume.status "approved")}}
 
                                         <h5 class="card-title">Clearance Status</h5>
@@ -1158,11 +1171,20 @@
                                                 data-bs-target="#terminate">
                                                 Terminate Employment</button>
                                         {{else}}
+                                            {{#if resident.restrictionReason}}
+                                                <div class="text-center">
+                                                    <span class="text-danger">{{resident.restrictionReason}}
+                                                    </span>
+                                                </div>
 
-                                            <div class="text-center">
-                                                <span class="text-primary">This resident has completed no applications.
-                                                </span>
-                                            </div>
+                                            {{else}}
+
+                                                <div class="text-center">
+                                                    <span class="text-primary">This resident has completed no
+                                                        applications.
+                                                    </span>
+                                                </div>
+                                            {{/if}}
                                         {{/if}}
                                     {{/if}}
                                 </div>
@@ -1903,37 +1925,3 @@
 
 
 <script type="text/javascript" src="/../assets/js/residentApprovalForm.js"></script>
-
-
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-
-        const clearanceValues = document.querySelectorAll('.clearanceCheck')
-
-
-
-        // Function to check if all clearances are "true"
-        function checkClearances() {
-            let allApproved = true;
-
-            clearanceValues.forEach((element) => {
-                const value = element.textContent.trim(); // Get the text value of the element
-                if (value !== "approved") {
-                    allApproved = false; // If any value is not "true", set allApproved to false
-                }
-            });
-
-            // Show or hide the button based on the clearance check
-            const approveClearance = document.getElementById("approveClearance");
-            if (allApproved) {
-                approveClearance.style.display = "block"; // Show the button
-            } else {
-                approveClearance.style.display = "none"; // Hide the button
-            }
-        }
-
-        // Run the check initially
-        checkClearances();
-    });
-</script>

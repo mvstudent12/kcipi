@@ -171,7 +171,7 @@ module.exports = {
   //logs out non resident users
   async logOut(req, res) {
     // Log user logout
-    logger.info(`Non-Resident logged out: ${req.session.user.email}`);
+    logger.info(`User logged out: ${req.session.user.email}`);
     req.session.destroy((err) => {
       if (err) {
         logger.warn("Failed to logout: " + err);

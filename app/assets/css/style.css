@@ -1271,3 +1271,13 @@ h6 {
 .first-letter::first-letter {
   text-transform: uppercase;
 }
+
+.avatar {
+  max-height: 36px;
+  background-image: url("../img/avatar.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 50%; /* Makes it a circle */
+  display: inline-block;
+}

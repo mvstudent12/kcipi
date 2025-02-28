@@ -12,55 +12,12 @@
 
     <nav class="header-nav ms-auto">
         <ul class="d-flex align-items-center">
-            <li class="nav-item dropdown">
 
-                <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-                    <i class="bi bi-bell"></i>
-                    {{#if notifications}}
-                        <span class="badge bg-primary badge-number">{{countArrayItems notifications}}</span>
-                    {{/if}}
-                </a><!-- End Notification Icon -->
-
-                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications overflow-auto"
-                    style="max-height: 400px;">
-                    <li class="dropdown-header">
-                        You have {{countArrayItems notifications}} new
-                        {{#if (eq (countArrayItems notifications) 1)}}notification{{else}}notifications{{/if}}
-                            <a href="/notification/notifications"><span
-                                    class="badge rounded-pill bg-primary p-2 ms-2">View
-                                    all</span></a>
-                    </li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-
-                    {{#each notifications}}
-                        {{#unless this.isRead}}
-                            <li class="notification-item">
-                                <i class="bi {{this.icon}}"></i>
-                                <div>
-                                    {{!-- <h4>Lorem Ipsum</h4> --}}
-                                    <p>{{this.message}}</p>
-                                    {{!-- <p>30 min. ago</p> --}}
-                                </div>
-                            </li>
-
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                        {{/unless}}
-                    {{/each}}
-                    <li class="dropdown-footer">
-                        <a href="/notification/notifications">Show all notifications</a>
-                    </li>
-
-                </ul><!-- End Notification Dropdown Items -->
-
-            </li><!-- End Notification Nav -->
             <li class="nav-item dropdown pe-3">
 
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
                     <img src="/assets/img/avatar.png" alt="Profile" class="rounded-circle">
+                    {{!-- <div class="avatar"></div> --}}
                     <span class="d-none d-md-block dropdown-toggle ps-2 text-capitalize">{{user.firstName}}
                         {{user.lastName}}</span>
                 </a><!-- End Profile Image Icon -->
@@ -106,12 +63,7 @@
                 <span>Dashboard</span>
             </a>
         </li><!-- End Dashboard Nav -->
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="/notification/notifications">
-                <i class="bi bi-bell"></i>
-                <span>Notifications</span>
-            </a>
-        </li>
+
         <li class="nav-item">
             <a class="nav-link collapsed" href="/admin/manageClearance">
                 <i class="bi bi-person-square"></i>

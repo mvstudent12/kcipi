@@ -123,7 +123,7 @@ const residentSchema = new Schema({
     },
     default: {}, // Ensures the workEligibility object always exists
   },
-
+  restrictionReason: { type: String, default: "" },
   isHired: { type: Boolean, default: false },
   dateHired: { type: Date },
   companyName: { type: String, lowercase: true, default: "" },

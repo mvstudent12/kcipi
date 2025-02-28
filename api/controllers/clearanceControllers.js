@@ -294,12 +294,13 @@ module.exports = {
           $set: {
             [`${dept}Clearance.status`]: "restricted",
             "workEligibility.status": "restricted",
+            restrictionReason: `This resident has ${category} restrictions.`,
           },
           $push: {
             [`${dept}Clearance.clearanceHistory`]: {
               action: "restricted",
               performedBy: name,
-              reason: "Clearance restricted",
+              reason: "Clearance restricted.",
             },
             [`${dept}Clearance.notes`]: {
               createdAt: new Date(),
@@ -323,6 +324,7 @@ module.exports = {
 
       //update resident workStatus
       const workStatus = await checkClearanceStatus(residentID);
+
       await Resident.updateOne(
         { residentID },
         {
@@ -646,48 +648,124 @@ module.exports = {
     const { res_id } = req.params;
     const { terminationReason, workRestriction, notes } = req.body;
     try {
-      const resInfo = await Resident.findById(res_id).lean();
-
-      const dateHired = resInfo.dateHired;
-      const companyName = resInfo.companyName;
+      const resident = await Resident.findById(res_id).lean();
+      const dateHired = resident.dateHired;
+      const companyName = resident.companyName;
 
       const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
 
-      const updateData = {
-        $set: {
-          isHired: false,
-          companyName: "",
-          dateHired: null,
-          "workEligibility.status": workRestriction,
-        },
-      };
-
-      // Construct the workHistory object
-      const workHistoryEntry = {
-        companyName: companyName,
-        startDate: dateHired ? new Date(dateHired) : null,
-        endDate: new Date(),
-        reasonForLeaving: terminationReason || "",
-      };
-
-      // If notes exist, add them as an array inside workHistory
-      if (notes) {
-        workHistoryEntry.note = {
-          createdAt: new Date(),
-          createdBy: name,
-          note: notes,
+      if (workRestriction === "restricted") {
+        const updateData = {
+          $set: {
+            isHired: false,
+            companyName: "",
+            dateHired: null,
+            "workEligibility.status": "restricted",
+            restrictionReason: `Resident is restricted from work due to termination for ${terminationReason}.`,
+            "MedicalClearance.status": "restricted",
+            "EAIClearance.status": "restricted",
+            "ClassificationClearance.status": "restricted",
+            "DWClearance.status": "restricted",
+            "WardenClearance.status": "restricted",
+            "sexOffenderClearance.status": "restricted",
+            "victimServicesClearance.status": "restricted",
+          },
+          $push: {
+            "MedicalClearance.notes": {
+              createdAt: new Date(),
+              createdBy: name,
+              note: `Resident restricted due to termination for: ${terminationReason}. ❌`,
+            },
+            "EAIClearance.notes": {
+              createdAt: new Date(),
+              createdBy: name,
+              note: `Resident restricted due to termination for: ${terminationReason}. ❌`,
+            },
+            "ClassificationClearance.notes": {
+              createdAt: new Date(),
+              createdBy: name,
+              note: `Resident restricted due to termination for: ${terminationReason}. ❌`,
+            },
+            "DWClearance.notes": {
+              createdAt: new Date(),
+              createdBy: name,
+              note: `Resident restricted due to termination for: ${terminationReason}. ❌`,
+            },
+            "WardenClearance.notes": {
+              createdAt: new Date(),
+              createdBy: name,
+              note: `Resident restricted due to termination for: ${terminationReason}. ❌`,
+            },
+            "sexOffenderClearance.notes": {
+              createdAt: new Date(),
+              createdBy: name,
+              note: `Resident restricted due to termination for: ${terminationReason}. ❌`,
+            },
+            "victimServicesClearance.notes": {
+              createdAt: new Date(),
+              createdBy: name,
+              note: `Resident restricted due to termination for: ${terminationReason}. ❌`,
+            },
+          },
         };
+
+        // Construct the workHistory object
+        const workHistoryEntry = {
+          companyName: companyName,
+          startDate: dateHired ? new Date(dateHired) : null,
+          endDate: new Date(),
+          reasonForLeaving: terminationReason || "",
+        };
+
+        // If notes exist, add them as an array inside workHistory
+        if (notes) {
+          workHistoryEntry.note = {
+            createdAt: new Date(),
+            createdBy: name,
+            note: notes,
+          };
+        }
+
+        // Add workHistory entry to the $push operation
+        updateData.$push.workHistory = workHistoryEntry;
+
+        // Perform the update
+        await Resident.findOneAndUpdate({ _id: res_id }, updateData, {
+          new: true,
+        });
+      } else {
+        const updateData = {
+          $set: {
+            isHired: false,
+            companyName: "",
+            dateHired: null,
+            "workEligibility.status": "approved",
+          },
+        };
+
+        // Construct the workHistory object
+        const workHistoryEntry = {
+          companyName: companyName,
+          startDate: dateHired ? new Date(dateHired) : null,
+          endDate: new Date(),
+          reasonForLeaving: terminationReason || "",
+        };
+
+        // If notes exist, add them as an array inside workHistory
+        if (notes) {
+          workHistoryEntry.note = {
+            createdAt: new Date(),
+            createdBy: name,
+            note: notes,
+          };
+        }
+
+        // Push the workHistory entry into the array
+        updateData.$push = { workHistory: workHistoryEntry };
+
+        // Perform the update
+        await Resident.findOneAndUpdate({ _id: res_id }, updateData);
       }
-
-      // Push the workHistory entry into the array
-      updateData.$push = { workHistory: workHistoryEntry };
-
-      // Perform the update
-      const resident = await Resident.findOneAndUpdate(
-        { _id: res_id },
-        updateData,
-        { new: true }
-      );
 
       const residentID = resident.residentID;
 

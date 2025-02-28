@@ -1,15 +1,6 @@
-const Resident = require("../models/Resident");
-const Jobs = require("../models/Jobs");
-const ActivityLog = require("../models/ActivityLog");
-
-const {
-  getEmployeeEmails,
-  sendNotificationsToEmployers,
-  getResidentProfileInfo,
-} = require("../utils/clearanceUtils");
-
 const {
   getUserNotifications,
+  getAllUserNotifications,
   notificationIsRead,
 } = require("../utils/notificationUtils");
 
@@ -20,11 +11,15 @@ module.exports = {
         req.session.user.email,
         req.session.user.role
       );
-      console.log(notifications);
+      const allNotifications = await getAllUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
 
       res.render(`${req.session.user.role}/notifications`, {
         user: req.session.user,
         notifications,
+        allNotifications,
       });
     } catch (err) {
       console.log(err);
@@ -37,7 +32,11 @@ module.exports = {
       const { notificationId } = req.params;
 
       await notificationIsRead(notificationId);
-      res.status(200).send("Notification marked as read");
+      console.log("here i am");
+      res.status(200).json({
+        success: true,
+        message: "Notification marked as read",
+      });
     } catch (error) {
       console.error("Error marking notification as read:", error);
       res.status(500).send("Failed to mark notification as read");
