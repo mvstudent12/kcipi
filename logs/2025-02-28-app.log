@@ -12,3 +12,5 @@
 {"level":"info","message":"User logged in: alice.johnson@ks.gov","timestamp":"2025-02-28 06:51:36"}
 {"level":"info","message":"2025-02-28T12:51:36.501Z [INFO] : ::1 /login 200 186.185 ms","timestamp":"2025-02-28 06:51:36"}
 {"level":"info","message":"User logged in: #4782635: sophia, clark","timestamp":"2025-02-28 07:26:30"}
+{"level":"info","message":"User logged in: alice.johnson@ks.gov","timestamp":"2025-02-28 08:26:11"}
+{"level":"info","message":"2025-02-28T14:26:11.480Z [INFO] : ::ffff:127.0.0.1 /login 200 441.945 ms","timestamp":"2025-02-28 08:26:11"}

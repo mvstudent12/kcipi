@@ -91,42 +91,46 @@ const checkClearanceStatus = async (residentID) => {
 
   try {
     const resident = await Resident.findOne({ residentID }).lean();
-
     if (!resident) {
       throw new Error("Resident not found");
     }
 
-    let restrictedFound = false;
-    let pendingFound = false;
-    let allApproved = true;
+    let approvedCount = 0;
+    let pendingCount = 0;
+    let restrictedCount = 0;
+    let noneCount = 0;
+    let totalCount = deptList.length;
 
-    // Loop through each department to check their clearance status
+    // Loop through each department to count status occurrences
     for (const dept of deptList) {
-      const status = resident[`${dept}Clearance`]?.status;
+      const status = resident[`${dept}Clearance`]?.status || "none"; // Default to "none" if missing
 
-      if (status === "restricted") {
-        restrictedFound = true;
-        break; // No need to continue if we find "restricted"
+      if (status === "approved") {
+        approvedCount++;
+      } else if (status === "restricted") {
+        restrictedCount++;
       } else if (status === "pending") {
-        pendingFound = true;
-      } else if (status !== "approved") {
-        allApproved = false; // If it's neither "approved" nor "restricted" nor "pending"
+        pendingCount++;
+      } else {
+        noneCount++;
       }
     }
 
-    // Return based on the findings
-    if (restrictedFound) {
-      return "restricted";
-    } else if (pendingFound) {
-      return "pending";
-    } else if (allApproved) {
-      return "approved";
+    // Determine final status based on counts
+    if (restrictedCount > 0) {
+      return "restricted"; // If any department is restricted
+    } else if (approvedCount === totalCount) {
+      return "approved"; // If all departments are approved
+    } else if (pendingCount > 0 && restrictedCount === 0) {
+      return "pending"; // If at least one is pending but none are restricted
+    } else if (approvedCount > 0 && (noneCount > 0 || pendingCount > 0)) {
+      return "pending"; // If at least one is approved but the rest are none or pending
     } else {
-      return "none"; // Handle any other cases where it's not approved or pending
+      return "none"; // Default case if all are none
     }
   } catch (error) {
     console.error("Error checking clearances:", error);
-    return "error"; // In case of error, return an error status
+    return "error"; // Return "error" if an exception occurs
   }
 };
 

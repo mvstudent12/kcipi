@@ -281,7 +281,11 @@ module.exports = {
             note: comments,
           };
         }
-        await Resident.updateOne({ residentID: residentID }, updateData);
+        const resident = await Resident.findOneAndUpdate(
+          { residentID: residentID },
+          updateData,
+          { new: true }
+        );
       } else if (clearance === "false") {
         //is clearance is denied
         await createActivityLog(
@@ -324,6 +328,8 @@ module.exports = {
 
       //update resident workStatus
       const workStatus = await checkClearanceStatus(residentID);
+
+      console.log(workStatus);
 
       await Resident.updateOne(
         { residentID },
