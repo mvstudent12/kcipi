@@ -28,6 +28,7 @@ const {
 const {
   getEmployeeEmails,
   sendNotificationsToEmployers,
+  checkClearanceStatus,
 } = require("../utils/clearanceUtils");
 
 const { createActivityLog } = require("../utils/activityLogUtils");
@@ -79,7 +80,8 @@ module.exports = {
           recipient,
           "facility_management",
           "clearance_requested",
-          `Clearance is requested for resident #${residentID}.`
+          `Clearance is requested for resident #${residentID}.`,
+          `/clearance/residentProfile/${resident.residentID}?activeTab=clearance`
         );
       }
       //send notifiaction to classification
@@ -88,7 +90,8 @@ module.exports = {
           recipient,
           "classification",
           "clearance_requested",
-          `Clearance is requested for resident #${residentID}.`
+          `Clearance is requested for resident #${residentID}.`,
+          `/clearance/residentProfile/${resident.residentID}?activeTab=clearance`
         );
       }
 
@@ -165,7 +168,19 @@ module.exports = {
         resident.resume.unitTeam,
         "unitTeam",
         "clearance_approved",
-        `${deptName} clearance approved for resident #${residentID} by ${name}.`
+        `${deptName} clearance approved for resident #${residentID} by ${name}.`,
+        `/clearance/residentProfile/${resident.residentID}?activeTab=clearance`
+      );
+
+      const workStatus = await checkClearanceStatus(residentID);
+
+      await Resident.findOneAndUpdate(
+        { residentID },
+        {
+          $set: {
+            "workEligibility.status": workStatus,
+          },
+        }
       );
 
       res.redirect(
@@ -212,7 +227,19 @@ module.exports = {
         resident.resume.unitTeam,
         "unitTeam",
         "clearance_denied",
-        `${deptName} clearance restricted for resident #${resident.residentID} by ${name}.`
+        `${deptName} clearance restricted for resident #${resident.residentID} by ${name}.`,
+        `/clearance/residentProfile/${resident.residentID}?activeTab=clearance`
+      );
+
+      const workStatus = await checkClearanceStatus(residentID);
+
+      await Resident.findOneAndUpdate(
+        { residentID },
+        {
+          $set: {
+            "workEligibility.status": workStatus,
+          },
+        }
       );
 
       res.redirect(
@@ -289,7 +316,8 @@ module.exports = {
           recipientEmail,
           "facility_management",
           "clearance_requested",
-          `Clearance is requested for resident #${residentID}.`
+          `Clearance is requested for resident #${residentID}.`,
+          `/clearance/residentProfile/${resident.residentID}?activeTab=clearance`
         );
       }
       //send notifiaction to classification
@@ -298,7 +326,8 @@ module.exports = {
           recipientEmail,
           "classification",
           "clearance_requested",
-          `Clearance is requested for resident #${residentID}.`
+          `Clearance is requested for resident #${residentID}.`,
+          `/clearance/residentProfile/${resident.residentID}?activeTab=clearance`
         );
       }
 
@@ -312,8 +341,10 @@ module.exports = {
   //===========================
   //     Interview Requests
   //===========================
+  //review interview from email
   async reviewInterviewRequest(req, res) {
     const { interviewID } = req.params;
+    const { applicationID } = req.params;
     try {
       let interview = await Jobs.aggregate([
         // Unwind the interviews array to make each interview a separate document
@@ -350,7 +381,8 @@ module.exports = {
       console.log(err);
       res.render("error/500");
     }
-  }, //schedule interview from email notification
+  },
+  //schedule interview from email notification
   async scheduleInterview(req, res) {
     const { interviewID, jobID } = req.params;
     const { date, time, instructions, residentID } = req.body;
@@ -388,7 +420,8 @@ module.exports = {
       await sendNotificationsToEmployers(
         employerEmails,
         "interview_scheduled",
-        `New interview scheduled for resident #${resident.residentID}.`
+        `New interview scheduled for resident #${resident.residentID}.`,
+        `/employer/residentProfile/${resident.residentID}`
       );
       res.render(`clearance/thankYou`, {
         user: req.session.user,
@@ -403,20 +436,19 @@ module.exports = {
   //     Hiring Requests
   //===========================
   async reviewHireRequest(req, res) {
-    const { jobID, res_id } = req.params;
+    const { applicationID, res_id } = req.params;
     try {
       let application = await Jobs.findOne(
-        {
-          _id: jobID, // Match the job by jobID
-          "applicants.resident_id": res_id, // Match the applicant by resident_id
-        },
+        { "applicants._id": applicationID },
         { "applicants.$": 1 } // Return the matched application from the applicants array
       ).lean(); // Optional, if you prefer working with a plain JavaScript object
 
       // If found, application will contain the job with the specific applicant data
-      application = application.applicants[0];
+      // application = application.applicants[0];
 
-      const job = await Jobs.findById({ _id: jobID }).lean();
+      const job = await Jobs.findOne({
+        "applicants._id": applicationID,
+      }).lean();
 
       const resident = await Resident.findById({ _id: res_id }).lean();
       const email = resident.resume.unitTeam;

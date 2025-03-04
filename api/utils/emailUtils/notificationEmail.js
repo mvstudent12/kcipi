@@ -117,7 +117,7 @@ const sendRequestInterviewEmail = async (
   companyName,
   recipient,
   sender,
-  interviewID
+  applicationID
 ) => {
   const mailOptions = {
     from: `${sender}`,
@@ -132,7 +132,7 @@ const sendRequestInterviewEmail = async (
       
       <p>
       
-        <a href="http://${DOMAIN}/request/reviewInterviewRequest/${interviewID}"
+        <a href="http://${DOMAIN}/request/reviewInterviewRequest/${applicationID}"
            style="display: inline-block; background-color: #4CAF50; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-size: 16px; text-align: center; font-weight: bold;">
           Schedule Interview
         </a>
@@ -140,7 +140,7 @@ const sendRequestInterviewEmail = async (
 
       <p style="font-size: 14px; color: #333;">If you are unable to click the button, please copy and paste the following link into your browser:</p>
       <p style="font-size: 14px; color: #333;">
-        <a href="http://${DOMAIN}/request/reviewInterviewRequest/${interviewID}" 
+        <a href="http://${DOMAIN}/request/reviewInterviewRequest/${applicationID}" 
            style="color: #007BFF; text-decoration: none;"><span style="text-transform: capitalize;">${companyName}</span> Review Link</a>
       </p>
     `,

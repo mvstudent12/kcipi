@@ -23,7 +23,7 @@ notificationRoutes.get(
   controller.notifications
 );
 
-notificationRoutes.patch(
+notificationRoutes.get(
   "/markAsRead/:notificationId",
   checkUser,
   requireAuth,

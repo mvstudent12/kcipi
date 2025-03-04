@@ -45,6 +45,8 @@ classificationRoutes.get("/resumes", authMiddleware, controller.resumes);
 
 classificationRoutes.get("/clearance", authMiddleware, controller.clearance);
 
+classificationRoutes.get("/cleared", authMiddleware, controller.cleared);
+
 classificationRoutes.get("/applicants", authMiddleware, controller.applicants);
 
 classificationRoutes.get("/employees", authMiddleware, controller.employees);

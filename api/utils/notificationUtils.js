@@ -59,7 +59,7 @@ async function getAllUserNotifications(email, role) {
     })
       .lean()
       .sort({ createdAt: -1 })
-      .limit(20); // Limit the result to 20 notifications;
+      .limit(15); // Limit the result to 20 notifications;
   } catch (error) {
     console.error("Error fetching user notifications:", error);
     throw new Error("Failed to fetch notifications");
@@ -75,8 +75,7 @@ async function getUserNotifications(email, role) {
       isRead: false,
     })
       .lean()
-      .sort({ createdAt: -1 })
-      .limit(20); // Limit the result to 20 notifications
+      .sort({ createdAt: -1 });
   } catch (error) {
     console.error("Error fetching unread notifications:", error);
     throw new Error("Failed to fetch unread notifications");

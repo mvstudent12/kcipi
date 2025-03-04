@@ -581,23 +581,24 @@ module.exports = {
   //=============================
   //serves resident profile with their resume
   async residentProfile(req, res) {
+    const { residentID } = req.params;
+    let { activeTab } = req.query;
     try {
       const notifications = await getUserNotifications(
         req.session.user.email,
         req.session.user.role
       );
-      const { residentID } = req.params;
 
       const resident = await findResident(residentID);
-      const res_id = resident._id;
-
-      const companyID = await findCompanyID(req.session.user.companyName);
 
       //find applications specific to this company
-      const applications = await getResidentApplications(companyID, res_id);
+      const applications = await getResidentApplications(
+        req.session.user.companyName,
+        resident.residentID
+      );
 
-      const activeTab = "overview"; // Set the active tab for the profile
-
+      if (!activeTab) activeTab = "overview"; // Set the active tab for the profile
+      console.log(applications);
       // Render the employer profile page
       res.render(`employer/profiles/residentProfile`, {
         user: req.session.user,
@@ -615,37 +616,38 @@ module.exports = {
   //send resident interview request to unit team
   async requestInterview(req, res) {
     let { residentID, preferences, additionalNotes } = req.body;
-    const { jobID } = req.params;
+    const { applicationID } = req.params;
     try {
       const resident = await findResident(residentID);
-
-      const name = `${resident.firstName} ${resident.lastName}`;
       const companyName = req.session.user.companyName;
 
-      // Update the job with the interview request
-      await Jobs.findByIdAndUpdate(jobID, {
-        $push: {
-          interviews: {
-            isRequested: true,
-            requestedBy: req.session.user.email,
-            residentID,
-            name,
-            dateRequested: new Date(),
-            preferredDate: preferences || null,
-            employerInstructions: additionalNotes || "",
+      //update application with interview request
+      await Jobs.findOneAndUpdate(
+        { "applicants._id": applicationID },
+        {
+          $set: {
+            "applicants.$.interview": {
+              status: "requested",
+              preferredDate: preferences || null,
+              employerInstructions: additionalNotes || "",
+              requestedBy: req.session.user.email,
+              dateRequested: new Date(),
+            },
           },
-        },
-      });
+        }
+      );
+      //find and return the updated application
+      const updatedApplication = await Jobs.findOne(
+        { "applicants._id": applicationID },
+        {
+          "applicants.$": 1, // Project only the matched applicant
+        }
+      ).lean();
 
-      // Retrieve the updated job and return the _id of the last interview
-      const updatedJob = await Jobs.findById(jobID).lean();
-
-      if (!updatedJob || !updatedJob.interviews.length) {
+      //check to make sure it exists
+      if (!updatedApplication || !updatedApplication.applicants[0]) {
         throw new Error("Interview request failed");
       }
-
-      const interviewID =
-        updatedJob.interviews[updatedJob.interviews.length - 1]._id;
 
       // Send notification email to unit team
       //const recipient = resident.resume.unitTeam -->only in production
@@ -655,7 +657,7 @@ module.exports = {
         companyName,
         recipient, // Change to production email
         req.session.user.email,
-        interviewID
+        applicationID
       );
 
       //send notification to unit team of this interview request on their dashboard
@@ -663,7 +665,8 @@ module.exports = {
         resident.resume.unitTeam,
         "unitTeam",
         "interview_request",
-        `New interview request for resident #${residentID}.`
+        `New interview request for resident #${residentID}.`,
+        `/unitTeam/reviewInterviewRequest/${applicationID}`
       );
 
       // Log activity
@@ -687,7 +690,7 @@ module.exports = {
   },
   //send hiring request to unit team
   async requestHire(req, res) {
-    const { jobID, res_id } = req.params;
+    const { applicationID } = req.params;
     const {
       residentID,
       unitTeamName,
@@ -696,6 +699,7 @@ module.exports = {
       hireRequestInfo,
     } = req.body;
     try {
+      console.log(req.params);
       const resident = await Resident.findOne({ residentID }).lean();
 
       const companyName = req.session.user.companyName;
@@ -705,13 +709,16 @@ module.exports = {
       const recipient = "kcicodingdev@gmail.com"; //-->> only for development
 
       //send email to unit team about this request
-      sendRequestHireEmail(resident, companyName, recipient, sender, jobID);
+      sendRequestHireEmail(
+        resident,
+        companyName,
+        recipient,
+        sender,
+        applicationID
+      );
 
       await Jobs.findOneAndUpdate(
-        {
-          _id: jobID, // Find the job by its _id
-          "applicants.resident_id": res_id, // Find the applicant inside that job
-        },
+        { "applicants._id": applicationID },
         {
           $set: {
             "applicants.$.hireRequest": true, // Update hireRequest
@@ -727,7 +734,8 @@ module.exports = {
         resident.resume.unitTeam,
         "unitTeam",
         "employment_request",
-        `New ${req.session.user.companyName} employment request for resident #${resident.residentID}.`
+        `New ${req.session.user.companyName} employment request for resident #${resident.residentID}.`,
+        `/unitTeam/reviewHireRequest/${applicationID}`
       );
 
       // Log activity
@@ -781,7 +789,8 @@ module.exports = {
         resident.resume.unitTeam,
         "unitTeam",
         "termination_request",
-        `Termination request for resident #${resident.residentID}.`
+        `Termination request for resident #${resident.residentID}.`,
+        `/request/reviewTerminationRequest/${resident._id}`
       );
 
       // Log activity
@@ -804,29 +813,31 @@ module.exports = {
   },
   //rejects resident application
   async rejectHire(req, res) {
-    const { res_id, jobID } = req.params;
+    const { res_id, applicationID } = req.params;
 
     try {
       const resident = await Resident.findById(res_id).lean();
       const residentID = resident.residentID;
 
       //remove user from applicants/ interviews
-      const updatedJob = await Jobs.findByIdAndUpdate(
-        jobID,
+      const updatedJob = await Jobs.findOneAndUpdate(
+        { "applicants._id": applicationID }, // Find the job containing the applicant by _id
         {
           $pull: {
-            applicants: { resident_id: res_id },
-            interviews: { residentID: residentID },
+            applicants: { _id: applicationID }, // Pull the applicant by _id
           },
         },
-        { new: true }
+        { new: true } // Return the updated job document
       );
+
+      console.log(updatedJob);
 
       await createNotification(
         resident.resume.unitTeam,
         "unitTeam",
         "resident_rejected",
-        `Resident #${residentID} rejected for hiring by ${req.session.user.companyName}.`
+        `Resident #${residentID} rejected for hiring by ${req.session.user.companyName}.`,
+        `/clearance/residentProfile/${residentID}?activeTab=activities`
       );
 
       // Log activity

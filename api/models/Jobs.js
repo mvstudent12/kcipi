@@ -4,34 +4,54 @@ const Schema = mongoose.Schema;
 const applicantSchema = new Schema(
   {
     resident_id: { type: mongoose.Schema.Types.ObjectId, ref: "Resident" },
+    residentID: {
+      type: String,
+      required: true,
+      match: [/^\d{7}$/, "Resident ID must be exactly 7 digits"],
+    },
+    residentName: { type: String, required: true },
+    position: { type: String, lowercase: true, trim: true },
+    facility: { type: String, lowercase: true, required: true },
+    outDate: { type: Date, required: true },
+    custodyLevel: { type: String, lowercase: true, required: true },
+    unitTeam: { type: String, lowercase: true },
+    jobPool: {
+      type: String,
+      lowercase: true,
+      enum: [
+        "Male Minimum 1 (Off-Site)",
+        "Male Minimum 2 (On-Site)",
+        "Male Medium/Maximum",
+        "Female Minimum 1 (Off-Site)",
+        "Female Minimum 2 (On-Site)",
+        "Female Medium/Maximum",
+        "Not Eligible: Medical Lay-In / Disciplinary Lay-In",
+        "PIE Employed",
+      ],
+    },
+    dateApplied: { type: Date, required: true },
     hireRequest: { type: Boolean, default: false },
     hireRequestDate: { type: Date, required: true },
     hireRequestStartDate: { type: Date, required: true },
     hireRequestInfo: { type: String, trim: true },
-    dateApplied: { type: Date, required: true },
-  },
-  { timestamps: true }
-);
 
-const interviewSchema = new Schema(
-  {
-    status: {
-      type: String,
-      enum: ["active", "inactive"],
-      required: true,
-      default: "active",
+    interview: {
+      status: {
+        type: String,
+        enum: ["none", "requested", "scheduled"],
+        required: true,
+        default: "none",
+      },
+      preferredDate: { type: String, trim: true },
+      employerInstructions: { type: String, trim: true },
+      requestedBy: { type: String, trim: true },
+      dateRequested: { type: Date, required: true },
+      dateScheduled: { type: Date, required: true },
+      time: { type: String, required: true },
+      instructions: { type: String, trim: true },
     },
-    isRequested: { type: Boolean, default: false },
-    preferredDate: { type: String, trim: true },
-    employerInstructions: { type: String, trim: true },
-    requestedBy: { type: String, trim: true },
-    dateRequested: { type: Date, required: true },
-    residentID: { type: String, required: true },
-    name: { type: String, required: true },
-    dateScheduled: { type: Date, required: true },
-    time: { type: String, required: true },
-    instructions: { type: String, trim: true },
   },
+
   { timestamps: true }
 );
 
@@ -51,7 +71,6 @@ const jobSchema = new Schema(
     pay: { type: String, lowercase: true, trim: true },
     jobPool: { type: String, lowercase: true, trim: true },
     applicants: [applicantSchema],
-    interviews: [interviewSchema],
     employees: [{ type: mongoose.Schema.Types.ObjectId, ref: "Resident" }],
     isAvailable: { type: Boolean, default: true },
     dateCreated: { type: Date, default: Date.now },

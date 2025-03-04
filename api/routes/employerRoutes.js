@@ -85,13 +85,13 @@ employerRoutes.get(
 );
 
 employerRoutes.post(
-  "/requestInterview/:jobID",
+  "/requestInterview/:applicationID",
   authMiddleware,
   controller.requestInterview
 );
 
 employerRoutes.post(
-  "/requestHire/:jobID/:res_id",
+  "/requestHire/:applicationID",
   authMiddleware,
   controller.requestHire
 );
@@ -103,7 +103,7 @@ employerRoutes.post(
 );
 
 employerRoutes.get(
-  "/rejectHire/:res_id/:jobID",
+  "/rejectHire/:res_id/:applicationID",
   authMiddleware,
   controller.rejectHire
 );

@@ -79,6 +79,17 @@ module.exports = {
       );
 
       validateResidentID(residentID);
+      //update resident workStatus
+      const workStatus = await checkClearanceStatus(residentID);
+
+      await Resident.findOneAndUpdate(
+        { residentID },
+        {
+          $set: {
+            "workEligibility.status": workStatus,
+          },
+        }
+      );
 
       const { resident, applications, unitTeam, activities } =
         await getResidentProfileInfo(residentID);
@@ -177,7 +188,8 @@ module.exports = {
           resident.resume.unitTeam,
           "unitTeam",
           "resume_rejected",
-          `Resume rejected for resident #${resident.residentID} by ${req.session.user.email}.`
+          `Resume rejected for resident #${resident.residentID} by ${req.session.user.email}.`,
+          `/clearance/residentProfile/${resident.residentID}?activeTab=resume`
         );
       }
       res.redirect(`/clearance/residentProfile/${residentID}?activeTab=resume`);
@@ -224,7 +236,8 @@ module.exports = {
           resident.resume.unitTeam,
           "unitTeam",
           "resume_approved",
-          `Resume approved for resident #${resident.residentID} by ${req.session.user.email}.`
+          `Resume approved for resident #${resident.residentID} by ${req.session.user.email}.`,
+          `/clearance/residentProfile/${resident.residentID}?activeTab=resume`
         );
       }
 
@@ -238,14 +251,11 @@ module.exports = {
   async editClearance(req, res) {
     let { residentID, dept } = req.params;
     const { clearance, comments } = req.body;
-
     try {
       validateResidentID(residentID);
-
       const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
-
       const category = dept;
-      dept = mapDepartmentName(dept);
+      const deptName = mapDepartmentName(dept);
 
       if (clearance === "true") {
         //if clearance is approved
@@ -257,15 +267,15 @@ module.exports = {
 
         const updateData = {
           $set: {
-            [`${dept}Clearance.status`]: "approved",
+            [`${deptName}Clearance.status`]: "approved",
           },
           $push: {
-            [`${dept}Clearance.clearanceHistory`]: {
+            [`${deptName}Clearance.clearanceHistory`]: {
               action: "approved",
               performedBy: name,
               reason: "Clearance approved. ✅",
             },
-            [`${dept}Clearance.notes`]: {
+            [`${deptName}Clearance.notes`]: {
               createdAt: new Date(),
               createdBy: name,
               note: `Approved clearance. ✅`,
@@ -275,19 +285,15 @@ module.exports = {
 
         // Only push to notes if comments are not empty
         if (comments) {
-          updateData.$push[`${dept}Clearance.notes`] = {
+          updateData.$push[`${deptName}Clearance.notes`] = {
             createdAt: new Date(),
             createdBy: name,
             note: comments,
           };
         }
-        const resident = await Resident.findOneAndUpdate(
-          { residentID: residentID },
-          updateData,
-          { new: true }
-        );
+        await Resident.findOneAndUpdate({ residentID: residentID }, updateData);
       } else if (clearance === "false") {
-        //is clearance is denied
+        //if clearance is denied
         await createActivityLog(
           req.session.user._id.toString(),
           "clearance_restricted",
@@ -296,17 +302,17 @@ module.exports = {
 
         const updateData = {
           $set: {
-            [`${dept}Clearance.status`]: "restricted",
+            [`${deptName}Clearance.status`]: "restricted",
             "workEligibility.status": "restricted",
             restrictionReason: `This resident has ${category} restrictions.`,
           },
           $push: {
-            [`${dept}Clearance.clearanceHistory`]: {
+            [`${deptName}Clearance.clearanceHistory`]: {
               action: "restricted",
               performedBy: name,
               reason: "Clearance restricted.",
             },
-            [`${dept}Clearance.notes`]: {
+            [`${deptName}Clearance.notes`]: {
               createdAt: new Date(),
               createdBy: name,
               note: `Denied clearance. ❌`,
@@ -316,7 +322,7 @@ module.exports = {
 
         // Only push to notes if comments are not empty
         if (comments) {
-          updateData.$push[`${dept}Clearance.notes`] = {
+          updateData.$push[`${deptName}Clearance.notes`] = {
             createdAt: new Date(),
             note: comments,
             createdBy: name,
@@ -329,16 +335,15 @@ module.exports = {
       //update resident workStatus
       const workStatus = await checkClearanceStatus(residentID);
 
-      await Resident.updateOne(
+      const resident = await Resident.findOneAndUpdate(
         { residentID },
         {
           $set: {
             "workEligibility.status": workStatus,
           },
-        }
+        },
+        { new: true }
       );
-
-      const { resident } = await getResidentProfileInfo(residentID);
 
       //send notification if action was taken outside of caseload
       if (resident.resume.unitTeam != req.session.user.email) {
@@ -347,7 +352,8 @@ module.exports = {
             resident.resume.unitTeam,
             "unitTeam",
             "clearance_approved",
-            `${category} clearance approved for resident #${resident.residentID} by ${req.session.user.email}.`
+            `${category} clearance approved for resident #${resident.residentID} by ${req.session.user.email}.`,
+            `/clearance/residentProfile/${resident.residentID}?activeTab=clearance`
           );
         }
         if (clearance === "false") {
@@ -355,7 +361,8 @@ module.exports = {
             resident.resume.unitTeam,
             "unitTeam",
             "clearance_denied",
-            `${category} clearance denied for resident #${resident.residentID} by ${req.session.user.email}.`
+            `${category} clearance denied for resident #${resident.residentID} by ${req.session.user.email}.`,
+            `/clearance/residentProfile/${resident.residentID}?activeTab=clearance`
           );
         }
       }

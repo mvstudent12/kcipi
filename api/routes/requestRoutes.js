@@ -6,7 +6,7 @@ const controller = require("../controllers/requestControllers");
 const { requireAuth, checkUser } = require("../middleware/authMiddleware");
 
 requestRoutes.get(
-  "/reviewInterviewRequest/:interviewID",
+  "/reviewInterviewRequest/:applicationID",
   controller.reviewInterviewRequest
 );
 
@@ -16,7 +16,7 @@ requestRoutes.post(
 );
 
 requestRoutes.get(
-  "/reviewHireRequest/:jobID/:res_id",
+  "/reviewHireRequest/:applicationID",
   controller.reviewHireRequest
 );
 

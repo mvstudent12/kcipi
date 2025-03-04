@@ -72,20 +72,15 @@ const findResident = async (residentID) => {
   }
 };
 
-const getResidentApplications = async (companyID, residentID) => {
+const getResidentApplications = async (companyName, residentID) => {
   try {
     const jobs = await Jobs.find(
-      { companyID, "applicants.resident_id": residentID }, // Find jobs where the resident applied
-      {
-        "applicants.$": 1,
-        companyName: 1,
-        position: 1,
-        pay: 1,
-        interviews: 1,
-      } // Return only the matching applicants and job details
+      { companyName: companyName, "applicants.residentID": residentID },
+      { "applicants.$": 1 } // This should project the matched applicant from the applicants array
     ).lean();
 
-    return jobs;
+    const applications = jobs.flatMap((job) => job.applicants);
+    return applications;
   } catch (error) {
     console.error("Error fetching resident applications:", error);
     throw error;

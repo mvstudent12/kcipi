@@ -713,7 +713,10 @@ module.exports = {
         "deleted_user",
         `Deleted company: ${company.companyName} in database.`
       );
+      //delete all employers attached to this company
+      await Employer.deleteMany({ companyName: companyName });
 
+      //delete company
       await Company.deleteOne({ _id: companyID });
 
       res.redirect(`/admin/companyDB?activeTab=edit&deleteMsg=true`);

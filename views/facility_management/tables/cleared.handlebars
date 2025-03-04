@@ -1,0 +1,75 @@
+{{> facility_managementTemplate}}
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1 class="text-capitalize">{{user.facility}} Residents</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active"><a href="/facility_management/dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item active">Resident Data</li>
+            </ol>
+        </nav>
+    </div>
+
+    <section class="section dashboard">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row">
+
+                    <!-- PI Cleared Table -->
+                    <div class="col-12">
+                        <div class="card recent-sales overflow-auto">
+                            <div class="card-body">
+                                <h5 class="card-title">PI Cleared <span>| Eligible To Work</span></h5>
+                                <table class="table table-borderless table-striped datatable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">ID #</th>
+                                            <th scope="col">Resident</th>
+                                            <th scope="col">Out Date</th>
+                                            <th scope="col">Job Pool</th>
+                                            <th scope="col">Unit Team</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each caseLoad}}
+
+                                            <tr>
+                                                <th scope="row"><a
+                                                        href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
+                                                </th>
+
+                                                <td><a href="/clearance/residentProfile/{{this.residentID}}"
+                                                        class="text-primary text-capitalize">
+                                                        {{this.lastName}}, {{this.firstName}}</a></td>
+                                                <td><a href="/clearance/residentProfile/{{this.residentID}}"
+                                                        class="text-primary text-capitalize">{{formatDate this.outDate}}</a>
+                                                </td>
+
+                                                <td><a href="/clearance/residentProfile/{{this.residentID}}"
+                                                        class="text-primary text-capitalize">{{this.jobPool}}</a>
+                                                </td>
+                                                <td class="text-capitalize"><a
+                                                        href="/clearance/residentProfile/{{this.residentID}}"
+                                                        class="text-primary text-capitalize">{{this.unitTeam}}</a>
+                                                </td>
+
+                                            </tr>
+
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- ======= Footer ======= -->
+{{> footer}}
+
+{{> arrowUp}}

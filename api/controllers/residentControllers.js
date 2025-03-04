@@ -269,26 +269,40 @@ module.exports = {
       const res_id = req.session.resident._id;
 
       // Check if the resident has already applied
-      const job = await Jobs.findOne({
+      const hasApplied = await Jobs.findOne({
         _id: jobID,
         "applicants.resident_id": res_id, // Check if resident is already in the applicants array
       });
+      const resident = await Resident.findById(res_id).lean();
 
-      if (!job) {
+      if (!hasApplied) {
+        const job = await Jobs.findById(jobID).lean();
         // Add resident to the applicants array with additional fields
         const updatedJob = await Jobs.findByIdAndUpdate(
           jobID,
           {
             $addToSet: {
               applicants: {
-                resident_id: res_id,
+                position: job.position,
+                resident_id: resident._id,
+                residentID: resident.residentID,
+                residentName: `${resident.firstName} ${resident.lastName}`,
+                facility: resident.facility,
+                outDate: resident.outDate,
+                custodyLevel: resident.custodyLevel,
+                unitTeam: resident.unitTeam,
+                jobPool: resident.jobPool,
                 hireRequest: false,
                 dateApplied: new Date(),
+                interview: {
+                  status: "none", // Ensure interview is a full object
+                },
               },
             },
           },
           { new: true }
         );
+
         await createActivityLog(
           res_id,
           "submitted_application",

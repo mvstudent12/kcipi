@@ -771,12 +771,7 @@
                                             </p>
                                         </div>
                                     {{/if}}
-                                    {{#if (eq resident.workEligibility.status "none")}}
-                                        <div class="text-center">
-                                            <p class="text-primary">This resident needs to be reviewed for clearance.
-                                            </p>
-                                        </div>
-                                    {{/if}}
+
                                     {{#if (eq resident.resume.status "approved")}}
 
                                         <h5 class="card-title">Clearance Status</h5>
@@ -1101,25 +1096,16 @@
                                                 </div>
                                             </li>
                                         </ul>
-                                        {{!-- 
-                                        <div class="row mt-3">
 
-                                            <div class="col-12 d-flex justify-content-end">
-                                                {{#unless (eq resident.workEligibility.status "approved")}}
-                                                    <button id="approveClearance" type="button" style="display: none;"
-                                                        class="btn btn-success" data-bs-toggle="modal"
-                                                        data-bs-target="#approveResident">Approve
-                                                        Resident</button>
-                                                {{/unless}}
-                                            </div>
-                                        </div> --}}
                                     {{else}}
+
                                         <div class="text-center">
                                             {{!-- If unit team has not approved resume --}}
                                             <span class="text-primary">This resident does not have an approved
                                                 resume.
                                             </span>
                                         </div>
+
                                     {{/if}}
                                 </div>
                             </div>

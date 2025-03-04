@@ -255,6 +255,30 @@ module.exports = {
       res.render("error/500");
     }
   },
+  async cleared(req, res) {
+    try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+      const facility = req.session.user.facility;
+      const caseLoad = await Resident.find({
+        facility,
+        isActive: true,
+        "workEligibility.status": "approved",
+      })
+        .sort({ lastName: 1 })
+        .lean();
+      res.render("facility_management/tables/cleared", {
+        user: req.session.user,
+        notifications,
+        caseLoad,
+      });
+    } catch (err) {
+      console.log(err);
+      res.render("error/500");
+    }
+  },
   async applicants(req, res) {
     try {
       const notifications = await getUserNotifications(

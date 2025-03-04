@@ -29,7 +29,19 @@ unitTeamRoutes.get(
   authMiddleware,
   controller.manageWorkForce
 );
-
+unitTeamRoutes.get(
+  "/reviewInterviewRequest/:applicationID",
+  authMiddleware,
+  controller.reviewInterviewRequest
+);
+unitTeamRoutes.post(
+  "/scheduleInterview/:applicationID",
+  controller.scheduleInterview
+);
+unitTeamRoutes.get(
+  "/reviewHireRequest/:applicationID",
+  controller.reviewHireRequest
+);
 unitTeamRoutes.get(
   "/manageClearance",
   authMiddleware,
@@ -44,6 +56,8 @@ unitTeamRoutes.get("/residents", authMiddleware, controller.residents);
 unitTeamRoutes.get("/resumes", authMiddleware, controller.resumes);
 
 unitTeamRoutes.get("/clearance", authMiddleware, controller.clearance);
+
+unitTeamRoutes.get("/cleared", authMiddleware, controller.cleared);
 
 unitTeamRoutes.get("/applicants", authMiddleware, controller.applicants);
 

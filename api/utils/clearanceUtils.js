@@ -35,12 +35,13 @@ async function getEmployeeEmails(companyName) {
 async function sendNotificationsToEmployers( //add better error handling
   employerEmails,
   notification_type,
-  msg
+  msg,
+  data
 ) {
   try {
     await Promise.all(
       employerEmails.map((email) =>
-        createNotification(email, "employer", notification_type, msg)
+        createNotification(email, "employer", notification_type, msg, data)
       )
     );
   } catch (err) {

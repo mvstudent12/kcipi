@@ -164,7 +164,6 @@ const createApplicantsReport = async (applicantData, selectedFields) => {
     const residentIDs = applicantData.map(
       (item) => item.applicantID.resident_id
     );
-    console.log(residentIDs);
 
     const includeID = selectedFields.includes("_id");
     const fieldsToSelect = includeID

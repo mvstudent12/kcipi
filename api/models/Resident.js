@@ -121,7 +121,7 @@ const residentSchema = new Schema({
         default: "none",
       },
     },
-    default: {}, // Ensures the workEligibility object always exists
+    default: { status: "none" },
   },
   restrictionReason: { type: String, default: "" },
   isHired: { type: Boolean, default: false },

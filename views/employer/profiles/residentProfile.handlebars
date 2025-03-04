@@ -239,22 +239,24 @@
                                         {{#if applications}}
                                             <div class="row mt-3 mb-3">
                                                 <div class="col-lg-3 col-md-3 label text-muted">
-                                                    Company</div>
-                                                <div class="col-lg-3 col-md-3 label text-muted">
                                                     Position</div>
+                                                <div class="col-lg-3 col-md-3 label text-muted">
+                                                    Date Applied</div>
                                                 <div class="col-lg-2 col-md-2 text-muted">
-                                                    Pay</div>
+                                                    Interview</div>
                                             </div>
+                                            <hr>
                                             {{#each applications}}
                                                 <div class="row mt-3">
                                                     <div class="col-lg-3 col-md-3 label text-capitalize">
-                                                        {{this.companyName}}
-                                                    </div>
-                                                    <div class="col-lg-3 col-md-3 label text-capitalize">
                                                         {{this.position}}
                                                     </div>
-                                                    <div class="col-lg-2 col-md-2">
-                                                        ${{this.pay}} /hr</div>
+                                                    <div class="col-lg-3 col-md-3 label text-capitalize">
+                                                        {{formatDate this.dateApplied}}
+                                                    </div>
+                                                    <div class="col-lg-2 col-md-2 accordion-flush text-capitalize">
+                                                        {{this.interview.status}}
+                                                    </div>
                                                     <div class="col-lg-4 col-md-4">
                                                         <button class="btn btn-primary" type="button"
                                                             data-bs-toggle="modal" data-bs-target="#{{this._id}}">
@@ -314,14 +316,14 @@
                             {{../resident.lastName}}
                         </h5>
                     </div>
-                    {{#if (isResidentInInterviews ../resident.residentID this.interviews)}}
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    {{else}}
+                    {{#if (eq this.interview.status "none")}}
                         <div class="col-6">
                             <button type="button" class="btn btn-info mx-2" data-bs-toggle="modal"
                                 data-bs-target="#{{this._id}}2">Request
                                 Interview</button>
                         </div>
+                    {{else}}
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     {{/if}}
 
                 </div>
@@ -345,7 +347,7 @@
                     <hr>
                     <div class="row mb-2">
                         <div class="col-lg-4 col-md-4 label text-info">Company:</div>
-                        <div class="col-lg-8 col-md-8 text-capitalize">{{this.companyName}}</div>
+                        <div class="col-lg-8 col-md-8 text-capitalize">{{../user.companyName}}</div>
                     </div>
                     <div class="row mb-2">
                         <div class="col-lg-4 col-md-4 label text-info">Position:</div>
@@ -358,56 +360,51 @@
                     <hr>
                     <div class="row mb-2">
                         <div class="col-lg-6 col-md-6 label text-info">Interview Requested On:</div>
-                        {{#getInterview ../resident.residentID this.interviews}}
-                            <div class="col-lg-6 col-md-6">{{formatDate dateRequested}}</div>
-{{else}}
-    <div class="col-lg-6 col-md-6">No</div>
-                        {{/getInterview}}
+                        {{#if this.interview.dateRequested}}
+                            <div class="col-lg-6 col-md-6 text-success">{{formatDate this.interview.dateRequested}}
+                            </div>
+                        {{else}}
+                            <div class="col-lg-6 col-md-6">No Request</div>
+                        {{/if}}
                     </div>
 
                     <div class="row mb-2">
                         <div class="col-lg-6 col-md-6 label text-info">Interview Scheduled For:</div>
-                        {{#getInterview ../resident.residentID this.interviews}}
-                            {{#if dateScheduled}}
-                                <div class="col-lg-6 col-md-6">{{formatDate dateScheduled}} &nbsp; @ &nbsp; {{time}}
-                                </div>
-                            {{else}}
-                                <div class="col-lg-6 col-md-6">No</div>
-                            {{/if}}
-{{else}}
-    <div class="col-lg-6 col-md-6">No</div>
-                        {{/getInterview}}
+                        {{#if this.interview.dateScheduled}}
+                            <div class="col-lg-6 col-md-6 text-success">{{formatDate this.interview.dateScheduled}}
+                                &nbsp; @ &nbsp;
+                                {{this.interview.time}}
+                            </div>
+                        {{else}}
+                            <div class="col-lg-6 col-md-6">None Scheduled</div>
+                        {{/if}}
+
                     </div>
                     <hr>
                     <div class="row mb-2">
                         <div class="col-lg-6 col-md-6 label text-info">Employment Requested:</div>
-                        {{#getApplication ../resident._id this.applicants}}
-                            {{#if hireRequest}}
-                                <div class="col-lg-6 col-md-6">{{formatDate hireRequestDate}}</div>
-                            {{else}}
-                                <div class="col-lg-6 col-md-6">No</div>
-                            {{/if}}
-{{else}}
-    <div class="col-lg-6 col-md-6">No</div>
-                        {{/getApplication}}
+
+                        {{#if this.hireRequest}}
+                            <div class="col-lg-6 col-md-6 text-success">Requested</div>
+                        {{else}}
+                            <div class="col-lg-6 col-md-6">No Request</div>
+                        {{/if}}
+
                     </div>
                 </div>
                 <div class="modal-footer">
                     <div class="col-12 d-flex justify-content-between">
                         <a href="/employer/rejectHire/{{../resident._id}}/{{this._id}}"><button type="button"
                                 class="btn btn-danger mx-2">Reject Hire</button></a>
-                        {{#getApplication ../resident._id this.applicants}}
-                            {{#if hireRequest}}
-                                <p>Employment Requested</p>
-                            {{else}}
-                                <button type="button" data-bs-toggle="modal" data-bs-target="#{{../this._id}}3"
-                                    class="btn btn-success mx-2">Request
-                                    Hire</button>
-                            {{/if}}
-{{else}}
-    <button type="button" data-bs-toggle="modal" data-bs-target="#{{../this._id}}3" class="btn btn-success mx-2">Request
-        Hire</button>
-                        {{/getApplication}}
+
+                        {{#if this.hireRequest}}
+                            <p>Employment Requested</p>
+                        {{else}}
+                            <button type="button" data-bs-toggle="modal" data-bs-target="#{{this._id}}3"
+                                class="btn btn-success mx-2">Request
+                                Hire</button>
+                        {{/if}}
+
                     </div>
                 </div>
             </div>
@@ -497,7 +494,7 @@
 
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form method="POST" action="/employer/requestHire/{{this._id}}/{{../resident._id}}">
+                <form method="POST" action="/employer/requestHire/{{this._id}}">
                     <div class="modal-body">
                         <div class="row mb-3">
                             {{!-- Resident Name --}}

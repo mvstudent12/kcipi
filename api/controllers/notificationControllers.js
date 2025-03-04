@@ -1,3 +1,4 @@
+const Notification = require("../models/Notification");
 const {
   getUserNotifications,
   getAllUserNotifications,
@@ -28,18 +29,20 @@ module.exports = {
   },
   // Controller function to mark a notification as read
   async markNotificationAsRead(req, res) {
+    const { notificationId } = req.params;
+    console.log(req.params);
     try {
-      const { notificationId } = req.params;
-
-      await notificationIsRead(notificationId);
-      console.log("here i am");
-      res.status(200).json({
-        success: true,
-        message: "Notification marked as read",
-      });
+      //mark notification as read
+      const notification = await Notification.findByIdAndUpdate(
+        { _id: notificationId },
+        { isRead: true },
+        { new: true }
+      );
+      //redirect to notification link
+      res.redirect(notification.data);
     } catch (error) {
       console.error("Error marking notification as read:", error);
-      res.status(500).send("Failed to mark notification as read");
+      res.render("error/500");
     }
   },
 };

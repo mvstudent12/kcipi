@@ -57,6 +57,8 @@ facility_managementRoutes.get(
   controller.clearance
 );
 
+facility_managementRoutes.get("/cleared", authMiddleware, controller.cleared);
+
 facility_managementRoutes.get(
   "/applicants",
   authMiddleware,

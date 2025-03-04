@@ -1,9 +1,16 @@
 const Resident = require("../models/Resident");
 const Jobs = require("../models/Jobs");
+const UnitTeam = require("../models/UnitTeam");
 
 const { Parser } = require("json2csv");
+const mongoose = require("mongoose");
 
 const logger = require("../utils/logger");
+
+const {
+  getEmployeeEmails,
+  sendNotificationsToEmployers,
+} = require("../utils/clearanceUtils");
 
 const {
   findCaseload,
@@ -130,7 +137,125 @@ module.exports = {
       res.render("error/500");
     }
   },
+  async reviewInterviewRequest(req, res) {
+    const { applicationID } = req.params;
+    try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+      const jobApplicant = await Jobs.findOne(
+        { "applicants._id": new mongoose.Types.ObjectId(applicationID) },
+        { "applicants.$": 1 } // Return only the matched application
+      ).lean();
+      const application = jobApplicant.applicants[0];
 
+      const residentID = application.residentID;
+      const resident = await Resident.findOne({
+        residentID: residentID,
+      }).lean();
+      res.render("unitTeam/requestInterview", {
+        user: req.session.user,
+        application,
+        resident,
+        notifications,
+      });
+    } catch (err) {
+      console.log(err);
+      res.render("error/500");
+    }
+  },
+  async scheduleInterview(req, res) {
+    const { applicationID } = req.params;
+    const { date, time, instructions, residentID } = req.body;
+    try {
+      const updatedInterview = await Jobs.findOneAndUpdate(
+        { "applicants._id": new mongoose.Types.ObjectId(applicationID) },
+        {
+          $set: {
+            "applicants.$.interview": {
+              status: "scheduled",
+              dateScheduled: date,
+              time: time,
+              instructions: instructions || "",
+            },
+          },
+        },
+        { new: true } // Return the updated document
+      ).lean();
+
+      if (!updatedInterview) {
+        return {
+          success: false,
+          message: "Application not found or update failed",
+        };
+      }
+
+      // Find the updated applicant from the applicants array
+      const updatedApplicant = updatedInterview.applicants.find(
+        (app) => app._id.toString() === applicationID
+      );
+
+      //send notification to all PI partners in that company
+      const employerEmails = await getEmployeeEmails(
+        updatedInterview.companyName
+      );
+
+      await sendNotificationsToEmployers(
+        employerEmails,
+        "interview_scheduled",
+        `New interview scheduled for resident #${updatedApplicant.residentID}.`,
+        "/employer/manageWorkForce"
+      );
+
+      res.redirect(`/unitTeam/reviewInterviewRequest/${applicationID}`);
+    } catch (err) {
+      console.error("Error scheduling interview:", err);
+      logger.warn("An error occurred while scheduling the interview: " + err);
+      res.render("error/500");
+    }
+  },
+  async reviewHireRequest(req, res) {
+    const { applicationID } = req.params;
+    try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+      const findApplication = await Jobs.findOne(
+        { "applicants._id": applicationID },
+        { "applicants.$": 1 } // Return the matched application from the applicants array
+      ).lean();
+      console.log(findApplication);
+
+      const application = findApplication.applicants[0];
+
+      console.log(application);
+
+      const job = await Jobs.findOne({
+        "applicants._id": applicationID,
+      }).lean();
+
+      const resident = await Resident.findById({
+        _id: application.resident_id,
+      }).lean();
+      const email = resident.resume.unitTeam;
+      const unitTeam = await UnitTeam.findOne({ email }).lean();
+
+      req.session.user = unitTeam;
+
+      res.render("unitTeam/requestHire", {
+        application,
+        resident,
+        user: req.session.user,
+        job,
+        notifications,
+      });
+    } catch (err) {
+      console.log(err);
+      res.render("error/500");
+    }
+  },
   async manageClearance(req, res) {
     try {
       const notifications = await getUserNotifications(
@@ -207,6 +332,30 @@ module.exports = {
         .sort({ lastName: 1 })
         .lean();
       res.render("unitTeam/tables/clearance", {
+        user: req.session.user,
+        notifications,
+        caseLoad,
+      });
+    } catch (err) {
+      console.log(err);
+      res.render("error/500");
+    }
+  },
+  async cleared(req, res) {
+    try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+      const facility = req.session.user.facility;
+      const caseLoad = await Resident.find({
+        facility,
+        isActive: true,
+        "workEligibility.status": "approved",
+      })
+        .sort({ lastName: 1 })
+        .lean();
+      res.render("unitTeam/tables/cleared", {
         user: req.session.user,
         notifications,
         caseLoad,

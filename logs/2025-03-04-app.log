@@ -1,0 +1,72 @@
+{"level":"info","message":"User logged in: shawn.williams@ks.gov","timestamp":"2025-03-04 06:15:47"}
+{"level":"info","message":"2025-03-04T12:15:47.721Z [INFO] : ::ffff:127.0.0.1 /login 200 209.663 ms","timestamp":"2025-03-04 06:15:47"}
+{"level":"info","message":"User logged in: #7384920: jessica, morrison","timestamp":"2025-03-04 06:16:16"}
+{"level":"info","message":"Resident logged out: #7384920: jessica morrison ","timestamp":"2025-03-04 06:16:27"}
+{"level":"info","message":"User logged in: #4872930: charlotte, adams","timestamp":"2025-03-04 06:16:29"}
+{"level":"info","message":"User logged in: kari.johnson@ks.gov","timestamp":"2025-03-04 06:16:58"}
+{"level":"info","message":"2025-03-04T12:16:58.423Z [INFO] : ::1 /login 200 170.250 ms","timestamp":"2025-03-04 06:16:58"}
+{"level":"warn","message":"An error occurred while requesting the interview: Interview request failed","timestamp":"2025-03-04 06:23:17"}
+{"level":"warn","message":"An error occurred while requesting the interview: Interview request failed","timestamp":"2025-03-04 06:24:50"}
+{"level":"info","message":"User logged in: shawn.williams@ks.gov","timestamp":"2025-03-04 06:27:24"}
+{"level":"info","message":"2025-03-04T12:27:24.439Z [INFO] : ::ffff:127.0.0.1 /login 200 175.113 ms","timestamp":"2025-03-04 06:27:24"}
+{"level":"info","message":"User logged in: kari.johnson@ks.gov","timestamp":"2025-03-04 06:27:39"}
+{"level":"info","message":"2025-03-04T12:27:39.220Z [INFO] : ::1 /login 200 159.430 ms","timestamp":"2025-03-04 06:27:39"}
+{"level":"info","message":"User logged out: kari.johnson@ks.gov","timestamp":"2025-03-04 06:27:46"}
+{"level":"info","message":"User logged in: alice.johnson@ks.gov","timestamp":"2025-03-04 06:27:49"}
+{"level":"info","message":"2025-03-04T12:27:49.715Z [INFO] : ::1 /login 200 160.557 ms","timestamp":"2025-03-04 06:27:49"}
+{"level":"info","message":"User logged out: alice.johnson@ks.gov","timestamp":"2025-03-04 06:28:32"}
+{"level":"info","message":"User logged in: kari.johnson@ks.gov","timestamp":"2025-03-04 06:28:38"}
+{"level":"info","message":"2025-03-04T12:28:38.872Z [INFO] : ::1 /login 200 167.966 ms","timestamp":"2025-03-04 06:28:38"}
+{"level":"info","message":"User logged in: #4872930: charlotte, adams","timestamp":"2025-03-04 06:29:48"}
+{"level":"warn","message":"An error occurred while requesting the interview: Class constructor ObjectId cannot be invoked without 'new'","timestamp":"2025-03-04 06:40:51"}
+{"level":"warn","message":"An error occurred while requesting the interview: Interview request failed","timestamp":"2025-03-04 06:41:30"}
+{"level":"warn","message":"An error occurred while requesting the interview: Interview request failed","timestamp":"2025-03-04 06:42:31"}
+{"level":"warn","message":"An error occurred while requesting the interview: Class constructor ObjectId cannot be invoked without 'new'","timestamp":"2025-03-04 06:45:39"}
+{"level":"warn","message":"An error occurred while requesting the interview: Class constructor ObjectId cannot be invoked without 'new'","timestamp":"2025-03-04 06:45:42"}
+{"level":"warn","message":"An error occurred while requesting the interview: Interview request failed","timestamp":"2025-03-04 06:45:55"}
+{"level":"warn","message":"An error occurred while requesting the interview: interviewID is not defined","timestamp":"2025-03-04 06:47:03"}
+{"level":"warn","message":"An error occurred while requesting the interview: interviewID is not defined","timestamp":"2025-03-04 06:47:56"}
+{"level":"warn","message":"An error occurred while requesting the interview: interviewID is not defined","timestamp":"2025-03-04 06:48:14"}
+{"level":"warn","message":"Page not found: /clearance/requestInterview?67c6f24106973d1bac8bb3df","timestamp":"2025-03-04 06:54:58"}
+{"level":"warn","message":"Page not found: /clearance/reviewInterviewRequest?67c6f24106973d1bac8bb3df","timestamp":"2025-03-04 06:57:43"}
+{"level":"warn","message":"Page not found: /clearance/reviewInterviewRequest/67c6f24106973d1bac8bb3df","timestamp":"2025-03-04 06:59:36"}
+{"level":"info","message":"2025-03-04T13:34:50.798Z [INFO] : ::1 /request/scheduleInterview// 404 109.982 ms","timestamp":"2025-03-04 07:34:50"}
+{"level":"warn","message":"An error occurred while scheduling the interview: ReferenceError: updatedJob is not defined","timestamp":"2025-03-04 07:40:33"}
+{"level":"warn","message":"An error occurred while scheduling the interview: ReferenceError: getEmployeeEmails is not defined","timestamp":"2025-03-04 07:44:58"}
+{"level":"warn","message":"An error occurred while scheduling the interview: TypeError: getEmployeeEmails is not a function","timestamp":"2025-03-04 07:46:30"}
+{"level":"warn","message":"An error occurred while requesting the interview: Interview request failed","timestamp":"2025-03-04 08:23:30"}
+{"level":"info","message":"2025-03-04T14:25:16.759Z [INFO] : ::ffff:127.0.0.1 /employer/residentProfile/4872930?activeTab=application 500 3655.322 ms","timestamp":"2025-03-04 08:25:16"}
+{"level":"info","message":"2025-03-04T14:27:37.577Z [INFO] : ::ffff:127.0.0.1 /employer/residentProfile/4872930?activeTab=application 500 3415.140 ms","timestamp":"2025-03-04 08:27:37"}
+{"level":"warn","message":"An error occurred while requesting the interview: Interview request failed","timestamp":"2025-03-04 08:30:57"}
+{"level":"warn","message":"An error occurred while requesting the interview: Cannot access 'applicationID' before initialization","timestamp":"2025-03-04 08:35:19"}
+{"level":"info","message":"2025-03-04T14:48:14.387Z [INFO] : ::ffff:127.0.0.1 /employer/requestHire/67c70bbda623a4f1c1ea81d2/67c6f198882feedebdd1de9b 404 102.687 ms","timestamp":"2025-03-04 08:48:14"}
+{"level":"info","message":"2025-03-04T14:48:34.274Z [INFO] : ::ffff:127.0.0.1 /employer/requestHire/67c70bbda623a4f1c1ea81d2 404 95.244 ms","timestamp":"2025-03-04 08:48:34"}
+{"level":"warn","message":"Error fetching resident profile: jobID is not defined","stack":"ReferenceError: jobID is not defined\n    at requestHire (C:\\Users\\KCTCodingIm12\\Desktop\\KCI PI Beta 3.0\\api\\controllers\\employerControllers.js:712:70)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)","timestamp":"2025-03-04 08:48:59"}
+{"level":"info","message":"User logged in: shawn.williams@ks.gov","timestamp":"2025-03-04 09:05:58"}
+{"level":"info","message":"2025-03-04T15:05:58.759Z [INFO] : ::ffff:127.0.0.1 /login 200 190.625 ms","timestamp":"2025-03-04 09:05:58"}
+{"level":"warn","message":"Page not found: /unitTeam/reviewHireRequest/67c716f17240ea78f6f72d0b","timestamp":"2025-03-04 09:06:46"}
+{"level":"warn","message":"Page not found: /notification/markNotificationAsRead/67c71ce04e23e293b1aa34d2","timestamp":"2025-03-04 09:31:51"}
+{"level":"warn","message":"Page not found: /notification/markAsRead/67c71d37915ece242ddc2fdd","timestamp":"2025-03-04 09:33:16"}
+{"level":"info","message":"2025-03-04T15:33:43.214Z [INFO] : ::1 /markAsRead/67c71d37915ece242ddc2fdd 500 3310.682 ms","timestamp":"2025-03-04 09:33:43"}
+{"level":"info","message":"2025-03-04T15:35:12.565Z [INFO] : ::1 /markAsRead/67c71d37915ece242ddc2fdd 500 3678.805 ms","timestamp":"2025-03-04 09:35:12"}
+{"level":"info","message":"2025-03-04T15:36:38.792Z [INFO] : ::1 /markAsRead/67c71d37915ece242ddc2fdd 500 3588.069 ms","timestamp":"2025-03-04 09:36:38"}
+{"level":"info","message":"2025-03-04T16:17:50.222Z [INFO] : ::1 /notification/markAsRead/67c72655b3b34590e4abd0fa 404 88.019 ms","timestamp":"2025-03-04 10:17:50"}
+{"level":"info","message":"2025-03-04T16:17:50.856Z [INFO] : ::1 /notification/markAsRead/67c72655b3b34590e4abd0fa 404 86.044 ms","timestamp":"2025-03-04 10:17:50"}
+{"level":"info","message":"2025-03-04T16:25:18.550Z [INFO] : ::1 /markAsRead/undefined 500 94.334 ms","timestamp":"2025-03-04 10:25:18"}
+{"level":"info","message":"2025-03-04T16:26:04.226Z [INFO] : ::1 /markAsRead/undefined 500 3577.543 ms","timestamp":"2025-03-04 10:26:04"}
+{"level":"info","message":"User logged out: kari.johnson@ks.gov","timestamp":"2025-03-04 10:57:23"}
+{"level":"info","message":"User logged in: Jameson.smith@ks.gov","timestamp":"2025-03-04 10:57:26"}
+{"level":"info","message":"2025-03-04T16:57:26.773Z [INFO] : ::1 /login 200 201.514 ms","timestamp":"2025-03-04 10:57:26"}
+{"level":"info","message":"User logged out: jameson.smith@ks.gov","timestamp":"2025-03-04 11:01:53"}
+{"level":"info","message":"User logged in: David.moore@ks.gov","timestamp":"2025-03-04 11:01:56"}
+{"level":"info","message":"2025-03-04T17:01:56.570Z [INFO] : ::1 /login 200 200.909 ms","timestamp":"2025-03-04 11:01:56"}
+{"level":"info","message":"User logged out: david.moore@ks.gov","timestamp":"2025-03-04 11:02:08"}
+{"level":"info","message":"User logged in: alice.johnson@ks.gov","timestamp":"2025-03-04 11:02:11"}
+{"level":"info","message":"2025-03-04T17:02:11.572Z [INFO] : ::1 /login 200 174.295 ms","timestamp":"2025-03-04 11:02:11"}
+{"level":"info","message":"User logged out: alice.johnson@ks.gov","timestamp":"2025-03-04 11:02:30"}
+{"level":"info","message":"User logged in: kari.johnson@ks.gov","timestamp":"2025-03-04 11:02:33"}
+{"level":"info","message":"2025-03-04T17:02:33.993Z [INFO] : ::1 /login 200 162.816 ms","timestamp":"2025-03-04 11:02:33"}
+{"level":"warn","message":"Page not found: /request/reviewHireRequest/67c72e5df7e1ff7d02ca2dff/67c6f198882feedebdd1de9b","timestamp":"2025-03-04 11:17:00"}
+{"level":"info","message":"User logged out: kari.johnson@ks.gov","timestamp":"2025-03-04 11:21:36"}
+{"level":"info","message":"User logged in: kari.johnson@ks.gov","timestamp":"2025-03-04 11:21:39"}
+{"level":"info","message":"2025-03-04T17:21:39.136Z [INFO] : ::1 /login 200 169.196 ms","timestamp":"2025-03-04 11:21:39"}
