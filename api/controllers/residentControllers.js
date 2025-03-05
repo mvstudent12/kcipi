@@ -7,6 +7,11 @@ const ActivityLog = require("../models/ActivityLog");
 
 const mongoose = require("mongoose");
 
+const {
+  getEmployeeEmails,
+  sendNotificationsToEmployers,
+} = require("../utils/clearanceUtils");
+
 const { createActivityLog } = require("../utils/activityLogUtils");
 
 const { createNotification } = require("../utils/notificationUtils");
@@ -16,9 +21,10 @@ module.exports = {
     try {
       const workClearance = req.session.resident.workEligibility.status;
       const jobPool = req.session.resident.jobPool;
-      const residentObjectId = req.session.resident._id;
+      const res_id = req.session.resident._id;
       const residentID = req.session.resident.residentID;
       const facility = req.session.resident.facility;
+      const residentObjectId = new mongoose.Types.ObjectId(res_id);
 
       //if resident has been cleared to work
       if (workClearance === "approved") {
@@ -42,10 +48,7 @@ module.exports = {
                         input: "$applicants", // The array to filter
                         as: "applicant",
                         cond: {
-                          $eq: [
-                            "$$applicant.resident_id",
-                            new mongoose.Types.ObjectId(residentObjectId),
-                          ],
+                          $eq: ["$$applicant.resident_id", residentObjectId],
                         },
                       },
                     },
@@ -63,36 +66,39 @@ module.exports = {
 
         //check for interviews
         const interviews = await Jobs.aggregate([
+          // Unwind the applicants array to access interviews
+          { $unwind: "$applicants" },
+
+          // Match applicants with the specified residentID
           {
             $match: {
-              "interviews.residentID": residentID, // Match documents where interviews contain the specified residentID
+              "applicants.residentID": residentID,
+              "applicants.interview": { $exists: true }, // Ensure interview exists
             },
           },
+
+          // Project necessary fields
           {
             $project: {
               _id: 0, // Exclude the document's ObjectId
               companyName: 1, // Include company name
               position: 1, // Include position
-              interviews: {
-                $filter: {
-                  input: "$interviews",
-                  as: "interview",
-                  cond: { $eq: ["$$interview.residentID", residentID] }, // Filter interviews by residentID
-                },
-              },
+              interview: "$applicants.interview", // Include interview details directly
             },
           },
-          {
-            $unwind: "$interviews", // Deconstruct the filtered interviews array into individual objects
-          },
+
+          // Unwind the interview array if it is an array (optional based on schema)
+          { $unwind: "$interview" },
+
+          // Project specific fields from interview
           {
             $project: {
-              companyName: 1, // Include company name
-              position: 1, // Include position
-              "interviews.dateScheduled": 1, // Include the date field
-              "interviews.time": 1, // Include the time field
-              "interviews.instructions": 1, // Include the instructions field
-              "interviews.isRequested": 1, // Include the isRequested field if needed
+              companyName: 1,
+              position: 1,
+              "interview.dateScheduled": 1,
+              "interview.time": 1,
+              "interview.instructions": 1,
+              "interview.isRequested": 1,
             },
           },
         ]);
@@ -308,6 +314,18 @@ module.exports = {
           "submitted_application",
           `Submitted application to ${updatedJob.companyName}.`
         );
+
+        const employerEmails = await getEmployeeEmails(updatedJob.companyName);
+
+        //check if PI Contacts exist in this company and send notification
+        if (employerEmails) {
+          await sendNotificationsToEmployers(
+            employerEmails,
+            "application_submitted",
+            `New job application submitted by resident #${resident.residentID}.`,
+            `/employer/residentProfile/${resident.residentID}?activeTab=application`
+          );
+        }
       }
 
       res.redirect(`/resident/jobInfo/${jobID}`);

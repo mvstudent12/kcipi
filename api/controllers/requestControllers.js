@@ -343,36 +343,45 @@ module.exports = {
   //===========================
   //review interview from email
   async reviewInterviewRequest(req, res) {
-    const { interviewID } = req.params;
-    const { applicationID } = req.params;
+    const { interviewID, applicationID } = req.params;
     try {
-      let interview = await Jobs.aggregate([
-        // Unwind the interviews array to make each interview a separate document
-        { $unwind: "$interviews" },
+      let interviewData = await Jobs.aggregate([
+        // Unwind the applicants array to access interviews
+        { $unwind: "$applicants" },
 
-        // Match the specific interview by its _id
+        // Match the specific application and interview by their IDs
         {
           $match: {
-            "interviews._id": new mongoose.Types.ObjectId(interviewID),
+            "applicants._id": new mongoose.Types.ObjectId(applicationID),
+            "applicants.interview._id": new mongoose.Types.ObjectId(
+              interviewID
+            ),
           },
         },
 
-        // Project the interview and optionally other relevant fields
+        // Project the interview and relevant fields
         {
           $project: {
             _id: 0, // Exclude the Job document's _id
-            position_id: "$_id", // Include the Job document's _id as jobID for context
-            interview: "$interviews", // Include the matched interview
+            jobId: "$_id", // Include the Job document's _id as jobId for context
+            interview: "$applicants.interview", // Include the matched interview
+            residentID: "$applicants.residentID", // Include residentID
+            residentName: "$applicants.residentName", // Include residentName
             companyName: "$companyName",
+            position: "$position",
           },
         },
       ]);
-      interview = interview[0];
 
-      const residentID = interview.interview.residentID;
+      // Extract interview data
+      const interview = interviewData[0];
+
+      // Fetch resident details using the residentID from the interview data
       const resident = await Resident.findOne({
-        residentID: residentID,
+        residentID: interview?.residentID,
       }).lean();
+
+      // Render the interview request page with the data
       res.render("clearance/requestInterview", {
         interview,
         resident,
@@ -382,6 +391,7 @@ module.exports = {
       res.render("error/500");
     }
   },
+
   //schedule interview from email notification
   async scheduleInterview(req, res) {
     const { interviewID, jobID } = req.params;
@@ -398,6 +408,7 @@ module.exports = {
         },
         {
           $set: {
+            "applicants.$.interview.status": "scheduled",
             "interviews.$.dateScheduled": new Date(date), // Update the date
             "interviews.$.time": time, // Update the time
             "interviews.$.instructions": instructions.trim(), // Update the instructions
@@ -421,7 +432,8 @@ module.exports = {
         employerEmails,
         "interview_scheduled",
         `New interview scheduled for resident #${resident.residentID}.`,
-        `/employer/residentProfile/${resident.residentID}`
+        `/employer/residentProfile/${resident.residentID}`,
+        `/employer/residentProfile/${resident.residentID}?activeTab=application`
       );
       res.render(`clearance/thankYou`, {
         user: req.session.user,

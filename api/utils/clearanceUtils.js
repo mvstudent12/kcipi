@@ -60,9 +60,17 @@ async function getResidentProfileInfo(residentID) {
     const res_id = resident._id;
 
     // Find positions the resident has applied for
-    const applications = await Jobs.find({
-      "applicants.resident_id": res_id, // Match applicants by resident ID in the applicants array
-    }).lean();
+    const jobs = await Jobs.find(
+      { "applicants.resident_id": res_id }, // Match applicants by resident ID in the applicants array
+      { "applicants.$": 1, companyName: 1, pay: 1 }
+    ).lean();
+
+    const applications = jobs.flatMap((job) =>
+      job.applicants.map((applicant) => ({
+        ...applicant,
+        companyName: job.companyName, // Attach companyName to each applicant
+      }))
+    );
 
     // Fetch the unit team, sorted by firstName
     const unitTeam = await UnitTeam.find({ facility: resident.facility })

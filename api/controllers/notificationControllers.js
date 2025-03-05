@@ -30,7 +30,6 @@ module.exports = {
   // Controller function to mark a notification as read
   async markNotificationAsRead(req, res) {
     const { notificationId } = req.params;
-    console.log(req.params);
     try {
       //mark notification as read
       const notification = await Notification.findByIdAndUpdate(

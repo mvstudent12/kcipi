@@ -45,17 +45,17 @@ clearanceRoutes.post(
 );
 
 clearanceRoutes.post(
-  "/scheduleInterview/:jobID",
+  "/scheduleInterview/:applicationID",
   authMiddleware,
   controller.scheduleInterview
 );
 clearanceRoutes.post(
-  "/hireResident/:res_id/:jobID",
+  "/hireResident/:res_id/:applicationID",
   authMiddleware,
   controller.hireResident
 );
 clearanceRoutes.get(
-  "/rejectHire/:res_id/:jobID",
+  "/rejectHire/:res_id/:applicationID",
   authMiddleware,
   controller.rejectHire
 );

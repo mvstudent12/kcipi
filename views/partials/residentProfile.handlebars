@@ -1116,26 +1116,26 @@
                             <div class="card">
                                 <div class="card-body pt-3">
                                     {{#if applications}}
-
                                         <div class="row mt-3 mb-3">
                                             <div class="col-lg-3 col-md-3 label text-muted">
-                                                Company</div>
-                                            <div class="col-lg-3 col-md-3 label text-muted">
                                                 Position</div>
+                                            <div class="col-lg-3 col-md-3 label text-muted">
+                                                Date Applied</div>
                                             <div class="col-lg-2 col-md-2 text-muted">
-                                                Pay</div>
+                                                Interview</div>
                                         </div>
+                                        <hr>
                                         {{#each applications}}
-
                                             <div class="row mt-3">
-                                                <div class="col-lg-3 col-md-3 label text-capitalize">
-                                                    {{this.companyName}}
-                                                </div>
                                                 <div class="col-lg-3 col-md-3 label text-capitalize">
                                                     {{this.position}}
                                                 </div>
-                                                <div class="col-lg-2 col-md-2">
-                                                    ${{this.pay}} /hr</div>
+                                                <div class="col-lg-3 col-md-3 label text-capitalize">
+                                                    {{formatDate this.dateApplied}}
+                                                </div>
+                                                <div class="col-lg-2 col-md-2 label text-capitalize">
+                                                    {{this.interview.status}}
+                                                </div>
                                                 <div class="col-lg-4 col-md-4">
                                                     <button class="btn btn-primary" type="button" data-bs-toggle="modal"
                                                         data-bs-target="#{{this._id}}">
@@ -1143,34 +1143,41 @@
                                                 </div>
                                             </div>
                                             <hr>
-
                                         {{/each}}
                                     {{else}}
-                                        {{#if resident.isHired}} <span class="text-success">
-                                                Resident is currently employed at <span
-                                                    class="text-capitalize text-info">{{resident.companyName}}</span>
-                                                as of {{formatDate
-                                        resident.dateHired}}.
+                                        {{#if resident.isHired}}
+                                            <span class="text-success">Resident is currently employed as of
+                                                {{formatDate resident.dateHired}}
                                             </span>
                                             <hr>
-                                            <button class="btn btn-danger" type="button" data-bs-toggle="modal"
-                                                data-bs-target="#terminate">
-                                                Terminate Employment</button>
-                                        {{else}}
-                                            {{#if resident.restrictionReason}}
-                                                <div class="text-center">
-                                                    <span class="text-danger">{{resident.restrictionReason}}
-                                                    </span>
-                                                </div>
+                                            {{#if resident.terminationRequest.requestDate}}
+                                                <p class="mb-3">Termination was requested by employer on
+                                                    {{formatDate resident.terminationRequest.requestDate}}
+                                                    for <span
+                                                        class="text-capitalize">{{resident.terminationRequest.terminationReason}}</span>
+                                                </p>
+                                                <hr>
+                                                <div class="modal-footer d-flex justify-content-between">
+                                                    <a href="/clearance/cancelTerminationRequest/{{resident._id}}">
+                                                        <button class="btn btn-secondary" type="button">
+                                                            Deny Request</button></a>
 
+                                                    <a href="#"> <button class="btn btn-warning" type="button">
+                                                            View Request</button></a>
+
+                                                    <button class="btn btn-danger" type="button" data-bs-toggle="modal"
+                                                        data-bs-target="#terminate">
+                                                        Terminate Employment</button>
+                                                </div>
                                             {{else}}
-
-                                                <div class="text-center">
-                                                    <span class="text-primary">This resident has completed no
-                                                        applications.
-                                                    </span>
-                                                </div>
+                                                <button class="btn btn-danger" type="button" data-bs-toggle="modal"
+                                                    data-bs-target="#terminate">
+                                                    Terminate Employment</button>
                                             {{/if}}
+
+                                        {{else}}
+                                            <span class="text-primary">Resident has completed no applications.
+                                            </span>
                                         {{/if}}
                                     {{/if}}
                                 </div>
@@ -1437,8 +1444,6 @@
     </div>
 </div>
 
-
-
 {{!-- Reject Resume Modal --}}
 <div class="modal fade" id="rejectResume" tabindex="-1">
     <div class="modal-dialog">
@@ -1515,7 +1520,6 @@
     </div>
 </div>
 
-
 {{!-- Terminate Resident Modal --}}
 <div class="modal fade" id="terminate" tabindex="-1">
     <div class="modal-dialog">
@@ -1579,7 +1583,6 @@
         </div>
     </div>
 </div>
-
 
 {{!-- Request Clearance Modal --}}
 <div class="modal fade" id="clearanceModal" tabindex="-1">
@@ -1681,7 +1684,6 @@
 </div>
 
 
-
 {{#each applications}}
     {{!-- View Application Modal --}}
     <div class="modal fade" id="{{this._id}}" tabindex="-1">
@@ -1689,29 +1691,22 @@
             <div class="modal-content p-2">
                 <div class="modal-header row">
                     <div class="col-6">
-                        <h3 class="modal-title text-center text-capitalize">{{../resident.firstName}}
+                        <h5 class="modal-title text-center text-capitalize">{{../resident.firstName}}
                             {{../resident.lastName}}
-                        </h3>
+                        </h5>
                     </div>
 
-                    {{#getInterview ../resident.residentID this.interviews}}
-                        {{#if dateScheduled}}
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    {{#if (eq this.interview.status "scheduled")}}
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
-                        {{else}}
-                            <div class="col-6">
-                                <button type="button" class="btn btn-info mx-2" data-bs-toggle="modal"
-                                    data-bs-target="#{{../this._id}}2">Schedule
-                                    Interview</button>
-                            </div>
-                        {{/if}}
-{{else}}
-    <div class="col-6">
-        <button type="button" class="btn btn-info mx-2" data-bs-toggle="modal"
-            data-bs-target="#{{../this._id}}2">Schedule
-            Interview</button>
-    </div>
-                    {{/getInterview}}
+                    {{else}}
+                        <div class="col-6">
+                            <button type="button" class="btn btn-info mx-2" data-bs-toggle="modal"
+                                data-bs-target="#{{this._id}}2">Schedule
+                                Interview</button>
+                        </div>
+                    {{/if}}
+
                 </div>
 
                 <div class="modal-body">
@@ -1740,32 +1735,39 @@
                         <div class="col-lg-4 col-md-4 label text-info">Position:</div>
                         <div class="col-lg-8 col-md-8 text-capitalize">{{this.position}}</div>
                     </div>
-                    <div class="row mb-2">
-                        <div class="col-lg-4 col-md-4 label text-info">Pay:</div>
-                        <div class="col-lg-8 col-md-8 text-capitalize">${{this.pay}}/hr</div>
-                    </div>
+
                     <hr>
                     <div class="row mb-2">
                         <div class="col-lg-6 col-md-6 label text-info">Interview Requested On:</div>
-                        {{#getInterview ../resident.residentID this.interviews}}
-                            <div class="col-lg-6 col-md-6">{{formatDate dateRequested}}</div>
-{{else}}
-    <div class="col-lg-6 col-md-6">No</div>
-                        {{/getInterview}}
+                        {{#if this.interview.dateRequested}}
+                            <div class="col-lg-6 col-md-6">{{formatDate this.interview.dateRequested}}</div>
+                        {{else}}
+                            <div class="col-lg-6 col-md-6">No Request</div>
+                        {{/if}}
                     </div>
 
                     <div class="row mb-2">
                         <div class="col-lg-6 col-md-6 label text-info">Interview Scheduled For:</div>
-                        {{#getInterview ../resident.residentID this.interviews}}
-                            {{#if dateScheduled}}
-                                <div class="col-lg-6 col-md-6">{{formatDate dateScheduled}} &nbsp; @ &nbsp; {{time}}
-                                </div>
-                            {{else}}
-                                <div class="col-lg-6 col-md-6">No</div>
-                            {{/if}}
-{{else}}
-    <div class="col-lg-6 col-md-6">No</div>
-                        {{/getInterview}}
+                        {{#if this.interview.dateScheduled}}
+
+                            <div class="col-lg-6 col-md-6">{{formatDate this.interview.dateScheduled}} &nbsp; @ &nbsp;
+                                {{this.interview.time}}
+                            </div>
+                        {{else}}
+                            <div class="col-lg-6 col-md-6">None Scheduled</div>
+                        {{/if}}
+
+                    </div>
+                    <hr>
+                    <div class="row mb-2">
+                        <div class="col-lg-6 col-md-6 label text-info">Employment Requested:</div>
+
+                        {{#if this.hireRequest}}
+                            <div class="col-lg-6 col-md-6 text-success">Requested</div>
+                        {{else}}
+                            <div class="col-lg-6 col-md-6">No Request</div>
+                        {{/if}}
+
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -1798,32 +1800,28 @@
                 </div>
                 <form method="POST" action="/clearance/scheduleInterview/{{this._id}}">
                     <div class="modal-body">
-                        {{#getInterview ../resident.residentID this.interviews}}
 
-                            <input type="hidden" name="interviewID" value="{{_id}}">
-                            <p>Employer Preferences - Requested on {{formatDate dateRequested}}</p>
-                            <hr>
-                            <div class="row mb-3">
-                                <label for="instructions" class="col-12 col-form-label">Scheduling Preferences:</label>
-                                <div class="col-12">
-                                    <textarea disabled class="form-control" style="height: 100px" name="instructions"
-                                        placeholder="none">{{preferredDate}}</textarea>
-                                </div>
+
+                        <input type="hidden" name="interviewID" value="{{_id}}">
+                        <p>Employer Preferences - Requested on {{formatDate this.interview.dateRequested}}</p>
+                        <hr>
+                        <div class="row mb-3">
+                            <label for="instructions" class="col-12 col-form-label">Scheduling Preferences:</label>
+                            <div class="col-12">
+                                <textarea disabled class="form-control" style="height: 100px" name="instructions"
+                                    placeholder="none">{{this.interview.preferredDate}}</textarea>
                             </div>
-                            <div class="row mb-3">
-                                <label for="instructions" class="col-12 col-form-label">Instructions:</label>
-                                <div class="col-12">
-                                    <textarea disabled class="form-control" style="height: 100px" name="instructions"
-                                        placeholder="none">{{employerInstructions}}</textarea>
-                                </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="instructions" class="col-12 col-form-label">Instructions:</label>
+                            <div class="col-12">
+                                <textarea disabled class="form-control" style="height: 100px" name="instructions"
+                                    placeholder="none">{{this.interview.employerInstructions}}</textarea>
                             </div>
-                            <hr>
-{{else}}
-    <div class="row mb-3">
-        <p>No requests or preferences from employer.</p>
-    </div>
-    <hr>
-                        {{/getInterview}}
+                        </div>
+                        <hr>
+
+
 
                         <div class="row mb-3">
                             <label for="name" class="col-sm-2 col-form-label">Resident</label>

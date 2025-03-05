@@ -254,7 +254,7 @@
                                                     <div class="col-lg-3 col-md-3 label text-capitalize">
                                                         {{formatDate this.dateApplied}}
                                                     </div>
-                                                    <div class="col-lg-2 col-md-2 accordion-flush text-capitalize">
+                                                    <div class="col-lg-2 col-md-2 label text-capitalize">
                                                         {{this.interview.status}}
                                                     </div>
                                                     <div class="col-lg-4 col-md-4">
@@ -272,15 +272,18 @@
                                             resident.dateHired}}
                                                 </span>
                                                 <hr>
-                                                {{#if resident.terminationRequest}}
+                                                {{#if resident.terminationRequest.requestDate}}
                                                     <p>Termination was requested on {{formatDate
                                             resident.terminationRequest.requestDate}} for <span
-                                                            class="text-capitalize">{{resident.terminationRequest.terminationReason}}</span>
+                                                            class="text-capitalize">{{resident.terminationRequest.terminationReason}}.
+                                                        </span>
                                                     </p>
+                                                    <p>Unit Team will review this request and take appropriate
+                                                        action.</p>
                                                 {{else}}
                                                     <button class="btn btn-danger" type="button" data-bs-toggle="modal"
                                                         data-bs-target="#terminate">
-                                                        Terminate Employment</button>
+                                                        Request Termination</button>
                                                 {{/if}}
 
                                             {{else}}

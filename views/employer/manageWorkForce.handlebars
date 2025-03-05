@@ -78,14 +78,14 @@
                                         {{#each interviews}}
                                             <tr>
                                                 <th scope="row"><a
-                                                        href="/employer/residentProfile/{{this.interview.residentID}}">{{this.interview.residentID}}</a>
+                                                        href="/employer/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
                                                 </th>
                                                 <td class="text-capitalize"><a
-                                                        href="/employer/residentProfile/{{this.interview.residentID}}">
-                                                        {{this.interview.name}}</a></td>
+                                                        href="/employer/residentProfile/{{this.residentID}}">
+                                                        {{this.residentName}}</a></td>
 
                                                 <td class="text-capitalize"><a
-                                                        href="/employer/residentProfile/{{this.interview.residentID}}">{{this.position}}</a>
+                                                        href="/employer/residentProfile/{{this.residentID}}">{{this.position}}</a>
                                                 </td>
                                                 {{#if this.interview.isRequested}}
                                                     <td>{{formatDate this.interview.dateRequested}}</td>

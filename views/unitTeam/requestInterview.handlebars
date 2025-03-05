@@ -1,27 +1,9 @@
 {{> unitTeamTemplate}}
 
-<!-- ======= Header ======= -->
-{{!-- <header id="header" class="header fixed-top d-flex align-items-center">
-    <div class="d-flex align-items-center justify-content-between">
-        <a href="#" class="logo d-flex align-items-center">
-            <img src="/assets/img/favicon.png" alt="Kansas Correctional Industries">
-            <span class="">KCI Private Industry</span>
-        </a>
-    </div><!-- End Logo -->
-    <nav class="header-nav ms-auto">
-        <ul class="d-flex align-items-center">
-            <li class="nav-item p-5">
-                <span class="d-md-block ps-2">{{email}}</span>
-            </li>
-        </ul>
-    </nav>
-</header><!-- End Header --> --}}
-
-
 
 <main id="main" class="main">
     <div class="pagetitle">
-        <h1 class="text-capitalize">Workforce Interview Request - {{application.companyName}}</h1>
+        <h1 class="text-capitalize">Workforce Interview Request - {{jobApplicant.companyName}}</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item active">PI Scheduling</li>
@@ -75,8 +57,8 @@
                                             <label for="instructions" class="col-12 col-form-label">Scheduling
                                                 Preferences from Employer:</label>
                                             <div class="col-12">
-                                                <textarea disabled class="form-control" style="height: 100px"
-                                                    name="instructions"
+                                                <textarea disabled class="form-control text-capitalize"
+                                                    style="height: 100px" name="instructions"
                                                     placeholder="No Preferences">{{application.interview.preferredDate}}</textarea>
                                             </div>
                                         </div>
@@ -84,8 +66,8 @@
                                             <label for="instructions" class="col-12 col-form-label">Instructions from
                                                 Employer:</label>
                                             <div class="col-12">
-                                                <textarea disabled class="form-control" style="height: 100px"
-                                                    name="instructions"
+                                                <textarea disabled class="form-control text-capitalize"
+                                                    style="height: 100px" name="instructions"
                                                     placeholder="No Preferences">{{application.interview.employerInstructions}}</textarea>
                                             </div>
                                         </div>

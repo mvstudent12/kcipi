@@ -594,7 +594,8 @@ module.exports = {
         await sendNotificationsToEmployers(
           employerEmails,
           "position_created",
-          `New job position created by admin.`
+          `New job position created by admin.`,
+          `/employer/managePositions`
         );
       }
 

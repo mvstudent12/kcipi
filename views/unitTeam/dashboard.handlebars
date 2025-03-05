@@ -397,30 +397,28 @@
                                         {{#each interviews}}
                                             <tr>
                                                 <th scope="row"><a
-                                                        href="/clearance/residentProfile/{{this.interview.residentID}}">{{this.interview.residentID}}</a>
+                                                        href="/clearance/residentProfile/{{this.applicants.residentID}}">{{this.applicants.residentID}}</a>
                                                 </th>
                                                 <td class="text-capitalize"><a
-                                                        href="/clearance/residentProfile/{{this.interview.residentID}}">
-                                                        {{this.interview.name}}</a></td>
+                                                        href="/clearance/residentProfile/{{this.applicants.residentID}}">
+                                                        {{this.applicants.residentName}}</a></td>
 
                                                 <td class="text-capitalize">
-                                                    <a href="/clearance/residentProfile/{{this.interview.residentID}}">
+                                                    <a href="/clearance/residentProfile/{{this.applicants.residentID}}">
                                                         {{this.companyName}}</a>
                                                 </td>
-                                                {{#if this.interview.isRequested}}
+                                                {{#if this.applicants.interview.dateRequested}}
                                                     <td><span class="badge bg-success">{{formatDate
-                                                    this.interview.dateRequested}}</span></td>
+                                                    this.applicants.interview.dateRequested}}</span></td>
                                                 {{else}}
                                                     <td>No</td>
                                                 {{/if}}
 
-                                                {{#if this.interview.dateScheduled}}
-                                                    <td>{{formatDate this.interview.dateScheduled}}</td>
+                                                {{#if this.applicants.interview.dateScheduled}}
+                                                    <td>{{formatDate this.applicants.interview.dateScheduled}}</td>
                                                 {{else}}
                                                     <td>No</td>
                                                 {{/if}}
-
-
 
                                             </tr>
                                         {{/each}}

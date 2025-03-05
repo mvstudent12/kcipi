@@ -447,91 +447,68 @@ module.exports = {
       return res.render("error/500");
     }
   },
-
   async scheduleInterview(req, res) {
-    const { jobID } = req.params;
-    const { residentID, date, time, instructions } = req.body;
+    const { applicationID } = req.params;
+    const { date, time, instructions, residentID } = req.body;
     try {
-      validateResidentID(residentID);
-
-      const resident = await Resident.findOne({ residentID }).lean();
-
-      const name = `${resident.firstName} ${resident.lastName}`;
-
-      //if interview has already been requested by the employer for scheduling
-      if (req.body.interviewID) {
-        const { interviewID } = req.body;
-        await Jobs.updateOne(
-          {
-            _id: new mongoose.Types.ObjectId(jobID), // Ensure jobID is an ObjectId
-            "interviews._id": new mongoose.Types.ObjectId(interviewID), // Ensure interviewID is an ObjectId
+      const updatedInterview = await Jobs.findOneAndUpdate(
+        { "applicants._id": new mongoose.Types.ObjectId(applicationID) },
+        {
+          $set: {
+            "applicants.$.interview.status": "scheduled",
+            "applicants.$.interview.dateScheduled": date,
+            "applicants.$.interview.time": time,
+            "applicants.$.interview.instructions": instructions.trim() || "",
           },
-          {
-            $set: {
-              "interviews.$.dateScheduled": date, // Update the date
-              "interviews.$.time": time, // Update the time
-              "interviews.$.instructions": instructions, // Update the instructions
-            },
-          }
-        );
-      } else {
-        // //add interview to Jobs document
-        await Jobs.findByIdAndUpdate(
-          new mongoose.Types.ObjectId(jobID), // Ensure jobID is an ObjectId
-          {
-            $push: {
-              interviews: {
-                isRequested: true,
-                dateRequested: new Date(), // Automatically set request date
-                residentID,
-                name,
-                dateScheduled: date, // Ensure correct field name
-                time,
-                instructions,
-              },
-            },
-          }
-        );
+        },
+        { new: true } // Return the updated document
+      ).lean();
+
+      if (!updatedInterview) {
+        return {
+          success: false,
+          message: "Application not found or update failed",
+        };
       }
 
-      const job = await Jobs.findOne({ _id: jobID }).lean();
-      const companyName = job.companyName;
+      // Find the updated applicant from the applicants array
+      const updatedApplicant = updatedInterview.applicants.find(
+        (app) => app._id.toString() === applicationID
+      );
 
       //send notification to all PI partners in that company
-      const employerEmails = await getEmployeeEmails(companyName);
-
-      await sendNotificationsToEmployers(
-        employerEmails,
-        "interview_scheduled",
-        `New interview scheduled for resident #${resident.residentID}.`
+      const employerEmails = await getEmployeeEmails(
+        updatedInterview.companyName
       );
-
-      await createActivityLog(
-        req.session.user._id.toString(),
-        "interview_scheduled",
-        `Scheduled ${companyName} interview for resident #${residentID}.`
-      );
-
-      await createActivityLog(
-        resident._id.toString(),
-        "interview_scheduled",
-        `Interview scheduled for ${companyName} on ${date}.`
-      );
+      if (employerEmails) {
+        await sendNotificationsToEmployers(
+          employerEmails,
+          "interview_scheduled",
+          `New interview scheduled for resident #${updatedApplicant.residentID}.`,
+          `/employer/residentProfile/${updatedApplicant.residentID}?activeTab=application`
+        );
+      }
 
       res.redirect(
         `/clearance/residentProfile/${residentID}?activeTab=application`
       );
     } catch (err) {
-      console.log("Error in scheduling resident interview: ", err);
+      console.error("Error scheduling interview:", err);
+      logger.warn("An error occurred while scheduling the interview: " + err);
       res.render("error/500");
     }
   },
+
   //employs resident to company
   async hireResident(req, res) {
-    const { res_id, jobID } = req.params;
+    const { res_id, applicationID } = req.params;
     const { startDate } = req.body;
+
     try {
-      const position = await Jobs.findOne({ _id: jobID }).lean();
+      const position = await Jobs.findOne({
+        "applicants._id": new mongoose.Types.ObjectId(applicationID),
+      }).lean();
+
       const companyName = position.companyName;
 
       //update resident object with hiring info
@@ -539,6 +516,10 @@ module.exports = {
         res_id,
         {
           $set: {
+            "terminationRequest.companyName": "",
+            "terminationRequest.requestDate": null,
+            "terminationRequest.terminationReason": "",
+            "terminationRequest.notes": "",
             isHired: true,
             dateHired: startDate,
             companyName,
@@ -555,22 +536,25 @@ module.exports = {
       await sendNotificationsToEmployers(
         employerEmails,
         "resident_hired",
-        `Resident #${residentID} is now employed with your company.`
+        `Resident #${residentID} is now employed with your company.`,
+        `/employer/residentProfile/${residentID}?activeTab=application`
       );
 
       //remove user from applicants/ interviews add to workforce
-      await Jobs.findByIdAndUpdate(jobID, {
-        $pull: {
-          applicants: { resident_id: res_id }, // Remove resident from the applicants array
-          interviews: { residentID: residentID }, // Remove interview with the given residentID
-        },
-        $push: {
-          employees: res_id, // Add the resident to the employees array
-        },
-        $inc: {
-          availablePositions: -1, // Subtract 1 from availablePositions
-        },
-      });
+      await Jobs.findOneAndUpdate(
+        { "applicants._id": applicationID },
+        {
+          $pull: {
+            applicants: { _id: applicationID },
+          }, // Remove the applicant from the list
+          $push: {
+            employees: res_id, // Add the resident to the employees array
+          },
+          $inc: {
+            availablePositions: -1, // Subtract 1 from availablePositions
+          },
+        }
+      );
 
       //remove resident from all other applied jobs
       await Jobs.updateMany(
@@ -578,7 +562,6 @@ module.exports = {
         {
           $pull: {
             applicants: { resident_id: res_id }, // Remove resident_id from the applicants array
-            interviews: { residentID: residentID }, // Remove interview with the given residentID
           },
         }
       );
@@ -605,7 +588,7 @@ module.exports = {
   },
   //rejects resident application
   async rejectHire(req, res) {
-    const { res_id, jobID } = req.params;
+    const { res_id, applicationID } = req.params;
     try {
       const resident = await Resident.findByIdAndUpdate(
         res_id,
@@ -623,15 +606,14 @@ module.exports = {
       validateResidentID(residentID);
 
       //remove user from applicants/ interviews
-      const updatedJob = await Jobs.findByIdAndUpdate(
-        { _id: jobID },
+      const updatedJob = await Jobs.findOneAndUpdate(
+        { "applicants._id": applicationID }, // Find the job containing the applicant by _id
         {
           $pull: {
-            applicants: { resident_id: res_id },
-            interviews: { residentID: residentID },
+            applicants: { _id: applicationID }, // Pull the applicant by _id
           },
         },
-        { new: true }
+        { new: true } // Return the updated job document
       );
 
       await createActivityLog(
@@ -668,6 +650,10 @@ module.exports = {
       if (workRestriction === "restricted") {
         const updateData = {
           $set: {
+            "terminationRequest.companyName": "",
+            "terminationRequest.requestDate": null,
+            "terminationRequest.terminationReason": "",
+            "terminationRequest.notes": "",
             isHired: false,
             companyName: "",
             dateHired: null,
@@ -796,7 +782,8 @@ module.exports = {
       await sendNotificationsToEmployers(
         employerEmails,
         "resident_terminated",
-        `Resident #${resident.residentID} has been terminated from your company.`
+        `Resident #${resident.residentID} has been terminated from your company.`,
+        `/employer/residentProfile/${resident.residentID}?activeTab=application`
       );
 
       await createActivityLog(
@@ -812,7 +799,7 @@ module.exports = {
       );
 
       res.redirect(
-        `/clearance/residentProfile/${residentID}?activeTab=application`
+        `/clearance/residentProfile/${residentID}?activeTab=work-history`
       );
     } catch (err) {
       console.log("Error terminating resident: ", err);
@@ -835,7 +822,8 @@ module.exports = {
       await sendNotificationsToEmployers(
         employerEmails,
         "termination_request_denied",
-        `The termination request for #${resident.residentID} has been denied.`
+        `The termination request for #${resident.residentID} has been denied.`,
+        `/employer/residentProfile/${resident.residentID}?activeTab=application`
       );
 
       await createActivityLog(

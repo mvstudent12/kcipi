@@ -36,11 +36,17 @@ unitTeamRoutes.get(
 );
 unitTeamRoutes.post(
   "/scheduleInterview/:applicationID",
+  authMiddleware,
   controller.scheduleInterview
 );
 unitTeamRoutes.get(
   "/reviewHireRequest/:applicationID",
+  authMiddleware,
   controller.reviewHireRequest
+);
+unitTeamRoutes.get(
+  "/reviewTerminationRequest/:res_id",
+  controller.reviewTerminationRequest
 );
 unitTeamRoutes.get(
   "/manageClearance",

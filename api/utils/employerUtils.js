@@ -89,21 +89,31 @@ const getResidentApplications = async (companyName, residentID) => {
 
 async function findResidentsFromInterviews(companyID) {
   try {
-    // Find jobs for the given companyID and get interviews
-    const jobs = await Jobs.find({ companyID }).select("interviews").lean();
+    // Find jobs for the given companyID and get applicants with interviews
+    const jobs = await Jobs.find({ companyID })
+      .select(
+        "applicants.companyID applicants.residentID applicants.residentName applicants.interview"
+      )
+      .lean();
 
-    // Extract residentIDs along with interview details
+    // Extract residentIDs and interview details
     const interviewData = jobs.flatMap((job) =>
-      job.interviews.map((interview) => ({
-        residentID: interview.residentID,
-        dateRequested: interview.dateRequested,
-        dateScheduled: interview.dateScheduled,
-      }))
+      job.applicants
+        .filter(
+          (applicant) =>
+            applicant.interview?.status && applicant.interview.status !== "none"
+        ) // Only include applicants with valid interviews
+        .map((applicant) => ({
+          residentID: applicant.residentID,
+          residentName: applicant.residentName,
+          dateRequested: applicant.interview?.dateRequested,
+          dateScheduled: applicant.interview?.dateScheduled,
+        }))
     );
 
     // Fetch resident details for all interview data (including duplicates)
     const residents = await Resident.find({
-      residentID: { $in: interviewData.map((i) => i.residentID) }, // Use all residentIDs without checking for uniqueness
+      residentID: { $in: interviewData.map((i) => i.residentID) },
     })
       .select(
         "firstName lastName residentID facility outDate jobPool custodyLevel unitTeam"
@@ -118,7 +128,8 @@ async function findResidentsFromInterviews(companyID) {
       return {
         dateRequested: interview?.dateRequested,
         dateScheduled: interview?.dateScheduled,
-        ...(resident || null), // Merge interview with resident data
+        residentName: interview?.residentName,
+        ...(resident || {}), // Merge interview with resident data
       };
     });
 

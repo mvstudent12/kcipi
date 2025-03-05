@@ -190,7 +190,7 @@ const sendRequestHireEmail = async (
 
   try {
     await transporter.sendMail(mailOptions);
-    console.log(`Email sent to ${recipient}`);
+    console.log(`REquest Hire Email sent to ${recipient}`);
   } catch (error) {
     console.error("Error sending email: ", error);
   }
@@ -215,7 +215,7 @@ const sendTerminationRequestEmail = async (
       
       <p>
       
-        <a href="http://${DOMAIN}/request/reviewTerminationRequest/${resident._id}"
+        <a href="http://${DOMAIN}/unitTeam/reviewTerminationRequest/${resident._id}"
            style="display: inline-block; background-color: #4CAF50; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-size: 16px; text-align: center; font-weight: bold;">
           Manage Termination
         </a>
@@ -223,7 +223,7 @@ const sendTerminationRequestEmail = async (
 
       <p style="font-size: 14px; color: #333;">If you are unable to click the button, please copy and paste the following link into your browser:</p>
       <p style="font-size: 14px; color: #333;">
-        <a href="http://${DOMAIN}/request/reviewTerminationRequest/${resident._id}" 
+        <a href="http://${DOMAIN}/unitTeam/reviewTerminationRequest/${resident._id}" 
            style="color: #007BFF; text-decoration: none;"><span style="text-transform: capitalize;">${companyName}</span> Review Link</a>
       </p>
     `,
@@ -231,7 +231,7 @@ const sendTerminationRequestEmail = async (
 
   try {
     await transporter.sendMail(mailOptions);
-    console.log(`Email sent to ${recipient}`);
+    console.log(`Termination Email sent to ${recipient}`);
   } catch (error) {
     console.error("Error sending email: ", error);
   }

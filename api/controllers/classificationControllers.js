@@ -8,11 +8,12 @@ const logger = require("../utils/logger");
 const { getUserNotifications } = require("../utils/notificationUtils");
 
 const {
-  findInterviews,
+  findFacilityCaseload,
+  findInterviewsInCaseload,
   findApplicantIDsAndCompanyName,
   findResidentsWithCompany,
   createApplicantsReport,
-} = require("../utils/classificationUtils");
+} = require("../utils/kdocStaffUtils");
 
 const { getTotalAvailablePositions } = require("../utils/employerUtils");
 
@@ -26,12 +27,7 @@ module.exports = {
       const facility = req.session.user.facility;
 
       //find caseload specific to UTM
-      const caseLoad = await Resident.find({
-        facility: facility,
-        isActive: true,
-      })
-        .sort({ lastName: 1 })
-        .lean();
+      const caseLoad = await findFacilityCaseload(facility);
 
       //make array of resident _id in caseload
       const IDs = caseLoad.flatMap((resident) => resident._id);
@@ -52,7 +48,7 @@ module.exports = {
       }).lean();
 
       //find all active interviews
-      const interviews = await findInterviews(residentIDs);
+      const interviews = await findInterviewsInCaseload(residentIDs);
 
       //count pending resumes
       const pendingResumes = await Resident.countDocuments({
@@ -116,12 +112,7 @@ module.exports = {
       );
       const facility = req.session.user.facility;
 
-      const caseLoad = await Resident.find({
-        facility: facility,
-        isActive: true,
-      })
-        .sort({ lastName: 1 })
-        .lean();
+      const caseLoad = await findFacilityCaseload(facility);
 
       //make array of resident _id in caseload
       const IDs = caseLoad.flatMap((resident) => resident._id);
@@ -133,7 +124,7 @@ module.exports = {
 
       const applicants = await findResidentsWithCompany(applicantIDs);
 
-      const interviews = await findInterviews(residentIDs);
+      const interviews = await findInterviewsInCaseload(residentIDs);
 
       //find all residents who are actively hired
       const employees = await Resident.find({

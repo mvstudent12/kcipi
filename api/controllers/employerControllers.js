@@ -151,7 +151,7 @@ module.exports = {
       const companyName = req.session.user.companyName;
 
       // Find all resident IDs who have applied for jobs in the caseload
-      let applicantIDS = [];
+      let applicantIDs = [];
       const result = await Jobs.aggregate([
         { $match: { companyName: companyName } }, // Match jobs by companyName
         { $unwind: "$applicants" }, // Unwind the applicants array to process each one individually
@@ -163,13 +163,13 @@ module.exports = {
         },
       ]);
 
-      // If result is not empty, assign applicant IDs to applicantIDS
+      // If result is not empty, assign applicant IDs to applicantIDs
       if (result.length > 0) {
-        applicantIDS = result[0].allResidents;
+        applicantIDs = result[0].allResidents;
       }
 
       if (result.length > 0) {
-        applicantIDS = result[0].allResidents;
+        applicantIDs = result[0].allResidents;
       } else {
         console.log("No matching jobs found for applicants");
       }
@@ -177,7 +177,7 @@ module.exports = {
       // Query the Resident model to find residents matching these IDs who applied for jobs
       const applicants = await Resident.find(
         {
-          _id: { $in: applicantIDS },
+          _id: { $in: applicantIDs },
         },
         {
           _id: 0,
@@ -189,24 +189,28 @@ module.exports = {
           facility: 1,
         }
       ).lean();
-
       // Find interviews related to the company
       const findInterviews = await Jobs.aggregate([
         { $match: { companyName: companyName.toLowerCase() } },
+        { $unwind: "$applicants" }, // Unwind applicants array
+        { $match: { "applicants.interview.status": { $ne: "none" } } }, // Filter only applicants with valid interviews
         {
           $project: {
             _id: 0,
-            interviews: 1,
-            position: 1,
+            interview: "$applicants.interview", // Extract interview details
+            residentID: "$applicants.residentID", // Extract residentID
+            residentName: "$applicants.residentName", // Extract residentName
+            position: 1, // Keep job position
           },
         },
-        { $unwind: "$interviews" },
         {
           $group: {
             _id: null,
             allInterviews: {
               $push: {
-                interview: "$interviews",
+                interview: "$interview",
+                residentID: "$residentID",
+                residentName: "$residentName",
                 position: "$position",
               },
             },
@@ -358,21 +362,18 @@ module.exports = {
         isAvailableBool = false;
       }
 
-      await Jobs.findOneAndUpdate(
-        { _id: jobID },
-        {
-          $set: {
-            position: editPosition,
-            description: description,
-            skillSet: skillSet,
-            pay: pay,
-            availablePositions: updatedAvailablePositions,
-            isAvailable: isAvailableBool,
-            facility: facility,
-            jobPool: jobPool,
-          },
-        }
-      );
+      await Jobs.findOneAndUpdate(jobID, {
+        $set: {
+          position: editPosition,
+          description: description,
+          skillSet: skillSet,
+          pay: pay,
+          availablePositions: updatedAvailablePositions,
+          isAvailable: isAvailableBool,
+          facility: facility,
+          jobPool: jobPool,
+        },
+      });
 
       // Log activity
       await createActivityLog(
@@ -544,21 +545,18 @@ module.exports = {
       // Automatically set isAvailable based on availablePositions
       let isAvailableBool = updatedAvailablePositions > 0;
 
-      await Jobs.findOneAndUpdate(
-        { _id: jobID },
-        {
-          $set: {
-            position: editPosition,
-            description: description,
-            skillSet: skillSet,
-            pay: pay,
-            availablePositions: updatedAvailablePositions,
-            isAvailable: isAvailableBool,
-            facility: facility,
-            jobPool: jobPool,
-          },
-        }
-      );
+      await Jobs.findOneAndUpdate(jobID, {
+        $set: {
+          position: editPosition,
+          description: description,
+          skillSet: skillSet,
+          pay: pay,
+          availablePositions: updatedAvailablePositions,
+          isAvailable: isAvailableBool,
+          facility: facility,
+          jobPool: jobPool,
+        },
+      });
       // Log activity
       await createActivityLog(
         req.session.user._id.toString(),
@@ -598,7 +596,6 @@ module.exports = {
       );
 
       if (!activeTab) activeTab = "overview"; // Set the active tab for the profile
-      console.log(applications);
       // Render the employer profile page
       res.render(`employer/profiles/residentProfile`, {
         user: req.session.user,
@@ -699,7 +696,6 @@ module.exports = {
       hireRequestInfo,
     } = req.body;
     try {
-      console.log(req.params);
       const resident = await Resident.findOne({ residentID }).lean();
 
       const companyName = req.session.user.companyName;
@@ -790,7 +786,7 @@ module.exports = {
         "unitTeam",
         "termination_request",
         `Termination request for resident #${resident.residentID}.`,
-        `/request/reviewTerminationRequest/${resident._id}`
+        `/unitTeam/reviewTerminationRequest/${resident._id}`
       );
 
       // Log activity
@@ -819,7 +815,7 @@ module.exports = {
       const resident = await Resident.findById(res_id).lean();
       const residentID = resident.residentID;
 
-      //remove user from applicants/ interviews
+      //remove user from applicants
       const updatedJob = await Jobs.findOneAndUpdate(
         { "applicants._id": applicationID }, // Find the job containing the applicant by _id
         {
@@ -829,8 +825,6 @@ module.exports = {
         },
         { new: true } // Return the updated job document
       );
-
-      console.log(updatedJob);
 
       await createNotification(
         resident.resume.unitTeam,

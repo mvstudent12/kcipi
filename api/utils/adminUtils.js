@@ -106,20 +106,31 @@ async function getAllInterviews() {
   try {
     const jobs = await Jobs.find(
       {},
-      { companyName: 1, interviews: 1, _id: 0 }
+      {
+        companyName: 1,
+        "applicants.interview": 1,
+        "applicants.residentName": 1,
+        _id: 0,
+      }
     ).lean();
+
     const interviews = jobs.flatMap((job) =>
-      job.interviews.map((interview) => ({
-        companyName: job.companyName, // Attach companyName to each interview
-        ...interview, // Spread interview details
-      }))
-    ); // Flatten the array of arrays
+      job.applicants
+        .filter((applicant) => applicant.interview?.status !== "none") // Filter out empty interviews
+        .map((applicant) => ({
+          companyName: job.companyName, // Attach companyName to each interview
+          residentName: applicant.residentName, // Attach resident name
+          ...applicant.interview, // Spread interview details
+        }))
+    );
 
     return interviews;
   } catch (error) {
     console.error("Error fetching interviews:", error);
+    return []; // Return an empty array on error to avoid undefined
   }
 }
+
 const findApplicantIDsAndCompanyName = async (IDs) => {
   try {
     let applicantIDs = [];

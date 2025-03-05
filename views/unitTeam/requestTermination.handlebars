@@ -1,20 +1,6 @@
-<!-- ======= Header ======= -->
-<header id="header" class="header fixed-top d-flex align-items-center">
-    <div class="d-flex align-items-center justify-content-between">
-        <a href="#" class="logo d-flex align-items-center">
-            <img src="/assets/img/favicon.png" alt="Kansas Correctional Industries">
-            <span class="">KCI Private Industry</span>
-        </a>
-    </div><!-- End Logo -->
-    <nav class="header-nav ms-auto">
-        <ul class="d-flex align-items-center">
-            <li class="nav-item p-5">
-                <span class="d-md-block ps-2 text-capitalize">{{resident.unitTeam}}</span>
-            </li>
-        </ul>
-    </nav>
-</header><!-- End Header -->
-<main id="mainApproval" class="main">
+{{> unitTeamTemplate}}
+
+<main id="main" class="main">
     <div class="pagetitle">
         <h1 class="text-capitalize">Workforce Termination Request - {{resident.companyName}}</h1>
         <nav>

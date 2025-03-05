@@ -56,8 +56,6 @@ const generateSessionSecret = () => {
 
 const sessionSecret = "asdasdasd8798798798279827342kmnikjn89s8ed0s8d";
 
-console.log("Session Secret:", sessionSecret); // Log the secret for development (don't do this in production)
-
 app.use(
   session({
     secret: sessionSecret, // Use a strong, unique secret key for session ,encryption

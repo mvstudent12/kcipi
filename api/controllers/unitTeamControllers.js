@@ -13,12 +13,12 @@ const {
 } = require("../utils/clearanceUtils");
 
 const {
-  findCaseload,
-  findInterviews,
+  findUnitTeamCaseload,
+  findInterviewsInCaseload,
   findApplicantIDsAndCompanyName,
   findResidentsWithCompany,
   createApplicantsReport,
-} = require("../utils/unitTeamUtils");
+} = require("../utils/kdocStaffUtils");
 
 const { getUserNotifications } = require("../utils/notificationUtils");
 
@@ -36,7 +36,7 @@ module.exports = {
       );
 
       //find caseload specific to UTM
-      const caseLoad = await findCaseload(req.session.user.email);
+      const caseLoad = await findUnitTeamCaseload(req.session.user.email);
 
       //make array of resident _id in caseload
       const IDs = caseLoad.flatMap((resident) => resident._id);
@@ -59,7 +59,7 @@ module.exports = {
         .lean();
 
       //find all active interviews
-      const interviews = await findInterviews(residentIDs);
+      const interviews = await findInterviewsInCaseload(residentIDs);
 
       //count pending resumes for this member
       const pendingResumes = await Resident.countDocuments({
@@ -94,7 +94,7 @@ module.exports = {
       );
       const email = req.session.user.email;
 
-      const caseLoad = await findCaseload(email);
+      const caseLoad = await findUnitTeamCaseload(email);
 
       //make array of resident _id in caseload
       const IDs = caseLoad.flatMap((resident) => resident._id);
@@ -106,7 +106,7 @@ module.exports = {
 
       const applicants = await findResidentsWithCompany(applicantIDs);
 
-      const interviews = await findInterviews(residentIDs);
+      const interviews = await findInterviewsInCaseload(residentIDs);
 
       //find all residents who are actively hired
       const employees = await Resident.find({
@@ -146,7 +146,7 @@ module.exports = {
       );
       const jobApplicant = await Jobs.findOne(
         { "applicants._id": new mongoose.Types.ObjectId(applicationID) },
-        { "applicants.$": 1 } // Return only the matched application
+        { "applicants.$": 1, companyName: 1 } // Return only the matched application
       ).lean();
       const application = jobApplicant.applicants[0];
 
@@ -157,6 +157,7 @@ module.exports = {
       res.render("unitTeam/requestInterview", {
         user: req.session.user,
         application,
+        jobApplicant,
         resident,
         notifications,
       });
@@ -165,6 +166,25 @@ module.exports = {
       res.render("error/500");
     }
   },
+  async reviewTerminationRequest(req, res) {
+    const { res_id } = req.params;
+    try {
+      const resident = await Resident.findOne({ _id: res_id }).lean();
+      const unitTeam = await UnitTeam.findOne({
+        email: resident.resume.unitTeam,
+      }).lean();
+
+      req.session.user = unitTeam;
+      res.render("unitTeam/requestTermination", {
+        user: req.session.user,
+        resident,
+      });
+    } catch (err) {
+      console.log(err);
+      res.render("error/500");
+    }
+  },
+
   async scheduleInterview(req, res) {
     const { applicationID } = req.params;
     const { date, time, instructions, residentID } = req.body;
@@ -173,12 +193,10 @@ module.exports = {
         { "applicants._id": new mongoose.Types.ObjectId(applicationID) },
         {
           $set: {
-            "applicants.$.interview": {
-              status: "scheduled",
-              dateScheduled: date,
-              time: time,
-              instructions: instructions || "",
-            },
+            "applicants.$.interview.status": "scheduled",
+            "applicants.$.interview.dateScheduled": date,
+            "applicants.$.interview.time": time,
+            "applicants.$.interview.instructions": instructions.trim() || "",
           },
         },
         { new: true } // Return the updated document
@@ -205,7 +223,8 @@ module.exports = {
         employerEmails,
         "interview_scheduled",
         `New interview scheduled for resident #${updatedApplicant.residentID}.`,
-        "/employer/manageWorkForce"
+        "/employer/manageWorkForce",
+        `/employer/residentProfile/${updatedApplicant.residentID}?activeTab=application`
       );
 
       res.redirect(`/unitTeam/reviewInterviewRequest/${applicationID}`);
@@ -226,11 +245,8 @@ module.exports = {
         { "applicants._id": applicationID },
         { "applicants.$": 1 } // Return the matched application from the applicants array
       ).lean();
-      console.log(findApplication);
 
       const application = findApplication.applicants[0];
-
-      console.log(application);
 
       const job = await Jobs.findOne({
         "applicants._id": applicationID,
@@ -264,7 +280,7 @@ module.exports = {
       );
 
       //find caseload specific to UTM
-      const caseLoad = await findCaseload(req.session.user.email);
+      const caseLoad = await findUnitTeamCaseload(req.session.user.email);
 
       res.render("unitTeam/manageClearance", {
         user: req.session.user,
@@ -559,7 +575,7 @@ module.exports = {
       }
 
       //find caseload specific to UTM
-      const caseLoad = await findCaseload(req.session.user.email);
+      const caseLoad = await findUnitTeamCaseload(req.session.user.email);
 
       //make array of resident _id in caseload
       const IDs = caseLoad.flatMap((resident) => resident._id);
