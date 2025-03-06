@@ -624,11 +624,11 @@ module.exports = {
         {
           $set: {
             "applicants.$.interview": {
-              status: "requested",
-              preferredDate: preferences || null,
-              employerInstructions: additionalNotes || "",
-              requestedBy: req.session.user.email,
-              dateRequested: new Date(),
+              "applicants.$.interview.status": "requested",
+              "applicants.$.preferredDate": preferences || null,
+              "applicants.$.employerInstructions": additionalNotes || "",
+              "applicants.$.requestedBy": req.session.user.email,
+              "applicants.$.dateRequested": new Date(),
             },
           },
         }
@@ -831,7 +831,7 @@ module.exports = {
         "unitTeam",
         "resident_rejected",
         `Resident #${residentID} rejected for hiring by ${req.session.user.companyName}.`,
-        `/clearance/residentProfile/${residentID}?activeTab=activities`
+        `/shared/residentProfile/${residentID}?activeTab=activities`
       );
 
       // Log activity
@@ -859,12 +859,18 @@ module.exports = {
   //=============================
 
   async reports(req, res) {
+    let { noData } = req.query;
     try {
       const notifications = await getUserNotifications(
         req.session.user.email,
         req.session.user.role
       );
-      res.render("employer/reports", { user: req.session.user, notifications });
+      if (!noData) noData = false;
+      res.render("shared/reports", {
+        user: req.session.user,
+        notifications,
+        noData,
+      });
     } catch (err) {
       console.log(err);
       logger.warn("Error serving reports page: ", err);
@@ -874,19 +880,10 @@ module.exports = {
   //report on all current interviews
   async interviewReport(req, res) {
     try {
-      const notifications = await getUserNotifications(
-        req.session.user.email,
-        req.session.user.role
-      );
       const selectedFields = Object.keys(req.body);
 
       if (selectedFields.length === 0) {
-        const noData = true;
-        return res.render("employer/reports", {
-          user: req.session.user,
-          notifications,
-          noData,
-        });
+        return res.redirect("/employer/reports?noData=true");
       }
       const companyName = req.session.user.companyName;
 
@@ -899,11 +896,7 @@ module.exports = {
       const interviews = await findResidentsFromInterviews(companyID);
 
       if (interviews.length === 0) {
-        const noData = true;
-        return res.render("employer/reports", {
-          user: req.session.user,
-          noData,
-        });
+        return res.redirect("/employer/reports?noData=true");
       }
 
       // // Convert data to CSV
@@ -927,20 +920,11 @@ module.exports = {
   //report on all employed residents in company
   async employedResidentsReport(req, res) {
     try {
-      const notifications = await getUserNotifications(
-        req.session.user.email,
-        req.session.user.role
-      );
       const companyName = req.session.user.companyName;
       const selectedFields = Object.keys(req.body);
 
       if (selectedFields.length === 0) {
-        const noData = true;
-        return res.render("employer/reports", {
-          user: req.session.user,
-          notifications,
-          noData,
-        });
+        return res.redirect("/employer/reports?noData=true");
       }
 
       // find all employed residents from specific company
@@ -950,12 +934,7 @@ module.exports = {
       ).lean();
 
       if (residents.length === 0) {
-        const noData = true;
-        return res.render("employer/reports", {
-          user: req.session.user,
-          notifications,
-          noData,
-        });
+        return res.redirect("/employer/reports?noData=true");
       }
 
       // Convert data to CSV
@@ -979,10 +958,6 @@ module.exports = {
   //report all current applicants
   async applicantsReport(req, res) {
     try {
-      const notifications = await getUserNotifications(
-        req.session.user.email,
-        req.session.user.role
-      );
       const selectedFields = Object.keys(req.body);
 
       if (selectedFields.length === 0) {
@@ -1005,12 +980,7 @@ module.exports = {
       let applicants = await findApplicantsByCompany(companyID);
 
       if (applicants.length === 0) {
-        const noData = true;
-        return res.render("employer/reports", {
-          user: req.session.user,
-          notifications,
-          noData,
-        });
+        return res.redirect("/employer/reports?noData=true");
       }
 
       // // Convert data to CSV
@@ -1029,47 +999,6 @@ module.exports = {
       console.log(err);
       logger.warn("Error generating report: " + err);
       res.render("error/500");
-    }
-  },
-  //=============================
-  //     Basic Routes
-  //=============================
-  //serves contact page for employers
-  async contact(req, res) {
-    const { sentMsg } = req.query;
-    try {
-      const notifications = await getUserNotifications(
-        req.session.user.email,
-        req.session.user.role
-      );
-      res.render("employer/contact", {
-        user: req.session.user,
-        notifications,
-        sentMsg,
-      });
-    } catch (err) {
-      console.log(err);
-      logger.warn("Error serving contact page: ", err);
-      res.render("error/505");
-    }
-  },
-  //serves help desk page for employers
-  async helpDesk(req, res) {
-    const { sentMsg } = req.query;
-    try {
-      const notifications = await getUserNotifications(
-        req.session.user.email,
-        req.session.user.role
-      );
-      res.render("employer/helpDesk", {
-        user: req.session.user,
-        notifications,
-        sentMsg,
-      });
-    } catch (err) {
-      console.log(err);
-      logger.warn("Error serving help desk page: ", err);
-      res.render("error/505");
     }
   },
 };

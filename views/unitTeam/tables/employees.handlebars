@@ -35,31 +35,31 @@
                                     </thead>
                                     <tbody>
                                         {{#each employees}}
-                                        <tr>
-                                            <th scope="row">
-                                                <a
-                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
-                                            </th>
+                                            <tr>
+                                                <th scope="row">
+                                                    <a
+                                                        href="/shared/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
+                                                </th>
 
-                                            <td class="text-capitalize">
-                                                <a href="/clearance/residentProfile/{{this.residentID}}">{{this.firstName}}
-                                                    {{this.lastName}}</a>
-                                            </td>
-                                            <td class="text-capitalize">
-                                                <a href="/clearance/residentProfile/{{this.residentID}}">{{formatDate
+                                                <td class="text-capitalize">
+                                                    <a href="/shared/residentProfile/{{this.residentID}}">{{this.firstName}}
+                                                        {{this.lastName}}</a>
+                                                </td>
+                                                <td class="text-capitalize">
+                                                    <a href="/shared/residentProfile/{{this.residentID}}">{{formatDate
                                                     this.outDate}}</a>
-                                            </td>
-                                            <td class="text-capitalize">
-                                                <a href="/clearance/residentProfile/{{this.residentID}}">{{formatDate
+                                                </td>
+                                                <td class="text-capitalize">
+                                                    <a href="/shared/residentProfile/{{this.residentID}}">{{formatDate
                                                     this.dateHired}}</a>
-                                            </td>
-                                            <td class="text-capitalize">
-                                                <a
-                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.companyName}}</a>
-                                            </td>
+                                                </td>
+                                                <td class="text-capitalize">
+                                                    <a
+                                                        href="/shared/residentProfile/{{this.residentID}}">{{this.companyName}}</a>
+                                                </td>
 
 
-                                        </tr>
+                                            </tr>
 
                                         {{/each}}
                                     </tbody>

@@ -104,11 +104,11 @@
                                         {{#each caseLoad}}
                                             <tr>
                                                 <th scope="row"><a
-                                                        href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
+                                                        href="/shared/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
                                                 </th>
                                                 <td class="text-capitalize">{{this.facility}}</td>
                                                 <td class="text-capitalize"><a
-                                                        href="/clearance/residentProfile/{{this.residentID}}">
+                                                        href="/shared/residentProfile/{{this.residentID}}">
                                                         {{this.lastName}}, {{this.firstName}}</a></td>
 
 
@@ -174,13 +174,13 @@
                                             {{#if (eq this.resume.status "pending")}}
                                                 <tr>
                                                     <th scope="row"><a
-                                                            href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
+                                                            href="/shared/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
                                                     </th>
                                                     <td class="text-capitalize">{{this.facility}}</td>
-                                                    <td><a href="/clearance/residentProfile/{{this.residentID}}"
+                                                    <td><a href="/shared/residentProfile/{{this.residentID}}"
                                                             class="text-primary text-capitalize">
                                                             {{this.lastName}}, {{this.firstName}}</a></td>
-                                                    <td><a href="/clearance/residentProfile/{{this.residentID}}"
+                                                    <td><a href="/shared/residentProfile/{{this.residentID}}"
                                                             class="text-primary text-capitalize">{{formatDate this.outDate}}</a>
                                                     </td>
 
@@ -214,11 +214,11 @@
                                         {{#each allJobApplicants}}
                                             <tr>
                                                 <th scope="row"><a
-                                                        href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
+                                                        href="/shared/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
                                                 </th>
                                                 <td class="text-capitalize">{{this.facility}}</td>
 
-                                                <td><a href="/clearance/residentProfile/{{this.residentID}}"
+                                                <td><a href="/shared/residentProfile/{{this.residentID}}"
                                                         class="text-primary text-capitalize">
                                                         {{this.lastName}}, {{this.firstName}}</a></td>
 

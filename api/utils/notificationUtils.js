@@ -59,7 +59,7 @@ async function getAllUserNotifications(email, role) {
     })
       .lean()
       .sort({ createdAt: -1 })
-      .limit(15); // Limit the result to 20 notifications;
+      .limit(25); // Limit the result to 25 notifications;
   } catch (error) {
     console.error("Error fetching user notifications:", error);
     throw new Error("Failed to fetch notifications");
@@ -82,21 +82,8 @@ async function getUserNotifications(email, role) {
   }
 }
 
-// Function to mark a single notification as read
-async function notificationIsRead(notificationId) {
-  try {
-    return await Notification.findByIdAndUpdate(notificationId, {
-      isRead: true,
-    });
-  } catch (error) {
-    console.error("Error marking notification as read:", error);
-    throw new Error("Failed to mark notification as read");
-  }
-}
-
 module.exports = {
   getAllUserNotifications,
   getUserNotifications,
   createNotification,
-  notificationIsRead,
 };

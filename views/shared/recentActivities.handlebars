@@ -1,12 +1,17 @@
-{{> facility_managementTemplate}}
+{{#if (eq user.role "unitTeam")}}{{> unitTeamTemplate}}{{/if}}
+{{#if (eq user.role "classification")}}{{> classificationTemplate}}{{/if}}
+{{#if (eq user.role "facility_management")}}{{> facility_managementTemplate}}{{/if}}
+{{#if (eq user.role "employer")}}{{> employerTemplate}}{{/if}}
+{{#if (eq user.role "admin")}}{{> adminTemplate}}{{/if}}
 
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1 class="text-capitalize">Recent Activities</h1>
+        <h1 class="text-capitalize">Recent Activities <span class="text-capitalize text-muted small">|
+                {{user.companyName}}</span></h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/facility_management/dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="/{{user.role}}/dashboard">Dashboard</a></li>
                 <li class="breadcrumb-item active text-capitalize">Recent Activities</li>
             </ol>
         </nav>
@@ -23,7 +28,7 @@
 
                     <div class="card-body">
                         <h5 class="card-title text-capitalize">{{user.firstName}}
-                            {{user.lastName}} <span class="text-capitalize">| KDOC Facility Management</span>
+                            {{user.lastName}} <span class="text-lowercase">| {{user.email}}</span>
                         </h5>
 
                         <div class="activity">

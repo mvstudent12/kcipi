@@ -1,4 +1,8 @@
-{{> adminTemplate}}
+{{#if (eq user.role "unitTeam")}}{{> unitTeamTemplate}}{{/if}}
+{{#if (eq user.role "classification")}}{{> classificationTemplate}}{{/if}}
+{{#if (eq user.role "facility_management")}}{{> facility_managementTemplate}}{{/if}}
+{{#if (eq user.role "employer")}}{{> employerTemplate}}{{/if}}
+{{#if (eq user.role "admin")}}{{> adminTemplate}}{{/if}}
 
 
 <main id="main" class="main">
@@ -7,7 +11,7 @@
         <h1>Help Desk</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="/{{user.role}}/dashboard">Dashboard</a></li>
                 <li class="breadcrumb-item active">Help Desk</li>
             </ol>
         </nav>
@@ -18,7 +22,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-                        <img src="/assets/img/avatar.png" alt="Profile" class="rounded-circle">
+                        <img src="/assets/img/avatar_big.png" alt="Profile" class="rounded-circle">
                         <h2 class="text-capitalize mb-3">{{user.firstName}} {{user.lastName}}</h2>
                         <h5 class="text-muted mb-3">{{user.email}}</h5>
                         <h3>KDOC Employee</h3>
@@ -69,14 +73,8 @@
                                 </div>
                             </div>
                         {{/if}}
-
-
-
-
-
                     </form>
                 </div>
-
             </div>
         </div>
     </section>

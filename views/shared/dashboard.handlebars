@@ -1,9 +1,13 @@
-{{> facility_managementTemplate}}
+{{#if (eq user.role "unitTeam")}}{{> unitTeamTemplate}}{{/if}}
+{{#if (eq user.role "classification")}}{{> classificationTemplate}}{{/if}}
+{{#if (eq user.role "facility_management")}}{{> facility_managementTemplate}}{{/if}}
+{{#if (eq user.role "admin")}}{{> adminTemplate}}{{/if}}
+
 
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1 class="mb-2">Facility Management Dashboard</h1>
+        <h1 class="mb-2">KCI PI Dashboard</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item active">Dashboard</li>
@@ -22,7 +26,17 @@
                         <div class="card info-card customers-card">
                             <a href="#">
                                 <div class="card-body">
-                                    <h5 class="card-title text-capitalize">Residents <span>| {{user.facility}}</span>
+                                    <h5 class="card-title text-capitalize">Residents <span>|
+                                            {{#if (eq user.role "admin")}}
+                                                All KDOC
+                                            {{else}}
+                                                {{#if (eq user.role "unitTeam")}}
+                                                    My Caseload
+                                                {{else}}
+                                                    {{user.facility}}</span>
+                                        {{/if}}
+                                        {{/if}}
+
                                     </h5>
                                     <div class="d-flex align-items-center">
                                         <div
@@ -92,7 +106,15 @@
                     <div class="col-12">
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
-                                <h5 class="card-title">Residents <span>| My Caseload</span></h5>
+                                <h5 class="card-title">Residents <span>| {{#if (eq user.role "admin")}}
+                                            All KDOC
+                                        {{else}}
+                                            {{#if (eq user.role "unitTeam")}}
+                                                My Caseload
+                                            {{else}}
+                                                {{user.facility}}</span>
+                                    {{/if}}
+                                    {{/if}}</span></h5>
                                 <table class="table table-borderless table-striped datatable">
                                     <thead>
                                         <tr>
@@ -109,11 +131,11 @@
                                         {{#each caseLoad}}
                                             <tr>
                                                 <th scope="row"><a
-                                                        href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
+                                                        href="/shared/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
                                                 </th>
 
                                                 <td class="text-capitalize"><a
-                                                        href="/clearance/residentProfile/{{this.residentID}}">
+                                                        href="/shared/residentProfile/{{this.residentID}}">
                                                         {{this.lastName}}, {{this.firstName}}</a></td>
 
                                                 <td class="text-capitalize">{{formatDate this.outDate}}</td>
@@ -180,21 +202,21 @@
                                             {{#if (eq this.resume.status "pending")}}
                                                 <tr>
                                                     <th scope="row"><a
-                                                            href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
+                                                            href="/shared/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
                                                     </th>
 
-                                                    <td><a href="/clearance/residentProfile/{{this.residentID}}"
+                                                    <td><a href="/shared/residentProfile/{{this.residentID}}"
                                                             class="text-primary text-capitalize">
                                                             {{this.lastName}}, {{this.firstName}}</a></td>
-                                                    <td><a href="/clearance/residentProfile/{{this.residentID}}"
+                                                    <td><a href="/shared/residentProfile/{{this.residentID}}"
                                                             class="text-primary text-capitalize">{{formatDate this.outDate}}</a>
                                                     </td>
 
-                                                    <td><a href="/clearance/residentProfile/{{this.residentID}}">{{formatDate
+                                                    <td><a href="/shared/residentProfile/{{this.residentID}}">{{formatDate
                                                     this.resume.createdAt}}</a></td>
 
                                                     <td class="text-capitalize"><a
-                                                            href="/clearance/residentProfile/{{this.residentID}}">{{this.custodyLevel}}</a>
+                                                            href="/shared/residentProfile/{{this.residentID}}">{{this.custodyLevel}}</a>
                                                     </td>
 
                                                 </tr>
@@ -236,10 +258,10 @@
 
                                                         <tr>
                                                             <th scope="row"><a
-                                                                    href="/clearance/residentProfile/{{this.residentID}}">
+                                                                    href="/shared/residentProfile/{{this.residentID}}">
                                                                     {{this.residentID}}</a></th>
 
-                                                            <td><a href="/clearance/residentProfile/{{this.residentID}}"
+                                                            <td><a href="/shared/residentProfile/{{this.residentID}}"
                                                                     class="text-primary text-capitalize">{{this.firstName}}
                                                                     {{this.lastName}}</a></td>
 
@@ -352,23 +374,23 @@
                                         {{#each applicants}}
                                             <tr>
                                                 <th scope="row"><a
-                                                        href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
+                                                        href="/shared/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
                                                 </th>
 
 
-                                                <td><a href="/clearance/residentProfile/{{this.residentID}}"
+                                                <td><a href="/shared/residentProfile/{{this.residentID}}"
                                                         class="text-primary text-capitalize">
                                                         {{this.lastName}}, {{this.firstName}}</a></td>
 
                                                 <td class="text-capitalize"><a
-                                                        href="/clearance/residentProfile/{{this.residentID}}">{{this.custodyLevel}}</a>
+                                                        href="/shared/residentProfile/{{this.residentID}}">{{this.custodyLevel}}</a>
                                                 </td>
 
-                                                <td><a href="/clearance/residentProfile/{{this.residentID}}">{{formatDate
+                                                <td><a href="/shared/residentProfile/{{this.residentID}}">{{formatDate
                                                     this.outDate}}</a></td>
 
                                                 <td class="text-capitalize"><a
-                                                        href="/clearance/residentProfile/{{this.residentID}}">{{this.companyName}}</a>
+                                                        href="/shared/residentProfile/{{this.residentID}}">{{this.companyName}}</a>
                                                 </td>
                                             </tr>
                                         {{/each}}
@@ -397,14 +419,14 @@
                                         {{#each interviews}}
                                             <tr>
                                                 <th scope="row"><a
-                                                        href="/clearance/residentProfile/{{this.interview.residentID}}">{{this.interview.residentID}}</a>
+                                                        href="/shared/residentProfile/{{this.interview.residentID}}">{{this.interview.residentID}}</a>
                                                 </th>
                                                 <td class="text-capitalize"><a
-                                                        href="/clearance/residentProfile/{{this.interview.residentID}}">
+                                                        href="/shared/residentProfile/{{this.interview.residentID}}">
                                                         {{this.interview.name}}</a></td>
 
                                                 <td class="text-capitalize">
-                                                    <a href="/clearance/residentProfile/{{this.interview.residentID}}">
+                                                    <a href="/shared/residentProfile/{{this.interview.residentID}}">
                                                         {{this.companyName}}</a>
                                                 </td>
                                                 {{#if this.interview.isRequested}}
@@ -450,24 +472,24 @@
                                             <tr>
                                                 <th scope="row">
                                                     <a
-                                                        href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
+                                                        href="/shared/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
                                                 </th>
 
                                                 <td class="text-capitalize">
-                                                    <a href="/clearance/residentProfile/{{this.residentID}}">{{this.firstName}}
+                                                    <a href="/shared/residentProfile/{{this.residentID}}">{{this.firstName}}
                                                         {{this.lastName}}</a>
                                                 </td>
                                                 <td class="text-capitalize">
-                                                    <a href="/clearance/residentProfile/{{this.residentID}}">{{formatDate
+                                                    <a href="/shared/residentProfile/{{this.residentID}}">{{formatDate
                                                     this.outDate}}</a>
                                                 </td>
                                                 <td class="text-capitalize">
-                                                    <a href="/clearance/residentProfile/{{this.residentID}}">{{formatDate
+                                                    <a href="/shared/residentProfile/{{this.residentID}}">{{formatDate
                                                     this.dateHired}}</a>
                                                 </td>
                                                 <td class="text-capitalize">
                                                     <a
-                                                        href="/clearance/residentProfile/{{this.residentID}}">{{this.companyName}}</a>
+                                                        href="/shared/residentProfile/{{this.residentID}}">{{this.companyName}}</a>
                                                 </td>
                                             </tr>
 

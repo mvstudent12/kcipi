@@ -23,8 +23,6 @@ adminRoutes.get("/analytics", authMiddleware, controller.analytics);
 adminRoutes.get("/resumeData", authMiddleware, controller.resumeData);
 adminRoutes.get("/employmentData", authMiddleware, controller.employmentData);
 
-adminRoutes.get("/helpDesk", authMiddleware, controller.helpDesk);
-adminRoutes.get("/contact", authMiddleware, controller.contact);
 adminRoutes.get("/logs", authMiddleware, controller.logs);
 adminRoutes.get("/manageWorkForce", authMiddleware, controller.manageWorkForce);
 adminRoutes.get("/manageClearance", authMiddleware, controller.manageClearance);

@@ -35,8 +35,16 @@
                     <div class="card-body pt-3">
                         {{!-- is interview already scheduled? --}}
                         {{#unless resident.isHired}}
-                            <h5 class="text-success mt-3">This resident has been terminated.</h5>
-                            <p class="mt-3">Thank you for your time.</p>
+                            <div class="card">
+                                <div class="card-body d-flex flex-column align-items-center">
+                                    <h5 class="text-danger mt-3">This resident has been terminated.</h5>
+                                    <a href="/unitTeam/dashboard">
+                                        <button class="btn btn-primary mt-3">Return to Dashboard</button>
+                                    </a>
+                                </div>
+                            </div>
+
+
                         {{else}}
                             <div class="card">
                                 <div class="card-body">

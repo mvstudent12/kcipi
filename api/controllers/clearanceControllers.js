@@ -14,6 +14,14 @@ const {
 } = require("../utils/clearanceUtils");
 
 const {
+  sendReviewEmail,
+  sendHelpDeskEmail,
+  sendContactEmail,
+  sendRequestInterviewEmail,
+  sendRequestHireEmail,
+} = require("../utils/emailUtils/notificationEmail");
+
+const {
   getUserNotifications,
   createNotification,
 } = require("../utils/notificationUtils");
@@ -23,92 +31,6 @@ const { validateResidentID } = require("../utils/validationUtils");
 const { mapDepartmentName } = require("../utils/requestUtils.js");
 
 module.exports = {
-  //serves non-resident dashboard from login portal
-  async dashboard(req, res) {
-    try {
-      const notifications = await getUserNotifications(
-        req.session.user.email,
-        req.session.user.role
-      );
-      const residents = await Resident.find({ isActive: true })
-        .sort({ lastName: 1 })
-        .lean();
-
-      res.render(`${req.session.user.role}/dashboard`, {
-        residents,
-        user: req.session.user,
-        notifications,
-      });
-    } catch (err) {
-      console.log(err);
-      res.render("error/500");
-    }
-  },
-
-  async recentActivities(req, res) {
-    try {
-      const notifications = await getUserNotifications(
-        req.session.user.email,
-        req.session.user.role
-      );
-      const id = req.session.user._id.toString();
-
-      const activities = await ActivityLog.find({ userID: id })
-        .sort({ timestamp: -1 })
-        .limit(20)
-        .lean();
-
-      res.render(`${req.session.user.role}/recentActivities`, {
-        user: req.session.user,
-        notifications,
-        activities,
-      });
-    } catch (err) {
-      console.log(err);
-      res.render("error/500");
-    }
-  },
-
-  async residentProfile(req, res) {
-    const { residentID } = req.params;
-    let { activeTab } = req.query;
-    try {
-      const notifications = await getUserNotifications(
-        req.session.user.email,
-        req.session.user.role
-      );
-
-      validateResidentID(residentID);
-      //update resident workStatus
-      const workStatus = await checkClearanceStatus(residentID);
-
-      await Resident.findOneAndUpdate(
-        { residentID },
-        {
-          $set: {
-            "workEligibility.status": workStatus,
-          },
-        }
-      );
-
-      const { resident, applications, unitTeam, activities } =
-        await getResidentProfileInfo(residentID);
-
-      if (!activeTab) activeTab = "overview";
-      res.render(`${req.session.user.role}/profiles/residentProfile`, {
-        user: req.session.user,
-        notifications,
-        resident,
-        applications,
-        activeTab,
-        unitTeam,
-        activities,
-      });
-    } catch (err) {
-      console.error("Error fetching resident profile:", err);
-      res.render("error/403");
-    }
-  },
   //allows editing of resident data from residentProfile page
   async editResident(req, res) {
     let { residentID, custodyLevel, facility, unitTeamInfo, jobPool } =
@@ -143,9 +65,7 @@ module.exports = {
         `Edited resident #${residentID}.`
       );
 
-      res.redirect(
-        `/clearance/residentProfile/${residentID}?activeTab=overview`
-      );
+      res.redirect(`/shared/residentProfile/${residentID}?activeTab=overview`);
     } catch (err) {
       console.error("Error editing resident profile: ", err);
       res.render("error/500");
@@ -189,10 +109,10 @@ module.exports = {
           "unitTeam",
           "resume_rejected",
           `Resume rejected for resident #${resident.residentID} by ${req.session.user.email}.`,
-          `/clearance/residentProfile/${resident.residentID}?activeTab=resume`
+          `/shared/residentProfile/${resident.residentID}?activeTab=resume`
         );
       }
-      res.redirect(`/clearance/residentProfile/${residentID}?activeTab=resume`);
+      res.redirect(`/shared/residentProfile/${residentID}?activeTab=resume`);
     } catch (err) {
       console.error("Error rejecting resident resume: ", err);
       res.render("error/500");
@@ -237,13 +157,79 @@ module.exports = {
           "unitTeam",
           "resume_approved",
           `Resume approved for resident #${resident.residentID} by ${req.session.user.email}.`,
-          `/clearance/residentProfile/${resident.residentID}?activeTab=resume`
+          `/shared/residentProfile/${resident.residentID}?activeTab=resume`
         );
       }
 
-      res.redirect(`/clearance/residentProfile/${residentID}?activeTab=resume`);
+      res.redirect(`/shared/residentProfile/${residentID}?activeTab=resume`);
     } catch (err) {
       console.error("Error approving resident resume: ", err);
+      res.render("error/500");
+    }
+  },
+  async requestClearance(req, res) {
+    let { recipient, comments } = req.body;
+    let { residentID, dept } = req.params;
+
+    try {
+      const sender = req.session.user.email;
+      const department = dept;
+      dept = mapDepartmentName(dept);
+      const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
+
+      //change residents clearance status to show as pending
+      const resident = await Resident.findOneAndUpdate(
+        { residentID: residentID },
+        {
+          $set: {
+            [`${dept}Clearance.status`]: "pending",
+          },
+          $push: {
+            [`${dept}Clearance.notes`]: {
+              createdAt: new Date(),
+              createdBy: name,
+              note: `Clearance request sent to ${recipient}.`,
+            },
+          },
+        },
+        { new: true }
+      );
+
+      sendReviewEmail(resident, department, recipient, sender, comments);
+      //send notification to facility_management
+      if (dept == "DW" || dept == "Warden") {
+        await createNotification(
+          recipient,
+          "facility_management",
+          "clearance_requested",
+          `Clearance is requested for resident #${residentID}.`,
+          `/shared/residentProfile/${resident.residentID}?activeTab=clearance`
+        );
+      }
+      //send notifiaction to classification
+      if (dept == "Classification") {
+        await createNotification(
+          recipient,
+          "classification",
+          "clearance_requested",
+          `Clearance is requested for resident #${residentID}.`,
+          `/shared/residentProfile/${resident.residentID}?activeTab=clearance`
+        );
+      }
+
+      // Log activity
+      await createActivityLog(
+        req.session.user._id.toString(),
+        "clearance_requested",
+        `Requested ${department} clearance for #${residentID}.`
+      );
+
+      res.redirect(`/shared/residentProfile/${residentID}?activeTab=clearance`);
+    } catch (err) {
+      console.log(
+        "An error occurred when trying to request clearance approval via email: ",
+        err
+      );
       res.render("error/500");
     }
   },
@@ -353,7 +339,7 @@ module.exports = {
             "unitTeam",
             "clearance_approved",
             `${category} clearance approved for resident #${resident.residentID} by ${req.session.user.email}.`,
-            `/clearance/residentProfile/${resident.residentID}?activeTab=clearance`
+            `/shared/residentProfile/${resident.residentID}?activeTab=clearance`
           );
         }
         if (clearance === "false") {
@@ -362,14 +348,12 @@ module.exports = {
             "unitTeam",
             "clearance_denied",
             `${category} clearance denied for resident #${resident.residentID} by ${req.session.user.email}.`,
-            `/clearance/residentProfile/${resident.residentID}?activeTab=clearance`
+            `/shared/residentProfile/${resident.residentID}?activeTab=clearance`
           );
         }
       }
 
-      res.redirect(
-        `/clearance/residentProfile/${residentID}?activeTab=clearance`
-      );
+      res.redirect(`/shared/residentProfile/${residentID}?activeTab=clearance`);
     } catch (err) {
       console.error("Error providing resident clearance: ", err);
       res.render("error/500");
@@ -438,9 +422,7 @@ module.exports = {
         `Added note to resident #${residentID} clearance notes.`
       );
 
-      res.redirect(
-        `/clearance/residentProfile/${residentID}?activeTab=clearance`
-      );
+      res.redirect(`/shared/residentProfile/${residentID}?activeTab=clearance`);
     } catch (err) {
       console.error(err);
       logger.warn("An error occurred while adding resident notes: ", err);
@@ -490,7 +472,7 @@ module.exports = {
       }
 
       res.redirect(
-        `/clearance/residentProfile/${residentID}?activeTab=application`
+        `/shared/residentProfile/${residentID}?activeTab=application`
       );
     } catch (err) {
       console.error("Error scheduling interview:", err);
@@ -579,7 +561,7 @@ module.exports = {
       );
 
       res.redirect(
-        `/clearance/residentProfile/${residentID}?activeTab=application`
+        `/shared/residentProfile/${residentID}?activeTab=application`
       );
     } catch (err) {
       console.log("Error in hiring resident: ", err);
@@ -629,7 +611,7 @@ module.exports = {
       );
 
       res.redirect(
-        `/clearance/residentProfile/${residentID}?activeTab=application`
+        `/shared/residentProfile/${residentID}?activeTab=application`
       );
     } catch (err) {
       console.log("Error rejecting resident hire: ", err);
@@ -799,7 +781,7 @@ module.exports = {
       );
 
       res.redirect(
-        `/clearance/residentProfile/${residentID}?activeTab=work-history`
+        `/shared/residentProfile/${residentID}?activeTab=work-history`
       );
     } catch (err) {
       console.log("Error terminating resident: ", err);
@@ -833,7 +815,7 @@ module.exports = {
       );
 
       res.redirect(
-        `/clearance/residentProfile/${resident.residentID}?activeTab=application`
+        `/shared/residentProfile/${resident.residentID}?activeTab=application`
       );
     } catch (err) {
       console.log("Error rejecting termiantion request from employer: ", err);

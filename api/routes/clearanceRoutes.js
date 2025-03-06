@@ -18,15 +18,6 @@ const authMiddleware = [
   requireRole(["unitTeam", "facility_management", "classification", "admin"]),
 ];
 
-clearanceRoutes.get("/dashboard", authMiddleware, controller.dashboard);
-
-//serves resident clearance profile to admin and unit team
-clearanceRoutes.get(
-  "/residentProfile/:residentID",
-  authMiddleware,
-  controller.residentProfile
-);
-
 clearanceRoutes.post(
   "/rejectResume/:residentID",
   authMiddleware,
@@ -37,6 +28,11 @@ clearanceRoutes.post(
   "/approveResume/:residentID",
   authMiddleware,
   controller.approveResume
+);
+clearanceRoutes.post(
+  "/requestClearance/:residentID/:dept",
+  authMiddleware,
+  controller.requestClearance
 );
 clearanceRoutes.post(
   "/editClearance/:residentID/:dept",
@@ -82,21 +78,6 @@ clearanceRoutes.post(
   "/addNotes/:residentID/:dept",
   authMiddleware,
   controller.addNotes
-);
-
-clearanceRoutes.get(
-  "/recentActivities",
-  checkUser,
-  requireAuth,
-  sessionSecurity,
-  requireRole([
-    "unitTeam",
-    "facility_management",
-    "classification",
-    "admin",
-    "employer",
-  ]),
-  controller.recentActivities
 );
 
 module.exports = clearanceRoutes;

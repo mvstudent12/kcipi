@@ -102,8 +102,8 @@
 {"level":"info","message":"User logged in: chloe.miller@ks.gov","timestamp":"2025-02-25 11:52:25"}
 {"level":"info","message":"2025-02-25T17:52:25.816Z [INFO] : ::ffff:127.0.0.1 /login 200 156.188 ms","timestamp":"2025-02-25 11:52:25"}
 {"level":"info","message":"Role check error:: employer::Access denied.","timestamp":"2025-02-25 11:52:27"}
-{"level":"warn","message":"Page not found: /clearance/recentActivities","timestamp":"2025-02-25 11:53:34"}
-{"level":"warn","message":"Page not found: /clearance/recentActivities","timestamp":"2025-02-25 11:54:02"}
+{"level":"warn","message":"Page not found: /shared/recentActivities","timestamp":"2025-02-25 11:53:34"}
+{"level":"warn","message":"Page not found: /shared/recentActivities","timestamp":"2025-02-25 11:54:02"}
 {"level":"info","message":"Non-Resident logged out: chloe.miller@ks.gov","timestamp":"2025-02-25 11:55:07"}
 {"level":"info","message":"User logged in: kari.johnson@ks.gov","timestamp":"2025-02-25 11:55:11"}
 {"level":"info","message":"2025-02-25T17:55:11.595Z [INFO] : ::ffff:127.0.0.1 /login 200 183.450 ms","timestamp":"2025-02-25 11:55:11"}

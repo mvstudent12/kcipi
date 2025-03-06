@@ -1,29 +1,8 @@
+//Routes called from Email Link outside of app
+//check security options in development ----> later
 const express = require("express");
 const requestRoutes = express.Router();
 const controller = require("../controllers/requestControllers");
-
-//authentication middleware
-const { requireAuth, checkUser } = require("../middleware/authMiddleware");
-
-requestRoutes.get(
-  "/reviewInterviewRequest/:applicationID",
-  controller.reviewInterviewRequest
-);
-
-requestRoutes.post(
-  "/scheduleInterview/:interviewID/:jobID",
-  controller.scheduleInterview
-);
-
-requestRoutes.get(
-  "/reviewHireRequest/:applicationID",
-  controller.reviewHireRequest
-);
-
-requestRoutes.get(
-  "/reviewTerminationRequest/:res_id",
-  controller.reviewTerminationRequest
-);
 
 //============================
 //Help Desk & Contact Notifications
@@ -52,11 +31,6 @@ requestRoutes.post("/saveNotes/:residentID/:email/:dept", controller.saveNotes);
 //=============================
 //    All Notifications
 //=============================
-//request clearance from Medical, EAI, Classification, etc
-requestRoutes.post(
-  "/requestClearance/:residentID/:dept",
-  controller.requestClearance
-);
 
 requestRoutes.get(
   "/reviewClearance/:dept/:residentID/:email",

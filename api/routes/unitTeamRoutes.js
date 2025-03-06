@@ -20,10 +20,6 @@ const authMiddleware = [
 
 unitTeamRoutes.get("/dashboard", authMiddleware, controller.dashboard);
 
-unitTeamRoutes.get("/helpDesk", authMiddleware, controller.helpDesk);
-
-unitTeamRoutes.get("/contact", authMiddleware, controller.contact);
-
 unitTeamRoutes.get(
   "/manageWorkForce",
   authMiddleware,

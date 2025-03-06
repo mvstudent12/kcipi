@@ -130,11 +130,5 @@ employerRoutes.post(
   authMiddleware,
   controller.applicantsReport
 );
-//=============================
-//   Basic Routes
-//=============================
-employerRoutes.get("/contact", authMiddleware, controller.contact);
-
-employerRoutes.get("/helpDesk", authMiddleware, controller.helpDesk);
 
 module.exports = employerRoutes;

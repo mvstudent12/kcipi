@@ -1,4 +1,8 @@
-{{> adminTemplate}}
+{{#if (eq user.role "unitTeam")}}{{> unitTeamTemplate}}{{/if}}
+{{#if (eq user.role "classification")}}{{> classificationTemplate}}{{/if}}
+{{#if (eq user.role "facility_management")}}{{> facility_managementTemplate}}{{/if}}
+{{#if (eq user.role "admin")}}{{> adminTemplate}}{{/if}}
+{{#if (eq user.role "employer")}}{{> adminTemplate}}{{/if}}
 
 <main id="main" class="main">
 
@@ -6,17 +10,17 @@
         <h1>PI Reports</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item active"><a href="/admin/dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item active"><a href="/{{user.role}}/dashboard">Dashboard</a></li>
                 <li class="breadcrumb-item active">PI Reports</li>
             </ol>
         </nav>
     </div>
     {{#if noData}}
-    <div class="card">
+        <div id="noData" class="card">
 
-        <p class="text-danger text-center pt-2"> No data found for this report.</p>
+            <p class="text-danger text-center pt-2"> No data found for this report.</p>
 
-    </div>
+        </div>
 
     {{/if}}
 
@@ -34,7 +38,7 @@
                                 <h5 class="card-title">Residents <span>| Create Report</span></h5>
                                 <div class="row mb-3">
                                     <legend class="col-form-label ">Select Fields:</legend>
-                                    <form method="POST" action="/admin/residentReport">
+                                    <form method="POST" action="/{{user.role}}/residentReport">
 
                                         <div class="form-check">
                                             <input name="facility" class="form-check-input" type="checkbox"
@@ -94,7 +98,7 @@
                                             <input name="workEligibility.status" class="form-check-input"
                                                 type="checkbox" id="workEligibility">
                                             <label class="form-check-label" for="workEligibility">
-                                                Eligible to Work
+                                                Work Eligibility
                                             </label>
                                         </div>
                                         <div class="form-check">
@@ -119,7 +123,7 @@
                                 <h5 class="card-title">PI Employees <span>| Create Report</span></h5>
                                 <div class="row mb-3">
                                     <legend class="col-form-label ">Select Fields:</legend>
-                                    <form method="POST" action="/admin/employedResidentsReport">
+                                    <form method="POST" action="/{{user.role}}/employedResidentsReport">
 
                                         <div class="form-check">
                                             <input name="facility" class="form-check-input" type="checkbox"
@@ -206,7 +210,7 @@
                                 <h5 class="card-title">PI Applicants <span>| Create Report</span></h5>
                                 <div class="row mb-3">
                                     <legend class="col-form-label ">Select Fields:</legend>
-                                    <form method="POST" action="/admin/applicantsReport">
+                                    <form method="POST" action="/{{user.role}}/applicantsReport">
 
                                         <div class="form-check">
                                             <input name="facility" class="form-check-input" type="checkbox"
@@ -270,9 +274,9 @@
                                             </label>
                                         </div>
                                         <div class="form-check">
-                                            <input name="dateApplied" class="form-check-input" type="checkbox"
-                                                id="dateApplied">
-                                            <label class="form-check-label" for="dateApplied">
+                                            <input name="dateCreated" class="form-check-input" type="checkbox"
+                                                id="dateCreated">
+                                            <label class="form-check-label" for="dateCreated">
                                                 Date Applied
                                             </label>
                                         </div>
@@ -297,3 +301,18 @@
 {{> footer}}
 
 {{> arrowUp}}
+
+<script>
+    // Wait for the DOM to be fully loaded
+    document.addEventListener('DOMContentLoaded', function () {
+        const noDataDiv = document.getElementById('noData');
+
+        // Check if the noData div exists on the page
+        if (noDataDiv) {
+            // Set a timeout to hide the div after 10 seconds
+            setTimeout(function () {
+                noDataDiv.style.display = 'none'; // Hide the div
+            }, 10000); // 10000 milliseconds = 10 seconds
+        }
+    });
+</script>

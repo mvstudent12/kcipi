@@ -56,7 +56,7 @@ module.exports = {
         facility,
       });
 
-      res.render("classification/dashboard", {
+      res.render("shared/dashboard", {
         user: req.session.user,
         notifications,
         caseLoad,
@@ -70,40 +70,7 @@ module.exports = {
       res.render("error/500");
     }
   },
-  async helpDesk(req, res) {
-    const { sentMsg } = req.query;
-    try {
-      const notifications = await getUserNotifications(
-        req.session.user.email,
-        req.session.user.role
-      );
-      res.render("classification/helpDesk", {
-        user: req.session.user,
-        notifications,
-        sentMsg,
-      });
-    } catch (err) {
-      console.log(err);
-      res.render("error/500");
-    }
-  },
-  async contact(req, res) {
-    const { sentMsg } = req.query;
-    try {
-      const notifications = await getUserNotifications(
-        req.session.user.email,
-        req.session.user.role
-      );
-      res.render("classification/contact", {
-        user: req.session.user,
-        notifications,
-        sentMsg,
-      });
-    } catch (err) {
-      console.log(err);
-      res.render("error/500");
-    }
-  },
+
   async manageWorkForce(req, res) {
     try {
       const notifications = await getUserNotifications(
@@ -142,7 +109,7 @@ module.exports = {
 
       let positionsAvailable = getTotalAvailablePositions(jobs);
 
-      res.render("classification/manageWorkForce", {
+      res.render("shared/manageWorkForceKDOC", {
         user: req.session.user,
         notifications,
         applicants,
@@ -171,7 +138,7 @@ module.exports = {
         .sort({ lastName: 1 })
         .lean();
 
-      res.render("classification/manageClearance", {
+      res.render("shared/manageClearanceKDOC", {
         user: req.session.user,
         notifications,
         caseLoad,
@@ -327,14 +294,18 @@ module.exports = {
   //        REPORTS
   //===============================
   async reports(req, res) {
+    let { noData } = req.query;
     try {
       const notifications = await getUserNotifications(
         req.session.user.email,
         req.session.user.role
       );
-      res.render("classification/reports", {
+      if (!noData) noData = false;
+      if (!noData) noData = false;
+      res.render("shared/reports", {
         user: req.session.user,
         notifications,
+        noData,
       });
     } catch (err) {
       console.log(err);
@@ -347,12 +318,7 @@ module.exports = {
       const selectedFields = Object.keys(req.body);
 
       if (selectedFields.length === 0) {
-        const noData = true;
-        return res.render("classification/reports", {
-          user: req.session.user,
-          notifications,
-          noData,
-        });
+        return res.redirect("/classification/reports?noData=true");
       }
 
       // Fetch data from MongoDB with only selected fields
@@ -362,12 +328,7 @@ module.exports = {
       ).lean();
 
       if (residents.length === 0) {
-        const noData = true;
-        return res.render("classification/reports", {
-          user: req.session.user,
-          notifications,
-          noData,
-        });
+        return res.redirect("/classification/reports?noData=true");
       }
 
       // Convert data to CSV
@@ -380,7 +341,6 @@ module.exports = {
         'attachment; filename="resident_report.csv"'
       );
       res.setHeader("Content-Type", "text/csv");
-
       res.status(200).send(csv);
     } catch (err) {
       console.log(err);
@@ -394,12 +354,7 @@ module.exports = {
       const selectedFields = Object.keys(req.body);
 
       if (selectedFields.length === 0) {
-        const noData = true;
-        return res.render("classification/reports", {
-          user: req.session.user,
-          notifications,
-          noData,
-        });
+        return res.redirect("/classification/reports?noData=true");
       }
 
       // Fetch data from MongoDB with only selected fields
@@ -409,12 +364,7 @@ module.exports = {
       ).lean();
 
       if (residents.length === 0) {
-        const noData = true;
-        return res.render("classification/reports", {
-          user: req.session.user,
-          notifications,
-          noData,
-        });
+        return res.redirect("/classification/reports?noData=true");
       }
 
       // Convert data to CSV
@@ -440,12 +390,7 @@ module.exports = {
       const selectedFields = Object.keys(req.body);
 
       if (selectedFields.length === 0) {
-        const noData = true;
-        return res.render("classification/reports", {
-          user: req.session.user,
-          notifications,
-          noData,
-        });
+        return res.redirect("/classification/reports?noData=true");
       }
 
       const facility = req.session.user.facility;
@@ -470,12 +415,7 @@ module.exports = {
       );
 
       if (applicants.length === 0) {
-        const noData = true;
-        return res.render("classification/reports", {
-          user: req.session.user,
-          notifications,
-          noData,
-        });
+        return res.redirect("/classification/reports?noData=true");
       }
 
       // Convert data to CSV

@@ -1,0 +1,69 @@
+{{#if (eq user.role "unitTeam")}}{{> unitTeamTemplate}}{{/if}}
+{{#if (eq user.role "classification")}}{{> classificationTemplate}}{{/if}}
+{{#if (eq user.role "facility_management")}}{{> facility_managementTemplate}}{{/if}}
+{{#if (eq user.role "employer")}}{{> employerTemplate}}{{/if}}
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1 class="text-capitalize">Notifications</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/{{user.role}}/dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item active text-capitalize">Notifications</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+    <section class="section profile">
+        <div class="row">
+            <div class="col-12">
+
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="activity">
+                            <div class="card mt-3">
+                                <div class="card-body mt-3">
+
+                                    <h5 class="card-title">All Notifications <span>| Click to Follow Notication
+                                            Link</span> </h5>
+
+                                    {{#if allNotifications}}
+                                        <div class="list-group">
+                                            {{#each allNotifications}}
+                                                <a href="/notification/markAsRead/{{this._id}}"
+                                                    class="list-group-item list-group-item-action {{#unless this.isRead}}active{{/unless}} mb-1"
+                                                    aria-current="true">
+
+                                                    <div class="d-flex w-100 justify-content-between pt-3 pb-3 ">
+                                                        <p class="mb-1">{{this.message}}</p>
+                                                        <h4><i class="bi {{this.icon}}"></i></h4>
+
+                                                    </div>
+                                                    <small class="text-muted">{{formatDate this.createdAt}}</small>
+
+                                                </a>
+                                            {{/each}}
+                                        </div>
+                                    {{else}}
+                                        <p>You have not received any notifications yet.</p>
+                                    {{/if}}
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        </div>
+    </section>
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+{{> footer}}
+
+{{> arrowUp}}

@@ -20,10 +20,6 @@ const authMiddleware = [
 
 classificationRoutes.get("/dashboard", authMiddleware, controller.dashboard);
 
-classificationRoutes.get("/helpDesk", authMiddleware, controller.helpDesk);
-
-classificationRoutes.get("/contact", authMiddleware, controller.contact);
-
 classificationRoutes.get(
   "/manageWorkForce",
   authMiddleware,

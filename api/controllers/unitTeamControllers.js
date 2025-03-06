@@ -68,7 +68,7 @@ module.exports = {
         isActive: true,
       });
 
-      res.render("unitTeam/dashboard", {
+      res.render("shared/dashboard", {
         user: req.session.user,
         notifications,
         caseLoad,
@@ -123,7 +123,7 @@ module.exports = {
       }).lean();
 
       let positionsAvailable = getTotalAvailablePositions(jobs);
-      res.render("unitTeam/manageWorkForce", {
+      res.render("shared/manageWorkForceKDOC", {
         user: req.session.user,
         notifications,
         applicants,
@@ -246,27 +246,34 @@ module.exports = {
         { "applicants.$": 1 } // Return the matched application from the applicants array
       ).lean();
 
-      const application = findApplication.applicants[0];
+      if (findApplication) {
+        const application = findApplication.applicants[0];
 
-      const job = await Jobs.findOne({
-        "applicants._id": applicationID,
-      }).lean();
+        const job = await Jobs.findOne({
+          "applicants._id": applicationID,
+        }).lean();
 
-      const resident = await Resident.findById({
-        _id: application.resident_id,
-      }).lean();
-      const email = resident.resume.unitTeam;
-      const unitTeam = await UnitTeam.findOne({ email }).lean();
+        const resident = await Resident.findById({
+          _id: application.resident_id,
+        }).lean();
+        const email = resident.resume.unitTeam;
+        const unitTeam = await UnitTeam.findOne({ email }).lean();
 
-      req.session.user = unitTeam;
+        req.session.user = unitTeam;
 
-      res.render("unitTeam/requestHire", {
-        application,
-        resident,
-        user: req.session.user,
-        job,
-        notifications,
-      });
+        return res.render("unitTeam/requestHire", {
+          application,
+          resident,
+          user: req.session.user,
+          job,
+          notifications,
+        });
+      } else {
+        return res.render("unitTeam/requestHire", {
+          user: req.session.user,
+          notifications,
+        });
+      }
     } catch (err) {
       console.log(err);
       res.render("error/500");
@@ -282,7 +289,7 @@ module.exports = {
       //find caseload specific to UTM
       const caseLoad = await findUnitTeamCaseload(req.session.user.email);
 
-      res.render("unitTeam/manageClearance", {
+      res.render("shared/manageClearanceKDOC", {
         user: req.session.user,
         notifications,
         caseLoad,
@@ -440,12 +447,19 @@ module.exports = {
   //        REPORTS
   //===============================
   async reports(req, res) {
+    let { noData } = req.query;
     try {
       const notifications = await getUserNotifications(
         req.session.user.email,
         req.session.user.role
       );
-      res.render("unitTeam/reports", { user: req.session.user, notifications });
+
+      if (!noData) noData = false;
+      res.render("shared/reports", {
+        user: req.session.user,
+        notifications,
+        noData,
+      });
     } catch (err) {
       console.log(err);
       res.render("error/500");
@@ -453,20 +467,11 @@ module.exports = {
   },
   async residentReport(req, res) {
     try {
-      const notifications = await getUserNotifications(
-        req.session.user.email,
-        req.session.user.role
-      );
       const facility = req.session.user.facility;
       const selectedFields = Object.keys(req.body);
 
       if (selectedFields.length === 0) {
-        const noData = true;
-        return res.render("unitTeam/reports", {
-          user: req.session.user,
-          notifications,
-          noData,
-        });
+        return res.redirect(`/unitTeam/reports?noData=true`);
       }
 
       // Fetch data from MongoDB with only selected fields
@@ -478,12 +483,7 @@ module.exports = {
         .lean();
 
       if (residents.length === 0) {
-        const noData = true;
-        return res.render("unitTeam/reports", {
-          user: req.session.user,
-          notifications,
-          noData,
-        });
+        return res.redirect(`/unitTeam/reports?noData=true`);
       }
 
       // Convert data to CSV
@@ -506,20 +506,11 @@ module.exports = {
   },
   async employedResidentsReport(req, res) {
     try {
-      const notifications = await getUserNotifications(
-        req.session.user.email,
-        req.session.user.role
-      );
       const facility = req.session.user.facility;
       const selectedFields = Object.keys(req.body);
 
       if (selectedFields.length === 0) {
-        const noData = true;
-        return res.render("unitTeam/reports", {
-          user: req.session.user,
-          notifications,
-          noData,
-        });
+        return res.redirect(`/unitTeam/reports?noData=true`);
       }
 
       // Fetch data from MongoDB with only selected fields
@@ -531,12 +522,7 @@ module.exports = {
         .lean();
 
       if (residents.length === 0) {
-        const noData = true;
-        return res.render("unitTeam/reports", {
-          user: req.session.user,
-          notifications,
-          noData,
-        });
+        return res.redirect(`/unitTeam/reports?noData=true`);
       }
 
       // Convert data to CSV
@@ -559,19 +545,10 @@ module.exports = {
   },
   async applicantsReport(req, res) {
     try {
-      const notifications = await getUserNotifications(
-        req.session.user.email,
-        req.session.user.role
-      );
       const selectedFields = Object.keys(req.body);
 
       if (selectedFields.length === 0) {
-        const noData = true;
-        return res.render("unitTeam/reports", {
-          user: req.session.user,
-          notifications,
-          noData,
-        });
+        return res.redirect(`/unitTeam/reports?noData=true`);
       }
 
       //find caseload specific to UTM
@@ -589,12 +566,7 @@ module.exports = {
       );
 
       if (applicants.length === 0) {
-        const noData = true;
-        return res.render("unitTeam/reports", {
-          user: req.session.user,
-          notifications,
-          noData,
-        });
+        return res.redirect(`/unitTeam/reports?noData=true`);
       }
 
       // Convert data to CSV
@@ -612,45 +584,6 @@ module.exports = {
     } catch (err) {
       console.log(err);
       logger.warn("Error generating report: " + err);
-      res.render("error/500");
-    }
-  },
-  //===============================
-  //        Basic Pages
-  //===============================
-
-  async helpDesk(req, res) {
-    const { sentMsg } = req.query;
-    try {
-      const notifications = await getUserNotifications(
-        req.session.user.email,
-        req.session.user.role
-      );
-      res.render("unitTeam/helpDesk", {
-        user: req.session.user,
-        notifications,
-        sentMsg,
-      });
-    } catch (err) {
-      console.log(err);
-      res.render("error/500");
-    }
-  },
-
-  async contact(req, res) {
-    const { sentMsg } = req.query;
-    try {
-      const notifications = await getUserNotifications(
-        req.session.user.email,
-        req.session.user.role
-      );
-      res.render("unitTeam/contact", {
-        user: req.session.user,
-        notifications,
-        sentMsg,
-      });
-    } catch (err) {
-      console.log(err);
       res.render("error/500");
     }
   },

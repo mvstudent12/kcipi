@@ -2,7 +2,6 @@ const Notification = require("../models/Notification");
 const {
   getUserNotifications,
   getAllUserNotifications,
-  notificationIsRead,
 } = require("../utils/notificationUtils");
 
 module.exports = {
@@ -17,7 +16,7 @@ module.exports = {
         req.session.user.role
       );
 
-      res.render(`${req.session.user.role}/notifications`, {
+      res.render(`shared/notifications`, {
         user: req.session.user,
         notifications,
         allNotifications,

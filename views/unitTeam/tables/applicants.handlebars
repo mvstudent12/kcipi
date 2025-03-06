@@ -35,22 +35,22 @@
                                     </thead>
                                     <tbody>
                                         {{#each applicants}}
-                                        <tr>
-                                            <th scope="row"><a
-                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
-                                            </th>
-                                            <td class="text-capitalize"><a
-                                                    href="/clearance/residentProfile/{{this.residentID}}">
-                                                    {{this.firstName}} {{this.lastName}}</a></td>
-                                            <td class="text-capitalize"><a
-                                                    href="/clearance/residentProfile/{{this.residentID}}">
-                                                    {{formatDate this.outDate}}</a></td>
+                                            <tr>
+                                                <th scope="row"><a
+                                                        href="/shared/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
+                                                </th>
+                                                <td class="text-capitalize"><a
+                                                        href="/shared/residentProfile/{{this.residentID}}">
+                                                        {{this.firstName}} {{this.lastName}}</a></td>
+                                                <td class="text-capitalize"><a
+                                                        href="/shared/residentProfile/{{this.residentID}}">
+                                                        {{formatDate this.outDate}}</a></td>
 
-                                            <td class="text-capitalize"><a
-                                                    href="/clearance/residentProfile/{{this.residentID}}">{{this.custodyLevel}}</a>
-                                            </td>
-                                            <td class="text-capitalize">{{this.companyName}}</td>
-                                        </tr>
+                                                <td class="text-capitalize"><a
+                                                        href="/shared/residentProfile/{{this.residentID}}">{{this.custodyLevel}}</a>
+                                                </td>
+                                                <td class="text-capitalize">{{this.companyName}}</td>
+                                            </tr>
                                         {{/each}}
                                     </tbody>
                                 </table>

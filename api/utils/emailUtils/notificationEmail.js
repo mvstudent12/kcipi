@@ -132,16 +132,16 @@ const sendRequestInterviewEmail = async (
       
       <p>
       
-        <a href="http://${DOMAIN}/request/reviewInterviewRequest/${applicationID}"
+        <a href="http://${DOMAIN}"
            style="display: inline-block; background-color: #4CAF50; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-size: 16px; text-align: center; font-weight: bold;">
-          Schedule Interview
+          Log In to Portal
         </a>
       </p>
 
       <p style="font-size: 14px; color: #333;">If you are unable to click the button, please copy and paste the following link into your browser:</p>
       <p style="font-size: 14px; color: #333;">
-        <a href="http://${DOMAIN}/request/reviewInterviewRequest/${applicationID}" 
-           style="color: #007BFF; text-decoration: none;"><span style="text-transform: capitalize;">${companyName}</span> Review Link</a>
+        <a href="http://${DOMAIN}" 
+           style="color: #007BFF; text-decoration: none;"><span style="text-transform: capitalize;">${companyName}</span> KCI PI Portal</a>
       </p>
     `,
   };
@@ -174,16 +174,16 @@ const sendRequestHireEmail = async (
       
       <p>
       
-        <a href="http://${DOMAIN}/request/reviewHireRequest/${applicationID}/${resident._id}"
+        <a href="http://${DOMAIN}"
            style="display: inline-block; background-color: #4CAF50; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-size: 16px; text-align: center; font-weight: bold;">
-          Manage Hiring
+          Log In to Portal
         </a>
       </p>
 
       <p style="font-size: 14px; color: #333;">If you are unable to click the button, please copy and paste the following link into your browser:</p>
       <p style="font-size: 14px; color: #333;">
-        <a href="http://${DOMAIN}/request/reviewHireRequest/${applicationID}/${resident._id}" 
-           style="color: #007BFF; text-decoration: none;"><span style="text-transform: capitalize;">${companyName}</span> Review Link</a>
+        <a href="http://${DOMAIN}" 
+           style="color: #007BFF; text-decoration: none;"><span style="text-transform: capitalize;">${companyName}</span> KCI PI Portal</a>
       </p>
     `,
   };
@@ -215,16 +215,16 @@ const sendTerminationRequestEmail = async (
       
       <p>
       
-        <a href="http://${DOMAIN}/unitTeam/reviewTerminationRequest/${resident._id}"
+        <a href="http://${DOMAIN}"
            style="display: inline-block; background-color: #4CAF50; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-size: 16px; text-align: center; font-weight: bold;">
-          Manage Termination
+          Log In to Portal
         </a>
       </p>
 
       <p style="font-size: 14px; color: #333;">If you are unable to click the button, please copy and paste the following link into your browser:</p>
       <p style="font-size: 14px; color: #333;">
-        <a href="http://${DOMAIN}/unitTeam/reviewTerminationRequest/${resident._id}" 
-           style="color: #007BFF; text-decoration: none;"><span style="text-transform: capitalize;">${companyName}</span> Review Link</a>
+        <a href="http://${DOMAIN}" 
+           style="color: #007BFF; text-decoration: none;"><span style="text-transform: capitalize;">${companyName}</span> KCI PI Portal</a>
       </p>
     `,
   };

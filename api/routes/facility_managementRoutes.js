@@ -24,10 +24,6 @@ facility_managementRoutes.get(
   controller.dashboard
 );
 
-facility_managementRoutes.get("/helpDesk", authMiddleware, controller.helpDesk);
-
-facility_managementRoutes.get("/contact", authMiddleware, controller.contact);
-
 facility_managementRoutes.get(
   "/manageWorkForce",
   authMiddleware,

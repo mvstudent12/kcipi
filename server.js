@@ -93,7 +93,7 @@ app.use(xss()); // This will sanitize the request body, query, and params global
 
 //import routes
 const authRoutes = require("./api/routes/authRoutes");
-
+const sharedRoutes = require("./api/routes/sharedRoutes");
 const residentRoutes = require("./api/routes/residentRoutes");
 const unitTeamRoutes = require("./api/routes/unitTeamRoutes");
 const adminRoutes = require("./api/routes/adminRoutes");
@@ -126,8 +126,8 @@ app.enable("view cache");
 
 // Routes
 app.use("/", authRoutes);
-
 app.use("/resident", residentRoutes);
+app.use("/shared", sharedRoutes);
 app.use("/unitTeam", unitTeamRoutes);
 app.use("/admin", adminRoutes);
 app.use("/facility_management", facility_managementRoutes);

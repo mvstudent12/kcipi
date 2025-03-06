@@ -24,14 +24,18 @@ const {
 
 const {
   getAllInterviews,
-  findApplicantIDsAndCompanyName,
-  createApplicantsReport,
   updateAdminPasswordById,
   updateEmployerPasswordById,
   updateUnitTeamPasswordById,
   updateClassificationPasswordById,
   updateFacility_ManagementPasswordById,
 } = require("../utils/adminUtils");
+
+const {
+  findApplicantIDsAndCompanyName,
+  findResidentsWithCompany,
+  createApplicantsReport,
+} = require("../utils/kdocStaffUtils");
 
 const { getTotalAvailablePositions } = require("../utils/employerUtils");
 
@@ -52,36 +56,18 @@ module.exports = {
         .sort({ lastName: 1 })
         .lean();
 
-      //create object with all applicants
-      let applicantIDs = [];
+      //make array of resident _id in caseload
+      const IDs = caseLoad.flatMap((resident) => resident._id);
 
-      await Jobs.aggregate([
-        { $unwind: "$applicants" }, // Flatten the applicants array
-        {
-          $group: {
-            _id: null,
-            allResidents: {
-              $push: "$applicants.resident_id", // Collect resident_id from applicants, not the whole applicant object
-            },
-          },
-        },
-      ]).then((result) => {
-        if (result.length !== 0) {
-          return (applicantIDs = result[0].allResidents); // Return the array of resident IDs
-        } else {
-          return; // Return an empty array if no applicants
-        }
-      });
+      let applicantIDs = await findApplicantIDsAndCompanyName(IDs);
 
-      const allJobApplicants = await Resident.find(
-        { _id: { $in: applicantIDs }, isActive: true },
-        "firstName lastName facility residentID custodyLevel"
-      ).lean();
+      //find all residents with applications in
+      const applicants = await findResidentsWithCompany(applicantIDs);
 
-      res.render("admin/dashboard", {
+      res.render("shared/dashboard", {
         resumeNeedReview,
         caseLoad,
-        allJobApplicants,
+        applicants,
         user: req.session.user,
       });
     } catch (err) {
@@ -206,7 +192,7 @@ module.exports = {
       const jobs = await Jobs.find({ isAvailable: true }).lean();
       let positionsAvailable = getTotalAvailablePositions(jobs);
 
-      res.render("admin/manageWorkForce", {
+      res.render("shared/manageWorkForceKDOC", {
         user: req.session.user,
 
         applicants,
@@ -227,7 +213,7 @@ module.exports = {
         .sort({ lastName: 1 })
         .lean();
 
-      res.render("admin/manageClearance", {
+      res.render("shared/manageClearanceKDOC", {
         user: req.session.user,
 
         caseLoad,
@@ -237,33 +223,7 @@ module.exports = {
       res.render("error/403");
     }
   },
-  async helpDesk(req, res) {
-    const { sentMsg } = req.query;
-    try {
-      res.render("admin/helpDesk", {
-        user: req.session.user,
 
-        sentMsg,
-      });
-    } catch (err) {
-      console.log("Error fetching help desk:", err);
-      res.render("error/403");
-    }
-  },
-  async contact(req, res) {
-    const { sentMsg } = req.query;
-
-    try {
-      res.render("admin/contact", {
-        user: req.session.user,
-
-        sentMsg,
-      });
-    } catch (err) {
-      console.log("Error fetching contact page:", err);
-      res.render("error/403");
-    }
-  },
   async logs(req, res) {
     try {
       const logFileName = `logs/${moment().format("YYYY-MM-DD")}-app.log`; // Today's log file
@@ -1603,7 +1563,8 @@ module.exports = {
     let { noData } = req.query;
     try {
       if (!noData) noData = false;
-      res.render("admin/reports", {
+      if (!noData) noData = false;
+      res.render("shared/reports", {
         user: req.session.user,
         noData,
       });
@@ -1617,7 +1578,7 @@ module.exports = {
       const selectedFields = Object.keys(req.body);
 
       if (selectedFields.length === 0) {
-        return res.redirect("admin/reports?noData=true");
+        return res.redirect("/admin/reports?noData=true");
       }
 
       // Fetch data from MongoDB with only selected fields
@@ -1629,7 +1590,7 @@ module.exports = {
         .lean();
 
       if (residents.length === 0) {
-        return res.redirect("admin/reports?noData=true");
+        return res.redirect("/admin/reports?noData=true");
       }
 
       // Convert data to CSV
@@ -1655,7 +1616,7 @@ module.exports = {
       const selectedFields = Object.keys(req.body);
 
       if (selectedFields.length === 0) {
-        return res.redirect("admin/reports?noData=true");
+        return res.redirect("/admin/reports?noData=true");
       }
 
       // Fetch data from MongoDB with only selected fields
@@ -1667,7 +1628,7 @@ module.exports = {
         .lean();
 
       if (residents.length === 0) {
-        return res.redirect("admin/reports?noData=true");
+        return res.redirect("/admin/reports?noData=true");
       }
 
       // Convert data to CSV
@@ -1693,7 +1654,7 @@ module.exports = {
       const selectedFields = Object.keys(req.body);
 
       if (selectedFields.length === 0) {
-        return res.redirect("admin/reports?noData=true");
+        return res.redirect("/admin/reports?noData=true");
       }
 
       //find all residents who are currently incarcerated
@@ -1713,7 +1674,7 @@ module.exports = {
       );
 
       if (applicants.length === 0) {
-        return res.redirect("admin/reports?noData=true");
+        return res.redirect("/admin/reports?noData=true");
       }
 
       // Convert data to CSV

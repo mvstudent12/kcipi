@@ -1,4 +1,8 @@
-{{> unitTeamTemplate}}
+{{#if (eq user.role "unitTeam")}}{{> unitTeamTemplate}}{{/if}}
+{{#if (eq user.role "classification")}}{{> classificationTemplate}}{{/if}}
+{{#if (eq user.role "facility_management")}}{{> facility_managementTemplate}}{{/if}}
+{{#if (eq user.role "admin")}}{{> adminTemplate}}{{/if}}
+
 
 <main id="main" class="main">
 
@@ -6,7 +10,7 @@
         <h1>Manage Workforce</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item active"><a href="/unitTeam/dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item active"><a href="/{{user.role}}/dashboard">Dashboard</a></li>
                 <li class="breadcrumb-item active">Manage Workforce</li>
             </ol>
         </nav>
@@ -42,7 +46,7 @@
                     <!-- Interviews Card -->
                     <div class="col-xxl-4 col-md-4">
                         <div class="card info-card sales-card">
-                            <a href="#interviewTable">
+                            <a href="#resumeTable">
                                 <div class="card-body">
                                     <h5 class="card-title">Interviews <span>| Pending</span></h5>
 
@@ -65,7 +69,7 @@
                     <!-- Positions Card -->
                     <div class="col-xxl-4 col-md-4">
                         <div class="card info-card revenue-card">
-                            <a href="#positionsTable">
+                            <a href="#applicantTable">
 
                                 <div class="card-body">
                                     <h5 class="card-title">Positions <span>| To Fill</span></h5>
@@ -85,9 +89,8 @@
                         </div>
                     </div>
 
-
                     <!-- Applicants Table -->
-                    <div id="applicantTable" class="col-12">
+                    <div class="col-12">
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
                                 <h5 class="card-title">Applicants <span>| Eligible Hires</span></h5>
@@ -105,20 +108,20 @@
                                         {{#each applicants}}
                                             <tr>
                                                 <th scope="row"><a
-                                                        href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
+                                                        href="/shared/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
                                                 </th>
                                                 <td class="text-capitalize"><a
-                                                        href="/clearance/residentProfile/{{this.residentID}}">
+                                                        href="/shared/residentProfile/{{this.residentID}}">
                                                         {{this.firstName}} {{this.lastName}}</a></td>
                                                 <td class="text-capitalize"><a
-                                                        href="/clearance/residentProfile/{{this.residentID}}">
+                                                        href="/shared/residentProfile/{{this.residentID}}">
                                                         {{formatDate this.outDate}}</a></td>
 
                                                 <td class="text-capitalize"><a
-                                                        href="/clearance/residentProfile/{{this.residentID}}">{{this.custodyLevel}}</a>
+                                                        href="/shared/residentProfile/{{this.residentID}}">{{this.custodyLevel}}</a>
                                                 </td>
                                                 <td class="text-capitalize"><a
-                                                        href="/clearance/residentProfile/{{this.residentID}}">{{this.companyName}}</a>
+                                                        href="/shared/residentProfile/{{this.residentID}}">{{this.companyName}}</a>
                                                 </td>
                                             </tr>
                                         {{/each}}
@@ -132,8 +135,8 @@
                     <div class="col-12">
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
-                                <h5 class="card-title">Interviews <span>| Pending</span></h5>
-                                <table id="interviewTable" class="table table-borderless table-striped datatable">
+                                <h5 class="card-title">Interviews <span>| Requested</span></h5>
+                                <table class="table table-borderless table-striped datatable">
                                     <thead>
                                         <tr>
                                             <th scope="col">ID #</th>
@@ -147,16 +150,17 @@
                                         {{#each interviews}}
                                             <tr>
                                                 <th scope="row"><a
-                                                        href="/clearance/residentProfile/{{this.applicants.residentID}}">{{this.applicants.residentID}}</a>
+                                                        href="/shared/residentProfile/{{this.applicants.residentID}}">{{this.applicants.residentID}}</a>
                                                 </th>
                                                 <td class="text-capitalize"><a
-                                                        href="/clearance/residentProfile/{{this.applicants.residentID}}">
+                                                        href="/shared/residentProfile/{{this.applicants.residentID}}">
                                                         {{this.applicants.residentName}}</a></td>
 
 
                                                 {{#if this.applicants.interview.isRequested}}
                                                     <td><span class="badge bg-success">{{formatDate
-                                                    this.applicants.interview.dateRequested}}</span></td>
+                                                                                        this.applicants.interview.dateRequested}}</span>
+                                                    </td>
                                                 {{else}}
                                                     <td>No</td>
                                                 {{/if}}
@@ -168,7 +172,7 @@
                                                 {{/if}}
 
                                                 <td class="text-capitalize">
-                                                    <a href="/clearance/residentProfile/{{this.interview.residentID}}">
+                                                    <a href="/shared/residentProfile/{{this.interview.residentID}}">
                                                         {{this.companyName}}</a>
                                                 </td>
 
@@ -179,14 +183,13 @@
                             </div>
                         </div>
                     </div>
-
                     {{!-- Positions table --}}
                     <div class="row mb-3">
                         <div class="col-12">
                             <div class="card recent-sales overflow-auto">
                                 <div class="card-body">
                                     <h5 class="card-title">Job Positions <span>| Available</span></h5>
-                                    <table id="positionsTable" class="table table-borderless table-striped datatable">
+                                    <table class="table table-borderless table-striped datatable">
                                         <thead>
                                             <tr>
                                                 <th scope="col"># Available</th>
@@ -224,6 +227,7 @@
                         </div><!-- End Job Positions Table -->
                     </div>
 
+
                     <!-- Employees Table -->
                     <div class="col-12">
                         <div class="card recent-sales overflow-auto">
@@ -244,24 +248,24 @@
                                             <tr>
                                                 <th scope="row">
                                                     <a
-                                                        href="/clearance/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
+                                                        href="/shared/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
                                                 </th>
 
                                                 <td class="text-capitalize">
-                                                    <a href="/clearance/residentProfile/{{this.residentID}}">{{this.firstName}}
+                                                    <a href="/shared/residentProfile/{{this.residentID}}">{{this.firstName}}
                                                         {{this.lastName}}</a>
                                                 </td>
                                                 <td class="text-capitalize">
-                                                    <a href="/clearance/residentProfile/{{this.residentID}}">{{formatDate
+                                                    <a href="/shared/residentProfile/{{this.residentID}}">{{formatDate
                                                     this.outDate}}</a>
                                                 </td>
                                                 <td class="text-capitalize">
-                                                    <a href="/clearance/residentProfile/{{this.residentID}}">{{formatDate
+                                                    <a href="/shared/residentProfile/{{this.residentID}}">{{formatDate
                                                     this.dateHired}}</a>
                                                 </td>
                                                 <td class="text-capitalize">
                                                     <a
-                                                        href="/clearance/residentProfile/{{this.residentID}}">{{this.companyName}}</a>
+                                                        href="/shared/residentProfile/{{this.residentID}}">{{this.companyName}}</a>
                                                 </td>
 
 

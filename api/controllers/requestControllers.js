@@ -81,7 +81,7 @@ module.exports = {
           "facility_management",
           "clearance_requested",
           `Clearance is requested for resident #${residentID}.`,
-          `/clearance/residentProfile/${resident.residentID}?activeTab=clearance`
+          `/shared/residentProfile/${resident.residentID}?activeTab=clearance`
         );
       }
       //send notifiaction to classification
@@ -91,7 +91,7 @@ module.exports = {
           "classification",
           "clearance_requested",
           `Clearance is requested for resident #${residentID}.`,
-          `/clearance/residentProfile/${resident.residentID}?activeTab=clearance`
+          `/shared/residentProfile/${resident.residentID}?activeTab=clearance`
         );
       }
 
@@ -102,15 +102,13 @@ module.exports = {
         `Requested ${department} clearance for #${residentID}.`
       );
 
-      res.redirect(
-        `/clearance/residentProfile/${residentID}?activeTab=clearance`
-      );
+      res.redirect(`/shared/residentProfile/${residentID}?activeTab=clearance`);
     } catch (err) {
       console.log(
         "An error occurred when trying to request clearance approval via email: ",
         err
       );
-      res.render("error/500");
+      res.render("error/residentError/500");
     }
   },
   async reviewClearance(req, res) {
@@ -132,7 +130,7 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
-      res.render("error/500");
+      res.render("error/residentError/500");
     }
   },
   async approveClearance(req, res) {
@@ -169,7 +167,7 @@ module.exports = {
         "unitTeam",
         "clearance_approved",
         `${deptName} clearance approved for resident #${residentID} by ${name}.`,
-        `/clearance/residentProfile/${resident.residentID}?activeTab=clearance`
+        `/shared/residentProfile/${resident.residentID}?activeTab=clearance`
       );
 
       const workStatus = await checkClearanceStatus(residentID);
@@ -188,7 +186,7 @@ module.exports = {
       );
     } catch (err) {
       console.log("Error approving clearance from email link: ", err);
-      res.render("error/500");
+      res.render("error/residentError/500");
     }
   },
   async restrictClearance(req, res) {
@@ -228,7 +226,7 @@ module.exports = {
         "unitTeam",
         "clearance_denied",
         `${deptName} clearance restricted for resident #${resident.residentID} by ${name}.`,
-        `/clearance/residentProfile/${resident.residentID}?activeTab=clearance`
+        `/shared/residentProfile/${resident.residentID}?activeTab=clearance`
       );
 
       const workStatus = await checkClearanceStatus(residentID);
@@ -247,7 +245,7 @@ module.exports = {
       );
     } catch (err) {
       console.log(err);
-      res.render("error/500");
+      res.render("error/residentError/500");
     }
   },
   async saveNotes(req, res) {
@@ -274,10 +272,9 @@ module.exports = {
       );
     } catch (err) {
       console.log(err);
-      res.render("error/500");
+      res.render("error/residentError/500");
     }
   },
-
   async next_notes(req, res) {
     const { residentID, email, dept } = req.params;
     try {
@@ -286,7 +283,7 @@ module.exports = {
       );
     } catch (err) {
       console.log(err);
-      res.render("error/500");
+      res.render("error/residentError/500");
     }
   },
   async next_notify(req, res) {
@@ -297,10 +294,9 @@ module.exports = {
       );
     } catch (err) {
       console.log(err);
-      res.render("error/500");
+      res.render("error/residentError/500");
     }
   },
-
   async sendNextNotification(req, res) {
     const { residentID, email } = req.params;
     let { category, recipientEmail, comments } = req.body;
@@ -317,7 +313,7 @@ module.exports = {
           "facility_management",
           "clearance_requested",
           `Clearance is requested for resident #${residentID}.`,
-          `/clearance/residentProfile/${resident.residentID}?activeTab=clearance`
+          `/shared/residentProfile/${resident.residentID}?activeTab=clearance`
         );
       }
       //send notifiaction to classification
@@ -327,7 +323,7 @@ module.exports = {
           "classification",
           "clearance_requested",
           `Clearance is requested for resident #${residentID}.`,
-          `/clearance/residentProfile/${resident.residentID}?activeTab=clearance`
+          `/shared/residentProfile/${resident.residentID}?activeTab=clearance`
         );
       }
 
@@ -335,169 +331,7 @@ module.exports = {
       res.render("clearance/thankYou", { resident, email });
     } catch (err) {
       console.log(err);
-      res.render("error/500");
-    }
-  },
-  //===========================
-  //     Interview Requests
-  //===========================
-  //review interview from email
-  async reviewInterviewRequest(req, res) {
-    const { interviewID, applicationID } = req.params;
-    try {
-      let interviewData = await Jobs.aggregate([
-        // Unwind the applicants array to access interviews
-        { $unwind: "$applicants" },
-
-        // Match the specific application and interview by their IDs
-        {
-          $match: {
-            "applicants._id": new mongoose.Types.ObjectId(applicationID),
-            "applicants.interview._id": new mongoose.Types.ObjectId(
-              interviewID
-            ),
-          },
-        },
-
-        // Project the interview and relevant fields
-        {
-          $project: {
-            _id: 0, // Exclude the Job document's _id
-            jobId: "$_id", // Include the Job document's _id as jobId for context
-            interview: "$applicants.interview", // Include the matched interview
-            residentID: "$applicants.residentID", // Include residentID
-            residentName: "$applicants.residentName", // Include residentName
-            companyName: "$companyName",
-            position: "$position",
-          },
-        },
-      ]);
-
-      // Extract interview data
-      const interview = interviewData[0];
-
-      // Fetch resident details using the residentID from the interview data
-      const resident = await Resident.findOne({
-        residentID: interview?.residentID,
-      }).lean();
-
-      // Render the interview request page with the data
-      res.render("clearance/requestInterview", {
-        interview,
-        resident,
-      });
-    } catch (err) {
-      console.log(err);
-      res.render("error/500");
-    }
-  },
-
-  //schedule interview from email notification
-  async scheduleInterview(req, res) {
-    const { interviewID, jobID } = req.params;
-    const { date, time, instructions, residentID } = req.body;
-    try {
-      // Convert interviewID to ObjectId
-      const interviewObjectId = new mongoose.Types.ObjectId(interviewID);
-
-      //update the interview in job
-      const result = await Jobs.updateOne(
-        {
-          _id: jobID, // Match the job by its ID
-          "interviews._id": interviewObjectId, // Match the specific interview by its _id
-        },
-        {
-          $set: {
-            "applicants.$.interview.status": "scheduled",
-            "interviews.$.dateScheduled": new Date(date), // Update the date
-            "interviews.$.time": time, // Update the time
-            "interviews.$.instructions": instructions.trim(), // Update the instructions
-          },
-        }
-      );
-
-      if (result.modifiedCount === 0) {
-        throw new Error(
-          "Interview update failed. Ensure job and interview exist."
-        );
-      }
-      const resident = await Resident.findOne({ residentID }).lean();
-      const job = await Jobs.findOne({ _id: jobID }).lean();
-      const companyName = job.companyName;
-
-      //send notification to all PI partners in that company
-      const employerEmails = await getEmployeeEmails(companyName);
-
-      await sendNotificationsToEmployers(
-        employerEmails,
-        "interview_scheduled",
-        `New interview scheduled for resident #${resident.residentID}.`,
-        `/employer/residentProfile/${resident.residentID}`,
-        `/employer/residentProfile/${resident.residentID}?activeTab=application`
-      );
-      res.render(`clearance/thankYou`, {
-        user: req.session.user,
-      });
-    } catch (err) {
-      console.error("Error scheduling interview:", err);
-      logger.warn("An error occurred while scheduling the interview: " + err);
-      res.render("error/500");
-    }
-  },
-  //===========================
-  //     Hiring Requests
-  //===========================
-  async reviewHireRequest(req, res) {
-    const { applicationID, res_id } = req.params;
-    try {
-      let application = await Jobs.findOne(
-        { "applicants._id": applicationID },
-        { "applicants.$": 1 } // Return the matched application from the applicants array
-      ).lean(); // Optional, if you prefer working with a plain JavaScript object
-
-      // If found, application will contain the job with the specific applicant data
-      // application = application.applicants[0];
-
-      const job = await Jobs.findOne({
-        "applicants._id": applicationID,
-      }).lean();
-
-      const resident = await Resident.findById({ _id: res_id }).lean();
-      const email = resident.resume.unitTeam;
-      const unitTeam = await UnitTeam.findOne({ email }).lean();
-
-      req.session.user = unitTeam;
-
-      res.render("clearance/requestHire", {
-        application,
-        resident,
-        user: req.session.user,
-        job,
-      });
-    } catch (err) {
-      console.log(err);
-      res.render("error/500");
-    }
-  },
-  //===========================
-  //     Hiring Requests
-  //===========================
-  async reviewTerminationRequest(req, res) {
-    const { res_id } = req.params;
-    try {
-      const resident = await Resident.findOne({ _id: res_id }).lean();
-      const unitTeam = await UnitTeam.findOne({
-        email: resident.resume.unitTeam,
-      }).lean();
-
-      req.session.user = unitTeam;
-      res.render("clearance/requestTermination", {
-        user: req.session.user,
-        resident,
-      });
-    } catch (err) {
-      console.log(err);
-      res.render("error/500");
+      res.render("error/residentError/500");
     }
   },
 
@@ -513,7 +347,7 @@ module.exports = {
       res.redirect(`/${req.session.user.role}/helpDesk?sentMsg=true`);
     } catch (err) {
       console.log(err);
-      res.render("error/500");
+      res.render("error/residentError/500");
     }
   },
   //========================
@@ -527,7 +361,7 @@ module.exports = {
 
       res.redirect(`/${req.session.user.role}/contact?sentMsg=true`);
     } catch (err) {
-      res.render("error/500");
+      res.render("error/residentError/500");
     }
   },
   //========================
@@ -537,7 +371,7 @@ module.exports = {
     try {
       res.render("clearance/thankYou");
     } catch (err) {
-      res.render("error/500");
+      res.render("error/residentError/500");
     }
   },
 };

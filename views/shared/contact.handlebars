@@ -1,4 +1,8 @@
-{{> unitTeamTemplate}}
+{{#if (eq user.role "unitTeam")}}{{> unitTeamTemplate}}{{/if}}
+{{#if (eq user.role "classification")}}{{> classificationTemplate}}{{/if}}
+{{#if (eq user.role "facility_management")}}{{> facility_managementTemplate}}{{/if}}
+{{#if (eq user.role "employer")}}{{> employerTemplate}}{{/if}}
+{{#if (eq user.role "admin")}}{{> adminTemplate}}{{/if}}
 
 <main id="main" class="main">
 
@@ -6,7 +10,7 @@
         <h1>Contact</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/unitTeam/dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="/{{user.role}}/dashboard">Dashboard</a></li>
                 <li class="breadcrumb-item active">Contact</li>
             </ol>
         </nav>
