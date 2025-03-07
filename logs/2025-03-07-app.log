@@ -26,3 +26,10 @@
 {"level":"info","message":"Resident logged out: #4872930: charlotte adams ","timestamp":"2025-03-07 11:17:05"}
 {"level":"info","message":"User logged in: Jameson.smith@ks.gov","timestamp":"2025-03-07 11:17:15"}
 {"level":"info","message":"2025-03-07T17:17:15.146Z [INFO] : ::1 /login 200 596.906 ms","timestamp":"2025-03-07 11:17:15"}
+{"level":"info","message":"User attempted login: alice.johnson@ks.gov: wrong email","timestamp":"2025-03-07 11:28:01"}
+{"level":"info","message":"2025-03-07T17:28:01.779Z [INFO] : ::1 /login 400 32.604 ms","timestamp":"2025-03-07 11:28:01"}
+{"level":"info","message":"User logged in: shawn.williams@ks.gov","timestamp":"2025-03-07 11:28:35"}
+{"level":"info","message":"2025-03-07T17:28:35.018Z [INFO] : ::1 /login 200 181.320 ms","timestamp":"2025-03-07 11:28:35"}
+{"level":"info","message":"User logged in: alice.johnson@ks.gov","timestamp":"2025-03-07 11:28:40"}
+{"level":"info","message":"2025-03-07T17:28:40.248Z [INFO] : ::1 /login 200 238.476 ms","timestamp":"2025-03-07 11:28:40"}
+{"level":"info","message":"2025-03-07T17:28:40.596Z [INFO] : ::1 /admin/dashboard 500 162.396 ms","timestamp":"2025-03-07 11:28:40"}
