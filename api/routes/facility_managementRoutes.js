@@ -18,6 +18,10 @@ const authMiddleware = [
   requireRole(["facility_management"]),
 ];
 
+//=============================
+// Facility Management Routes
+//=============================
+
 facility_managementRoutes.get(
   "/dashboard",
   authMiddleware,
@@ -35,9 +39,6 @@ facility_managementRoutes.get(
   authMiddleware,
   controller.manageClearance
 );
-//=========================
-// ROSTERS
-//=========================
 
 facility_managementRoutes.get(
   "/residents",
@@ -66,11 +67,9 @@ facility_managementRoutes.get(
   authMiddleware,
   controller.employees
 );
-//=========================
-// Reports
-//=========================
 
 facility_managementRoutes.get("/reports", authMiddleware, controller.reports);
+
 facility_managementRoutes.post(
   "/residentReport",
   authMiddleware,

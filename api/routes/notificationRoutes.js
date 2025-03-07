@@ -2,6 +2,8 @@ const express = require("express");
 const notificationRoutes = express.Router();
 const controller = require("../controllers/notificationControllers");
 
+const sessionSecurity = require("../middleware/sessionSecurity");
+
 //authentication middleware
 const {
   requireAuth,
@@ -9,17 +11,27 @@ const {
   requireRole,
 } = require("../middleware/authMiddleware");
 
-notificationRoutes.get(
-  "/notifications",
+const authMiddleware = [
   checkUser,
   requireAuth,
+  sessionSecurity,
   requireRole([
     "unitTeam",
     "facility_management",
     "classification",
-    "admin",
     "employer",
   ]),
+];
+
+//=============================
+// Notification Routes
+//=============================
+
+notificationRoutes.get(
+  "/notifications",
+  checkUser,
+  requireAuth,
+  authMiddleware,
   controller.notifications
 );
 
@@ -27,13 +39,7 @@ notificationRoutes.get(
   "/markAsRead/:notificationId",
   checkUser,
   requireAuth,
-  requireRole([
-    "unitTeam",
-    "facility_management",
-    "classification",
-    "admin",
-    "employer",
-  ]),
+  authMiddleware,
   controller.markNotificationAsRead
 );
 

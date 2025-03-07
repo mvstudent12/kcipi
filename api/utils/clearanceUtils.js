@@ -3,6 +3,10 @@
 //=============================
 
 const Employer = require("../models/Employer");
+const Classification = require("../models/Classification");
+
+const Facility_Management = require("../models/Facility_Management");
+
 const UnitTeam = require("../models/UnitTeam");
 const Resident = require("../models/Resident");
 const Jobs = require("../models/Jobs");
@@ -59,12 +63,13 @@ async function getResidentProfileInfo(residentID) {
 
     const res_id = resident._id;
 
-    // Find positions the resident has applied for
+    // fetch positions the resident has applied for
     const jobs = await Jobs.find(
       { "applicants.resident_id": res_id }, // Match applicants by resident ID in the applicants array
       { "applicants.$": 1, companyName: 1, pay: 1 }
     ).lean();
 
+    //fetch resident applications
     const applications = jobs.flatMap((job) =>
       job.applicants.map((applicant) => ({
         ...applicant,
@@ -76,12 +81,32 @@ async function getResidentProfileInfo(residentID) {
     const unitTeam = await UnitTeam.find({ facility: resident.facility })
       .sort({ firstName: 1 })
       .lean();
+
+    //fetch resident activities
     const activities = await ActivityLog.find({ userID: res_id.toString() })
       .sort({ timestamp: -1 })
       .limit(20)
       .lean();
 
-    return { resident, applications, unitTeam, activities, res_id };
+    //fetch emails attached to resident's facility
+
+    const classificationEmails = await Classification.find({
+      facility: resident.facility,
+    }).lean();
+
+    const facility_managementEmails = await Facility_Management.find({
+      facility: resident.facility,
+    }).lean();
+
+    return {
+      resident,
+      applications,
+      unitTeam,
+      activities,
+      res_id,
+      classificationEmails,
+      facility_managementEmails,
+    };
   } catch (err) {
     console.log(err);
   }

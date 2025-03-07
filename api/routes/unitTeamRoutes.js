@@ -17,6 +17,9 @@ const authMiddleware = [
   sessionSecurity,
   requireRole(["unitTeam"]),
 ];
+//=========================
+// Unit Team Routes
+//=========================
 
 unitTeamRoutes.get("/dashboard", authMiddleware, controller.dashboard);
 
@@ -36,6 +39,11 @@ unitTeamRoutes.post(
   controller.scheduleInterview
 );
 unitTeamRoutes.get(
+  "/cancelInterviewRequest/:applicationID",
+  authMiddleware,
+  controller.cancelInterviewRequest
+);
+unitTeamRoutes.get(
   "/reviewHireRequest/:applicationID",
   authMiddleware,
   controller.reviewHireRequest
@@ -49,9 +57,6 @@ unitTeamRoutes.get(
   authMiddleware,
   controller.manageClearance
 );
-//=========================
-// ROSTERS
-//=========================
 
 unitTeamRoutes.get("/residents", authMiddleware, controller.residents);
 
@@ -64,11 +69,9 @@ unitTeamRoutes.get("/cleared", authMiddleware, controller.cleared);
 unitTeamRoutes.get("/applicants", authMiddleware, controller.applicants);
 
 unitTeamRoutes.get("/employees", authMiddleware, controller.employees);
-//=========================
-// Reports
-//=========================
 
 unitTeamRoutes.get("/reports", authMiddleware, controller.reports);
+
 unitTeamRoutes.post(
   "/residentReport",
   authMiddleware,

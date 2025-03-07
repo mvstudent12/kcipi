@@ -60,6 +60,7 @@ module.exports = {
 
       //find all active interviews
       const interviews = await findInterviewsInCaseload(residentIDs);
+      console.log(interviews);
 
       //count pending resumes for this member
       const pendingResumes = await Resident.countDocuments({
@@ -169,6 +170,10 @@ module.exports = {
   async reviewTerminationRequest(req, res) {
     const { res_id } = req.params;
     try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
       const resident = await Resident.findOne({ _id: res_id }).lean();
       const unitTeam = await UnitTeam.findOne({
         email: resident.resume.unitTeam,
@@ -178,6 +183,7 @@ module.exports = {
       res.render("unitTeam/requestTermination", {
         user: req.session.user,
         resident,
+        notifications,
       });
     } catch (err) {
       console.log(err);
@@ -222,15 +228,57 @@ module.exports = {
       await sendNotificationsToEmployers(
         employerEmails,
         "interview_scheduled",
-        `New interview scheduled for resident #${updatedApplicant.residentID}.`,
-        "/employer/manageWorkForce",
-        `/employer/residentProfile/${updatedApplicant.residentID}?activeTab=application`
+        `New interview scheduled for resident #${residentID}.`,
+        `/employer/residentProfile/${residentID}?activeTab=application`
       );
 
       res.redirect(`/unitTeam/reviewInterviewRequest/${applicationID}`);
     } catch (err) {
       console.error("Error scheduling interview:", err);
       logger.warn("An error occurred while scheduling the interview: " + err);
+      res.render("error/500");
+    }
+  },
+  async cancelInterviewRequest(req, res) {
+    const { applicationID } = req.params;
+    try {
+      //update application with interview request
+      const updatedInterview = await Jobs.findOneAndUpdate(
+        { "applicants._id": applicationID },
+        {
+          $set: {
+            "applicants.$.interview.status": "none",
+            "applicants.$.interview.preferredDate": null,
+            "applicants.$.interview.employerInstructions": "",
+            "applicants.$.interview.requestedBy": null,
+            "applicants.$.interview.dateRequested": null,
+            "applicants.$.interview.dateScheduled": null,
+            "applicants.$.interview.time": null,
+            "applicants.$.interview.instructions": null,
+          },
+        },
+        { new: true }
+      );
+
+      //send notification to all PI partners in that company
+      const employerEmails = await getEmployeeEmails(
+        updatedInterview.companyName
+      );
+
+      // Find the updated applicant from the applicants array
+      const updatedApplicant = updatedInterview.applicants.find(
+        (app) => app._id.toString() === applicationID
+      );
+
+      await sendNotificationsToEmployers(
+        employerEmails,
+        "interview_cancelled",
+        `Interview request cancelled for resident #${updatedApplicant.residentID}.`,
+        `/employer/residentProfile/${updatedApplicant.residentID}?activeTab=application`
+      );
+      res.redirect(`/unitTeam/reviewInterviewRequest/${applicationID}`);
+    } catch (err) {
+      console.log(err);
       res.render("error/500");
     }
   },

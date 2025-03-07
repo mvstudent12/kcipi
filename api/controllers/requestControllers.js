@@ -45,72 +45,6 @@ module.exports = {
   //     Clearance Requests
   //===========================
 
-  async requestClearance(req, res) {
-    let { recipient, comments } = req.body;
-    let { residentID, dept } = req.params;
-
-    try {
-      const sender = req.session.user.email;
-      const department = dept;
-      dept = mapDepartmentName(dept);
-      const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
-
-      //change residents clearance status to show as pending
-      const resident = await Resident.findOneAndUpdate(
-        { residentID: residentID },
-        {
-          $set: {
-            [`${dept}Clearance.status`]: "pending",
-          },
-          $push: {
-            [`${dept}Clearance.notes`]: {
-              createdAt: new Date(),
-              createdBy: name,
-              note: `Clearance request sent to ${recipient}.`,
-            },
-          },
-        },
-        { new: true }
-      );
-
-      sendReviewEmail(resident, department, recipient, sender, comments);
-      //send notification to facility_management
-      if (dept == "DW" || dept == "Warden") {
-        await createNotification(
-          recipient,
-          "facility_management",
-          "clearance_requested",
-          `Clearance is requested for resident #${residentID}.`,
-          `/shared/residentProfile/${resident.residentID}?activeTab=clearance`
-        );
-      }
-      //send notifiaction to classification
-      if (dept == "Classification") {
-        await createNotification(
-          recipient,
-          "classification",
-          "clearance_requested",
-          `Clearance is requested for resident #${residentID}.`,
-          `/shared/residentProfile/${resident.residentID}?activeTab=clearance`
-        );
-      }
-
-      // Log activity
-      await createActivityLog(
-        req.session.user._id.toString(),
-        "clearance_requested",
-        `Requested ${department} clearance for #${residentID}.`
-      );
-
-      res.redirect(`/shared/residentProfile/${residentID}?activeTab=clearance`);
-    } catch (err) {
-      console.log(
-        "An error occurred when trying to request clearance approval via email: ",
-        err
-      );
-      res.render("error/residentError/500");
-    }
-  },
   async reviewClearance(req, res) {
     let { activeTab } = req.query;
     let { residentID, email, dept } = req.params;
@@ -308,6 +242,7 @@ module.exports = {
 
       //send notification to facility_management
       if (dept == "DW" || dept == "Warden") {
+        sendReviewEmail(resident, department, recipient, sender, comments, ``);
         await createNotification(
           recipientEmail,
           "facility_management",
@@ -316,8 +251,9 @@ module.exports = {
           `/shared/residentProfile/${resident.residentID}?activeTab=clearance`
         );
       }
-      //send notifiaction to classification
+      //send notification to classification
       if (dept == "Classification") {
+        sendReviewEmail(resident, department, recipient, sender, comments, ``);
         await createNotification(
           recipientEmail,
           "classification",
@@ -325,9 +261,17 @@ module.exports = {
           `Clearance is requested for resident #${residentID}.`,
           `/shared/residentProfile/${resident.residentID}?activeTab=clearance`
         );
+      } else {
+        sendReviewEmail(
+          resident,
+          department,
+          recipient,
+          sender,
+          comments,
+          `request/reviewClearance/${department}/${residentID}/${recipient}`
+        );
       }
 
-      sendReviewEmail(resident, category, recipientEmail, email, comments);
       res.render("clearance/thankYou", { resident, email });
     } catch (err) {
       console.log(err);

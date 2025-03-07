@@ -623,16 +623,16 @@ module.exports = {
         { "applicants._id": applicationID },
         {
           $set: {
-            "applicants.$.interview": {
-              "applicants.$.interview.status": "requested",
-              "applicants.$.preferredDate": preferences || null,
-              "applicants.$.employerInstructions": additionalNotes || "",
-              "applicants.$.requestedBy": req.session.user.email,
-              "applicants.$.dateRequested": new Date(),
-            },
+            "applicants.$.interview.status": "requested",
+            "applicants.$.interview.preferredDate": preferences || null,
+            "applicants.$.interview.employerInstructions":
+              additionalNotes || "",
+            "applicants.$.interview.requestedBy": req.session.user.email,
+            "applicants.$.interview.dateRequested": new Date(),
           },
         }
       );
+
       //find and return the updated application
       const updatedApplication = await Jobs.findOne(
         { "applicants._id": applicationID },

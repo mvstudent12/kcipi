@@ -14,14 +14,6 @@ const {
 } = require("../utils/clearanceUtils");
 
 const {
-  sendReviewEmail,
-  sendHelpDeskEmail,
-  sendContactEmail,
-  sendRequestInterviewEmail,
-  sendRequestHireEmail,
-} = require("../utils/emailUtils/notificationEmail");
-
-const {
   getUserNotifications,
   createNotification,
 } = require("../utils/notificationUtils");
@@ -31,6 +23,54 @@ const { validateResidentID } = require("../utils/validationUtils");
 const { mapDepartmentName } = require("../utils/requestUtils.js");
 
 module.exports = {
+  async residentProfile(req, res) {
+    const { residentID } = req.params;
+    let { activeTab } = req.query;
+    try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+
+      validateResidentID(residentID);
+      //update resident workStatus
+      const workStatus = await checkClearanceStatus(residentID);
+
+      await Resident.findOneAndUpdate(
+        { residentID },
+        {
+          $set: {
+            "workEligibility.status": workStatus,
+          },
+        }
+      );
+
+      const {
+        resident,
+        applications,
+        unitTeam,
+        activities,
+        classificationEmails,
+        facility_managementEmails,
+      } = await getResidentProfileInfo(residentID);
+
+      if (!activeTab) activeTab = "overview";
+      res.render(`shared/residentProfile`, {
+        user: req.session.user,
+        notifications,
+        resident,
+        applications,
+        activeTab,
+        unitTeam,
+        activities,
+        classificationEmails,
+        facility_managementEmails,
+      });
+    } catch (err) {
+      console.error("Error fetching resident profile:", err);
+      res.render("error/403");
+    }
+  },
   async recentActivities(req, res) {
     try {
       const notifications = await getUserNotifications(
@@ -55,46 +95,6 @@ module.exports = {
     }
   },
 
-  async residentProfile(req, res) {
-    const { residentID } = req.params;
-    let { activeTab } = req.query;
-    try {
-      const notifications = await getUserNotifications(
-        req.session.user.email,
-        req.session.user.role
-      );
-
-      validateResidentID(residentID);
-      //update resident workStatus
-      const workStatus = await checkClearanceStatus(residentID);
-
-      await Resident.findOneAndUpdate(
-        { residentID },
-        {
-          $set: {
-            "workEligibility.status": workStatus,
-          },
-        }
-      );
-
-      const { resident, applications, unitTeam, activities } =
-        await getResidentProfileInfo(residentID);
-
-      if (!activeTab) activeTab = "overview";
-      res.render(`shared/residentProfile`, {
-        user: req.session.user,
-        notifications,
-        resident,
-        applications,
-        activeTab,
-        unitTeam,
-        activities,
-      });
-    } catch (err) {
-      console.error("Error fetching resident profile:", err);
-      res.render("error/403");
-    }
-  },
   async helpDesk(req, res) {
     const { sentMsg } = req.query;
     try {

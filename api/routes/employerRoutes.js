@@ -19,14 +19,10 @@ const authMiddleware = [
 ];
 
 //=============================
-//   Employer Dashboard
+//   Employer Routes
 //=============================
 
 employerRoutes.get("/dashboard", authMiddleware, controller.dashboard);
-
-//=============================
-//   Manage Positions
-//=============================
 
 employerRoutes.get(
   "/managePositions",
@@ -62,9 +58,6 @@ employerRoutes.post(
   authMiddleware,
   controller.deletePosition
 );
-//=============================
-//   Manage Workforce
-//=============================
 
 employerRoutes.get(
   "/manageWorkForce",
@@ -73,10 +66,6 @@ employerRoutes.get(
 );
 
 employerRoutes.get("/employees", authMiddleware, controller.employees);
-
-//=============================
-//   Resident Profile
-//=============================
 
 employerRoutes.get(
   "/residentProfile/:residentID",
@@ -108,11 +97,8 @@ employerRoutes.get(
   controller.rejectHire
 );
 
-//=============================
-//   Reports
-//=============================
-
 employerRoutes.get("/reports", authMiddleware, controller.reports);
+
 employerRoutes.post(
   "/interviewReport",
   authMiddleware,

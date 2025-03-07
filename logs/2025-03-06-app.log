@@ -96,3 +96,11 @@
 {"level":"warn","message":"Page not found: /notification/notification/markNotificationAsRead/67c9da64db8a399a60369e97","timestamp":"2025-03-06 11:34:48"}
 {"level":"warn","message":"Page not found: /notification/markNotificationAsRead/67c9da64db8a399a60369e97","timestamp":"2025-03-06 11:35:04"}
 {"level":"warn","message":"Page not found: /notification/markNotificationAsRead/67c9da64db8a399a60369e97","timestamp":"2025-03-06 11:35:40"}
+{"level":"info","message":"User logged in: kari.johnson@ks.gov","timestamp":"2025-03-06 11:53:19"}
+{"level":"info","message":"2025-03-06T17:53:19.087Z [INFO] : ::ffff:127.0.0.1 /login 200 361.790 ms","timestamp":"2025-03-06 11:53:19"}
+{"level":"warn","message":"Page not found: /clearance/residentProfile/4872930?activeTab=clearance","timestamp":"2025-03-06 11:53:23"}
+{"level":"warn","message":"Page not found: /clearance/residentProfile/4872930?activeTab=clearance","timestamp":"2025-03-06 11:53:36"}
+{"level":"info","message":"User logged out: kari.johnson@ks.gov","timestamp":"2025-03-06 11:53:59"}
+{"level":"info","message":"User logged in: kari.johnson@ks.gov","timestamp":"2025-03-06 11:54:06"}
+{"level":"info","message":"2025-03-06T17:54:06.799Z [INFO] : ::ffff:127.0.0.1 /login 200 322.050 ms","timestamp":"2025-03-06 11:54:06"}
+{"level":"warn","message":"Page not found: /clearance/residentProfile/4872930?activeTab=clearance","timestamp":"2025-03-06 11:54:16"}

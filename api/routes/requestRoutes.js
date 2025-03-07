@@ -14,8 +14,13 @@ requestRoutes.post("/requestHelp", controller.requestHelp);
 requestRoutes.post("/contact", controller.contact);
 
 //============================
-//    Clearance Functions
+// Email Clearance Functions
 //============================
+
+requestRoutes.get(
+  "/reviewClearance/:dept/:residentID/:email",
+  controller.reviewClearance
+);
 
 requestRoutes.get(
   "/approve/:residentID/:email/:dept",
@@ -27,15 +32,6 @@ requestRoutes.get(
 );
 
 requestRoutes.post("/saveNotes/:residentID/:email/:dept", controller.saveNotes);
-
-//=============================
-//    All Notifications
-//=============================
-
-requestRoutes.get(
-  "/reviewClearance/:dept/:residentID/:email",
-  controller.reviewClearance
-);
 
 requestRoutes.get(
   "/next_notes/:residentID/:email/:dept",

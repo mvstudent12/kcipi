@@ -1,0 +1,28 @@
+{"level":"info","message":"User logged in: kari.johnson@ks.gov","timestamp":"2025-03-07 06:43:27"}
+{"level":"info","message":"2025-03-07T12:43:27.805Z [INFO] : ::ffff:127.0.0.1 /login 200 362.732 ms","timestamp":"2025-03-07 06:43:27"}
+{"level":"info","message":"User logged in: kari.johnson@ks.gov","timestamp":"2025-03-07 07:49:47"}
+{"level":"info","message":"2025-03-07T13:49:47.395Z [INFO] : ::1 /login 200 359.895 ms","timestamp":"2025-03-07 07:49:47"}
+{"level":"info","message":"2025-03-07T14:09:53.483Z [INFO] : ::ffff:127.0.0.1 /shared/residentProfile/4872930 404 140.002 ms","timestamp":"2025-03-07 08:09:53"}
+{"level":"info","message":"User logged out: kari.johnson@ks.gov","timestamp":"2025-03-07 08:37:00"}
+{"level":"info","message":"User logged in: Jameson.smith@ks.gov","timestamp":"2025-03-07 08:37:05"}
+{"level":"info","message":"2025-03-07T14:37:05.544Z [INFO] : ::1 /login 200 591.769 ms","timestamp":"2025-03-07 08:37:05"}
+{"level":"info","message":"User logged in: #4782635: sophia, clark","timestamp":"2025-03-07 09:10:12"}
+{"level":"info","message":"Resident logged out: #4782635: sophia clark ","timestamp":"2025-03-07 09:10:27"}
+{"level":"info","message":"User logged in: #4872930: charlotte, adams","timestamp":"2025-03-07 09:10:30"}
+{"level":"info","message":"User logged out: jameson.smith@ks.gov","timestamp":"2025-03-07 09:16:32"}
+{"level":"info","message":"User logged in: shawn.williams@ks.gov","timestamp":"2025-03-07 09:16:35"}
+{"level":"info","message":"2025-03-07T15:16:35.671Z [INFO] : ::1 /login 200 265.279 ms","timestamp":"2025-03-07 09:16:35"}
+{"level":"info","message":"User logged out: shawn.williams@ks.gov","timestamp":"2025-03-07 09:20:08"}
+{"level":"info","message":"User logged in: Jameson.smith@ks.gov","timestamp":"2025-03-07 09:20:11"}
+{"level":"info","message":"2025-03-07T15:20:11.460Z [INFO] : ::1 /login 200 601.877 ms","timestamp":"2025-03-07 09:20:11"}
+{"level":"info","message":"User logged out: jameson.smith@ks.gov","timestamp":"2025-03-07 09:32:55"}
+{"level":"info","message":"User logged in: shawn.williams@ks.gov","timestamp":"2025-03-07 09:32:58"}
+{"level":"info","message":"2025-03-07T15:32:58.572Z [INFO] : ::1 /login 200 268.204 ms","timestamp":"2025-03-07 09:32:58"}
+{"level":"warn","message":"Page not found: /unitTeam/cancelInterviewRequest","timestamp":"2025-03-07 10:38:43"}
+{"level":"warn","message":"Page not found: /unitTeam/cancelInterviewRequest/67cb20c08b28ced035bcb1a6","timestamp":"2025-03-07 10:45:30"}
+{"level":"info","message":"User logged out: shawn.williams@ks.gov","timestamp":"2025-03-07 11:05:25"}
+{"level":"info","message":"User logged in: shawn.williams@ks.gov","timestamp":"2025-03-07 11:05:30"}
+{"level":"info","message":"2025-03-07T17:05:30.880Z [INFO] : ::1 /login 200 257.339 ms","timestamp":"2025-03-07 11:05:30"}
+{"level":"info","message":"Resident logged out: #4872930: charlotte adams ","timestamp":"2025-03-07 11:17:05"}
+{"level":"info","message":"User logged in: Jameson.smith@ks.gov","timestamp":"2025-03-07 11:17:15"}
+{"level":"info","message":"2025-03-07T17:17:15.146Z [INFO] : ::1 /login 200 596.906 ms","timestamp":"2025-03-07 11:17:15"}

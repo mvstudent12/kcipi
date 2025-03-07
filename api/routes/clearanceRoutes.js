@@ -17,6 +17,9 @@ const authMiddleware = [
   sessionSecurity,
   requireRole(["unitTeam", "facility_management", "classification", "admin"]),
 ];
+//=========================
+//  Clearance Routes
+//=========================
 
 clearanceRoutes.post(
   "/rejectResume/:residentID",

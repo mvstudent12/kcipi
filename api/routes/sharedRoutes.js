@@ -47,6 +47,7 @@ sharedRoutes.get(
 );
 
 sharedRoutes.get("/helpDesk", authMiddlewareAll, controller.helpDesk);
+
 sharedRoutes.get("/contact", authMiddlewareAll, controller.contact);
 
 module.exports = sharedRoutes;

@@ -13,18 +13,9 @@ const {
   checkClearanceStatus,
 } = require("../utils/clearanceUtils");
 
-const {
-  sendReviewEmail,
-  sendHelpDeskEmail,
-  sendContactEmail,
-  sendRequestInterviewEmail,
-  sendRequestHireEmail,
-} = require("../utils/emailUtils/notificationEmail");
+const { sendReviewEmail } = require("../utils/emailUtils/notificationEmail");
 
-const {
-  getUserNotifications,
-  createNotification,
-} = require("../utils/notificationUtils");
+const { createNotification } = require("../utils/notificationUtils");
 
 const { createActivityLog } = require("../utils/activityLogUtils");
 const { validateResidentID } = require("../utils/validationUtils");
@@ -195,25 +186,35 @@ module.exports = {
         { new: true }
       );
 
-      sendReviewEmail(resident, department, recipient, sender, comments);
       //send notification to facility_management
       if (dept == "DW" || dept == "Warden") {
+        sendReviewEmail(resident, department, recipient, sender, comments, ``);
         await createNotification(
           recipient,
           "facility_management",
           "clearance_requested",
           `Clearance is requested for resident #${residentID}.`,
-          `/shared/residentProfile/${resident.residentID}?activeTab=clearance`
+          `/shared/residentProfile/${residentID}?activeTab=clearance`
         );
       }
       //send notifiaction to classification
       if (dept == "Classification") {
+        sendReviewEmail(resident, department, recipient, sender, comments, ``);
         await createNotification(
           recipient,
           "classification",
           "clearance_requested",
           `Clearance is requested for resident #${residentID}.`,
-          `/shared/residentProfile/${resident.residentID}?activeTab=clearance`
+          `/shared/residentProfile/${residentID}?activeTab=clearance`
+        );
+      } else {
+        sendReviewEmail(
+          resident,
+          department,
+          recipient,
+          sender,
+          comments,
+          `request/reviewClearance/${department}/${residentID}/${recipient}`
         );
       }
 
