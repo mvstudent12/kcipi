@@ -9,9 +9,9 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const DOMAIN = "localhost:5999";
+//const DOMAIN = "localhost:5999";
 
-//const DOMAIN = "kcipi.onrender.com";
+const DOMAIN = "kcipi.onrender.com";
 
 // Send an email notification to the next department
 const sendReviewEmail = async (
