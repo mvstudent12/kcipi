@@ -60,7 +60,6 @@ module.exports = {
 
       //find all active interviews
       const interviews = await findInterviewsInCaseload(residentIDs);
-      console.log(interviews);
 
       //count pending resumes for this member
       const pendingResumes = await Resident.countDocuments({
@@ -149,19 +148,26 @@ module.exports = {
         { "applicants._id": new mongoose.Types.ObjectId(applicationID) },
         { "applicants.$": 1, companyName: 1 } // Return only the matched application
       ).lean();
-      const application = jobApplicant.applicants[0];
+      if (jobApplicant) {
+        const application = jobApplicant.applicants[0];
 
-      const residentID = application.residentID;
-      const resident = await Resident.findOne({
-        residentID: residentID,
-      }).lean();
-      res.render("unitTeam/requestInterview", {
-        user: req.session.user,
-        application,
-        jobApplicant,
-        resident,
-        notifications,
-      });
+        const residentID = application.residentID;
+        const resident = await Resident.findOne({
+          residentID: residentID,
+        }).lean();
+        res.render("unitTeam/requestInterview", {
+          user: req.session.user,
+          application,
+          jobApplicant,
+          resident,
+          notifications,
+        });
+      } else {
+        res.render("unitTeam/requestInterview", {
+          user: req.session.user,
+          notifications,
+        });
+      }
     } catch (err) {
       console.log(err);
       res.render("error/500");
@@ -459,6 +465,33 @@ module.exports = {
         user: req.session.user,
         notifications,
         applicants,
+      });
+    } catch (err) {
+      console.log(err);
+      res.render("error/500");
+    }
+  },
+  async interviews(req, res) {
+    try {
+      const notifications = await getUserNotifications(
+        req.session.user.email,
+        req.session.user.role
+      );
+      const facility = req.session.user.facility;
+
+      const caseLoad = await Resident.find({ facility, isActive: true })
+        .sort({ lastName: 1 })
+        .lean();
+
+      //make array of resident _id in caseload
+      const residentIDs = caseLoad.flatMap((resident) => resident.residentID);
+
+      const interviews = await findInterviewsInCaseload(residentIDs);
+
+      res.render("unitTeam/tables/interviews", {
+        user: req.session.user,
+        notifications,
+        interviews,
       });
     } catch (err) {
       console.log(err);

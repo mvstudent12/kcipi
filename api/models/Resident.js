@@ -89,7 +89,6 @@ const residentSchema = new Schema({
   unitTeam: { type: String, lowercase: true },
   jobPool: {
     type: String,
-    lowercase: true,
     enum: [
       "Male Minimum 1 (Off-Site)",
       "Male Minimum 2 (On-Site)",

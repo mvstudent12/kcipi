@@ -118,7 +118,7 @@ module.exports = {
       }
     } catch (err) {
       console.log(err);
-      res.render("error/500");
+      res.render("error/residentError/500");
     }
   },
   async profile(req, res) {
@@ -134,7 +134,7 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
-      res.render("error/500");
+      res.render("error/residentError/500");
     }
   },
   async saveResume(req, res) {
@@ -186,7 +186,7 @@ module.exports = {
       res.redirect(`/resident/profile`);
     } catch (err) {
       console.log(err);
-      res.render("error/500");
+      res.render("error/residentError/500");
     }
   },
   async applications(req, res) {
@@ -219,7 +219,7 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
-      res.render("error/500");
+      res.render("error/residentError/500");
     }
   },
   async jobInfo(req, res) {
@@ -266,7 +266,7 @@ module.exports = {
       }
     } catch (err) {
       console.log(err);
-      res.render("error/500");
+      res.render("error/residentError/500");
     }
   },
   async saveApplication(req, res) {
@@ -331,7 +331,7 @@ module.exports = {
       res.redirect(`/resident/jobInfo/${jobID}`);
     } catch (err) {
       console.log(err);
-      res.render("error/500");
+      res.render("error/residentError/500");
     }
   },
   async faq(req, res) {
@@ -339,7 +339,7 @@ module.exports = {
       res.render("resident/faq", { user: req.session.resident });
     } catch (err) {
       console.log(err);
-      res.render("error/500");
+      res.render("error/residentError/500");
     }
   },
   async recentActivities(req, res) {
@@ -356,7 +356,7 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
-      res.render("error/500");
+      res.render("error/residentError/500");
     }
   },
 };

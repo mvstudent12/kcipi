@@ -1,0 +1,85 @@
+{{> unitTeamTemplate}}
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1 class="text-capitalize">{{user.facility}} Residents</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active"><a href="/unitTeam/dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item active">Resident Data</li>
+            </ol>
+        </nav>
+    </div>
+
+    <section class="section dashboard">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row">
+
+
+                    <!-- Interviews Table -->
+                    <div class="col-12">
+                        <div class="card recent-sales overflow-auto">
+                            <div class="card-body">
+                                <h5 class="card-title">Interviews <span>| Requested</span></h5>
+                                <table class="table table-borderless table-striped datatable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">ID #</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Requested</th>
+                                            <th scope="col">Scheduled</th>
+                                            <th scope="col">Company</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each interviews}}
+                                            <tr>
+                                                <th scope="row"><a
+                                                        href="/shared/residentProfile/{{this.applicants.residentID}}">{{this.applicants.residentID}}</a>
+                                                </th>
+                                                <td class="text-capitalize"><a
+                                                        href="/shared/residentProfile/{{this.applicants.residentID}}">
+                                                        {{this.applicants.residentName}}</a></td>
+
+
+                                                {{#if this.applicants.interview.dateRequested}}
+                                                    <td><span class="badge bg-success">{{formatDate
+                                                                                                            this.applicants.interview.dateRequested}}</span>
+                                                    </td>
+                                                {{else}}
+                                                    <td>No</td>
+                                                {{/if}}
+
+                                                {{#if this.applicants.interview.dateScheduled}}
+                                                    <td>{{formatDate this.applicants.interview.dateScheduled}}</td>
+                                                {{else}}
+                                                    <td>No</td>
+                                                {{/if}}
+
+                                                <td class="text-capitalize">
+                                                    <a href="/shared/residentProfile/{{this.interview.residentID}}">
+                                                        {{this.companyName}}</a>
+                                                </td>
+
+                                            </tr>
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div><!-- End Dashboard Cone -->
+
+        </div>
+    </section>
+</main>
+
+<!-- ======= Footer ======= -->
+{{> footer}}
+
+{{> arrowUp}}

@@ -3,10 +3,11 @@
 const UnitTeam = require("../models/UnitTeam");
 const Resident = require("../models/Resident");
 const Jobs = require("../models/Jobs");
+const Link = require("../models/Link");
+const Facility_Management = require("../models/Facility_Management");
+const Classification = require("../models/Classification");
 
 const mongoose = require("mongoose");
-
-const logger = require("../utils/logger");
 
 const {
   sendReviewEmail,
@@ -20,20 +21,17 @@ const {
 //  Global   functions
 //===========================
 
-const {
-  getUserNotifications,
-  createNotification,
-} = require("../utils/notificationUtils");
+const { createNotification } = require("../utils/notificationUtils");
 
-const {
-  getEmployeeEmails,
-  sendNotificationsToEmployers,
-  checkClearanceStatus,
-} = require("../utils/clearanceUtils");
+const { checkClearanceStatus } = require("../utils/clearanceUtils");
 
 const { createActivityLog } = require("../utils/activityLogUtils");
 
-const { getNameFromEmail } = require("../utils/requestUtils");
+const {
+  getNameFromEmail,
+  isValidUser,
+  checkToken,
+} = require("../utils/requestUtils");
 
 const {
   mapDepartmentName,
@@ -48,7 +46,13 @@ module.exports = {
   async reviewClearance(req, res) {
     let { activeTab } = req.query;
     let { residentID, email, dept } = req.params;
+    const { token } = req.query;
+
     try {
+      const validUser = await isValidUser(token);
+
+      if (!validUser) return res.render("error/410");
+
       dept = mapDepartmentName(dept);
       const resident = await Resident.findOne({ residentID }).lean();
 
@@ -56,8 +60,11 @@ module.exports = {
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
       );
 
+      req.session.token = token;
+
       if (!activeTab) activeTab = "status";
       res.render(`clearance/${dept}`, {
+        token: req.session.token,
         resident,
         email,
         activeTab,
@@ -69,10 +76,28 @@ module.exports = {
   },
   async approveClearance(req, res) {
     const { residentID, email, dept } = req.params;
+    const token = req.session.token;
     try {
       const deptName = mapDepartmentNameReverse(dept);
       const name = getNameFromEmail(email);
 
+      //create activity if user belongs to database
+      if (dept === "DW" || dept === "Warden" || dept === "Classification") {
+        let user = await Facility_Management.findOne({ email });
+
+        if (!user) {
+          user = await Classification.findOne({ email });
+        }
+        if (user) {
+          await createActivityLog(
+            user._id.toString(),
+            "clearance_approved",
+            `Approved ${deptName} clearance for resident #${residentID}.`
+          );
+        }
+      }
+
+      //update resident's clearance status
       await Resident.updateOne(
         { residentID: residentID },
         {
@@ -104,8 +129,8 @@ module.exports = {
         `/shared/residentProfile/${resident.residentID}?activeTab=clearance`
       );
 
+      //update residents work eligibility status
       const workStatus = await checkClearanceStatus(residentID);
-
       await Resident.findOneAndUpdate(
         { residentID },
         {
@@ -116,7 +141,7 @@ module.exports = {
       );
 
       res.redirect(
-        `/request/reviewClearance/${dept}/${residentID}/${email}?activeTab=status`
+        `/request/reviewClearance/${dept}/${residentID}/${email}?token=${token}&activeTab=status`
       );
     } catch (err) {
       console.log("Error approving clearance from email link: ", err);
@@ -125,7 +150,7 @@ module.exports = {
   },
   async restrictClearance(req, res) {
     let { residentID, email, dept } = req.params;
-
+    const token = req.session.token;
     try {
       const name = getNameFromEmail(email);
       const deptName = mapDepartmentNameReverse(dept);
@@ -173,9 +198,23 @@ module.exports = {
           },
         }
       );
+      //create activity if user belongs to database
+      if (dept === "DW" || dept === "Warden" || dept === "Classification") {
+        let user = await Facility_Management.findOne({ email });
+        if (!user) {
+          user = await Classification.findOne({ email });
+        }
+        if (user) {
+          await createActivityLog(
+            user._id.toString(),
+            "clearance_restricted",
+            `Restricted ${deptName} clearance for resident #${residentID}.`
+          );
+        }
+      }
 
       res.redirect(
-        `/request/reviewClearance/${dept}/${residentID}/${email}?activeTab=status`
+        `/request/reviewClearance/${dept}/${residentID}/${email}?token=${token}&activeTab=status`
       );
     } catch (err) {
       console.log(err);
@@ -185,7 +224,7 @@ module.exports = {
   async saveNotes(req, res) {
     let { residentID, email, dept } = req.params;
     const { notes } = req.body;
-
+    const token = req.session.token;
     try {
       const name = getNameFromEmail(email);
 
@@ -202,7 +241,7 @@ module.exports = {
         }
       );
       res.redirect(
-        `/request/reviewClearance/${dept}/${residentID}/${email}?activeTab=notes`
+        `/request/reviewClearance/${dept}/${residentID}/${email}?token=${token}&activeTab=notes`
       );
     } catch (err) {
       console.log(err);
@@ -211,9 +250,10 @@ module.exports = {
   },
   async next_notes(req, res) {
     const { residentID, email, dept } = req.params;
+    const token = req.session.token;
     try {
       res.redirect(
-        `/request/reviewClearance/${dept}/${residentID}/${email}?activeTab=notes`
+        `/request/reviewClearance/${dept}/${residentID}/${email}?token=${token}&activeTab=notes`
       );
     } catch (err) {
       console.log(err);
@@ -222,9 +262,10 @@ module.exports = {
   },
   async next_notify(req, res) {
     const { residentID, email, dept } = req.params;
+    const token = req.session.token;
     try {
       res.redirect(
-        `/request/reviewClearance/${dept}/${residentID}/${email}?activeTab=notify`
+        `/request/reviewClearance/${dept}/${residentID}/${email}?token=${token}&activeTab=notify`
       );
     } catch (err) {
       console.log(err);
@@ -234,6 +275,7 @@ module.exports = {
   async sendNextNotification(req, res) {
     const { residentID, email } = req.params;
     let { category, recipientEmail, comments } = req.body;
+    const token = req.session.token;
 
     try {
       const resident = await Resident.findOne({ residentID }).lean();
@@ -242,7 +284,7 @@ module.exports = {
 
       //send notification to facility_management
       if (dept == "DW" || dept == "Warden") {
-        sendReviewEmail(resident, department, recipient, sender, comments, ``);
+        sendReviewEmail(resident, dept, recipientEmail, email, comments, ``);
         await createNotification(
           recipientEmail,
           "facility_management",
@@ -253,7 +295,7 @@ module.exports = {
       }
       //send notification to classification
       if (dept == "Classification") {
-        sendReviewEmail(resident, department, recipient, sender, comments, ``);
+        sendReviewEmail(resident, dept, recipientEmail, email, comments, ``);
         await createNotification(
           recipientEmail,
           "classification",
@@ -264,13 +306,17 @@ module.exports = {
       } else {
         sendReviewEmail(
           resident,
-          department,
-          recipient,
-          sender,
+          dept,
+          recipientEmail,
+          email,
           comments,
-          `request/reviewClearance/${department}/${residentID}/${recipient}`
+          `request/reviewClearance/${dept}/${residentID}/${recipientEmail}`
         );
       }
+      //delete the token here
+      const linkData = await Link.findOne({ token: token });
+      // Delete the link after it has been used
+      if (linkData) await linkData.deleteOne();
 
       res.render("clearance/thankYou", { resident, email });
     } catch (err) {
@@ -288,7 +334,7 @@ module.exports = {
     try {
       const recipient = "kcicodingdev@gmail.com"; //-->development only
       sendHelpDeskEmail(name, subject, email, message, recipient);
-      res.redirect(`/${req.session.user.role}/helpDesk?sentMsg=true`);
+      res.redirect(`/shared/helpDesk?sentMsg=true`);
     } catch (err) {
       console.log(err);
       res.render("error/residentError/500");
@@ -303,7 +349,7 @@ module.exports = {
       const recipient = "kcicodingdev@gmail.com"; //-->development only
       sendContactEmail(name, subject, email, message, recipient);
 
-      res.redirect(`/${req.session.user.role}/contact?sentMsg=true`);
+      res.redirect(`/shared/contact?sentMsg=true`);
     } catch (err) {
       res.render("error/residentError/500");
     }
@@ -312,7 +358,12 @@ module.exports = {
   //   Thank you
   //========================
   async thankYou(req, res) {
+    const token = req.session.token;
     try {
+      //delete the token here
+      const linkData = await Link.findOne({ token: token });
+      // Delete the link after it has been used
+      if (linkData) await linkData.deleteOne();
       res.render("clearance/thankYou");
     } catch (err) {
       res.render("error/residentError/500");

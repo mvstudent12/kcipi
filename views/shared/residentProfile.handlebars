@@ -69,7 +69,7 @@
                                         {{#if resident.isHired}}
                                             <div class="text-center">
                                                 <p class="text-success">This resident is working as of {{formatDate
-                                                resident.dateHired}}</p>
+                                                resident.dateHired}}. </p>
                                             </div>
                                         {{else}}
                                             {{#if (eq resident.workEligibility.status "approved")}}
@@ -742,7 +742,10 @@
                                         {{#if resident.isHired}}
                                             <div class="text-center">
                                                 <p class="text-success">This resident is working as of {{formatDate
-                                                resident.dateHired}}</p>
+                                                resident.dateHired}}. </p>
+                                                <p class="text-danger">Clearance editing is
+                                                    disabled while resident is
+                                                    employed.</p>
                                             </div>
                                         {{else}}
                                             {{#if (eq resident.workEligibility.status "approved")}}
@@ -795,7 +798,8 @@
                                                             <button type="submit" class="btn btn-info "
                                                                 data-route="/clearance/requestClearance/{{resident.residentID}}/Medical"
                                                                 data-category="Medical" data-bs-toggle="modal"
-                                                                data-bs-target="#clearanceModal"
+                                                                data-bs-target="#clearanceModal" {{#if
+                                                                resident.isHired}}disabled{{/if}}
                                                                 aria-label="Request Medical Clearance">
                                                                 Request</button>
                                                         </div>
@@ -803,7 +807,8 @@
                                                             <button id="" type="submit" class="btn btn-warning ms-2"
                                                                 data-route="/clearance/editClearance/{{resident.residentID}}/Medical"
                                                                 data-category="Medical" data-bs-toggle="modal"
-                                                                data-bs-target="#editModal"
+                                                                data-bs-target="#editModal" {{#if
+                                                                resident.isHired}}disabled{{/if}}
                                                                 aria-label="Edit Medical Clearance">Edit</button>
                                                         </div>
                                                         <div class="col-2">
@@ -839,7 +844,8 @@
                                                             <button type="submit" class="btn btn-info"
                                                                 data-route="/clearance/requestClearance/{{resident.residentID}}/EAI"
                                                                 data-category="EAI" data-bs-toggle="modal"
-                                                                data-bs-target="#clearanceModal"
+                                                                data-bs-target="#clearanceModal" {{#if
+                                                                resident.isHired}}disabled{{/if}}
                                                                 aria-label="Request EAI Clearance">
                                                                 Request</button>
                                                         </div>
@@ -847,7 +853,8 @@
                                                             <button id="" type="submit" class="btn btn-warning ms-2"
                                                                 data-route="/clearance/editClearance/{{resident.residentID}}/EAI"
                                                                 data-category="EAI" data-bs-toggle="modal"
-                                                                data-bs-target="#editModal"
+                                                                data-bs-target="#editModal" {{#if
+                                                                resident.isHired}}disabled{{/if}}
                                                                 aria-label="Edit">Edit</button>
                                                         </div>
                                                         <div class="col-2">
@@ -882,7 +889,8 @@
                                                             <button type="submit" class="btn btn-info"
                                                                 data-route="/clearance/requestClearance/{{resident.residentID}}/Sex-Offender"
                                                                 data-category="Sex-Offender" data-bs-toggle="modal"
-                                                                data-bs-target="#clearanceModal"
+                                                                data-bs-target="#clearanceModal" {{#if
+                                                                resident.isHired}}disabled{{/if}}
                                                                 aria-label="Request Sex Offender Clearance">
                                                                 Request</button>
                                                         </div>
@@ -890,7 +898,8 @@
                                                             <button id="" type="submit" class="btn btn-warning ms-2"
                                                                 data-route="/clearance/editClearance/{{resident.residentID}}/Sex-Offender"
                                                                 data-category="Sex-Offender" data-bs-toggle="modal"
-                                                                data-bs-target="#editModal"
+                                                                data-bs-target="#editModal" {{#if
+                                                                resident.isHired}}disabled{{/if}}
                                                                 aria-label="Edit">Edit</button>
                                                         </div>
                                                         <div class="col-2">
@@ -926,7 +935,8 @@
                                                             <button type="submit" class="btn btn-info"
                                                                 data-route="/clearance/requestClearance/{{resident.residentID}}/Victim-Services"
                                                                 data-category="Victim-Services" data-bs-toggle="modal"
-                                                                data-bs-target="#clearanceModal"
+                                                                data-bs-target="#clearanceModal" {{#if
+                                                                resident.isHired}}disabled{{/if}}
                                                                 aria-label="Request Victim Services Clearance">
                                                                 Request</button>
                                                         </div>
@@ -934,7 +944,8 @@
                                                             <button id="" type="submit" class="btn btn-warning ms-2"
                                                                 data-route="/clearance/editClearance/{{resident.residentID}}/Victim-Services"
                                                                 data-category="Victim-Services" data-bs-toggle="modal"
-                                                                data-bs-target="#editModal"
+                                                                data-bs-target="#editModal" {{#if
+                                                                resident.isHired}}disabled{{/if}}
                                                                 aria-label="Edit">Edit</button>
                                                         </div>
                                                         <div class="col-2">
@@ -970,7 +981,8 @@
                                                             <button type="submit" class="btn btn-info"
                                                                 data-route="/clearance/requestClearance/{{resident.residentID}}/Classification"
                                                                 data-category="Classification" data-bs-toggle="modal"
-                                                                data-bs-target="#clearanceModal"
+                                                                data-bs-target="#clearanceModal" {{#if
+                                                                resident.isHired}}disabled{{/if}}
                                                                 aria-label="Request Classification Clearance">
                                                                 Request</button>
                                                         </div>
@@ -991,7 +1003,8 @@
                                                                     {{/if}}"
                                                                 data-route="/clearance/editClearance/{{resident.residentID}}/Classification"
                                                                 data-category="Classification" data-bs-toggle="modal"
-                                                                data-bs-target="#editModal"
+                                                                data-bs-target="#editModal" {{#if
+                                                                resident.isHired}}disabled{{/if}}
                                                                 aria-label="Edit">Edit</button>
                                                         </div>
                                                         <div class="col-2">
@@ -1027,7 +1040,8 @@
                                                             <button type="submit" class="btn btn-info"
                                                                 data-route="/clearance/requestClearance/{{resident.residentID}}/Deputy-Warden"
                                                                 data-category="Deputy-Warden" data-bs-toggle="modal"
-                                                                data-bs-target="#clearanceModal"
+                                                                data-bs-target="#clearanceModal" {{#if
+                                                                resident.isHired}}disabled{{/if}}
                                                                 aria-label="Request Deputy Warden Clearance">
                                                                 Request</button>
                                                         </div>
@@ -1043,7 +1057,8 @@
                                                                     {{/if}}"
                                                                 data-route="/clearance/editClearance/{{resident.residentID}}/Deputy-Warden"
                                                                 data-category="Deputy-Warden" data-bs-toggle="modal"
-                                                                data-bs-target="#editModal"
+                                                                data-bs-target="#editModal" {{#if
+                                                                resident.isHired}}disabled{{/if}}
                                                                 aria-label="Edit">Edit</button>
                                                         </div>
                                                         <div class="col-2">
@@ -1078,7 +1093,8 @@
                                                             <button type="submit" class="btn btn-info"
                                                                 data-route="/clearance/requestClearance/{{resident.residentID}}/Warden"
                                                                 data-category="Warden" data-bs-toggle="modal"
-                                                                data-bs-target="#clearanceModal"
+                                                                data-bs-target="#clearanceModal" {{#if
+                                                                resident.isHired}}disabled{{/if}}
                                                                 aria-label="Request Warden Clearance">
                                                                 Request</button>
                                                         </div>
@@ -1094,7 +1110,8 @@
                                                                          {{/if}}"
                                                                 data-route="/clearance/editClearance/{{resident.residentID}}/Warden"
                                                                 data-category="Warden" data-bs-toggle="modal"
-                                                                data-bs-target="#editModal"
+                                                                data-bs-target="#editModal" {{#if
+                                                                resident.isHired}}disabled{{/if}}
                                                                 aria-label="Edit">Edit</button>
                                                         </div>
                                                         <div class="col-2">
@@ -1519,17 +1536,21 @@
                     <div>
                         {{!-- additional comments --}}
                         <div class="row mb-3">
-                            <div class="col-sm-10">
+                            <div class="">
                                 <textarea required name="notes" class="form-control"
                                     placeholder="Additional notes or comments" style="height: 100px;"></textarea>
                             </div>
+
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-10"><button class="btn btn-primary" type="submit">Add Note</button></div>
                         </div>
                     </div>
                     <hr>
                     <h4 class="card-title">Previous Notes:</h4>
                     <div class="row">
                         <div class="row mb-3">
-                            <div id="previousNotes" class="col-sm-10">
+                            <div id="previousNotes" class="">
 
                             </div>
                         </div>

@@ -21,7 +21,7 @@ module.exports = {
     req.session.destroy((err) => {
       if (err) {
         logger.warn("Failed to logout: " + err);
-        return res.render("error/500");
+        res.render("error/residentError/500");
       }
       res.clearCookie("connect.sid"); // Remove session cookie if using express-session
       res.render("auth/residentLogin");
@@ -63,7 +63,7 @@ module.exports = {
     req.session.destroy((err) => {
       if (err) {
         logger.warn("Failed to logout: " + err);
-        return res.render("error/500");
+        res.render("error/residentError/500");
       }
     });
     res.clearCookie("connect.sid"); // Remove session cookie if using express-session

@@ -68,6 +68,8 @@ unitTeamRoutes.get("/cleared", authMiddleware, controller.cleared);
 
 unitTeamRoutes.get("/applicants", authMiddleware, controller.applicants);
 
+unitTeamRoutes.get("/interviews", authMiddleware, controller.interviews);
+
 unitTeamRoutes.get("/employees", authMiddleware, controller.employees);
 
 unitTeamRoutes.get("/reports", authMiddleware, controller.reports);

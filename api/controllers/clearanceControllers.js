@@ -11,6 +11,9 @@ const {
   sendNotificationsToEmployers,
   getResidentProfileInfo,
   checkClearanceStatus,
+  createUpdateData,
+  logClearanceActivity,
+  sendClearanceNotification,
 } = require("../utils/clearanceUtils");
 
 const { sendReviewEmail } = require("../utils/emailUtils/notificationEmail");
@@ -62,7 +65,6 @@ module.exports = {
       res.render("error/500");
     }
   },
-
   async rejectResume(req, res) {
     const { residentID } = req.params;
     const { rejectReason } = req.body;
@@ -188,7 +190,6 @@ module.exports = {
 
       //send notification to facility_management
       if (dept == "DW" || dept == "Warden") {
-        sendReviewEmail(resident, department, recipient, sender, comments, ``);
         await createNotification(
           recipient,
           "facility_management",
@@ -199,7 +200,6 @@ module.exports = {
       }
       //send notifiaction to classification
       if (dept == "Classification") {
-        sendReviewEmail(resident, department, recipient, sender, comments, ``);
         await createNotification(
           recipient,
           "classification",
@@ -207,16 +207,15 @@ module.exports = {
           `Clearance is requested for resident #${residentID}.`,
           `/shared/residentProfile/${residentID}?activeTab=clearance`
         );
-      } else {
-        sendReviewEmail(
-          resident,
-          department,
-          recipient,
-          sender,
-          comments,
-          `request/reviewClearance/${department}/${residentID}/${recipient}`
-        );
       }
+      sendReviewEmail(
+        resident,
+        department,
+        recipient,
+        sender,
+        comments,
+        `request/reviewClearance/${department}/${residentID}/${recipient}`
+      );
 
       // Log activity
       await createActivityLog(
@@ -234,137 +233,68 @@ module.exports = {
       res.render("error/500");
     }
   },
-  //edit resident work eligibility based on category
   async editClearance(req, res) {
-    let { residentID, dept } = req.params;
+    const { residentID, dept } = req.params;
     const { clearance, comments } = req.body;
+    const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
+    const category = dept;
+    const deptName = mapDepartmentName(dept);
+
     try {
       validateResidentID(residentID);
-      const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
-      const category = dept;
-      const deptName = mapDepartmentName(dept);
-
-      if (clearance === "true") {
-        //if clearance is approved
-        await createActivityLog(
-          req.session.user._id.toString(),
-          "clearance_approved",
-          `Approved ${category} clearance for resident #${residentID}.`
-        );
-
-        const updateData = {
-          $set: {
-            [`${deptName}Clearance.status`]: "approved",
-          },
-          $push: {
-            [`${deptName}Clearance.clearanceHistory`]: {
-              action: "approved",
-              performedBy: name,
-              reason: "Clearance approved. ✅",
-            },
-            [`${deptName}Clearance.notes`]: {
-              createdAt: new Date(),
-              createdBy: name,
-              note: `Approved clearance. ✅`,
-            },
-          },
-        };
-
-        // Only push to notes if comments are not empty
-        if (comments) {
-          updateData.$push[`${deptName}Clearance.notes`] = {
-            createdAt: new Date(),
-            createdBy: name,
-            note: comments,
-          };
-        }
-        await Resident.findOneAndUpdate({ residentID: residentID }, updateData);
-      } else if (clearance === "false") {
-        //if clearance is denied
-        await createActivityLog(
-          req.session.user._id.toString(),
-          "clearance_restricted",
-          `Restricted ${category} clearance for resident #${residentID}.`
-        );
-
-        const updateData = {
-          $set: {
-            [`${deptName}Clearance.status`]: "restricted",
-            "workEligibility.status": "restricted",
-            restrictionReason: `This resident has ${category} restrictions.`,
-          },
-          $push: {
-            [`${deptName}Clearance.clearanceHistory`]: {
-              action: "restricted",
-              performedBy: name,
-              reason: "Clearance restricted.",
-            },
-            [`${deptName}Clearance.notes`]: {
-              createdAt: new Date(),
-              createdBy: name,
-              note: `Denied clearance. ❌`,
-            },
-          },
-        };
-
-        // Only push to notes if comments are not empty
-        if (comments) {
-          updateData.$push[`${deptName}Clearance.notes`] = {
-            createdAt: new Date(),
-            note: comments,
-            createdBy: name,
-          };
-        }
-
-        await Resident.updateOne({ residentID: residentID }, updateData);
+      if (!["true", "false"].includes(clearance)) {
+        throw new Error("Invalid clearance value");
       }
 
-      //update resident workStatus
-      const workStatus = await checkClearanceStatus(residentID);
+      // Create update data based on clearance status
+      const updateData = createUpdateData(
+        clearance,
+        deptName,
+        name,
+        comments,
+        category
+      );
 
+      // Log activity based on clearance status
+      await logClearanceActivity(
+        req.session.user._id,
+        clearance,
+        category,
+        residentID
+      );
+
+      // Update resident's clearance and work status
       const resident = await Resident.findOneAndUpdate(
         { residentID },
-        {
-          $set: {
-            "workEligibility.status": workStatus,
-          },
-        },
+        updateData,
         { new: true }
       );
 
-      //send notification if action was taken outside of caseload
-      if (resident.resume.unitTeam != req.session.user.email) {
-        if (clearance === "true") {
-          await createNotification(
-            resident.resume.unitTeam,
-            "unitTeam",
-            "clearance_approved",
-            `${category} clearance approved for resident #${resident.residentID} by ${req.session.user.email}.`,
-            `/shared/residentProfile/${resident.residentID}?activeTab=clearance`
-          );
-        }
-        if (clearance === "false") {
-          await createNotification(
-            resident.resume.unitTeam,
-            "unitTeam",
-            "clearance_denied",
-            `${category} clearance denied for resident #${resident.residentID} by ${req.session.user.email}.`,
-            `/shared/residentProfile/${resident.residentID}?activeTab=clearance`
-          );
-        }
+      // Update work eligibility based on new clearance status
+      const workStatus = await checkClearanceStatus(residentID);
+      resident.workEligibility.status = workStatus;
+      await resident.save();
+
+      // Send notification if outside of caseload
+      if (resident.resume.unitTeam !== req.session.user.email) {
+        await sendClearanceNotification(
+          resident,
+          clearance,
+          category,
+          req.session.user.email
+        );
       }
 
       res.redirect(`/shared/residentProfile/${residentID}?activeTab=clearance`);
     } catch (err) {
-      console.error("Error providing resident clearance: ", err);
-      res.render("error/500");
+      console.error("Error updating clearance:", err.message);
+      res.status(500).render("error/500", { error: err.message });
     }
   },
   async findNotes(req, res) {
+    const { residentID, dept } = req.params;
     try {
-      const { residentID, dept } = req.params;
       validateResidentID(residentID);
-
       const resident = await Resident.findOne({ residentID }).lean();
 
       if (!resident) {
@@ -472,6 +402,12 @@ module.exports = {
         );
       }
 
+      await createActivityLog(
+        req.session.user._id.toString(),
+        "interview_scheduled",
+        `Scheduled interview for resident #${residentID} with ${updatedInterview.companyName}.`
+      );
+
       res.redirect(
         `/shared/residentProfile/${residentID}?activeTab=application`
       );
@@ -481,8 +417,6 @@ module.exports = {
       res.render("error/500");
     }
   },
-
-  //employs resident to company
   async hireResident(req, res) {
     const { res_id, applicationID } = req.params;
     const { startDate } = req.body;
@@ -569,7 +503,6 @@ module.exports = {
       res.render("error/500");
     }
   },
-  //rejects resident application
   async rejectHire(req, res) {
     const { res_id, applicationID } = req.params;
     try {
@@ -619,7 +552,6 @@ module.exports = {
       res.render("error/500");
     }
   },
-  //terminates resident
   async terminateResident(req, res) {
     const { res_id } = req.params;
     const { terminationReason, workRestriction, notes } = req.body;

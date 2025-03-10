@@ -1,5 +1,7 @@
 const nodemailer = require("nodemailer");
 
+const Link = require("../../models/Link");
+
 // Setup your email transporter using your SMTP provider (e.g., Gmail, SendGrid, etc.)
 const transporter = nodemailer.createTransport({
   service: "Gmail",
@@ -9,7 +11,14 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-//const DOMAIN = "localhost:5999";
+//token generation to secure email links
+const crypto = require("crypto");
+
+function generateToken() {
+  return crypto.randomBytes(20).toString("hex"); // 40-character hex token
+}
+
+//const DOMAIN = "localhost:5999"; //---> local development Only
 
 const DOMAIN = "kcipi.onrender.com";
 
@@ -22,6 +31,20 @@ const sendReviewEmail = async (
   notes,
   route
 ) => {
+  //create tokens for user security
+  const token = generateToken();
+  const tokenExpiration = Date.now() + 7 * 24 * 60 * 60 * 1000; // Expires in 1 week
+
+  // Save token and expiration in the database
+  const linkData = new Link({
+    email: recipient,
+    token: token,
+    tokenExpiration: tokenExpiration,
+    used: false,
+  });
+
+  await linkData.save();
+
   const mailOptions = {
     from: `${sender}`,
     to: `${recipient}`,
@@ -46,7 +69,7 @@ const sendReviewEmail = async (
 </h4>
       <p>
       
-        <a href="http://${DOMAIN}/${route}"
+        <a href="http://${DOMAIN}/${route}?token=${token}"
            style="display: inline-block; background-color: #4CAF50; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-size: 16px; text-align: center; font-weight: bold;">
           Review ${department} Clearance
         </a>
@@ -54,7 +77,7 @@ const sendReviewEmail = async (
 
       <p style="font-size: 14px; color: #333;">If you are unable to click the button, please copy and paste the following link into your browser:</p>
       <p style="font-size: 14px; color: #333;">
-        <a href="http://${DOMAIN}/${route}" 
+        <a href="http://${DOMAIN}/${route}?token=${token}" 
            style="color: #007BFF; text-decoration: none;">${department} Review Link</a>
       </p>
     `,

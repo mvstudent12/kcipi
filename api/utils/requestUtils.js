@@ -5,10 +5,70 @@ const UnitTeam = require("../models/UnitTeam");
 const Notification = require("../models/Notification");
 const Resident = require("../models/Resident");
 const Jobs = require("../models/Jobs");
+const Link = require("../models/Link");
 
 //=============================
 //     Helper Functions
 //=============================
+
+const isValidUser = async (token) => {
+  try {
+    // Find the link data associated with the token
+    const linkData = await Link.findOne({ token: token });
+
+    // Check if the token exists and is still valid
+    if (!linkData) {
+      console.log("no link");
+      return false;
+    }
+
+    // Check if the token has expired
+    if (Date.now() > linkData.tokenExpiration) {
+      console.log("link has expired");
+      return false;
+    }
+
+    // // Check if the token has already been used
+    // if (linkData.used) {
+    //   console.log("link is used");
+    //   return false;
+    // }
+
+    // // Mark the token as used (to prevent reuse)
+    // linkData.used = true;
+    // await linkData.save();
+
+    // Delete the link after it has been used
+    // await linkData.deleteOne();
+
+    return true;
+  } catch (err) {
+    console.error("Error with token: ", err);
+    throw err;
+  }
+};
+
+const checkToken = async (token) => {
+  try {
+    // Find the link data associated with the token
+    const linkData = await Link.findOne({ token: token });
+
+    // Check if the token exists and is still valid
+    if (!linkData) {
+      return false;
+    }
+
+    // Check if the token has expired
+    if (Date.now() > linkData.tokenExpiration) {
+      return false;
+    }
+
+    return true;
+  } catch (err) {
+    console.error("Error with token: ", err);
+    throw err;
+  }
+};
 
 function getNameFromEmail(email) {
   const regex = /^([a-z]+)\.([a-z]+)@/i; // Matches "first.last@" pattern
@@ -72,4 +132,6 @@ module.exports = {
   getAllApplicantsByResidentID,
   mapDepartmentName,
   mapDepartmentNameReverse,
+  isValidUser,
+  checkToken,
 };

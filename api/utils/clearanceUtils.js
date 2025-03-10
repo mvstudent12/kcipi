@@ -4,9 +4,7 @@
 
 const Employer = require("../models/Employer");
 const Classification = require("../models/Classification");
-
 const Facility_Management = require("../models/Facility_Management");
-
 const UnitTeam = require("../models/UnitTeam");
 const Resident = require("../models/Resident");
 const Jobs = require("../models/Jobs");
@@ -15,6 +13,8 @@ const ActivityLog = require("../models/ActivityLog");
 const { createNotification } = require("./notificationUtils");
 
 const { validateResidentID } = require("./validationUtils");
+
+const { createActivityLog } = require("./activityLogUtils");
 
 //=============================
 //     Helper Functions
@@ -168,9 +168,89 @@ const checkClearanceStatus = async (residentID) => {
   }
 };
 
+// Create update data for clearance actions
+function createUpdateData(clearance, deptName, name, comments, category) {
+  const status = clearance === "true" ? "approved" : "restricted";
+  const reason =
+    clearance === "true" ? "Clearance approved. ✅" : "Clearance restricted.";
+  const note =
+    clearance === "true" ? "Approved clearance. ✅" : "Denied clearance. ❌";
+
+  const updateData = {
+    $set: {
+      [`${deptName}Clearance.status`]: status,
+      "workEligibility.status":
+        status === "restricted" ? "restricted" : undefined,
+      restrictionReason:
+        status === "restricted"
+          ? `This resident has ${category} restrictions.`
+          : undefined,
+    },
+    $push: {
+      [`${deptName}Clearance.clearanceHistory`]: {
+        action: status,
+        performedBy: name,
+        reason: reason,
+      },
+      [`${deptName}Clearance.notes`]: {
+        createdAt: new Date(),
+        createdBy: name,
+        note: note,
+      },
+    },
+  };
+
+  if (comments) {
+    updateData.$push[`${deptName}Clearance.notes`] = {
+      createdAt: new Date(),
+      createdBy: name,
+      note: comments,
+    };
+  }
+
+  return updateData;
+}
+// Log activity based on clearance status
+async function logClearanceActivity(userId, clearance, category, residentID) {
+  const action =
+    clearance === "true" ? "clearance_approved" : "clearance_restricted";
+  const message =
+    clearance === "true"
+      ? `Approved ${category} clearance for resident #${residentID}.`
+      : `Restricted ${category} clearance for resident #${residentID}.`;
+
+  await createActivityLog(userId.toString(), action, message);
+}
+
+// Send notification if clearance is managed outside of caseload
+async function sendClearanceNotification(
+  resident,
+  clearance,
+  category,
+  adminEmail
+) {
+  const action =
+    clearance === "true" ? "clearance_approved" : "clearance_denied";
+  const message =
+    clearance === "true"
+      ? `${category} clearance approved for resident #${resident.residentID} by ${adminEmail}.`
+      : `${category} clearance denied for resident #${resident.residentID} by ${adminEmail}.`;
+
+  await createNotification(
+    resident.resume.unitTeam,
+    "unitTeam",
+    action,
+    message,
+    `/shared/residentProfile/${resident.residentID}?activeTab=clearance`
+  );
+}
+
 module.exports = {
   getEmployeeEmails,
   sendNotificationsToEmployers,
   getResidentProfileInfo,
   checkClearanceStatus,
+  createUpdateData,
+  logClearanceActivity,
+  sendClearanceNotification,
 };

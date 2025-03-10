@@ -17,7 +17,6 @@ const applicantSchema = new Schema(
     unitTeam: { type: String, lowercase: true },
     jobPool: {
       type: String,
-      lowercase: true,
       enum: [
         "Male Minimum 1 (Off-Site)",
         "Male Minimum 2 (On-Site)",
@@ -66,8 +65,8 @@ const jobSchema = new Schema(
     },
     description: { type: String, lowercase: true, trim: true },
     skillSet: { type: String, lowercase: true, trim: true },
-    pay: { type: String, lowercase: true, trim: true },
-    jobPool: { type: String, lowercase: true, trim: true },
+    pay: { type: String, trim: true },
+    jobPool: { type: String, trim: true },
     applicants: [applicantSchema],
     employees: [{ type: mongoose.Schema.Types.ObjectId, ref: "Resident" }],
     isAvailable: { type: Boolean, default: true },

@@ -19,7 +19,7 @@
     <section class="section contact">
 
         <div class="row gy-4">
-            <div class="col-xl-6">
+            <div class="col-12">
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="info-box card">
@@ -52,29 +52,32 @@
                 </div>
             </div>
 
-            <div class="col-xl-6">
+            <div class="col-12">
                 <div class="card p-4">
-                    <h3 class="text-center text-info">Contact Kansas Correctional Industries:</h3>
-                    <p class="text-center">Fill out the form below with detailed information about your inquiry.
-                    </p>
-                    <form action="/request/contact" method="post" class="">
-                        {{#if sentMsg}}
-                            <div class="row gy-4">
-                                <div class="col-md-12 p-4">
-                                    <p>Thank you for contacting Kansas Correctional Industries. We have successfully
-                                        received your message and will respond to
-                                        your inquiry as soon as possible.</p>
-                                    <p>Our team is committed to providing excellent support and typically responds
-                                        within 48
-                                        hours.</p>
-                                    <p>If your message requires immediate attention, please feel free to contact us
-                                        directly
-                                        at &lpar;913&rpar; 727-2331.</p>
-                                    <p>We appreciate your interest in Kansas Correctional Industries and look forward to
-                                        assisting you.</p>
-                                </div>
+                    {{#if sentMsg}}
+                        <div class="row gy-4">
+                            <div class="col-md-12 p-4">
+                                <p>Thank you for contacting Kansas Correctional Industries. We have successfully
+                                    received your message and will respond to
+                                    your inquiry as soon as possible.</p>
+                                <p>Our team is committed to providing excellent support and typically responds
+                                    within 48
+                                    hours.</p>
+                                <p>If your message requires immediate attention, please feel free to contact us
+                                    directly
+                                    at &lpar;913&rpar; 727-2331.</p>
+                                <p>We appreciate your interest in Kansas Correctional Industries and look forward to
+                                    assisting you.</p>
                             </div>
-                        {{else}}
+                        </div>
+                    {{else}}
+                        <h3 class="text-center text-info">Contact Kansas Correctional Industries:</h3>
+                        <p class="text-center mt-3 mb-3">Fill out the form below with detailed information about your
+                            inquiry.
+                        </p>
+                        <form action="/request/contact" method="post" class="mt-3">
+
+
                             <div class="row gy-4">
                                 <div class="col-md-6">
                                     <input type="text" name="name" value="{{user.firstName}} {{user.lastName}}"
@@ -97,8 +100,9 @@
                                     <button class="btn btn-primary" type="submit">Send</button>
                                 </div>
                             </div>
-                        {{/if}}
-                    </form>
+
+                        </form>
+                    {{/if}}
                 </div>
             </div>
         </div>
