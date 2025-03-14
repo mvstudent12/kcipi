@@ -54,6 +54,7 @@ const findInterviewsInCaseload = async (residentIDs) => {
       {
         $match: {
           "applicants.residentID": { $in: residentIDs },
+          "applicants.interview.status": { $ne: "none" }, // Exclude status "none"
         },
       },
       // Project only relevant fields
