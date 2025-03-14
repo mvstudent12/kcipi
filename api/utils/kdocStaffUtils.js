@@ -68,6 +68,11 @@ const findInterviewsInCaseload = async (residentIDs) => {
           "applicants.interview": 1,
         },
       },
+      {
+        $sort: {
+          "applicants.residentName": 1, // Change to -1 for descending order
+        },
+      },
     ]);
     return results;
   } catch (error) {
