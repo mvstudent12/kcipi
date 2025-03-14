@@ -415,7 +415,6 @@ module.exports = {
     }
   },
   async hireResident(req, res) {
-    console.log("hireResident function reached");
     const { res_id, applicationID } = req.params;
     const { startDate } = req.body;
 

@@ -43,4 +43,19 @@ module.exports = {
       res.render("error/500");
     }
   },
+  async markAllAsRead(req, res) {
+    const { email } = req.params;
+    try {
+      //mark all notifications as read
+      await Notification.updateMany(
+        { recipient: email, isRead: false }, // Find unread notifications for the email
+        { $set: { isRead: true } } // Mark them as read
+      );
+      //redirect to notification link
+      res.redirect("/notification/notifications");
+    } catch (error) {
+      console.error("Error marking notification as read:", error);
+      res.render("error/500");
+    }
+  },
 };

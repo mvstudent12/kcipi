@@ -24,9 +24,15 @@
                         <div class="activity">
                             <div class="card mt-3">
                                 <div class="card-body mt-3">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h5 class="card-title mb-0">
+                                            All Notifications <span>| Click to Follow Link</span>
+                                        </h5>
+                                        <a href="/notification/markAllAsRead/{{user.email}}">
+                                            <button type="button" class="btn btn-primary btn-sm">Mark All As
+                                                Read</button></a>
+                                    </div>
 
-                                    <h5 class="card-title">All Notifications <span>| Click to Follow Notication
-                                            Link</span> </h5>
 
                                     {{#if allNotifications}}
                                         <div class="list-group">

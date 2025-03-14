@@ -43,4 +43,12 @@ notificationRoutes.get(
   controller.markNotificationAsRead
 );
 
+notificationRoutes.get(
+  "/markAllAsRead/:email",
+  checkUser,
+  requireAuth,
+  authMiddleware,
+  controller.markAllAsRead
+);
+
 module.exports = notificationRoutes;
