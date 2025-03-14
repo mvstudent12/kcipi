@@ -1,6 +1,5 @@
 const Resident = require("../models/Resident");
 const Jobs = require("../models/Jobs");
-const ActivityLog = require("../models/ActivityLog");
 
 const mongoose = require("mongoose");
 
@@ -9,7 +8,6 @@ const logger = require("../utils/logger");
 const {
   getEmployeeEmails,
   sendNotificationsToEmployers,
-  getResidentProfileInfo,
   checkClearanceStatus,
   createUpdateData,
   logClearanceActivity,
@@ -17,9 +15,7 @@ const {
 } = require("../utils/clearanceUtils");
 
 const { sendReviewEmail } = require("../utils/emailUtils/notificationEmail");
-
 const { createNotification } = require("../utils/notificationUtils");
-
 const { createActivityLog } = require("../utils/activityLogUtils");
 const { validateResidentID } = require("../utils/validationUtils");
 const { mapDepartmentName } = require("../utils/requestUtils.js");
@@ -226,7 +222,7 @@ module.exports = {
 
       res.redirect(`/shared/residentProfile/${residentID}?activeTab=clearance`);
     } catch (err) {
-      console.log(
+      console.error(
         "An error occurred when trying to request clearance approval via email: ",
         err
       );
@@ -295,36 +291,33 @@ module.exports = {
     const { residentID, dept } = req.params;
     try {
       validateResidentID(residentID);
-      const resident = await Resident.findOne({ residentID }).lean();
+      const resident = await Resident.findOne({ residentID });
 
       if (!resident) {
-        return res.status(404).json({ message: "Resident not found." }); // Handle case where resident is not found
+        return res.status(404).json({ message: "Resident not found." });
       }
 
-      // Dynamically create the key for the clearance field (e.g., MedicalClearance, EAIClearance)
       const clearanceKey = `${dept}Clearance`;
 
-      // Check if the clearanceKey exists on the resident object
       if (!resident[clearanceKey]) {
         return res
           .status(404)
-          .json({ message: `${dept} clearance not found.` }); // Handle case where the clearance field does not exist
+          .json({ message: `${dept} clearance not found.` });
       }
 
       const clearance = resident[clearanceKey];
-
-      // Retrieve the notes from the clearance field
       let notes = clearance.notes;
 
-      return res.status(200).json({ notes }); // Return the notes in the response body
+      return res.status(200).json({ notes });
     } catch (err) {
-      console.error(err); // Log the error for debugging
+      console.error(err); // Ensure that this is correctly captured in the test
       logger.warn(
         "An error occurred while fetching resident clearance notes: " + err
       );
       return res.render("error/500");
     }
   },
+
   async addNotes(req, res) {
     let { residentID, dept } = req.params;
     const { notes } = req.body;
@@ -332,6 +325,7 @@ module.exports = {
       validateResidentID(residentID);
 
       const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
+
       dept = mapDepartmentName(dept);
 
       await Resident.updateOne(
@@ -378,17 +372,14 @@ module.exports = {
       ).lean();
 
       if (!updatedInterview) {
-        return {
-          success: false,
-          message: "Application not found or update failed",
-        };
+        throw new Error("Application not found or update failed");
       }
 
       // Find the updated applicant from the applicants array
       const updatedApplicant = updatedInterview.applicants.find(
         (app) => app._id.toString() === applicationID
       );
-
+      console.log(updatedApplicant);
       //send notification to all PI partners in that company
       const employerEmails = await getEmployeeEmails(
         updatedInterview.companyName
@@ -408,6 +399,12 @@ module.exports = {
         `Scheduled interview for resident #${residentID} with ${updatedInterview.companyName}.`
       );
 
+      await createActivityLog(
+        updatedApplicant.resident_id.toString(),
+        "interview_scheduled",
+        `Scheduled interview with ${updatedInterview.companyName}.`
+      );
+
       res.redirect(
         `/shared/residentProfile/${residentID}?activeTab=application`
       );
@@ -418,13 +415,21 @@ module.exports = {
     }
   },
   async hireResident(req, res) {
+    console.log("hireResident function reached");
     const { res_id, applicationID } = req.params;
     const { startDate } = req.body;
 
+    //use session ansd transaction to ensure simulataneous updates in db
+    const session = await mongoose.startSession();
+    session.startTransaction();
+
     try {
+      //find job position that holds resident application
       const position = await Jobs.findOne({
         "applicants._id": new mongoose.Types.ObjectId(applicationID),
-      }).lean();
+      }).session(session); // Use session here
+
+      if (!position) throw new Error("Position not found");
 
       const companyName = position.companyName;
 
@@ -442,11 +447,12 @@ module.exports = {
             companyName,
           },
         },
-        { new: true }
+        { new: true, session }
       );
 
+      if (!resident) throw new Error("Resident not found");
+
       const residentID = resident.residentID;
-      validateResidentID(residentID);
 
       //send notification to all PI partners in that company
       const employerEmails = await getEmployeeEmails(companyName);
@@ -454,10 +460,11 @@ module.exports = {
         employerEmails,
         "resident_hired",
         `Resident #${residentID} is now employed with your company.`,
-        `/employer/residentProfile/${residentID}?activeTab=application`
+        `/employer/residentProfile/${residentID}?activeTab=application`,
+        session
       );
 
-      //remove user from applicants/ interviews add to workforce
+      //remove user from applicants and interviews, add to workforce
       await Jobs.findOneAndUpdate(
         { "applicants._id": applicationID },
         {
@@ -470,42 +477,58 @@ module.exports = {
           $inc: {
             availablePositions: -1, // Subtract 1 from availablePositions
           },
-        }
+        },
+        { session } // Use session here
       );
 
       //remove resident from all other applied jobs
       await Jobs.updateMany(
-        {}, // This empty filter matches all documents
+        { "applicants.resident_id": res_id },
         {
           $pull: {
             applicants: { resident_id: res_id }, // Remove resident_id from the applicants array
           },
-        }
+        },
+        { session } // Use session here
       );
 
       await createActivityLog(
         req.session.user._id.toString(),
         "resident_hired",
-        `Employed resident #${residentID} at ${companyName}.`
+        `Employed resident #${residentID} at ${companyName}.`,
+        session
       );
 
       await createActivityLog(
         res_id.toString(),
         "resident_hired",
-        `Employed at ${companyName} on ${startDate}.`
+        `Employed at ${companyName} on ${startDate}.`,
+        session
       );
 
+      //commit the transaction
+      await session.commitTransaction();
+      session.endSession();
+
+      //redirect user to resident profile
       res.redirect(
         `/shared/residentProfile/${residentID}?activeTab=application`
       );
     } catch (err) {
+      // If any error occurs, roll back the transaction
+      await session.abortTransaction();
+      session.endSession();
       console.log("Error in hiring resident: ", err);
       res.render("error/500");
     }
   },
   async rejectHire(req, res) {
     const { res_id, applicationID } = req.params;
+
+    const session = await mongoose.startSession(); // Start a session
+    session.startTransaction();
     try {
+      //update resident's hired status
       const resident = await Resident.findByIdAndUpdate(
         res_id,
         {
@@ -515,46 +538,70 @@ module.exports = {
             dateHired: null,
           },
         },
-        { new: true }
+        { new: true, session } // Pass session to ensure the operation is part of the transaction
       );
+
+      if (!resident) {
+        throw new Error("Resident not found");
+      }
 
       const residentID = resident.residentID;
-      validateResidentID(residentID);
 
-      //remove user from applicants/ interviews
+      //Remove the resident from the applicants in the job document
       const updatedJob = await Jobs.findOneAndUpdate(
-        { "applicants._id": applicationID }, // Find the job containing the applicant by _id
+        { "applicants._id": applicationID },
         {
           $pull: {
-            applicants: { _id: applicationID }, // Pull the applicant by _id
+            applicants: { _id: applicationID },
           },
         },
-        { new: true } // Return the updated job document
+        { new: true, session }
       );
 
+      if (!updatedJob) {
+        throw new Error("Job not found or applicant not present");
+      }
+
+      //create activity logs for resident and user
       await createActivityLog(
         req.session.user._id.toString(),
         "application_rejected",
-        `Rejected ${updatedJob.companyName} application from resident #${resident.residentID}.`
+        `Rejected ${updatedJob.companyName} application from resident #${resident.residentID}.`,
+        session
       );
 
       await createActivityLog(
         resident._id.toString(),
         "application_rejected",
-        `Application for ${updatedJob.companyName} not accepted at this time.`
+        `Application for ${updatedJob.companyName} not accepted at this time.`,
+        session
       );
 
+      //Commit the transaction if all operations succeed
+      await session.commitTransaction();
+
+      //End the session
+      session.endSession();
+
+      //redirect to resident profile page
       res.redirect(
         `/shared/residentProfile/${residentID}?activeTab=application`
       );
     } catch (err) {
+      // In case of error, abort the transaction
       console.log("Error rejecting resident hire: ", err);
+      await session.abortTransaction();
+      session.endSession();
+
       res.render("error/500");
     }
   },
   async terminateResident(req, res) {
     const { res_id } = req.params;
     const { terminationReason, workRestriction, notes } = req.body;
+
+    const session = await mongoose.startSession(); // Start a session
+    session.startTransaction(); // Start a transact
     try {
       const resident = await Resident.findById(res_id).lean();
       const dateHired = resident.dateHired;
@@ -562,8 +609,10 @@ module.exports = {
 
       const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
 
+      let updateData = {};
+
       if (workRestriction === "restricted") {
-        const updateData = {
+        updateData = {
           $set: {
             "terminationRequest.companyName": "",
             "terminationRequest.requestDate": null,
@@ -618,117 +667,119 @@ module.exports = {
               createdBy: name,
               note: `Resident restricted due to termination for: ${terminationReason}. ❌`,
             },
+            workHistory: {
+              companyName: companyName,
+              startDate: dateHired ? new Date(dateHired) : null,
+              endDate: new Date(),
+              reasonForLeaving: terminationReason || "",
+              note: notes
+                ? {
+                    createdAt: new Date(),
+                    createdBy: name,
+                    note: notes,
+                  }
+                : undefined,
+            },
           },
         };
-
-        // Construct the workHistory object
-        const workHistoryEntry = {
-          companyName: companyName,
-          startDate: dateHired ? new Date(dateHired) : null,
-          endDate: new Date(),
-          reasonForLeaving: terminationReason || "",
-        };
-
-        // If notes exist, add them as an array inside workHistory
-        if (notes) {
-          workHistoryEntry.note = {
-            createdAt: new Date(),
-            createdBy: name,
-            note: notes,
-          };
-        }
-
-        // Add workHistory entry to the $push operation
-        updateData.$push.workHistory = workHistoryEntry;
-
-        // Perform the update
-        await Resident.findOneAndUpdate({ _id: res_id }, updateData, {
-          new: true,
-        });
       } else {
-        const updateData = {
+        updateData = {
           $set: {
             isHired: false,
             companyName: "",
             dateHired: null,
             "workEligibility.status": "approved",
           },
+          $push: {
+            workHistory: {
+              companyName: companyName,
+              startDate: dateHired ? new Date(dateHired) : null,
+              endDate: new Date(),
+              reasonForLeaving: terminationReason || "",
+              note: notes
+                ? {
+                    createdAt: new Date(),
+                    createdBy: name,
+                    note: notes,
+                  }
+                : undefined,
+            },
+          },
         };
-
-        // Construct the workHistory object
-        const workHistoryEntry = {
-          companyName: companyName,
-          startDate: dateHired ? new Date(dateHired) : null,
-          endDate: new Date(),
-          reasonForLeaving: terminationReason || "",
-        };
-
-        // If notes exist, add them as an array inside workHistory
-        if (notes) {
-          workHistoryEntry.note = {
-            createdAt: new Date(),
-            createdBy: name,
-            note: notes,
-          };
-        }
-
-        // Push the workHistory entry into the array
-        updateData.$push = { workHistory: workHistoryEntry };
-
-        // Perform the update
-        await Resident.findOneAndUpdate({ _id: res_id }, updateData);
       }
+
+      // Perform the update within the session
+      await Resident.findOneAndUpdate({ _id: res_id }, updateData, {
+        new: true,
+        session,
+      });
 
       const residentID = resident.residentID;
 
-      validateResidentID(residentID);
       //remove employees from Jobs DB
       await Jobs.findOneAndUpdate(
         { employees: res_id }, // Find the job where res_id exists in employees
         {
           $pull: { employees: res_id }, // Remove the res_id from the employees array
           $inc: { availablePositions: 1 }, // Increment availablePositions by 1
-        }
+        },
+        { session } // Pass session to ensure the operation is part of the transaction
       );
 
       //send notification to all PI partners in that company
       const employerEmails = await getEmployeeEmails(companyName);
-
       await sendNotificationsToEmployers(
         employerEmails,
         "resident_terminated",
         `Resident #${resident.residentID} has been terminated from your company.`,
-        `/employer/residentProfile/${resident.residentID}?activeTab=application`
+        `/employer/residentProfile/${resident.residentID}?activeTab=application`,
+        session
       );
 
+      // Create activity logs for both the user and the resident
       await createActivityLog(
         req.session.user._id.toString(),
         "resident_terminated",
-        `Terminated resident #${resident.residentID} from ${companyName}.`
+        `Terminated resident #${resident.residentID} from ${companyName}.`,
+        session
       );
 
       await createActivityLog(
         res_id.toString(),
         "resident_terminated",
-        `Terminated from ${companyName}.`
+        `Terminated from ${companyName}.`,
+        session
       );
 
+      // Commit the transaction if everything goes well
+      await session.commitTransaction();
+
+      // End the session
+      session.endSession();
+
+      // Redirect to the resident profile page
       res.redirect(
         `/shared/residentProfile/${residentID}?activeTab=work-history`
       );
     } catch (err) {
+      // In case of error, abort the transaction
       console.log("Error terminating resident: ", err);
+      await session.abortTransaction();
+      session.endSession();
+
       res.render("error/500");
     }
   },
   async cancelTerminationRequest(req, res) {
     const { res_id } = req.params;
+    const session = await mongoose.startSession(); // Start a session
+    session.startTransaction(); // Start a transaction
     try {
+      // Find and update the resident to unset the termination request field
       const resident = await Resident.findOneAndUpdate(
         { _id: res_id },
-
         { $unset: { terminationRequest: "" } }, // Remove the terminationRequest field
-        { new: true }
+        { new: true, session }
       );
 
       //send notification to all PI partners in that company
@@ -738,20 +789,31 @@ module.exports = {
         employerEmails,
         "termination_request_denied",
         `The termination request for #${resident.residentID} has been denied.`,
-        `/employer/residentProfile/${resident.residentID}?activeTab=application`
+        `/employer/residentProfile/${resident.residentID}?activeTab=application`,
+        session
       );
 
+      // Create activity log for this action
       await createActivityLog(
         req.session.user._id.toString(),
         "termination_request_denied",
-        `Denied termination request from ${companyName} for resident #${resident.residentID}.`
+        `Denied termination request from ${companyName} for resident #${resident.residentID}.`,
+        session
       );
 
+      // Commit the transaction if all operations succeed
+      await session.commitTransaction();
+      session.endSession(); // End the session
+
+      // Redirect to the resident profile page
       res.redirect(
         `/shared/residentProfile/${resident.residentID}?activeTab=application`
       );
     } catch (err) {
-      console.log("Error rejecting termiantion request from employer: ", err);
+      // In case of an error, abort the transaction
+      console.log("Error rejecting termination request from employer: ", err);
+      await session.abortTransaction();
+      session.endSession(); // End the session
       res.render("error/500");
     }
   },

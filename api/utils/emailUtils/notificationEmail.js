@@ -140,8 +140,7 @@ const sendRequestInterviewEmail = async (
   resident,
   companyName,
   recipient,
-  sender,
-  applicationID
+  sender
 ) => {
   const mailOptions = {
     from: `${sender}`,
@@ -182,8 +181,7 @@ const sendRequestHireEmail = async (
   resident,
   companyName,
   recipient,
-  sender,
-  applicationID
+  sender
 ) => {
   const mailOptions = {
     from: `${sender}`,

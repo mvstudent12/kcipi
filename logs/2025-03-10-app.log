@@ -41,3 +41,10 @@
 {"level":"info","message":"2025-03-10T16:10:08.932Z [INFO] : ::ffff:127.0.0.1 /login 200 166.194 ms","timestamp":"2025-03-10 11:10:08"}
 {"level":"info","message":"User logged in: kari.johnson@ks.gov","timestamp":"2025-03-10 11:58:38"}
 {"level":"info","message":"2025-03-10T16:58:38.673Z [INFO] : ::ffff:127.0.0.1 /login 200 187.857 ms","timestamp":"2025-03-10 11:58:38"}
+{"level":"info","message":"User logged in: kari.johnson@ks.gov","timestamp":"2025-03-10 12:04:19"}
+{"level":"info","message":"2025-03-10T17:04:19.274Z [INFO] : ::ffff:127.0.0.1 /login 200 210.985 ms","timestamp":"2025-03-10 12:04:19"}
+{"level":"info","message":"User logged in: shawn.williams@ks.gov","timestamp":"2025-03-10 12:13:04"}
+{"level":"info","message":"2025-03-10T17:13:04.278Z [INFO] : ::1 /login 200 191.872 ms","timestamp":"2025-03-10 12:13:04"}
+{"level":"info","message":"User logged out: kari.johnson@ks.gov","timestamp":"2025-03-10 12:16:50"}
+{"level":"info","message":"User logged in: ashley.clark@ks.gov","timestamp":"2025-03-10 12:17:00"}
+{"level":"info","message":"2025-03-10T17:17:00.019Z [INFO] : ::ffff:127.0.0.1 /login 200 177.948 ms","timestamp":"2025-03-10 12:17:00"}

@@ -13,8 +13,6 @@ const {
   sendReviewEmail,
   sendHelpDeskEmail,
   sendContactEmail,
-  sendRequestInterviewEmail,
-  sendRequestHireEmail,
 } = require("../utils/emailUtils/notificationEmail");
 
 //===========================
@@ -282,9 +280,10 @@ module.exports = {
 
       const dept = mapDepartmentName(category);
 
+      console.log(dept);
+
       //send notification to facility_management
       if (dept == "DW" || dept == "Warden") {
-        sendReviewEmail(resident, dept, recipientEmail, email, comments, ``);
         await createNotification(
           recipientEmail,
           "facility_management",
@@ -295,7 +294,6 @@ module.exports = {
       }
       //send notification to classification
       if (dept == "Classification") {
-        sendReviewEmail(resident, dept, recipientEmail, email, comments, ``);
         await createNotification(
           recipientEmail,
           "classification",
@@ -303,16 +301,16 @@ module.exports = {
           `Clearance is requested for resident #${residentID}.`,
           `/shared/residentProfile/${resident.residentID}?activeTab=clearance`
         );
-      } else {
-        sendReviewEmail(
-          resident,
-          dept,
-          recipientEmail,
-          email,
-          comments,
-          `request/reviewClearance/${dept}/${residentID}/${recipientEmail}`
-        );
       }
+      sendReviewEmail(
+        resident,
+        category,
+        recipientEmail,
+        email,
+        comments,
+        `request/reviewClearance/${dept}/${residentID}/${recipientEmail}`
+      );
+
       //delete the token here
       const linkData = await Link.findOne({ token: token });
       // Delete the link after it has been used

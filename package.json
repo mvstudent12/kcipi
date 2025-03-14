@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "devStart": "nodemon server.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "node server.js",
     "build": "npm install"
   },
@@ -39,5 +39,9 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mvstudent12/kcipi.git"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0"
   }
 }

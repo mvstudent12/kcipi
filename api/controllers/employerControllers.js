@@ -22,7 +22,6 @@ const {
 const {
   getTotalAvailablePositions,
   findJobs,
-  findCompanyID,
   findResident,
   getResidentApplications,
   findResidentsFromInterviews,
@@ -362,18 +361,21 @@ module.exports = {
         isAvailableBool = false;
       }
 
-      await Jobs.findOneAndUpdate(jobID, {
-        $set: {
-          position: editPosition,
-          description: description,
-          skillSet: skillSet,
-          pay: pay,
-          availablePositions: updatedAvailablePositions,
-          isAvailable: isAvailableBool,
-          facility: facility,
-          jobPool: jobPool,
-        },
-      });
+      await Jobs.findOneAndUpdate(
+        { _id: jobID },
+        {
+          $set: {
+            position: editPosition,
+            description: description,
+            skillSet: skillSet,
+            pay: pay,
+            availablePositions: updatedAvailablePositions,
+            isAvailable: isAvailableBool,
+            facility: facility,
+            jobPool: jobPool,
+          },
+        }
+      );
 
       // Log activity
       await createActivityLog(
@@ -653,8 +655,7 @@ module.exports = {
         resident,
         companyName,
         recipient, // Change to production email
-        req.session.user.email,
-        applicationID
+        req.session.user.email
       );
 
       //send notification to unit team of this interview request on their dashboard
@@ -688,13 +689,7 @@ module.exports = {
   //send hiring request to unit team
   async requestHire(req, res) {
     const { applicationID } = req.params;
-    const {
-      residentID,
-      unitTeamName,
-      hireRequestStartDate,
-      unitTeamEmail,
-      hireRequestInfo,
-    } = req.body;
+    const { residentID, hireRequestStartDate, hireRequestInfo } = req.body;
     try {
       const resident = await Resident.findOne({ residentID }).lean();
 
@@ -705,13 +700,7 @@ module.exports = {
       const recipient = "kcicodingdev@gmail.com"; //-->> only for development
 
       //send email to unit team about this request
-      sendRequestHireEmail(
-        resident,
-        companyName,
-        recipient,
-        sender,
-        applicationID
-      );
+      sendRequestHireEmail(resident, companyName, recipient, sender);
 
       await Jobs.findOneAndUpdate(
         { "applicants._id": applicationID },

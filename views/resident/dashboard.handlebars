@@ -92,7 +92,7 @@
                     </div>
 
                     {{#each interviews}}
-                        {{#if this.interviews.dateScheduled}}
+                        {{#if (eq this.interview.status "scheduled")}}
 
                             <div class="col-12">
                                 <div class="card recent-sales overflow-auto">
@@ -101,11 +101,11 @@
                                         <div>
                                             <p> Please be ready for your interview with <span
                                                     class="text-capitalize text-info">{{this.companyName}}</span> at
-                                                <span class="text-success">{{this.interviews.time}}</span> on <span
-                                                    class="text-success">{{formatDate this.interviews.dateScheduled}}.</span>
+                                                <span class="text-success">{{this.interview.time}}</span> on <span
+                                                    class="text-success">{{formatDate this.interview.dateScheduled}}.</span>
                                             </p>
-                                            {{#if this.interviews.instructions}}
-                                                <p>Additional Instructions: {{this.interviews.instructions}}</p>
+                                            {{#if this.interview.instructions}}
+                                                <p>Additional Instructions: {{this.interview.instructions}}</p>
                                             {{/if}}
                                         </div>
                                     </div>

@@ -59,49 +59,73 @@ module.exports = {
             },
           },
         ]);
-
         const applicationCount = jobs.filter(
           (job) => job.residentInApplicants
         ).length;
 
         //check for interviews
-        const interviews = await Jobs.aggregate([
-          // Unwind the applicants array to access interviews
-          { $unwind: "$applicants" },
+        // const interviews = await Jobs.aggregate([
+        //   // Unwind the applicants array to access interviews
+        //   { $unwind: "$applicants" },
 
-          // Match applicants with the specified residentID
+        //   // Match applicants with the specified residentID
+        //   {
+        //     $match: {
+        //       "applicants.residentID": residentID,
+        //       "applicants.interview": { $exists: true }, // Ensure interview exists
+        //     },
+        //   },
+
+        //   // Project necessary fields
+        //   {
+        //     $project: {
+        //       _id: 0, // Exclude the document's ObjectId
+        //       companyName: 1, // Include company name
+        //       position: 1, // Include position
+        //       interview: "$applicants.interview", // Include interview details directly
+        //     },
+        //   },
+
+        //   // Unwind the interview array if it is an array (optional based on schema)
+        //   { $unwind: "$interview" },
+
+        //   // Project specific fields from interview
+        //   {
+        //     $project: {
+        //       companyName: 1,
+        //       position: 1,
+        //       "interview.dateScheduled": 1,
+        //       "interview.time": 1,
+        //       "interview.instructions": 1,
+        //       "interview.isRequested": 1,
+        //     },
+        //   },
+        // ]);
+        const appliedJobs = await Jobs.aggregate([
+          {
+            $unwind: "$applicants", // Unwind the applicants array to work with each applicant separately
+          },
           {
             $match: {
-              "applicants.residentID": residentID,
-              "applicants.interview": { $exists: true }, // Ensure interview exists
+              "applicants.residentID": residentID, // Match only applicants with the given residentID
+              "applicants.interview.status": "scheduled", // Filter only interviews with status "scheduled"
             },
           },
-
-          // Project necessary fields
           {
             $project: {
-              _id: 0, // Exclude the document's ObjectId
-              companyName: 1, // Include company name
-              position: 1, // Include position
-              interview: "$applicants.interview", // Include interview details directly
-            },
-          },
-
-          // Unwind the interview array if it is an array (optional based on schema)
-          { $unwind: "$interview" },
-
-          // Project specific fields from interview
-          {
-            $project: {
-              companyName: 1,
-              position: 1,
-              "interview.dateScheduled": 1,
-              "interview.time": 1,
-              "interview.instructions": 1,
-              "interview.isRequested": 1,
+              interview: "$applicants.interview", // Only return the interview field from the applicants
+              companyName: 1, // Include the companyName field in the result
             },
           },
         ]);
+
+        // Extract interviews directly
+        const interviews = appliedJobs.map((job) => ({
+          companyName: job.companyName,
+          interview: job.interview,
+        }));
+
+        console.log(interviews);
 
         res.render("resident/dashboard", {
           user: req.session.resident,

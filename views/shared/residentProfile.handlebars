@@ -1550,20 +1550,15 @@
                     <h4 class="card-title">Previous Notes:</h4>
                     <div class="row">
                         <div class="row mb-3">
-                            <div id="previousNotes" class="">
-
+                            <div id="previousNotes">
                             </div>
                         </div>
                     </div>
 
                 </div>
-                <div class="modal-footer d-flex justify-content-between">
-
+                <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                        aria-label="Cancel">Cancel</button>
-                    <button id="" type="submit" class="btn btn-info" aria-label="add note">Add Note</button>
-
-
+                        aria-label="Cancel">Close</button>
                 </div>
             </form>
         </div>
@@ -1848,27 +1843,26 @@
                 </div>
                 <form method="POST" action="/clearance/scheduleInterview/{{this._id}}">
                     <div class="modal-body">
+                        {{#if this.interview.dateRequested}}
 
-
-                        <input type="hidden" name="interviewID" value="{{_id}}">
-                        <p>Employer Preferences - Requested on {{formatDate this.interview.dateRequested}}</p>
-                        <hr>
-                        <div class="row mb-3">
-                            <label for="instructions" class="col-12 col-form-label">Scheduling Preferences:</label>
-                            <div class="col-12">
-                                <textarea disabled class="form-control" style="height: 100px" name="instructions"
-                                    placeholder="none">{{this.interview.preferredDate}}</textarea>
+                            <p>Employer Preferences - Requested on {{formatDate this.interview.dateRequested}}</p>
+                            <hr>
+                            <div class="row mb-3">
+                                <label for="instructions" class="col-12 col-form-label">Scheduling Preferences:</label>
+                                <div class="col-12">
+                                    <textarea disabled class="form-control" style="height: 100px" name="instructions"
+                                        placeholder="none">{{this.interview.preferredDate}}</textarea>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label for="instructions" class="col-12 col-form-label">Instructions:</label>
-                            <div class="col-12">
-                                <textarea disabled class="form-control" style="height: 100px" name="instructions"
-                                    placeholder="none">{{this.interview.employerInstructions}}</textarea>
+                            <div class="row mb-3">
+                                <label for="instructions" class="col-12 col-form-label">Instructions:</label>
+                                <div class="col-12">
+                                    <textarea disabled class="form-control" style="height: 100px" name="instructions"
+                                        placeholder="none">{{this.interview.employerInstructions}}</textarea>
+                                </div>
                             </div>
-                        </div>
-                        <hr>
-
+                            <hr>
+                        {{/if}}
 
 
                         <div class="row mb-3">
