@@ -10,7 +10,7 @@
                 <li class="breadcrumb-item active text-capitalize">{{position.position}}</li>
             </ol>
         </nav>
-    </div><!-- End Page Title -->
+    </div>
 
     <section class="section profile">
         <div class="row">
@@ -29,7 +29,7 @@
 
                 <div class="card">
                     <div class="card-body pt-3">
-                        <!-- Bordered Tabs -->
+
                         <ul class="nav nav-tabs nav-tabs-bordered">
                             <li class="nav-item">
                                 <button class="nav-link {{#if (eq activeTab 'overview')}}active{{/if}}"
@@ -40,7 +40,7 @@
                                     data-bs-target="#edit-position">Edit Position</button>
                             </li>
                             <li class="nav-item">
-                                <button class="nav-link {{#if (eq activeTab 'aplicants')}}active{{/if}}"
+                                <button class="nav-link {{#if (eq activeTab 'applicants')}}active{{/if}}"
                                     data-bs-toggle="tab" data-bs-target="#applicants">Applicants</button>
                             </li>
                         </ul>
@@ -256,7 +256,7 @@
                             {{!-- Applicants Tab --}}
                             <div class="tab-pane fade {{#if (eq activeTab 'applicants')}}show active{{/if}} applicants pt-3"
                                 id="applicants">
-                                <!-- Applicants Table -->
+
                                 <div class="col-12">
                                     <div class="card recent-sales overflow-auto">
                                         <div class="card-body">
@@ -309,11 +309,10 @@
         </div>
         </div>
     </section>
-</main><!-- End #main -->
+</main>
 
-<!-- ======= Footer ======= -->
+
 {{> footer}}
-
 {{> arrowUp}}
 
 
@@ -342,4 +341,4 @@
             </form>
         </div>
     </div>
-</div><!-- End Basic Modal-->
+</div>

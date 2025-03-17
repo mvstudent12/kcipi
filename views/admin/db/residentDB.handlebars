@@ -1,7 +1,6 @@
 {{> adminTemplate}}
 
 <main id="main" class="main">
-
     <div class="pagetitle">
         <h1>Resident Database</h1>
         <nav>
@@ -10,7 +9,7 @@
                 <li class="breadcrumb-item active">Resident Database</li>
             </ol>
         </nav>
-    </div><!-- End Page Title -->
+    </div>
 
     <section class="section profile">
         <div class="row">
@@ -20,7 +19,6 @@
                         <img src="/assets/img/employer.png" alt="Profile" class="rounded-circle">
                         <h2 class="text-capitalize mb-3">Resident Database</h2>
                         <h3>KDOC Residents</h3>
-
                     </div>
                 </div>
             </div>
@@ -29,7 +27,6 @@
 
                 <div class="card">
                     <div class="card-body pt-3">
-                        <!-- Bordered Tabs -->
                         <ul class="nav nav-tabs nav-tabs-bordered">
 
                             <li class="nav-item">
@@ -47,9 +44,7 @@
                                     Residents</button>
                             </li>
                         </ul>
-
                         <div class="tab-content pt-2">
-
 
                             {{!-- Add resident tab --}}
                             <div class="tab-pane fade {{#if (eq activeTab 'add')}}show active{{/if}} add-resident pt-3"
@@ -104,7 +99,6 @@
                                                 </div>
                                             </div>
                                             {{!-- Resident Facility --}}
-
                                             <div class="row mb-3">
                                                 <label for="facility"
                                                     class="col-md-4 col-lg-3 col-form-label">Facility</label>
@@ -122,7 +116,6 @@
                                                         <option value="Topeka">Topeka</option>
                                                         <option value="Winfield">Winfield</option>
                                                         <option value="Wichita">Wichita</option>
-
                                                     </select>
                                                 </div>
                                             </div>
@@ -135,9 +128,8 @@
                                                         title="Enter resident's outdate" id="outDate">
                                                 </div>
                                             </div>
-                                            {{!-- Save Button --}}
                                             <hr>
-                                            <div class="">
+                                            <div>
                                                 <button type="submit" class="btn btn-primary mx-2">Add Resident</button>
                                             </div>
                                         </form>
@@ -146,13 +138,11 @@
                                             <p class="text-success text-center fst-italic mt-3">New resident added
                                                 successfully.</p>
                                         {{/if}}
-
                                         {{#if addErr}}
                                             <hr>
                                             <p class="text-danger text-center fst-italic mt-3">This resident already
                                                 exists.</p>
                                         {{/if}}
-
                                     </div>
                                 </div>
                             </div>
@@ -178,7 +168,6 @@
                                                                 title="Enter 7 digit Resident ID" class="form-control"
                                                                 aria-label="Search" aria-describedby="search-button"
                                                                 pattern="\d{7}">
-                                                            <!-- Search Button -->
                                                             <button class="btn btn-primary" type="submit"
                                                                 id="searchButton" title="Search">
                                                                 <i class="bi bi-search"></i>
@@ -187,7 +176,7 @@
                                                     </form>
                                                 </div>
                                             </div>
-                                        </div><!-- End Search Bar -->
+                                        </div>
 
                                         {{#if failedSearch}}
                                             <p class="text-danger">No residents found with this number.</p>
@@ -195,7 +184,7 @@
                                         {{/if}}
 
                                         {{#if residentFound}}
-                                            <!--=============== Edit Existing Resident Form =========================== -->
+                                            {{!-- Edit Existing Resident Form --}}
                                             <hr>
                                             <form method="POST" action="/admin/editExistingResident">
                                                 {{!-- Resident First Name --}}
@@ -230,8 +219,6 @@
                                                             value="{{residentFound.residentID}}" readonly>
                                                     </div>
                                                 </div>
-
-
                                                 {{!-- Resident Custody Level --}}
                                                 <div class="row mb-3">
                                                     <label for="custodyLevel"
@@ -240,7 +227,6 @@
                                                     <div class="col-md-8 col-lg-9">
                                                         <select required name="custodyLevel" class="form-select"
                                                             id="custodyLevel">
-
                                                             <option value="Minimum 1" {{#if (eq
                                                                 residentFound.custodyLevel "minimum 1" )
                                                                 }}selected{{/if}}>
@@ -338,9 +324,8 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                {{!-- Save Button --}}
                                                 <hr>
-                                                <div class="">
+                                                <div>
                                                     <button type="submit" class="btn btn-primary mx-2">Save
                                                         Edit</button>
                                                 </div>
@@ -366,7 +351,6 @@
                             {{!-- All Residents tab --}}
                             <div class="tab-pane fade {{#if (eq activeTab 'all')}}show active{{/if}} all-resident pt-3"
                                 id="all-resident">
-                                <!-- Residents Table -->
                                 <div class="col-12">
                                     <div class="card recent-sales overflow-auto">
                                         <div class="card-body">
@@ -403,18 +387,15 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
-
-                        </div><!-- End Bordered Tabs -->
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-</main><!-- End #main -->
+</main>
 
-<!-- ======= Footer ======= -->
+
 {{> footer}}
-
 {{> arrowUp}}

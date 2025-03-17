@@ -1,13 +1,12 @@
-<!-- ======= Header ======= -->
 <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
         <a href="/facility_management/dashboard" class="logo d-flex align-items-center">
             <img src="/assets/img/favicon.png" alt="Kansas Correctional Industries">
-            <span class="">KCI Private Industry</span>
+            <span>KCI Private Industry</span>
         </a>
         <i class="bi bi-list toggle-sidebar-btn"></i>
-    </div><!-- End Logo -->
+    </div>
 
 
     <nav class="header-nav ms-auto">
@@ -19,7 +18,7 @@
                     {{#if notifications}}
                         <span class="badge bg-primary badge-number">{{countArrayItems notifications}}</span>
                     {{/if}}
-                </a><!-- End Notification Icon -->
+                </a>
 
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications overflow-auto"
                     style="max-height: 400px;">
@@ -54,23 +53,22 @@
                         <a href="/notification/notifications">Show all notifications</a>
                     </li>
 
-                </ul><!-- End Notification Dropdown Items -->
+                </ul>
 
-            </li><!-- End Notification Nav -->
+            </li>
             <li class="nav-item dropdown pe-3">
 
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
                     <img src="/assets/img/avatar.png" alt="Profile" class="rounded-circle">
                     <span class="d-none d-md-block dropdown-toggle ps-2 text-capitalize">{{user.firstName}}
                         {{user.lastName}}</span>
-                </a><!-- End Profile Image Icon -->
+                </a>
 
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                     <li class="dropdown-header">
                         <h6 class="text-capitalize">{{user.firstName}} {{user.lastName}}</h6>
                         <span id="userEmail">{{user.email}}</span>
                     </li>
-
                     <li>
                         <hr class="dropdown-divider">
                     </li>
@@ -93,9 +91,8 @@
             </li>
         </ul>
     </nav>
-</header><!-- End Header -->
+</header>
 
-<!-- ======= Sidebar ======= -->
 <aside id="sidebar" class="sidebar">
 
     <ul class="sidebar-nav" id="sidebar-nav">
@@ -104,7 +101,7 @@
                 <i class="bi bi-grid"></i>
                 <span>Dashboard</span>
             </a>
-        </li><!-- End Dashboard Nav -->
+        </li>
         <li class="nav-item">
             <a class="nav-link collapsed" href="/notification/notifications">
                 <i class="bi bi-bell"></i>
@@ -117,8 +114,6 @@
                 <span>Manage Clearance</span>
             </a>
         </li>
-
-
         <li class="nav-item">
             <a class="nav-link collapsed" href="/facility_management/manageWorkForce">
                 <i class="bi bi-person-check-fill"></i>
@@ -176,22 +171,20 @@
                 <span>Recent Activities</span>
             </a>
         </li>
-
-
         <li class="nav-heading">Links</li>
         <li class="nav-item">
             <a class="nav-link collapsed" href="/shared/helpDesk">
                 <i class="bi bi-question-circle"></i>
                 <span>Help Desk</span>
             </a>
-        </li><!-- End Help Page Nav -->
+        </li>
 
         <li class="nav-item">
             <a class="nav-link collapsed" href="/shared/contact">
                 <i class="bi bi-envelope"></i>
                 <span>Contact</span>
             </a>
-        </li><!-- End Contact Page Nav -->
+        </li>
 
 
         <li class="nav-item">
@@ -199,6 +192,6 @@
                 <i class="bi bi-box-arrow-in-right"></i>
                 <span>Sign Out</span>
             </a>
-        </li><!-- End Sign Out Page Nav -->
+        </li>
     </ul>
-</aside><!-- End Sidebar-->
+</aside>

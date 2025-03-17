@@ -10,17 +10,12 @@
                 <li class="breadcrumb-item active">PI Partners Roster</li>
             </ol>
         </nav>
-    </div><!-- End Page Title -->
+    </div>
 
     <section class="section dashboard">
         <div class="row">
-
-            <!-- Dashboard Cone -->
             <div class="col-lg-12">
                 <div class="row">
-
-                    {{!-- Data Tables Section --}}
-                    <!-- PI Partners Table -->
                     <div class="col-12">
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
@@ -31,37 +26,36 @@
                                             <th scope="col">#</th>
                                             <th scope="col">Facility</th>
                                             <th scope="col">Company</th>
-                                            <th scope="col">Date</th>
                                             <th scope="col">Status</th>
+                                            <th scope="col"></th>
+
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {{#each companies}}
-                                        <tr>
-                                            <th scope="row"><a href="/admin/companyProfile/{{this._id}}">{{add
+                                            <tr>
+                                                <th scope="row"><a href="/admin/companyProfile/{{this._id}}">{{add
                                                     @index 1}}</a>
-                                            </th>
-                                            <td class="text-capitalize">{{this.facility}}</td>
-                                            <td class="text-capitalize"><a href="/admin/companyProfile/{{this._id}}">
-                                                    {{this.companyName}}</a>
-                                            </td>
-                                            {{!-- !!!!!!!!MAKE THIS REAL!!!!!! --}}
-                                            <td>12/31/24
-                                            </td>
-                                            <td><span class="badge bg-success">Active</span></td>
-                                        </tr>
+                                                </th>
+                                                <td class="text-capitalize">{{this.facility}}</td>
+                                                <td class="text-capitalize"><a
+                                                        href="/admin/companyProfile/{{this._id}}">
+                                                        {{this.companyName}}</a>
+                                                </td>
+                                                <td><span class="badge bg-success">Active</span></td>
+                                                <td></td>
+                                            </tr>
                                         {{/each}}
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
-                    {{!-- End of Data Tables Section --}}
                 </div>
-            </div><!-- End Dashboard Cone -->
+            </div>
         </div>
     </section>
-</main><!-- End #main -->
-<!-- ======= Footer ======= -->
+</main>
+
 {{> footer}}
 {{> arrowUp}}

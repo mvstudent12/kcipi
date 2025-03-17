@@ -1,7 +1,6 @@
 {{> adminTemplate}}
 
 <main id="main" class="main">
-
     <div class="pagetitle">
         <h1>PI Partner Database</h1>
         <nav>
@@ -10,7 +9,7 @@
                 <li class="breadcrumb-item active">PI Partner Database</li>
             </ol>
         </nav>
-    </div><!-- End Page Title -->
+    </div>
 
     <section class="section profile">
         <div class="row">
@@ -20,7 +19,6 @@
                         <img src="/assets/img/employer.png" alt="Profile" class="rounded-circle">
                         <h2 class="text-capitalize mb-3">PI Partner Database</h2>
                         <h3>Private Industry Partners</h3>
-
                     </div>
                 </div>
             </div>
@@ -28,7 +26,6 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body pt-3">
-                        <!-- Bordered Tabs -->
                         <ul class="nav nav-tabs nav-tabs-bordered">
                             <li class="nav-item">
                                 <button class="nav-link {{#if (eq activeTab 'add')}}active{{/if}}" data-bs-toggle="tab"
@@ -45,7 +42,6 @@
                                     data-bs-target="#all-company">All
                                     Partners</button>
                             </li>
-
                         </ul>
 
                         <div class="tab-content pt-2">
@@ -56,7 +52,7 @@
                                 <div class="card">
                                     <div class="card-body pt-3">
                                         <form method="POST" action="/admin/addCompany">
-                                            {{!-- employer First Name --}}
+                                            {{!-- Name --}}
                                             <div class="row mb-3">
                                                 <label for="companyName"
                                                     class="col-md-4 col-lg-3 col-form-label">Company
@@ -67,12 +63,11 @@
                                                 </div>
                                             </div>
 
-                                            {{!-- employer Facility --}}
+                                            {{!-- Facility --}}
                                             <div class="row mb-3">
                                                 <label for="facility"
                                                     class="col-md-4 col-lg-3 col-form-label">Facility</label>
                                                 <div class="col-md-8 col-lg-9">
-
                                                     <select required name="facility" id="facility" class="form-select"
                                                         aria-label="Facility Options">
                                                         <option selected value="">Select Facility:
@@ -86,9 +81,7 @@
                                                         <option value="Topeka">Topeka</option>
                                                         <option value="Winfield">Winfield</option>
                                                         <option value="Wichita">Wichita</option>
-
                                                     </select>
-
                                                 </div>
                                             </div>
                                             <hr>
@@ -142,17 +135,15 @@
                                                                     </option>
                                                                 {{/each}}
                                                             </select>
-                                                            <!-- Search Button -->
                                                             <button class="btn btn-primary" type="submit"
                                                                 id="searchButton" title="Search">
                                                                 <i class="bi bi-search"></i>
-                                                                <!-- Bootstrap Search Icon -->
                                                             </button>
                                                         </div>
                                                     </form>
                                                 </div>
                                             </div>
-                                        </div><!-- End Search Bar -->
+                                        </div>
                                         {{#if saveMsg}}
                                             <hr>
                                             <p class="text-success text-center fst-italic mt-3">Your edits have been
@@ -168,10 +159,10 @@
 
 
                                         {{#if companyFound}}
-                                            <!--=============== Edit Company Form =========================== -->
+                                            {{!-- Edit Company Form --}}
                                             <hr>
                                             <form method="POST" action="/admin/saveCompanyEdit">
-                                                {{!-- Company First Name --}}
+                                                {{!-- Company Name --}}
                                                 <div class="row mb-3">
                                                     <label for="companyName"
                                                         class="col-md-4 col-lg-3 col-form-label">Company
@@ -224,9 +215,6 @@
 
                                             </form>
                                         {{/if}}
-
-
-                                        <!--=============== Edit employer Form============================ -->
                                     </div>
                                 </div>
                             </div>
@@ -234,7 +222,6 @@
                             {{!-- All Companies tab --}}
                             <div class="tab-pane fade {{#if (eq activeTab 'all')}}show active{{/if}} all-company pt-3"
                                 id="all-company">
-                                <!-- PI Partners Table -->
                                 <div class="col-12">
                                     <div class="card recent-sales overflow-auto">
                                         <div class="card-body">
@@ -245,8 +232,9 @@
                                                         <th scope="col">#</th>
                                                         <th scope="col">Facility</th>
                                                         <th scope="col">Company</th>
-                                                        <th scope="col">Date</th>
                                                         <th scope="col">Status</th>
+                                                        <th scope="col"></th>
+
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -261,10 +249,8 @@
                                                                     href="/admin/companyProfile/{{this._id}}">
                                                                     {{this.companyName}}</a>
                                                             </td>
-                                                            {{!-- !!!!!!!!MAKE THIS REAL!!!!!1!! --}}
-                                                            <td>12/31/24
-                                                            </td>
                                                             <td><span class="badge bg-success">Active</span></td>
+                                                            <td></td>
                                                         </tr>
                                                     {{/each}}
                                                 </tbody>
@@ -272,23 +258,19 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
-
-                        </div><!-- End Bordered Tabs -->
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-</main><!-- End #main -->
+</main>
 
-<!-- ======= Footer ======= -->
 {{> footer}}
-
 {{> arrowUp}}
 
-{{!-- MODAL FOR Delete Company --}}
+{{!-- Delete Company Modal --}}
 <div class="modal fade" id="deleteCompany" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">

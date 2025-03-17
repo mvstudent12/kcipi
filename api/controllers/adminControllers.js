@@ -120,7 +120,7 @@ module.exports = {
 
       res.status(200).json(formattedEmployed);
     } catch (err) {
-      console.log("Error fethcing employment data: ", err);
+      console.log("Error fetching employment data: ", err);
       res.render("error/500");
     }
   },

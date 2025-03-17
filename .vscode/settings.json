@@ -1,5 +1,13 @@
 {
   "search.exclude": {
     "**/vender": true
-  }
+  },
+  "cSpell.words": [
+    "datatable",
+    "editfirst",
+    "ishired",
+    "Larned",
+    "pagetitle",
+    "sscard"
+  ]
 }

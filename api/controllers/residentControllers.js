@@ -125,8 +125,6 @@ module.exports = {
           interview: job.interview,
         }));
 
-        console.log(interviews);
-
         res.render("resident/dashboard", {
           user: req.session.resident,
           jobs,

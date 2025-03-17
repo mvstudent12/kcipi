@@ -60,7 +60,6 @@ module.exports = {
 
       //find all active interviews
       const interviews = await findInterviewsInCaseload(residentIDs);
-      console.log(interviews);
 
       //count pending resumes for this member
       const pendingResumes = await Resident.countDocuments({

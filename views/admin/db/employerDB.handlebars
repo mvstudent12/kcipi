@@ -10,7 +10,7 @@
                 <li class="breadcrumb-item active">PI Contacts Database</li>
             </ol>
         </nav>
-    </div><!-- End Page Title -->
+    </div>
 
     <section class="section profile">
         <div class="row">
@@ -20,17 +20,13 @@
                         <img src="/assets/img/employer.png" alt="Profile" class="rounded-circle">
                         <h2 class="text-capitalize mb-3">PI Contact Database</h2>
                         <h3>Private Industry Contacts</h3>
-
                     </div>
                 </div>
             </div>
 
-
             <div class="col-12">
-
                 <div class="card">
                     <div class="card-body pt-3">
-                        <!-- Bordered Tabs -->
                         <ul class="nav nav-tabs nav-tabs-bordered">
                             <li class="nav-item">
                                 <button class="nav-link {{#if (eq activeTab 'add')}}active{{/if}}" data-bs-toggle="tab"
@@ -42,13 +38,11 @@
                                     data-bs-target="#edit-employer">Edit
                                     PI Contact</button>
                             </li>
-
                             <li class="nav-item">
                                 <button class="nav-link {{#if (eq activeTab 'all')}}active{{/if}}" data-bs-toggle="tab"
                                     data-bs-target="#all-employer">All
                                     PI Contact</button>
                             </li>
-
                         </ul>
 
                         <div class="tab-content pt-2">
@@ -76,10 +70,9 @@
                                                             </option>
                                                         {{/each}}
                                                     </select>
-
                                                 </div>
                                             </div>
-                                            {{!-- employer first name --}}
+                                            {{!-- first name --}}
                                             <div class="row mb-3">
                                                 <label for="firstName" class="col-md-4 col-lg-4 col-form-label">First
                                                     Name</label>
@@ -88,7 +81,7 @@
                                                         class="form-control text-capitalize" id="firstName">
                                                 </div>
                                             </div>
-                                            {{!-- employer last name--}}
+                                            {{!-- last name--}}
                                             <div class="row mb-3">
                                                 <label for="lastName" class="col-md-4 col-lg-4 col-form-label">Last
                                                     Name</label>
@@ -98,7 +91,7 @@
                                                 </div>
                                             </div>
 
-                                            {{!-- employer email --}}
+                                            {{!-- email --}}
                                             <div class="row mb-3">
                                                 <label for="email"
                                                     class="col-md-4 col-lg-4 col-form-label">Email</label>
@@ -108,7 +101,7 @@
                                                 </div>
                                             </div>
 
-                                            {{!-- employer Password --}}
+                                            {{!-- Password --}}
                                             <div class="row mb-3">
                                                 <label for="password"
                                                     class="col-md-4 col-lg-4 col-form-label">Password</label>
@@ -117,7 +110,7 @@
                                                         id="password">
                                                 </div>
                                             </div>
-                                            {{!-- employer Facility --}}
+                                            {{!-- Facility --}}
                                             <div class="row mb-3">
                                                 <label for="facility"
                                                     class="col-md-4 col-lg-4 col-form-label">Facility</label>
@@ -135,11 +128,9 @@
                                                         <option value="Topeka">Topeka</option>
                                                         <option value="Winfield">Winfield</option>
                                                         <option value="Wichita">Wichita</option>
-
                                                     </select>
                                                 </div>
                                             </div>
-
                                             <hr>
                                             <div class="text-center">
                                                 <button type="submit" class="btn btn-primary mx-2">Add PI
@@ -188,25 +179,22 @@
                                                                     </option>
                                                                 {{/each}}
                                                             </select>
-                                                            <!-- Search Button -->
                                                             <button class="btn btn-primary" type="submit"
                                                                 id="searchButton" title="Search">
                                                                 <i class="bi bi-search"></i>
-                                                                <!-- Bootstrap Search Icon -->
                                                             </button>
                                                         </div>
                                                     </form>
                                                 </div>
                                             </div>
-                                        </div><!-- End Search Bar -->
-
+                                        </div>
 
                                         {{#if employerFound}}
-                                            <!--=============== Edit PI Contact Form =========================== -->
+                                            {{!-- Edit employer Form --}}
                                             <hr>
                                             <form method="POST" action="/admin/saveEmployerEdit">
                                                 <input type="hidden" name="id" value="{{employerFound._id}}">
-                                                {{!-- employer First Name --}}
+                                                {{!-- companyName --}}
                                                 <div class="row mb-3">
                                                     <label for="companyName"
                                                         class="col-md-4 col-lg-4 col-form-label">Company
@@ -218,7 +206,7 @@
                                                             value="{{employerFound.companyName}}">
                                                     </div>
                                                 </div>
-                                                {{!-- employer firstName --}}
+                                                {{!-- firstName --}}
                                                 <div class="row mb-3">
                                                     <label for="firstName"
                                                         class="col-md-4 col-lg-4 col-form-label">First
@@ -229,7 +217,7 @@
                                                             value="{{employerFound.firstName}}">
                                                     </div>
                                                 </div>
-                                                {{!-- employer lastName --}}
+                                                {{!-- lastName --}}
                                                 <div class="row mb-3">
                                                     <label for="lastName" class="col-md-4 col-lg-4 col-form-label">Last
                                                         Name</label>
@@ -240,7 +228,7 @@
                                                     </div>
                                                 </div>
 
-                                                {{!-- employer email --}}
+                                                {{!-- email --}}
                                                 <div class="row mb-3">
                                                     <label for="email"
                                                         class="col-md-4 col-lg-4 col-form-label">Email</label>
@@ -249,12 +237,11 @@
                                                             value="{{employerFound.email}}" readonly>
                                                     </div>
                                                 </div>
-                                                {{!-- employer Facility --}}
+                                                {{!-- Facility --}}
                                                 <div class="row mb-3">
                                                     <label for="facility"
                                                         class="col-md-4 col-lg-4 col-form-label">Facility</label>
                                                     <div class="col-md-8 col-lg-8">
-
                                                         <select required name="facility" id="facilityEdit"
                                                             class="form-select" aria-label="Facility Options">
                                                             <option {{#if (eq employerFound.facility "El Dorado" )
@@ -278,13 +265,11 @@
                                                         </select>
                                                     </div>
                                                 </div>
-
                                                 <hr>
                                                 <div class="d-flex justify-content-between mt-3">
                                                     <button data-bs-toggle="modal" data-bs-target="#deleteEmployer"
                                                         type="button" class="btn btn-danger mx-2">Delete
                                                         Contact</button>
-
                                                     <button data-bs-toggle="modal" data-bs-target="#resetPassword"
                                                         type="button" class="btn btn-warning mx-2">Reset
                                                         Password</button>
@@ -293,7 +278,6 @@
                                                         Edit</button>
                                                 </div>
                                             </form>
-
                                         {{/if}}
 
                                         {{#if saveMsg}}
@@ -312,7 +296,7 @@
                                         {{#if saved}}
                                             <hr>
                                             <p class="text-success text-center fst-italic mt-3">PI Contact password
-                                                succesfully updated.
+                                                successfully updated.
                                             </p>
                                         {{/if}}
                                         {{#if savingError}}
@@ -321,9 +305,6 @@
                                                 match. Please try again.
                                             </p>
                                         {{/if}}
-
-
-                                        <!--=============== Edit employer Form============================ -->
                                     </div>
                                 </div>
                             </div>
@@ -331,7 +312,7 @@
                             {{!-- All Employers tab --}}
                             <div class="tab-pane fade {{#if (eq activeTab 'all')}}show active{{/if}} all-employer pt-3"
                                 id="all-employer">
-                                <!-- Employers Table -->
+
                                 <div class="col-12">
                                     <div class="card recent-sales overflow-auto">
                                         <div class="card-body">
@@ -369,22 +350,19 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
-
-                        </div><!-- End Bordered Tabs -->
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-</main><!-- End #main -->
+</main>
 
-<!-- ======= Footer ======= -->
 {{> footer}}
-
 {{> arrowUp}}
-{{!-- MODAL FOR Delete PI Contact --}}
+
+{{!-- Delete PI Contact Modal --}}
 <div class="modal fade" id="deleteEmployer" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -413,7 +391,7 @@
     </div>
 </div>
 
-{{!-- MODAL FOR Reset Password --}}
+{{!-- Reset Password Modal --}}
 <div class="modal fade" id="resetPassword" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">

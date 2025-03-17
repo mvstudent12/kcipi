@@ -1,6 +1,0 @@
-{"level":"info","message":"User logged in: kari.johnson@ks.gov","timestamp":"2025-03-17 06:10:11"}
-{"level":"info","message":"2025-03-17T11:10:11.652Z [INFO] : ::ffff:127.0.0.1 /login 200 367.830 ms","timestamp":"2025-03-17 06:10:11"}
-{"level":"info","message":"User logged in: kari.johnson@ks.gov","timestamp":"2025-03-17 06:19:52"}
-{"level":"info","message":"2025-03-17T11:19:52.641Z [INFO] : ::1 /login 200 338.683 ms","timestamp":"2025-03-17 06:19:52"}
-{"level":"warn","message":"Page not found: /request/next_notify/5847291/kcicodingdev@gmail.com/Deputy-Warden","timestamp":"2025-03-17 08:24:53"}
-{"level":"warn","message":"Page not found: /request/next/5847291/kcicodingdev@gmail.com/Deputy-Warden/","timestamp":"2025-03-17 08:25:08"}

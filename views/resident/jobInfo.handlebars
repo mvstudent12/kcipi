@@ -9,7 +9,7 @@
                 <li class="breadcrumb-item active">Position Information</li>
             </ol>
         </nav>
-    </div><!-- End Page Title -->
+    </div>
 
     <section class="section profile">
         <div class="row">
@@ -28,7 +28,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body pt-3">
-                        <!-- Bordered Tabs -->
+
                         <ul class="nav nav-tabs nav-tabs-bordered">
                             <li class="nav-item">
                                 <button class="nav-link active" data-bs-toggle="tab"
@@ -86,7 +86,7 @@
                                 </div>
                             </div>
 
-                            <!--==================== Application  Form ===========================-->
+
 
                             {{#if residentHasApplied}}
                                 <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
@@ -96,7 +96,7 @@
                             {{else}}
                                 <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
-                                    <!-- Application Form -->
+
                                     <form method="POST" action="/resident/saveApplication/{{position._id}}">
 
                                         <div class="row p-3">
@@ -114,18 +114,18 @@
                                         <div class="text-end">
                                             <button type="submit" class="btn btn-primary">Apply For Position</button>
                                         </div>
-                                    </form><!--  Application Form -->
+                                    </form>
                                 </div>
                             {{/if}}
-                        </div><!-- End Bordered Tabs -->
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-</main><!-- End #main -->
+</main>
 
-<!-- ======= Footer ======= -->
+
 {{> footer}}
 {{> arrowUp}}

@@ -1,5 +1,4 @@
 //Routes called from Email Link outside of app
-//check security options in development ----> later
 const express = require("express");
 const requestRoutes = express.Router();
 const controller = require("../controllers/requestControllers");

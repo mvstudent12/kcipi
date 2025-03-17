@@ -10,7 +10,7 @@
                 <li class="breadcrumb-item active">Unit Team Database</li>
             </ol>
         </nav>
-    </div><!-- End Page Title -->
+    </div>
 
     <section class="section profile">
         <div class="row">
@@ -20,16 +20,13 @@
                         <img src="/assets/img/employer.png" alt="Profile" class="rounded-circle">
                         <h2 class="text-capitalize mb-3">Unit Team Database</h2>
                         <h3>KDOC Employees</h3>
-
                     </div>
                 </div>
             </div>
 
             <div class="col-12">
-
                 <div class="card">
                     <div class="card-body pt-3">
-                        <!-- Bordered Tabs -->
                         <ul class="nav nav-tabs nav-tabs-bordered">
                             <li class="nav-item">
                                 <button class="nav-link {{#if (eq activeTab 'add')}}active{{/if}}" data-bs-toggle="tab"
@@ -117,8 +114,6 @@
                                                     </select>
                                                 </div>
                                             </div>
-
-                                            {{!-- Save Button --}}
                                             <hr>
                                             <div class="text-center">
                                                 <button type="submit" class="btn btn-primary mx-2">Add Member</button>
@@ -168,21 +163,19 @@
                                                                     </option>
                                                                 {{/each}}
                                                             </select>
-                                                            <!-- Search Button -->
                                                             <button class="btn btn-primary" type="submit"
                                                                 id="searchButton" title="Search">
                                                                 <i class="bi bi-search"></i>
-                                                                <!-- Bootstrap Search Icon -->
                                                             </button>
                                                         </div>
                                                     </form>
                                                 </div>
                                             </div>
-                                        </div><!-- End Search Bar -->
+                                        </div>
 
 
                                         {{#if unitTeamFound}}
-                                            <!--=============== Edit Unit Team Form =========================== -->
+                                            {{!-- Edit Unit Team Form --}}
                                             <hr>
                                             <form method="POST" action="/admin/saveUnitTeamEdit">
                                                 <input type="hidden" name="id" value="{{unitTeamFound._id}}">
@@ -246,8 +239,6 @@
                                                         </select>
                                                     </div>
                                                 </div>
-
-                                                {{!-- Save Button --}}
                                                 <hr>
                                                 <div class="d-flex justify-content-between mt-3">
                                                     <button data-bs-toggle="modal" data-bs-target="#deleteUnitTeam"
@@ -274,7 +265,7 @@
                                         {{#if deleteMsg}}
                                             <hr>
                                             <p class="text-danger text-center fst-italic mt-3">Unit Team member
-                                                succesfully deleted.
+                                                successfully deleted.
                                             </p>
                                         {{/if}}
                                         {{#if saved}}
@@ -289,9 +280,6 @@
                                                 match. Please try again.
                                             </p>
                                         {{/if}}
-
-
-                                        <!--=============== Edit unitTeam Form============================ -->
                                     </div>
                                 </div>
                             </div>
@@ -299,7 +287,6 @@
                             {{!-- All Unit Team tab --}}
                             <div class="tab-pane fade {{#if (eq activeTab 'all')}}show active{{/if}} all-unitTeam pt-3"
                                 id="all-unitTeam">
-                                <!-- Unit Team Table -->
                                 <div class="col-12">
                                     <div class="card recent-sales overflow-auto">
                                         <div class="card-body">
@@ -337,23 +324,19 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
-
-                        </div><!-- End Bordered Tabs -->
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-</main><!-- End #main -->
+</main>
 
-<!-- ======= Footer ======= -->
 {{> footer}}
-
 {{> arrowUp}}
 
-{{!-- MODAL FOR Delete Unit Team --}}
+{{!-- Delete Unit Team Modal  --}}
 <div class="modal fade" id="deleteUnitTeam" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -382,7 +365,7 @@
     </div>
 </div>
 
-{{!-- MODAL FOR Reset Password --}}
+{{!-- Reset Password Modal --}}
 <div class="modal fade" id="resetPassword" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">

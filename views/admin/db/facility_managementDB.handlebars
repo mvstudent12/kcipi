@@ -1,7 +1,6 @@
 {{> adminTemplate}}
 
 <main id="main" class="main">
-
     <div class="pagetitle">
         <h1>Facility Management Database</h1>
         <nav>
@@ -10,7 +9,7 @@
                 <li class="breadcrumb-item active">Facility Management Database</li>
             </ol>
         </nav>
-    </div><!-- End Page Title -->
+    </div>
 
     <section class="section profile">
         <div class="row">
@@ -26,10 +25,8 @@
             </div>
 
             <div class="col-12">
-
                 <div class="card">
                     <div class="card-body pt-3">
-                        <!-- Bordered Tabs -->
                         <ul class="nav nav-tabs nav-tabs-bordered">
                             <li class="nav-item">
                                 <button class="nav-link {{#if (eq activeTab 'add')}}active{{/if}}" data-bs-toggle="tab"
@@ -46,7 +43,6 @@
                                     data-bs-target="#all-facility_management">All
                                     Members</button>
                             </li>
-
                         </ul>
 
                         <div class="tab-content pt-2">
@@ -75,7 +71,7 @@
                                                         class="form-control text-capitalize" id="lastName">
                                                 </div>
                                             </div>
-                                            {{!--  facility--}}
+                                            {{!--  facility --}}
                                             <div class="row mb-3">
                                                 <label for="facility"
                                                     class="col-md-3 col-lg-3 col-form-label">Facility</label>
@@ -117,9 +113,6 @@
                                                         id="password">
                                                 </div>
                                             </div>
-
-
-                                            {{!-- Save Button --}}
                                             <hr>
                                             <div class="text-center">
                                                 <button type="submit" class="btn btn-primary mx-2">Add
@@ -147,7 +140,6 @@
                                 id="edit-facility_management">
                                 <div class="card">
                                     <div class="card-body pt-3">
-
                                         {{!-- Facility_Management Search Bar --}}
                                         <div class="row mb-3">
                                             <label for="facility_managementList"
@@ -157,7 +149,6 @@
                                                 <div class="search-bar">
                                                     <form class="search-form d-flex align-items-center" method="POST"
                                                         action="/admin/searchFacility_ManagementName">
-
                                                         <div class="input-group">
                                                             <select required name="facility_managementID"
                                                                 id="facility_managementList"
@@ -172,21 +163,18 @@
                                                                     </option>
                                                                 {{/each}}
                                                             </select>
-                                                            <!-- Search Button -->
                                                             <button class="btn btn-primary" type="submit"
                                                                 id="searchButton" title="Search">
                                                                 <i class="bi bi-search"></i>
-                                                                <!-- Bootstrap Search Icon -->
                                                             </button>
                                                         </div>
                                                     </form>
                                                 </div>
                                             </div>
-                                        </div><!-- End Search Bar -->
-
+                                        </div>
 
                                         {{#if facility_managementFound}}
-                                            <!--=============== Edit Facility_Management Form =========================== -->
+                                            {{!-- Edit Facility_Management Form --}}
                                             <hr>
                                             <form method="POST" action="/admin/saveFacility_ManagementEdit">
                                                 <input type="hidden" name="id" value="{{facility_managementFound._id}}">
@@ -263,11 +251,7 @@
                                                             value="{{facility_managementFound.email}}" readonly>
                                                     </div>
                                                 </div>
-
-
-
                                                 <hr>
-
                                                 <div class="d-flex justify-content-between mt-3">
                                                     <button data-bs-toggle="modal"
                                                         data-bs-target="#deleteFacility_Management" type="button"
@@ -294,7 +278,7 @@
                                         {{#if deleteMsg}}
                                             <hr>
                                             <p class="text-danger text-center fst-italic mt-3">Admin
-                                                succesfully deleted.
+                                                successfully deleted.
                                             </p>
                                         {{/if}}
                                         {{#if saved}}
@@ -309,7 +293,6 @@
                                                 trying to reset this password. Please try again.
                                             </p>
                                         {{/if}}
-                                        <!--=============== Edit facility_management Form============================ -->
                                     </div>
                                 </div>
                             </div>
@@ -317,7 +300,6 @@
                             {{!-- All Facility_Management tab --}}
                             <div class="tab-pane fade {{#if (eq activeTab 'all')}}show active{{/if}} all-facility_management pt-3"
                                 id="all-facility_management">
-                                <!-- Facility_Management Table -->
                                 <div class="col-12">
                                     <div class="card recent-sales overflow-auto">
                                         <div class="card-body">
@@ -358,24 +340,20 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
-
-                        </div><!-- End Bordered Tabs -->
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-</main><!-- End #main -->
+</main>
 
-<!-- ======= Footer ======= -->
 {{> footer}}
-
 {{> arrowUp}}
 
 
-{{!-- MODAL FOR Delete Facility_Management --}}
+{{!-- Delete Facility_Management Modal --}}
 <div class="modal fade" id="deleteFacility_Management" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -405,7 +383,7 @@
 </div>
 
 
-{{!-- MODAL FOR Reset Password --}}
+{{!-- Reset Password Modal --}}
 <div class="modal fade" id="resetPassword" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">

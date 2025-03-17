@@ -10,7 +10,7 @@
                 <li class="breadcrumb-item active">My Resume</li>
             </ol>
         </nav>
-    </div><!-- End Page Title -->
+    </div>
 
     <section class="section profile">
         <div class="row">
@@ -28,7 +28,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body pt-3">
-                        <!-- Bordered Tabs -->
+
                         <ul class="nav nav-tabs nav-tabs-bordered">
                             <li class="nav-item">
                                 <button class="nav-link active" data-bs-toggle="tab"
@@ -775,7 +775,7 @@
                                         {{#if (eq user.resume.status "incomplete")}}
                                             <p class="small text-info text-center">You may only submit your resume one
                                                 time. You cannot save your progress.</p>
-                                            <!-- Resume Form -->
+
                                             <form method="POST" action="/resident/saveResume">
                                                 {{!-- Resident First Name --}}
                                                 <div class="row mb-3">
@@ -1014,8 +1014,8 @@
             </div>
     </section>
 
-</main><!-- End #main -->
+</main>
 
-<!-- ======= Footer ======= -->
+
 {{> footer}}
 {{> arrowUp}}

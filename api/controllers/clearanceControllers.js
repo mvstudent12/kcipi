@@ -162,9 +162,7 @@ module.exports = {
 
     try {
       const sender = req.session.user.email;
-
       const dept = mapDepartmentName(deptName);
-      console.log(deptName, dept);
       const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
 
       //change residents clearance status to show as pending
@@ -380,7 +378,7 @@ module.exports = {
       const updatedApplicant = updatedInterview.applicants.find(
         (app) => app._id.toString() === applicationID
       );
-      console.log(updatedApplicant);
+
       //send notification to all PI partners in that company
       const employerEmails = await getEmployeeEmails(
         updatedInterview.companyName

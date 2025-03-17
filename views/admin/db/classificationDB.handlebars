@@ -10,7 +10,7 @@
                 <li class="breadcrumb-item active">Classification Database</li>
             </ol>
         </nav>
-    </div><!-- End Page Title -->
+    </div>
 
     <section class="section profile">
         <div class="row">
@@ -26,10 +26,8 @@
             </div>
 
             <div class="col-12">
-
                 <div class="card">
                     <div class="card-body pt-3">
-                        <!-- Bordered Tabs -->
                         <ul class="nav nav-tabs nav-tabs-bordered">
                             <li class="nav-item">
                                 <button class="nav-link {{#if (eq activeTab 'add')}}active{{/if}}" data-bs-toggle="tab"
@@ -94,11 +92,9 @@
                                                         <option value="Topeka">Topeka</option>
                                                         <option value="Winfield">Winfield</option>
                                                         <option value="Wichita">Wichita</option>
-
                                                     </select>
                                                 </div>
                                             </div>
-
 
                                             {{!-- classification email --}}
                                             <div class="row mb-3">
@@ -119,9 +115,6 @@
                                                         id="password">
                                                 </div>
                                             </div>
-
-
-                                            {{!-- Save Button --}}
                                             <hr>
                                             <div class="text-center">
                                                 <button type="submit" class="btn btn-primary mx-2">Add
@@ -175,21 +168,19 @@
                                                                     </option>
                                                                 {{/each}}
                                                             </select>
-                                                            <!-- Search Button -->
                                                             <button class="btn btn-primary" type="submit"
                                                                 id="searchButton" title="Search">
                                                                 <i class="bi bi-search"></i>
-                                                                <!-- Bootstrap Search Icon -->
                                                             </button>
                                                         </div>
                                                     </form>
                                                 </div>
                                             </div>
-                                        </div><!-- End Search Bar -->
+                                        </div>
 
 
                                         {{#if classificationFound}}
-                                            <!--=============== Edit Classification Form =========================== -->
+                                            {{!-- Edit Classification Form --}}
                                             <hr>
                                             <form method="POST" action="/admin/saveClassificationEdit">
                                                 <input type="hidden" name="id" value="{{classificationFound._id}}">
@@ -215,7 +206,6 @@
                                                             value="{{classificationFound.lastName}}">
                                                     </div>
                                                 </div>
-
                                                 {{!-- classification facility--}}
                                                 <div class="row mb-3">
                                                     <label for="facility"
@@ -249,7 +239,6 @@
                                                     </div>
                                                 </div>
 
-
                                                 {{!-- classification email --}}
                                                 <div class="row mb-3">
                                                     <label for="email" class="col-md-4 col-lg-4 col-form-label">
@@ -259,11 +248,7 @@
                                                             value="{{classificationFound.email}}" readonly>
                                                     </div>
                                                 </div>
-
-
-
                                                 <hr>
-
                                                 <div class="d-flex justify-content-between mt-3">
                                                     <button data-bs-toggle="modal"
                                                         data-bs-target="#deleteClassification" type="button"
@@ -290,7 +275,7 @@
                                         {{#if deleteMsg}}
                                             <hr>
                                             <p class="text-danger text-center fst-italic mt-3">Classification memeber
-                                                succesfully deleted.
+                                                successfully deleted.
                                             </p>
                                         {{/if}}
                                         {{#if saved}}
@@ -305,7 +290,6 @@
                                                 trying to reset this password. Please try again.
                                             </p>
                                         {{/if}}
-                                        <!--=============== Edit classification Form============================ -->
                                     </div>
                                 </div>
                             </div>
@@ -313,7 +297,6 @@
                             {{!-- All Classification tab --}}
                             <div class="tab-pane fade {{#if (eq activeTab 'all')}}show active{{/if}} all-classification pt-3"
                                 id="all-classification">
-                                <!-- Classification Table -->
                                 <div class="col-12">
                                     <div class="card recent-sales overflow-auto">
                                         <div class="card-body">
@@ -354,24 +337,20 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
-
-                        </div><!-- End Bordered Tabs -->
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-</main><!-- End #main -->
+</main>
 
-<!-- ======= Footer ======= -->
 {{> footer}}
-
 {{> arrowUp}}
 
 
-{{!-- MODAL FOR Delete Classification --}}
+{{!-- Delete Classification Modal --}}
 <div class="modal fade" id="deleteClassification" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -402,7 +381,7 @@
 </div>
 
 
-{{!-- MODAL FOR Reset Password --}}
+{{!-- Reset Password Modal --}}
 <div class="modal fade" id="resetPassword" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">

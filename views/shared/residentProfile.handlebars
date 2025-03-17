@@ -30,7 +30,7 @@
             <div class="col-12">
                 <div class="card" style="min-width: 720px;">
                     <div class="card-body pt-3">
-                        <!--========= Tab Borders =======-->
+
                         <ul class="nav nav-tabs nav-tabs-bordered">
                             <li class="nav-item">
                                 <button class="nav-link {{#if (eq activeTab 'overview')}}active{{/if}}"
@@ -720,7 +720,7 @@
                                             </form>
                                         {{/if}}
 
-                                        {{!-- Incompleted Resume Form --}}
+                                        {{!-- Incomplete Resume Form --}}
                                         {{#if (eq resident.resume.status "incomplete")}}
                                             <div class="text-center">
                                                 <span class="text-center text-primary">This resident has not completed
@@ -774,7 +774,6 @@
 
                                             <h5 class="card-title">Clearance Status</h5>
 
-                                            <!-- Clearance Status Categories -->
                                             <ul class="list-group">
                                                 <li class="list-group-item {{#if (eq resident.MedicalClearance.status 'none')}}list-group-item-secondary
                                                             {{else}}
@@ -1244,14 +1243,14 @@
                                                             {{this.companyName}}
                                                         </h5>
 
-                                                        <!-- List group with Advanced Contents -->
+
                                                         <div class="list-group">
 
                                                             <div class="d-flex w-100 justify-content-between">
                                                                 <h5 class="mb-1 ">Reason for leaving -
                                                                     {{this.reasonForLeaving}}
                                                                 </h5>
-                                                                {{!-- <small>3 days ago</small> --}}
+
                                                             </div>
                                                             <p class="mb-1">Start Date - {{formatDate this.startDate}}
                                                             </p>
@@ -1262,7 +1261,7 @@
                                                                         class="text-capitalize">{{this.note.createdBy}}</span>:
                                                                     {{this.note.note}}</small>
                                                             {{/if}}
-                                                        </div><!-- End List group Advanced Content -->
+                                                        </div>
 
                                                     </div>
                                                 </div>
@@ -1300,13 +1299,13 @@
                                             {{#if activities}}
                                                 {{#each activities}}
                                                     <div class="activity-item d-flex">
-                                                        <div class="activite-label">{{formatDate this.timestamp}}</div>
+                                                        <div class="activity-label">{{formatDate this.timestamp}}</div>
                                                         <i
                                                             class='bi bi-circle-fill activity-badge {{this.color}} align-self-start'></i>
                                                         <div class="activity-content">
                                                             {{this.details}}
                                                         </div>
-                                                    </div><!-- End activity item-->
+                                                    </div>
 
                                                 {{/each}}
                                             {{else}}
@@ -1321,7 +1320,7 @@
                                 </div>
                             </div>
 
-                        </div><!-- End Bordered Tabs -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1329,7 +1328,7 @@
     </section>
 </main>
 
-<!-- ======= Footer ======= -->
+
 {{> footer}}
 {{> arrowUp}}
 
@@ -1536,7 +1535,7 @@
                     <div>
                         {{!-- additional comments --}}
                         <div class="row mb-3">
-                            <div class="">
+                            <div>
                                 <textarea required name="notes" class="form-control"
                                     placeholder="Additional notes or comments" style="height: 100px;"></textarea>
                             </div>

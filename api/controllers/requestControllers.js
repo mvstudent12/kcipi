@@ -84,10 +84,6 @@ module.exports = {
       const dept = mapDepartmentName(deptName);
       const name = getNameFromEmail(email);
 
-      console.log("restrrict");
-      console.log("dept: ", dept);
-      console.log("deptName: ", deptName);
-
       // Create activity log if the user belongs to database
       if (dept === "DW" || dept === "Warden" || dept === "Classification") {
         let user = await Facility_Management.findOne({ email }).session(

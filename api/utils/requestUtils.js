@@ -18,13 +18,11 @@ const isValidUser = async (token) => {
 
     // Check if the token exists and is still valid
     if (!linkData) {
-      console.log("no link");
       return false;
     }
 
     // Check if the token has expired
     if (Date.now() > linkData.tokenExpiration) {
-      console.log("link has expired");
       return false;
     }
 

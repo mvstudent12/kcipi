@@ -10,7 +10,7 @@
                 <li class="breadcrumb-item active">Admin Profile</li>
             </ol>
         </nav>
-    </div><!-- End Page Title -->
+    </div>
 
     <section class="section profile">
         <div class="row">
@@ -20,16 +20,13 @@
                         <img src="/assets/img/avatar.png" alt="Profile" class="rounded-circle">
                         <h2 class="text-capitalize mb-3">{{admin.firstName}} {{admin.lastName}}</h2>
                         <h3>KCI PI Admin</h3>
-
                     </div>
                 </div>
             </div>
 
             <div class="col-12">
-
                 <div class="card">
                     <div class="card-body pt-3">
-                        <!-- Bordered Tabs -->
                         <ul class="nav nav-tabs nav-tabs-bordered">
                             <li class="nav-item">
                                 <button class="nav-link {{#if (eq activeTab 'overview')}}active{{/if}}"
@@ -40,11 +37,9 @@
                                 <button class="nav-link {{#if (eq activeTab 'activities')}}active{{/if}}"
                                     data-bs-toggle="tab" data-bs-target="#activities-admin">Activity Log</button>
                             </li>
-
                         </ul>
 
                         <div class="tab-content pt-2">
-
                             <div class="tab-pane fade {{#if (eq activeTab 'overview')}}show active{{/if}} profile-overview pt-3"
                                 id="profile-overview">
                                 <div class="card">
@@ -56,7 +51,6 @@
                                                 {{admin.lastName}}
                                             </div>
                                         </div>
-
                                         <div class="row">
                                             <div class="col-lg-4 col-md-4 label">Email</div>
                                             <div class="col-lg-8 col-md-8 ">{{admin.email}}</div>
@@ -64,7 +58,6 @@
                                     </div>
                                 </div>
                             </div>
-
 
                             <div class="tab-pane fade {{#if (eq activeTab 'activities')}}show active{{/if}} activities-admin pt-3"
                                 id="activities-admin">
@@ -74,14 +67,13 @@
                                             {{#if activities}}
                                                 {{#each activities}}
                                                     <div class="activity-item d-flex">
-                                                        <div class="activite-label">{{formatDate this.timestamp}}</div>
+                                                        <div class="activity-label">{{formatDate this.timestamp}}</div>
                                                         <i
                                                             class='bi bi-circle-fill activity-badge {{this.color}} align-self-start'></i>
                                                         <div class="activity-content">
                                                             {{this.details}}
                                                         </div>
-                                                    </div><!-- End activity item-->
-
+                                                    </div>
                                                 {{/each}}
                                             {{else}}
                                                 <h5 class="text-center pt-3">This admin has not yet completed any
@@ -92,16 +84,14 @@
                                     </div>
                                 </div>
                             </div>
-
-                        </div><!-- End Bordered Tabs -->
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-</main><!-- End #main -->
+</main>
 
-<!-- ======= Footer ======= -->
+
 {{> footer}}
-
 {{> arrowUp}}
