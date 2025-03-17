@@ -27,16 +27,13 @@
             </div>
 
             <div class="col-12">
-
                 <div class="card">
                     <div class="card-body pt-3">
-
                         {{!-- Applications Table --}}
-
                         <h5 class="card-title">Current Applications</h5>
                         {{#if user.isHired}}
-                            <p class="text-success mt-3">You are currently working as of {{formatDate
-                                                                                        user.dateHired}}.</p>
+                            <p class="text-success mt-3">
+                                You are currently working as of {{formatDate user.dateHired}}.</p>
                             <p>You are not eligible to complete any applications while you are employed.</p>
                         {{else}}
                             {{#if appliedJobs}}
@@ -48,7 +45,6 @@
                                                     <th scope="col">Company</th>
                                                     <th scope="col">Position</th>
                                                     <th scope="col">Applied</th>
-
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -72,17 +68,13 @@
                                 <p class="text-primary mt-3">You have not submitted any applications yet.
                                 </p>
                             {{/if}}
-
                         {{/if}}
                     </div>
                 </div>
             </div>
         </div>
-        </div>
     </section>
-
 </main>
-
 
 {{> footer}}
 {{> arrowUp}}

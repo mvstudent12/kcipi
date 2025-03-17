@@ -14,13 +14,10 @@
     </div>
 
     <section class="section profile">
-
         <div class="row">
             <div class="col-xl-12">
-
                 <div class="card">
                     <div class="card-body pt-3">
-
                         <ul class="nav nav-tabs nav-tabs-bordered">
                             <li class="nav-item">
                                 <button class="nav-link {{#if (eq activeTab 'all')}}active{{/if}}" data-bs-toggle="tab"
@@ -41,7 +38,6 @@
                         {{!-- Bordered Tab Content --}}
 
                         <div class="tab-content pt-2">
-
                             {{!-- All Positions TAB --}}
                             <div class="tab-pane fade {{#if (eq activeTab 'all')}}show active{{/if}} position-all pt-3"
                                 id="position-all">
@@ -96,7 +92,6 @@
                                                         {{/each}}
                                                     </tbody>
                                                 </table>
-
                                             </div>
                                         </div>
                                     </div>
@@ -109,7 +104,6 @@
                                 <div class="card">
                                     <div class="card-body pt-3">
                                         <form method="POST" action="/employer/addNewPosition">
-
                                             {{!-- Position Title --}}
                                             <div class="row mb-3">
                                                 <label for="position" class="col-md-4 col-lg-4 col-form-label">Position
@@ -178,7 +172,6 @@
                                                     </select>
                                                 </div>
                                             </div>
-
                                             {{!-- Job Pool--}}
                                             <div class="row mb-3">
                                                 <label for="jobPool" class="col-md-4 col-lg-4 col-form-label">Job
@@ -199,7 +192,6 @@
                                                         <option value="Female Medium/Maximum">Female Medium/Maximum
                                                         </option>
                                                     </select>
-
                                                 </div>
                                             </div>
                                             <input type="hidden" name="companyID" value="{{company._id}}">
@@ -226,7 +218,6 @@
                                                 <div class="search-bar">
                                                     <form class="search-form d-flex align-items-center" method="POST"
                                                         action="/employer/searchPosition">
-
                                                         <div class="input-group">
                                                             <select required name="jobID" id="positionList"
                                                                 class="form-select text-capitalize"
@@ -240,7 +231,6 @@
                                                                     </option>
                                                                 {{/each}}
                                                             </select>
-
                                                             <button class="btn btn-primary" type="submit"
                                                                 id="searchButton" title="Search">
                                                                 <i class="bi bi-search"></i>
@@ -315,8 +305,6 @@
                                                                     value="{{positionFound.availablePositions}}">
                                                             </div>
                                                         </div>
-
-
                                                         {{!-- Position Facility --}}
                                                         <div class="row mb-3">
                                                             <label for="facility"
@@ -352,7 +340,6 @@
                                                                 </select>
                                                             </div>
                                                         </div>
-
                                                         {{!-- Job Pool--}}
                                                         <div class="row mb-3">
                                                             <label for="jobPool"
@@ -438,8 +425,7 @@
 {{> footer}}
 {{> arrowUp}}
 
-
-{{!-- MODAL FOR Delete Position --}}
+{{!-- Delete Position Modal --}}
 <div class="modal fade" id="deletePosition" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">

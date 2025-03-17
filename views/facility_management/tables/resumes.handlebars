@@ -16,8 +16,6 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="row">
-
-
                     <div class="col-12">
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
@@ -26,7 +24,6 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">ID #</th>
-
                                             <th scope="col">Resident</th>
                                             <th scope="col">Out Date</th>
                                             <th scope="col">Submitted</th>
@@ -40,31 +37,24 @@
                                                     <th scope="row"><a
                                                             href="/shared/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
                                                     </th>
-
                                                     <td><a href="/shared/residentProfile/{{this.residentID}}"
                                                             class="text-primary text-capitalize">
                                                             {{this.lastName}}, {{this.firstName}}</a></td>
                                                     <td><a href="/shared/residentProfile/{{this.residentID}}"
                                                             class="text-primary text-capitalize">{{formatDate this.outDate}}</a>
                                                     </td>
-
                                                     <td>{{formatDate this.resume.createdAt}}</td>
                                                     <td class="text-capitalize">{{this.unitTeam}}</td>
-
-
                                                 </tr>
                                             {{/if}}
-
                                         {{/each}}
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
-
         </div>
     </section>
 </main>

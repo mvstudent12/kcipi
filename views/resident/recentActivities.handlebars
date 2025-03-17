@@ -1,7 +1,6 @@
 {{> residentTemplate}}
 
 <main id="main" class="main">
-
     <div class="pagetitle">
         <h1 class="text-capitalize">Recent Activities</h1>
         <nav>
@@ -14,17 +13,12 @@
 
     <section class="section profile">
         <div class="row">
-
-
             <div class="col-12">
-
                 <div class="card">
-
                     <div class="card-body">
                         <h5 class="card-title text-capitalize">{{user.firstName}}
                             {{user.lastName}} <span class="text-capitalize">| KDOC Resident</span>
                         </h5>
-
                         <div class="activity">
                             <div class="card">
                                 <div class="card-body mt-3">
@@ -38,7 +32,6 @@
                                                     {{this.details}}
                                                 </div>
                                             </div>
-
                                         {{/each}}
                                     {{else}}
                                         <h5 class="text-center pt-3">You have not yet completed any activities.</h5>
@@ -46,16 +39,12 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
-        </div>
-        </div>
     </section>
 </main>
-
 
 {{> footer}}
 {{> arrowUp}}

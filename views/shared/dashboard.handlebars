@@ -5,7 +5,6 @@
 
 
 <main id="main" class="main">
-
     <div class="pagetitle">
         <h1 class="mb-2">KCI PI Dashboard</h1>
         <nav>
@@ -14,13 +13,10 @@
             </ol>
         </nav>
     </div>
-
     <section class="section dashboard">
         <div class="row">
-
             <div class="col-lg-12">
                 <div class="row">
-
                     <div class="col-xxl-4 col-md-4">
                         <div class="card info-card customers-card">
                             <a href="#">
@@ -46,19 +42,16 @@
                                             <h6>{{countItems caseLoad}}</h6>
                                         </div>
                                     </div>
-
                                 </div>
                             </a>
                         </div>
                     </div>
-
 
                     <div class="col-xxl-4 col-md-4">
                         <div class="card info-card sales-card">
                             <a href="/{{user.role}}/manageClearance">
                                 <div class="card-body">
                                     <h5 class="card-title">Resumes <span>| Pending</span></h5>
-
                                     <div class="d-flex align-items-center">
                                         <div
                                             class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -74,14 +67,11 @@
                         </div>
                     </div>
 
-
                     <div class="col-xxl-4 col-md-4">
                         <div class="card info-card revenue-card">
                             <a href="/{{user.role}}/manageWorkForce">
-
                                 <div class="card-body">
                                     <h5 class="card-title">Applicants <span>| To Review</span></h5>
-
                                     <div class="d-flex align-items-center">
                                         <div
                                             class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -89,18 +79,12 @@
                                         </div>
                                         <div class="ps-3">
                                             <h6>{{countItems applicants}}</h6>
-
                                         </div>
                                     </div>
                                 </div>
                             </a>
                         </div>
                     </div>
-
-
-
-
-
 
                     <div class="col-12">
                         <div class="card recent-sales overflow-auto">
@@ -122,8 +106,6 @@
                                             <th scope="col">Out Date</th>
                                             <th scope="col">Resume</th>
                                             <th scope="col">Work Status</th>
-
-
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -132,13 +114,11 @@
                                                 <th scope="row"><a
                                                         href="/shared/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
                                                 </th>
-
                                                 <td class="text-capitalize"><a
                                                         href="/shared/residentProfile/{{this.residentID}}">
                                                         {{this.lastName}}, {{this.firstName}}</a></td>
 
                                                 <td class="text-capitalize">{{formatDate this.outDate}}</td>
-
                                                 {{!-- Resume Status --}}
                                                 {{#if (eq this.resume.status "approved")}}
                                                     <td><span class="badge bg-success">Approved</span></td>
@@ -172,9 +152,7 @@
                                                         {{/if}}
                                                     {{/if}}
                                                 {{/if}}
-
                                             </tr>
-
                                         {{/each}}
                                     </tbody>
                                 </table>
@@ -203,7 +181,6 @@
                                                     <th scope="row"><a
                                                             href="/shared/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
                                                     </th>
-
                                                     <td><a href="/shared/residentProfile/{{this.residentID}}"
                                                             class="text-primary text-capitalize">
                                                             {{this.lastName}}, {{this.firstName}}</a></td>
@@ -217,18 +194,14 @@
                                                     <td class="text-capitalize"><a
                                                             href="/shared/residentProfile/{{this.residentID}}">{{this.custodyLevel}}</a>
                                                     </td>
-
                                                 </tr>
                                             {{/if}}
-
                                         {{/each}}
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
-
-
                     <div class="col-12">
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
@@ -244,17 +217,13 @@
                                             <th scope="col">C.A.</th>
                                             <th scope="col">D.W.</th>
                                             <th scope="col">Warden</th>
-
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {{#each caseLoad}}
-
                                             {{#if (eq this.resume.status "approved")}}
-
                                                 {{#unless (eq this.workEligibility.status "approved")}}
                                                     {{#unless (eq this.workEligibility.status "restricted")}}
-
                                                         <tr>
                                                             <th scope="row"><a
                                                                     href="/shared/residentProfile/{{this.residentID}}">
@@ -263,8 +232,6 @@
                                                             <td><a href="/shared/residentProfile/{{this.residentID}}"
                                                                     class="text-primary text-capitalize">{{this.firstName}}
                                                                     {{this.lastName}}</a></td>
-
-
                                                             {{#if (eq this.MedicalClearance.status "approved")}}
                                                                 <td><span class="badge bg-success">Approved</span></td>
                                                             {{/if}}
@@ -345,7 +312,6 @@
                                                         </tr>
                                                     {{/unless}}
                                                 {{/unless}}
-
                                             {{/if}}
                                         {{/each}}
                                     </tbody>
@@ -353,7 +319,6 @@
                             </div>
                         </div>
                     </div>
-
 
                     <div class="col-12" id="applicantTable">
                         <div class="card recent-sales overflow-auto">
@@ -375,8 +340,6 @@
                                                 <th scope="row"><a
                                                         href="/shared/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
                                                 </th>
-
-
                                                 <td><a href="/shared/residentProfile/{{this.residentID}}"
                                                         class="text-primary text-capitalize">
                                                         {{this.lastName}}, {{this.firstName}}</a></td>
@@ -384,7 +347,6 @@
                                                 <td class="text-capitalize"><a
                                                         href="/shared/residentProfile/{{this.residentID}}">{{this.custodyLevel}}</a>
                                                 </td>
-
                                                 <td><a href="/shared/residentProfile/{{this.residentID}}">{{formatDate
                                                     this.outDate}}</a></td>
 
@@ -398,7 +360,6 @@
                             </div>
                         </div>
                     </div>
-
 
                     <div class="col-12">
                         <div class="card recent-sales overflow-auto">
@@ -424,7 +385,6 @@
                                                         href="/shared/residentProfile/{{this.applicants.residentID}}">
                                                         {{this.applicants.residentName}}</a></td>
 
-
                                                 {{#if this.applicants.interview.dateRequested}}
                                                     <td><span
                                                             class="badge bg-success">{{formatDate this.applicants.interview.dateRequested}}</span>
@@ -443,7 +403,6 @@
                                                     <a href="/shared/residentProfile/{{this.interview.residentID}}">
                                                         {{this.companyName}}</a>
                                                 </td>
-
                                             </tr>
                                         {{/each}}
                                     </tbody>
@@ -451,8 +410,6 @@
                             </div>
                         </div>
                     </div>
-
-
                     <div class="col-12">
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
@@ -474,7 +431,6 @@
                                                     <a
                                                         href="/shared/residentProfile/{{this.residentID}}">{{this.residentID}}</a>
                                                 </th>
-
                                                 <td class="text-capitalize">
                                                     <a href="/shared/residentProfile/{{this.residentID}}">{{this.firstName}}
                                                         {{this.lastName}}</a>
@@ -492,21 +448,17 @@
                                                         href="/shared/residentProfile/{{this.residentID}}">{{this.companyName}}</a>
                                                 </td>
                                             </tr>
-
                                         {{/each}}
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
-
-
                 </div>
             </div>
         </div>
     </section>
 </main>
-
 
 {{> footer}}
 {{> arrowUp}}

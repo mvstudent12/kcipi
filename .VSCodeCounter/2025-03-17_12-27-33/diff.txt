@@ -1,0 +1,50 @@
+Date : 2025-03-17 12:27:33
+Directory : c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0
+Total : 16 files,  -301889 codes, -51373 comments, -3031 blanks, all -356293 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| Handlebars |          1 |         -1 |          0 |          0 |         -1 |
+| JSON       |          1 |         -3 |          0 |          0 |         -3 |
+| JavaScript |         14 |   -301,885 |    -51,373 |     -3,031 |   -356,289 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++----------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                               | files      | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                  |         16 |   -301,889 |    -51,373 |     -3,031 |   -356,293 |
+| app                                                                                                |         15 |   -301,888 |    -51,373 |     -3,031 |   -356,292 |
+| app\assets                                                                                         |         15 |   -301,888 |    -51,373 |     -3,031 |   -356,292 |
+| app\assets\vendor                                                                                  |         15 |   -301,888 |    -51,373 |     -3,031 |   -356,292 |
+| app\assets\vendor\echarts                                                                          |         15 |   -301,888 |    -51,373 |     -3,031 |   -356,292 |
+| app\assets\vendor\echarts (Files)                                                                  |         11 |   -301,301 |    -51,174 |     -3,000 |   -355,475 |
+| app\assets\vendor\echarts\extension                                                                |          4 |       -587 |       -199 |        -31 |       -817 |
+| views                                                                                              |          1 |         -1 |          0 |          0 |         -1 |
+| views\layouts                                                                                      |          1 |         -1 |          0 |          0 |         -1 |
++----------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++----------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                                           | language   | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\echarts\echarts.common.js         | JavaScript |    -48,096 |     -8,028 |       -458 |    -56,582 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\echarts\echarts.common.min.js     | JavaScript |         -3 |        -40 |         -3 |        -46 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\echarts\echarts.esm.js            | JavaScript |    -72,602 |    -12,394 |       -735 |    -85,731 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\echarts\echarts.esm.min.js        | JavaScript |         -2 |        -41 |         -3 |        -46 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\echarts\echarts.esm.min.mjs       | JavaScript |         -2 |        -41 |         -3 |        -46 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\echarts\echarts.esm.mjs           | JavaScript |    -72,602 |    -12,394 |       -735 |    -85,731 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\echarts\echarts.js                | JavaScript |    -72,665 |    -12,394 |       -738 |    -85,797 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\echarts\echarts.min.js            | JavaScript |         -3 |        -40 |         -3 |        -46 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\echarts\echarts.simple.js         | JavaScript |    -35,320 |     -5,762 |       -319 |    -41,401 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\echarts\echarts.simple.min.js     | JavaScript |         -3 |        -40 |         -3 |        -46 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\echarts\extension\bmap.js         | JavaScript |       -296 |        -63 |        -10 |       -369 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\echarts\extension\bmap.min.js     | JavaScript |         -1 |        -18 |         -3 |        -22 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\echarts\extension\dataTool.js     | JavaScript |       -289 |       -100 |        -15 |       -404 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\echarts\extension\dataTool.min.js | JavaScript |         -1 |        -18 |         -3 |        -22 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\echarts\package.json              | JSON       |         -3 |          0 |          0 |         -3 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\layouts\main.handlebars                       | Handlebars |         -1 |          0 |          0 |         -1 |
+| Total                                                                                              |            |   -301,889 |    -51,373 |     -3,031 |   -356,293 |
++----------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+

@@ -28,10 +28,8 @@
             </div>
 
             <div class="col-12">
-
                 <div class="card">
                     <div class="card-body pt-3">
-
                         <ul class="nav nav-tabs nav-tabs-bordered">
                             <li class="nav-item">
                                 <button class="nav-link {{#if (eq activeTab 'overview')}}active{{/if}}"
@@ -86,10 +84,9 @@
                                 </div>
                             </div>
 
-                            {{!-- Resume --}}
+                            {{!-- Resume Tab --}}
                             <div class="tab-pane fade {{#if (eq activeTab 'resume')}}show active{{/if}} profile-resume pt-3"
                                 id="profile-resume">
-
                                 {{!-- Resident First Name --}}
                                 <div class="row mb-3">
                                     <label for="firstName" class="col-md-4 col-lg-3 col-form-label">First
@@ -231,7 +228,7 @@
 
 
                             </div>
-                            {{!--======== Applications TAB ========--}}
+                            {{!--======== Applications Tab ========--}}
                             <div class="tab-pane fade {{#if (eq activeTab 'application')}}show active{{/if}} profile-applications pt-3"
                                 id="profile-applications">
                                 <div class="card">
@@ -482,7 +479,6 @@
             </div>
         </div>
     </div>
-
 
     {{!-- Request Hire Modal --}}
     <div class="modal fade" id="{{this._id}}3" tabindex="-1">
