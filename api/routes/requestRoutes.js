@@ -18,29 +18,29 @@ requestRoutes.post("/contact", controller.contact);
 //============================
 
 requestRoutes.get(
-  "/reviewClearance/:dept/:residentID/:email",
+  "/reviewClearance/:deptName/:residentID/:email",
   controller.reviewClearance
 );
 
 requestRoutes.get(
-  "/approve/:residentID/:email/:dept",
+  "/approve/:residentID/:email/:deptName",
   controller.approveClearance
 );
 requestRoutes.get(
-  "/restrict/:residentID/:email/:dept",
+  "/restrict/:residentID/:email/:deptName",
   controller.restrictClearance
 );
 
-requestRoutes.post("/saveNotes/:residentID/:email/:dept", controller.saveNotes);
+requestRoutes.post(
+  "/saveNotes/:residentID/:email/:deptName",
+  controller.saveNotes
+);
 
 requestRoutes.get(
-  "/next_notes/:residentID/:email/:dept",
-  controller.next_notes
+  "/next/:residentID/:email/:deptName/:activeTab",
+  controller.next
 );
-requestRoutes.get(
-  "/next_notify/:residentID/:email/:dept",
-  controller.next_notify
-);
+
 requestRoutes.post(
   "/sendNextNotification/:residentID/:email",
   controller.sendNextNotification

@@ -25,16 +25,10 @@ const { checkClearanceStatus } = require("../utils/clearanceUtils");
 
 const { createActivityLog } = require("../utils/activityLogUtils");
 
-const {
-  getNameFromEmail,
-  isValidUser,
-  checkToken,
-} = require("../utils/requestUtils");
+const { getNameFromEmail, isValidUser } = require("../utils/requestUtils");
 
-const {
-  mapDepartmentName,
-  mapDepartmentNameReverse,
-} = require("../utils/requestUtils.js");
+const { mapDepartmentName } = require("../utils/requestUtils.js");
+const { dept } = require("dotenv");
 
 module.exports = {
   //===========================
@@ -43,7 +37,7 @@ module.exports = {
 
   async reviewClearance(req, res) {
     let { activeTab } = req.query;
-    let { residentID, email, dept } = req.params;
+    let { residentID, email, deptName } = req.params;
     const { token } = req.query;
 
     try {
@@ -51,51 +45,68 @@ module.exports = {
 
       if (!validUser) return res.render("error/410");
 
-      dept = mapDepartmentName(dept);
+      const dept = mapDepartmentName(deptName);
+
       const resident = await Resident.findOne({ residentID }).lean();
 
-      resident[`${dept}Clearance`].notes.sort(
+      const notes = resident[`${dept}Clearance`].notes.sort(
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
       );
+
+      const clearanceStatus = resident[`${dept}Clearance`].status;
 
       req.session.token = token;
 
       if (!activeTab) activeTab = "status";
-      res.render(`clearance/${dept}`, {
+      res.render(`clearance/reviewClearance`, {
         token: req.session.token,
         resident,
         email,
         activeTab,
+        dept,
+        deptName,
+        clearanceStatus,
+        notes,
       });
     } catch (err) {
       console.log(err);
       res.render("error/residentError/500");
     }
   },
+
   async approveClearance(req, res) {
-    const { residentID, email, dept } = req.params;
+    const { residentID, email, deptName } = req.params;
     const token = req.session.token;
+    const session = await mongoose.startSession(); // Start MongoDB session
     try {
-      const deptName = mapDepartmentNameReverse(dept);
+      session.startTransaction(); // Begin transaction
+
+      const dept = mapDepartmentName(deptName);
       const name = getNameFromEmail(email);
 
-      //create activity if user belongs to database
+      console.log("restrrict");
+      console.log("dept: ", dept);
+      console.log("deptName: ", deptName);
+
+      // Create activity log if the user belongs to database
       if (dept === "DW" || dept === "Warden" || dept === "Classification") {
-        let user = await Facility_Management.findOne({ email });
+        let user = await Facility_Management.findOne({ email }).session(
+          session
+        );
 
         if (!user) {
-          user = await Classification.findOne({ email });
+          user = await Classification.findOne({ email }).session(session);
         }
         if (user) {
           await createActivityLog(
             user._id.toString(),
             "clearance_approved",
-            `Approved ${deptName} clearance for resident #${residentID}.`
+            `Approved ${dept} clearance for resident #${residentID}.`
           );
         }
       }
 
-      //update resident's clearance status
+      // Update the clearance status and history for the specific department
       await Resident.updateOne(
         { residentID: residentID },
         {
@@ -111,47 +122,58 @@ module.exports = {
             [`${dept}Clearance.notes`]: {
               createdAt: new Date(),
               createdBy: name,
-              note: `Approved clearance. ✅`,
+              note: `Approved clearance for ${dept}. ✅`,
             },
           },
-        }
+        },
+        { session }
       );
+
       const resident = await Resident.findOne({ residentID }).lean();
 
-      //send notification to unit team
+      // Send notification to unit team
       await createNotification(
         resident.resume.unitTeam,
         "unitTeam",
         "clearance_approved",
         `${deptName} clearance approved for resident #${residentID} by ${name}.`,
-        `/shared/residentProfile/${resident.residentID}?activeTab=clearance`
+        `/shared/residentProfile/${resident.residentID}?activeTab=clearance`,
+        session
       );
 
-      //update residents work eligibility status
+      // Update the work eligibility status based on specific clearances
       const workStatus = await checkClearanceStatus(residentID);
       await Resident.findOneAndUpdate(
         { residentID },
         {
           $set: {
-            "workEligibility.status": workStatus,
+            "workEligibility.status": workStatus, // Set the work eligibility status based on the clearance statuses
           },
-        }
+        },
+        { session }
       );
 
+      await session.commitTransaction(); // Commit transaction if everything is successful
+      session.endSession();
+
       res.redirect(
-        `/request/reviewClearance/${dept}/${residentID}/${email}?token=${token}&activeTab=status`
+        `/request/reviewClearance/${deptName}/${residentID}/${email}?token=${token}&activeTab=status`
       );
     } catch (err) {
-      console.log("Error approving clearance from email link: ", err);
+      await session.abortTransaction(); // Rollback on error
+      session.endSession();
+      console.error("Error approving clearance from email link:", err);
       res.render("error/residentError/500");
     }
   },
+
   async restrictClearance(req, res) {
-    let { residentID, email, dept } = req.params;
+    let { residentID, email, deptName } = req.params;
     const token = req.session.token;
+
     try {
       const name = getNameFromEmail(email);
-      const deptName = mapDepartmentNameReverse(dept);
+      const dept = mapDepartmentName(deptName);
 
       await Resident.updateOne(
         { residentID: residentID },
@@ -212,7 +234,7 @@ module.exports = {
       }
 
       res.redirect(
-        `/request/reviewClearance/${dept}/${residentID}/${email}?token=${token}&activeTab=status`
+        `/request/reviewClearance/${deptName}/${residentID}/${email}?token=${token}&activeTab=status`
       );
     } catch (err) {
       console.log(err);
@@ -220,11 +242,12 @@ module.exports = {
     }
   },
   async saveNotes(req, res) {
-    let { residentID, email, dept } = req.params;
+    let { residentID, email, deptName } = req.params;
     const { notes } = req.body;
     const token = req.session.token;
     try {
       const name = getNameFromEmail(email);
+      const dept = mapDepartmentName(deptName);
 
       await Resident.updateOne(
         { residentID: residentID },
@@ -239,48 +262,35 @@ module.exports = {
         }
       );
       res.redirect(
-        `/request/reviewClearance/${dept}/${residentID}/${email}?token=${token}&activeTab=notes`
+        `/request/reviewClearance/${deptName}/${residentID}/${email}?token=${token}&activeTab=notes`
       );
     } catch (err) {
       console.log(err);
       res.render("error/residentError/500");
     }
   },
-  async next_notes(req, res) {
-    const { residentID, email, dept } = req.params;
+  async next(req, res) {
+    const { residentID, email, deptName, activeTab } = req.params;
     const token = req.session.token;
     try {
       res.redirect(
-        `/request/reviewClearance/${dept}/${residentID}/${email}?token=${token}&activeTab=notes`
+        `/request/reviewClearance/${deptName}/${residentID}/${email}?token=${token}&activeTab=${activeTab}`
       );
     } catch (err) {
       console.log(err);
       res.render("error/residentError/500");
     }
   },
-  async next_notify(req, res) {
-    const { residentID, email, dept } = req.params;
-    const token = req.session.token;
-    try {
-      res.redirect(
-        `/request/reviewClearance/${dept}/${residentID}/${email}?token=${token}&activeTab=notify`
-      );
-    } catch (err) {
-      console.log(err);
-      res.render("error/residentError/500");
-    }
-  },
+
   async sendNextNotification(req, res) {
     const { residentID, email } = req.params;
-    let { category, recipientEmail, comments } = req.body;
+    let { deptName, recipientEmail, comments } = req.body;
     const token = req.session.token;
 
     try {
       const resident = await Resident.findOne({ residentID }).lean();
 
-      const dept = mapDepartmentName(category);
-
-      console.log(dept);
+      const dept = mapDepartmentName(deptName);
 
       //send notification to facility_management
       if (dept == "DW" || dept == "Warden") {
@@ -304,11 +314,11 @@ module.exports = {
       }
       sendReviewEmail(
         resident,
-        category,
+        deptName,
         recipientEmail,
         email,
         comments,
-        `request/reviewClearance/${dept}/${residentID}/${recipientEmail}`
+        `request/reviewClearance/${deptName}/${residentID}/${recipientEmail}`
       );
 
       //delete the token here

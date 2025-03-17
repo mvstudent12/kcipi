@@ -33,7 +33,7 @@ clearanceRoutes.post(
   controller.approveResume
 );
 clearanceRoutes.post(
-  "/requestClearance/:residentID/:dept",
+  "/requestClearance/:residentID/:deptName",
   authMiddleware,
   controller.requestClearance
 );

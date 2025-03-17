@@ -28,19 +28,6 @@ const isValidUser = async (token) => {
       return false;
     }
 
-    // // Check if the token has already been used
-    // if (linkData.used) {
-    //   console.log("link is used");
-    //   return false;
-    // }
-
-    // // Mark the token as used (to prevent reuse)
-    // linkData.used = true;
-    // await linkData.save();
-
-    // Delete the link after it has been used
-    // await linkData.deleteOne();
-
     return true;
   } catch (err) {
     console.error("Error with token: ", err);
@@ -108,13 +95,6 @@ const mapDepartmentName = (dept) => {
       return "victimServices";
     case "Deputy-Warden":
       return "DW";
-    default:
-      return dept; // If no match, return the original value
-  }
-};
-
-const mapDepartmentNameReverse = (dept) => {
-  switch (dept) {
     case "sexOffender":
       return "Sex-Offender";
     case "victimServices":
@@ -131,7 +111,6 @@ module.exports = {
   capitalize,
   getAllApplicantsByResidentID,
   mapDepartmentName,
-  mapDepartmentNameReverse,
   isValidUser,
   checkToken,
 };

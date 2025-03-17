@@ -158,12 +158,13 @@ module.exports = {
   },
   async requestClearance(req, res) {
     let { recipient, comments } = req.body;
-    let { residentID, dept } = req.params;
+    let { residentID, deptName } = req.params;
 
     try {
       const sender = req.session.user.email;
-      const department = dept;
-      dept = mapDepartmentName(dept);
+
+      const dept = mapDepartmentName(deptName);
+      console.log(deptName, dept);
       const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
 
       //change residents clearance status to show as pending
@@ -206,18 +207,18 @@ module.exports = {
       }
       sendReviewEmail(
         resident,
-        department,
+        deptName,
         recipient,
         sender,
         comments,
-        `request/reviewClearance/${department}/${residentID}/${recipient}`
+        `request/reviewClearance/${deptName}/${residentID}/${recipient}`
       );
 
       // Log activity
       await createActivityLog(
         req.session.user._id.toString(),
         "clearance_requested",
-        `Requested ${department} clearance for #${residentID}.`
+        `Requested ${deptName} clearance for #${residentID}.`
       );
 
       res.redirect(`/shared/residentProfile/${residentID}?activeTab=clearance`);
