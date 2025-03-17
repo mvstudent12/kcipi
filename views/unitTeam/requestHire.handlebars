@@ -37,9 +37,7 @@
                             {{#if resident.isHired}}
                                 <h5 class="text-success mt-3">This resident has been successfully hired.</h5>
                                 <p class="mt-3">Thank you for your time.</p>
-                                <a href="/unitTeam/dashboard" class="mt-3">
-                                    <button class="btn btn-info">Return to Dashboard</button>
-                                </a>
+                                <a href="/unitTeam/dashboard" class="mt-3 btn btn-info">Return to Dashboard</a>
                             {{else}}
                                 <div class="card">
                                     <div class="card-body">
@@ -164,9 +162,9 @@
                                             </div>
                                             <hr>
                                             <div class="d-flex justify-content-between mt-3">
-                                                <a href="/clearance/rejectHire/{{resident._id}}/{{application._id}}">
-                                                    <button type="button" class="btn btn-danger btn-block mb-2">Reject
-                                                        Hire</button></a>
+                                                <a href="/clearance/rejectHire/{{resident._id}}/{{application._id}}"
+                                                    class="btn btn-danger btn-block mb-2">Reject Hire</a>
+
                                                 <button type="submit" class="btn btn-info btn-block mb-2">Hire
                                                     Resident</button>
                                             </div>
@@ -203,9 +201,7 @@
                 <div class="card-body text-center">
                     <h5 class="text-warning mt-3">This request is closed.</h5>
 
-                    <a href="/unitTeam/dashboard" class="mt-3 text-center">
-                        <button class="btn btn-primary mt-3">Return to Dashboard</button>
-                    </a>
+                    <a href="/unitTeam/dashboard" class="mt-3 text-center btn btn-primary">Return to Dashboard</a>
                 </div>
             </div>
         </section>
