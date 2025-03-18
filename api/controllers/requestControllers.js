@@ -78,12 +78,12 @@ module.exports = {
     console.log("approveClearance has been called");
     const { residentID, email, deptName } = req.params;
     const token = req.session.token;
-    const session = await mongoose.startSession(); // Start MongoDB session
+
     try {
+      const session = await mongoose.startSession(); // Start MongoDB session
       session.startTransaction(); // Begin transaction
 
       const dept = mapDepartmentName(deptName);
-      const name = getNameFromEmail(email);
 
       // Create activity log if the user belongs to database
       if (dept === "DW" || dept === "Warden" || dept === "Classification") {
@@ -113,13 +113,13 @@ module.exports = {
           $push: {
             [`${dept}Clearance.clearanceHistory`]: {
               action: "approved",
-              performedBy: name,
+              performedBy: email,
               reason: "Clearance approved. ✅",
             },
             [`${dept}Clearance.notes`]: {
               createdAt: new Date(),
-              createdBy: name,
-              note: `Approved clearance for ${dept}. ✅`,
+              createdBy: email,
+              note: `Approved clearance. ✅`,
             },
           },
         },
@@ -133,22 +133,10 @@ module.exports = {
         resident.resume.unitTeam,
         "unitTeam",
         "clearance_approved",
-        `${deptName} clearance approved for resident #${residentID} by ${name}.`,
+        `${deptName} clearance approved for resident #${residentID} by ${email}.`,
         `/shared/residentProfile/${resident.residentID}?activeTab=clearance`,
         session
       );
-
-      // Update the work eligibility status based on specific clearances
-      // const workStatus = await checkClearanceStatus(residentID);
-      // await Resident.findOneAndUpdate(
-      //   { residentID },
-      //   {
-      //     $set: {
-      //       "workEligibility.status": workStatus, // Set the work eligibility status based on the clearance statuses
-      //     },
-      //   },
-      //   { session }
-      // );
 
       await session.commitTransaction(); // Commit transaction if everything is successful
       session.endSession();
@@ -166,12 +154,12 @@ module.exports = {
 
   async restrictClearance(req, res) {
     console.log("restrictClearance has been called");
+    console.trace("restrictClearance stack trace");
 
     let { residentID, email, deptName } = req.params;
     const token = req.session.token;
 
     try {
-      const name = getNameFromEmail(email);
       const dept = mapDepartmentName(deptName);
 
       await Resident.updateOne(
@@ -184,12 +172,12 @@ module.exports = {
           $push: {
             [`${dept}Clearance.clearanceHistory`]: {
               action: "restricted",
-              performedBy: name,
+              performedBy: email,
               reason: "Restrictions added. ❌",
             },
             [`${dept}Clearance.notes`]: {
               createdAt: new Date(),
-              createdBy: name,
+              createdBy: email,
               note: `Restricted clearance. ❌`,
             },
           },
@@ -203,20 +191,10 @@ module.exports = {
         resident.resume.unitTeam,
         "unitTeam",
         "clearance_denied",
-        `${deptName} clearance restricted for resident #${resident.residentID} by ${name}.`,
+        `${deptName} clearance restricted for resident #${resident.residentID} by ${email}.`,
         `/shared/residentProfile/${resident.residentID}?activeTab=clearance`
       );
 
-      // const workStatus = await checkClearanceStatus(residentID);
-
-      // await Resident.findOneAndUpdate(
-      //   { residentID },
-      //   {
-      //     $set: {
-      //       "workEligibility.status": workStatus,
-      //     },
-      //   }
-      // );
       //create activity if user belongs to database
       if (dept === "DW" || dept === "Warden" || dept === "Classification") {
         let user = await Facility_Management.findOne({ email });

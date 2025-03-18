@@ -63,7 +63,7 @@
                                     Clearance</button>
                             </li>
                         </ul>
-                        {{!--===== BORDERED TABS =====--}}
+
                         <div class="tab-content pt-2">
                             {{!--===== Resident Clearance Tab =====--}}
                             <div class="tab-pane fade {{#if (eq activeTab 'status')}}show active{{/if}} profile-overview"
@@ -112,21 +112,17 @@
 
                                                 <h5 class="card-title">This resident has not been reviewed.
                                                 </h5>
-                                                <div class="row">
-                                                    <div class="container">
-                                                        <div class="d-flex flex-column">
-                                                            <a href="/request/approve/{{resident.residentID}}/{{email}}/{{deptName}}"
-                                                                style="width: 50%;"
-                                                                class="btn btn-primary btn-block mb-3">
-                                                                Approve Clearance
-                                                            </a>
-                                                            <a href="/request/restrict/{{resident.residentID}}/{{email}}/{{deptName}}"
-                                                                style="width: 50%;"
-                                                                class="btn btn-danger btn-block mb-2">
-                                                                Add Restriction
-                                                            </a>
-                                                        </div>
-                                                    </div>
+
+                                                <div class="d-grid gap-2 col-lg-6 mt-3">
+                                                    <a href="/request/approve/{{resident.residentID}}/{{email}}/{{deptName}}"
+                                                        style="width: 50%;" class="btn btn-primary btn-block mb-3">
+                                                        Approve Clearance
+                                                    </a>
+                                                    <a href="/request/restrict/{{resident.residentID}}/{{email}}/{{deptName}}"
+                                                        style="width: 50%;" class="btn btn-danger btn-block mb-2">
+                                                        Add Restriction
+                                                    </a>
+
                                                 </div>
 
 
