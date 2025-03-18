@@ -154,7 +154,7 @@ module.exports = {
 
   async restrictClearance(req, res) {
     console.log("restrictClearance has been called");
-    console.trace("restrictClearance stack trace");
+    console.log(console.trace("restrictClearance stack trace"));
 
     let { residentID, email, deptName } = req.params;
     const token = req.session.token;
