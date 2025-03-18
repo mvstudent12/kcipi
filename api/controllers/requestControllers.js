@@ -21,14 +21,11 @@ const {
 
 const { createNotification } = require("../utils/notificationUtils");
 
-const { checkClearanceStatus } = require("../utils/clearanceUtils");
-
 const { createActivityLog } = require("../utils/activityLogUtils");
 
 const { getNameFromEmail, isValidUser } = require("../utils/requestUtils");
 
 const { mapDepartmentName } = require("../utils/requestUtils.js");
-const { dept } = require("dotenv");
 
 module.exports = {
   //===========================
@@ -40,6 +37,9 @@ module.exports = {
     let { residentID, email, deptName } = req.params;
     const { token } = req.query;
 
+    const session = await mongoose.startSession(); // Start a session
+    session.startTransaction(); // Start the transaction
+
     try {
       const validUser = await isValidUser(token);
 
@@ -47,17 +47,31 @@ module.exports = {
 
       const dept = mapDepartmentName(deptName);
 
-      const resident = await Resident.findOne({ residentID }).lean();
+      // Fetch resident with session for atomicity
+      const resident = await Resident.findOne({ residentID })
+        .session(session)
+        .lean();
 
+      // Check if resident exists
+      if (!resident) {
+        return res.render("error/residentError/404");
+      }
+
+      // Sort notes based on creation date
       const notes = resident[`${dept}Clearance`].notes.sort(
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
       );
 
       const clearanceStatus = resident[`${dept}Clearance`].status;
 
+      // Store token in session
       req.session.token = token;
 
       if (!activeTab) activeTab = "status";
+
+      // Commit the transaction after all operations
+      await session.commitTransaction();
+
       res.render(`clearance/reviewClearance`, {
         token: req.session.token,
         resident,
@@ -69,31 +83,37 @@ module.exports = {
         notes,
       });
     } catch (err) {
+      // Rollback the transaction if there is an error
+      await session.abortTransaction();
       console.log(err);
       res.render("error/residentError/500");
+    } finally {
+      // End the session, whether successful or not
+      session.endSession();
     }
   },
-
   async approveClearance(req, res) {
-    console.log("approveClearance has been called");
     const { residentID, email, deptName } = req.params;
     const token = req.session.token;
 
-    try {
-      const session = await mongoose.startSession(); // Start MongoDB session
-      session.startTransaction(); // Begin transaction
+    const session = await mongoose.startSession(); // Start a session
+    session.startTransaction(); // Start the transaction
 
+    try {
       const dept = mapDepartmentName(deptName);
 
-      // Create activity log if the user belongs to database
+      // Create activity log if the user belongs to the database
       if (dept === "DW" || dept === "Warden" || dept === "Classification") {
-        let user = await Facility_Management.findOne({ email }).session(
-          session
-        );
+        let user = await Facility_Management.findOne({ email })
+          .session(session)
+          .lean();
 
         if (!user) {
-          user = await Classification.findOne({ email }).session(session);
+          user = await Classification.findOne({ email })
+            .session(session)
+            .lean();
         }
+
         if (user) {
           await createActivityLog(
             user._id.toString(),
@@ -104,7 +124,7 @@ module.exports = {
       }
 
       // Update the clearance status and history for the specific department
-      await Resident.updateOne(
+      const resident = await Resident.findOneAndUpdate(
         { residentID: residentID },
         {
           $set: {
@@ -123,10 +143,8 @@ module.exports = {
             },
           },
         },
-        { session }
-      );
-
-      const resident = await Resident.findOne({ residentID }).lean();
+        { new: true, session } // Pass the session for atomic operation
+      ).lean();
 
       // Send notification to unit team
       await createNotification(
@@ -134,35 +152,40 @@ module.exports = {
         "unitTeam",
         "clearance_approved",
         `${deptName} clearance approved for resident #${residentID} by ${email}.`,
-        `/shared/residentProfile/${resident.residentID}?activeTab=clearance`,
-        session
+        `/shared/residentProfile/${resident.residentID}?activeTab=clearance`
       );
 
-      await session.commitTransaction(); // Commit transaction if everything is successful
-      session.endSession();
+      // Commit the transaction after all operations
+      await session.commitTransaction();
 
+      // Redirect after successful operation
       res.redirect(
         `/request/reviewClearance/${deptName}/${residentID}/${email}?token=${token}&activeTab=status`
       );
     } catch (err) {
-      await session.abortTransaction(); // Rollback on error
-      session.endSession();
+      // Rollback the transaction if there is an error
+      await session.abortTransaction();
       console.error("Error approving clearance from email link:", err);
       res.render("error/residentError/500");
+    } finally {
+      // End the session, whether successful or not
+      session.endSession();
     }
   },
-
   async restrictClearance(req, res) {
     console.log("restrictClearance has been called");
-    console.log(console.trace("restrictClearance stack trace"));
 
     let { residentID, email, deptName } = req.params;
     const token = req.session.token;
 
+    const session = await mongoose.startSession(); // Start a session
+    session.startTransaction(); // Start the transaction
+
     try {
       const dept = mapDepartmentName(deptName);
 
-      await Resident.updateOne(
+      // Update the clearance status and history for the specific department
+      const resident = await Resident.findOneAndUpdate(
         { residentID: residentID },
         {
           $set: {
@@ -181,12 +204,11 @@ module.exports = {
               note: `Restricted clearance. ❌`,
             },
           },
-        }
-      );
+        },
+        { new: true, session } // Pass the session for atomic operation
+      ).lean();
 
-      const resident = await Resident.findOne({ residentID }).lean();
-
-      //send notification to unit team
+      // Send notification to unit team
       await createNotification(
         resident.resume.unitTeam,
         "unitTeam",
@@ -195,27 +217,41 @@ module.exports = {
         `/shared/residentProfile/${resident.residentID}?activeTab=clearance`
       );
 
-      //create activity if user belongs to database
+      // Create activity if user belongs to database
       if (dept === "DW" || dept === "Warden" || dept === "Classification") {
-        let user = await Facility_Management.findOne({ email });
+        let user = await Facility_Management.findOne({ email })
+          .session(session)
+          .lean();
+
         if (!user) {
-          user = await Classification.findOne({ email });
+          user = await Classification.findOne({ email })
+            .session(session)
+            .lean();
         }
         if (user) {
           await createActivityLog(
             user._id.toString(),
             "clearance_restricted",
             `Restricted ${deptName} clearance for resident #${residentID}.`
-          );
+          ); // Ensure this operation is part of the transaction
         }
       }
 
+      // Commit the transaction after all operations
+      await session.commitTransaction();
+
+      // Redirect after successful operation
       res.redirect(
         `/request/reviewClearance/${deptName}/${residentID}/${email}?token=${token}&activeTab=status`
       );
     } catch (err) {
-      console.log(err);
+      // Rollback the transaction if there is an error
+      await session.abortTransaction();
+      console.error("Error restricting clearance:", err);
       res.render("error/residentError/500");
+    } finally {
+      // End the session, whether successful or not
+      session.endSession();
     }
   },
   async saveNotes(req, res) {

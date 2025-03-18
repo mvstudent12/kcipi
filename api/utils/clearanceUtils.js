@@ -53,65 +53,6 @@ async function sendNotificationsToEmployers( //add better error handling
   }
 }
 
-async function getResidentProfileInfo(residentID) {
-  try {
-    validateResidentID(residentID);
-
-    // Find the resident based on residentID
-    const resident = await Resident.findOne({ residentID }).lean();
-    if (!resident) return null;
-
-    const res_id = resident._id;
-
-    // fetch positions the resident has applied for
-    const jobs = await Jobs.find(
-      { "applicants.resident_id": res_id }, // Match applicants by resident ID in the applicants array
-      { "applicants.$": 1, companyName: 1, pay: 1 }
-    ).lean();
-
-    //fetch resident applications
-    const applications = jobs.flatMap((job) =>
-      job.applicants.map((applicant) => ({
-        ...applicant,
-        companyName: job.companyName, // Attach companyName to each applicant
-      }))
-    );
-
-    // Fetch the unit team, sorted by firstName
-    const unitTeam = await UnitTeam.find({ facility: resident.facility })
-      .sort({ firstName: 1 })
-      .lean();
-
-    //fetch resident activities
-    const activities = await ActivityLog.find({ userID: res_id.toString() })
-      .sort({ timestamp: -1 })
-      .limit(20)
-      .lean();
-
-    //fetch emails attached to resident's facility
-
-    const classificationEmails = await Classification.find({
-      facility: resident.facility,
-    }).lean();
-
-    const facility_managementEmails = await Facility_Management.find({
-      facility: resident.facility,
-    }).lean();
-
-    return {
-      resident,
-      applications,
-      unitTeam,
-      activities,
-      res_id,
-      classificationEmails,
-      facility_managementEmails,
-    };
-  } catch (err) {
-    console.log(err);
-  }
-}
-
 const checkClearanceStatus = async (residentID) => {
   const deptList = [
     "Medical",
@@ -248,7 +189,6 @@ async function sendClearanceNotification(
 module.exports = {
   getEmployeeEmails,
   sendNotificationsToEmployers,
-  getResidentProfileInfo,
   checkClearanceStatus,
   createUpdateData,
   logClearanceActivity,
