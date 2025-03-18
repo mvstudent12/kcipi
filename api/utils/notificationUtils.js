@@ -9,7 +9,14 @@ const Notification = require("../models/Notification");
 //=============================
 
 // Function to create a notification
-async function createNotification(email, role, type, message, data = {}) {
+async function createNotification(
+  email,
+  role,
+  type,
+  message,
+  data = {},
+  session = null
+) {
   try {
     // Define icon mapping based on notification type
     const iconMapping = {
@@ -42,7 +49,7 @@ async function createNotification(email, role, type, message, data = {}) {
       data,
     });
 
-    await notification.save();
+    await notification.save({ session });
     return notification;
   } catch (error) {
     console.error("Error creating notification:", error);

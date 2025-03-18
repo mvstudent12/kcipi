@@ -95,6 +95,7 @@ module.exports = {
   async approveClearance(req, res) {
     const { residentID, email, deptName } = req.params;
     const token = req.session.token;
+    console.log("approveClearance has been called");
 
     const session = await mongoose.startSession(); // Start a session
     session.startTransaction(); // Start the transaction
@@ -118,7 +119,8 @@ module.exports = {
           await createActivityLog(
             user._id.toString(),
             "clearance_approved",
-            `Approved ${dept} clearance for resident #${residentID}.`
+            `Approved ${dept} clearance for resident #${residentID}.`,
+            session
           );
         }
       }
@@ -152,7 +154,8 @@ module.exports = {
         "unitTeam",
         "clearance_approved",
         `${deptName} clearance approved for resident #${residentID} by ${email}.`,
-        `/shared/residentProfile/${resident.residentID}?activeTab=clearance`
+        `/shared/residentProfile/${resident.residentID}?activeTab=clearance`,
+        session
       );
 
       // Commit the transaction after all operations
@@ -214,7 +217,8 @@ module.exports = {
         "unitTeam",
         "clearance_denied",
         `${deptName} clearance restricted for resident #${resident.residentID} by ${email}.`,
-        `/shared/residentProfile/${resident.residentID}?activeTab=clearance`
+        `/shared/residentProfile/${resident.residentID}?activeTab=clearance`,
+        session
       );
 
       // Create activity if user belongs to database
@@ -232,8 +236,9 @@ module.exports = {
           await createActivityLog(
             user._id.toString(),
             "clearance_restricted",
-            `Restricted ${deptName} clearance for resident #${residentID}.`
-          ); // Ensure this operation is part of the transaction
+            `Restricted ${deptName} clearance for resident #${residentID}.`,
+            session // Ensure this operation is part of the transaction
+          );
         }
       }
 

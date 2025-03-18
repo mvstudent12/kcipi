@@ -193,7 +193,7 @@ module.exports = {
           `/shared/residentProfile/${residentID}?activeTab=clearance`
         );
       }
-      //send notifiaction to classification
+      //send notification to classification
       if (dept == "Classification") {
         await createNotification(
           recipient,

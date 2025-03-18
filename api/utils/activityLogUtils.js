@@ -8,7 +8,7 @@ const ActivityLog = require("../models/ActivityLog");
 //     Helper Functions
 //=============================
 
-async function createActivityLog(userID, action, details) {
+async function createActivityLog(userID, action, details, session = null) {
   try {
     // Define a map to associate action types with colors
     const actionColorMap = {
@@ -47,7 +47,7 @@ async function createActivityLog(userID, action, details) {
       color: actionColorMap[action] || "text-success", // Default color if type is missing
     });
 
-    await activity.save();
+    await activity.save({ session });
     return activity;
   } catch (error) {
     console.error("Error creating activity:", error);
