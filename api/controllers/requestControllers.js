@@ -75,6 +75,7 @@ module.exports = {
   },
 
   async approveClearance(req, res) {
+    console.log("approveClearance has been called");
     const { residentID, email, deptName } = req.params;
     const token = req.session.token;
     const session = await mongoose.startSession(); // Start MongoDB session
@@ -138,16 +139,16 @@ module.exports = {
       );
 
       // Update the work eligibility status based on specific clearances
-      const workStatus = await checkClearanceStatus(residentID);
-      await Resident.findOneAndUpdate(
-        { residentID },
-        {
-          $set: {
-            "workEligibility.status": workStatus, // Set the work eligibility status based on the clearance statuses
-          },
-        },
-        { session }
-      );
+      // const workStatus = await checkClearanceStatus(residentID);
+      // await Resident.findOneAndUpdate(
+      //   { residentID },
+      //   {
+      //     $set: {
+      //       "workEligibility.status": workStatus, // Set the work eligibility status based on the clearance statuses
+      //     },
+      //   },
+      //   { session }
+      // );
 
       await session.commitTransaction(); // Commit transaction if everything is successful
       session.endSession();
@@ -164,6 +165,8 @@ module.exports = {
   },
 
   async restrictClearance(req, res) {
+    console.log("restrictClearance has been called");
+
     let { residentID, email, deptName } = req.params;
     const token = req.session.token;
 
@@ -204,16 +207,16 @@ module.exports = {
         `/shared/residentProfile/${resident.residentID}?activeTab=clearance`
       );
 
-      const workStatus = await checkClearanceStatus(residentID);
+      // const workStatus = await checkClearanceStatus(residentID);
 
-      await Resident.findOneAndUpdate(
-        { residentID },
-        {
-          $set: {
-            "workEligibility.status": workStatus,
-          },
-        }
-      );
+      // await Resident.findOneAndUpdate(
+      //   { residentID },
+      //   {
+      //     $set: {
+      //       "workEligibility.status": workStatus,
+      //     },
+      //   }
+      // );
       //create activity if user belongs to database
       if (dept === "DW" || dept === "Warden" || dept === "Classification") {
         let user = await Facility_Management.findOne({ email });

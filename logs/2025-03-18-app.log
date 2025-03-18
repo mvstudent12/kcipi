@@ -1,0 +1,4 @@
+{"level":"info","message":"User logged in: kari.johnson@ks.gov","timestamp":"2025-03-18 06:09:36"}
+{"level":"info","message":"2025-03-18T11:09:36.322Z [INFO] : ::1 /login 200 366.092 ms","timestamp":"2025-03-18 06:09:36"}
+{"level":"info","message":"User logged in: kari.johnson@ks.gov","timestamp":"2025-03-18 06:20:12"}
+{"level":"info","message":"2025-03-18T11:20:12.720Z [INFO] : ::1 /login 200 367.998 ms","timestamp":"2025-03-18 06:20:12"}
