@@ -3,3 +3,22 @@
 {"level":"info","message":"User logged in: kari.johnson@ks.gov","timestamp":"2025-03-18 06:20:12"}
 {"level":"info","message":"2025-03-18T11:20:12.720Z [INFO] : ::1 /login 200 367.998 ms","timestamp":"2025-03-18 06:20:12"}
 {"level":"info","message":"2025-03-18T14:18:44.711Z [INFO] : ::1 /request/approve/9127345/kcicodingdev@gmail.com/Classification 404 93.206 ms","timestamp":"2025-03-18 09:18:44"}
+{"level":"info","message":"2025-03-18T17:55:13.287Z [INFO] : ::1 /residentLogin 400 724.775 ms","timestamp":"2025-03-18 12:55:13"}
+{"level":"info","message":"2025-03-18T17:55:16.733Z [INFO] : ::1 /residentLogin 400 86.476 ms","timestamp":"2025-03-18 12:55:16"}
+{"level":"info","message":"2025-03-18T17:55:16.953Z [INFO] : ::1 /residentLogin 400 87.183 ms","timestamp":"2025-03-18 12:55:16"}
+{"level":"info","message":"User logged in: #1029384: lily, garcia","timestamp":"2025-03-18 12:55:32"}
+{"level":"info","message":"Resident logged out: #1029384: lily garcia ","timestamp":"2025-03-18 12:55:39"}
+{"level":"info","message":"User logged in: #1298476: whitney, green","timestamp":"2025-03-18 12:55:43"}
+{"level":"info","message":"User logged in: kari.johnson@ks.gov","timestamp":"2025-03-18 12:56:32"}
+{"level":"info","message":"2025-03-18T17:56:32.476Z [INFO] : ::1 /login 200 363.302 ms","timestamp":"2025-03-18 12:56:32"}
+{"level":"info","message":"User logged in: shawn.williams@ks.gov","timestamp":"2025-03-18 12:58:15"}
+{"level":"info","message":"2025-03-18T17:58:15.578Z [INFO] : ::ffff:127.0.0.1 /login 200 274.753 ms","timestamp":"2025-03-18 12:58:15"}
+{"level":"info","message":"User logged in: #4872930: charlotte, adams","timestamp":"2025-03-18 12:59:02"}
+{"level":"info","message":"User logged in: kari.johnson@ks.gov","timestamp":"2025-03-18 13:00:03"}
+{"level":"info","message":"2025-03-18T18:00:03.354Z [INFO] : ::1 /login 200 349.616 ms","timestamp":"2025-03-18 13:00:03"}
+{"level":"info","message":"2025-03-18T18:00:45.112Z [INFO] : ::1 /residentLogin 400 105.370 ms","timestamp":"2025-03-18 13:00:45"}
+{"level":"info","message":"User logged in: #9403872: lucy, ford","timestamp":"2025-03-18 13:01:13"}
+{"level":"info","message":"User logged in: #9403872: lucy, ford","timestamp":"2025-03-18 13:02:18"}
+{"level":"info","message":"User logged in: mark.daugherty@ks.gov","timestamp":"2025-03-18 15:19:32"}
+{"level":"info","message":"2025-03-18T20:19:32.391Z [INFO] : ::ffff:127.0.0.1 /login 200 445.596 ms","timestamp":"2025-03-18 15:19:32"}
+{"level":"info","message":"User logged in: #9403872: lucy, ford","timestamp":"2025-03-18 15:19:51"}

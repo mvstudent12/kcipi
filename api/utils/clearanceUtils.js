@@ -12,8 +12,6 @@ const ActivityLog = require("../models/ActivityLog");
 
 const { createNotification } = require("./notificationUtils");
 
-const { validateResidentID } = require("./validationUtils");
-
 const { createActivityLog } = require("./activityLogUtils");
 
 //=============================
@@ -25,7 +23,7 @@ async function getEmployeeEmails(companyName) {
       "email"
     ); // Find by companyName and select only the email field
 
-    if (employers.length > 0) {
+    if (employers) {
       const emails = employers.map((employer) => employer.email); // Extract emails from the results
       return emails;
     } else {

@@ -417,7 +417,7 @@ module.exports = {
     const { res_id, applicationID } = req.params;
     const { startDate } = req.body;
 
-    //use session ansd transaction to ensure simulataneous updates in db
+    //use session and transaction to ensure simultaneous updates in db
     const session = await mongoose.startSession();
     session.startTransaction();
 
@@ -436,10 +436,6 @@ module.exports = {
         res_id,
         {
           $set: {
-            "terminationRequest.companyName": "",
-            "terminationRequest.requestDate": null,
-            "terminationRequest.terminationReason": "",
-            "terminationRequest.notes": "",
             isHired: true,
             dateHired: startDate,
             companyName,
@@ -453,14 +449,18 @@ module.exports = {
       const residentID = resident.residentID;
 
       //send notification to all PI partners in that company
+
       const employerEmails = await getEmployeeEmails(companyName);
-      await sendNotificationsToEmployers(
-        employerEmails,
-        "resident_hired",
-        `Resident #${residentID} is now employed with your company.`,
-        `/employer/residentProfile/${residentID}?activeTab=application`,
-        session
-      );
+
+      if (employerEmails) {
+        await sendNotificationsToEmployers(
+          employerEmails,
+          "resident_hired",
+          `Resident #${residentID} is now employed with your company.`,
+          `/employer/residentProfile/${residentID}?activeTab=application`,
+          session
+        );
+      }
 
       //remove user from applicants and interviews, add to workforce
       await Jobs.findOneAndUpdate(
@@ -506,7 +506,6 @@ module.exports = {
 
       //commit the transaction
       await session.commitTransaction();
-      session.endSession();
 
       //redirect user to resident profile
       res.redirect(
@@ -518,6 +517,9 @@ module.exports = {
       session.endSession();
       console.log("Error in hiring resident: ", err);
       res.render("error/500");
+    } finally {
+      // Always end the session, whether success or failure
+      session.endSession();
     }
   },
   async rejectHire(req, res) {
@@ -578,9 +580,6 @@ module.exports = {
       //Commit the transaction if all operations succeed
       await session.commitTransaction();
 
-      //End the session
-      session.endSession();
-
       //redirect to resident profile page
       res.redirect(
         `/shared/residentProfile/${residentID}?activeTab=application`
@@ -592,6 +591,9 @@ module.exports = {
       session.endSession();
 
       res.render("error/500");
+    } finally {
+      // Always end the session, whether success or failure
+      session.endSession();
     }
   },
   async terminateResident(req, res) {
@@ -607,15 +609,39 @@ module.exports = {
 
       const name = `${req.session.user.firstName} ${req.session.user.lastName}`;
 
+      //send notification to all PI partners in that company
+      const employerEmails = await getEmployeeEmails(companyName);
+      if (employerEmails) {
+        await sendNotificationsToEmployers(
+          employerEmails,
+          "resident_terminated",
+          `Resident #${resident.residentID} has been terminated from your company.`,
+          `/employer/residentProfile/${resident.residentID}?activeTab=application`,
+          session
+        );
+      }
+
+      // Create activity logs for both the user and the resident
+      await createActivityLog(
+        req.session.user._id.toString(),
+        "resident_terminated",
+        `Terminated resident #${resident.residentID} from ${companyName}.`,
+        session
+      );
+
+      await createActivityLog(
+        res_id.toString(),
+        "resident_terminated",
+        `Terminated from ${companyName}.`,
+        session
+      );
+
       let updateData = {};
 
       if (workRestriction === "restricted") {
         updateData = {
           $set: {
-            "terminationRequest.companyName": "",
-            "terminationRequest.requestDate": null,
-            "terminationRequest.terminationReason": "",
-            "terminationRequest.notes": "",
+            terminationRequest: {},
             isHired: false,
             companyName: "",
             dateHired: null,
@@ -724,36 +750,8 @@ module.exports = {
         { session } // Pass session to ensure the operation is part of the transaction
       );
 
-      //send notification to all PI partners in that company
-      const employerEmails = await getEmployeeEmails(companyName);
-      await sendNotificationsToEmployers(
-        employerEmails,
-        "resident_terminated",
-        `Resident #${resident.residentID} has been terminated from your company.`,
-        `/employer/residentProfile/${resident.residentID}?activeTab=application`,
-        session
-      );
-
-      // Create activity logs for both the user and the resident
-      await createActivityLog(
-        req.session.user._id.toString(),
-        "resident_terminated",
-        `Terminated resident #${resident.residentID} from ${companyName}.`,
-        session
-      );
-
-      await createActivityLog(
-        res_id.toString(),
-        "resident_terminated",
-        `Terminated from ${companyName}.`,
-        session
-      );
-
       // Commit the transaction if everything goes well
       await session.commitTransaction();
-
-      // End the session
-      session.endSession();
 
       // Redirect to the resident profile page
       res.redirect(
@@ -764,8 +762,10 @@ module.exports = {
       console.log("Error terminating resident: ", err);
       await session.abortTransaction();
       session.endSession();
-
       res.render("error/500");
+    } finally {
+      // Always end the session, whether success or failure
+      session.endSession();
     }
   },
   async cancelTerminationRequest(req, res) {
@@ -776,7 +776,7 @@ module.exports = {
       // Find and update the resident to unset the termination request field
       const resident = await Resident.findOneAndUpdate(
         { _id: res_id },
-        { $unset: { terminationRequest: "" } }, // Remove the terminationRequest field
+        { terminationRequest: {} }, // Resets it to an empty object
         { new: true, session }
       );
 
@@ -801,7 +801,6 @@ module.exports = {
 
       // Commit the transaction if all operations succeed
       await session.commitTransaction();
-      session.endSession(); // End the session
 
       // Redirect to the resident profile page
       res.redirect(
@@ -813,6 +812,9 @@ module.exports = {
       await session.abortTransaction();
       session.endSession(); // End the session
       res.render("error/500");
+    } finally {
+      // Always end the session, whether success or failure
+      session.endSession();
     }
   },
 };

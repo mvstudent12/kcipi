@@ -1,0 +1,99 @@
+Date : 2025-03-18 13:33:22
+Directory : c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0
+Total : 48 files,  -28 codes, -67 comments, -306 blanks, all -401 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| Log        |          1 |         21 |          0 |          1 |         22 |
+| Handlebars |         41 |         18 |          2 |       -300 |       -280 |
+| JSON       |          1 |          5 |          0 |          0 |          5 |
+| JavaScript |          5 |        -72 |        -69 |         -7 |       -148 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++-----------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                      | files      | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                         |         48 |        -28 |        -67 |       -306 |       -401 |
+| api                                                                                                       |          4 |         -7 |         17 |          0 |         10 |
+| api\controllers                                                                                           |          2 |         29 |         23 |         11 |         63 |
+| api\utils                                                                                                 |          2 |        -36 |         -6 |        -11 |        -53 |
+| app                                                                                                       |          1 |        -65 |        -86 |         -7 |       -158 |
+| app\assets                                                                                                |          1 |        -65 |        -86 |         -7 |       -158 |
+| app\assets\js                                                                                             |          1 |        -65 |        -86 |         -7 |       -158 |
+| logs                                                                                                      |          2 |         26 |          0 |          1 |         27 |
+| views                                                                                                     |         41 |         18 |          2 |       -300 |       -280 |
+| views\admin                                                                                               |          7 |         -1 |          0 |        -15 |        -16 |
+| views\admin (Files)                                                                                       |          2 |          0 |          0 |         -8 |         -8 |
+| views\admin\profiles                                                                                      |          4 |         -1 |          0 |         -6 |         -7 |
+| views\admin\tables                                                                                        |          1 |          0 |          0 |         -1 |         -1 |
+| views\auth                                                                                                |          1 |          0 |          0 |         -3 |         -3 |
+| views\clearance                                                                                           |          1 |         40 |          1 |         10 |         51 |
+| views\employer                                                                                            |          7 |         -1 |          0 |        -59 |        -60 |
+| views\employer (Files)                                                                                    |          5 |          0 |          0 |        -52 |        -52 |
+| views\employer\profiles                                                                                   |          2 |         -1 |          0 |         -7 |         -8 |
+| views\error                                                                                               |          7 |         -7 |          0 |        -11 |        -18 |
+| views\error (Files)                                                                                       |          4 |         -4 |          0 |         -8 |        -12 |
+| views\error\residentError                                                                                 |          3 |         -3 |          0 |         -3 |         -6 |
+| views\facility_management                                                                                 |          6 |          0 |          0 |        -43 |        -43 |
+| views\facility_management\tables                                                                          |          6 |          0 |          0 |        -43 |        -43 |
+| views\resident                                                                                            |          6 |        -11 |          0 |        -85 |        -96 |
+| views\shared                                                                                              |          6 |         -2 |          1 |        -94 |        -95 |
++-----------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-----------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                                                  | language   | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\controllers\requestControllers.js                      | JavaScript |          4 |         15 |          3 |         22 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\controllers\sharedControllers.js                       | JavaScript |         25 |          8 |          8 |         41 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\utils\clearanceUtils.js                                | JavaScript |        -43 |         -6 |        -11 |        -60 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\utils\notificationUtils.js                             | JavaScript |          7 |          0 |          0 |          7 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\js\main.js                                      | JavaScript |        -65 |        -86 |         -7 |       -158 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\logs\.37b9788170b6ccef2496bb2696e95d262bdc235a-audit.json  | JSON       |          5 |          0 |          0 |          5 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\logs\2025-03-18-app.log                                    | Log        |         21 |          0 |          1 |         22 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\admin\analytics.handlebars                           | Handlebars |          0 |          0 |         -3 |         -3 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\admin\logs.handlebars                                | Handlebars |          0 |          0 |         -5 |         -5 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\admin\profiles\companyProfile.handlebars             | Handlebars |         -1 |          0 |         -3 |         -4 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\admin\profiles\employerProfile.handlebars            | Handlebars |          0 |          0 |         -1 |         -1 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\admin\profiles\facility_managementProfile.handlebars | Handlebars |          0 |          0 |         -1 |         -1 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\admin\profiles\unitTeamProfile.handlebars            | Handlebars |          0 |          0 |         -1 |         -1 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\admin\tables\classification.handlebars               | Handlebars |          0 |          0 |         -1 |         -1 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\auth\login.handlebars                                | Handlebars |          0 |          0 |         -3 |         -3 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\clearance\reviewClearance.handlebars                 | Handlebars |         40 |          1 |         10 |         51 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\employer\dashboard.handlebars                        | Handlebars |          0 |          0 |         -7 |         -7 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\employer\employees.handlebars                        | Handlebars |          0 |          0 |         -7 |         -7 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\employer\managePositions.handlebars                  | Handlebars |          0 |          0 |        -14 |        -14 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\employer\manageWorkForce.handlebars                  | Handlebars |          0 |          0 |         -9 |         -9 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\employer\profiles\jobProfile.handlebars              | Handlebars |         -1 |          0 |         -3 |         -4 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\employer\profiles\residentProfile.handlebars         | Handlebars |          0 |          0 |         -4 |         -4 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\employer\reports.handlebars                          | Handlebars |          0 |          0 |        -15 |        -15 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\error\403.handlebars                                 | Handlebars |         -1 |          0 |         -2 |         -3 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\error\404.handlebars                                 | Handlebars |         -1 |          0 |         -1 |         -2 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\error\410.handlebars                                 | Handlebars |         -1 |          0 |         -3 |         -4 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\error\500.handlebars                                 | Handlebars |         -1 |          0 |         -2 |         -3 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\error\residentError\403.handlebars                   | Handlebars |         -1 |          0 |         -1 |         -2 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\error\residentError\404.handlebars                   | Handlebars |         -1 |          0 |         -1 |         -2 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\error\residentError\500.handlebars                   | Handlebars |         -1 |          0 |         -1 |         -2 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\facility_management\tables\applicants.handlebars     | Handlebars |          0 |          0 |         -6 |         -6 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\facility_management\tables\clearance.handlebars      | Handlebars |          0 |          0 |         -4 |         -4 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\facility_management\tables\cleared.handlebars        | Handlebars |          0 |          0 |         -4 |         -4 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\facility_management\tables\employees.handlebars      | Handlebars |          0 |          0 |         -9 |         -9 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\facility_management\tables\residents.handlebars      | Handlebars |          0 |          0 |        -10 |        -10 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\facility_management\tables\resumes.handlebars        | Handlebars |          0 |          0 |        -10 |        -10 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\resident\applications.handlebars                     | Handlebars |         -1 |          0 |         -7 |         -8 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\resident\dashboard.handlebars                        | Handlebars |         -7 |          0 |        -21 |        -28 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\resident\faq.handlebars                              | Handlebars |          0 |          0 |        -23 |        -23 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\resident\jobInfo.handlebars                          | Handlebars |          0 |          0 |        -15 |        -15 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\resident\profile.handlebars                          | Handlebars |         -1 |          0 |        -10 |        -11 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\resident\recentActivities.handlebars                 | Handlebars |         -2 |          0 |         -9 |        -11 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\shared\contact.handlebars                            | Handlebars |          0 |          0 |         -7 |         -7 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\shared\dashboard.handlebars                          | Handlebars |          0 |          0 |        -48 |        -48 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\shared\helpDesk.handlebars                           | Handlebars |          0 |          0 |         -3 |         -3 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\shared\manageClearanceKDOC.handlebars                | Handlebars |          0 |          0 |        -17 |        -17 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\shared\manageWorkForceKDOC.handlebars                | Handlebars |          0 |          0 |        -17 |        -17 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\shared\residentProfile.handlebars                    | Handlebars |         -2 |          1 |         -2 |         -3 |
+| Total                                                                                                     |            |        -28 |        -67 |       -306 |       -401 |
++-----------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+

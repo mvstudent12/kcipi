@@ -64,7 +64,7 @@ const jobSchema = new Schema(
       min: [0, "Available positions cannot be negative"],
     },
     description: { type: String, lowercase: true, trim: true },
-    skillSet: { type: String, lowercase: true, trim: true },
+    skillSet: { type: String, lowercase: true, trim: true, default: "None" },
     pay: { type: String, trim: true },
     jobPool: { type: String, trim: true },
     applicants: [applicantSchema],

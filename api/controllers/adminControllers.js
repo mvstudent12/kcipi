@@ -540,7 +540,7 @@ module.exports = {
         companyName,
         position,
         description,
-        skillSet,
+        skillSet: skillSet.trim() === "" ? "None" : skillSet, // Convert empty string to "None",
         pay,
         availablePositions: Number(availablePositions), // Ensure this is a number
         jobPool,

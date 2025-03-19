@@ -1,0 +1,456 @@
+Date : 2025-03-18 13:33:22
+Directory : c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0
+Total : 354 files,  156039 codes, 11113 comments, 9454 blanks, all 176606 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| JavaScript |         93 |     77,247 |      6,666 |      3,972 |     87,885 |
+| CSS        |         22 |     44,759 |        191 |      3,659 |     48,609 |
+| Handlebars |         89 |     14,612 |        420 |      1,217 |     16,249 |
+| JSON       |         55 |     13,514 |          0 |         71 |     13,585 |
+| TypeScript |         89 |      3,804 |      3,831 |        524 |      8,159 |
+| SCSS       |          1 |      2,080 |          5 |          6 |      2,091 |
+| Log        |          3 |         21 |          0 |          3 |         24 |
+| Properties |          1 |          1 |          0 |          2 |          3 |
+| XML        |          1 |          1 |          0 |          0 |          1 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++--------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                                     | files      | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                        |        354 |    156,039 |     11,113 |      9,454 |    176,606 |
+| . (Files)                                                                                                                |          6 |      6,724 |         25 |         32 |      6,781 |
+| _tests_                                                                                                                  |          8 |        770 |         80 |        154 |      1,004 |
+| _tests_\clearanceTests                                                                                                   |          8 |        770 |         80 |        154 |      1,004 |
+| api                                                                                                                      |         65 |     10,397 |        697 |      1,219 |     12,313 |
+| api\controllers                                                                                                          |         11 |      5,123 |        443 |        695 |      6,261 |
+| api\cron                                                                                                                 |          2 |         51 |          6 |         16 |         73 |
+| api\dbConfig                                                                                                             |          1 |         36 |         43 |         14 |         93 |
+| api\helpers                                                                                                              |          1 |         41 |          4 |         10 |         55 |
+| api\middleware                                                                                                           |          3 |        155 |         16 |         23 |        194 |
+| api\models                                                                                                               |         11 |        618 |         14 |         63 |        695 |
+| api\routes                                                                                                               |         11 |        774 |         63 |        183 |      1,020 |
+| api\test-data                                                                                                            |         15 |      2,503 |         13 |         45 |      2,561 |
+| api\test-data\data                                                                                                       |          7 |      2,380 |          0 |         26 |      2,406 |
+| api\test-data\populate                                                                                                   |          8 |        123 |         13 |         19 |        155 |
+| api\utils                                                                                                                |         10 |      1,096 |         95 |        170 |      1,361 |
+| api\utils (Files)                                                                                                        |          9 |        866 |         89 |        136 |      1,091 |
+| api\utils\emailUtils                                                                                                     |          1 |        230 |          6 |         34 |        270 |
+| app                                                                                                                      |        182 |    123,495 |      9,891 |      6,829 |    140,215 |
+| app\assets                                                                                                               |        182 |    123,495 |      9,891 |      6,829 |    140,215 |
+| app\assets\css                                                                                                           |          2 |      1,040 |         66 |        206 |      1,312 |
+| app\assets\img                                                                                                           |          1 |          1 |          0 |          0 |          1 |
+| app\assets\js                                                                                                            |          5 |        298 |         85 |         60 |        443 |
+| app\assets\vendor                                                                                                        |        174 |    122,156 |      9,740 |      6,563 |    138,459 |
+| app\assets\vendor\apexcharts                                                                                             |         50 |     31,204 |      2,976 |      1,312 |     35,492 |
+| app\assets\vendor\apexcharts (Files)                                                                                     |          6 |     28,743 |      2,976 |      1,269 |     32,988 |
+| app\assets\vendor\apexcharts\locales                                                                                     |         44 |      2,461 |          0 |         43 |      2,504 |
+| app\assets\vendor\bootstrap                                                                                              |         22 |     53,115 |      1,949 |      4,505 |     59,569 |
+| app\assets\vendor\bootstrap-icons                                                                                        |          4 |      6,203 |         14 |         10 |      6,227 |
+| app\assets\vendor\bootstrap\css                                                                                          |         16 |     40,876 |        114 |      3,300 |     44,290 |
+| app\assets\vendor\bootstrap\js                                                                                           |          6 |     12,239 |      1,835 |      1,205 |     15,279 |
+| app\assets\vendor\chart.js                                                                                               |         96 |     31,432 |      4,799 |        697 |     36,928 |
+| app\assets\vendor\chart.js (Files)                                                                                       |          8 |     22,866 |        176 |        131 |     23,173 |
+| app\assets\vendor\chart.js\chunks                                                                                        |          2 |      4,779 |        802 |         45 |      5,626 |
+| app\assets\vendor\chart.js\controllers                                                                                   |          9 |        128 |        131 |          9 |        268 |
+| app\assets\vendor\chart.js\core                                                                                          |         21 |        697 |        976 |         21 |      1,694 |
+| app\assets\vendor\chart.js\elements                                                                                      |          5 |        157 |         55 |          5 |        217 |
+| app\assets\vendor\chart.js\helpers                                                                                       |         17 |        374 |        452 |         17 |        843 |
+| app\assets\vendor\chart.js\platform                                                                                      |          4 |         30 |         67 |          4 |        101 |
+| app\assets\vendor\chart.js\plugins                                                                                       |         15 |        515 |        131 |         15 |        661 |
+| app\assets\vendor\chart.js\plugins (Files)                                                                               |          7 |        423 |         95 |          7 |        525 |
+| app\assets\vendor\chart.js\plugins\plugin.filler                                                                         |          8 |         92 |         36 |          8 |        136 |
+| app\assets\vendor\chart.js\scales                                                                                        |          8 |        164 |        150 |          8 |        322 |
+| app\assets\vendor\chart.js\types                                                                                         |          7 |      1,722 |      1,859 |        442 |      4,023 |
+| app\assets\vendor\simple-datatables                                                                                      |          2 |        202 |          2 |         39 |        243 |
+| logs                                                                                                                     |          4 |         41 |          0 |          3 |         44 |
+| views                                                                                                                    |         89 |     14,612 |        420 |      1,217 |     16,249 |
+| views\admin                                                                                                              |         22 |      3,839 |        129 |        301 |      4,269 |
+| views\admin (Files)                                                                                                      |          2 |        242 |          2 |         25 |        269 |
+| views\admin\db                                                                                                           |          7 |      2,470 |        110 |        151 |      2,731 |
+| views\admin\profiles                                                                                                     |          6 |        691 |         17 |         88 |        796 |
+| views\admin\tables                                                                                                       |          7 |        436 |          0 |         37 |        473 |
+| views\auth                                                                                                               |          2 |        106 |          0 |         13 |        119 |
+| views\classification                                                                                                     |          6 |        466 |          3 |         71 |        540 |
+| views\classification\tables                                                                                              |          6 |        466 |          3 |         71 |        540 |
+| views\clearance                                                                                                          |          5 |        742 |         45 |        109 |        896 |
+| views\employer                                                                                                           |          7 |      1,951 |         59 |        114 |      2,124 |
+| views\employer (Files)                                                                                                   |          5 |      1,108 |         23 |         48 |      1,179 |
+| views\employer\profiles                                                                                                  |          2 |        843 |         36 |         66 |        945 |
+| views\error                                                                                                              |          7 |         73 |          0 |         11 |         84 |
+| views\error (Files)                                                                                                      |          4 |         43 |          0 |          5 |         48 |
+| views\error\residentError                                                                                                |          3 |         30 |          0 |          6 |         36 |
+| views\facility_management                                                                                                |          6 |        490 |          3 |         47 |        540 |
+| views\facility_management\tables                                                                                         |          6 |        490 |          3 |         47 |        540 |
+| views\layouts                                                                                                            |          1 |         26 |          6 |         13 |         45 |
+| views\partials                                                                                                           |          8 |        984 |          1 |         68 |      1,053 |
+| views\resident                                                                                                           |          6 |      1,536 |         66 |         43 |      1,645 |
+| views\shared                                                                                                             |          9 |      3,369 |         73 |        244 |      3,686 |
+| views\unitTeam                                                                                                           |         10 |      1,030 |         35 |        183 |      1,248 |
+| views\unitTeam (Files)                                                                                                   |          3 |        496 |         32 |         79 |        607 |
+| views\unitTeam\tables                                                                                                    |          7 |        534 |          3 |        104 |        641 |
++--------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++--------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                                                                 | language   | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\.env                                                                      | Properties |          1 |          0 |          2 |          3 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\_tests_\clearanceTests\addNotes.test.js                                   | JavaScript |         68 |          0 |         11 |         79 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\_tests_\clearanceTests\approveResume.test.js                              | JavaScript |         97 |         11 |         19 |        127 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\_tests_\clearanceTests\editClearance.test.js                              | JavaScript |        132 |         15 |         26 |        173 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\_tests_\clearanceTests\editResident.test.js                               | JavaScript |         69 |         11 |         15 |         95 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\_tests_\clearanceTests\findNotes.test.js                                  | JavaScript |         44 |          0 |         16 |         60 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\_tests_\clearanceTests\rejectResume.test.js                               | JavaScript |        102 |         12 |         19 |        133 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\_tests_\clearanceTests\requestClearance.test.js                           | JavaScript |        145 |         22 |         28 |        195 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\_tests_\clearanceTests\scheduleInterview.test.js                          | JavaScript |        113 |          9 |         20 |        142 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\controllers\adminControllers.js                                       | JavaScript |      1,450 |         65 |        184 |      1,699 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\controllers\authControllers.js                                        | JavaScript |        138 |         25 |         22 |        185 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\controllers\classificationControllers.js                              | JavaScript |        355 |         29 |         56 |        440 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\controllers\clearanceControllers.js                                   | JavaScript |        680 |         48 |         91 |        819 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\controllers\employerControllers.js                                    | JavaScript |        788 |        101 |        105 |        994 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\controllers\facility_managementControllers.js                         | JavaScript |        342 |         34 |         55 |        431 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\controllers\notificationControllers.js                                | JavaScript |         54 |          5 |          3 |         62 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\controllers\requestControllers.js                                     | JavaScript |        305 |         43 |         51 |        399 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\controllers\residentControllers.js                                    | JavaScript |        317 |         42 |         26 |        385 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\controllers\sharedControllers.js                                      | JavaScript |        143 |          9 |         23 |        175 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\controllers\unitTeamControllers.js                                    | JavaScript |        551 |         42 |         79 |        672 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\cron\interviewCleanup.js                                              | JavaScript |         33 |          3 |         11 |         47 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\cron\notificationCleanup.js                                           | JavaScript |         18 |          3 |          5 |         26 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\dbConfig\db.js                                                        | JavaScript |         36 |         43 |         14 |         93 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\helpers\helpers.js                                                    | JavaScript |         41 |          4 |         10 |         55 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\middleware\authMiddleware.js                                          | JavaScript |        124 |         11 |         16 |        151 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\middleware\errorHandling.js                                           | JavaScript |         22 |          3 |          6 |         31 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\middleware\sessionSecurity.js                                         | JavaScript |          9 |          2 |          1 |         12 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\models\ActivityLog.js                                                 | JavaScript |         54 |          0 |          4 |         58 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\models\Admin.js                                                       | JavaScript |         47 |          3 |          7 |         57 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\models\Classification.js                                              | JavaScript |         44 |          2 |          5 |         51 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\models\Company.js                                                     | JavaScript |         20 |          0 |          3 |         23 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\models\Employer.js                                                    | JavaScript |         58 |          2 |          6 |         66 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\models\Facility_Management.js                                         | JavaScript |         47 |          2 |          5 |         54 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\models\Jobs.js                                                        | JavaScript |         80 |          1 |          7 |         88 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\models\Link.js                                                        | JavaScript |         33 |          0 |          4 |         37 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\models\Notification.js                                                | JavaScript |         56 |          0 |          4 |         60 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\models\Resident.js                                                    | JavaScript |        135 |          2 |         13 |        150 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\models\UnitTeam.js                                                    | JavaScript |         44 |          2 |          5 |         51 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\routes\adminRoutes.js                                                 | JavaScript |        232 |         17 |         39 |        288 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\routes\authRoutes.js                                                  | JavaScript |         36 |          7 |         12 |         55 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\routes\classificationRoutes.js                                        | JavaScript |         49 |          7 |         17 |         73 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\routes\clearanceRoutes.js                                             | JavaScript |         72 |          4 |         11 |         87 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\routes\employerRoutes.js                                              | JavaScript |         95 |          4 |         22 |        121 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\routes\facility_managementRoutes.js                                   | JavaScript |         69 |          4 |         19 |         92 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\routes\notificationRoutes.js                                          | JavaScript |         42 |          4 |          9 |         55 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\routes\requestRoutes.js                                               | JavaScript |         31 |          7 |         11 |         49 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\routes\residentRoutes.js                                              | JavaScript |         34 |          1 |         15 |         50 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\routes\sharedRoutes.js                                                | JavaScript |         40 |          4 |         10 |         54 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\routes\unitTeamRoutes.js                                              | JavaScript |         74 |          4 |         18 |         96 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\test-data\data\test-data-admin.json                                   | JSON       |         58 |          0 |          1 |         59 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\test-data\data\test-data-classification.json                          | JSON       |         23 |          0 |          1 |         24 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\test-data\data\test-data-companies.json                               | JSON       |        142 |          0 |          1 |        143 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\test-data\data\test-data-employers.json                               | JSON       |        110 |          0 |          1 |        111 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\test-data\data\test-data-facility_management.json                     | JSON       |        122 |          0 |          1 |        123 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\test-data\data\test-data-resident.json                                | JSON       |      1,579 |          0 |         20 |      1,599 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\test-data\data\test-data-unitTeam.json                                | JSON       |        346 |          0 |          1 |        347 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\test-data\populate\populate-admin.js                                  | JavaScript |         10 |          1 |          2 |         13 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\test-data\populate\populate-all.js                                    | JavaScript |         53 |          6 |          5 |         64 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\test-data\populate\populate-classification.js                         | JavaScript |         10 |          1 |          2 |         13 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\test-data\populate\populate-companies.js                              | JavaScript |         10 |          1 |          2 |         13 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\test-data\populate\populate-employers.js                              | JavaScript |         10 |          1 |          2 |         13 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\test-data\populate\populate-facility_management.js                    | JavaScript |         10 |          1 |          2 |         13 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\test-data\populate\populate-residents.js                              | JavaScript |         10 |          1 |          2 |         13 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\test-data\populate\populate-unitTeam.js                               | JavaScript |         10 |          1 |          2 |         13 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\utils\activityLogUtils.js                                             | JavaScript |         47 |          7 |          7 |         61 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\utils\adminUtils.js                                                   | JavaScript |        118 |          3 |         22 |        143 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\utils\clearanceUtils.js                                               | JavaScript |        164 |         11 |         22 |        197 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\utils\emailUtils\notificationEmail.js                                 | JavaScript |        230 |          6 |         34 |        270 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\utils\employerUtils.js                                                | JavaScript |        148 |         22 |         26 |        196 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\utils\kdocStaffUtils.js                                               | JavaScript |        177 |         18 |         25 |        220 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\utils\logger.js                                                       | JavaScript |         36 |          6 |          6 |         48 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\utils\notificationUtils.js                                            | JavaScript |         78 |         10 |          9 |         97 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\utils\requestUtils.js                                                 | JavaScript |         86 |         12 |         17 |        115 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\api\utils\validationUtils.js                                              | JavaScript |         12 |          0 |          2 |         14 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\css\login.css                                                  | CSS        |         26 |          0 |          2 |         28 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\css\style.css                                                  | CSS        |      1,014 |         66 |        204 |      1,284 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\img\not-found.svg                                              | XML        |          1 |          0 |          0 |          1 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\js\login.js                                                    | JavaScript |         38 |         13 |          7 |         58 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\js\main.js                                                     | JavaScript |        126 |         36 |         16 |        178 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\js\requestClearance.js                                         | JavaScript |         40 |          5 |         14 |         59 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\js\residentApprovalForm.js                                     | JavaScript |         67 |         28 |         20 |        115 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\js\residentLogin.js                                            | JavaScript |         27 |          3 |          3 |         33 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\apexcharts.amd.js                            | JavaScript |          1 |          1 |          0 |          2 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\apexcharts.common.js                         | JavaScript |          3 |         11 |          1 |         15 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\apexcharts.css                               | CSS        |        576 |          0 |        113 |        689 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\apexcharts.esm.js                            | JavaScript |          3 |         11 |          1 |         15 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\apexcharts.js                                | JavaScript |     28,157 |      2,942 |      1,153 |     32,252 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\apexcharts.min.js                            | JavaScript |          3 |         11 |          1 |         15 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\locales\ar.json                              | JSON       |         63 |          0 |          1 |         64 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\locales\be-cyrl.json                         | JSON       |         55 |          0 |          1 |         56 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\locales\be-latn.json                         | JSON       |         55 |          0 |          1 |         56 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\locales\ca.json                              | JSON       |         55 |          0 |          1 |         56 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\locales\cs.json                              | JSON       |         55 |          0 |          1 |         56 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\locales\da.json                              | JSON       |         55 |          0 |          1 |         56 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\locales\de.json                              | JSON       |         55 |          0 |          1 |         56 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\locales\el.json                              | JSON       |         55 |          0 |          1 |         56 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\locales\en.json                              | JSON       |         55 |          0 |          1 |         56 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\locales\es.json                              | JSON       |         55 |          0 |          1 |         56 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\locales\et.json                              | JSON       |         63 |          0 |          1 |         64 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\locales\fa.json                              | JSON       |         55 |          0 |          1 |         56 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\locales\fi.json                              | JSON       |         55 |          0 |          1 |         56 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\locales\fr.json                              | JSON       |         55 |          0 |          1 |         56 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\locales\he.json                              | JSON       |         55 |          0 |          1 |         56 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\locales\hi.json                              | JSON       |         55 |          0 |          1 |         56 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\locales\hr.json                              | JSON       |         55 |          0 |          1 |         56 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\locales\hu.json                              | JSON       |         64 |          0 |          1 |         65 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\locales\hy.json                              | JSON       |         55 |          0 |          1 |         56 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\locales\id.json                              | JSON       |         47 |          0 |          1 |         48 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\locales\it.json                              | JSON       |         55 |          0 |          1 |         56 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\locales\ja.json                              | JSON       |         55 |          0 |          1 |         56 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\locales\ka.json                              | JSON       |         55 |          0 |          1 |         56 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\locales\ko.json                              | JSON       |         55 |          0 |          1 |         56 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\locales\lt.json                              | JSON       |         55 |          0 |          1 |         56 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\locales\lv.json                              | JSON       |         63 |          0 |          2 |         65 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\locales\ms.json                              | JSON       |         63 |          0 |          0 |         63 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\locales\nb.json                              | JSON       |         55 |          0 |          1 |         56 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\locales\nl.json                              | JSON       |         55 |          0 |          1 |         56 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\locales\pl.json                              | JSON       |         55 |          0 |          1 |         56 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\locales\pt-br.json                           | JSON       |         55 |          0 |          1 |         56 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\locales\pt.json                              | JSON       |         55 |          0 |          1 |         56 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\locales\rs.json                              | JSON       |         55 |          0 |          1 |         56 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\locales\ru.json                              | JSON       |         55 |          0 |          1 |         56 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\locales\se.json                              | JSON       |         55 |          0 |          1 |         56 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\locales\sk.json                              | JSON       |         55 |          0 |          1 |         56 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\locales\sl.json                              | JSON       |         55 |          0 |          1 |         56 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\locales\sq.json                              | JSON       |         55 |          0 |          1 |         56 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\locales\th.json                              | JSON       |         55 |          0 |          1 |         56 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\locales\tr.json                              | JSON       |         55 |          0 |          1 |         56 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\locales\ua.json                              | JSON       |         55 |          0 |          1 |         56 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\locales\vi.json                              | JSON       |         63 |          0 |          0 |         63 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\locales\zh-cn.json                           | JSON       |         55 |          0 |          1 |         56 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\apexcharts\locales\zh-tw.json                           | JSON       |         55 |          0 |          1 |         56 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\bootstrap-icons\bootstrap-icons.css                     | CSS        |      2,070 |          5 |          4 |      2,079 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\bootstrap-icons\bootstrap-icons.json                    | JSON       |      2,052 |          0 |          0 |      2,052 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\bootstrap-icons\bootstrap-icons.min.css                 | CSS        |          1 |          4 |          0 |          5 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\bootstrap-icons\bootstrap-icons.scss                    | SCSS       |      2,080 |          5 |          6 |      2,091 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\bootstrap\css\bootstrap-grid.css                        | CSS        |      3,886 |          6 |        193 |      4,085 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\bootstrap\css\bootstrap-grid.min.css                    | CSS        |          1 |          5 |          0 |          6 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\bootstrap\css\bootstrap-grid.rtl.css                    | CSS        |      3,886 |          6 |        192 |      4,084 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\bootstrap\css\bootstrap-grid.rtl.min.css                | CSS        |          1 |          5 |          0 |          6 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\bootstrap\css\bootstrap-reboot.css                      | CSS        |        518 |         14 |         65 |        597 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\bootstrap\css\bootstrap-reboot.min.css                  | CSS        |          1 |          5 |          0 |          6 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\bootstrap\css\bootstrap-reboot.rtl.css                  | CSS        |        524 |          6 |         64 |        594 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\bootstrap\css\bootstrap-reboot.rtl.min.css              | CSS        |          1 |          5 |          0 |          6 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\bootstrap\css\bootstrap-utilities.css                   | CSS        |      4,891 |          8 |        503 |      5,402 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\bootstrap\css\bootstrap-utilities.min.css               | CSS        |          1 |          5 |          0 |          6 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\bootstrap\css\bootstrap-utilities.rtl.css               | CSS        |      4,887 |          6 |        500 |      5,393 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\bootstrap\css\bootstrap-utilities.rtl.min.css           | CSS        |          1 |          5 |          0 |          6 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\bootstrap\css\bootstrap.css                             | CSS        |     11,136 |         24 |        897 |     12,057 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\bootstrap\css\bootstrap.min.css                         | CSS        |          2 |          4 |          0 |          6 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\bootstrap\css\bootstrap.rtl.css                         | CSS        |     11,138 |          6 |        886 |     12,030 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\bootstrap\css\bootstrap.rtl.min.css                     | CSS        |          2 |          4 |          0 |          6 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\bootstrap\js\bootstrap.bundle.js                        | JavaScript |      5,064 |        655 |        596 |      6,315 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\bootstrap\js\bootstrap.bundle.min.js                    | JavaScript |          1 |          6 |          0 |          7 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\bootstrap\js\bootstrap.esm.js                           | JavaScript |      3,568 |        578 |        302 |      4,448 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\bootstrap\js\bootstrap.esm.min.js                       | JavaScript |          1 |          6 |          0 |          7 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\bootstrap\js\bootstrap.js                               | JavaScript |      3,604 |        584 |        307 |      4,495 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\bootstrap\js\bootstrap.min.js                           | JavaScript |          1 |          6 |          0 |          7 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\chart.cjs                                      | JavaScript |     11,384 |         70 |         61 |     11,515 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\chart.js                                       | JavaScript |     11,337 |         70 |         60 |     11,467 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\chart.umd.js                                   | JavaScript |          2 |         12 |          1 |         15 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\chunks\helpers.segment.cjs                     | JavaScript |      2,452 |        401 |         23 |      2,876 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\chunks\helpers.segment.js                      | JavaScript |      2,327 |        401 |         22 |      2,750 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\controllers\controller.bar.d.ts                | TypeScript |         15 |         47 |          1 |         63 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\controllers\controller.bubble.d.ts             | TypeScript |         14 |         21 |          1 |         36 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\controllers\controller.doughnut.d.ts           | TypeScript |         34 |         30 |          1 |         65 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\controllers\controller.line.d.ts               | TypeScript |          7 |          6 |          1 |         14 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\controllers\controller.pie.d.ts                | TypeScript |          3 |          0 |          1 |          4 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\controllers\controller.polarArea.d.ts          | TypeScript |         23 |         12 |          1 |         36 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\controllers\controller.radar.d.ts              | TypeScript |         13 |          6 |          1 |         20 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\controllers\controller.scatter.d.ts            | TypeScript |         11 |          9 |          1 |         21 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\controllers\index.d.ts                         | TypeScript |          8 |          0 |          1 |          9 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\core\core.adapters.d.ts                        | TypeScript |         31 |         62 |          1 |         94 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\core\core.animation.d.ts                       | TypeScript |         21 |          0 |          1 |         22 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\core\core.animations.d.ts                      | TypeScript |          9 |         13 |          1 |         23 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\core\core.animations.defaults.d.ts             | TypeScript |          1 |          0 |          1 |          2 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\core\core.animator.d.ts                        | TypeScript |         21 |         46 |          1 |         68 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\core\core.config.d.ts                          | TypeScript |         34 |         52 |          1 |         87 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\core\core.controller.d.ts                      | TypeScript |        121 |        136 |          1 |        258 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\core\core.datasetController.d.ts               | TypeScript |         90 |        161 |          1 |        252 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\core\core.defaults.d.ts                        | TypeScript |         48 |         32 |          1 |         81 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\core\core.element.d.ts                         | TypeScript |         16 |          5 |          1 |         22 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\core\core.interaction.d.ts                     | TypeScript |         26 |         66 |          1 |         93 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\core\core.layouts.d.ts                         | TypeScript |         23 |         65 |          1 |         89 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\core\core.layouts.defaults.d.ts                | TypeScript |          1 |          0 |          1 |          2 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\core\core.plugins.d.ts                         | TypeScript |         27 |         34 |          1 |         62 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\core\core.registry.d.ts                        | TypeScript |         31 |         59 |          1 |         91 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\core\core.scale.autoskip.d.ts                  | TypeScript |          8 |         11 |          1 |         20 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\core\core.scale.d.ts                           | TypeScript |        145 |        198 |          1 |        344 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\core\core.scale.defaults.d.ts                  | TypeScript |          1 |          0 |          1 |          2 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\core\core.ticks.d.ts                           | TypeScript |          9 |         22 |          1 |         32 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\core\core.typedRegistry.d.ts                   | TypeScript |         19 |         14 |          1 |         34 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\core\index.d.ts                                | TypeScript |         15 |          0 |          1 |         16 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\elements\element.arc.d.ts                      | TypeScript |         50 |          0 |          1 |         51 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\elements\element.bar.d.ts                      | TypeScript |         29 |          3 |          1 |         33 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\elements\element.line.d.ts                     | TypeScript |         41 |         46 |          1 |         88 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\elements\element.point.d.ts                    | TypeScript |         33 |          6 |          1 |         40 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\elements\index.d.ts                            | TypeScript |          4 |          0 |          1 |          5 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\helpers.cjs                                    | JavaScript |        124 |          7 |          5 |        136 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\helpers.js                                     | JavaScript |          2 |          7 |          1 |         10 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\helpers\helpers.canvas.d.ts                    | TypeScript |         31 |         44 |          1 |         76 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\helpers\helpers.collection.d.ts                | TypeScript |         27 |         41 |          1 |         69 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\helpers\helpers.color.d.ts                     | TypeScript |         13 |          0 |          1 |         14 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\helpers\helpers.config.d.ts                    | TypeScript |         10 |         21 |          1 |         32 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\helpers\helpers.config.types.d.ts              | TypeScript |         41 |          0 |          1 |         42 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\helpers\helpers.core.d.ts                      | TypeScript |         45 |        102 |          1 |        148 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\helpers\helpers.curve.d.ts                     | TypeScript |          8 |          9 |          1 |         18 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\helpers\helpers.dom.d.ts                       | TypeScript |         16 |         39 |          1 |         56 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\helpers\helpers.easing.d.ts                    | TypeScript |         35 |          5 |          1 |         41 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\helpers\helpers.extras.d.ts                    | TypeScript |         13 |         32 |          1 |         46 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\helpers\helpers.interpolation.d.ts             | TypeScript |         13 |          9 |          1 |         23 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\helpers\helpers.intl.d.ts                      | TypeScript |          1 |          0 |          1 |          2 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\helpers\helpers.math.d.ts                      | TypeScript |         34 |         50 |          1 |         85 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\helpers\helpers.options.d.ts                   | TypeScript |         28 |         69 |          1 |         98 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\helpers\helpers.rtl.d.ts                       | TypeScript |         10 |          0 |          1 |         11 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\helpers\helpers.segment.d.ts                   | TypeScript |         34 |         31 |          1 |         66 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\helpers\index.d.ts                             | TypeScript |         15 |          0 |          1 |         16 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\index.d.ts                                     | TypeScript |         12 |          0 |          1 |         13 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\index.umd.d.ts                                 | TypeScript |          2 |          3 |          1 |          6 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\platform\index.d.ts                            | TypeScript |          5 |          0 |          1 |          6 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\platform\platform.base.d.ts                    | TypeScript |         14 |         49 |          1 |         64 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\platform\platform.basic.d.ts                   | TypeScript |          5 |          5 |          1 |         11 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\platform\platform.dom.d.ts                     | TypeScript |          6 |         13 |          1 |         20 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\plugins\index.d.ts                             | TypeScript |          7 |          0 |          1 |          8 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\plugins\plugin.colors.d.ts                     | TypeScript |         11 |          0 |          1 |         12 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\plugins\plugin.decimation.d.ts                 | TypeScript |         10 |          0 |          1 |         11 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\plugins\plugin.filler\filler.drawing.d.ts      | TypeScript |          1 |          0 |          1 |          2 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\plugins\plugin.filler\filler.helper.d.ts       | TypeScript |          9 |          5 |          1 |         15 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\plugins\plugin.filler\filler.options.d.ts      | TypeScript |          8 |         22 |          1 |         31 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\plugins\plugin.filler\filler.segment.d.ts      | TypeScript |         36 |          0 |          1 |         37 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\plugins\plugin.filler\filler.target.d.ts       | TypeScript |          4 |          5 |          1 |         10 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\plugins\plugin.filler\filler.target.stack.d.ts | TypeScript |         10 |          4 |          1 |         15 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\plugins\plugin.filler\index.d.ts               | TypeScript |         12 |          0 |          1 |         13 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\plugins\plugin.filler\simpleArc.d.ts           | TypeScript |         12 |          0 |          1 |         13 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\plugins\plugin.legend.d.ts                     | TypeScript |         89 |         25 |          1 |        115 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\plugins\plugin.subtitle.d.ts                   | TypeScript |         27 |          0 |          1 |         28 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\plugins\plugin.title.d.ts                      | TypeScript |         58 |          3 |          1 |         62 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\plugins\plugin.tooltip.d.ts                    | TypeScript |        221 |         67 |          1 |        289 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\scales\index.d.ts                              | TypeScript |          6 |          0 |          1 |          7 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\scales\scale.category.d.ts                     | TypeScript |         17 |          4 |          1 |         22 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\scales\scale.linear.d.ts                       | TypeScript |          7 |          3 |          1 |         11 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\scales\scale.linearbase.d.ts                   | TypeScript |         13 |          7 |          1 |         21 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\scales\scale.logarithmic.d.ts                  | TypeScript |         15 |         10 |          1 |         26 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\scales\scale.radialLinear.d.ts                 | TypeScript |         50 |         13 |          1 |         64 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\scales\scale.time.d.ts                         | TypeScript |         45 |         85 |          1 |        131 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\scales\scale.timeseries.d.ts                   | TypeScript |         11 |         28 |          1 |         40 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\types.d.ts                                     | TypeScript |          3 |          7 |          1 |         11 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\types\animation.d.ts                           | TypeScript |         30 |          0 |          5 |         35 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\types\basic.d.ts                               | TypeScript |          2 |          0 |          2 |          4 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\types\color.d.ts                               | TypeScript |          1 |          0 |          1 |          2 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\types\geometric.d.ts                           | TypeScript |         42 |          2 |          9 |         53 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\types\index.d.ts                               | TypeScript |      1,611 |      1,808 |        413 |      3,832 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\types\layout.d.ts                              | TypeScript |         18 |         44 |          4 |         66 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\chart.js\types\utils.d.ts                               | TypeScript |         18 |          5 |          8 |         31 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\simple-datatables\simple-datatables.js                  | JavaScript |          6 |          0 |          3 |          9 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\app\assets\vendor\simple-datatables\style.css                             | CSS        |        196 |          2 |         36 |        234 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\jest.config.js                                                            | JavaScript |          4 |          1 |          1 |          6 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\jest.setup.js                                                             | JavaScript |          1 |          1 |          1 |          3 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\logs\.37b9788170b6ccef2496bb2696e95d262bdc235a-audit.json                 | JSON       |         20 |          0 |          0 |         20 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\logs\2025-03-17-app.log                                                   | Log        |          0 |          0 |          1 |          1 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\logs\2025-03-18-app.log                                                   | Log        |         21 |          0 |          1 |         22 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\logs\app.log                                                              | Log        |          0 |          0 |          1 |          1 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\package-lock.json                                                         | JSON       |      6,554 |          0 |          1 |      6,555 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\package.json                                                              | JSON       |         47 |          0 |          1 |         48 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\server.js                                                                 | JavaScript |        117 |         23 |         26 |        166 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\admin\analytics.handlebars                                          | Handlebars |        211 |          2 |         21 |        234 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\admin\db\adminDB.handlebars                                         | Handlebars |        317 |         16 |         21 |        354 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\admin\db\classificationDB.handlebars                                | Handlebars |        377 |         16 |         27 |        420 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\admin\db\companyDB.handlebars                                       | Handlebars |        272 |         10 |         18 |        300 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\admin\db\employerDB.handlebars                                      | Handlebars |        393 |         18 |         19 |        430 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\admin\db\facility_managementDB.handlebars                           | Handlebars |        384 |         16 |         22 |        422 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\admin\db\residentDB.handlebars                                      | Handlebars |        363 |         18 |         20 |        401 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\admin\db\unitTeamDB.handlebars                                      | Handlebars |        364 |         16 |         24 |        404 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\admin\logs.handlebars                                               | Handlebars |         31 |          0 |          4 |         35 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\admin\profiles\adminProfile.handlebars                              | Handlebars |         88 |          0 |          9 |         97 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\admin\profiles\classificationProfile.handlebars                     | Handlebars |         91 |          1 |         13 |        105 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\admin\profiles\companyProfile.handlebars                            | Handlebars |        237 |         12 |         19 |        268 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\admin\profiles\employerProfile.handlebars                           | Handlebars |         92 |          2 |         17 |        111 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\admin\profiles\facility_managementProfile.handlebars                | Handlebars |         94 |          1 |         15 |        110 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\admin\profiles\unitTeamProfile.handlebars                           | Handlebars |         89 |          1 |         15 |        105 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\admin\tables\classification.handlebars                              | Handlebars |         59 |          0 |          4 |         63 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\admin\tables\company.handlebars                                     | Handlebars |         56 |          0 |          5 |         61 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\admin\tables\employer.handlebars                                    | Handlebars |         56 |          0 |          5 |         61 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\admin\tables\facility_management.handlebars                         | Handlebars |         59 |          0 |          4 |         63 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\admin\tables\hiredResidents.handlebars                              | Handlebars |         74 |          0 |          7 |         81 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\admin\tables\resident.handlebars                                    | Handlebars |         75 |          0 |          8 |         83 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\admin\tables\unitTeam.handlebars                                    | Handlebars |         57 |          0 |          4 |         61 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\auth\login.handlebars                                               | Handlebars |         58 |          0 |          8 |         66 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\auth\residentLogin.handlebars                                       | Handlebars |         48 |          0 |          5 |         53 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\classification\tables\applicants.handlebars                         | Handlebars |         59 |          0 |          9 |         68 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\classification\tables\clearance.handlebars                          | Handlebars |        133 |          0 |         18 |        151 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\classification\tables\cleared.handlebars                            | Handlebars |         62 |          0 |         10 |         72 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\classification\tables\employees.handlebars                          | Handlebars |         66 |          0 |         14 |         80 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\classification\tables\residents.handlebars                          | Handlebars |         87 |          3 |         13 |        103 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\classification\tables\resumes.handlebars                            | Handlebars |         59 |          0 |          7 |         66 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\clearance\requestHire.handlebars                                    | Handlebars |        146 |         13 |         21 |        180 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\clearance\requestInterview.handlebars                               | Handlebars |        137 |         10 |         22 |        169 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\clearance\requestTermination.handlebars                             | Handlebars |        170 |          9 |         22 |        201 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\clearance\reviewClearance.handlebars                                | Handlebars |        278 |         12 |         41 |        331 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\clearance\thankYou.handlebars                                       | Handlebars |         11 |          1 |          3 |         15 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\employer\dashboard.handlebars                                       | Handlebars |        212 |          0 |         12 |        224 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\employer\employees.handlebars                                       | Handlebars |         66 |          0 |          4 |         70 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\employer\managePositions.handlebars                                 | Handlebars |        420 |         23 |          9 |        452 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\employer\manageWorkForce.handlebars                                 | Handlebars |        141 |          0 |         14 |        155 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\employer\profiles\jobProfile.handlebars                             | Handlebars |        306 |         13 |         21 |        340 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\employer\profiles\residentProfile.handlebars                        | Handlebars |        537 |         23 |         45 |        605 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\employer\reports.handlebars                                         | Handlebars |        269 |          0 |          9 |        278 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\error\403.handlebars                                                | Handlebars |         11 |          0 |          1 |         12 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\error\404.handlebars                                                | Handlebars |         11 |          0 |          2 |         13 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\error\410.handlebars                                                | Handlebars |         10 |          0 |          1 |         11 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\error\500.handlebars                                                | Handlebars |         11 |          0 |          1 |         12 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\error\residentError\403.handlebars                                  | Handlebars |         10 |          0 |          2 |         12 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\error\residentError\404.handlebars                                  | Handlebars |         10 |          0 |          2 |         12 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\error\residentError\500.handlebars                                  | Handlebars |         10 |          0 |          2 |         12 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\facility_management\tables\applicants.handlebars                    | Handlebars |         59 |          0 |          6 |         65 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\facility_management\tables\clearance.handlebars                     | Handlebars |        157 |          0 |         16 |        173 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\facility_management\tables\cleared.handlebars                       | Handlebars |         62 |          0 |          8 |         70 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\facility_management\tables\employees.handlebars                     | Handlebars |         66 |          0 |          7 |         73 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\facility_management\tables\residents.handlebars                     | Handlebars |         87 |          3 |          5 |         95 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\facility_management\tables\resumes.handlebars                       | Handlebars |         59 |          0 |          5 |         64 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\layouts\main.handlebars                                             | Handlebars |         26 |          6 |         13 |         45 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\partials\adminTemplate.handlebars                                   | Handlebars |        174 |          0 |          7 |        181 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\partials\arrowUp.handlebars                                         | Handlebars |          2 |          1 |          0 |          3 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\partials\classificationTemplate.handlebars                          | Handlebars |        181 |          0 |         10 |        191 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\partials\employerTemplate.handlebars                                | Handlebars |        148 |          0 |         12 |        160 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\partials\facility_managementTemplate.handlebars                     | Handlebars |        181 |          0 |         16 |        197 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\partials\footer.handlebars                                          | Handlebars |          8 |          0 |          0 |          8 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\partials\residentTemplate.handlebars                                | Handlebars |        103 |          0 |         10 |        113 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\partials\unitTeamTemplate.handlebars                                | Handlebars |        187 |          0 |         13 |        200 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\resident\applications.handlebars                                    | Handlebars |         74 |          1 |          5 |         80 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\resident\dashboard.handlebars                                       | Handlebars |        155 |          0 |          7 |        162 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\resident\faq.handlebars                                             | Handlebars |        214 |          0 |         13 |        227 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\resident\jobInfo.handlebars                                         | Handlebars |        113 |          1 |          2 |        116 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\resident\profile.handlebars                                         | Handlebars |        933 |         64 |         13 |      1,010 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\resident\recentActivities.handlebars                                | Handlebars |         47 |          0 |          3 |         50 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\shared\contact.handlebars                                           | Handlebars |        104 |          0 |          4 |        108 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\shared\dashboard.handlebars                                         | Handlebars |        436 |          2 |         26 |        464 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\shared\helpDesk.handlebars                                          | Handlebars |         78 |          0 |          5 |         83 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\shared\manageClearanceKDOC.handlebars                               | Handlebars |        324 |          0 |         32 |        356 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\shared\manageWorkForceKDOC.handlebars                               | Handlebars |        252 |          1 |         17 |        270 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\shared\notifications.handlebars                                     | Handlebars |         59 |          0 |         14 |         73 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\shared\recentActivities.handlebars                                  | Handlebars |         54 |          0 |         11 |         65 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\shared\reports.handlebars                                           | Handlebars |        289 |          0 |         27 |        316 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\shared\residentProfile.handlebars                                   | Handlebars |      1,773 |         70 |        108 |      1,951 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\unitTeam\requestHire.handlebars                                     | Handlebars |        177 |         12 |         30 |        219 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\unitTeam\requestInterview.handlebars                                | Handlebars |        158 |         11 |         24 |        193 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\unitTeam\requestTermination.handlebars                              | Handlebars |        161 |          9 |         25 |        195 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\unitTeam\tables\applicants.handlebars                               | Handlebars |         59 |          0 |         12 |         71 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\unitTeam\tables\clearance.handlebars                                | Handlebars |        133 |          0 |         20 |        153 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\unitTeam\tables\cleared.handlebars                                  | Handlebars |         62 |          0 |         10 |         72 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\unitTeam\tables\employees.handlebars                                | Handlebars |         66 |          0 |         16 |         82 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\unitTeam\tables\interviews.handlebars                               | Handlebars |         68 |          0 |         16 |         84 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\unitTeam\tables\residents.handlebars                                | Handlebars |         87 |          3 |         15 |        105 |
+| c:\Users\KCTCodingIm12\Desktop\KCI PI Beta 3.0\views\unitTeam\tables\resumes.handlebars                                  | Handlebars |         59 |          0 |         15 |         74 |
+| Total                                                                                                                    |            |    156,039 |     11,113 |      9,454 |    176,606 |
++--------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
