@@ -18,6 +18,9 @@ const helpers = {
     return Array.isArray(array) ? array.length : 0;
   },
   eq: (a, b) => {
+    if (typeof a === "object" && typeof b === "object") {
+      return String(a) === String(b); // Convert to string for comparison
+    }
     if (typeof a === "string" && typeof b === "string") {
       return a.toLowerCase() === b.toLowerCase();
     } else return a == b;

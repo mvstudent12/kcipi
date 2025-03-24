@@ -69,7 +69,7 @@ const sendReviewEmail = async (
 </h4>
       <p>
       
-        <a href="http://${DOMAIN}/${route}?token=${token}"
+        <a href="https://${DOMAIN}/${route}?token=${token}"
            style="display: inline-block; background-color: #4CAF50; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-size: 16px; text-align: center; font-weight: bold;">
           Review ${department} Clearance
         </a>
@@ -77,7 +77,7 @@ const sendReviewEmail = async (
 
       <p style="font-size: 14px; color: #333;">If you are unable to click the button, please copy and paste the following link into your browser:</p>
       <p style="font-size: 14px; color: #333;">
-        <a href="http://${DOMAIN}/${route}?token=${token}" 
+        <a href="https://${DOMAIN}/${route}?token=${token}" 
            style="color: #007BFF; text-decoration: none;">${department} Review Link</a>
       </p>
     `,

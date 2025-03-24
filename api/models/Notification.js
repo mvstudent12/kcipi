@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const notificationSchema = new mongoose.Schema({
+const notificationSchema = new Schema({
   recipient: { type: String, required: true }, // Stores the recipient's email
   role: {
     type: String,

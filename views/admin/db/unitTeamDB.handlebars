@@ -264,8 +264,14 @@
                                         {{/if}}
                                         {{#if deleteMsg}}
                                             <hr>
-                                            <p class="text-danger text-center fst-italic mt-3">Unit Team member
+                                            <p class="text-primary text-center fst-italic mt-3">Unit Team member
                                                 successfully deleted.
+                                            </p>
+                                        {{/if}}
+                                        {{#if errMsg}}
+                                            <hr>
+                                            <p class="text-danger text-center fst-italic mt-3">Sorry! There was an error
+                                                processing this request.
                                             </p>
                                         {{/if}}
                                         {{#if saved}}
@@ -348,10 +354,35 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+
                     <div class="row mb-3 mt-3">
                         <p>Are you sure you want to delete this member?</p>
                         <p class="text-danger">This action is permanent and will delete all information connected to
                             this account.</p>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label for="UTMReplacementID" class="form-label">Assign new unit team to this member's
+                                    caseload:</label>
+                                <select required name="UTMReplacementID" class="form-select text-capitalize"
+                                    aria-label="Select Unit Team member">
+                                    <option selected value="">Select Member:
+                                    </option>
+                                    {{#each unitTeam}}
+
+                                        <option class="text-capitalize" value="{{this._id}}" {{#if (eq
+                                            ../unitTeamFound._id this._id)}}disabled{{/if}}>
+                                            {{this.firstName}} {{this.lastName}} -
+                                            {{this.facility}}
+                                        </option>
+
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
                 <div class="modal-footer">

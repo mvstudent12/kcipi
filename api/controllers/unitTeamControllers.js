@@ -22,6 +22,8 @@ const {
 
 const { getUserNotifications } = require("../utils/notificationUtils");
 
+const { createActivityLog } = require("../utils/activityLogUtils");
+
 const { getTotalAvailablePositions } = require("../utils/employerUtils");
 
 module.exports = {
@@ -230,12 +232,25 @@ module.exports = {
       const employerEmails = await getEmployeeEmails(
         updatedInterview.companyName
       );
+      if (employerEmails) {
+        await sendNotificationsToEmployers(
+          employerEmails,
+          "interview_scheduled",
+          `New interview scheduled for resident #${residentID}.`,
+          `/employer/residentProfile/${residentID}?activeTab=application`
+        );
+      }
 
-      await sendNotificationsToEmployers(
-        employerEmails,
+      await createActivityLog(
+        req.session.user._id.toString(),
         "interview_scheduled",
-        `New interview scheduled for resident #${residentID}.`,
-        `/employer/residentProfile/${residentID}?activeTab=application`
+        `Scheduled interview for resident #${residentID} with ${updatedInterview.companyName}.`
+      );
+
+      await createActivityLog(
+        updatedApplicant.resident_id.toString(),
+        "interview_scheduled",
+        `Scheduled interview with ${updatedInterview.companyName}.`
       );
 
       res.redirect(`/unitTeam/reviewInterviewRequest/${applicationID}`);

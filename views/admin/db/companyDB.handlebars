@@ -153,7 +153,15 @@
                                         {{/if}}
                                         {{#if deleteMsg}}
                                             <hr>
-                                            <p class="text-danger text-center fst-italic mt-3">Company has been deleted.
+                                            <p class="text-primary text-center fst-italic mt-3">Company has been
+                                                deleted.
+                                            </p>
+                                        {{/if}}
+                                        {{#if errMsg}}
+                                            <hr>
+                                            <p class="text-danger text-center fst-italic mt-3">This company has
+                                                residents currently employed. You may not delete it while residents are
+                                                still employed here.
                                             </p>
                                         {{/if}}
 

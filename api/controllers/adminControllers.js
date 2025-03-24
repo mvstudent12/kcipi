@@ -7,6 +7,7 @@ const UnitTeam = require("../models/UnitTeam");
 const Resident = require("../models/Resident");
 const Jobs = require("../models/Jobs");
 const ActivityLog = require("../models/ActivityLog");
+const Notification = require("../models/Notification");
 
 const { Parser } = require("json2csv");
 
@@ -577,7 +578,7 @@ module.exports = {
 
   // Company DB ==============
   async companyDB(req, res) {
-    let { activeTab, addMsg, saveMsg, addErr, deleteMsg } = req.query;
+    let { activeTab, addMsg, saveMsg, errMsg, addErr, deleteMsg } = req.query;
     try {
       const companies = await Company.find().sort({ companyName: 1 }).lean();
 
@@ -590,6 +591,7 @@ module.exports = {
         activeTab,
         addMsg,
         saveMsg,
+        errMsg,
         addErr,
         deleteMsg,
       });
@@ -667,20 +669,26 @@ module.exports = {
   async deleteCompany(req, res) {
     const { companyID } = req.params;
     try {
-      const company = await Company.findById({ companyID }).lean();
+      const company = await Company.findOne({ _id: companyID }).lean();
+      const companyName = company.companyName;
+      const employees = await Resident.find({ companyName });
 
-      await createActivityLog(
-        req.session.user._id.toString(),
-        "deleted_user",
-        `Deleted company: ${company.companyName} in database.`
-      );
-      //delete all employers attached to this company
-      await Employer.deleteMany({ companyName: companyName });
-
-      //delete company
-      await Company.deleteOne({ _id: companyID });
-
-      res.redirect(`/admin/companyDB?activeTab=edit&deleteMsg=true`);
+      console.log(employees);
+      //check if company has current resident employees
+      if (employees.length == 0) {
+        await createActivityLog(
+          req.session.user._id.toString(),
+          "deleted_user",
+          `Deleted company: ${companyName} in database.`
+        );
+        //delete all employers attached to this company
+        await Employer.deleteMany({ companyName: companyName });
+        //delete company
+        await Company.deleteOne({ _id: companyID });
+        res.redirect(`/admin/companyDB?activeTab=edit&deleteMsg=true`);
+      } else {
+        res.redirect(`/admin/companyDB?activeTab=edit&errMsg=true`);
+      }
     } catch (err) {
       console.log(err);
       res.render("error/500");
@@ -970,19 +978,27 @@ module.exports = {
   //   Unit Team DB
   //==========================
   async unitTeamDB(req, res) {
-    let { activeTab, addMsg, addErr, saveMsg, deleteMsg, saved, savingErr } =
-      req.query;
+    let {
+      activeTab,
+      addMsg,
+      addErr,
+      errMsg,
+      saveMsg,
+      deleteMsg,
+      saved,
+      savingErr,
+    } = req.query;
     try {
-      const unitTeam = await UnitTeam.find().sort({ lastName: 1 }).lean();
+      const unitTeam = await UnitTeam.find().sort({ firstName: 1 }).lean();
 
       if (!activeTab) activeTab = "add";
       res.render("admin/db/unitTeamDB", {
         user: req.session.user,
-
         activeTab,
         unitTeam,
         addMsg,
         addErr,
+        errMsg,
         saveMsg,
         deleteMsg,
         saved,
@@ -1000,7 +1016,7 @@ module.exports = {
         _id: unitTeamID,
       }).lean();
 
-      const unitTeam = await UnitTeam.find().sort({ lastName: 1 }).lean();
+      const unitTeam = await UnitTeam.find().sort({ firstName: 1 }).lean();
 
       const activeTab = "edit";
       res.render("admin/db/unitTeamDB", {
@@ -1041,6 +1057,30 @@ module.exports = {
   async saveUnitTeamEdit(req, res) {
     const { firstName, lastName, email, facility, id } = req.body;
     try {
+      const unitTeam = await UnitTeam.findOne({ _id: id });
+
+      //update residents with new utm values
+      await Resident.updateMany(
+        { "resume.unitTeam": unitTeam.email }, // Find residents with the old unitTeam value
+        {
+          $set: {
+            "resume.unitTeam": email,
+            unitTeam: `$${unitTeam.firstName} ${unitTeam.lastName}`,
+          },
+        }
+      );
+
+      //update notifications with new utm values
+      await Notification.updateMany(
+        { recipient: unitTeam.email },
+        {
+          $set: {
+            recipient: email,
+          },
+        }
+      );
+
+      //update unit team member
       await UnitTeam.updateOne(
         { _id: id },
         {
@@ -1062,22 +1102,44 @@ module.exports = {
       res.redirect("/admin/unitTeamDB?activeTab=edit&saveMsg=true");
     } catch (err) {
       console.log("Error in saving unit team edit: ", err);
-      res.render("error/500");
+      res.redirect("/admin/unitTeamDB?activeTab=edit&errMsg=true");
     }
   },
   async deleteUnitTeam(req, res) {
     const { unitTeamID } = req.params;
+    const { UTMReplacementID } = req.body;
     try {
       const unitTeam = await UnitTeam.findById(unitTeamID).lean();
-      await UnitTeam.deleteOne({ _id: unitTeamID });
+      const email = unitTeam.email;
 
-      await createActivityLog(
-        req.session.user._id.toString(),
-        "deleted_user",
-        `Deleted Unit Team Member in database: ${unitTeam.email}.`
-      );
+      const UTMReplacement = await UnitTeam.findById(UTMReplacementID).lean();
+      const replacementEmail = UTMReplacement.email;
+      const replacementName = `${UTMReplacement.firstName} ${UTMReplacement.lastName}`;
 
-      res.redirect("/admin/unitTeamDB?activeTab=edit&deleteMsg=true");
+      if (UTMReplacement) {
+        //change UTM caseload to different UTM
+        await Resident.updateMany(
+          { "resume.unitTeam": email }, // Find residents with the old unitTeam value
+          {
+            $set: {
+              "resume.unitTeam": replacementEmail,
+              unitTeam: replacementName,
+            },
+          }
+        );
+
+        await UnitTeam.deleteOne({ _id: unitTeamID });
+
+        await createActivityLog(
+          req.session.user._id.toString(),
+          "deleted_user",
+          `Deleted Unit Team Member in database: ${unitTeam.email}.`
+        );
+
+        return res.redirect("/admin/unitTeamDB?activeTab=edit&deleteMsg=true");
+      } else {
+        res.redirect("/admin/unitTeamDB?activeTab=edit&errMsg=true");
+      }
     } catch (err) {
       console.log("Error in deleting Unit Team member: ", err);
       res.render("error/500");
