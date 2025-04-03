@@ -312,13 +312,11 @@
                                                             class="form-select text-capitalize"
                                                             aria-label="Select Status">
                                                             <option {{#if residentFound.isActive}} selected
-                                                                {{/if}}class="text-capitalize"
-                                                                value="{{residentFound.isActive}}">
+                                                                {{/if}}class="text-capitalize" value="true">
                                                                 Active - Incarcerated
                                                             </option>
                                                             <option {{#unless residentFound.isActive}} selected
-                                                                {{/unless}}class="text-capitalize"
-                                                                value="{{residentFound.isActive}}">
+                                                                {{/unless}}class="text-capitalize" value="false">
                                                                 Inactive - Not Incarcerated
                                                             </option>
                                                         </select>
