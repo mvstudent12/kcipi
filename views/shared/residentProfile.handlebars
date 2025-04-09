@@ -209,7 +209,7 @@
                                                     <div class="col-md-8 col-lg-9">
                                                         <input name="firstName" type="text"
                                                             class="form-control text-capitalize" id="firstName"
-                                                            value="{{resident.firstName}}" readonly>
+                                                            value="{{resident.firstName}}" disabled>
                                                     </div>
                                                 </div>
                                                 {{!-- Resident Last Name --}}
@@ -219,7 +219,7 @@
                                                     <div class="col-md-8 col-lg-9">
                                                         <input name="lastName" type="text"
                                                             class="form-control text-capitalize" id="lastName"
-                                                            value="{{resident.lastName}}" readonly>
+                                                            value="{{resident.lastName}}" disabled>
                                                     </div>
                                                 </div>
                                                 {{!-- Resident ID --}}
@@ -230,7 +230,7 @@
                                                     <div class="col-md-8 col-lg-9">
                                                         <input name="residentID" type="text"
                                                             class="form-control text-capitalize" id="residentID"
-                                                            value="{{resident.residentID}}" readonly>
+                                                            value="{{resident.residentID}}" disabled>
                                                     </div>
                                                 </div>
                                                 {{!-- Resident Custody Level --}}
@@ -241,7 +241,7 @@
                                                     <div class="col-md-8 col-lg-9">
                                                         <input name="custodyLevel" type="text"
                                                             class="form-control text-capitalize" id="custodyLevel"
-                                                            value="{{resident.custodyLevel}}" readonly>
+                                                            value="{{resident.custodyLevel}}" disabled>
                                                     </div>
                                                 </div>
                                                 {{!-- Resident Facility --}}
@@ -251,7 +251,7 @@
                                                     <div class="col-md-8 col-lg-9">
                                                         <input name="facility" type="text"
                                                             class="form-control text-capitalize" id="facility"
-                                                            value="{{resident.facility}}" readonly>
+                                                            value="{{resident.facility}}" disabled>
                                                     </div>
                                                 </div>
                                                 {{!-- Resident Out Date --}}
@@ -261,7 +261,7 @@
                                                     <div class="col-md-8 col-lg-9">
                                                         <input name="outDate" type="text"
                                                             class="form-control text-capitalize" id="outDate"
-                                                            value="{{formatDate resident.outDate}}" readonly>
+                                                            value="{{formatDate resident.outDate}}" disabled>
                                                     </div>
                                                 </div>
                                                 {{!-- Unit Team Assigned --}}
@@ -271,7 +271,7 @@
                                                     <div class="col-md-8 col-lg-9">
                                                         <input name="unitTeam" type="text"
                                                             class="form-control text-capitalize" id="unitTeam"
-                                                            value="{{resident.unitTeam}}" readonly>
+                                                            value="{{resident.unitTeam}}" disabled>
                                                     </div>
                                                 </div>
                                                 {{!-- Work History input --}}
@@ -282,7 +282,7 @@
                                                     <div class="col-md-8 col-lg-9">
                                                         <textarea name="workHistory" class="form-control"
                                                             id="workHistory" style="height: 100px"
-                                                            readonly>{{resident.resume.workHistory}}</textarea>
+                                                            disabled>{{resident.resume.workHistory}}</textarea>
                                                     </div>
                                                 </div>
                                                 {{!-- Certifications & Licenses input --}}
@@ -294,7 +294,7 @@
                                                     <div class="col-md-8 col-lg-9">
                                                         <textarea name="certifications" class="form-control"
                                                             id="certifications" style="height: 100px"
-                                                            readonly>{{resident.resume.certifications}}</textarea>
+                                                            disabled>{{resident.resume.certifications}}</textarea>
                                                     </div>
                                                 </div>
                                                 {{!-- Higher Education --}}
@@ -305,7 +305,19 @@
                                                     <div class="col-md-8 col-lg-9">
                                                         <textarea name="education" class="form-control" id="education"
                                                             style="height: 100px"
-                                                            readonly>{{resident.resume.education}}</textarea>
+                                                            disabled>{{resident.resume.education}}</textarea>
+                                                    </div>
+                                                </div>
+                                                {{!-- Relevant Skills --}}
+                                                <div class="row mb-3">
+                                                    <label for="skills"
+                                                        class="col-md-4 col-lg-3 col-form-label">Relevant Skills
+                                                        &amp;
+                                                        Experience</label>
+                                                    <div class="col-md-8 col-lg-9">
+                                                        <textarea name="skills" class="form-control" id="skills"
+                                                            style="height: 100px"
+                                                            disabled>{{resident.resume.skills}}</textarea>
                                                     </div>
                                                 </div>
                                                 {{!-- Completed programs --}}
@@ -316,7 +328,7 @@
                                                     <div class="col-md-8 col-lg-9">
                                                         <textarea name="programs" class="form-control" id="programs"
                                                             style="height: 100px"
-                                                            readonly>{{resident.resume.programs}}</textarea>
+                                                            disabled>{{resident.resume.programs}}</textarea>
                                                     </div>
                                                 </div>
                                                 {{!-- US Citizen options --}}
@@ -418,14 +430,14 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
+                                                {{!-- job pool --}}
                                                 <div class="row mb-3">
                                                     <label for="jobPool" class="col-md-4 col-lg-3 col-form-label">Job
                                                         Pool</label>
                                                     <div class="col-md-8 col-lg-9">
                                                         <input name="jobPool" type="text"
                                                             class="form-control text-capitalize"
-                                                            value="{{resident.jobPool}}" readonly required>
+                                                            value="{{resident.jobPool}}" disabled required>
                                                     </div>
                                                 </div>
                                                 <hr class="mb-3">
@@ -461,7 +473,7 @@
                                                     <div class="col-md-8 col-lg-9">
                                                         <input name="firstName" type="text"
                                                             class="form-control text-capitalize" id="firstName"
-                                                            value="{{resident.firstName}}" readonly>
+                                                            value="{{resident.firstName}}" disabled>
                                                     </div>
                                                 </div>
                                                 {{!-- Resident Last Name --}}
@@ -471,7 +483,7 @@
                                                     <div class="col-md-8 col-lg-9">
                                                         <input name="lastName" type="text"
                                                             class="form-control text-capitalize" id="lastName"
-                                                            value="{{resident.lastName}}" readonly>
+                                                            value="{{resident.lastName}}" disabled>
                                                     </div>
                                                 </div>
                                                 {{!-- Resident ID --}}
@@ -482,7 +494,7 @@
                                                     <div class="col-md-8 col-lg-9">
                                                         <input name="residentID" type="text"
                                                             class="form-control text-capitalize" id="residentID"
-                                                            value="{{resident.residentID}}" readonly>
+                                                            value="{{resident.residentID}}" disabled>
                                                     </div>
                                                 </div>
                                                 {{!-- Resident Custody Level --}}
@@ -493,7 +505,7 @@
                                                     <div class="col-md-8 col-lg-9">
                                                         <input name="custodyLevel" type="text"
                                                             class="form-control text-capitalize" id="custodyLevel"
-                                                            value="{{resident.custodyLevel}}" readonly>
+                                                            value="{{resident.custodyLevel}}" disabled>
                                                     </div>
                                                 </div>
                                                 {{!-- Resident Facility --}}
@@ -503,7 +515,7 @@
                                                     <div class="col-md-8 col-lg-9">
                                                         <input name="facility" type="text"
                                                             class="form-control text-capitalize" id="facility"
-                                                            value="{{resident.facility}}" readonly>
+                                                            value="{{resident.facility}}" disabled>
                                                     </div>
                                                 </div>
                                                 {{!-- Resident Out Date --}}
@@ -513,7 +525,7 @@
                                                     <div class="col-md-8 col-lg-9">
                                                         <input name="outDate" type="text"
                                                             class="form-control text-capitalize" id="outDate"
-                                                            value="{{formatDate resident.outDate}}" readonly>
+                                                            value="{{formatDate resident.outDate}}" disabled>
                                                     </div>
                                                 </div>
                                                 {{!-- Unit Team Assigned --}}
@@ -523,7 +535,7 @@
                                                     <div class="col-md-8 col-lg-9">
                                                         <input name="unitTeam" type="text"
                                                             class="form-control text-capitalize" id="unitTeam"
-                                                            value="{{resident.unitTeam}}" readonly>
+                                                            value="{{resident.unitTeam}}" disabled>
                                                     </div>
                                                 </div>
                                                 {{!-- Work History input --}}
@@ -534,7 +546,7 @@
                                                     <div class="col-md-8 col-lg-9">
                                                         <textarea name="workHistory" class="form-control"
                                                             id="workHistory" style="height: 100px"
-                                                            readonly>{{resident.resume.workHistory}}</textarea>
+                                                            disabled>{{resident.resume.workHistory}}</textarea>
                                                     </div>
                                                 </div>
                                                 {{!-- Certifications & Licenses input --}}
@@ -546,7 +558,7 @@
                                                     <div class="col-md-8 col-lg-9">
                                                         <textarea name="certifications" class="form-control"
                                                             id="certifications" style="height: 100px"
-                                                            readonly>{{resident.resume.certifications}}</textarea>
+                                                            disabled>{{resident.resume.certifications}}</textarea>
                                                     </div>
                                                 </div>
                                                 {{!-- Higher Education --}}
@@ -557,7 +569,19 @@
                                                     <div class="col-md-8 col-lg-9">
                                                         <textarea name="education" class="form-control" id="education"
                                                             style="height: 100px"
-                                                            readonly>{{resident.resume.education}}</textarea>
+                                                            disabled>{{resident.resume.education}}</textarea>
+                                                    </div>
+                                                </div>
+                                                {{!-- Relevant Skills --}}
+                                                <div class="row mb-3">
+                                                    <label for="skills"
+                                                        class="col-md-4 col-lg-3 col-form-label">Relevant Skills
+                                                        &amp;
+                                                        Experience</label>
+                                                    <div class="col-md-8 col-lg-9">
+                                                        <textarea name="skills" class="form-control" id="skills"
+                                                            style="height: 100px"
+                                                            disabled>{{user.resume.skills}}</textarea>
                                                     </div>
                                                 </div>
                                                 {{!-- Completed programs --}}
@@ -568,7 +592,7 @@
                                                     <div class="col-md-8 col-lg-9">
                                                         <textarea name="programs" class="form-control" id="programs"
                                                             style="height: 100px"
-                                                            readonly>{{resident.resume.programs}}</textarea>
+                                                            disabled>{{resident.resume.programs}}</textarea>
                                                     </div>
                                                 </div>
                                                 {{!-- US Citizen options --}}
@@ -1346,7 +1370,7 @@
                             <div class="row mb-3">
                                 <label for="name" class="col-md-4 col-lg-3 col-form-label">Name</label>
                                 <div class="col-md-8 col-lg-9">
-                                    <input readonly name="name" type="text" class="form-control text-capitalize"
+                                    <input disabled name="name" type="text" class="form-control text-capitalize"
                                         id="name" value="{{resident.firstName}} {{resident.lastName}}">
                                 </div>
                             </div>
@@ -1355,7 +1379,7 @@
                             <div class="row mb-3">
                                 <label for="residentID" class="col-md-4 col-lg-3 col-form-label">Resident ID</label>
                                 <div class="col-md-8 col-lg-9">
-                                    <input readonly name="residentID" type="text" class="form-control text-capitalize"
+                                    <input disabled name="residentID" type="text" class="form-control text-capitalize"
                                         id="residentID" value="{{resident.residentID}}">
                                 </div>
                             </div>
@@ -1864,14 +1888,14 @@
                         <div class="row mb-3">
                             <label for="name" class="col-sm-2 col-form-label">Resident</label>
                             <div class="col-sm-10">
-                                <input required type="text" class="form-control text-capitalize" readonly
+                                <input required type="text" class="form-control text-capitalize" disabled
                                     value="{{../resident.firstName}} {{../resident.lastName}}">
                             </div>
                         </div>
                         <div class="row mb-3">
                             <label for="name" class="col-sm-2 col-form-label">ID #</label>
                             <div class="col-sm-10">
-                                <input required type="text" class="form-control" name="residentID" readonly
+                                <input required type="text" class="form-control" name="residentID" disabled
                                     value="{{../resident.residentID}}">
                             </div>
                         </div>

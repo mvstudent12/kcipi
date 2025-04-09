@@ -65,11 +65,18 @@ module.exports = {
       //find all residents with applications in
       const applicants = await findResidentsWithCompany(applicantIDs);
 
+      //count pending resumes for this member
+      const pendingResumes = await Resident.countDocuments({
+        "resume.status": "pending",
+        isActive: true,
+      });
+
       res.render("shared/dashboard", {
         resumeNeedReview,
         caseLoad,
         applicants,
         user: req.session.user,
+        pendingResumes,
       });
     } catch (err) {
       console.log("Error fetching user dashboard: ", err);
@@ -944,6 +951,7 @@ module.exports = {
       facility,
       custodyLevel,
       unitTeam,
+      isActive,
     } = req.body;
     try {
       await Resident.findOneAndUpdate(
@@ -958,6 +966,7 @@ module.exports = {
             custodyLevel,
             unitTeam,
             facility,
+            isActive,
           },
         }
       );
